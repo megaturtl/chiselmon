@@ -1,0 +1,11 @@
+{
+    "text.autoconfig.cobbleaid.title": "Cobble Aid Config",
+
+    "text.autoconfig.cobbleaid.category.default": "Default Settings",
+
+    "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
+    "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
+
+    "text.autoconfig.cobbleaid.option.debugMode": "Debug Mode",
+    "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console. This will log all messages to the console."
+}

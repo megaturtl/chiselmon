@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "cobbleaid",
+	"version": "${version}",
+	"name": "Cobble Aid",
+	"description": "Make your Cobblemon experience easier :D",
+	"authors": [
+		"megaturtl"
+	],
+	"contact": {
+		"homepage": "https://turtl.cc/"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/cobbleaid/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"cc.turtl.cobbleaid.CobbleAid"
+		],
+		"client": [
+			"cc.turtl.cobbleaid.CobbleAidClient"
+		],
+		"modmenu": [
+			"cc.turtl.cobbleaid.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"cobbleaid.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
