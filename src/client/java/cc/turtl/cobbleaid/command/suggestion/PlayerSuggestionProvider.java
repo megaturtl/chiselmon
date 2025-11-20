@@ -16,7 +16,7 @@ public class PlayerSuggestionProvider implements SuggestionProvider<FabricClient
             throws CommandSyntaxException {
         FabricClientCommandSource source = context.getSource();
 
-        Collection<String> playerNames = source.getPlayerNames();
+        Collection<String> playerNames = source.getOnlinePlayerNames();
 
         for (String playerName : playerNames) {
             builder.suggest(playerName);

@@ -8,8 +8,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.network.chat.Component;
 
 public class CobbleAidCommand {
     private final ConfigManager configManager;
@@ -26,7 +26,7 @@ public class CobbleAidCommand {
 
     private void registerCommand(
             CommandDispatcher<FabricClientCommandSource> dispatcher,
-            CommandRegistryAccess registryAccess) {
+            CommandBuildContext registryAccess) {
         dispatcher.register(
                 literal("cobbleaid")
                         .executes(this::executeHelp)
@@ -35,9 +35,9 @@ public class CobbleAidCommand {
     }
 
     private int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Text.literal("§6Cobble Aid Commands:"));
-        context.getSource().sendFeedback(Text.literal("§7/cobbleaid enable §f- Enable the mod"));
-        context.getSource().sendFeedback(Text.literal("§7/cobbleaid disable §f- Disable the mod"));
+        context.getSource().sendFeedback(Component.literal("§6Cobble Aid Commands:"));
+        context.getSource().sendFeedback(Component.literal("§7/cobbleaid enable §f- Enable the mod"));
+        context.getSource().sendFeedback(Component.literal("§7/cobbleaid disable §f- Disable the mod"));
         return 1;
     }
 
@@ -45,7 +45,7 @@ public class CobbleAidCommand {
         config.modDisabled = false;
         configManager.save();
 
-        context.getSource().sendFeedback(Text.literal("§aCobble Aid has been enabled!"));
+        context.getSource().sendFeedback(Component.literal("§aCobble Aid has been enabled!"));
         return 1;
     }
 
@@ -53,7 +53,7 @@ public class CobbleAidCommand {
         config.modDisabled = true;
         configManager.save();
 
-        context.getSource().sendFeedback(Text.literal("§cCobble Aid has been disabled!"));
+        context.getSource().sendFeedback(Component.literal("§cCobble Aid has been disabled!"));
         return 1;
     }
 }

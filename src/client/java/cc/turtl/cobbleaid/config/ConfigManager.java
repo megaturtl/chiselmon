@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.config;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import net.minecraft.util.ActionResult;
+import net.minecraft.world.InteractionResult;
 
 public class ConfigManager {
     private final ConfigHolder<ModConfig> holder;
@@ -16,7 +16,7 @@ public class ConfigManager {
                     data.validate_fields();
                     logger.setDebugMode(data.debugMode);
                     logger.debug("Configuration saved.");
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 });
 
         ModConfig config = holder.getConfig();
