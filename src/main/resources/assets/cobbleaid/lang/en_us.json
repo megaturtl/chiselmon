@@ -7,5 +7,45 @@
     "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
 
     "text.autoconfig.cobbleaid.option.debugMode": "Debug Mode",
-    "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console. This will log all messages to the console."
+    "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console. This will log all messages to the console.",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting": "PC Highlighting",
+    "text.autoconfig.cobbleaid.option.pcHighlighting.@Tooltip": "Configure highlight colors and filters for Pokemon in the Cobblemon PC.",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightHiddenAbility": "Highlight Hidden Abilities",
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightHiddenAbility.@Tooltip": "Adds a tint to Pokemon that currently have their hidden ability.",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.hiddenAbilityColor": "Hidden Ability Color",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightMaxIV": "Highlight Perfect IVs",
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightMaxIV.@Tooltip": "Adds a tint to Pokemon with 31 IVs in every stat.",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.maxIvColor": "Perfect IV Color",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightShiny": "Highlight Shinies",
+    "text.autoconfig.cobbleaid.option.pcHighlighting.highlightShiny.@Tooltip": "Adds a tint to shiny Pokemon.",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.shinyColor": "Shiny Color",
+
+    "text.autoconfig.cobbleaid.option.pcHighlighting.backgroundAlpha": "Highlight Transparency",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.backgroundAlpha.@Tooltip": "Controls the transparency (0-255) applied to all highlight colors.",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes": "Extreme Sizes",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.@Tooltip": "Highlight Pokemon whose size multipliers fall outside of custom thresholds (Cobblemon Size Variation).",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.highlightExtremeSmall": "Highlight Extreme Small",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.highlightExtremeSmall.@Tooltip": "Adds a tint to Pokemon whose size multiplier is at or below the tiny threshold.",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeSmallThreshold": "Extreme Small Threshold",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeSmallThreshold.@Tooltip": "Size multiplier at or below which Pokemon are treated as extremely small (default 0.25).",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeSmallColor": "Extreme Small Color",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.highlightExtremeLarge": "Highlight Extreme Large",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.highlightExtremeLarge.@Tooltip": "Adds a tint to Pokemon whose size multiplier is at or above the huge threshold.",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeLargeThreshold": "Extreme Large Threshold",
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeLargeThreshold.@Tooltip": "Size multiplier at or above which Pokemon are treated as extremely large (default 1.75).",
+
+     "text.autoconfig.cobbleaid.option.pcHighlighting.extremeSizes.extremeLargeColor": "Extreme Large Color"
 }

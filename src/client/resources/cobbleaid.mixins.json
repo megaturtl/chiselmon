@@ -3,7 +3,8 @@
     "package": "cc.turtl.cobbleaid.mixin",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "StorageSlotMixin"
+        "StorageSlotMixin",
+        "PCGUIMixin"
     ],
     "injectors": {
         "defaultRequire": 1

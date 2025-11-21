@@ -1,8 +1,9 @@
 package cc.turtl.cobbleaid.mixin;
 
-import cc.turtl.cobbleaid.utils.PcHighlightHelper;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+
+import cc.turtl.cobbleaid.features.pc.PcHighlight;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,13 +17,13 @@ public abstract class StorageSlotMixin {
     @Shadow public abstract Pokemon getPokemon();
 
     @Inject(method = "renderSlot", at = @At("HEAD"))
-    private void cobbleaid$renderFilteredBackground(GuiGraphics context, int x, int y, float delta, CallbackInfo ci) {
+    private void cobbleaid$renderFilterBackground(GuiGraphics context, int x, int y, float delta, CallbackInfo ci) {
         Pokemon pokemon = getPokemon();
         if (pokemon == null) {
             return;
         }
 
-        Integer color = PcHighlightHelper.getHighlightColor(pokemon);
+        Integer color = PcHighlight.getHighlightColor(pokemon);
         if (color == null) {
             return;
         }

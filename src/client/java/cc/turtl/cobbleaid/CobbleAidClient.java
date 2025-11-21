@@ -7,7 +7,7 @@ import cc.turtl.cobbleaid.config.ModConfig;
 import net.fabricmc.api.ClientModInitializer;
 
 public class CobbleAidClient implements ClientModInitializer {
-    private static CobbleAidClient INSTANCE;
+    private static CobbleAidClient instance;
 
     private final CustomLogger logger;
     private final ConfigManager configManager;
@@ -21,7 +21,7 @@ public class CobbleAidClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        INSTANCE = this;
+        instance = this;
 
         CobbleAidCommand command = new CobbleAidCommand(configManager, config);
         command.register();
@@ -31,7 +31,7 @@ public class CobbleAidClient implements ClientModInitializer {
     }
 
     public static CobbleAidClient getInstance() {
-        return INSTANCE;
+        return instance;
     }
 
     public ConfigManager getConfigManager() {
