@@ -78,42 +78,41 @@ public final class PcSort {
 
     private static Comparator<Pokemon> getComparator(SortType sortType) {
         return switch (sortType) {
-            case SIZE_SMALLEST_TO_LARGEST -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getScaleModifier() : Float.MAX_VALUE,
-                Comparator.nullsLast(Float::compare)
-            );
-            case SIZE_LARGEST_TO_SMALLEST -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getScaleModifier() : Float.MIN_VALUE,
-                Comparator.nullsLast((a, b) -> Float.compare(b, a))
-            );
-            case IV_TOTAL_HIGH_TO_LOW -> Comparator.comparing(
-                StatCalculator::calculateTotalIVs,
-                Comparator.nullsLast((a, b) -> Integer.compare(b, a))
-            );
-            case IV_TOTAL_LOW_TO_HIGH -> Comparator.comparing(
-                StatCalculator::calculateTotalIVs,
-                Comparator.nullsLast(Integer::compare)
-            );
-            case POKEDEX_ASCENDING -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getSpecies().getNationalPokedexNumber() : Integer.MAX_VALUE,
-                Comparator.nullsLast(Integer::compare)
-            );
-            case POKEDEX_DESCENDING -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getSpecies().getNationalPokedexNumber() : Integer.MIN_VALUE,
-                Comparator.nullsLast((a, b) -> Integer.compare(b, a))
-            );
-            case NAME_A_TO_Z -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getDisplayName().getString().toLowerCase() : "zzz",
-                Comparator.nullsLast(String::compareTo)
-            );
-            case NAME_Z_TO_A -> Comparator.comparing(
-                pokemon -> pokemon != null ? pokemon.getDisplayName().getString().toLowerCase() : "",
-                Comparator.nullsLast((a, b) -> b.compareTo(a))
-            );
+            case SIZE_SMALLEST_TO_LARGEST -> Comparator.nullsLast(
+                    Comparator.comparingDouble(
+                            (Pokemon pokemon) -> pokemon.getScaleModifier()));
+            case SIZE_LARGEST_TO_SMALLEST -> Comparator.nullsLast(
+                    Comparator.comparingDouble(
+                            (Pokemon pokemon) -> pokemon.getScaleModifier()).reversed());
+
+            case IV_TOTAL_HIGH_TO_LOW -> Comparator.nullsLast(
+                    Comparator.comparing(
+                            StatCalculator::calculateTotalIVs,
+                            Integer::compare).reversed()
+                );
+            case IV_TOTAL_LOW_TO_HIGH -> Comparator.nullsLast(
+                    Comparator.comparing(
+                            StatCalculator::calculateTotalIVs,
+                            Integer::compare));
+
+            case POKEDEX_ASCENDING -> Comparator.nullsLast(
+                    Comparator.comparingInt(
+                            (Pokemon pokemon) -> pokemon.getSpecies().getNationalPokedexNumber()));
+            case POKEDEX_DESCENDING -> Comparator.nullsLast(
+                    Comparator.comparingInt(
+                            (Pokemon pokemon) -> pokemon.getSpecies().getNationalPokedexNumber()).reversed());
+
+            case NAME_A_TO_Z -> Comparator.nullsLast(
+                    Comparator.comparing(
+                            (Pokemon pokemon) -> pokemon.getDisplayName(false).getString().toLowerCase()));
+            case NAME_Z_TO_A -> Comparator.nullsLast(
+                    Comparator.comparing(
+                            (Pokemon pokemon) -> pokemon.getDisplayName(false).getString().toLowerCase()).reversed());
         };
     }
 
-    private static void applySortedOrder(int boxNumber, ClientBox box, List<Pokemon> sortedPokemon, List<Integer> slotIndices) {
+    private static void applySortedOrder(int boxNumber, ClientBox box, List<Pokemon> sortedPokemon,
+            List<Integer> slotIndices) {
         List<Pokemon> workingSlots = new java.util.ArrayList<>(box.getSlots());
         Map<UUID, Integer> currentPositions = new HashMap<>();
 
@@ -142,24 +141,23 @@ public final class PcSort {
             if (occupyingTarget == null) {
                 movePokemon(workingSlots, currentPositions, targetPokemon, boxNumber, currentSlot, targetSlot);
             } else {
-                swapPokemon(workingSlots, currentPositions, targetPokemon, occupyingTarget, boxNumber, currentSlot, targetSlot);
+                swapPokemon(workingSlots, currentPositions, targetPokemon, occupyingTarget, boxNumber, currentSlot,
+                        targetSlot);
             }
         }
     }
 
     private static void movePokemon(
-        List<Pokemon> workingSlots,
-        Map<UUID, Integer> positions,
-        Pokemon pokemon,
-        int boxNumber,
-        int fromSlot,
-        int toSlot
-    ) {
+            List<Pokemon> workingSlots,
+            Map<UUID, Integer> positions,
+            Pokemon pokemon,
+            int boxNumber,
+            int fromSlot,
+            int toSlot) {
         new MovePCPokemonPacket(
-            pokemon.getUuid(),
-            new PCPosition(boxNumber, fromSlot),
-            new PCPosition(boxNumber, toSlot)
-        ).sendToServer();
+                pokemon.getUuid(),
+                new PCPosition(boxNumber, fromSlot),
+                new PCPosition(boxNumber, toSlot)).sendToServer();
 
         workingSlots.set(toSlot, pokemon);
         workingSlots.set(fromSlot, null);
@@ -168,20 +166,18 @@ public final class PcSort {
     }
 
     private static void swapPokemon(
-        List<Pokemon> workingSlots,
-        Map<UUID, Integer> positions,
-        Pokemon movingPokemon,
-        Pokemon occupyingTarget,
-        int boxNumber,
-        int fromSlot,
-        int targetSlot
-    ) {
+            List<Pokemon> workingSlots,
+            Map<UUID, Integer> positions,
+            Pokemon movingPokemon,
+            Pokemon occupyingTarget,
+            int boxNumber,
+            int fromSlot,
+            int targetSlot) {
         new SwapPCPokemonPacket(
-            movingPokemon.getUuid(),
-            new PCPosition(boxNumber, fromSlot),
-            occupyingTarget.getUuid(),
-            new PCPosition(boxNumber, targetSlot)
-        ).sendToServer();
+                movingPokemon.getUuid(),
+                new PCPosition(boxNumber, fromSlot),
+                occupyingTarget.getUuid(),
+                new PCPosition(boxNumber, targetSlot)).sendToServer();
 
         workingSlots.set(fromSlot, occupyingTarget);
         workingSlots.set(targetSlot, movingPokemon);
