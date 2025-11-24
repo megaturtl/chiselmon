@@ -3,8 +3,7 @@ package cc.turtl.cobbleaid.api.filter;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
-import cc.turtl.cobbleaid.api.StatCalculator;
-
+import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
 
@@ -27,7 +26,7 @@ public class PokemonFilterCondition {
         }
 
         int IVThreshold = config.highIVTotalThreshold;
-        int IVTotal = StatCalculator.calculateTotalIVs(pokemon);
+        int IVTotal = IVsUtil.calculateTotalIVs(ivs);
         
         return IVTotal >= IVThreshold;
     };

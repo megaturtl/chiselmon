@@ -2,12 +2,11 @@ package cc.turtl.cobbleaid.api.util;
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.IVs;
-
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 
 import net.minecraft.ChatFormatting;
 
-public class StringUtil {
+public class IVsUtil {
 
     private static final String PERFECT_IV_COLOR = ChatFormatting.GREEN.toString();
     private static final String RESET_COLOR = ChatFormatting.RESET.toString();
@@ -32,13 +31,11 @@ public class StringUtil {
         if (header) {
             ivsBuilder.append(IVS_HEADER);
         }
-        int ivsTotal = 0;
 
         for (int i = 0; i < IV_DISPLAY_ORDER.length; i++) {
             Stat stat = IV_DISPLAY_ORDER[i];
 
             int value = ivs.getEffectiveBattleIV(stat);
-            ivsTotal += value;
 
             if (value == IVs.MAX_VALUE) {
                 ivsBuilder.append(PERFECT_IV_COLOR);
@@ -54,8 +51,18 @@ public class StringUtil {
 
         ivsBuilder.append(RESET_COLOR);
 
-        ivsBuilder.append(" (Total: ").append(ivsTotal).append(")");
+        ivsBuilder.append(" (Total: ").append(calculateTotalIVs(ivs)).append(")");
 
         return ivsBuilder.toString();
+    }
+
+    public static Integer calculateTotalIVs(IVs ivs) {
+        if (ivs == null) return 0;
+    
+        int sum = 0;
+        for (var entry : ivs) {
+            sum += entry.getValue();
+        }
+        return sum;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import cc.turtl.cobbleaid.api.StatCalculator;
+import cc.turtl.cobbleaid.api.util.IVsUtil;
 
 public final class PcSort {
 
@@ -63,9 +63,7 @@ public final class PcSort {
             case SIZE -> Comparator.nullsLast(
                     Comparator.comparingDouble(Pokemon::getScaleModifier));
             case IVS -> Comparator.nullsLast(
-                    Comparator.comparing(
-                            StatCalculator::calculateTotalIVs,
-                            Integer::compare));
+                    Comparator.comparingInt(p -> IVsUtil.calculateTotalIVs(p.getIvs())));
         };
     }
 

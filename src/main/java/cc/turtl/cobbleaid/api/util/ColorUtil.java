@@ -1,6 +1,6 @@
-package cc.turtl.cobbleaid.api;
+package cc.turtl.cobbleaid.api.util;
 
-public class ColorLibrary {
+public class ColorUtil {
     public static final int WHITE = 0xFFFFFF;
     public static final int BLACK = 0x000000;
 
