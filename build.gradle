@@ -38,12 +38,9 @@ repositories {
 }
 
 loom {
-	splitEnvironmentSourceSets()
-
 	mods {
 		"cobbleaid" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 
