@@ -14,11 +14,8 @@
 	"icon": "assets/cobbleaid/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"cc.turtl.cobbleaid.CobbleAid"
-		],
 		"client": [
-			"cc.turtl.cobbleaid.CobbleAidClient"
+			"cc.turtl.cobbleaid.CobbleAid"
 		],
 		"modmenu": [
 			"cc.turtl.cobbleaid.config.ModMenuIntegration"

@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "package": "cc.turtl.cobbleaid.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "StorageSlotMixin",
+        "PCGUIMixin",
+        "WallpaperEntryMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
