@@ -15,10 +15,10 @@ public class ModConfig implements ConfigData {
     public PcConfig pcConfig = new PcConfig();
 
     @ConfigEntry.Gui.Tooltip
-    public float extremeSmallThreshold = 0.25F;
+    public float extremeSmallThreshold = 0.5F;
 
     @ConfigEntry.Gui.Tooltip
-    public float extremeLargeThreshold = 1.75F;
+    public float extremeLargeThreshold = 1.5F;
 
     @ConfigEntry.Gui.Tooltip
     public int highIVTotalThreshold = 180;
@@ -31,7 +31,7 @@ public class ModConfig implements ConfigData {
         public boolean showHighIvs = true;
 
         @ConfigEntry.Gui.Tooltip
-        public boolean showShiny = true;
+        public boolean showShiny = false;
         
         @ConfigEntry.Gui.Tooltip
         public boolean showExtremeSize = false;

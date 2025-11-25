@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.features.pc;
+package cc.turtl.cobbleaid.gui.pc;
 
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;
@@ -6,6 +6,8 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPacket;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import cc.turtl.cobbleaid.api.filter.PokemonComparators;
+import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,12 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import cc.turtl.cobbleaid.api.util.IVsUtil;
-
-public final class PcSort {
+public final class PcSorter {
 
     public enum SortType {
         IVS, SIZE
+    }
+
+    private static Comparator<Pokemon> getComparator(SortType sortType) {
+        return switch (sortType) {
+            case SIZE -> PokemonComparators.SIZE_COMPARATOR;
+            case IVS -> PokemonComparators.IVS_COMPARATOR;
+        };
     }
 
     public static boolean sortPCBox(ClientPC clientPC, int boxNumber, SortType sortType, boolean reversed) {
@@ -40,31 +47,27 @@ public final class PcSort {
             return false;
         }
 
-        List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, sortType, reversed);
+        List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, getComparator(sortType), reversed);
         applySortedOrder(boxNumber, currentBox, sortedPokemon);
 
         return true;
     }
 
-    private static List<Pokemon> sortPokemonList(List<Pokemon> pokemonList, SortType sortType, boolean reversed) {
-        Comparator<Pokemon> comparator = getComparator(sortType);
-        if (comparator != null) {
-            if (reversed) {
-                comparator = comparator.reversed();
-            }
-            pokemonList = new java.util.ArrayList<>(pokemonList);
-            pokemonList.sort(comparator);
+    private static List<Pokemon> sortPokemonList(List<Pokemon> pokemonList, Comparator<Pokemon> comparator,
+            boolean reversed) {
+        if (reversed) {
+            comparator = comparator.reversed();
         }
-        return pokemonList;
-    }
+        pokemonList = new java.util.ArrayList<>(pokemonList);
 
-    private static Comparator<Pokemon> getComparator(SortType sortType) {
-        return switch (sortType) {
-            case SIZE -> Comparator.nullsLast(
-                    Comparator.comparingDouble(Pokemon::getScaleModifier));
-            case IVS -> Comparator.nullsLast(
-                    Comparator.comparingInt(p -> IVsUtil.calculateTotalIVs(p.getIvs())));
-        };
+        // Use a representation for eggs to sort by potential traits
+        for (Pokemon pokemon : pokemonList) {
+            if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+                pokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation();
+            }
+        }
+        pokemonList.sort(comparator);
+        return pokemonList;
     }
 
     private static void applySortedOrder(int boxNumber, ClientBox box, List<Pokemon> sortedPokemon) {

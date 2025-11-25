@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
 import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.api.types.tera.TeraType;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
@@ -23,6 +24,7 @@ import com.cobblemon.mod.common.util.DataKeys;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.util.IVsUtil;
 
 import java.util.UUID;
 
@@ -84,9 +86,6 @@ public class NeoDaycareEggData {
             this.shiny = eggTag.getBoolean(DataKeys.POKEMON_SHINY);
             this.tradeable = eggTag.getBoolean(DataKeys.POKEMON_TRADEABLE);
             this.cobblemonDataVersion = eggTag.getInt("cobblemon:data_version");
-
-            CobbleAid.getLogger().debug("GENDER = {}", eggTag.get(DataKeys.POKEMON_GENDER));
-            CobbleAid.getLogger().debug("GENDER TYPE = {}", eggTag.getTagType(DataKeys.POKEMON_GENDER));
             this.gender = Gender.valueOf(eggTag.getString(DataKeys.POKEMON_GENDER));
             this.species = PokemonSpecies
                     .getByIdentifier(ResourceLocation.parse(eggTag.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER)));
@@ -102,11 +101,18 @@ public class NeoDaycareEggData {
             }
 
             CompoundTag ivsTag = eggTag.getCompound(DataKeys.POKEMON_IVS);
-            CompoundTag ivsCodecTag = new CompoundTag();
+            CompoundTag ivsCodecTag;
+            if (ivsTag.contains("Base")) {
+                // Structure is already correct, use it directly.
+                ivsCodecTag = ivsTag;
+            } else {
+                // Structure is the simple format and needs to be wrapped.
+                ivsCodecTag = new CompoundTag();
                 ivsCodecTag.put("Base", ivsTag);
                 ivsCodecTag.put("HyperTrained", new CompoundTag());
+            }
             try {
-                
+
                 this.ivs = IVs.Companion.getCODEC().parse(NbtOps.INSTANCE, ivsCodecTag)
                         .resultOrPartial(s -> {
                             throw new IllegalStateException("Failed to decode IVs from NBT: " + s);
@@ -142,6 +148,38 @@ public class NeoDaycareEggData {
             throw new IllegalArgumentException("Tried to unpack a non NeoDaycare egg!");
         }
         return new NeoDaycareEggData(pokemon.getPersistentData());
+    }
 
+    public float getHatchCompletion() {
+        float stepsPerCycle = (float) this.totalSteps / this.speciesCycles; // should always be 256 but just in case
+        int completedCycles = this.speciesCycles - this.cycle - 1;
+        float totalStepsTaken = (completedCycles * stepsPerCycle) + this.steps;
+        return totalStepsTaken / this.totalSteps;
+    }
+
+    public int getStepsRemaining() {
+        float stepsPerCycle = (float) this.totalSteps / this.speciesCycles;
+        int completedCycles = this.speciesCycles - this.cycle - 1;
+        float totalStepsTakenFloat = (completedCycles * stepsPerCycle) + this.steps;
+        int completedSteps = Math.round(totalStepsTakenFloat);
+        return this.totalSteps - completedSteps;
+    }
+
+    public Pokemon createPokemonRepresentation() {
+        Pokemon dummy = new Pokemon();
+        dummy.setSpecies(this.egg.species);
+        dummy.setLevel(this.egg.level);
+        dummy.setGender(this.egg.gender);
+        dummy.setShiny(this.egg.shiny);
+        dummy.setScaleModifier(this.egg.scaleModifier);
+        dummy.setNature(this.egg.nature);
+        dummy.setTeraType(this.egg.teraType);
+        dummy.setAbility$common(this.egg.ability);
+
+        for (Stat stat : IVsUtil.IVS_LIST) {
+                dummy.setIV(stat, this.egg.ivs.get(stat));
+            }
+        
+        return dummy;
     }
 }

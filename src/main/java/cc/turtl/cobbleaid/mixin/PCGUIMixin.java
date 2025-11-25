@@ -1,20 +1,17 @@
 package cc.turtl.cobbleaid.mixin;
 
-import cc.turtl.cobbleaid.features.pc.PcSort;
-
-import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
+
+import cc.turtl.cobbleaid.gui.pc.PcSortUIHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(PCGUI.class)
-public abstract class PCGUIMixin extends Screen {
+public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.ButtonAdder {
 
     @Shadow @Final public ClientPC pc;
 
@@ -41,56 +38,36 @@ public abstract class PCGUIMixin extends Screen {
     @Shadow
     private List<IconButton> optionButtons;
 
-    @Unique
-    private boolean cobbleaid$sortButtonsAdded = false;
-
     protected PCGUIMixin(Component title) {
         super(title);
     }
 
+    @Override
+    public void addRenderableWidget(IconButton button) {
+        super.addRenderableWidget(button);
+    }
+
+    @Override
+    public boolean isDisplayingOptions() {
+        return this.displayOptions;
+    }
+
+    @Override
+    public List<IconButton> getOptionButtons() {
+        return this.optionButtons;
+    }
+
     @Inject(method = "init", at = @At("TAIL"))
     private void injectClientSideSortButton(CallbackInfo ci) {
-        final ClientPC pc = this.pc;
-        final StorageWidget storage = this.storageWidget;
-
-        int x = (width - BASE_WIDTH) / 2;
-        int y = (height - BASE_HEIGHT) / 2;
-
-        int existingCount = PokemonSortMode.values().length;
-        int btnX = x + 92 + (12 * existingCount);
-        int btnY = y + 31;
-        int btnWidth = 20;
-        int btnHeight = 20;
-
-        for (PcSort.SortType sortType : PcSort.SortType.values()) {
-            String typeName = sortType.toString().toLowerCase();
-            String tooltipKey = "ui.sort." + typeName;
-            String labelKey = "sort_" + typeName;
-
-            ResourceLocation btnTexture = ResourceLocation.fromNamespaceAndPath(
-                    "cobbleaid",
-                    "textures/gui/pc/pc_button_sort_" + typeName + ".png");
-            ResourceLocation btnTextureAlt = ResourceLocation.fromNamespaceAndPath(
-                    "cobbleaid",
-                    "textures/gui/pc/pc_button_sort_" + typeName + "_reverse.png");
-
-            IconButton customSortBtn = new IconButton(
-                    btnX, btnY,
-                    btnWidth, btnHeight,
-                    btnTexture,
-                    btnTextureAlt,
-                    tooltipKey,
-                    labelKey,
-                    btn -> PcSort.sortPCBox(pc, storage.getBox(), sortType, hasShiftDown()));
-
-            // Sync with the options button
-            customSortBtn.visible = this.displayOptions;
-
-            // Add to screen and internal list
-            this.addRenderableWidget(customSortBtn);
-            this.optionButtons.add(customSortBtn);
-
-            btnX += 12;
-        }
+        // Delegate all setup logic to the external handler
+        PcSortUIHandler.initializeSortButtons(
+                (PCGUI)(Object)this,
+                this.pc,
+                this.storageWidget,
+                this, // Pass 'this' as the ButtonAdder
+                this.width,
+                this.height,
+                BASE_WIDTH,
+                BASE_HEIGHT);
     }
 }

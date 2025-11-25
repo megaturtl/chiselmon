@@ -5,6 +5,7 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
+import cc.turtl.cobbleaid.api.util.StringUtil;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
@@ -79,7 +80,9 @@ public class EggCommand {
             source.sendFeedback(Component.literal("Ability: §f").append(abilityName));
 
             source.sendFeedback(Component.literal("Size: §f" + String.format("%.2f", eggData.egg.scaleModifier)));
-            source.sendFeedback(Component.literal(IVsUtil.getIvsString(eggData.egg.ivs, true)));
+            source.sendFeedback(Component.literal("IVs: " + IVsUtil.getIvsString(eggData.egg.ivs)));
+            source.sendFeedback(Component.literal("Est. Steps Remaining: §f" + eggData.getStepsRemaining()));
+            source.sendFeedback(Component.literal("Est. Completion: §f" + StringUtil.formatPercentage(eggData.getHatchCompletion())));
 
             return 1;
 

@@ -13,7 +13,7 @@ public class IVsUtil {
 
     private static final String IVS_HEADER = "(HP/Atk/Def/SpA/SpD/Spe)";
 
-    private static final Stat[] IV_DISPLAY_ORDER = {
+    public static final Stat[] IVS_LIST = {
             Stats.HP, Stats.ATTACK, Stats.DEFENCE,
             Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED
     };
@@ -30,10 +30,11 @@ public class IVsUtil {
         StringBuilder ivsBuilder = new StringBuilder();
         if (header) {
             ivsBuilder.append(IVS_HEADER);
+            ivsBuilder.append(System.lineSeparator());
         }
 
-        for (int i = 0; i < IV_DISPLAY_ORDER.length; i++) {
-            Stat stat = IV_DISPLAY_ORDER[i];
+        for (int i = 0; i < IVS_LIST.length; i++) {
+            Stat stat = IVS_LIST[i];
 
             int value = ivs.getEffectiveBattleIV(stat);
 
@@ -43,9 +44,9 @@ public class IVsUtil {
 
             ivsBuilder.append(value);
 
-            if (i < IV_DISPLAY_ORDER.length - 1) {
+            if (i < IVS_LIST.length - 1) {
                 ivsBuilder.append(RESET_COLOR);
-                ivsBuilder.append("/");
+                ivsBuilder.append(" / ");
             }
         }
 

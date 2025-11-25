@@ -7,15 +7,15 @@ import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
 
-public class PokemonFilterCondition {
-    public static final PokemonFilter isShiny = Pokemon::getShiny;
+public interface PokemonConditions {
+    public static final PokemonFilter IS_SHINY = Pokemon::getShiny;
 
-    public static final PokemonFilter hasHiddenAbility = pokemon -> {
+    public static final PokemonFilter HAS_HIDDEN_ABILITY = pokemon -> {
         final HiddenAbilityProperty HIDDEN_ABILITY_PROPERTY = new HiddenAbilityProperty(true);
         return HIDDEN_ABILITY_PROPERTY.matches(pokemon);
     };
 
-    public static final PokemonFilter hasHighIVs = pokemon -> {
+    public static final PokemonFilter HAS_HIGH_IVS = pokemon -> {
         IVs ivs = pokemon.getIvs();
         if (ivs == null)
             return false;
@@ -31,7 +31,7 @@ public class PokemonFilterCondition {
         return IVTotal >= IVThreshold;
     };
 
-    public static final PokemonFilter isExtremeSmall = pokemon -> {
+    public static final PokemonFilter IS_EXTREME_SMALL = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
         if (config == null || config.modDisabled) {
             return false;
@@ -41,7 +41,7 @@ public class PokemonFilterCondition {
         return scale <= config.extremeSmallThreshold;
     };
     
-    public static final PokemonFilter isExtremeLarge = pokemon -> {
+    public static final PokemonFilter IS_EXTREME_LARGE = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
         if (config == null || config.modDisabled) {
             return false;
@@ -51,5 +51,5 @@ public class PokemonFilterCondition {
         return scale >= config.extremeLargeThreshold;
     };
     
-    public static final PokemonFilter isExtremeSize = isExtremeSmall.or(isExtremeLarge);
+    public static final PokemonFilter IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 }
