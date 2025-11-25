@@ -5,7 +5,8 @@
     "client": [
         "StorageSlotMixin",
         "PCGUIMixin",
-        "WallpaperEntryMixin"
+        "WallpaperEntryMixin",
+        "accessor.PCGUIAccessor"
     ],
     "injectors": {
         "defaultRequire": 1

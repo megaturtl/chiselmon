@@ -3,6 +3,8 @@ package cc.turtl.cobbleaid.api.filter;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
+
+import cc.turtl.cobbleaid.api.util.CalcUtil;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
@@ -11,8 +13,12 @@ public interface PokemonConditions {
     public static final PokemonFilter IS_SHINY = Pokemon::getShiny;
 
     public static final PokemonFilter HAS_HIDDEN_ABILITY = pokemon -> {
-        final HiddenAbilityProperty HIDDEN_ABILITY_PROPERTY = new HiddenAbilityProperty(true);
-        return HIDDEN_ABILITY_PROPERTY.matches(pokemon);
+        int potentialAbilities = CalcUtil.getSpeciesAbilityCount(pokemon.getSpecies());
+
+        if (potentialAbilities <= 1) {
+            return false;
+        }
+        return new HiddenAbilityProperty(true).matches(pokemon);
     };
 
     public static final PokemonFilter HAS_HIGH_IVS = pokemon -> {

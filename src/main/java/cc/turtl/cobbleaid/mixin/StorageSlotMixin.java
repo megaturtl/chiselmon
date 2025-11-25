@@ -3,6 +3,7 @@ package cc.turtl.cobbleaid.mixin;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.gui.pc.PcEggRenderer;
 import cc.turtl.cobbleaid.gui.pc.PcIconRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -18,7 +19,10 @@ public abstract class StorageSlotMixin {
     public abstract Pokemon getPokemon();
 
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 1), remap = false)
-    private void cobbleaid$renderIcons(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
-        PcIconRenderer.renderIcons(context, getPokemon(), posX, posY);
+    private void cobbleaid$renderCustomFeatures(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        Pokemon pokemon = getPokemon();
+
+        PcEggRenderer.renderEggPreview(context, pokemon, posX, posY, delta);
+        PcIconRenderer.renderIcons(context, pokemon, posX, posY);
     }
 }

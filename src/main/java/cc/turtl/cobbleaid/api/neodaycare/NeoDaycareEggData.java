@@ -23,6 +23,8 @@ import net.minecraft.resources.ResourceLocation;
 import com.cobblemon.mod.common.util.DataKeys;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.network.chat.Component;
+
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
 
@@ -167,6 +169,7 @@ public class NeoDaycareEggData {
 
     public Pokemon createPokemonRepresentation() {
         Pokemon dummy = new Pokemon();
+        dummy.setNickname(Component.literal("Egg " + this.egg.species.getName()));
         dummy.setSpecies(this.egg.species);
         dummy.setLevel(this.egg.level);
         dummy.setGender(this.egg.gender);

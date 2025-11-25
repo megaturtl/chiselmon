@@ -55,19 +55,49 @@ public final class PcSorter {
 
     private static List<Pokemon> sortPokemonList(List<Pokemon> pokemonList, Comparator<Pokemon> comparator,
             boolean reversed) {
+        if (pokemonList.isEmpty()) {
+            return pokemonList;
+        }
+
+        // 1. Apply reversal to the comparator if requested
         if (reversed) {
             comparator = comparator.reversed();
         }
-        pokemonList = new java.util.ArrayList<>(pokemonList);
 
-        // Use a representation for eggs to sort by potential traits
+        // 2. Create a list of objects suitable for comparison
+        List<Pokemon> sortableList = new java.util.ArrayList<>(pokemonList.size());
         for (Pokemon pokemon : pokemonList) {
             if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
-                pokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation();
+                // Add the representation for sorting purposes
+                sortableList.add(NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation());
+            } else {
+                // Add the original Pokemon object
+                sortableList.add(pokemon);
             }
         }
-        pokemonList.sort(comparator);
-        return pokemonList;
+
+        // 3. Sort the list of sortable representations (or originals)
+        sortableList.sort(comparator);
+
+        Comparator<Pokemon> finalComparator = comparator.thenComparing(Pokemon::getUuid); // Add tie-breaker
+
+        Comparator<Pokemon> wrappedComparator = (p1, p2) -> {
+            Pokemon actualP1 = NeoDaycareEggData.isNeoDaycareEgg(p1)
+                    ? NeoDaycareEggData.createNeoDaycareEggData(p1).createPokemonRepresentation()
+                    : p1;
+            Pokemon actualP2 = NeoDaycareEggData.isNeoDaycareEgg(p2)
+                    ? NeoDaycareEggData.createNeoDaycareEggData(p2).createPokemonRepresentation()
+                    : p2;
+
+            // Compare the representation objects
+            return finalComparator.compare(actualP1, actualP2);
+        };
+
+        // Use a mutable copy of the original list for sorting
+        List<Pokemon> mutableOriginalList = new java.util.ArrayList<>(pokemonList);
+        mutableOriginalList.sort(wrappedComparator);
+
+        return mutableOriginalList;
     }
 
     private static void applySortedOrder(int boxNumber, ClientBox box, List<Pokemon> sortedPokemon) {
