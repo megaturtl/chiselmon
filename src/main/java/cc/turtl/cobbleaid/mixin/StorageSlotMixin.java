@@ -3,9 +3,18 @@ package cc.turtl.cobbleaid.mixin;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.gui.pc.PcEggRenderer;
-import cc.turtl.cobbleaid.gui.pc.PcIconRenderer;
+import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
+import cc.turtl.cobbleaid.api.util.IVsUtil;
+import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.feature.gui.pc.PcEggRenderer;
+import cc.turtl.cobbleaid.feature.gui.pc.PcIconRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,11 +27,59 @@ public abstract class StorageSlotMixin {
     @Shadow
     public abstract Pokemon getPokemon();
 
+    @Shadow(remap = false)
+    public abstract boolean isHovered(int mouseX, int mouseY);
+
+    ModConfig config = CobbleAid.getInstance().getConfig();
+
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 1), remap = false)
     private void cobbleaid$renderCustomFeatures(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        if (config.modDisabled) {
+            return;
+        }
         Pokemon pokemon = getPokemon();
 
-        PcEggRenderer.renderEggPreview(context, pokemon, posX, posY, delta);
-        PcIconRenderer.renderIcons(context, pokemon, posX, posY);
+        if (config.pcConfig.showEggPreview != false && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+            PcEggRenderer.renderEggPreviewElements(context, pokemon, posX, posY, delta);
+
+            // If an egg, use the potential data to render icons
+            Pokemon eggDummyPokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon();
+            PcIconRenderer.renderIconElements(context, eggDummyPokemon, posX, posY);
+        } else {
+            PcIconRenderer.renderIconElements(context, pokemon, posX, posY);
+        }
+    }
+
+    // Render a hover tooltip for useful info
+    @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
+    private void cobbleaid$renderTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (config.modDisabled || !config.pcConfig.showTooltips) {
+            return;
+        }
+        Pokemon pokemon = this.getPokemon();
+        final Pokemon tooltipPokemon;
+
+        if (pokemon == null) {
+            return;
+        }
+
+        if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+            tooltipPokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon();
+        } else {
+            tooltipPokemon = pokemon;
+        }
+
+        if (tooltipPokemon != null && this.isHovered(mouseX, mouseY)) {
+            List<Component> tooltip = new ArrayList<>();
+
+            tooltip.add(Component.literal("§dSize: §f" + String.format("%.2f", tooltipPokemon.getScaleModifier())));
+            tooltip.add(Component.literal("§dIVs: §f" + IVsUtil.getIvsString(tooltipPokemon.getIvs())));
+
+            context.renderComponentTooltip(
+                    Minecraft.getInstance().font,
+                    tooltip,
+                    mouseX,
+                    mouseY);
+        }
     }
 }

@@ -20,10 +20,10 @@ public class ConfigCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§6§l=== Config Commands ==="));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config enable §f- Enable the mod"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config disable §f- Disable the mod"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config status §f- Show current status"));
+        context.getSource().sendFeedback(Component.literal("§d=== Config Commands ==="));
+        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config enable"));
+        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config disable"));
+        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config status"));
         return 1;
     }
 

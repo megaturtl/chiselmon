@@ -28,7 +28,7 @@ public class DebugCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§6§l=== Debug Commands ==="));
+        context.getSource().sendFeedback(Component.literal("§d=== Debug Commands ==="));
         context.getSource()
                 .sendFeedback(Component.literal("§7/cobbleaid debug dump <slot> §f- Dumps info about provided slot."));
         return 1;

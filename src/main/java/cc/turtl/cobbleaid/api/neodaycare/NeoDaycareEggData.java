@@ -167,9 +167,9 @@ public class NeoDaycareEggData {
         return this.totalSteps - completedSteps;
     }
 
-    public Pokemon createPokemonRepresentation() {
+    public Pokemon createDummyPokemon() {
         Pokemon dummy = new Pokemon();
-        dummy.setNickname(Component.literal("Egg " + this.egg.species.getName()));
+        dummy.setNickname(Component.literal("Egg (" + this.egg.species.getName() + ")"));
         dummy.setSpecies(this.egg.species);
         dummy.setLevel(this.egg.level);
         dummy.setGender(this.egg.gender);
@@ -178,11 +178,23 @@ public class NeoDaycareEggData {
         dummy.setNature(this.egg.nature);
         dummy.setTeraType(this.egg.teraType);
         dummy.setAbility$common(this.egg.ability);
+        dummy.setUuid(this.egg.uuid);
+        dummy.setTradeable(this.egg.tradeable);
 
         for (Stat stat : IVsUtil.IVS_LIST) {
-                dummy.setIV(stat, this.egg.ivs.get(stat));
-            }
-        
+            dummy.setIV(stat, this.egg.ivs.get(stat));
+        }
+
+        MoveSet dummyMoveSet = dummy.getMoveSet();
+        dummyMoveSet.clear();
+        this.egg.moveSet.getMoves().forEach(move -> {
+            dummy.getMoveSet().add(move);
+        });
+
+        if (this.egg.caughtBall != null) {
+            dummy.setCaughtBall(this.egg.caughtBall);
+        }
+
         return dummy;
     }
 }

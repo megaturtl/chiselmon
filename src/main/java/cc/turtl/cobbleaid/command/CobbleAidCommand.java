@@ -1,8 +1,7 @@
-package cc.turtl.cobbleaid;
+package cc.turtl.cobbleaid.command;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
-import cc.turtl.cobbleaid.command.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -23,7 +22,6 @@ public class CobbleAidCommand {
         dispatcher.register(
                 literal("cobbleaid")
                         .executes(CobbleAidCommand::executeHelp)
-                        .then(literal("help").executes(CobbleAidCommand::executeHelp))
                         .then(InfoCommand.register())
                         .then(ConfigCommand.register())
                         .then(DebugCommand.register())
@@ -33,7 +31,6 @@ public class CobbleAidCommand {
         dispatcher.register(
                 literal("ca")
                         .executes(CobbleAidCommand::executeHelp)
-                        .then(literal("help").executes(CobbleAidCommand::executeHelp))
                         .then(InfoCommand.register())
                         .then(ConfigCommand.register())
                         .then(DebugCommand.register())
@@ -42,7 +39,7 @@ public class CobbleAidCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§6§l=== Cobble Aid Commands ==="));
+        context.getSource().sendFeedback(Component.literal("§d=== Cobble Aid Commands ==="));
         context.getSource().sendFeedback(Component.literal("§7/cobbleaid info"));
         context.getSource().sendFeedback(Component.literal("§7/cobbleaid config"));
         context.getSource().sendFeedback(Component.literal("§7/cobbleaid debug"));

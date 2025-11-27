@@ -1,5 +1,6 @@
 package cc.turtl.cobbleaid;
 
+import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.config.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;

@@ -6,6 +6,8 @@ import com.cobblemon.mod.common.client.gui.pc.WallpapersScrollingWidget;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBoxWallpaperPacket;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -34,6 +36,8 @@ public abstract class WallpaperEntryMixin {
     @Shadow @Final private ResourceLocation altWallpaper;
     @Shadow private boolean isNew;
 
+    ModConfig config = CobbleAid.getInstance().getConfig();
+
     @Inject(
         method = "render",
         at = @At("RETURN") // Draw AFTER the wallpaper so text is on top
@@ -45,6 +49,9 @@ public abstract class WallpaperEntryMixin {
         boolean hovering, float partialTick,
         CallbackInfo ci
     ) {
+        if (config.modDisabled) {
+            return;
+        }
         if (Screen.hasControlDown()) {
             PoseStack pose = guiGraphics.pose();
             pose.pushPose();
@@ -76,7 +83,7 @@ public abstract class WallpaperEntryMixin {
         double mouseX, double mouseY, int button,
         CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!Screen.hasControlDown()) return;
+        if (config.modDisabled || !Screen.hasControlDown()) return;
 
         Minecraft mc = Minecraft.getInstance();
         PCGUI pcGui = this.outer.getPcGui();

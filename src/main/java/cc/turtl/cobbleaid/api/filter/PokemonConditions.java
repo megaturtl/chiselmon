@@ -13,9 +13,10 @@ public interface PokemonConditions {
     public static final PokemonFilter IS_SHINY = Pokemon::getShiny;
 
     public static final PokemonFilter HAS_HIDDEN_ABILITY = pokemon -> {
-        int potentialAbilities = CalcUtil.getSpeciesAbilityCount(pokemon.getSpecies());
 
-        if (potentialAbilities <= 1) {
+        // Since pokemon with one ability actually are defined as having 2 (1 normal, 1
+        // hidden as a duplicate)
+        if (CalcUtil.countUniqueAbilities(pokemon.getSpecies()) <= 1) {
             return false;
         }
         return new HiddenAbilityProperty(true).matches(pokemon);
@@ -27,35 +28,32 @@ public interface PokemonConditions {
             return false;
 
         ModConfig config = (CobbleAid.getInstance().getConfig());
-        if (config == null || config.modDisabled) {
+        if (config == null) {
             return false;
         }
 
-        int IVThreshold = config.highIVTotalThreshold;
-        int IVTotal = IVsUtil.calculateTotalIVs(ivs);
-        
-        return IVTotal >= IVThreshold;
+        return IVsUtil.numberMaxIvs(ivs) >= config.maxIvsThreshold;
     };
 
     public static final PokemonFilter IS_EXTREME_SMALL = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
-        if (config == null || config.modDisabled) {
+        if (config == null) {
             return false;
         }
-        
+
         float scale = pokemon.getScaleModifier();
         return scale <= config.extremeSmallThreshold;
     };
-    
+
     public static final PokemonFilter IS_EXTREME_LARGE = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
-        if (config == null || config.modDisabled) {
+        if (config == null) {
             return false;
         }
-        
+
         float scale = pokemon.getScaleModifier();
         return scale >= config.extremeLargeThreshold;
     };
-    
+
     public static final PokemonFilter IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 }

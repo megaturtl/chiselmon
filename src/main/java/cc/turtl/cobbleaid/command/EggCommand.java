@@ -30,7 +30,7 @@ public class EggCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§6§l===  Commands ==="));
+        context.getSource().sendFeedback(Component.literal("§d=== Egg Commands ==="));
         context.getSource()
                 .sendFeedback(Component.literal("§7/cobbleaid egg info <slot>"));
         return 1;

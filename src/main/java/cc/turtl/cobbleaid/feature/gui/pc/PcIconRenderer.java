@@ -1,9 +1,8 @@
-package cc.turtl.cobbleaid.gui.pc;
+package cc.turtl.cobbleaid.feature.gui.pc;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.filter.PokemonConditions;
-import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
 import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +32,7 @@ public class PcIconRenderer {
     private PcIconRenderer() {
     }
 
-    public static void renderIcons(GuiGraphics context, Pokemon pokemon, int posX, int posY) {
+    public static void renderIconElements(GuiGraphics context, Pokemon pokemon, int posX, int posY) {
         if (pokemon == null) {
             return;
         }
@@ -43,45 +42,44 @@ public class PcIconRenderer {
             return;
         }
 
-        // Use a representation for eggs to show potential traits
-        if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
-            pokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation();
-        }
-
         int currentY = posY + START_Y;
 
         // 1. Hidden Ability Icon
-        if (config.pcConfig.showHiddenAbility && PokemonConditions.HAS_HIDDEN_ABILITY.matches(pokemon)) {
+        if (config.pcConfig.showHiddenAbilityIcons && PokemonConditions.HAS_HIDDEN_ABILITY.matches(pokemon)) {
             renderIcon(context, HIDDEN_ABILITY_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 2. High IVs Icon
-        if (config.pcConfig.showHighIvs && PokemonConditions.HAS_HIGH_IVS.matches(pokemon)) {
+        if (config.pcConfig.showMaxIvsIcons && PokemonConditions.HAS_HIGH_IVS.matches(pokemon)) {
             renderIcon(context, HIGH_IVS_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 3. Extreme Size Icon
-        if (config.pcConfig.showExtremeSize && PokemonConditions.IS_EXTREME_SIZE.matches(pokemon)) {
+        if (config.pcConfig.showExtremeSizeIcons && PokemonConditions.IS_EXTREME_SIZE.matches(pokemon)) {
             renderIcon(context, SIZE_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 4. Shiny Icon
-        if (config.pcConfig.showShiny && PokemonConditions.IS_SHINY.matches(pokemon)) {
+        if (config.pcConfig.showShinyIcons && PokemonConditions.IS_SHINY.matches(pokemon)) {
             renderIcon(context, SHINY_ICON, posX + 1, currentY);
         }
     }
 
     private static void renderIcon(GuiGraphics context, ResourceLocation icon, int x, int y) {
+        final double Z_INDEX_MAX = 2.0;
+
         int targetSize = ICON_RENDER_SIZE;
 
-        // Source UV coordinates (0, 0 to 9, 9)
         int sourceU = 0;
         int sourceV = 0;
         int sourceWidth = ICON_SIZE;
         int sourceHeight = ICON_SIZE;
+
+        context.pose().pushPose();
+        context.pose().translate(0.0, 0.0, Z_INDEX_MAX);
 
         context.blit(
                 icon,
@@ -96,5 +94,7 @@ public class PcIconRenderer {
                 ICON_SIZE, // Full Texture Width (9)
                 ICON_SIZE // Full Texture Height (9)
         );
+
+        context.pose().popPose();
     }
 }

@@ -10,10 +10,6 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip public boolean modDisabled = false;
     @ConfigEntry.Gui.Tooltip public boolean debugMode = false;
 
-
-    @ConfigEntry.Gui.CollapsibleObject
-    public PcConfig pcConfig = new PcConfig();
-
     @ConfigEntry.Gui.Tooltip
     public float extremeSmallThreshold = 0.5F;
 
@@ -21,20 +17,29 @@ public class ModConfig implements ConfigData {
     public float extremeLargeThreshold = 1.5F;
 
     @ConfigEntry.Gui.Tooltip
-    public int highIVTotalThreshold = 180;
+    public int maxIvsThreshold = 4;
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public PcConfig pcConfig = new PcConfig();
 
     public static class PcConfig {
         @ConfigEntry.Gui.Tooltip
-        public boolean showHiddenAbility = true;
+        public boolean showHiddenAbilityIcons = true;
 
         @ConfigEntry.Gui.Tooltip
-        public boolean showHighIvs = true;
+        public boolean showMaxIvsIcons = true;
 
         @ConfigEntry.Gui.Tooltip
-        public boolean showShiny = false;
+        public boolean showShinyIcons = false;
         
         @ConfigEntry.Gui.Tooltip
-        public boolean showExtremeSize = false;
+        public boolean showExtremeSizeIcons = false;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showEggPreview = false;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showTooltips = false;
     }
 
     // custom validation to run on save and load

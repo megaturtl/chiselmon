@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.gui.pc;
+package cc.turtl.cobbleaid.feature.gui.pc;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;

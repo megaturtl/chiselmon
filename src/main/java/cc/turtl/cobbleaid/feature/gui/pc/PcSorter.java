@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.gui.pc;
+package cc.turtl.cobbleaid.feature.gui.pc;
 
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;
@@ -69,7 +69,7 @@ public final class PcSorter {
         for (Pokemon pokemon : pokemonList) {
             if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
                 // Add the representation for sorting purposes
-                sortableList.add(NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation());
+                sortableList.add(NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon());
             } else {
                 // Add the original Pokemon object
                 sortableList.add(pokemon);
@@ -83,10 +83,10 @@ public final class PcSorter {
 
         Comparator<Pokemon> wrappedComparator = (p1, p2) -> {
             Pokemon actualP1 = NeoDaycareEggData.isNeoDaycareEgg(p1)
-                    ? NeoDaycareEggData.createNeoDaycareEggData(p1).createPokemonRepresentation()
+                    ? NeoDaycareEggData.createNeoDaycareEggData(p1).createDummyPokemon()
                     : p1;
             Pokemon actualP2 = NeoDaycareEggData.isNeoDaycareEgg(p2)
-                    ? NeoDaycareEggData.createNeoDaycareEggData(p2).createPokemonRepresentation()
+                    ? NeoDaycareEggData.createNeoDaycareEggData(p2).createDummyPokemon()
                     : p2;
 
             // Compare the representation objects

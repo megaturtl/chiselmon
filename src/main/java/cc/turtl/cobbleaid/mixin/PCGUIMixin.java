@@ -1,15 +1,17 @@
 package cc.turtl.cobbleaid.mixin;
 
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
-import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget; // Needed for the accessor
+import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
-import cc.turtl.cobbleaid.gui.pc.PcSortUIHandler;
-import cc.turtl.cobbleaid.mixin.accessor.PCGUIAccessor; // Import the accessor
+import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.feature.gui.pc.PcSortUIHandler;
+import cc.turtl.cobbleaid.mixin.accessor.PCGUIAccessor;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -27,8 +29,6 @@ import java.util.List;
 @Mixin(PCGUI.class)
 public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.ButtonAdder {
 
-    // --- Shadowed Fields ---
-
     @Shadow
     @Final
     public ClientPC pc;
@@ -45,17 +45,11 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Shadow
     private List<IconButton> optionButtons;
 
-    // NOTE: This shadow field is crucial for the replacement logic!
     @Shadow(remap = false)
     public Pokemon previewPokemon;
 
-    // --- Unique Accessor Field ---
-
-    // We cast 'this' to the accessor interface for private method calls
     @Unique
     private final PCGUIAccessor accessor = (PCGUIAccessor) (Object) this;
-
-    // --- Constructor & Interface Methods (Unchanged) ---
 
     protected PCGUIMixin(Component title) {
         super(title);
@@ -76,9 +70,14 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         return this.optionButtons;
     }
 
+    ModConfig config = CobbleAid.getInstance().getConfig();
+
+    // Add custom sort buttons to the options menu
     @Inject(method = "init", at = @At("TAIL"))
-    private void injectClientSideSortButton(CallbackInfo ci) {
-        // Delegate all setup logic to the external handler
+    private void cobbleaid$injectClientSideSortButton(CallbackInfo ci) {
+        if (config.modDisabled) {
+            return;
+        }
         PcSortUIHandler.initializeSortButtons(
                 (PCGUI) (Object) this,
                 this.pc,
@@ -90,49 +89,47 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
                 BASE_HEIGHT);
     }
 
-    // --- Corrected Egg Replacement Logic ---
-
+    // If pokemon is an egg, replace the egg with its data to render in the PC side preview
+    // Uses accessors and invokers to get private methods and simulate the real setPreviewPokemon method
     @Inject(method = "setPreviewPokemon", at = @At("HEAD"), cancellable = true, remap = false)
-    private void cobbleaid$replaceEggWithDisplayModel(Pokemon pokemon, boolean isParty, CallbackInfo ci) {
-        if (pokemon != null && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+    private void cobbleaid$replaceEggWithDummy(Pokemon pokemon, boolean isParty, CallbackInfo ci) {
 
-            Pokemon displayModel = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createPokemonRepresentation();
+        if (config.pcConfig.showEggPreview != false && pokemon != null && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
 
-            PCGUI self = (PCGUI) (Object) this; // Just for accessing width/height
+            Pokemon eggDummyPokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon();
 
-            // 1. Call the private method using the accessor
+            PCGUI self = (PCGUI) (Object) this;
+
             Boolean isPreviewInParty = this.accessor.getIsPreviewInParty();
+
             this.accessor.invokeSaveMarkings(isPreviewInParty != null && isPreviewInParty.booleanValue());
 
-            // 2. Set the state using the modified model
-            this.previewPokemon = displayModel;
+            // Set the current previewPokemon to the dummy
+            this.previewPokemon = eggDummyPokemon;
 
             int x = (self.width - BASE_WIDTH) / 2;
             int y = (self.height - BASE_HEIGHT) / 2;
 
-            // 3. Replicate ModelWidget creation using the Invoker
+            // Draw the model widget for the dummy
             this.accessor.setModelWidget(
                     new ModelWidget(
                             x + 6,
                             y + 27,
                             PCGUI.PORTRAIT_SIZE,
                             PCGUI.PORTRAIT_SIZE,
-                            displayModel.asRenderablePokemon(),
+                            eggDummyPokemon.asRenderablePokemon(),
                             2F,
                             325F,
                             -10.0,
-                            false, // playCryOnClick: Set to true if you want the cry to play on click
-                            false // shouldFollowCursor: Set to true if you want the model to look at the cursor
+                            true,
+                            true
                     ));
 
-            // 4. Update Markings Widget using the Invoker
             this.accessor.getMarkingsWidget().setActivePokemon(this.previewPokemon);
 
             // Cancel the original method execution
             ci.cancel();
             return;
         }
-
-        // If it's null or not an egg, let the original method execute normally.
     }
 }

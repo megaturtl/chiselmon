@@ -14,7 +14,7 @@ public class InfoCommand {
                 .executes(InfoCommand::execute);
     }
     private static int execute(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§6=== Cobble Aid Info ==="));
+        context.getSource().sendFeedback(Component.literal("§d=== Cobble Aid Info ==="));
         context.getSource().sendFeedback(Component.literal("§7Version: §f" + CobbleAid.VERSION));
         context.getSource().sendFeedback(Component.literal("§7Author: §fmegaturtl"));
         return 1;
