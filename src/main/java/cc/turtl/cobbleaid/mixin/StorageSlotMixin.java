@@ -11,6 +11,7 @@ import cc.turtl.cobbleaid.feature.gui.pc.PcEggRenderer;
 import cc.turtl.cobbleaid.feature.gui.pc.PcIconRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public abstract class StorageSlotMixin {
         }
         Pokemon pokemon = getPokemon();
 
-        if (config.pcConfig.showEggPreview != false && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+        if (config.showEggPreview != false && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
             PcEggRenderer.renderEggPreviewElements(context, pokemon, posX, posY, delta);
 
             // If an egg, use the potential data to render icons
@@ -53,7 +54,7 @@ public abstract class StorageSlotMixin {
     // Render a hover tooltip for useful info
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void cobbleaid$renderTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (config.modDisabled || !config.pcConfig.showTooltips) {
+        if (config.modDisabled || !config.showTooltips) {
             return;
         }
         Pokemon pokemon = this.getPokemon();
@@ -73,7 +74,14 @@ public abstract class StorageSlotMixin {
             List<Component> tooltip = new ArrayList<>();
 
             tooltip.add(Component.literal("§dSize: §f" + String.format("%.2f", tooltipPokemon.getScaleModifier())));
-            tooltip.add(Component.literal("§dIVs: §f" + IVsUtil.getIvsString(tooltipPokemon.getIvs())));
+
+            if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
+                tooltip.add(Component.literal("§dIVs: §f" + IVsUtil.getIvsString(tooltipPokemon.getIvs())));
+                tooltip.add(Component.literal("§dOT: §f" + tooltipPokemon.getOriginalTrainerName()));
+                tooltip.add(Component.literal("§dFriendship: §f" + tooltipPokemon.getFriendship()));
+                tooltip.add(Component.literal("§dMarks: §f" + tooltipPokemon.getMarks().size()));
+                tooltip.add(Component.literal("§dForm: §f" + tooltipPokemon.getForm().getName()));
+            }
 
             context.renderComponentTooltip(
                     Minecraft.getInstance().font,

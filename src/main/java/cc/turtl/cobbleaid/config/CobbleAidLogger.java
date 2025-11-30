@@ -37,4 +37,8 @@ public class CobbleAidLogger {
     public void error(String message, Object... args) {
         logger.error(prefix + message, args);
     }
+
+    public void trace(String message, Object... args) {
+        logger.trace(prefix + message, args);
+    }
 }

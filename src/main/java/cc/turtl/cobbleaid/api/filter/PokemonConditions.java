@@ -56,4 +56,8 @@ public interface PokemonConditions {
     };
 
     public static final PokemonFilter IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
+
+    public static final PokemonFilter IS_RIDEABLE = pokemon -> {
+        return !pokemon.getRiding().getSeats().isEmpty();
+    };
 }

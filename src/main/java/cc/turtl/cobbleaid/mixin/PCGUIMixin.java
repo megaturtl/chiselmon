@@ -94,7 +94,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Inject(method = "setPreviewPokemon", at = @At("HEAD"), cancellable = true, remap = false)
     private void cobbleaid$replaceEggWithDummy(Pokemon pokemon, boolean isParty, CallbackInfo ci) {
 
-        if (config.pcConfig.showEggPreview != false && pokemon != null && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+        if (config.showEggPreview != false && pokemon != null && NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
 
             Pokemon eggDummyPokemon = NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon();
 

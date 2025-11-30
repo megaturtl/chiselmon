@@ -17,30 +17,39 @@ public class ModConfig implements ConfigData {
     public float extremeLargeThreshold = 1.5F;
 
     @ConfigEntry.Gui.Tooltip
-    public int maxIvsThreshold = 4;
+    public int maxIvsThreshold = 5;
+    
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showHiddenAbilityIcons = true;
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public PcConfig pcConfig = new PcConfig();
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showMaxIvsIcons = true;
 
-    public static class PcConfig {
-        @ConfigEntry.Gui.Tooltip
-        public boolean showHiddenAbilityIcons = true;
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showShinyIcons = false;
+    
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showExtremeSizeIcons = false;
 
-        @ConfigEntry.Gui.Tooltip
-        public boolean showMaxIvsIcons = true;
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showRideableIcons = false;
 
-        @ConfigEntry.Gui.Tooltip
-        public boolean showShinyIcons = false;
-        
-        @ConfigEntry.Gui.Tooltip
-        public boolean showExtremeSizeIcons = false;
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showEggPreview = false;
 
-        @ConfigEntry.Gui.Tooltip
-        public boolean showEggPreview = false;
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showTooltips = false;
 
-        @ConfigEntry.Gui.Tooltip
-        public boolean showTooltips = false;
-    }
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showDetailedTooltipOnShift = false;
 
     // custom validation to run on save and load
     public ModConfig validate_fields() {
