@@ -49,7 +49,7 @@ public class PokemonTooltips {
         MutableComponent valueComponent = Component.literal(sizeString)
                 .withStyle(ChatFormatting.DARK_AQUA);
 
-        return createLabeledTooltip("Size", valueComponent);
+        return createLabeledTooltip("Size", valueComponent.copy());
     }
 
     public static Component computeGenderTooltip(Pokemon pokemon) {
@@ -75,26 +75,28 @@ public class PokemonTooltips {
             }
         }
 
-        return createLabeledTooltip("Gender", valueComponent);
+        return createLabeledTooltip("Gender", valueComponent.copy());
     }
 
     public static Component computeTypingTooltip(Pokemon pokemon) {
         ElementalType primaryType = pokemon != null ? pokemon.getPrimaryType() : null;
         ElementalType secondaryType = pokemon != null ? pokemon.getSecondaryType() : null;
 
-        if (primaryType == null || primaryType.getDisplayName() == null) {
+        if (primaryType == null || primaryType.getName() == null) {
             return createLabeledTooltip("Type", UNKNOWN);
         }
 
-        MutableComponent valueComponent = (primaryType.getDisplayName().withColor(primaryType.getHue()));
+        MutableComponent primaryTypeComponent = Component.literal(primaryType.getName()).withColor(primaryType.getHue());
+        MutableComponent secondaryTypeComponent = Component.empty();
 
         if (secondaryType != null) {
-            valueComponent
-            .append(" / ").withStyle(ChatFormatting.WHITE)
-            .append(secondaryType.getDisplayName().withColor(secondaryType.getHue()));
+            secondaryTypeComponent = Component.literal(" / ").withStyle(ChatFormatting.WHITE)
+            .append(Component.literal(secondaryType.getName()).withColor(secondaryType.getHue()));
         }
 
-        return createLabeledTooltip("Type", valueComponent);
+        Component valueComponent = primaryTypeComponent.append(secondaryTypeComponent);
+
+        return createLabeledTooltip("Type", valueComponent.copy());
     }
 
     public static Component computeNatureTooltip(Pokemon pokemon) {
@@ -107,7 +109,7 @@ public class PokemonTooltips {
         MutableComponent valueComponent = Component.translatable(nature.getDisplayName())
                 .withStyle(ChatFormatting.GRAY);
 
-        return createLabeledTooltip("Nature", valueComponent);
+        return createLabeledTooltip("Nature", valueComponent.copy());
     }
 
     public static Component computeIVsTooltip(Pokemon pokemon) {
@@ -118,18 +120,18 @@ public class PokemonTooltips {
         }
 
         MutableComponent valueComponent = IVsUtil.getIvsComponent(iVs);
-        return createLabeledTooltip("IVs", valueComponent);
+        return createLabeledTooltip("IVs", valueComponent.copy());
     }
 
     public static Component computeCatchChanceTooltip(PokemonEntity pokemonEntity, Player player) {
         if (player == null || pokemonEntity == null) {
-            return createLabeledTooltip("Catch Chance:", UNKNOWN);
+            return createLabeledTooltip("Catch Chance", UNKNOWN);
         }
 
         ItemStack mainHandItem = player.getMainHandItem();
 
         if (mainHandItem == null || !(mainHandItem.getItem() instanceof PokeBallItem pokeBallItem)) {
-            return createLabeledTooltip("Catch Chance:", UNKNOWN);
+            return createLabeledTooltip("Catch Chance", UNKNOWN);
         }
 
         try {
@@ -148,9 +150,9 @@ public class PokemonTooltips {
                     .append(Component.literal(" - "))
                     .append(Component.literal(maxChanceString).withColor(maxRgb));
             
-            return createLabeledTooltip("Catch Chance:", valueComponent);
+            return createLabeledTooltip("Catch Chance", valueComponent.copy());
         } catch (Exception e) {
-            return createLabeledTooltip("Catch Chance:", UNKNOWN);
+            return createLabeledTooltip("Catch Chance", UNKNOWN);
         }
     }
 }

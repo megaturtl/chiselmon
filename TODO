@@ -1,25 +1,20 @@
 FIX AS MANY BALL CALCS AS I CAN (Need to intercept the catchmodifier for some less basic balls)
 - maybe just have a range?
 
-
 HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command)
 
 Middle click in pc to sort box by default sort setting (define in config)
 
 Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
-
-
 KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
 
 
 
 Add a set all before/after key in wallpapers
-Command to switch 2 boxes\
+Command to switch 2 boxes
 
 
 If meets the high Iv cap and also has a 0 iv show a custom rusted bottle cap
-
-Add an icon for regional variants
 
 Warning if a wild mon could have self damangin move
 

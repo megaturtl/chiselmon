@@ -36,9 +36,9 @@ public class PokemonProvider implements IEntityComponentProvider {
         tooltip.add(PokemonTooltips.computeNameTooltip(pokemon));
         tooltip.add(PokemonTooltips.computeTypingTooltip(pokemon));
         tooltip.add(PokemonTooltips.computeGenderTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeNatureTooltip(pokemon));
+        //tooltip.add(PokemonTooltips.computeNatureTooltip(pokemon));
         tooltip.add(PokemonTooltips.computeSizeTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeIVsTooltip(pokemon));
+        //tooltip.add(PokemonTooltips.computeIVsTooltip(pokemon));
         tooltip.add(PokemonTooltips.computeCatchChanceTooltip(pokemonEntity, player));
     }
 
