@@ -78,7 +78,7 @@ public class PcIconRenderer {
     }
 
     private static void renderIcon(GuiGraphics context, ResourceLocation icon, int x, int y) {
-        final double Z_INDEX_MAX = 2.0;
+        final double Z_INDEX_MAX = 99.0;
 
         int targetSize = ICON_RENDER_SIZE;
 

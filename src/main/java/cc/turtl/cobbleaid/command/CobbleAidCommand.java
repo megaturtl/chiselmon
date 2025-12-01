@@ -18,7 +18,7 @@ public class CobbleAidCommand {
     private static void registerCommand(
             CommandDispatcher<FabricClientCommandSource> dispatcher,
             CommandBuildContext registryAccess) {
-        
+
         dispatcher.register(
                 literal("cobbleaid")
                         .executes(CobbleAidCommand::executeHelp)

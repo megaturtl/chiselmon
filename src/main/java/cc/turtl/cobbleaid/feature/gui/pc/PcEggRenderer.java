@@ -6,10 +6,9 @@ import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
-
-import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
 
 import org.joml.Quaternionf;
 

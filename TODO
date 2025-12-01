@@ -1,5 +1,8 @@
+FIX AS MANY BALL CALCS AS I CAN (Need to intercept the catchmodifier for some less basic balls)
+- maybe just have a range?
+
+
 HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command)
-Hover pokemon with ball to get catch odds
 
 Middle click in pc to sort box by default sort setting (define in config)
 
@@ -16,11 +19,7 @@ Command to switch 2 boxes\
 
 If meets the high Iv cap and also has a 0 iv show a custom rusted bottle cap
 
-Split the hover tooltip in pc between size and ivs (so you can toggle either)
-Shift while hovering to open the tooltip
-
 Add an icon for regional variants
-
 
 Warning if a wild mon could have self damangin move
 

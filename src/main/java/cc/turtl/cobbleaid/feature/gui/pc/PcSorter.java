@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.api.filter.PokemonComparators;
-import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
 
 import java.util.Comparator;
 import java.util.HashMap;

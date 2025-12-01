@@ -8,9 +8,9 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.gui.pc.PcSortUIHandler;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
 import cc.turtl.cobbleaid.mixin.accessor.PCGUIAccessor;
 
 import net.minecraft.client.gui.screens.Screen;

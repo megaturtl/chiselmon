@@ -4,11 +4,11 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.neodaycare.NeoDaycareEggData;
-import cc.turtl.cobbleaid.api.util.IVsUtil;
+import cc.turtl.cobbleaid.api.PokemonTooltips;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.gui.pc.PcEggRenderer;
 import cc.turtl.cobbleaid.feature.gui.pc.PcIconRenderer;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -73,10 +73,12 @@ public abstract class StorageSlotMixin {
         if (tooltipPokemon != null && this.isHovered(mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
 
-            tooltip.add(Component.literal("§dSize: §f" + String.format("%.2f", tooltipPokemon.getScaleModifier())));
+            context.pose().pushPose();
+            context.pose().translate(0, 0, 1000.0);
 
+            tooltip.add(PokemonTooltips.computeSizeTooltip(tooltipPokemon));
             if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-                tooltip.add(Component.literal("§dIVs: §f" + IVsUtil.getIvsString(tooltipPokemon.getIvs())));
+                tooltip.add(PokemonTooltips.computeIVsTooltip(tooltipPokemon));
                 tooltip.add(Component.literal("§dOT: §f" + tooltipPokemon.getOriginalTrainerName()));
                 tooltip.add(Component.literal("§dFriendship: §f" + tooltipPokemon.getFriendship()));
                 tooltip.add(Component.literal("§dMarks: §f" + tooltipPokemon.getMarks().size()));
@@ -88,6 +90,8 @@ public abstract class StorageSlotMixin {
                     tooltip,
                     mouseX,
                     mouseY);
+
+            context.pose().popPose();
         }
     }
 }

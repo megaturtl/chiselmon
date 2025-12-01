@@ -2,65 +2,59 @@ package cc.turtl.cobbleaid.api.util;
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.IVs;
+
+import java.util.Arrays;
+
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public class IVsUtil {
-
-    private static final String ZERO_IV_COLOR = ChatFormatting.RED.toString();
-    private static final String PERFECT_IV_COLOR = ChatFormatting.GREEN.toString();
-    private static final String SLASH_COLOR = ChatFormatting.DARK_GRAY.toString();
-
-    private static final String RESET_COLOR = ChatFormatting.RESET.toString();
-
-    private static final String IVS_HEADER = "(HP/Atk/Def/SpA/SpD/Spe)";
 
     public static final Stat[] IVS_LIST = {
             Stats.HP, Stats.ATTACK, Stats.DEFENCE,
             Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED
     };
 
-    public static String getIvsString(IVs ivs) {
-        return getIvsString(ivs, false);
-    }
-
-    public static String getIvsString(IVs ivs, boolean header) {
+    public static MutableComponent getIvsComponent(IVs ivs) {
         if (ivs == null) {
-            return "N/A";
+            return Component.literal("N/A").withStyle(ChatFormatting.RED);
         }
+        MutableComponent ivsComponent = Component.empty();
 
-        StringBuilder ivsBuilder = new StringBuilder();
-        if (header) {
-            ivsBuilder.append(IVS_HEADER);
-            ivsBuilder.append(System.lineSeparator());
-        }
+        Component slashComponent = Component.literal("/")
+                .withStyle(ChatFormatting.DARK_GRAY);
 
-        for (int i = 0; i < IVS_LIST.length; i++) {
-            Stat stat = IVS_LIST[i];
-
+        Arrays.stream(IVS_LIST).forEachOrdered(stat -> {
             int value = ivs.getEffectiveBattleIV(stat);
 
-            if (value == 0) {
-                ivsBuilder.append(ZERO_IV_COLOR);
+            // Get ARGB, mask to RGB
+            int rgb = ColorUtil.getRatioGradientColor((float) value / (float) IVs.MAX_VALUE) & 0xFFFFFF;
+
+            // 2. Create the styled value component
+            Component valueComponent = Component.literal(String.valueOf(value))
+                    .withColor(rgb);
+
+            // Collect the values
+            if (ivsComponent.getSiblings().isEmpty()) {
+                ivsComponent.append(valueComponent);
+            } else {
+                ivsComponent.append(slashComponent).append(valueComponent);
             }
+        });
 
-            if (value == IVs.MAX_VALUE) {
-                ivsBuilder.append(PERFECT_IV_COLOR);
-            }
+        float totalIvsPercentage = (float) ivs.getEffectiveBattleTotal() / (float) IVs.MAX_TOTAL;
+        int totalRGB = ColorUtil.getRatioGradientColor(totalIvsPercentage) & 0xFFFFFF;
 
-            ivsBuilder.append(value);
+        Component totalIvsComponent = Component.literal(StringUtil.formatPercentage(totalIvsPercentage))
+                .withColor(totalRGB);
 
-            if (i < IVS_LIST.length - 1) {
-                ivsBuilder.append(SLASH_COLOR);
-                ivsBuilder.append("/");
-                ivsBuilder.append(RESET_COLOR);
-            }
-        }
-
-        ivsBuilder.append(RESET_COLOR);
-
-        return ivsBuilder.toString();
+        return ivsComponent
+                .append(" (")
+                .append(totalIvsComponent)
+                .append(")");
     }
 
     public static int numberMaxIvs(IVs ivs) {

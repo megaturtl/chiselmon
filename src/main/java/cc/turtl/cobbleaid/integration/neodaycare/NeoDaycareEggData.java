@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.api.neodaycare;
+package cc.turtl.cobbleaid.integration.neodaycare;
 
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
