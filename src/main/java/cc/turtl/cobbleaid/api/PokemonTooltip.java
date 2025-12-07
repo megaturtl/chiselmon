@@ -1,26 +1,24 @@
 package cc.turtl.cobbleaid.api;
 
-import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
-import com.cobblemon.mod.common.pokemon.Gender;
-import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.api.component.GenderFormatter;
+import cc.turtl.cobbleaid.api.component.IVsFormatter;
+import cc.turtl.cobbleaid.api.component.TypingFormatter;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
-import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.api.util.StringUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class PokemonTooltips {
-    private static final MutableComponent UNKNOWN = Component.literal("???").withStyle(ChatFormatting.DARK_GRAY);
+public class PokemonTooltip {
+    private static final Component UNKNOWN = Component.literal("???").withStyle(ChatFormatting.DARK_GRAY);
 
-    private static Component createLabeledTooltip(String label, MutableComponent value) {
+    private static Component createLabeledTooltip(String label, Component value) {
         return Component.literal(label + ": ")
                 .withStyle(ChatFormatting.WHITE)
                 .append(value);
@@ -46,57 +44,20 @@ public class PokemonTooltips {
         float size = pokemon.getScaleModifier();
         String sizeString = String.format("%.2f", size);
 
-        MutableComponent valueComponent = Component.literal(sizeString)
+        Component valueComponent = Component.literal(sizeString)
                 .withStyle(ChatFormatting.DARK_AQUA);
 
-        return createLabeledTooltip("Size", valueComponent.copy());
+        return createLabeledTooltip("Size", valueComponent);
     }
 
     public static Component computeGenderTooltip(Pokemon pokemon) {
-        Gender gender = pokemon != null ? pokemon.getGender() : null;
-
-        MutableComponent valueComponent;
-        if (gender == null) {
-            valueComponent = UNKNOWN;
-        } else {
-            switch (gender) {
-                case MALE:
-                    valueComponent = Component.literal("Male").withStyle(ChatFormatting.AQUA);
-                    break;
-                case FEMALE:
-                    valueComponent = Component.literal("Female").withStyle(ChatFormatting.LIGHT_PURPLE);
-                    break;
-                case GENDERLESS:
-                    valueComponent = Component.literal("Enby").withStyle(ChatFormatting.GRAY);
-                    break;
-                default:
-                    valueComponent = UNKNOWN;
-                    break;
-            }
-        }
-
-        return createLabeledTooltip("Gender", valueComponent.copy());
+        return GenderFormatter.formatSymbolLabeled(pokemon != null ? pokemon.getGender() : null);
     }
 
     public static Component computeTypingTooltip(Pokemon pokemon) {
-        ElementalType primaryType = pokemon != null ? pokemon.getPrimaryType() : null;
-        ElementalType secondaryType = pokemon != null ? pokemon.getSecondaryType() : null;
-
-        if (primaryType == null || primaryType.getName() == null) {
-            return createLabeledTooltip("Type", UNKNOWN);
-        }
-
-        MutableComponent primaryTypeComponent = Component.literal(primaryType.getName()).withColor(primaryType.getHue());
-        MutableComponent secondaryTypeComponent = Component.empty();
-
-        if (secondaryType != null) {
-            secondaryTypeComponent = Component.literal(" / ").withStyle(ChatFormatting.WHITE)
-            .append(Component.literal(secondaryType.getName()).withColor(secondaryType.getHue()));
-        }
-
-        Component valueComponent = primaryTypeComponent.append(secondaryTypeComponent);
-
-        return createLabeledTooltip("Type", valueComponent.copy());
+        return TypingFormatter.formatLabeled(
+                pokemon != null ? pokemon.getPrimaryType() : null,
+                pokemon != null ? pokemon.getSecondaryType() : null);
     }
 
     public static Component computeNatureTooltip(Pokemon pokemon) {
@@ -106,21 +67,14 @@ public class PokemonTooltips {
             return createLabeledTooltip("Nature", UNKNOWN);
         }
 
-        MutableComponent valueComponent = Component.translatable(nature.getDisplayName())
+        Component valueComponent = Component.translatable(nature.getDisplayName())
                 .withStyle(ChatFormatting.GRAY);
 
-        return createLabeledTooltip("Nature", valueComponent.copy());
+        return createLabeledTooltip("Nature", valueComponent);
     }
 
     public static Component computeIVsTooltip(Pokemon pokemon) {
-        IVs iVs = pokemon != null ? pokemon.getIvs() : null;
-
-        if (iVs == null) {
-            return createLabeledTooltip("IVs", UNKNOWN);
-        }
-
-        MutableComponent valueComponent = IVsUtil.getIvsComponent(iVs);
-        return createLabeledTooltip("IVs", valueComponent.copy());
+        return IVsFormatter.formatLabeled(pokemon != null ? pokemon.getIvs() : null);
     }
 
     public static Component computeCatchChanceTooltip(PokemonEntity pokemonEntity, Player player) {
@@ -146,11 +100,11 @@ public class PokemonTooltips {
             int minRgb = ColorUtil.getRatioGradientColor(catchChance);
             int maxRgb = ColorUtil.getRatioGradientColor(maxCatchChance);
 
-            MutableComponent valueComponent = Component.literal(minChanceString).withColor(minRgb)
+            Component valueComponent = Component.literal(minChanceString).withColor(minRgb)
                     .append(Component.literal(" - "))
                     .append(Component.literal(maxChanceString).withColor(maxRgb));
-            
-            return createLabeledTooltip("Catch Chance", valueComponent.copy());
+
+            return createLabeledTooltip("Catch Chance", valueComponent);
         } catch (Exception e) {
             return createLabeledTooltip("Catch Chance", UNKNOWN);
         }

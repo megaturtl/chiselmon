@@ -3,7 +3,6 @@ package cc.turtl.cobbleaid.integration.jade;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.PokemonTooltips;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import snownee.jade.api.EntityAccessor;
@@ -33,13 +32,12 @@ public class PokemonProvider implements IEntityComponentProvider {
         Player player = accessor.getPlayer();
 
         tooltip.clear();
-        tooltip.add(PokemonTooltips.computeNameTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeTypingTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeGenderTooltip(pokemon));
-        //tooltip.add(PokemonTooltips.computeNatureTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeSizeTooltip(pokemon));
-        //tooltip.add(PokemonTooltips.computeIVsTooltip(pokemon));
-        tooltip.add(PokemonTooltips.computeCatchChanceTooltip(pokemonEntity, player));
+        tooltip.add(PokemonTooltip.nameTooltip(pokemon));
+        tooltip.add(PokemonTooltip.healthTooltip(pokemonEntity));
+        tooltip.add(PokemonTooltip.typingTooltip(pokemon));
+        tooltip.add(PokemonTooltip.eggGroupTooltip(pokemon));
+        tooltip.add(PokemonTooltip.eVYieldTooltip(pokemon));
+        tooltip.add(PokemonTooltip.catchRateTooltip(pokemon));
     }
 
     @Override

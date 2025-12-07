@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.PokemonTooltips;
+import cc.turtl.cobbleaid.api.PokemonTooltip;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.gui.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
@@ -55,9 +55,9 @@ public class StorageWidgetMixin {
         if (tooltipPokemon != null) {
             List<Component> tooltip = new ArrayList<>();
 
-            tooltip.add(PokemonTooltips.computeSizeTooltip(tooltipPokemon));
+            tooltip.add(PokemonTooltip.computeSizeTooltip(tooltipPokemon));
             if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-                tooltip.add(PokemonTooltips.computeIVsTooltip(tooltipPokemon));
+                tooltip.add(PokemonTooltip.computeIVsTooltip(tooltipPokemon));
                 tooltip.add(Component.literal("§dOT: §f" + tooltipPokemon.getOriginalTrainerName()));
                 tooltip.add(Component.literal("§dFriendship: §f" + tooltipPokemon.getFriendship()));
                 tooltip.add(Component.literal("§dMarks: §f" + tooltipPokemon.getMarks().size()));
