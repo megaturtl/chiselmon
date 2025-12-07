@@ -30,12 +30,4 @@ public final class TypingFormatter {
 
         return result;
     }
-
-    public static Component formatLabeled(ElementalType type) {
-        return StringFormatter.formatLabeled("Type", format(type));
-    }
-
-    public static Component formatLabeled(ElementalType type1, ElementalType type2) {
-        return StringFormatter.formatLabeled("Type", format(type1, type2));
-    }
 }

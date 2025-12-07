@@ -45,8 +45,4 @@ public final class IVsFormatter {
                 .append(Component.literal(StringUtil.formatPercentage(totalPercent)).withColor(totalRGB))
                 .append(")");
     }
-
-    public static Component formatLabeled(IVs ivs) {
-        return StringFormatter.formatLabeled("IVs", format(ivs));
-    }
 }

@@ -1,10 +1,15 @@
 package cc.turtl.cobbleaid.api;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.item.PokeBallItem;
-import com.cobblemon.mod.common.pokemon.Nature;
+import com.cobblemon.mod.common.pokeball.PokeBall;
+import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 
+import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
+import cc.turtl.cobbleaid.api.component.ComponentColor;
+import cc.turtl.cobbleaid.api.component.EVYieldFormatter;
+import cc.turtl.cobbleaid.api.component.EggGroupFormatter;
 import cc.turtl.cobbleaid.api.component.GenderFormatter;
 import cc.turtl.cobbleaid.api.component.IVsFormatter;
 import cc.turtl.cobbleaid.api.component.TypingFormatter;
@@ -12,101 +17,159 @@ import cc.turtl.cobbleaid.api.util.ColorUtil;
 import cc.turtl.cobbleaid.api.util.StringUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.MutableComponent;
 
 public class PokemonTooltip {
     private static final Component UNKNOWN = Component.literal("???").withStyle(ChatFormatting.DARK_GRAY);
 
-    private static Component createLabeledTooltip(String label, Component value) {
-        return Component.literal(label + ": ")
-                .withStyle(ChatFormatting.WHITE)
-                .append(value);
-    }
-
-    public static Component computeNameTooltip(Pokemon pokemon) {
+    public static Component nameTooltip(Pokemon pokemon) {
         if (pokemon == null || pokemon.getSpecies() == null) {
             return UNKNOWN;
         }
 
-        int level = pokemon.getLevel();
-        String species = pokemon.getSpecies().getName();
-
-        return Component.literal(species + " (Lvl. " + level + ")")
-                .withStyle(ChatFormatting.WHITE);
-    }
-
-    public static Component computeSizeTooltip(Pokemon pokemon) {
-        if (pokemon == null) {
-            return createLabeledTooltip("Size", UNKNOWN);
-        }
+        final int level = pokemon.getLevel();
+        final String speciesName = pokemon.getSpecies().getName();
 
         float size = pokemon.getScaleModifier();
         String sizeString = String.format("%.2f", size);
 
-        Component valueComponent = Component.literal(sizeString)
-                .withStyle(ChatFormatting.DARK_AQUA);
+        if (speciesName == null || speciesName.isEmpty()) {
+            return UNKNOWN;
+        }
 
-        return createLabeledTooltip("Size", valueComponent);
+        final Component genderSymbol = GenderFormatter.formatSymbol(pokemon.getGender());
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(genderSymbol);
+        tooltip.append(Component.literal(" "));
+        tooltip.append(Component.literal(speciesName)
+                .withColor(ComponentColor.WHITE));
+        tooltip.append(Component.literal(" Lv. ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(Component.literal(String.valueOf(level))
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(Component.literal(" (")
+                .withColor(ComponentColor.TEAL));
+        tooltip.append(Component.literal(sizeString)
+                .withColor(ComponentColor.TEAL));
+        tooltip.append(Component.literal(")")
+                .withColor(ComponentColor.TEAL));
+
+        return tooltip;
     }
 
-    public static Component computeGenderTooltip(Pokemon pokemon) {
-        return GenderFormatter.formatSymbolLabeled(pokemon != null ? pokemon.getGender() : null);
-    }
-
-    public static Component computeTypingTooltip(Pokemon pokemon) {
-        return TypingFormatter.formatLabeled(
+    public static Component typingTooltip(Pokemon pokemon) {
+        final Component typingComponent = TypingFormatter.format(
                 pokemon != null ? pokemon.getPrimaryType() : null,
                 pokemon != null ? pokemon.getSecondaryType() : null);
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("Type: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(typingComponent);
+
+        return tooltip;
     }
 
-    public static Component computeNatureTooltip(Pokemon pokemon) {
-        Nature nature = pokemon != null ? pokemon.getEffectiveNature() : null;
-
-        if (nature == null || nature.getDisplayName() == null) {
-            return createLabeledTooltip("Nature", UNKNOWN);
+    public static Component eggGroupTooltip(Pokemon pokemon) {
+        if (pokemon == null || pokemon.getSpecies() == null) {
+            return UNKNOWN;
         }
 
-        Component valueComponent = Component.translatable(nature.getDisplayName())
-                .withStyle(ChatFormatting.GRAY);
+        Species species = pokemon.getSpecies();
+        final Component eggGroupComponent = EggGroupFormatter.format(species);
 
-        return createLabeledTooltip("Nature", valueComponent);
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("Egg Group: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(eggGroupComponent);
+
+        return tooltip;
     }
 
-    public static Component computeIVsTooltip(Pokemon pokemon) {
-        return IVsFormatter.formatLabeled(pokemon != null ? pokemon.getIvs() : null);
+    public static Component eVYieldTooltip(Pokemon pokemon) {
+        if (pokemon == null || pokemon.getSpecies() == null) {
+            return UNKNOWN;
+        }
+
+        Species species = pokemon.getSpecies();
+        final Component eVYieldComponent = EVYieldFormatter.format(species);
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("EV Yield: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(eVYieldComponent);
+
+        return tooltip;
     }
 
-    public static Component computeCatchChanceTooltip(PokemonEntity pokemonEntity, Player player) {
-        if (player == null || pokemonEntity == null) {
-            return createLabeledTooltip("Catch Chance", UNKNOWN);
+    public static Component sizeTooltip(Pokemon pokemon) {
+        float size = pokemon.getScaleModifier();
+        String sizeString = String.format("%.2f", size);
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("Size: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(Component.literal(sizeString)
+                .withColor(ComponentColor.WHITE));
+
+        return tooltip;
+    }
+
+    public static Component iVsTooltip(Pokemon pokemon) {
+        if (pokemon == null || pokemon.getSpecies() == null) {
+            return UNKNOWN;
         }
 
-        ItemStack mainHandItem = player.getMainHandItem();
+        IVs iVs = pokemon.getIvs();
+        final Component iVsComponent = IVsFormatter.format(iVs);
 
-        if (mainHandItem == null || !(mainHandItem.getItem() instanceof PokeBallItem pokeBallItem)) {
-            return createLabeledTooltip("Catch Chance", UNKNOWN);
-        }
+        MutableComponent tooltip = Component.empty();
 
-        try {
-            double catchChance = CaptureCalculator.getCatchChance(player, pokemonEntity,
-                    pokeBallItem.getPokeBall());
-            double maxCatchChance = CaptureCalculator.getMaxCatchChance(player, pokemonEntity,
-                    pokeBallItem.getPokeBall());
+        tooltip.append(Component.literal("IVs: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(iVsComponent);
 
-            String minChanceString = StringUtil.formatPercentage(catchChance);
-            String maxChanceString = StringUtil.formatPercentage(maxCatchChance);
+        return tooltip;
+    }
 
-            int minRgb = ColorUtil.getRatioGradientColor(catchChance);
-            int maxRgb = ColorUtil.getRatioGradientColor(maxCatchChance);
+    public static Component catchRateTooltip(Pokemon pokemon) {
+        Species species = pokemon.getSpecies();
 
-            Component valueComponent = Component.literal(minChanceString).withColor(minRgb)
-                    .append(Component.literal(" - "))
-                    .append(Component.literal(maxChanceString).withColor(maxRgb));
+        MutableComponent tooltip = Component.empty();
 
-            return createLabeledTooltip("Catch Chance", valueComponent);
-        } catch (Exception e) {
-            return createLabeledTooltip("Catch Chance", UNKNOWN);
-        }
+        tooltip.append(Component.literal("Catch Rate: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(Component.literal(String.valueOf(species.getCatchRate()))
+                .withColor(ComponentColor.WHITE));
+
+        return tooltip;
+    }
+
+    public static Component catchChanceTooltip(PokemonEntity pokemonEntity, PokeBall ball) {
+        Species species = pokemonEntity.getPokemon().getSpecies();
+        float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
+        int rgb = ColorUtil.getRatioGradientColor((float) catchChance / 1.0f) & 0xFFFFFF;
+
+        Component catchChanceComponent = Component.literal(StringUtil.formatPercentage(catchChance)).withColor(rgb);
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("Catch Rate: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(Component.literal(String.valueOf(species.getCatchRate()))
+                .withColor(ComponentColor.WHITE));
+        tooltip.append(Component.literal(" (")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(catchChanceComponent);
+        tooltip.append(Component.literal(")")
+                .withColor(ComponentColor.LIGHT_GRAY));
+
+        return tooltip;
     }
 }

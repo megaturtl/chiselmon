@@ -23,8 +23,4 @@ public final class GenderFormatter {
             case GENDERLESS -> GENDERLESS;
         };
     }
-
-    public static Component formatSymbolLabeled(Gender gender) {
-        return StringFormatter.formatLabeled("Gender", formatSymbol(gender));
-    }
 }

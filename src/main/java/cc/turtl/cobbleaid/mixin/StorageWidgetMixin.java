@@ -55,9 +55,9 @@ public class StorageWidgetMixin {
         if (tooltipPokemon != null) {
             List<Component> tooltip = new ArrayList<>();
 
-            tooltip.add(PokemonTooltip.computeSizeTooltip(tooltipPokemon));
+            tooltip.add(PokemonTooltip.nameTooltip(tooltipPokemon));
             if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-                tooltip.add(PokemonTooltip.computeIVsTooltip(tooltipPokemon));
+                tooltip.add(PokemonTooltip.iVsTooltip(tooltipPokemon));
                 tooltip.add(Component.literal("§dOT: §f" + tooltipPokemon.getOriginalTrainerName()));
                 tooltip.add(Component.literal("§dFriendship: §f" + tooltipPokemon.getFriendship()));
                 tooltip.add(Component.literal("§dMarks: §f" + tooltipPokemon.getMarks().size()));
