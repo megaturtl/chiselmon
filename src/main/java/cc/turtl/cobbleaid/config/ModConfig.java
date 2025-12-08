@@ -12,6 +12,10 @@ public class ModConfig implements ConfigData {
     
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
+    public boolean quickSortEnabled = true;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
     public boolean showHiddenAbilityIcons = true;
 
     @ConfigEntry.Gui.Tooltip

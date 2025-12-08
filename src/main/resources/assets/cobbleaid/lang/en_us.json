@@ -8,8 +8,10 @@
     "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
     "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
     "text.autoconfig.cobbleaid.option.debugMode": "Debug Mode",
-    "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console. This will log all messages to the console.",
+    "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console.",
     
+    "text.autoconfig.cobbleaid.option.quickSortEnabled": "Enable Quick Sort",
+    "text.autoconfig.cobbleaid.option.quickSortEnabled.@Tooltip": "Sorts the current PC box on middle mouse click.",
     "text.autoconfig.cobbleaid.option.extremeSmallThreshold": "Extreme Small Threshold",
     "text.autoconfig.cobbleaid.option.extremeSmallThreshold.@Tooltip": "Size at which pokemon are treated as extremely small.",
     "text.autoconfig.cobbleaid.option.extremeLargeThreshold": "Extreme Large Threshold",
@@ -41,5 +43,6 @@
     "cobblemon.ui.sort.ivs": "Sort by IVs",
     "cobblemon.ui.sort.size": "Sort by Size",
 
-    "config.jade.plugin_cobbleaid.pokemon_entity": "Pokemon Entity"
+    "config.jade.plugin_cobbleaid.pokemon_entity": "Pokemon Entity",
+    "config.jade.plugin_cobbleaid.pokesnack_block": "Poke Snack Block"
 }

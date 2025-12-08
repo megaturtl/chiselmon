@@ -34,6 +34,8 @@ public class DebugCommand {
         context.getSource().sendFeedback(Component.literal("§d=== Debug Commands ==="));
         context.getSource()
                 .sendFeedback(Component.literal("§7/cobbleaid debug dump <slot> §f- Dumps info about provided slot."));
+        context.getSource()
+                .sendFeedback(Component.literal("§7/cobbleaid debug dump look §f- Dumps info about targeted pokemon entity."));
         return 1;
     }
 

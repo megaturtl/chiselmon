@@ -27,6 +27,11 @@ public class PokemonProvider implements IEntityComponentProvider {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("cobbleaid", "pokemon_entity");
 
     @Override
+    public ResourceLocation getUid() {
+        return ID;
+    }
+
+    @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
         if (!(accessor.getEntity() instanceof PokemonEntity)) {
             return;
@@ -50,10 +55,5 @@ public class PokemonProvider implements IEntityComponentProvider {
         } else {
             tooltip.add(PokemonTooltip.catchRateTooltip(pokemon));
         }
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return ID;
     }
 }

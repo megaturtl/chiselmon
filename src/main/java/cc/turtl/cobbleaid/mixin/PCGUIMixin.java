@@ -1,10 +1,12 @@
 package cc.turtl.cobbleaid.mixin;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
+import com.cobblemon.mod.common.net.messages.server.storage.pc.SortPCBoxPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
@@ -23,6 +25,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
@@ -87,6 +90,36 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
                 this.height,
                 BASE_WIDTH,
                 BASE_HEIGHT);
+    }
+
+    // Intercept key presses to handle quick sort keybind
+    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
+    private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (config.modDisabled || !config.quickSortEnabled) {
+            return;
+        }
+
+        // middle mouse click
+        if (button == 2) {
+            cobbleaid$executeQuickSort();
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Unique
+    private void cobbleaid$executeQuickSort() {
+        PokemonSortMode sortMode = PokemonSortMode.POKEDEX_NUMBER;
+        
+        if (this.storageWidget != null) {
+            this.storageWidget.resetSelected();
+        }
+        
+        new SortPCBoxPacket(
+            this.pc.getUuid(), 
+            this.storageWidget.getBox(), 
+            sortMode,
+            hasShiftDown()
+        ).sendToServer();
     }
 
     // If pokemon is an egg, replace the egg with its data to render in the PC side preview
