@@ -1,24 +1,17 @@
-HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command)
-
-Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
-KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
-
-
-
-Add a set all before/after key in wallpapers
-Command to switch 2 boxes
+High priority:
+- HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command?)
+- Command/ ui button etc to switch 2 boxes
+- Move all button that moves all mons to current box (and moves the first 6 to your party if possible)
+- PC page bookmarks at top of screen (like tabs)
 
 
-If meets the high Iv cap and also has a 0 iv show a custom rusted bottle cap
-
-show flee radius
-
-
-- move all button that moves all mons to current box (and moves the first 6 to your party if possible)
-
-- pc page bookmarkss at top of screen
-
-- show actual marks on hover with their chance
+Nice to have:
+- Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
+    KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
 
 
+One day:
+- Add a set all before/after key in wallpapers
+- If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
+- Show actual marks on hover with their chance
 - Add a tooltip if a block is pokemon spawnable
