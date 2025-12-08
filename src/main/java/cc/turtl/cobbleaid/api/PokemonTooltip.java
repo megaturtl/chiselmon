@@ -12,6 +12,7 @@ import cc.turtl.cobbleaid.api.component.EVYieldFormatter;
 import cc.turtl.cobbleaid.api.component.EggGroupFormatter;
 import cc.turtl.cobbleaid.api.component.GenderFormatter;
 import cc.turtl.cobbleaid.api.component.IVsFormatter;
+import cc.turtl.cobbleaid.api.component.SelfDamageFormatter;
 import cc.turtl.cobbleaid.api.component.TypingFormatter;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import cc.turtl.cobbleaid.api.util.StringUtil;
@@ -171,5 +172,17 @@ public class PokemonTooltip {
                 .withColor(ComponentColor.LIGHT_GRAY));
 
         return tooltip;
+    }
+
+    public static Component selfDamagingTooltip(Pokemon pokemon) {
+        final Component selfDamagingMovesComponent = SelfDamageFormatter.format(pokemon);
+
+        MutableComponent tooltip = Component.empty();
+
+        tooltip.append(Component.literal("Possible Self Damaging Moves: ")
+                .withColor(ComponentColor.LIGHT_GRAY));
+        tooltip.append(selfDamagingMovesComponent);
+        
+        return tooltip;        
     }
 }
