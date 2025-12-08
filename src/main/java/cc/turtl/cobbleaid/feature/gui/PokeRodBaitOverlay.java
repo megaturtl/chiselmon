@@ -6,18 +6,15 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.component.ComponentColor;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class PokeRodBaitOverlay implements HudRenderCallback {
+public class PokeRodBaitOverlay {
 
-    @Override
-    public void onHudRender(GuiGraphics guiGraphics, DeltaTracker tickCounter) {
+    public static void renderPokeRodOverlay(GuiGraphics guiGraphics) {
         ModConfig config = CobbleAid.getInstance().getConfig();
         if (!config.showPokeRodBaitAboveHotbar)
             return;
@@ -52,7 +49,7 @@ public class PokeRodBaitOverlay implements HudRenderCallback {
         renderBaitTextWithIcon(guiGraphics, minecraft, baitName, baitCount, rgb, baitStack);
     }
 
-    private void renderBaitText(GuiGraphics guiGraphics, Minecraft minecraft, String baitName, int count, int color) {
+    private static void renderBaitText(GuiGraphics guiGraphics, Minecraft minecraft, String baitName, int count, int color) {
         Font font = minecraft.font;
 
         // Format the text
@@ -81,7 +78,7 @@ public class PokeRodBaitOverlay implements HudRenderCallback {
         guiGraphics.drawString(font, displayText, x, y, color, true);
     }
 
-    private void renderBaitTextWithIcon(GuiGraphics guiGraphics, Minecraft minecraft, String baitName, int count,
+    private static void renderBaitTextWithIcon(GuiGraphics guiGraphics, Minecraft minecraft, String baitName, int count,
             int color, ItemStack baitStack) {
         Font font = minecraft.font;
 
@@ -96,7 +93,7 @@ public class PokeRodBaitOverlay implements HudRenderCallback {
         // Calculate dimensions
         int textWidth = font.width(displayText);
         int iconSize = 16; // Standard item icon size
-        int spacing = 2; // Space between icon and text
+        int spacing = 3; // Space between icon and text
         int totalWidth = iconSize + spacing + textWidth;
 
         // Center the entire display (icon + text) (j logic applied to totalWidth)
@@ -112,7 +109,7 @@ public class PokeRodBaitOverlay implements HudRenderCallback {
 
         // Adjust the icon position to align the text's baseline with the calculated Y.
         // Standard text draws from the top, the icon is 16px high.
-        int iconY = y - 5; // Adjusted for better visual alignment with the text
+        int iconY = y - 4; // Adjusted for better visual alignment with the text
 
         // Render the item icon
         guiGraphics.renderItem(baitStack, startX, iconY);

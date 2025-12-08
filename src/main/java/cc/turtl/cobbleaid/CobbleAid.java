@@ -3,12 +3,10 @@ package cc.turtl.cobbleaid;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.gui.PokeRodBaitOverlay;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.world.InteractionResult;
 
 public class CobbleAid implements ClientModInitializer {
@@ -53,7 +51,6 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     private void registerListeners() {
-        HudRenderCallback.EVENT.register(new PokeRodBaitOverlay());
     }
 
     private void loadConfig() {
