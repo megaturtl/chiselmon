@@ -1,6 +1,3 @@
-FIX AS MANY BALL CALCS AS I CAN (Need to intercept the catchmodifier for some less basic balls)
-- maybe just have a range?
-
 HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command)
 
 Middle click in pc to sort box by default sort setting (define in config)
@@ -28,8 +25,6 @@ show flee radius
 - pc page bookmarkss at top of screen
 
 - show actual marks on hover with their chance
-
-- show fishing bait in hotbar
 
 
 - Add a tooltip if a block is pokemon spawnable

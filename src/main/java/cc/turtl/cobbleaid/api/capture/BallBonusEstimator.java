@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
@@ -18,6 +19,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
+import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
+import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,12 +86,13 @@ public class BallBonusEstimator {
      * object.
      */
     public static float calculateBallBonus(PokeBall ball, PokemonEntity targetEntity,
-            LocalPlayer player, List<Pokemon> playerParty) {
+            LocalPlayer player, List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus) {
 
         CaptureContext context = new CaptureContext(
                 targetEntity,
                 targetEntity.getPokemon(),
-                playerParty,
+                playerActiveBattlePokemon,
+                targetStatus,
                 Minecraft.getInstance().level,
                 targetEntity.blockPosition());
 
@@ -111,7 +115,7 @@ public class BallBonusEstimator {
         boolean foundSameSpeciesOppositeGender = false;
         boolean foundOppositeGender = false;
 
-        for (Pokemon p : ctx.playerParty) {
+        for (ClientBattlePokemon p : ctx.playerActiveBattlePokemon) {
             if (p == null || p.getGender() == Gender.GENDERLESS)
                 continue;
 
@@ -177,11 +181,11 @@ public class BallBonusEstimator {
 
     // Level Ball: Player max level vs. Target level
     private static float calculateLevelBall(CaptureContext ctx) {
-        if (ctx.playerParty == null || ctx.playerParty.isEmpty())
+        if (ctx.playerActiveBattlePokemon == null || ctx.playerActiveBattlePokemon.isEmpty())
             return BASE_BONUS;
 
-        int maxPlayerLevel = ctx.playerParty.stream()
-                .mapToInt(Pokemon::getLevel)
+        int maxPlayerLevel = ctx.playerActiveBattlePokemon.stream()
+                .mapToInt(ClientBattlePokemon::getLevel)
                 .max().orElse(1);
 
         int targetLevel = ctx.pokemon.getLevel();
@@ -260,8 +264,7 @@ public class BallBonusEstimator {
 
     // Dream Ball: 4x if asleep
     private static float calculateDreamBall(CaptureContext ctx) {
-        if (ctx.pokemon.getStatus() != null &&
-                ctx.pokemon.getStatus().getStatus().getName().getPath().equals("sleep")) {
+        if (ctx.targetStatus instanceof SleepStatus) {
             return 4.0f;
         }
         return BASE_BONUS;
@@ -276,14 +279,17 @@ public class BallBonusEstimator {
     private static class CaptureContext {
         final PokemonEntity targetEntity;
         final Pokemon pokemon;
-        final List<Pokemon> playerParty;
+        final List<ClientBattlePokemon> playerActiveBattlePokemon;
+        final PersistentStatus targetStatus;
         final Level level;
         final BlockPos pos;
 
-        CaptureContext(PokemonEntity t, Pokemon p, List<Pokemon> party, Level l, BlockPos pos) {
+        CaptureContext(PokemonEntity t, Pokemon p, List<ClientBattlePokemon> playerActiveBattlePokemon,
+                PersistentStatus targetStatus, Level l, BlockPos pos) {
             this.targetEntity = t;
             this.pokemon = p;
-            this.playerParty = party;
+            this.playerActiveBattlePokemon = playerActiveBattlePokemon;
+            this.targetStatus = targetStatus;
             this.level = l;
             this.pos = pos;
         }

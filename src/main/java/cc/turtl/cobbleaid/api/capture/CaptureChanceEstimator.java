@@ -2,16 +2,24 @@ package cc.turtl.cobbleaid.api.capture;
 
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.client.CobblemonClient;
+import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon;
+import com.cobblemon.mod.common.client.battle.ClientBattle;
+import com.cobblemon.mod.common.client.battle.ClientBattleActor;
+import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
-import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
+
 import static java.lang.Math.*;
 
 public class CaptureChanceEstimator {
@@ -40,9 +48,29 @@ public class CaptureChanceEstimator {
         Pokemon pokemon = targetEntity.getPokemon();
         List<Pokemon> playerParty = CobblemonClient.INSTANCE.getStorage().getParty().getSlots();
 
+        Optional<ClientBattle> clientBattleOpt = Optional.ofNullable(CobblemonClient.INSTANCE.getBattle());
+
+        // --- Extract Battle Context Concisely ---
+        
+        // This leverages Optional to simplify null checks for battle context.
+        List<ClientBattlePokemon> throwerActiveBattlePokemon = clientBattleOpt
+            .map(battle -> battle.getParticipatingActor(thrower.getUUID()))
+            .map(ClientBattleActor::getActivePokemon)
+            .orElse(Collections.emptyList())
+            .stream()
+            .map(ActiveClientBattlePokemon::getBattlePokemon)
+            .collect(Collectors.toList());
+
+        // Use Optional to get the target's in-battle status safely.
+        PersistentStatus targetStatus = clientBattleOpt
+            .map(ClientBattle::getWildActor)
+            .map(ClientBattleActor::getActivePokemon)
+            .filter(list -> !list.isEmpty())
+            .map(list -> list.getFirst().getBattlePokemon().getStatus())
+            .orElse(null);
         // --- 1. Master Ball Check ---
         // If the ball bonus is high (Master Ball), return 100% chance.
-        if (BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, playerParty) >= 999.0F) {
+        if (BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon, targetStatus) >= 999.0F) {
             return 1.0F;
         }
 
@@ -58,23 +86,10 @@ public class CaptureChanceEstimator {
         int targetLevel = pokemon.getLevel();
 
         // Ball Multiplier (B)
-        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, playerParty);
+        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon, targetStatus);
 
-        // Status Multiplier (S) !!!! NOT WORKING - need to find where the active in battle status is accessible to the client
-        PersistentStatusContainer statusContainer = pokemon.getStatus();
-
-        float S;
-
-        // Check if the status container is null before calling getStatus() on it
-        if (statusContainer != null) {
-            // If it's not null, safely calculate the bonus using the current status
-            S = calculateStatusBonus(statusContainer.getStatus());
-        } else {
-            // Handle the case where the status container is null (e.g., the Pokémon has no
-            // status system)
-            // A safe default value is usually 1.0f (no bonus/penalty)
-            S = 1.0f;
-        }
+        // Status Multiplier (S) !!!! NOT WORKING - need to find where the active in battle status is accessible to the client (might work now i use battle target)
+        float S = calculateStatusBonus(targetStatus);
 
         // In Battle Modifier (I) - 1.0F in battle, 0.5F otherwise.
         float I = (targetEntity.getBattleId() != null) ? 1.0F : 0.5F;

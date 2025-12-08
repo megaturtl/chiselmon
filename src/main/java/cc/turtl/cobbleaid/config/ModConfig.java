@@ -9,15 +9,6 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip public boolean modDisabled = false;
     @ConfigEntry.Gui.Tooltip public boolean debugMode = false;
-
-    @ConfigEntry.Gui.Tooltip
-    public float extremeSmallThreshold = 0.5F;
-
-    @ConfigEntry.Gui.Tooltip
-    public float extremeLargeThreshold = 1.5F;
-
-    @ConfigEntry.Gui.Tooltip
-    public int maxIvsThreshold = 5;
     
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
@@ -29,7 +20,7 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
-    public boolean showShinyIcons = false;
+    public boolean showShinyIcons = true;
     
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
@@ -50,6 +41,22 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
     public boolean showDetailedTooltipOnShift = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("misc")
+    public boolean showPokeRodBaitAboveHotbar = true;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("threshold")
+    public float extremeSmallThreshold = 0.5F;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("threshold")
+    public float extremeLargeThreshold = 1.5F;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("threshold")
+    public int maxIvsThreshold = 5;
 
     // custom validation to run on save and load
     public ModConfig validate_fields() {

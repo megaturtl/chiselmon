@@ -2,6 +2,8 @@
     "text.autoconfig.cobbleaid.title": "Cobble Aid Config",
     "text.autoconfig.cobbleaid.category.default": "Default Settings",
     "text.autoconfig.cobbleaid.category.pc": "PC Settings",
+    "text.autoconfig.cobbleaid.category.misc": "Misc Settings",
+    "text.autoconfig.cobbleaid.category.threshold": "Customise Thresholds",
 
     "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
     "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
@@ -14,8 +16,6 @@
     "text.autoconfig.cobbleaid.option.extremeLargeThreshold.@Tooltip": "Size at which pokemon are treated as extremely large.",
     "text.autoconfig.cobbleaid.option.maxIvsThreshold": "Max IVs Threshold",
     "text.autoconfig.cobbleaid.option.maxIvsThreshold.@Tooltip": "# Max IVs (including hypertraining) at which Pokemon are treated as high IV. Currently this shows the bottlecap icon in PC.",
-    
-    "text.autoconfig.cobbleaid.option.pcConfig": "PC Options",
 
     "text.autoconfig.cobbleaid.option.showHiddenAbilityIcons": "Show Hidden Ability Icons",
     "text.autoconfig.cobbleaid.option.showHiddenAbilityIcons.@Tooltip": "Shows an ability patch icon next to pokemon with their HA.",
@@ -35,6 +35,11 @@
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift": "Detailed PC Tooltips on Shift",
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift.@Tooltip": "Shows a more detailed tooltip while hovering if shift is held.",
 
+    "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar": "Show Poke Rod Bait Overlay",
+    "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar.@Tooltip": "Shows current bait info above the hotbar when a Poke Rod is held.",
+
     "cobblemon.ui.sort.ivs": "Sort by IVs",
-    "cobblemon.ui.sort.size": "Sort by Size"
+    "cobblemon.ui.sort.size": "Sort by Size",
+
+    "config.jade.plugin_cobbleaid.pokemon_entity": "Pokemon Entity"
 }
