@@ -88,7 +88,7 @@ public class CaptureChanceEstimator {
         // Ball Multiplier (B)
         float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon, targetStatus);
 
-        // Status Multiplier (S) !!!! NOT WORKING - need to find where the active in battle status is accessible to the client (might work now i use battle target)
+        // Status Multiplier (S)
         float S = calculateStatusBonus(targetStatus);
 
         // In Battle Modifier (I) - 1.0F in battle, 0.5F otherwise.

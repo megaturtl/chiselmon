@@ -26,6 +26,9 @@ public class SelfDamageHelper {
         selfDamageMoves.add("headsmash");
         selfDamageMoves.add("headcharge");
         selfDamageMoves.add("wildcharge");
+        selfDamageMoves.add("jumpkick");
+        selfDamageMoves.add("highjumpkick");
+        selfDamageMoves.add("lightofruin");
         
         // Direct self-damage moves
         selfDamageMoves.add("struggle");
@@ -34,9 +37,7 @@ public class SelfDamageHelper {
         selfDamageMoves.add("chloroblast");
         
         // HP cost moves
-        selfDamageMoves.add("bellydrum");
         selfDamageMoves.add("curse");
-        selfDamageMoves.add("substitute");
         
         // Fainting moves
         selfDamageMoves.add("selfdestruct");

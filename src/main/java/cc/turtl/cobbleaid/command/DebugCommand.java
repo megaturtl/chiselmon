@@ -27,7 +27,7 @@ public class DebugCommand {
                 .then(literal("dump")
                         .then(argument("slot", IntegerArgumentType.integer(1, 6))
                                 .executes(DebugCommand::executeDump))
-                .then(literal("look").executes(DebugCommand::executeLookDump)));
+                        .then(literal("look").executes(DebugCommand::executeLookDump)));
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
@@ -35,7 +35,8 @@ public class DebugCommand {
         context.getSource()
                 .sendFeedback(Component.literal("§7/cobbleaid debug dump <slot> §f- Dumps info about provided slot."));
         context.getSource()
-                .sendFeedback(Component.literal("§7/cobbleaid debug dump look §f- Dumps info about targeted pokemon entity."));
+                .sendFeedback(Component
+                        .literal("§7/cobbleaid debug dump look §f- Dumps info about targeted pokemon entity."));
         return 1;
     }
 

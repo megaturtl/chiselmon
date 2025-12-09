@@ -1,5 +1,6 @@
 package cc.turtl.cobbleaid.config;
 
+import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTabStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -7,9 +8,11 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 @Config(name = "cobbleaid")
 public class ModConfig implements ConfigData {
 
-    @ConfigEntry.Gui.Tooltip public boolean modDisabled = false;
-    @ConfigEntry.Gui.Tooltip public boolean debugMode = false;
-    
+    @ConfigEntry.Gui.Tooltip
+    public boolean modDisabled = false;
+    @ConfigEntry.Gui.Tooltip
+    public boolean debugMode = false;
+
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
     public boolean quickSortEnabled = true;
@@ -25,7 +28,7 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
     public boolean showShinyIcons = true;
-    
+
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
     public boolean showExtremeSizeIcons = false;
@@ -61,6 +64,10 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("threshold")
     public int maxIvsThreshold = 5;
+
+    // Hidden data stores!! Cannot be directly accessed in the config menu by the player
+    @ConfigEntry.Gui.Excluded
+    public PCTabStore tabStore = new PCTabStore(23);
 
     // custom validation to run on save and load
     public ModConfig validate_fields() {

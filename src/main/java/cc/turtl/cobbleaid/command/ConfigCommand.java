@@ -4,13 +4,14 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
 
 public class ConfigCommand {
-    
+
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal("config")
                 .executes(ConfigCommand::executeHelp)
@@ -39,7 +40,7 @@ public class ConfigCommand {
     private static int executeDisable(CommandContext<FabricClientCommandSource> context) {
         ModConfig config = CobbleAid.getInstance().getConfig();
         config.modDisabled = true;
-        CobbleAid.getInstance().saveConfig();   
+        CobbleAid.getInstance().saveConfig();
 
         context.getSource().sendFeedback(Component.literal("§cCobble Aid has been disabled!"));
         return 1;
