@@ -82,7 +82,8 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
-    ModConfig config = CobbleAid.getInstance().getConfig();
+    final CobbleAid INSTANCE = CobbleAid.getInstance();
+    ModConfig config = INSTANCE.getConfig();
 
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
@@ -107,10 +108,12 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
             int currentBoxNumber = storageWidget.getBox();
             if (tabStore.hasBoxNumber(currentBoxNumber)) {
                 tabStore.removeTab(currentBoxNumber);
+                INSTANCE.saveConfig();
             } else if (tabStore.isFull()) {
                 return;
             } else {
                 tabStore.addTab(currentBoxNumber);
+                INSTANCE.saveConfig();
             }
             cobbleaid$rebuildTabButtons();
         };
