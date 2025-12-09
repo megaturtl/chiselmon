@@ -1,5 +1,6 @@
 package cc.turtl.cobbleaid.api.capture;
 
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 // Replace these with your actual Cobblemon imports
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
@@ -9,6 +10,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
+import com.cobblemon.mod.common.battles.BattleRegistry;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexManager;
 import com.cobblemon.mod.common.pokemon.Gender;
@@ -25,6 +27,7 @@ import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class BallBonusEstimator {
@@ -239,16 +242,38 @@ public class BallBonusEstimator {
             return 1.0f;
     }
 
-    // Timer Ball: Turn based (Placeholder logic)
+    // Timer Ball: Turn based
     private static float calculateTimerBall(CaptureContext ctx) {
-        int turn = 1; // Placeholder
+        UUID battleId = ctx.targetEntity.getBattleId();
+        if (battleId == null) {
+            return BASE_BONUS;
+        }
+
+        PokemonBattle battle = BattleRegistry.getBattle(battleId);
+        if (battle == null) {
+            return BASE_BONUS;
+        }
+
+        int turn = battle.getTurn();
+
         float baseMultiplier = 1F * turn * (1229F / 4096F);
         return (1F + baseMultiplier) > 4.0F ? 4.0F : (1F + baseMultiplier);
     }
 
-    // Quick Ball: 5x on turn 1 (Placeholder logic)
+    // Quick Ball: 5x on turn 1
     private static float calculateQuickBall(CaptureContext ctx) {
-        int turn = 1; // Placeholder
+
+        UUID battleId = ctx.targetEntity.getBattleId();
+        if (battleId == null) {
+            return BASE_BONUS;
+        }
+
+        PokemonBattle battle = BattleRegistry.getBattle(battleId);
+        if (battle == null) {
+            return BASE_BONUS;
+        }
+
+        int turn = battle.getTurn();
         return turn == 1 ? 5.0F : BASE_BONUS;
     }
 
