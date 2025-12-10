@@ -28,6 +28,6 @@ public abstract class PartyStorageSlotMixin {
     @Nullable
     public Pokemon getPokemon() {
         Pokemon pokemon = this.party.get(this.position);
-        return NeoDaycareEgg.getEggPreviewPokemon(pokemon);
+        return NeoDaycareEgg.getDummyOrOriginal(pokemon);
     }
 }

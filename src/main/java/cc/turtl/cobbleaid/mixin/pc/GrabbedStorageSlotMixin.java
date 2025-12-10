@@ -21,6 +21,6 @@ public abstract class GrabbedStorageSlotMixin {
     @Overwrite
     @Nullable
     public Pokemon getPokemon() {
-        return NeoDaycareEgg.getEggPreviewPokemon(pokemon);
+        return NeoDaycareEgg.getDummyOrOriginal(pokemon);
     }
 }

@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.util.IVsUtil;
+import cc.turtl.cobbleaid.api.component.IVsFormatter;
 import cc.turtl.cobbleaid.api.util.StringUtil;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
@@ -55,7 +55,7 @@ public class EggCommand {
 
             Pokemon pokemon = party.get(slot);
 
-            if (!NeoDaycareEgg.isNeoDaycareEgg(pokemon)) {
+            if (!NeoDaycareEgg.isEgg(pokemon)) {
                 source.sendFeedback(
                         Component.literal("§c[Cobble Aid] Egg not found at slot " + (slot + 1) + "!"));
                         LOGGER.debug("Egg not found at slot " + (slot + 1) + "!");
@@ -66,21 +66,21 @@ public class EggCommand {
             LOGGER.debug("Found egg at slot " + (slot + 1) + "!");
             LOGGER.debug("Egg NBT Data: {}", pokemon.getPersistentData());
 
-            NeoDaycareEgg eggData = NeoDaycareEgg.createNeoDaycareEggData(pokemon);
+            NeoDaycareEgg eggData = NeoDaycareEgg.from(pokemon);
 
             source.sendFeedback(Component.literal("--- Egg Info at slot " + (slot + 1) + " ---")
                     .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FFFF))));
-            source.sendFeedback(Component.literal("Species: §f" + eggData.egg.species.getName()));
-            source.sendFeedback(Component.literal("Gender: §f" + eggData.egg.gender));
+            source.sendFeedback(Component.literal("Species: §f" + eggData.getEgg().getSpecies().getName()));
+            source.sendFeedback(Component.literal("Gender: §f" + eggData.getEgg().getGender()));
 
-            MutableComponent natureName = Component.translatable(eggData.egg.nature.getDisplayName());
+            MutableComponent natureName = Component.translatable(eggData.getEgg().getNature().getDisplayName());
             source.sendFeedback(Component.literal("Nature: §f").append(natureName));
 
-            MutableComponent abilityName = Component.translatable(eggData.egg.ability.getDisplayName());
+            MutableComponent abilityName = Component.translatable(eggData.getEgg().getAbility().getDisplayName());
             source.sendFeedback(Component.literal("Ability: §f").append(abilityName));
 
-            source.sendFeedback(Component.literal("Size: §f" + String.format("%.2f", eggData.egg.scaleModifier)));
-            source.sendFeedback(Component.literal("IVs: " + IVsUtil.getIvsComponent(eggData.egg.ivs)));
+            source.sendFeedback(Component.literal("Size: §f" + String.format("%.2f", eggData.getEgg().getScaleModifier())));
+            source.sendFeedback(Component.literal("IVs: " + IVsFormatter.format(eggData.getEgg().getIvs())));
             source.sendFeedback(Component.literal("Est. Steps Remaining: §f" + eggData.getStepsRemaining()));
             source.sendFeedback(Component.literal("Est. Completion: §f" + StringUtil.formatPercentage(eggData.getHatchCompletion())));
 

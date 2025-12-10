@@ -8,11 +8,12 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 import org.joml.Vector3f;
@@ -31,12 +32,9 @@ public final class PcEggRenderer {
     private static final int BAR_COLOR_BACKGROUND = 0xFF474747;
     private static final int BAR_COLOR = 0xFF009432;
 
-    public static void renderEggPreviewElements(GuiGraphics context, Pokemon pokemon, int posX, int posY, float partialTicks) {
-        if (pokemon == null || !NeoDaycareEgg.isNeoDaycareEggDummy(pokemon)) {
-            return;
-        }
+    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon previewPokemon, int posX, int posY) {
 
-        // renderProgressBar(context, eggData, posX, posY);
+        renderProgressBar(context, previewPokemon.getHatchCompletion(), posX, posY);
 
         final var matrices = context.pose();
         matrices.pushPose();
@@ -67,12 +65,10 @@ public final class PcEggRenderer {
         matrices.popPose();
     }
 
-    private static void renderProgressBar(GuiGraphics context, NeoDaycareEgg eggData, int posX, int posY) {
-        // Get the progress decimal (0.0 to 1.0)
-        float progress = eggData.getHatchCompletion();
+    private static void renderProgressBar(GuiGraphics context, float hatchCompletion, int posX, int posY) {
 
         // Clamp the progress to ensure it's between 0.0 and 1.0
-        float clampedProgress = Mth.clamp(progress, 0.0F, 1.0F);
+        float clampedProgress = Mth.clamp(hatchCompletion, 0.0F, 1.0F);
 
         // Calculate the width of the filled bar
         int fillWidth = (int) (SLOT_WIDTH * clampedProgress);

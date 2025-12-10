@@ -28,6 +28,6 @@ public abstract class BoxStorageSlotMixin {
     @Nullable
     public Pokemon getPokemon() {
         Pokemon pokemon = this.pc.get(this.position);
-        return NeoDaycareEgg.getEggPreviewPokemon(pokemon);
+        return NeoDaycareEgg.getDummyOrOriginal(pokemon);
     }
 }
