@@ -60,7 +60,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
             tooltip.add(PokemonTooltip.catchChanceTooltip(pokemonEntity, pokeBallItem.getPokeBall()));
         } else {
-            tooltip.add(PokemonTooltip.catchRateTooltip(pokemon));
+            tooltip.add(PokemonTooltip.labeledTooltip("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
         }
 
         if (!selfDamagingMoves.isEmpty()) {

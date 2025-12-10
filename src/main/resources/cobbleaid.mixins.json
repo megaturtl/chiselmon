@@ -8,7 +8,11 @@
         "PCGUIMixin",
         "WallpaperEntryMixin",
         "accessor.PCGUIAccessor",
-        "GuiMixin"
+        "GuiMixin",
+
+        "pc.BoxStorageSlotMixin",
+        "pc.GrabbedStorageSlotMixin",
+        "pc.PartyStorageSlotMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.api.filter.PokemonComparators;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -67,9 +67,9 @@ public final class PcSorter {
         // 2. Create a list of objects suitable for comparison
         List<Pokemon> sortableList = new java.util.ArrayList<>(pokemonList.size());
         for (Pokemon pokemon : pokemonList) {
-            if (NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+            if (NeoDaycareEgg.isNeoDaycareEgg(pokemon)) {
                 // Add the representation for sorting purposes
-                sortableList.add(NeoDaycareEggData.createNeoDaycareEggData(pokemon).createDummyPokemon());
+                sortableList.add(NeoDaycareEgg.createNeoDaycareEggData(pokemon).createDummyPokemon());
             } else {
                 // Add the original Pokemon object
                 sortableList.add(pokemon);
@@ -82,11 +82,11 @@ public final class PcSorter {
         Comparator<Pokemon> finalComparator = comparator.thenComparing(Pokemon::getUuid); // Add tie-breaker
 
         Comparator<Pokemon> wrappedComparator = (p1, p2) -> {
-            Pokemon actualP1 = NeoDaycareEggData.isNeoDaycareEgg(p1)
-                    ? NeoDaycareEggData.createNeoDaycareEggData(p1).createDummyPokemon()
+            Pokemon actualP1 = NeoDaycareEgg.isNeoDaycareEgg(p1)
+                    ? NeoDaycareEgg.createNeoDaycareEggData(p1).createDummyPokemon()
                     : p1;
-            Pokemon actualP2 = NeoDaycareEggData.isNeoDaycareEgg(p2)
-                    ? NeoDaycareEggData.createNeoDaycareEggData(p2).createDummyPokemon()
+            Pokemon actualP2 = NeoDaycareEgg.isNeoDaycareEgg(p2)
+                    ? NeoDaycareEgg.createNeoDaycareEggData(p2).createDummyPokemon()
                     : p2;
 
             // Compare the representation objects

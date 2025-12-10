@@ -10,10 +10,10 @@ import com.cobblemon.mod.common.client.tooltips.SeasoningTooltipHelperKt;
 import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
 
+import cc.turtl.cobbleaid.api.PokemonTooltip;
 import cc.turtl.cobbleaid.api.component.ComponentColor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,7 +48,10 @@ public class PokeSnackBlockProvider implements IBlockComponentProvider {
         BlockState state = accessor.getBlockState();
         PokeSnackBlockEntity entity = (PokeSnackBlockEntity) accessor.getBlockEntity();
 
-        tooltip.add(bitesTooltip(state));
+        int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
+        int bitesRemaining = 9 - bites;
+
+        tooltip.add(PokemonTooltip.labeledTooltip("Bites Remaining: ", bitesRemaining));
 
         IngredientComponent ingredientComponent = entity.getIngredientComponent();
         if (ingredientComponent == null) {
@@ -73,19 +76,5 @@ public class PokeSnackBlockProvider implements IBlockComponentProvider {
         if (!combinedTooltipLines.isEmpty()) {
             combinedTooltipLines.forEach(tooltip::add);
         }
-    }
-
-    private static Component bitesTooltip(BlockState state) {
-        int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
-        int bitesRemaining = 9 - bites;
-
-        MutableComponent tooltip = Component.empty();
-
-        tooltip.append(Component.literal("Bites Remaining: ")
-                .withColor(ComponentColor.LIGHT_GRAY));
-        tooltip.append(Component.literal(String.valueOf(bitesRemaining))
-                .withColor(ComponentColor.WHITE));
-
-        return tooltip;
     }
 }

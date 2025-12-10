@@ -1,5 +1,7 @@
 package cc.turtl.cobbleaid.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.IVs;
@@ -139,19 +141,6 @@ public class PokemonTooltip {
         return tooltip;
     }
 
-    public static Component catchRateTooltip(Pokemon pokemon) {
-        Species species = pokemon.getSpecies();
-
-        MutableComponent tooltip = Component.empty();
-
-        tooltip.append(Component.literal("Catch Rate: ")
-                .withColor(ComponentColor.LIGHT_GRAY));
-        tooltip.append(Component.literal(String.valueOf(species.getCatchRate()))
-                .withColor(ComponentColor.WHITE));
-
-        return tooltip;
-    }
-
     public static Component catchChanceTooltip(PokemonEntity pokemonEntity, PokeBall ball) {
         Species species = pokemonEntity.getPokemon().getSpecies();
         float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
@@ -182,7 +171,25 @@ public class PokemonTooltip {
         tooltip.append(Component.literal("Possible Self Damaging Moves: ")
                 .withColor(ComponentColor.LIGHT_GRAY));
         tooltip.append(selfDamagingMovesComponent);
-        
-        return tooltip;        
+
+        return tooltip;
+    }
+
+    /**
+     * Creates a styled tooltip component with a label.
+     */
+    public static Component labeledTooltip(@NotNull String label, Object value) {
+
+        MutableComponent tooltip = Component.literal(label)
+                .withColor(ComponentColor.LIGHT_GRAY);
+
+        if (value == null) {
+            tooltip.append(UNKNOWN);
+        } else {
+            tooltip.append(Component.literal(value.toString())
+                    .withColor(ComponentColor.WHITE));
+        }
+
+        return tooltip;
     }
 }

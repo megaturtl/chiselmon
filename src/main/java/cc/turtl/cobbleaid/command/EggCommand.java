@@ -6,7 +6,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.api.util.StringUtil;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.storage.ClientParty;
@@ -55,7 +55,7 @@ public class EggCommand {
 
             Pokemon pokemon = party.get(slot);
 
-            if (!NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+            if (!NeoDaycareEgg.isNeoDaycareEgg(pokemon)) {
                 source.sendFeedback(
                         Component.literal("§c[Cobble Aid] Egg not found at slot " + (slot + 1) + "!"));
                         LOGGER.debug("Egg not found at slot " + (slot + 1) + "!");
@@ -66,7 +66,7 @@ public class EggCommand {
             LOGGER.debug("Found egg at slot " + (slot + 1) + "!");
             LOGGER.debug("Egg NBT Data: {}", pokemon.getPersistentData());
 
-            NeoDaycareEggData eggData = NeoDaycareEggData.createNeoDaycareEggData(pokemon);
+            NeoDaycareEgg eggData = NeoDaycareEgg.createNeoDaycareEggData(pokemon);
 
             source.sendFeedback(Component.literal("--- Egg Info at slot " + (slot + 1) + " ---")
                     .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FFFF))));

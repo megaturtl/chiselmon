@@ -6,7 +6,7 @@ import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEggData;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
@@ -29,11 +29,11 @@ public final class PcEggRenderer {
     private static final int BAR_COLOR = 0xFF009432;
 
     public static void renderEggPreviewElements(GuiGraphics context, Pokemon pokemon, int posX, int posY, float partialTicks) {
-        if (pokemon == null || !NeoDaycareEggData.isNeoDaycareEgg(pokemon)) {
+        if (pokemon == null || !NeoDaycareEgg.isNeoDaycareEgg(pokemon)) {
             return;
         }
 
-        NeoDaycareEggData eggData = NeoDaycareEggData.createNeoDaycareEggData(pokemon);
+        NeoDaycareEgg eggData = NeoDaycareEgg.createNeoDaycareEggData(pokemon);
         Pokemon eggDummyPokemon = eggData.createDummyPokemon();
 
         renderProgressBar(context, eggData, posX, posY);
@@ -67,7 +67,7 @@ public final class PcEggRenderer {
         matrices.popPose();
     }
 
-    private static void renderProgressBar(GuiGraphics context, NeoDaycareEggData eggData, int posX, int posY) {
+    private static void renderProgressBar(GuiGraphics context, NeoDaycareEgg eggData, int posX, int posY) {
         // Get the progress decimal (0.0 to 1.0)
         float progress = eggData.getHatchCompletion();
 

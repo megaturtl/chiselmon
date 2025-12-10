@@ -27,10 +27,11 @@ import net.minecraft.network.chat.Component;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
+import cc.turtl.cobbleaid.config.ModConfig;
 
 import java.util.UUID;
 
-public class NeoDaycareEggData {
+public class NeoDaycareEgg {
 
     public int cycle;
     public Egg egg;
@@ -38,10 +39,10 @@ public class NeoDaycareEggData {
     public int steps;
     public int totalSteps;
 
-    public NeoDaycareEggData() {
+    public NeoDaycareEgg() {
     }
 
-    public NeoDaycareEggData(CompoundTag dataTag) {
+    public NeoDaycareEgg(CompoundTag dataTag) {
         this.cycle = dataTag.getInt("Cycle");
         this.speciesCycles = dataTag.getInt("SpeciesCycles");
         this.steps = dataTag.getInt("Steps");
@@ -145,11 +146,11 @@ public class NeoDaycareEggData {
         return (speciesResourceName.equals("neodaycare:egg_species"));
     }
 
-    public static NeoDaycareEggData createNeoDaycareEggData(Pokemon pokemon) {
+    public static NeoDaycareEgg createNeoDaycareEggData(Pokemon pokemon) {
         if (!isNeoDaycareEgg(pokemon)) {
             throw new IllegalArgumentException("Tried to unpack a non NeoDaycare egg!");
         }
-        return new NeoDaycareEggData(pokemon.getPersistentData());
+        return new NeoDaycareEgg(pokemon.getPersistentData());
     }
 
     public float getHatchCompletion() {
@@ -196,5 +197,26 @@ public class NeoDaycareEggData {
         }
 
         return dummy;
+    }
+
+    /**
+     * Retrieves a preview Pokemon for an egg, or returns the original Pokemon if
+     * preview is not applicable.
+     * 
+     * @param pokemon the Pokemon to create a preview for, or to return if preview
+     *                is not applicable.
+     * @return a dummy Pokemon preview if the input is a Neo Daycare egg and preview
+     *         is enabled, otherwise returns the input Pokemon as-is.
+     */
+    public static Pokemon getEggPreviewPokemon(Pokemon pokemon) {
+        if (pokemon == null) return null;
+
+        ModConfig config = CobbleAid.getInstance().getConfig();
+
+        if (!config.modDisabled && config.showEggPreview && NeoDaycareEgg.isNeoDaycareEgg(pokemon)) {
+            return NeoDaycareEgg.createNeoDaycareEggData(pokemon).createDummyPokemon();
+        } else {
+            return pokemon;
+        }
     }
 }

@@ -20,7 +20,7 @@ public abstract class GuiMixin {
     @Final
     protected ItemStack lastToolHighlight;
 
-    // Cancel vanilla item name rendering
+    // Cancel poke rod name rendering and replace with bait info
     @Inject(method = "renderSelectedItemName", at = @At("HEAD"), cancellable = true)
     private void hideSelectedItemNameForPokeRod(GuiGraphics guiGraphics, CallbackInfo ci) {
         if (lastToolHighlight.getItem() instanceof PokerodItem) {
