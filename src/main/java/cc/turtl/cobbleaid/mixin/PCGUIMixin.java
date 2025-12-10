@@ -10,12 +10,12 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.gui.pc.PcSortUIHandler;
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCBookmarkButton;
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTab;
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTabButton;
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTabManager;
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTabStore;
+import cc.turtl.cobbleaid.feature.pc.PcSortUIHandler;
+import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
+import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
+import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
+import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
+import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
 import cc.turtl.cobbleaid.mixin.accessor.PCGUIAccessor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;

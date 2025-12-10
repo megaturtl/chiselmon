@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.gui.pc.tooltip;
+package cc.turtl.cobbleaid.feature.pc.tooltip;
 
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 

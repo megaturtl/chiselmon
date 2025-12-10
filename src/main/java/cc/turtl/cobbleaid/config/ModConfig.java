@@ -1,6 +1,6 @@
 package cc.turtl.cobbleaid.config;
 
-import cc.turtl.cobbleaid.feature.gui.pc.tab.PCTabStore;
+import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;

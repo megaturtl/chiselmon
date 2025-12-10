@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.gui.pc.tab;
+package cc.turtl.cobbleaid.feature.pc.tab;
 
 public class PCTab {
     public int boxNumber;

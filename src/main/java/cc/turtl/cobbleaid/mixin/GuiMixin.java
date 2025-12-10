@@ -2,7 +2,7 @@ package cc.turtl.cobbleaid.mixin;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
-import cc.turtl.cobbleaid.feature.gui.PokeRodBaitOverlay;
+import cc.turtl.cobbleaid.feature.PokeRodBaitOverlay;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;

@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.gui;
+package cc.turtl.cobbleaid.feature;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
