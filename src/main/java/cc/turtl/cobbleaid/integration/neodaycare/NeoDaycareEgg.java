@@ -21,17 +21,20 @@ public class NeoDaycareEgg {
     public static final String DUMMY_ASPECT = "neoDaycareEggDummy";
     
     private final int cycle;
-    private final Egg egg;
     private final int speciesCycles;
     private final int steps;
     private final int totalSteps;
+    private final Egg egg;
+    private final Pokemon originalPokemon;
 
-    private NeoDaycareEgg(CompoundTag tag) {
+    private NeoDaycareEgg(Pokemon pokemon) {
+        CompoundTag tag = pokemon.getPersistentData();
         this.cycle = tag.getInt("Cycle");
         this.speciesCycles = tag.getInt("SpeciesCycles");
         this.steps = tag.getInt("Steps");
         this.totalSteps = tag.getInt("TotalSteps");
         this.egg = new Egg(parseEggTag(tag.getString("Egg")));
+        this.originalPokemon = pokemon;
     }
 
     private static CompoundTag parseEggTag(String eggString) {
@@ -54,7 +57,7 @@ public class NeoDaycareEgg {
         if (!isEgg(pokemon)) {
             throw new IllegalArgumentException("Pokemon is not a NeoDaycare egg");
         }
-        return new NeoDaycareEgg(pokemon.getPersistentData());
+        return new NeoDaycareEgg(pokemon);
     }
 
     public static Pokemon getDummyOrOriginal(Pokemon pokemon) {
@@ -64,7 +67,7 @@ public class NeoDaycareEgg {
         if (config.modDisabled || !config.showEggPreview || !isEgg(pokemon)) {
             return pokemon;
         }
-        return from(pokemon).createPreview();
+        return from(pokemon).createDummy();
     }
 
     public float getHatchCompletion() {
@@ -80,12 +83,16 @@ public class NeoDaycareEgg {
         return totalSteps - completedSteps;
     }
 
-    public NeoDaycareDummyPokemon createPreview() {
+    public NeoDaycareDummyPokemon createDummy() {
         return new NeoDaycareDummyPokemon(this);
     }
 
     public Egg getEgg() {
         return egg;
+    }
+
+    public Pokemon getOriginalPokemon() {
+        return originalPokemon;
     }
 
     public static class Egg {

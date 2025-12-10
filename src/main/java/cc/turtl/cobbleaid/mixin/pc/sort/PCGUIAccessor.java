@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.mixin.accessor;
+package cc.turtl.cobbleaid.mixin.pc.sort;
 
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget;

@@ -1,22 +1,16 @@
-package cc.turtl.cobbleaid.mixin;
+package cc.turtl.cobbleaid.mixin.pc.tab;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
-import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-import com.cobblemon.mod.common.net.messages.server.storage.pc.SortPCBoxPacket;
-import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.PcSortUIHandler;
 import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
-import cc.turtl.cobbleaid.mixin.accessor.PCGUIAccessor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -28,13 +22,12 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(PCGUI.class)
-public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.ButtonAdder {
+public abstract class PCGUIMixin extends Screen {
 
     @Shadow
     @Final
@@ -47,34 +40,9 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Shadow(remap = false)
     @Final
     public static int BASE_HEIGHT;
-    @Shadow
-    private boolean displayOptions;
-    @Shadow
-    private List<IconButton> optionButtons;
-
-    @Shadow(remap = false)
-    public Pokemon previewPokemon;
-
-    @Unique
-    private final PCGUIAccessor accessor = (PCGUIAccessor) (Object) this;
 
     protected PCGUIMixin(Component title) {
         super(title);
-    }
-
-    @Override
-    public void addRenderableWidget(IconButton button) {
-        super.addRenderableWidget(button);
-    }
-
-    @Override
-    public boolean isDisplayingOptions() {
-        return this.displayOptions;
-    }
-
-    @Override
-    public List<IconButton> getOptionButtons() {
-        return this.optionButtons;
     }
 
     @Unique
@@ -85,19 +53,10 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
 
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
-    private void cobbleaid$addCustomElements(CallbackInfo ci) {
+    private void cobbleaid$addTabElements(CallbackInfo ci) {
         if (config.modDisabled) {
             return;
         }
-        PcSortUIHandler.initializeSortButtons(
-                (PCGUI) (Object) this,
-                this.pc,
-                this.storageWidget,
-                this,
-                this.width,
-                this.height,
-                BASE_WIDTH,
-                BASE_HEIGHT);
 
         cobbleaid$rebuildTabButtons();
 
@@ -123,36 +82,6 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         int bookmarkY = guiTop + 13;
         PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
         this.addRenderableWidget(bookmarkButton);
-    }
-
-    // Intercept key presses to handle quick sort keybind
-    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
-            CallbackInfoReturnable<Boolean> cir) {
-        if (config.modDisabled || !config.quickSortEnabled) {
-            return;
-        }
-
-        // middle mouse click
-        if (button == 2) {
-            cobbleaid$executeQuickSort();
-            cir.setReturnValue(true);
-        }
-    }
-
-    @Unique
-    private void cobbleaid$executeQuickSort() {
-        PokemonSortMode sortMode = PokemonSortMode.POKEDEX_NUMBER;
-
-        if (this.storageWidget != null) {
-            this.storageWidget.resetSelected();
-        }
-
-        new SortPCBoxPacket(
-                this.pc.getUuid(),
-                this.storageWidget.getBox(),
-                sortMode,
-                hasShiftDown()).sendToServer();
     }
 
     @Unique

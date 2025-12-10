@@ -1,14 +1,11 @@
-package cc.turtl.cobbleaid.mixin;
+package cc.turtl.cobbleaid.mixin.pc.tooltip;
 
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.PcEggRenderer;
-import cc.turtl.cobbleaid.feature.pc.PcIconRenderer;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,19 +34,5 @@ public abstract class StorageSlotMixin {
         if (this.isHovered(mouseX, mouseY) && this.getPokemon() != null) {
             StorageSlotTooltipState.setHoveredSlot((StorageSlot) (Object) this, mouseX, mouseY);
         }
-    }
-
-    @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 1), remap = false)
-    private void cobbleaid$renderCustomFeatures(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
-        if (config.modDisabled) {
-            return;
-        }
-        Pokemon pokemon = getPokemon();
-
-        if (config.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {
-            PcEggRenderer.renderEggPreviewElements(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
-        }
-
-        PcIconRenderer.renderIconElements(context, pokemon, posX, posY);
     }
 }

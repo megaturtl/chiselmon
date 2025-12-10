@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.mixin;
+package cc.turtl.cobbleaid.mixin.pc.tooltip;
 
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;

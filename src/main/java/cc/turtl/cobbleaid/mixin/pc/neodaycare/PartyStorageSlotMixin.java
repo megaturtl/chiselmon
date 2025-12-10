@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.mixin.pc;
+package cc.turtl.cobbleaid.mixin.pc.neodaycare;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

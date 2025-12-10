@@ -2,8 +2,10 @@ package cc.turtl.cobbleaid.integration.neodaycare;
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+
 import cc.turtl.cobbleaid.api.util.IVsUtil;
 import net.minecraft.network.chat.Component;
+
 import java.util.Set;
 
 public class NeoDaycareDummyPokemon extends Pokemon {
@@ -44,5 +46,9 @@ public class NeoDaycareDummyPokemon extends Pokemon {
 
     public float getHatchCompletion() {
         return eggData.getHatchCompletion();
+    }
+
+    public Pokemon getOriginaPokemon() {
+        return eggData.getOriginalPokemon();
     }
 }

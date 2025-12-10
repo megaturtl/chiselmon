@@ -1,16 +1,12 @@
-package cc.turtl.cobbleaid.feature.pc;
+package cc.turtl.cobbleaid.feature.pc.neodaycare;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;
 import com.cobblemon.mod.common.entity.PoseType;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.Species;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,9 +28,9 @@ public final class PcEggRenderer {
     private static final int BAR_COLOR_BACKGROUND = 0xFF474747;
     private static final int BAR_COLOR = 0xFF009432;
 
-    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon previewPokemon, int posX, int posY) {
+    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon, int posX, int posY) {
 
-        renderProgressBar(context, previewPokemon.getHatchCompletion(), posX, posY);
+        renderProgressBar(context, dummyPokemon.getHatchCompletion(), posX, posY);
 
         final var matrices = context.pose();
         matrices.pushPose();
@@ -42,13 +38,9 @@ public final class PcEggRenderer {
         matrices.translate(posX + 20.0, posY + 8.0, 0.0);
         matrices.scale(MODEL_SCALE_FACTOR, MODEL_SCALE_FACTOR, 1F);
 
-        ResourceLocation eggSpeciesIdentifier = ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species");
-        Species eggSpecies = PokemonSpecies.getByIdentifier(eggSpeciesIdentifier);
-        Pokemon dummyEgg = eggSpecies.create(1);
-
-        // Draws an egg in the bottom right corner
+        // Draws the original egg in the bottom right corner
         PokemonGuiUtilsKt.drawProfilePokemon(
-                dummyEgg.asRenderablePokemon(), // 1. renderablePokemon
+                dummyPokemon.getOriginaPokemon().asRenderablePokemon(), // 1. renderablePokemon
                 matrices, // 2. matrixStack
                 QuaternionUtilsKt.fromEulerXYZDegrees(new Quaternionf(), new Vector3f(13F, 35F, 0F)), // 3. rotation
                 PoseType.PROFILE, // 4. poseType (default)

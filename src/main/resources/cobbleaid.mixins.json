@@ -3,16 +3,17 @@
     "package": "cc.turtl.cobbleaid.mixin",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "StorageSlotMixin",
-        "StorageWidgetMixin",
-        "PCGUIMixin",
-        "WallpaperEntryMixin",
-        "accessor.PCGUIAccessor",
+        "pc.StorageSlotMixin",
         "GuiMixin",
-
-        "pc.BoxStorageSlotMixin",
-        "pc.GrabbedStorageSlotMixin",
-        "pc.PartyStorageSlotMixin"
+        "pc.sort.PCGUIAccessor",
+        "pc.sort.PCGUIMixin",
+        "pc.tab.PCGUIMixin",
+        "pc.tooltip.StorageWidgetMixin",
+        "pc.tooltip.StorageSlotMixin",
+        "pc.neodaycare.BoxStorageSlotMixin",
+        "pc.neodaycare.GrabbedStorageSlotMixin",
+        "pc.neodaycare.PartyStorageSlotMixin",
+        "pc.wallpaper.WallpaperEntryMixin"
     ],
     "injectors": {
         "defaultRequire": 1
