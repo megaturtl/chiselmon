@@ -29,6 +29,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.IVsUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class NeoDaycareEgg {
@@ -146,6 +147,10 @@ public class NeoDaycareEgg {
         return (speciesResourceName.equals("neodaycare:egg_species"));
     }
 
+    public static boolean isNeoDaycareEggDummy(Pokemon pokemon) {
+        return pokemon.getForcedAspects().contains("neoDaycareEggDummy");
+    }
+
     public static NeoDaycareEgg createNeoDaycareEggData(Pokemon pokemon) {
         if (!isNeoDaycareEgg(pokemon)) {
             throw new IllegalArgumentException("Tried to unpack a non NeoDaycare egg!");
@@ -170,7 +175,7 @@ public class NeoDaycareEgg {
 
     public Pokemon createDummyPokemon() {
         Pokemon dummy = new Pokemon();
-        dummy.setNickname(Component.literal("Egg (" + this.egg.species.getName() + ")"));
+        dummy.setNickname(Component.literal("(EGG) " + this.egg.species.getName()));
         dummy.setSpecies(this.egg.species);
         dummy.setLevel(this.egg.level);
         dummy.setGender(this.egg.gender);
@@ -181,6 +186,7 @@ public class NeoDaycareEgg {
         dummy.setAbility$common(this.egg.ability);
         dummy.setUuid(this.egg.uuid);
         dummy.setTradeable(this.egg.tradeable);
+        dummy.setForcedAspects(Set.of("neoDaycareEggDummy"));
 
         for (Stat stat : IVsUtil.IVS_LIST) {
             dummy.setIV(stat, this.egg.ivs.get(stat));
