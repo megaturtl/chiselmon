@@ -2,7 +2,7 @@ package cc.turtl.cobbleaid.feature.pc;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.property.PokemonProperties;
+import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -49,30 +49,30 @@ public class PcIconRenderer {
         int currentY = posY + START_Y;
 
         // 1. Hidden Ability Icon
-        if (config.showHiddenAbilityIcons && PokemonProperties.HAS_HIDDEN_ABILITY.matches(pokemon)) {
+        if (config.showHiddenAbilityIcons && PokemonPredicates.HAS_HIDDEN_ABILITY.test(pokemon)) {
             renderIcon(context, HIDDEN_ABILITY_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 2. High IVs Icon
-        if (config.showMaxIvsIcons && PokemonProperties.HAS_HIGH_IVS.matches(pokemon)) {
+        if (config.showMaxIvsIcons && PokemonPredicates.HAS_HIGH_IVS.test(pokemon)) {
             renderIcon(context, HIGH_IVS_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 3. Extreme Size Icon
-        if (config.showExtremeSizeIcons && PokemonProperties.IS_EXTREME_SIZE.matches(pokemon)) {
+        if (config.showExtremeSizeIcons && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             renderIcon(context, SIZE_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 4. Shiny Icon
-        if (config.showShinyIcons && PokemonProperties.IS_SHINY.matches(pokemon)) {
+        if (config.showShinyIcons && PokemonPredicates.IS_SHINY.test(pokemon)) {
             renderIcon(context, SHINY_ICON, posX + 1, currentY);
         }
 
         // 5. Rideable Icon
-        if (config.showRideableIcons && PokemonProperties.IS_RIDEABLE.matches(pokemon)) {
+        if (config.showRideableIcons && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
             renderIcon(context, RIDEABLE_ICON, posX + 1, currentY);
         }
     }

@@ -9,7 +9,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.api.PokemonTooltips;
 import cc.turtl.cobbleaid.api.formatter.SelfDamageFormatter;
-import cc.turtl.cobbleaid.api.property.MoveProperties;
+import cc.turtl.cobbleaid.api.predicate.MovePredicates;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +48,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         Player player = accessor.getPlayer();
 
         ItemStack mainHandItem = player.getMainHandItem();
-        List<MoveTemplate> selfDamagingMoves = MoveProperties.getSelfDamagingMoves(pokemon);
+        List<MoveTemplate> selfDamagingMoves = MovePredicates.getSelfDamagingMoves(pokemon);
 
         tooltip.clear();
         tooltip.add(PokemonTooltips.nameTooltip(pokemon));

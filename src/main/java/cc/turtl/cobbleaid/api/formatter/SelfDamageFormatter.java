@@ -6,7 +6,7 @@ import java.util.Set;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.property.MoveProperties;
+import cc.turtl.cobbleaid.api.predicate.MovePredicates;
 import cc.turtl.cobbleaid.api.util.CalcUtil;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,9 @@ public final class SelfDamageFormatter {
 
     public static Component format(Pokemon pokemon) {
         Set<MoveTemplate> possibleMoves = CalcUtil.getPossibleMoves(pokemon, true);
-        List<MoveTemplate> possibleSelfDamagingMoves = MoveProperties.IS_SELF_DAMAGING.filter(possibleMoves);
+        List<MoveTemplate> possibleSelfDamagingMoves = possibleMoves.stream()
+                .filter(MovePredicates.IS_SELF_DAMAGING)
+                .toList();
 
         MutableComponent result = Component.empty();
 
