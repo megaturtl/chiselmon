@@ -3,6 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.WorldDataManager;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
@@ -24,6 +25,8 @@ public class DebugCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal("debug")
                 .executes(DebugCommand::executeHelp)
+                .then(literal("test")
+                        .executes(DebugCommand::executeTest))
                 .then(literal("dump")
                         .then(argument("slot", IntegerArgumentType.integer(1, 6))
                                 .executes(DebugCommand::executeDump))
@@ -37,6 +40,16 @@ public class DebugCommand {
         context.getSource()
                 .sendFeedback(Component
                         .literal("§7/cobbleaid debug dump look §f- Dumps info about targeted pokemon entity."));
+        return 1;
+    }
+
+    private static int executeTest(CommandContext<FabricClientCommandSource> context) {
+        context.getSource().sendFeedback(Component.literal("Testing random things"));
+        context.getSource()
+                .sendFeedback(Component.literal("World ID:"));
+        context.getSource()
+                .sendFeedback(Component
+                        .literal(WorldDataManager.getWorldIdentifier()));
         return 1;
     }
 
@@ -98,7 +111,8 @@ public class DebugCommand {
 
                 source.sendFeedback(Component.literal("--- Dumping Targeted POKEMON Object ---")
                         .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FF55))));
-                source.sendFeedback(Component.literal("Moves: " + pokemonEntity.getPokemon().getMoveSet().getMoves().stream().map(m -> m.getTemplate().getName()).toList()));
+                source.sendFeedback(Component.literal("Moves: " + pokemonEntity.getPokemon().getMoveSet().getMoves()
+                        .stream().map(m -> m.getTemplate().getName()).toList()));
                 ObjectDumper.logObjectFields(LOGGER, pokemon);
                 source.sendFeedback(Component.literal("§eFull object dump sent to console/log."));
                 return 1;

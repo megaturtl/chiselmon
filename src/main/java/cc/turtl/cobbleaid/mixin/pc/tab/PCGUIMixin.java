@@ -30,6 +30,10 @@ import java.util.List;
 @Mixin(PCGUI.class)
 public abstract class PCGUIMixin extends Screen {
 
+    protected PCGUIMixin(Component title) {
+        super(title);
+    }
+
     @Shadow
     @Final
     public ClientPC pc;
@@ -45,15 +49,16 @@ public abstract class PCGUIMixin extends Screen {
     @Unique
     private PCBookmarkButton cobbleaid$bookmarkButton;
 
-    protected PCGUIMixin(Component title) {
-        super(title);
-    }
-
     @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
     final CobbleAid INSTANCE = CobbleAid.getInstance();
-    ModConfig config = INSTANCE.getConfig();
+    ModConfig config = CobbleAid.getInstance().getConfig();
+
+    @Unique
+    private PCTabStore cobbleaid$getTabStore() {
+        return INSTANCE.getWorldData().getPcTabStore();
+    }
 
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
@@ -65,7 +70,7 @@ public abstract class PCGUIMixin extends Screen {
         cobbleaid$rebuildTabButtons();
 
         Button.OnPress bookmarkToggle = (button) -> {
-            PCTabStore tabStore = config.tabStore;
+            PCTabStore tabStore = cobbleaid$getTabStore();
             int currentBoxNumber = storageWidget.getBox();
             if (tabStore.hasBoxNumber(currentBoxNumber)) {
                 tabStore.removeTab(currentBoxNumber);
@@ -95,8 +100,9 @@ public abstract class PCGUIMixin extends Screen {
         if (config.modDisabled || this.cobbleaid$bookmarkButton == null) {
             return;
         }
+        PCTabStore tabStore = cobbleaid$getTabStore();
 
-        boolean isCurrentBoxBookmarked = config.tabStore.hasBoxNumber(storageWidget.getBox());
+        boolean isCurrentBoxBookmarked = tabStore.hasBoxNumber(storageWidget.getBox());
         this.cobbleaid$bookmarkButton.setToggled(isCurrentBoxBookmarked);
     }
 
@@ -109,7 +115,7 @@ public abstract class PCGUIMixin extends Screen {
         this.cobbleaid$tabButtons.clear();
 
         // 2. Re-calculate positions and create new buttons
-        PCTabStore tabStore = config.tabStore;
+        PCTabStore tabStore = cobbleaid$getTabStore();
         List<PCTab> tabs = tabStore.getTabs();
 
         int guiLeft = (this.width - BASE_WIDTH) / 2;

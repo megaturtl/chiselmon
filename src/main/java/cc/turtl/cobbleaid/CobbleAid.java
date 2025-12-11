@@ -12,30 +12,32 @@ import net.minecraft.world.InteractionResult;
 public class CobbleAid implements ClientModInitializer {
     public static final String MODID = "cobbleaid";
     public static final String VERSION = "1.0.1";
-    
+
     private static final CobbleAidLogger LOGGER = new CobbleAidLogger(MODID);
 
-    private static CobbleAid instance;
-    
+    private static CobbleAid INSTANCE;
+
     private ConfigHolder<ModConfig> configHolder;
     private ModConfig config;
+    private WorldDataManager worldManager;
 
     public CobbleAid() {
     }
 
     @Override
     public void onInitializeClient() {
-        instance = this;
-        
+        INSTANCE = this;
+
         preInitialize();
         initialize();
-        
+
         LOGGER.info("Cobble Aid " + VERSION + " initialized.");
     }
 
     private void preInitialize() {
         loadConfig();
-        
+        initializeWorldManager();
+
         LOGGER.debug("Pre-initialization complete.");
     }
 
@@ -56,9 +58,16 @@ public class CobbleAid implements ClientModInitializer {
     private void loadConfig() {
         this.configHolder = AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         configHolder.registerSaveListener(this::onConfigSave);
-        
+
         this.config = configHolder.getConfig();
         LOGGER.setDebugMode(config.debugMode);
+    }
+
+    private void initializeWorldManager() {
+        // Pass the persistent map from the loaded config to the WorldManager
+        // constructor.
+        this.worldManager = new WorldDataManager(this.config.worldDataMap);
+        LOGGER.debug("WorldManager initialized with persistent data.");
     }
 
     private InteractionResult onConfigSave(ConfigHolder<ModConfig> manager, ModConfig data) {
@@ -79,10 +88,10 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     public static CobbleAid getInstance() {
-        if (instance == null) {
+        if (INSTANCE == null) {
             throw new IllegalStateException("Cobble Aid has not been initialized yet!");
         }
-        return instance;
+        return INSTANCE;
     }
 
     public static CobbleAidLogger getLogger() {
@@ -95,5 +104,9 @@ public class CobbleAid implements ClientModInitializer {
 
     public ModConfig getConfig() {
         return config;
+    }
+
+    public WorldDataStore getWorldData() {
+        return worldManager.getOrCreateStore();
     }
 }

@@ -1,6 +1,9 @@
 package cc.turtl.cobbleaid.config;
 
-import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import cc.turtl.cobbleaid.WorldDataStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -67,7 +70,7 @@ public class ModConfig implements ConfigData {
 
     // Hidden data stores!! Cannot be directly accessed in the config menu by the player
     @ConfigEntry.Gui.Excluded
-    public PCTabStore tabStore = new PCTabStore(23);
+    public Map<String, WorldDataStore> worldDataMap = new ConcurrentHashMap<>();
 
     // custom validation to run on save and load
     public ModConfig validate_fields() {
