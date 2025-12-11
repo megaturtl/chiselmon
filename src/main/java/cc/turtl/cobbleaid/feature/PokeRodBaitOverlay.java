@@ -2,9 +2,7 @@ package cc.turtl.cobbleaid.feature;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
-import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
-import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,10 +12,6 @@ import net.minecraft.world.item.ItemStack;
 public class PokeRodBaitOverlay {
 
     public static void renderPokeRodOverlay(GuiGraphics guiGraphics) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
-        if (!config.showPokeRodBaitAboveHotbar)
-            return;
-
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 

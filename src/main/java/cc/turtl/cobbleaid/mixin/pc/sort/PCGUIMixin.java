@@ -1,6 +1,5 @@
 package cc.turtl.cobbleaid.mixin.pc.sort;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -103,7 +102,6 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
 
     @Unique
     private void cobbleaid$executeQuickSort() {
-        PokemonSortMode sortMode = PokemonSortMode.POKEDEX_NUMBER;
 
         if (this.storageWidget != null) {
             this.storageWidget.resetSelected();
@@ -112,7 +110,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         new SortPCBoxPacket(
                 this.pc.getUuid(),
                 this.storageWidget.getBox(),
-                sortMode,
+                config.quickSortMode,
                 hasShiftDown()).sendToServer();
     }
 }

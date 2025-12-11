@@ -83,9 +83,9 @@ public class PokemonProvider implements IEntityComponentProvider {
 
         if (config.get(POKEMON_ENTITY_WARNING_ID)) {
             if (PokemonPredicates.HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
-                tooltip.add(Component.literal("Careful! Learns: ")
+                tooltip.add(Component.literal("⚠ ")
                         .withColor(ColorUtil.RED));
-                tooltip.add(PokemonFormatters.selfDamagingMoves(pokemon));
+                tooltip.append(PokemonFormatters.selfDamagingMoves(pokemon));
             }
         }
     }

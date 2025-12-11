@@ -43,7 +43,7 @@ public class PCTabManager {
             if (boxNameString == null)
                 boxName.append(Component.translatable("cobblemon.ui.pc.box.title", targetBoxNumber + 1));
             else {
-                boxName.append(Component.literal(boxNameString.getString(9)));
+                boxName.append(Component.literal(boxNameString.getString(8)));
             }
             boxName.setStyle(boxName.getStyle().withFont(CobblemonResources.INSTANCE.getDEFAULT_LARGE()))
                     .withStyle(ChatFormatting.BOLD);

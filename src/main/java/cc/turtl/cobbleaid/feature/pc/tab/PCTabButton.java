@@ -58,7 +58,7 @@ public class PCTabButton extends Button implements CobblemonRenderable {
                 ColorUtil.WHITE,
                 centerX,
                 centerY,
-                BUTTON_WIDTH - 4,
+                BUTTON_WIDTH - 6,
                 BUTTON_HEIGHT - 2);
     }
 

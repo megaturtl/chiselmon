@@ -4,12 +4,18 @@
     "text.autoconfig.cobbleaid.category.pc": "PC Settings",
     "text.autoconfig.cobbleaid.category.misc": "Misc Settings",
     "text.autoconfig.cobbleaid.category.threshold": "Customise Thresholds",
+
     "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
     "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
     "text.autoconfig.cobbleaid.option.debugMode": "Debug Mode",
     "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console.",
+
     "text.autoconfig.cobbleaid.option.quickSortEnabled": "Enable Quick Sort",
     "text.autoconfig.cobbleaid.option.quickSortEnabled.@Tooltip": "Sorts the current PC box on middle mouse click.",
+    "text.autoconfig.cobbleaid.option.quickSortMode": "Quick Sort Mode",
+    "text.autoconfig.cobbleaid.option.quickSortMode.@Tooltip": "What sort mode to use for quick sort.",
+    "text.autoconfig.cobbleaid.option.bookmarksEnabled": "Enable Bookmarks",
+    "text.autoconfig.cobbleaid.option.bookmarksEnabled.@Tooltip": "Allows bookmarking up to 5 PC boxes.",
     "text.autoconfig.cobbleaid.option.extremeSmallThreshold": "Extreme Small Threshold",
     "text.autoconfig.cobbleaid.option.extremeSmallThreshold.@Tooltip": "Size at which pokemon are treated as extremely small.",
     "text.autoconfig.cobbleaid.option.extremeLargeThreshold": "Extreme Large Threshold",
@@ -32,6 +38,7 @@
     "text.autoconfig.cobbleaid.option.showTooltips.@Tooltip": "Shows basic info about hovered pokemon in the PC.",
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift": "Detailed PC Tooltips on Shift",
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift.@Tooltip": "Shows a more detailed tooltip while hovering if shift is held.",
+
     "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar": "Show Poke Rod Bait Overlay",
     "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar.@Tooltip": "Shows current bait info above the hotbar when a Poke Rod is held.",
 

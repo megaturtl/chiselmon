@@ -2,7 +2,6 @@ High priority:
 - HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command?)
 - Command/ ui button etc to switch 2 boxes
 - Move all button that moves all mons to current box (and moves the first 6 to your party if possible)
-- per server config (or at least box storage)
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)

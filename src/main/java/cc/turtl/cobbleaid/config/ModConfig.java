@@ -3,6 +3,8 @@ package cc.turtl.cobbleaid.config;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
+
 import cc.turtl.cobbleaid.WorldDataStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
@@ -18,7 +20,24 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
-    public boolean quickSortEnabled = true;
+    public boolean quickSortEnabled = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.DROPDOWN)
+    public PokemonSortMode quickSortMode = PokemonSortMode.POKEDEX_NUMBER;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean bookmarksEnabled = true;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showTooltips = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("pc")
+    public boolean showDetailedTooltipOnShift = false;
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
@@ -34,7 +53,7 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
-    public boolean showExtremeSizeIcons = false;
+    public boolean showExtremeSizeIcons = true;
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
@@ -43,14 +62,6 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("pc")
     public boolean showEggPreview = false;
-
-    @ConfigEntry.Gui.Tooltip
-    @ConfigEntry.Category("pc")
-    public boolean showTooltips = false;
-
-    @ConfigEntry.Gui.Tooltip
-    @ConfigEntry.Category("pc")
-    public boolean showDetailedTooltipOnShift = false;
 
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Category("misc")

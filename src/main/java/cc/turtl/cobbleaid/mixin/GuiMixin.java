@@ -2,6 +2,8 @@ package cc.turtl.cobbleaid.mixin;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
+import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.PokeRodBaitOverlay;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,7 +25,10 @@ public abstract class GuiMixin {
     // Cancel poke rod name rendering and replace with bait info
     @Inject(method = "renderSelectedItemName", at = @At("HEAD"), cancellable = true)
     private void hideSelectedItemNameForPokeRod(GuiGraphics guiGraphics, CallbackInfo ci) {
-        if (lastToolHighlight.getItem() instanceof PokerodItem) {
+        ModConfig config = CobbleAid.getInstance().getConfig();
+
+        if (!config.modDisabled && config.showPokeRodBaitAboveHotbar
+                && lastToolHighlight.getItem() instanceof PokerodItem) {
             PokeRodBaitOverlay.renderPokeRodOverlay(guiGraphics);
             ci.cancel();
         }
