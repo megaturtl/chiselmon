@@ -1,7 +1,8 @@
-package cc.turtl.cobbleaid.api.component;
+package cc.turtl.cobbleaid.api.formatter;
 
 import com.cobblemon.mod.common.api.types.ElementalType;
 
+import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -9,8 +10,8 @@ public final class TypingFormatter {
     private TypingFormatter() {
     }
 
-    private static final Component UNKNOWN = Component.literal("???").withColor(ComponentColor.DARK_GRAY);
-    private static final Component SEPARATOR = Component.literal(" / ").withColor(ComponentColor.LIGHT_GRAY);
+    private static final Component UNKNOWN = Component.literal("???").withColor(ColorUtil.DARK_GRAY);
+    private static final Component SEPARATOR = Component.literal(" / ").withColor(ColorUtil.LIGHT_GRAY);
 
     public static Component format(ElementalType type) {
         if (type == null)

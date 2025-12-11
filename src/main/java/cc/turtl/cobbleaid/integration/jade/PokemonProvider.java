@@ -7,10 +7,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.PokemonTooltip;
-import cc.turtl.cobbleaid.api.component.ComponentColor;
-import cc.turtl.cobbleaid.api.component.SelfDamageFormatter;
-import cc.turtl.cobbleaid.api.filter.SelfDamageHelper;
+import cc.turtl.cobbleaid.api.PokemonTooltips;
+import cc.turtl.cobbleaid.api.formatter.SelfDamageFormatter;
+import cc.turtl.cobbleaid.api.property.MoveProperties;
+import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -48,24 +48,24 @@ public class PokemonProvider implements IEntityComponentProvider {
         Player player = accessor.getPlayer();
 
         ItemStack mainHandItem = player.getMainHandItem();
-        List<MoveTemplate> selfDamagingMoves = SelfDamageHelper.getSelfDamagingMoves(pokemon);
+        List<MoveTemplate> selfDamagingMoves = MoveProperties.getSelfDamagingMoves(pokemon);
 
         tooltip.clear();
-        tooltip.add(PokemonTooltip.nameTooltip(pokemon));
+        tooltip.add(PokemonTooltips.nameTooltip(pokemon));
         tooltip.add(new HealthElement(pokemonEntity.getMaxHealth(), pokemonEntity.getHealth()));
-        tooltip.add(PokemonTooltip.typingTooltip(pokemon));
-        tooltip.add(PokemonTooltip.eggGroupTooltip(pokemon));
-        tooltip.add(PokemonTooltip.eVYieldTooltip(pokemon));
+        tooltip.add(PokemonTooltips.typingTooltip(pokemon));
+        tooltip.add(PokemonTooltips.eggGroupTooltip(pokemon));
+        tooltip.add(PokemonTooltips.eVYieldTooltip(pokemon));
 
         if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
-            tooltip.add(PokemonTooltip.catchChanceTooltip(pokemonEntity, pokeBallItem.getPokeBall()));
+            tooltip.add(PokemonTooltips.catchChanceTooltip(pokemonEntity, pokeBallItem.getPokeBall()));
         } else {
-            tooltip.add(PokemonTooltip.labeledTooltip("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
+            tooltip.add(PokemonTooltips.labeledTooltip("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
         }
 
         if (!selfDamagingMoves.isEmpty()) {
             tooltip.add(Component.literal("Careful! Learns: ")
-                    .withColor(ComponentColor.RED));
+                    .withColor(ColorUtil.RED));
             tooltip.add(SelfDamageFormatter.format(pokemon));
         }
     }

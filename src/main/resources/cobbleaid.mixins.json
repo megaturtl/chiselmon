@@ -3,9 +3,8 @@
     "package": "cc.turtl.cobbleaid.mixin",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "pc.StorageSlotMixin",
         "GuiMixin",
-        "pc.sort.PCGUIAccessor",
+        "pc.StorageSlotMixin",
         "pc.sort.PCGUIMixin",
         "pc.tab.PCGUIMixin",
         "pc.tooltip.StorageWidgetMixin",

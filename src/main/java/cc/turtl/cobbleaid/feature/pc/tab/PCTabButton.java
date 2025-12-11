@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
-import cc.turtl.cobbleaid.api.component.ComponentColor;
 import cc.turtl.cobbleaid.api.render.TextRenderUtil;
+import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -55,7 +55,7 @@ public class PCTabButton extends Button implements CobblemonRenderable {
         TextRenderUtil.renderScaledCenteredText(
                 context,
                 this.getMessage(),
-                ComponentColor.WHITE,
+                ColorUtil.WHITE,
                 centerX,
                 centerY,
                 BUTTON_WIDTH - 4,

@@ -6,7 +6,8 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPacket;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import cc.turtl.cobbleaid.api.filter.PokemonComparators;
+
+import cc.turtl.cobbleaid.api.comparator.PokemonComparators;
 
 import java.util.Comparator;
 import java.util.HashMap;

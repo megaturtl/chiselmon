@@ -98,6 +98,7 @@ public class DebugCommand {
 
                 source.sendFeedback(Component.literal("--- Dumping Targeted POKEMON Object ---")
                         .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FF55))));
+                source.sendFeedback(Component.literal("Moves: " + pokemonEntity.getPokemon().getMoveSet().getMoves().stream().map(m -> m.getTemplate().getName()).toList()));
                 ObjectDumper.logObjectFields(LOGGER, pokemon);
                 source.sendFeedback(Component.literal("§eFull object dump sent to console/log."));
                 return 1;

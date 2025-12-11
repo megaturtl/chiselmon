@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.component.IVsFormatter;
+import cc.turtl.cobbleaid.api.formatter.IVsFormatter;
 import cc.turtl.cobbleaid.api.util.StringUtil;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;

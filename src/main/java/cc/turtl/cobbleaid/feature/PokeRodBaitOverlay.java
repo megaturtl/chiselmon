@@ -3,7 +3,6 @@ package cc.turtl.cobbleaid.feature;
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.component.ComponentColor;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.Minecraft;
@@ -37,7 +36,7 @@ public class PokeRodBaitOverlay {
 
         // If there's no bait, optionally show "No Bait" or return
         if (baitStack.isEmpty()) {
-            renderBaitText(guiGraphics, minecraft, "No Bait!", 0, ComponentColor.RED);
+            renderBaitText(guiGraphics, minecraft, "No Bait!", 0, ColorUtil.RED);
             return;
         }
 

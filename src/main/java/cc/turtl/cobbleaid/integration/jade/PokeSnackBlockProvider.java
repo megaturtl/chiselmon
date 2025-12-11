@@ -10,8 +10,8 @@ import com.cobblemon.mod.common.client.tooltips.SeasoningTooltipHelperKt;
 import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
 
-import cc.turtl.cobbleaid.api.PokemonTooltip;
-import cc.turtl.cobbleaid.api.component.ComponentColor;
+import cc.turtl.cobbleaid.api.PokemonTooltips;
+import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -51,12 +51,12 @@ public class PokeSnackBlockProvider implements IBlockComponentProvider {
         int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
         int bitesRemaining = 9 - bites;
 
-        tooltip.add(PokemonTooltip.labeledTooltip("Bites Remaining: ", bitesRemaining));
+        tooltip.add(PokemonTooltips.labeledTooltip("Bites Remaining: ", bitesRemaining));
 
         IngredientComponent ingredientComponent = entity.getIngredientComponent();
         if (ingredientComponent == null) {
             tooltip.add(Component.literal("No Ingredients")
-                    .withColor(ComponentColor.RED));
+                    .withColor(ColorUtil.RED));
         } else {
             tooltip.add(helper.spacer(0, 0));
             boolean first = true;

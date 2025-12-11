@@ -47,9 +47,6 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Shadow(remap = false)
     public Pokemon previewPokemon;
 
-    @Unique
-    private final PCGUIAccessor accessor = (PCGUIAccessor) (Object) this;
-
     protected PCGUIMixin(Component title) {
         super(title);
     }

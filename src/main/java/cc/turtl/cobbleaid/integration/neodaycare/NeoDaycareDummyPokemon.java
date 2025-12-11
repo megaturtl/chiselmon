@@ -1,9 +1,9 @@
 package cc.turtl.cobbleaid.integration.neodaycare;
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
+import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.util.IVsUtil;
 import net.minecraft.network.chat.Component;
 
 import java.util.Set;
@@ -28,7 +28,7 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         setTradeable(egg.isTradeable());
         setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
 
-        for (Stat stat : IVsUtil.IVS_LIST) {
+        for (Stat stat : Stats.Companion.getPERMANENT()) {
             setIV(stat, egg.getIvs().get(stat));
         }
 

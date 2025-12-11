@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.PokemonTooltip;
+import cc.turtl.cobbleaid.api.PokemonTooltips;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
 import net.minecraft.client.Minecraft;
@@ -47,13 +47,13 @@ public class StorageWidgetMixin {
 
         List<Component> tooltip = new ArrayList<>();
 
-        tooltip.add(PokemonTooltip.nameTooltip(pokemon));
+        tooltip.add(PokemonTooltips.nameTooltip(pokemon));
         if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-            tooltip.add(PokemonTooltip.iVsTooltip(pokemon));
-            tooltip.add(PokemonTooltip.labeledTooltip("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(PokemonTooltip.labeledTooltip("Marks: ", pokemon.getMarks().size()));
-            tooltip.add(PokemonTooltip.labeledTooltip("Friendship: ", pokemon.getFriendship()));
-            tooltip.add(PokemonTooltip.labeledTooltip("Form: ", pokemon.getForm().getName()));
+            tooltip.add(PokemonTooltips.iVsTooltip(pokemon));
+            tooltip.add(PokemonTooltips.labeledTooltip("OT: ", pokemon.getOriginalTrainerName()));
+            tooltip.add(PokemonTooltips.labeledTooltip("Marks: ", pokemon.getMarks().size()));
+            tooltip.add(PokemonTooltips.labeledTooltip("Friendship: ", pokemon.getFriendship()));
+            tooltip.add(PokemonTooltips.labeledTooltip("Form: ", pokemon.getForm().getName()));
         }
 
         context.renderComponentTooltip(
