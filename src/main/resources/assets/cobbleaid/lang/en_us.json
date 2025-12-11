@@ -4,12 +4,10 @@
     "text.autoconfig.cobbleaid.category.pc": "PC Settings",
     "text.autoconfig.cobbleaid.category.misc": "Misc Settings",
     "text.autoconfig.cobbleaid.category.threshold": "Customise Thresholds",
-
     "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
     "text.autoconfig.cobbleaid.option.modDisabled.@Tooltip": "Disables all Cobble Aid features.",
     "text.autoconfig.cobbleaid.option.debugMode": "Debug Mode",
     "text.autoconfig.cobbleaid.option.debugMode.@Tooltip": "Whether to show detailed debug information in the console.",
-    
     "text.autoconfig.cobbleaid.option.quickSortEnabled": "Enable Quick Sort",
     "text.autoconfig.cobbleaid.option.quickSortEnabled.@Tooltip": "Sorts the current PC box on middle mouse click.",
     "text.autoconfig.cobbleaid.option.extremeSmallThreshold": "Extreme Small Threshold",
@@ -18,7 +16,6 @@
     "text.autoconfig.cobbleaid.option.extremeLargeThreshold.@Tooltip": "Size at which pokemon are treated as extremely large.",
     "text.autoconfig.cobbleaid.option.maxIvsThreshold": "Max IVs Threshold",
     "text.autoconfig.cobbleaid.option.maxIvsThreshold.@Tooltip": "# Max IVs (including hypertraining) at which Pokemon are treated as high IV. Currently this shows the bottlecap icon in PC.",
-
     "text.autoconfig.cobbleaid.option.showHiddenAbilityIcons": "Show Hidden Ability Icons",
     "text.autoconfig.cobbleaid.option.showHiddenAbilityIcons.@Tooltip": "Shows an ability patch icon next to pokemon with their HA.",
     "text.autoconfig.cobbleaid.option.showMaxIvsIcons": "Show High IVs Icons",
@@ -29,14 +26,12 @@
     "text.autoconfig.cobbleaid.option.showExtremeSizeIcons.@Tooltip": "Shows a mushroom icon next to extreme sized pokemon.",
     "text.autoconfig.cobbleaid.option.showRideableIcons": "Show Rideable Icons",
     "text.autoconfig.cobbleaid.option.showRideableIcons.@Tooltip": "Shows a saddle icon next to rideable pokemon.",
-
     "text.autoconfig.cobbleaid.option.showEggPreview": "Show Egg Preview",
     "text.autoconfig.cobbleaid.option.showEggPreview.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
     "text.autoconfig.cobbleaid.option.showTooltips": "Show PC Tooltips",
     "text.autoconfig.cobbleaid.option.showTooltips.@Tooltip": "Shows basic info about hovered pokemon in the PC.",
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift": "Detailed PC Tooltips on Shift",
     "text.autoconfig.cobbleaid.option.showDetailedTooltipOnShift.@Tooltip": "Shows a more detailed tooltip while hovering if shift is held.",
-
     "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar": "Show Poke Rod Bait Overlay",
     "text.autoconfig.cobbleaid.option.showPokeRodBaitAboveHotbar.@Tooltip": "Shows current bait info above the hotbar when a Poke Rod is held.",
 
@@ -44,5 +39,14 @@
     "cobblemon.ui.sort.size": "Sort by Size",
 
     "config.jade.plugin_cobbleaid.pokemon_entity": "Pokemon Entity",
-    "config.jade.plugin_cobbleaid.pokesnack_block": "Poke Snack Block"
+    "config.jade.plugin_cobbleaid.pokemon_entity.typing": "Types",
+    "config.jade.plugin_cobbleaid.pokemon_entity.egg_groups": "Egg Groups",
+    "config.jade.plugin_cobbleaid.pokemon_entity.ev_yield": "EV Yield",
+    "config.jade.plugin_cobbleaid.pokemon_entity.catch_rate": "Catch Rate & Catch Chance",
+    "config.jade.plugin_cobbleaid.pokemon_entity.self_damage_warning": "Self-Damaging Move Warning",
+
+    "config.jade.plugin_cobbleaid.pokesnack_block": "Poke Snack Block",
+    "config.jade.plugin_cobbleaid.pokesnack_block.bites_remaining": "Bites Remaining",
+    "config.jade.plugin_cobbleaid.pokesnack_block.ingredients": "Ingredients",
+    "config.jade.plugin_cobbleaid.pokesnack_block.effects": "Bait Effects"
 }

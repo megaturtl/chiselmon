@@ -5,7 +5,8 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.PokemonTooltips;
+import cc.turtl.cobbleaid.api.format.FormatUtil;
+import cc.turtl.cobbleaid.api.format.PokemonFormatters;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(StorageWidget.class)
+// needs to run after morecobblemontweaks multiselect mixin
+@Mixin(value = StorageWidget.class, priority = 2000)
 public class StorageWidgetMixin {
 
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
@@ -47,13 +49,13 @@ public class StorageWidgetMixin {
 
         List<Component> tooltip = new ArrayList<>();
 
-        tooltip.add(PokemonTooltips.nameTooltip(pokemon));
+        tooltip.add(PokemonFormatters.detailedPokemonName(pokemon));
         if (config.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-            tooltip.add(PokemonTooltips.iVsTooltip(pokemon));
-            tooltip.add(PokemonTooltips.labeledTooltip("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(PokemonTooltips.labeledTooltip("Marks: ", pokemon.getMarks().size()));
-            tooltip.add(PokemonTooltips.labeledTooltip("Friendship: ", pokemon.getFriendship()));
-            tooltip.add(PokemonTooltips.labeledTooltip("Form: ", pokemon.getForm().getName()));
+            tooltip.add(FormatUtil.labelledValue("IVs: ", PokemonFormatters.hypertrainedIVs(pokemon)));
+            tooltip.add(FormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
+            tooltip.add(FormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));
+            tooltip.add(FormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
+            tooltip.add(FormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
         }
 
         context.renderComponentTooltip(

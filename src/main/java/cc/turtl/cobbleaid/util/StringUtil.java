@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.api.util;
+package cc.turtl.cobbleaid.util;
 
 public class StringUtil {
     public static String formatPercentage(double fraction) {

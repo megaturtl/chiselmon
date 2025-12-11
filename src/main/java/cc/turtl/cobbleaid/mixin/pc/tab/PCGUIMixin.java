@@ -11,6 +11,7 @@ import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -40,6 +41,9 @@ public abstract class PCGUIMixin extends Screen {
     @Shadow(remap = false)
     @Final
     public static int BASE_HEIGHT;
+
+    @Unique
+    private PCBookmarkButton cobbleaid$bookmarkButton;
 
     protected PCGUIMixin(Component title) {
         super(title);
@@ -81,7 +85,19 @@ public abstract class PCGUIMixin extends Screen {
         int bookmarkX = guiLeft + 239;
         int bookmarkY = guiTop + 13;
         PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
+        this.cobbleaid$bookmarkButton = bookmarkButton;
         this.addRenderableWidget(bookmarkButton);
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void cobbleaid$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
+            CallbackInfo ci) {
+        if (config.modDisabled || this.cobbleaid$bookmarkButton == null) {
+            return;
+        }
+
+        boolean isCurrentBoxBookmarked = config.tabStore.hasBoxNumber(storageWidget.getBox());
+        this.cobbleaid$bookmarkButton.setToggled(isCurrentBoxBookmarked);
     }
 
     @Unique

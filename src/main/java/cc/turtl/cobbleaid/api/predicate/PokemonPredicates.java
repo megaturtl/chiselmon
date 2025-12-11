@@ -1,7 +1,10 @@
 package cc.turtl.cobbleaid.api.predicate;
 
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
+import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
@@ -48,4 +51,13 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 
     public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !pokemon.getRiding().getSeats().isEmpty();
+
+    public static final Predicate<Pokemon> HAS_SELF_DAMAGING_MOVE = pokemon -> {
+        Set<MoveTemplate> possibleMoves = CalcUtil.getPossibleMoves(pokemon, true);
+        List<MoveTemplate> possibleSelfDamagingMoves = possibleMoves.stream()
+                .filter(MovePredicates.IS_SELF_DAMAGING)
+                .toList();
+
+        return !possibleSelfDamagingMoves.isEmpty();
+    };
 }

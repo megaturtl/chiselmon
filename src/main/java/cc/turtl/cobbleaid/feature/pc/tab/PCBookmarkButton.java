@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -23,15 +24,29 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
-    private static final int HOVERED_Y_OFFSET = BUTTON_HEIGHT;
+    private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.literal("Remove Bookmark"));
+    private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.literal("Add Bookmark"));
+
+    public boolean toggled = false;
 
     public PCBookmarkButton(int x, int y, OnPress onPress) {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
+        this.setTooltip(Tooltip.create(Component.literal("Add Bookmark")));
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics context, int pMouseX, int pMouseY, float pPartialTicks) {
-        int textureYOffset = this.isHovered() ? HOVERED_Y_OFFSET : 0;
+
+        if (this.isToggled()) {
+            this.setTooltip(TOOLTIP_ON);
+        } else {
+            this.setTooltip(TOOLTIP_OFF);
+        }
+
+        // invert the offset if toggled
+        int textureYOffset = this.isToggled()
+                ? (this.isHovered() ? 0 : BUTTON_HEIGHT)
+                : (this.isHovered() ? BUTTON_HEIGHT : 0);
 
         context.blit(
                 SPRITE,
@@ -48,5 +63,17 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
         soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
+    }
+
+    public boolean isToggled() {
+        return this.toggled;
+    }
+
+    public void toggle() {
+        this.toggled = !this.toggled;
+    }
+
+    public void setToggled(boolean toggled) {
+        this.toggled = toggled;
     }
 }
