@@ -21,10 +21,11 @@ public class ConfigCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§d=== Config Commands ==="));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config enable"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config disable"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config status"));
+        FabricClientCommandSource source = context.getSource();
+        CommandFeedbackHelper.sendHeader(source, "Config Commands");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config enable");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config disable");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config status");
         return 1;
     }
 
@@ -33,7 +34,7 @@ public class ConfigCommand {
         config.modDisabled = false;
         CobbleAid.getInstance().saveConfig();
 
-        context.getSource().sendFeedback(Component.literal("§aCobble Aid has been enabled!"));
+        CommandFeedbackHelper.sendSuccess(context.getSource(), "Cobble Aid has been enabled!");
         return 1;
     }
 
