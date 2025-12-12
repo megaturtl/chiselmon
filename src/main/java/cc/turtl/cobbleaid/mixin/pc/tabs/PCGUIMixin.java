@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.mixin.pc.tab;
+package cc.turtl.cobbleaid.mixin.pc.tabs;
 
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -6,11 +6,11 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
-import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
-import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
-import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
-import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
+import cc.turtl.cobbleaid.feature.pc.tabs.PCBookmarkButton;
+import cc.turtl.cobbleaid.feature.pc.tabs.PCTab;
+import cc.turtl.cobbleaid.feature.pc.tabs.PCTabButton;
+import cc.turtl.cobbleaid.feature.pc.tabs.PCTabManager;
+import cc.turtl.cobbleaid.feature.pc.tabs.PCTabStore;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;

@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.pc.neodaycare;
+package cc.turtl.cobbleaid.feature.pc.eggs;
 
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;

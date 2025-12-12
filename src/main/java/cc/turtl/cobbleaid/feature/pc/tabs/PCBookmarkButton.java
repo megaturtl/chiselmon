@@ -1,42 +1,52 @@
-package cc.turtl.cobbleaid.feature.pc.tab;
+package cc.turtl.cobbleaid.feature.pc.tabs;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
-import cc.turtl.cobbleaid.api.render.TextRenderUtil;
-import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class PCTabButton extends Button implements CobblemonRenderable {
+public class PCBookmarkButton extends Button implements CobblemonRenderable {
     private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath("cobbleaid",
-            "textures/gui/pc/pc_button_tab.png");
+            "textures/gui/pc/pc_button_bookmark.png");
 
-    private static final int TEXTURE_WIDTH = 35;
-    private static final int TEXTURE_HEIGHT = 20;
+    private static final int TEXTURE_WIDTH = 15;
+    private static final int TEXTURE_HEIGHT = 28;
 
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
-    private static final int HOVERED_Y_OFFSET = BUTTON_HEIGHT;
+    private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.literal("Remove Bookmark"));
+    private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.literal("Add Bookmark"));
 
-    private final int forBox;
+    public boolean toggled = false;
 
-    public PCTabButton(int x, int y, int forBox, Component message, OnPress onPress) {
-        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, message, onPress, DEFAULT_NARRATION);
-        this.forBox = forBox;
+    public PCBookmarkButton(int x, int y, OnPress onPress) {
+        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
+        this.setTooltip(Tooltip.create(Component.literal("Add Bookmark")));
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics context, int pMouseX, int pMouseY, float pPartialTicks) {
-        int textureYOffset = this.isHovered() ? HOVERED_Y_OFFSET : 0;
+
+        if (this.isToggled()) {
+            this.setTooltip(TOOLTIP_ON);
+        } else {
+            this.setTooltip(TOOLTIP_OFF);
+        }
+
+        // invert the offset if toggled
+        int textureYOffset = this.isToggled()
+                ? (this.isHovered() ? 0 : BUTTON_HEIGHT)
+                : (this.isHovered() ? BUTTON_HEIGHT : 0);
 
         context.blit(
                 SPRITE,
@@ -48,18 +58,6 @@ public class PCTabButton extends Button implements CobblemonRenderable {
                 BUTTON_HEIGHT,
                 TEXTURE_WIDTH,
                 TEXTURE_HEIGHT);
-
-        int centerX = this.getX() + BUTTON_WIDTH / 2;
-        int centerY = this.getY() + BUTTON_HEIGHT / 2;
-
-        TextRenderUtil.renderScaledCenteredText(
-                context,
-                this.getMessage(),
-                ColorUtil.WHITE,
-                centerX,
-                centerY,
-                BUTTON_WIDTH - 6,
-                BUTTON_HEIGHT - 2);
     }
 
     @Override
@@ -67,7 +65,15 @@ public class PCTabButton extends Button implements CobblemonRenderable {
         soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
     }
 
-    public int getBox() {
-        return this.forBox;
+    public boolean isToggled() {
+        return this.toggled;
+    }
+
+    public void toggle() {
+        this.toggled = !this.toggled;
+    }
+
+    public void setToggled(boolean toggled) {
+        this.toggled = toggled;
     }
 }

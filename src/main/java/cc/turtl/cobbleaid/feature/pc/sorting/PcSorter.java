@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.pc.sort;
+package cc.turtl.cobbleaid.feature.pc.sorting;
 
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;

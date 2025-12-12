@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.pc;
+package cc.turtl.cobbleaid.feature.pc.icons;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;

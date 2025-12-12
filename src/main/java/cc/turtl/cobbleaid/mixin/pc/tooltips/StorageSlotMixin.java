@@ -1,11 +1,11 @@
-package cc.turtl.cobbleaid.mixin.pc.tooltip;
+package cc.turtl.cobbleaid.mixin.pc.tooltips;
 
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
+import cc.turtl.cobbleaid.feature.pc.tooltips.StorageSlotTooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;

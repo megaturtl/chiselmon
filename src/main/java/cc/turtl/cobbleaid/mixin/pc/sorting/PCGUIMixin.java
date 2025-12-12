@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.mixin.pc.sort;
+package cc.turtl.cobbleaid.mixin.pc.sorting;
 
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
@@ -9,7 +9,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.sort.PcSortUIHandler;
+import cc.turtl.cobbleaid.feature.pc.sorting.PcSortUIHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 

@@ -5,8 +5,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.PcIconRenderer;
-import cc.turtl.cobbleaid.feature.pc.neodaycare.PcEggRenderer;
+import cc.turtl.cobbleaid.feature.pc.icons.PcIconRenderer;
+import cc.turtl.cobbleaid.feature.pc.eggs.PcEggRenderer;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
 
