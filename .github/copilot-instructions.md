@@ -8,7 +8,7 @@ Client-side Fabric mod for Minecraft 1.21.1 + Cobblemon. Provides PC highlightin
 **Java 21 REQUIRED**:
 ```bash
 export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-chmod +x ./gradlew  # Always needed first
+chmod +x ./gradlew  # Run once if permission denied
 ./gradlew build     # Takes 2-3 minutes
 ```
 
@@ -18,7 +18,7 @@ chmod +x ./gradlew  # Always needed first
 ## CI Workflow (.github/workflows/build.yml)
 Runs on: ubuntu-24.04, Java 21 (Microsoft dist)
 Steps: checkout → validate wrapper → setup JDK → `chmod +x gradlew` → `./gradlew build` → upload artifacts
-Output: `build/libs/cobbleaid-1.0.1+1.21.1.jar`
+Output: `build/libs/cobbleaid-<version>+<mc-version>.jar`
 
 ## Project Structure
 
@@ -69,7 +69,7 @@ resources/
 - Mappings: Official Mojang + Parchment 2024.07.28
 - Target: Java 21
 
-**gradle.properties**:
+**gradle.properties** (see file for current versions):
 - Minecraft 1.21.1, Fabric Loader 0.17.3, Fabric API 0.116.7+1.21.1
 - Cobblemon 1.7.1, Cloth Config 15.0.140, Mod Menu 11.0.3
 - Mod version: 1.0.1+1.21.1
@@ -163,7 +163,7 @@ ResourceLocation icon = ResourceLocation.fromNamespaceAndPath(
 
 **NO automated tests**. Manual validation required:
 1. Build: `./gradlew build`
-2. Check: `build/libs/cobbleaid-1.0.1+1.21.1.jar` exists
+2. Check: `build/libs/cobbleaid-*.jar` exists
 3. Install in MC 1.21.1 + Fabric + Cobblemon
 4. Test in-game
 
@@ -200,7 +200,7 @@ IVs.MAX_VALUE = 31
 - **CLIENT-SIDE ONLY** - No server code
 - **Java 21 required** - CI uses 21.0.2 (Microsoft)
 - **Trust these instructions** - Search only if incomplete/incorrect
-- **CI is truth** - Local SNAPSHOT issue OK if CI passes
+- **CI is authoritative** - Local SNAPSHOT issue OK if CI passes
 - **Mixin fragility** - Test thoroughly, breaks with Cobblemon updates
 - **Null safety** - Use `Comparator.nullsLast()`, check config nulls
 - **Z-index** - Use 99.0 for overlays to render on top
