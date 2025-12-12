@@ -11,7 +11,10 @@ import net.minecraft.world.item.ItemStack;
 
 public class PokeRodBaitOverlay {
 
-    public static void renderPokeRodOverlay(GuiGraphics guiGraphics) {
+    public PokeRodBaitOverlay() {
+    }
+
+    public void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 

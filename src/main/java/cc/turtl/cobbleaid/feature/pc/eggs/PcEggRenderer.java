@@ -16,7 +16,7 @@ import org.joml.Vector3f;
 
 public final class PcEggRenderer {
 
-    private PcEggRenderer() {
+    public PcEggRenderer() {
     }
 
     private static final float MODEL_SCALE_FACTOR = 3.5F;
@@ -28,7 +28,7 @@ public final class PcEggRenderer {
     private static final int BAR_COLOR_BACKGROUND = 0xFF474747;
     private static final int BAR_COLOR = 0xFF009432;
 
-    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon, int posX, int posY) {
+    public void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon, int posX, int posY) {
 
         renderProgressBar(context, dummyPokemon.getHatchCompletion(), posX, posY);
 

@@ -5,7 +5,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.tooltips.StorageSlotTooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * Mixin to track hovered slots for tooltip rendering.
+ * This mixin is kept minimal - it just tracks hover state.
+ */
 @Mixin(StorageSlot.class)
 public abstract class StorageSlotMixin {
     @Shadow
@@ -31,14 +34,10 @@ public abstract class StorageSlotMixin {
         if (config.modDisabled) {
             return;
         }
-        
-        // Use feature system to check if tooltips are enabled
-        if (!mod.getPcTooltipsFeature().isEnabled()) {
-            return;
-        }
 
         if (this.isHovered(mouseX, mouseY) && this.getPokemon() != null) {
-            StorageSlotTooltipState.setHoveredSlot((StorageSlot) (Object) this, mouseX, mouseY);
+            // Delegate to feature
+            mod.getPcTooltipsFeature().trackHoveredSlot((StorageSlot) (Object) this, mouseX, mouseY);
         }
     }
 }

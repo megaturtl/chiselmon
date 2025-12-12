@@ -5,8 +5,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.pc.icons.PcIconRenderer;
-import cc.turtl.cobbleaid.feature.pc.eggs.PcEggRenderer;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -16,6 +14,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * Mixin to add custom rendering to Pokemon PC storage slots.
+ * This mixin is kept minimal - it just hooks into the render method
+ * and delegates to feature implementations.
+ */
 @Mixin(StorageSlot.class)
 public abstract class StorageSlotMixin {
     @Shadow
@@ -35,15 +38,15 @@ public abstract class StorageSlotMixin {
         }
         
         Pokemon pokemon = getPokemon();
-
-        // Use feature system to check if egg preview is enabled
-        if (mod.getPcEggsFeature().isEnabled() && pokemon instanceof NeoDaycareDummyPokemon) {
-            PcEggRenderer.renderEggPreviewElements(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
+        if (pokemon == null) {
+            return;
         }
 
-        // Use feature system to check if PC icons are enabled
-        if (mod.getPcIconsFeature().isEnabled()) {
-            PcIconRenderer.renderIconElements(context, pokemon, posX, posY);
+        // Delegate to feature implementations - they handle their own enabled checks
+        if (pokemon instanceof NeoDaycareDummyPokemon) {
+            mod.getPcEggsFeature().renderEggPreview(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
         }
+        
+        mod.getPcIconsFeature().renderIcons(context, pokemon, posX, posY);
     }
 }

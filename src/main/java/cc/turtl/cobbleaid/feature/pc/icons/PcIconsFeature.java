@@ -2,6 +2,8 @@ package cc.turtl.cobbleaid.feature.pc.icons;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.core.lifecycle.Feature;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * PC Icon Feature - Displays icons on Pokemon slots in the PC.
@@ -14,16 +16,17 @@ import cc.turtl.cobbleaid.core.lifecycle.Feature;
  * - Rideable indicator
  * </p>
  * <p>
- * Icons are rendered by {@link PcIconRenderer} and controlled via the
+ * Icons are rendered by this feature and controlled via the
  * PC icons configuration section.
  * </p>
  */
 public class PcIconsFeature implements Feature {
     
+    private PcIconRenderer renderer;
+    
     @Override
     public void initialize() {
-        // Icon rendering is handled by PcIconRenderer through mixins
-        // No additional initialization required
+        this.renderer = new PcIconRenderer();
         CobbleAid.getLogger().debug("PC Icons feature initialized");
     }
     
@@ -41,5 +44,20 @@ public class PcIconsFeature implements Feature {
     @Override
     public String getName() {
         return "PC Icons";
+    }
+    
+    /**
+     * Render icons for a Pokemon in the PC.
+     * This is called from the mixin layer.
+     * 
+     * @param context the graphics context
+     * @param pokemon the Pokemon to render icons for
+     * @param posX the X position
+     * @param posY the Y position
+     */
+    public void renderIcons(GuiGraphics context, Pokemon pokemon, int posX, int posY) {
+        if (renderer != null && isEnabled()) {
+            renderer.renderIconElements(context, pokemon, posX, posY);
+        }
     }
 }

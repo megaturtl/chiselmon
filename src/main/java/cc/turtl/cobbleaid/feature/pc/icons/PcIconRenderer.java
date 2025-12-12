@@ -33,10 +33,10 @@ public class PcIconRenderer {
     private static final int ICON_GAP = 0;
     private static final int START_Y = 6;
 
-    private PcIconRenderer() {
+    public PcIconRenderer() {
     }
 
-    public static void renderIconElements(GuiGraphics context, Pokemon pokemon, int posX, int posY) {
+    public void renderIconElements(GuiGraphics context, Pokemon pokemon, int posX, int posY) {
         if (pokemon == null) {
             return;
         }

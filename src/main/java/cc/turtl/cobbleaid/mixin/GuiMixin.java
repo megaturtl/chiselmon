@@ -4,7 +4,6 @@ import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.hud.PokeRodBaitOverlay;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +15,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Mixin to add custom HUD rendering.
+ * This mixin is kept minimal - it just hooks into the render method
+ * and delegates to feature implementations.
+ */
 @Mixin(Gui.class)
 public abstract class GuiMixin {
     @Shadow
@@ -32,10 +36,8 @@ public abstract class GuiMixin {
             return;
         }
         
-        // Use feature system to check if HUD feature is enabled
-        if (CobbleAid.getInstance().getHudFeature().isEnabled()
-                && lastToolHighlight.getItem() instanceof PokerodItem) {
-            PokeRodBaitOverlay.renderPokeRodOverlay(guiGraphics);
+        // Delegate to feature - it handles enabled check and rendering
+        if (CobbleAid.getInstance().getHudFeature().renderPokeRodOverlay(guiGraphics, lastToolHighlight)) {
             ci.cancel();
         }
     }

@@ -2,6 +2,9 @@ package cc.turtl.cobbleaid.feature.pc.tooltips;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.core.lifecycle.Feature;
+import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * PC Tooltips Feature - Adds enhanced tooltips to Pokemon in the PC.
@@ -13,16 +16,17 @@ import cc.turtl.cobbleaid.core.lifecycle.Feature;
  * - IVs, EVs, and other attributes
  * </p>
  * <p>
- * Tooltip rendering is handled through mixins in the tooltips package,
- * with state managed by {@link StorageSlotTooltipState}.
+ * Tooltip rendering is handled through this feature with state managed
+ * by {@link StorageSlotTooltipState}.
  * </p>
  */
 public class PcTooltipsFeature implements Feature {
     
+    private StorageSlotTooltipRenderer renderer;
+    
     @Override
     public void initialize() {
-        // Tooltip rendering is handled via StorageSlotMixin and StorageWidgetMixin
-        // No additional initialization required
+        this.renderer = new StorageSlotTooltipRenderer();
         CobbleAid.getLogger().debug("PC Tooltips feature initialized");
     }
     
@@ -34,5 +38,25 @@ public class PcTooltipsFeature implements Feature {
     @Override
     public String getName() {
         return "PC Tooltips";
+    }
+    
+    /**
+     * Track a hovered slot for tooltip rendering.
+     * This is called from the mixin layer.
+     */
+    public void trackHoveredSlot(StorageSlot slot, int mouseX, int mouseY) {
+        if (isEnabled()) {
+            StorageSlotTooltipState.setHoveredSlot(slot, mouseX, mouseY);
+        }
+    }
+    
+    /**
+     * Render tooltips for the currently hovered slot.
+     * This is called from the mixin layer.
+     */
+    public void renderTooltips(GuiGraphics context, int mouseX, int mouseY) {
+        if (renderer != null && isEnabled()) {
+            renderer.render(context, mouseX, mouseY);
+        }
     }
 }

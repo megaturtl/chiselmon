@@ -55,97 +55,73 @@ public abstract class PCGUIMixin extends Screen {
     final CobbleAid INSTANCE = CobbleAid.getInstance();
     ModConfig config = CobbleAid.getInstance().getConfig();
 
-    @Unique
-    private PCTabStore cobbleaid$getTabStore() {
-        return INSTANCE.getWorldData().getPcTabStore();
-    }
-
-    // Add custom sort buttons and tab buttons
+    // Add tab elements
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addTabElements(CallbackInfo ci) {
         if (config.modDisabled) {
             return;
         }
-        
-        // Use feature system to check if tabs are enabled
-        if (!INSTANCE.getPcTabsFeature().isEnabled()) {
-            return;
-        }
 
+        // Rebuild tabs first
         cobbleaid$rebuildTabButtons();
 
-        Button.OnPress bookmarkToggle = (button) -> {
-            PCTabStore tabStore = cobbleaid$getTabStore();
-            int currentBoxNumber = storageWidget.getBox();
-            if (tabStore.hasBoxNumber(currentBoxNumber)) {
-                tabStore.removeTab(currentBoxNumber);
-                INSTANCE.saveConfig();
-            } else if (tabStore.isFull()) {
-                return;
-            } else {
-                tabStore.addTab(currentBoxNumber);
-                INSTANCE.saveConfig();
-            }
-            cobbleaid$rebuildTabButtons();
-        };
-
+        // Create bookmark button through feature
         int guiLeft = (this.width - BASE_WIDTH) / 2;
         int guiTop = (this.height - BASE_HEIGHT) / 2;
-
         int bookmarkX = guiLeft + 239;
         int bookmarkY = guiTop + 13;
-        PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
-        this.cobbleaid$bookmarkButton = bookmarkButton;
-        this.addRenderableWidget(bookmarkButton);
+        
+        this.cobbleaid$bookmarkButton = INSTANCE.getPcTabsFeature().createBookmarkButton(
+            bookmarkX,
+            bookmarkY,
+            this.storageWidget,
+            this::cobbleaid$rebuildTabButtons
+        );
+        
+        if (this.cobbleaid$bookmarkButton != null) {
+            this.addRenderableWidget(this.cobbleaid$bookmarkButton);
+        }
     }
 
     @Inject(method = "render", at = @At("HEAD"))
     private void cobbleaid$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
-        if (config.modDisabled || this.cobbleaid$bookmarkButton == null) {
+        if (config.modDisabled) {
             return;
         }
         
-        // Use feature system to check if tabs are enabled
-        if (!INSTANCE.getPcTabsFeature().isEnabled()) {
-            return;
-        }
-        
-        PCTabStore tabStore = cobbleaid$getTabStore();
-
-        boolean isCurrentBoxBookmarked = tabStore.hasBoxNumber(storageWidget.getBox());
-        this.cobbleaid$bookmarkButton.setToggled(isCurrentBoxBookmarked);
+        // Delegate to feature
+        INSTANCE.getPcTabsFeature().updateBookmarkButtonState(
+            this.cobbleaid$bookmarkButton,
+            storageWidget.getBox()
+        );
     }
 
     @Unique
     private void cobbleaid$rebuildTabButtons() {
         // 1. Clear existing buttons from the list and the screen
         for (PCTabButton button : this.cobbleaid$tabButtons) {
-            this.removeWidget(button); // Use Screen.removeWidget to remove it from rendering
+            this.removeWidget(button);
         }
         this.cobbleaid$tabButtons.clear();
 
-        // 2. Re-calculate positions and create new buttons
-        PCTabStore tabStore = cobbleaid$getTabStore();
-        List<PCTab> tabs = tabStore.getTabs();
-
+        // 2. Create new buttons through feature
         int guiLeft = (this.width - BASE_WIDTH) / 2;
         int guiTop = (this.height - BASE_HEIGHT) / 2;
-
         int tabStartX = guiLeft + 80;
         int tabStartY = guiTop - 5;
 
-        List<PCTabButton> newTabButtons = PCTabManager.createTabButtons(
-                this.storageWidget,
-                tabs,
-                tabStartX,
-                tabStartY);
+        List<PCTabButton> newTabButtons = INSTANCE.getPcTabsFeature().createTabButtons(
+            this.storageWidget,
+            tabStartX,
+            tabStartY
+        );
 
         // 3. Add all new buttons to the screen and our tracking list
         if (!newTabButtons.isEmpty()) {
             for (PCTabButton button : newTabButtons) {
                 this.addRenderableWidget(button);
-                this.cobbleaid$tabButtons.add(button); // Track the new buttons
+                this.cobbleaid$tabButtons.add(button);
             }
         }
     }

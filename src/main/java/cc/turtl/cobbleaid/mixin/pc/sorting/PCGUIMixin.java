@@ -68,28 +68,27 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     final CobbleAid INSTANCE = CobbleAid.getInstance();
     ModConfig config = INSTANCE.getConfig();
 
-    // Add custom sort buttons and tab buttons
+    // Add custom sort buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addSortElements(CallbackInfo ci) {
         if (config.modDisabled) {
             return;
         }
         
-        // Use feature system to check if sorting is enabled
-        if (INSTANCE.getPcSortingFeature().isEnabled()) {
-            PcSortUIHandler.initializeSortButtons(
-                    (PCGUI) (Object) this,
-                    this.pc,
-                    this.storageWidget,
-                    this,
-                    this.width,
-                    this.height,
-                    BASE_WIDTH,
-                    BASE_HEIGHT);
-        }
+        // Delegate to feature
+        INSTANCE.getPcSortingFeature().initializeSortButtons(
+            (PCGUI) (Object) this,
+            this.pc,
+            this.storageWidget,
+            this,
+            this.width,
+            this.height,
+            BASE_WIDTH,
+            BASE_HEIGHT
+        );
     }
 
-    // Intercept key presses to handle quick sort keybind
+    // Intercept mouse clicks for quick sort
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
             CallbackInfoReturnable<Boolean> cir) {
@@ -97,29 +96,9 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
             return;
         }
         
-        // Use feature system to check if sorting is enabled
-        if (!INSTANCE.getPcSortingFeature().isEnabled()) {
-            return;
-        }
-
-        // middle mouse click
-        if (button == 2) {
-            cobbleaid$executeQuickSort();
+        // Delegate to feature
+        if (INSTANCE.getPcSortingFeature().handleQuickSortClick(button, this.storageWidget, this.pc)) {
             cir.setReturnValue(true);
         }
-    }
-
-    @Unique
-    private void cobbleaid$executeQuickSort() {
-
-        if (this.storageWidget != null) {
-            this.storageWidget.resetSelected();
-        }
-
-        new SortPCBoxPacket(
-                this.pc.getUuid(),
-                this.storageWidget.getBox(),
-                config.pc.quickSortMode,
-                hasShiftDown()).sendToServer();
     }
 }
