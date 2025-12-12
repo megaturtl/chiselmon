@@ -3,12 +3,21 @@ package cc.turtl.cobbleaid;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.core.lifecycle.FeatureManager;
+import cc.turtl.cobbleaid.core.registry.RegistryHelper;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.world.InteractionResult;
 
+/**
+ * Main mod initializer for CobbleAid.
+ * <p>
+ * This class is the entry point for the mod and manages the lifecycle
+ * of all features, configuration, and world data.
+ * </p>
+ */
 public class CobbleAid implements ClientModInitializer {
     public static final String MODID = "cobbleaid";
     public static final String VERSION = "1.0.1";
@@ -20,6 +29,8 @@ public class CobbleAid implements ClientModInitializer {
     private ConfigHolder<ModConfig> configHolder;
     private ModConfig config;
     private WorldDataManager worldManager;
+    private FeatureManager featureManager;
+    private RegistryHelper registryHelper;
 
     public CobbleAid() {
     }
@@ -37,22 +48,37 @@ public class CobbleAid implements ClientModInitializer {
     private void preInitialize() {
         loadConfig();
         initializeWorldManager();
+        initializeInfrastructure();
 
         LOGGER.debug("Pre-initialization complete.");
     }
 
     private void initialize() {
+        registerFeatures();
         registerCommands();
-        registerListeners();
+        featureManager.initializeAll();
         LOGGER.debug("Initialization complete.");
+    }
+    
+    private void initializeInfrastructure() {
+        this.featureManager = new FeatureManager(LOGGER);
+        this.registryHelper = new RegistryHelper(LOGGER);
+        LOGGER.debug("Core infrastructure initialized.");
+    }
+    
+    private void registerFeatures() {
+        // Register all features here
+        // Example: featureManager.register(new DemoFeature());
+        
+        // Demo feature (for developer reference)
+        featureManager.register(new cc.turtl.cobbleaid.feature.demo.DemoFeature());
+        
+        LOGGER.debug("Features registered.");
     }
 
     private void registerCommands() {
         CobbleAidCommand.register();
         LOGGER.debug("Commands registered.");
-    }
-
-    private void registerListeners() {
     }
 
     private void loadConfig() {
@@ -108,5 +134,13 @@ public class CobbleAid implements ClientModInitializer {
 
     public WorldDataStore getWorldData() {
         return worldManager.getOrCreateStore();
+    }
+    
+    public FeatureManager getFeatureManager() {
+        return featureManager;
+    }
+    
+    public RegistryHelper getRegistryHelper() {
+        return registryHelper;
     }
 }
