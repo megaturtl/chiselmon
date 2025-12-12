@@ -24,19 +24,26 @@ public abstract class StorageSlotMixin {
     @Shadow(remap = false)
     public abstract boolean isHovered(int mouseX, int mouseY);
 
-    ModConfig config = CobbleAid.getInstance().getConfig();
-
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 1), remap = false)
     private void cobbleaid$renderCustomElements(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        CobbleAid mod = CobbleAid.getInstance();
+        ModConfig config = mod.getConfig();
+        
+        // Check if mod is globally disabled first
         if (config.modDisabled) {
             return;
         }
+        
         Pokemon pokemon = getPokemon();
 
-        if (config.pc.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {
+        // Use feature system to check if egg preview is enabled
+        if (mod.getPcEggsFeature().isEnabled() && pokemon instanceof NeoDaycareDummyPokemon) {
             PcEggRenderer.renderEggPreviewElements(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
         }
 
-        PcIconRenderer.renderIconElements(context, pokemon, posX, posY);
+        // Use feature system to check if PC icons are enabled
+        if (mod.getPcIconsFeature().isEnabled()) {
+            PcIconRenderer.renderIconElements(context, pokemon, posX, posY);
+        }
     }
 }

@@ -31,6 +31,14 @@ public class CobbleAid implements ClientModInitializer {
     private WorldDataManager worldManager;
     private FeatureManager featureManager;
     private RegistryHelper registryHelper;
+    
+    // Feature instances for easy access
+    private cc.turtl.cobbleaid.feature.hud.HudFeature hudFeature;
+    private cc.turtl.cobbleaid.feature.pc.icons.PcIconsFeature pcIconsFeature;
+    private cc.turtl.cobbleaid.feature.pc.sorting.PcSortingFeature pcSortingFeature;
+    private cc.turtl.cobbleaid.feature.pc.tabs.PcTabsFeature pcTabsFeature;
+    private cc.turtl.cobbleaid.feature.pc.tooltips.PcTooltipsFeature pcTooltipsFeature;
+    private cc.turtl.cobbleaid.feature.pc.eggs.PcEggsFeature pcEggsFeature;
 
     public CobbleAid() {
     }
@@ -73,14 +81,24 @@ public class CobbleAid implements ClientModInitializer {
         featureManager.register(new cc.turtl.cobbleaid.feature.demo.DemoFeature());
         
         // HUD features
-        featureManager.register(new cc.turtl.cobbleaid.feature.hud.HudFeature());
+        this.hudFeature = new cc.turtl.cobbleaid.feature.hud.HudFeature();
+        featureManager.register(hudFeature);
         
         // PC features
-        featureManager.register(new cc.turtl.cobbleaid.feature.pc.icons.PcIconsFeature());
-        featureManager.register(new cc.turtl.cobbleaid.feature.pc.sorting.PcSortingFeature());
-        featureManager.register(new cc.turtl.cobbleaid.feature.pc.tabs.PcTabsFeature());
-        featureManager.register(new cc.turtl.cobbleaid.feature.pc.tooltips.PcTooltipsFeature());
-        featureManager.register(new cc.turtl.cobbleaid.feature.pc.eggs.PcEggsFeature());
+        this.pcIconsFeature = new cc.turtl.cobbleaid.feature.pc.icons.PcIconsFeature();
+        featureManager.register(pcIconsFeature);
+        
+        this.pcSortingFeature = new cc.turtl.cobbleaid.feature.pc.sorting.PcSortingFeature();
+        featureManager.register(pcSortingFeature);
+        
+        this.pcTabsFeature = new cc.turtl.cobbleaid.feature.pc.tabs.PcTabsFeature();
+        featureManager.register(pcTabsFeature);
+        
+        this.pcTooltipsFeature = new cc.turtl.cobbleaid.feature.pc.tooltips.PcTooltipsFeature();
+        featureManager.register(pcTooltipsFeature);
+        
+        this.pcEggsFeature = new cc.turtl.cobbleaid.feature.pc.eggs.PcEggsFeature();
+        featureManager.register(pcEggsFeature);
         
         LOGGER.debug("Features registered.");
     }
@@ -151,5 +169,31 @@ public class CobbleAid implements ClientModInitializer {
     
     public RegistryHelper getRegistryHelper() {
         return registryHelper;
+    }
+    
+    // Feature accessors - provides single source of truth for feature state
+    
+    public cc.turtl.cobbleaid.feature.hud.HudFeature getHudFeature() {
+        return hudFeature;
+    }
+    
+    public cc.turtl.cobbleaid.feature.pc.icons.PcIconsFeature getPcIconsFeature() {
+        return pcIconsFeature;
+    }
+    
+    public cc.turtl.cobbleaid.feature.pc.sorting.PcSortingFeature getPcSortingFeature() {
+        return pcSortingFeature;
+    }
+    
+    public cc.turtl.cobbleaid.feature.pc.tabs.PcTabsFeature getPcTabsFeature() {
+        return pcTabsFeature;
+    }
+    
+    public cc.turtl.cobbleaid.feature.pc.tooltips.PcTooltipsFeature getPcTooltipsFeature() {
+        return pcTooltipsFeature;
+    }
+    
+    public cc.turtl.cobbleaid.feature.pc.eggs.PcEggsFeature getPcEggsFeature() {
+        return pcEggsFeature;
     }
 }

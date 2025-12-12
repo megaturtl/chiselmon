@@ -74,22 +74,31 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         if (config.modDisabled) {
             return;
         }
-        PcSortUIHandler.initializeSortButtons(
-                (PCGUI) (Object) this,
-                this.pc,
-                this.storageWidget,
-                this,
-                this.width,
-                this.height,
-                BASE_WIDTH,
-                BASE_HEIGHT);
+        
+        // Use feature system to check if sorting is enabled
+        if (INSTANCE.getPcSortingFeature().isEnabled()) {
+            PcSortUIHandler.initializeSortButtons(
+                    (PCGUI) (Object) this,
+                    this.pc,
+                    this.storageWidget,
+                    this,
+                    this.width,
+                    this.height,
+                    BASE_WIDTH,
+                    BASE_HEIGHT);
+        }
     }
 
     // Intercept key presses to handle quick sort keybind
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
             CallbackInfoReturnable<Boolean> cir) {
-        if (config.modDisabled || !config.pc.quickSortEnabled) {
+        if (config.modDisabled) {
+            return;
+        }
+        
+        // Use feature system to check if sorting is enabled
+        if (!INSTANCE.getPcSortingFeature().isEnabled()) {
             return;
         }
 

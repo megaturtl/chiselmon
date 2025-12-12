@@ -29,9 +29,16 @@ public class StorageWidgetMixin {
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void cobbleaid$renderStorageTooltips(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        CobbleAid mod = CobbleAid.getInstance();
+        ModConfig config = mod.getConfig();
 
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        if (config.modDisabled) {
+            StorageSlotTooltipState.clear();
+            return;
+        }
+        
+        // Use feature system to check if tooltips are enabled
+        if (!mod.getPcTooltipsFeature().isEnabled()) {
             StorageSlotTooltipState.clear();
             return;
         }

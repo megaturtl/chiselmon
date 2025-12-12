@@ -26,8 +26,14 @@ public abstract class GuiMixin {
     @Inject(method = "renderSelectedItemName", at = @At("HEAD"), cancellable = true)
     private void hideSelectedItemNameForPokeRod(GuiGraphics guiGraphics, CallbackInfo ci) {
         ModConfig config = CobbleAid.getInstance().getConfig();
-
-        if (!config.modDisabled && config.showPokeRodBaitAboveHotbar
+        
+        // Check if mod is globally disabled first
+        if (config.modDisabled) {
+            return;
+        }
+        
+        // Use feature system to check if HUD feature is enabled
+        if (CobbleAid.getInstance().getHudFeature().isEnabled()
                 && lastToolHighlight.getItem() instanceof PokerodItem) {
             PokeRodBaitOverlay.renderPokeRodOverlay(guiGraphics);
             ci.cancel();

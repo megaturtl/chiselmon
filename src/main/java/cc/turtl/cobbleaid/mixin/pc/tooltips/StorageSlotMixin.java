@@ -22,12 +22,18 @@ public abstract class StorageSlotMixin {
     @Shadow(remap = false)
     public abstract boolean isHovered(int mouseX, int mouseY);
 
-    ModConfig config = CobbleAid.getInstance().getConfig();
-
     // Track which slot is hovered
     @Inject(method = "renderWidget", at = @At("HEAD"), remap = false)
     private void cobbleaid$trackHover(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        CobbleAid mod = CobbleAid.getInstance();
+        ModConfig config = mod.getConfig();
+        
+        if (config.modDisabled) {
+            return;
+        }
+        
+        // Use feature system to check if tooltips are enabled
+        if (!mod.getPcTooltipsFeature().isEnabled()) {
             return;
         }
 

@@ -3,7 +3,10 @@ package cc.turtl.cobbleaid.core.lifecycle;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Manages the lifecycle of all features in CobbleAid.
@@ -16,6 +19,7 @@ import java.util.List;
 public class FeatureManager {
     
     private final List<Feature> features = new ArrayList<>();
+    private final Map<Class<? extends Feature>, Feature> featuresByType = new HashMap<>();
     private final CobbleAidLogger logger;
     private boolean initialized = false;
     
@@ -38,6 +42,7 @@ public class FeatureManager {
             );
         }
         features.add(feature);
+        featuresByType.put(feature.getClass(), feature);
         logger.debug("Registered feature: {}", feature.getName());
     }
     
@@ -83,5 +88,30 @@ public class FeatureManager {
      */
     public int getFeatureCount() {
         return features.size();
+    }
+    
+    /**
+     * Get a feature by its class type.
+     * 
+     * @param <T> the feature type
+     * @param featureClass the class of the feature
+     * @return an Optional containing the feature if found
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Feature> Optional<T> getFeature(Class<T> featureClass) {
+        return Optional.ofNullable((T) featuresByType.get(featureClass));
+    }
+    
+    /**
+     * Check if a feature is enabled.
+     * Returns false if the feature is not registered.
+     * 
+     * @param featureClass the class of the feature
+     * @return true if the feature is registered and enabled
+     */
+    public boolean isFeatureEnabled(Class<? extends Feature> featureClass) {
+        return getFeature(featureClass)
+            .map(Feature::isEnabled)
+            .orElse(false);
     }
 }
