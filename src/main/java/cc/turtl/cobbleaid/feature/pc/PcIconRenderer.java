@@ -6,6 +6,10 @@ import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PcIconRenderer {
@@ -19,6 +23,35 @@ public class PcIconRenderer {
     private static final int ICON_RENDER_SIZE = 5; // Target rendered size
     private static final int ICON_GAP = 0;
     private static final int START_Y = 6;
+
+    /**
+     * Helper class to encapsulate icon rendering configuration
+     */
+    private static class IconConfig {
+        final Function<ModConfig.PcConfig.PcIconConfig, Boolean> configGetter;
+        final Predicate<Pokemon> predicate;
+        final ResourceLocation icon;
+
+        IconConfig(Function<ModConfig.PcConfig.PcIconConfig, Boolean> configGetter,
+                   Predicate<Pokemon> predicate,
+                   ResourceLocation icon) {
+            this.configGetter = configGetter;
+            this.predicate = predicate;
+            this.icon = icon;
+        }
+
+        boolean shouldRender(ModConfig.PcConfig.PcIconConfig iconConfig, Pokemon pokemon) {
+            return configGetter.apply(iconConfig) && predicate.test(pokemon);
+        }
+    }
+
+    private static final IconConfig[] ICON_CONFIGS = {
+        new IconConfig(c -> c.hiddenAbility, PokemonPredicates.HAS_HIDDEN_ABILITY, HIDDEN_ABILITY_ICON),
+        new IconConfig(c -> c.highIvs, PokemonPredicates.HAS_HIGH_IVS, HIGH_IVS_ICON),
+        new IconConfig(c -> c.extremeSize, PokemonPredicates.IS_EXTREME_SIZE, SIZE_ICON),
+        new IconConfig(c -> c.shiny, PokemonPredicates.IS_SHINY, SHINY_ICON),
+        new IconConfig(c -> c.rideable, PokemonPredicates.IS_RIDEABLE, RIDEABLE_ICON)
+    };
 
     private PcIconRenderer() {
     }
@@ -34,33 +67,13 @@ public class PcIconRenderer {
         }
 
         int currentY = posY + START_Y;
+        ModConfig.PcConfig.PcIconConfig iconConfig = config.pc.icons;
 
-        // 1. Hidden Ability Icon
-        if (config.pc.icons.hiddenAbility && PokemonPredicates.HAS_HIDDEN_ABILITY.test(pokemon)) {
-            renderIcon(context, HIDDEN_ABILITY_ICON, posX + 1, currentY);
-            currentY += ICON_RENDER_SIZE + ICON_GAP;
-        }
-
-        // 2. High IVs Icon
-        if (config.pc.icons.highIvs && PokemonPredicates.HAS_HIGH_IVS.test(pokemon)) {
-            renderIcon(context, HIGH_IVS_ICON, posX + 1, currentY);
-            currentY += ICON_RENDER_SIZE + ICON_GAP;
-        }
-
-        // 3. Extreme Size Icon
-        if (config.pc.icons.extremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
-            renderIcon(context, SIZE_ICON, posX + 1, currentY);
-            currentY += ICON_RENDER_SIZE + ICON_GAP;
-        }
-
-        // 4. Shiny Icon
-        if (config.pc.icons.shiny && PokemonPredicates.IS_SHINY.test(pokemon)) {
-            renderIcon(context, SHINY_ICON, posX + 1, currentY);
-        }
-
-        // 5. Rideable Icon
-        if (config.pc.icons.rideable && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
-            renderIcon(context, RIDEABLE_ICON, posX + 1, currentY);
+        for (IconConfig iconCfg : ICON_CONFIGS) {
+            if (iconCfg.shouldRender(iconConfig, pokemon)) {
+                renderIcon(context, iconCfg.icon, posX + 1, currentY);
+                currentY += ICON_RENDER_SIZE + ICON_GAP;
+            }
         }
     }
 

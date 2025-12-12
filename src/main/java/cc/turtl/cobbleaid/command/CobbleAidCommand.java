@@ -7,7 +7,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.network.chat.Component;
 
 public class CobbleAidCommand {
     
@@ -19,31 +18,24 @@ public class CobbleAidCommand {
             CommandDispatcher<FabricClientCommandSource> dispatcher,
             CommandBuildContext registryAccess) {
 
-        dispatcher.register(
-                literal("cobbleaid")
-                        .executes(CobbleAidCommand::executeHelp)
-                        .then(InfoCommand.register())
-                        .then(ConfigCommand.register())
-                        .then(DebugCommand.register())
-                        .then(EggCommand.register())
-        );
+        var baseCommand = literal("cobbleaid")
+                .executes(CobbleAidCommand::executeHelp)
+                .then(InfoCommand.register())
+                .then(ConfigCommand.register())
+                .then(DebugCommand.register())
+                .then(EggCommand.register());
 
-        dispatcher.register(
-                literal("ca")
-                        .executes(CobbleAidCommand::executeHelp)
-                        .then(InfoCommand.register())
-                        .then(ConfigCommand.register())
-                        .then(DebugCommand.register())
-                        .then(EggCommand.register())
-        );
+        dispatcher.register(baseCommand);
+        dispatcher.register(literal("ca").redirect(baseCommand.build()));
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§d=== Cobble Aid Commands ==="));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid info"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid config"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid debug"));
-        context.getSource().sendFeedback(Component.literal("§7/cobbleaid egg"));
+        FabricClientCommandSource source = context.getSource();
+        CommandFeedbackHelper.sendHeader(source, "Cobble Aid Commands");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid info");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid debug");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid egg");
 
         return 1;
     }

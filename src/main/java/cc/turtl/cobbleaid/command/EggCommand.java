@@ -31,9 +31,9 @@ public class EggCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§d=== Egg Commands ==="));
-        context.getSource()
-                .sendFeedback(Component.literal("§7/cobbleaid egg info <slot>"));
+        FabricClientCommandSource source = context.getSource();
+        CommandFeedbackHelper.sendHeader(source, "Egg Commands");
+        CommandFeedbackHelper.sendUsage(source, "/cobbleaid egg info <slot>");
         return 1;
     }
 
@@ -49,18 +49,16 @@ public class EggCommand {
             ClientParty party = storageManager.getParty();
 
             if (party.get(slot) == null) {
-                source.sendFeedback(
-                        Component.literal("§c[Cobble Aid] Nothing found at slot " + (slot + 1) + "!"));
+                CommandFeedbackHelper.sendError(source, "Nothing found at slot " + (slot + 1) + "!");
                 return 1;
             }
 
             Pokemon pokemon = party.get(slot);
 
             if (!NeoDaycareEgg.isEgg(pokemon)) {
-                source.sendFeedback(
-                        Component.literal("§c[Cobble Aid] Egg not found at slot " + (slot + 1) + "!"));
-                        LOGGER.debug("Egg not found at slot " + (slot + 1) + "!");
-                        LOGGER.debug("Slot class: '{}'", pokemon.getSpecies().resourceIdentifier.toString());
+                CommandFeedbackHelper.sendError(source, "Egg not found at slot " + (slot + 1) + "!");
+                LOGGER.debug("Egg not found at slot " + (slot + 1) + "!");
+                LOGGER.debug("Slot class: '{}'", pokemon.getSpecies().resourceIdentifier.toString());
                 return 1;
             }
 
@@ -88,7 +86,7 @@ public class EggCommand {
             return 1;
 
         } catch (Exception e) {
-            source.sendError(Component.literal("§c[Cobble Aid] An unexpected error occurred during egg info command!"));
+            CommandFeedbackHelper.sendError(source, "An unexpected error occurred during egg info command!");
             LOGGER.error("Error executing egg info command:", e);
             return 0;
         }

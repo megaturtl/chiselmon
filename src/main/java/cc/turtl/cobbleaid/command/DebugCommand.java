@@ -34,12 +34,10 @@ public class DebugCommand {
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("§d=== Debug Commands ==="));
-        context.getSource()
-                .sendFeedback(Component.literal("§7/cobbleaid debug dump <slot> §f- Dumps info about provided slot."));
-        context.getSource()
-                .sendFeedback(Component
-                        .literal("§7/cobbleaid debug dump look §f- Dumps info about targeted pokemon entity."));
+        FabricClientCommandSource source = context.getSource();
+        CommandFeedbackHelper.sendHeader(source, "Debug Commands");
+        CommandFeedbackHelper.sendUsageWithDescription(source, "/cobbleaid debug dump <slot>", "Dumps info about provided slot.");
+        CommandFeedbackHelper.sendUsageWithDescription(source, "/cobbleaid debug dump look", "Dumps info about targeted pokemon entity.");
         return 1;
     }
 
@@ -66,7 +64,7 @@ public class DebugCommand {
             Pokemon pokemon = party.get(slot);
 
             if (pokemon == null) {
-                source.sendFeedback(Component.literal("§c[Cobble Aid] Party slot " + (slot + 1) + " is empty."));
+                CommandFeedbackHelper.sendError(source, "Party slot " + (slot + 1) + " is empty.");
                 return 1;
             }
 
@@ -80,12 +78,12 @@ public class DebugCommand {
             LOGGER.info("--- DUMPING FIELDS FOR POKEMON '{}' at slot {} ---", pokemon.getSpecies().getName(), slot + 1);
             ObjectDumper.logObjectFields(LOGGER, pokemon);
 
-            source.sendFeedback(Component.literal("§eFull object dump sent to console/log."));
+            CommandFeedbackHelper.sendWarning(source, "Full object dump sent to console/log.");
 
             return 1;
 
         } catch (Exception e) {
-            source.sendError(Component.literal("§c[Cobble Aid] An unexpected error occurred during dump command!"));
+            CommandFeedbackHelper.sendError(source, "An unexpected error occurred during dump command!");
             LOGGER.error("Error executing dump command:", e);
             return 0;
         }
@@ -102,7 +100,7 @@ public class DebugCommand {
             Entity lookingAtEntity = minecraftClient.crosshairPickEntity;
 
             if (lookingAtEntity == null) {
-                source.sendError(Component.literal("§c[Cobble Aid] Not looking at a pokemon!"));
+                CommandFeedbackHelper.sendError(source, "Not looking at a pokemon!");
                 return 0;
             }
 
@@ -114,18 +112,17 @@ public class DebugCommand {
                 source.sendFeedback(Component.literal("Moves: " + pokemonEntity.getPokemon().getMoveSet().getMoves()
                         .stream().map(m -> m.getTemplate().getName()).toList()));
                 ObjectDumper.logObjectFields(LOGGER, pokemon);
-                source.sendFeedback(Component.literal("§eFull object dump sent to console/log."));
+                CommandFeedbackHelper.sendWarning(source, "Full object dump sent to console/log.");
                 return 1;
 
             } else {
-                source.sendError(Component.literal("§c[Cobble Aid] Targeted entity is a "
-                        + lookingAtEntity.getClass().getSimpleName() + ", not a Pokémon."));
+                CommandFeedbackHelper.sendError(source, "Targeted entity is a "
+                        + lookingAtEntity.getClass().getSimpleName() + ", not a Pokémon.");
                 return 0;
             }
 
         } catch (Exception e) {
-            source.sendError(
-                    Component.literal("§c[Cobble Aid] An unexpected error occurred during look dump command!"));
+            CommandFeedbackHelper.sendError(source, "An unexpected error occurred during look dump command!");
             LOGGER.error("Error executing dump look command:", e);
             return 0;
         }
