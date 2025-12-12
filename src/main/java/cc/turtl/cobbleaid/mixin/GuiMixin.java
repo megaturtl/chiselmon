@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.feature.PokeRodBaitOverlay;
+import cc.turtl.cobbleaid.feature.hud.PokeRodBaitOverlay;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;

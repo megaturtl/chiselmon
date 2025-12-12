@@ -25,8 +25,8 @@ import cc.turtl.cobbleaid.api.util.ColorUtil;
 import cc.turtl.cobbleaid.util.StringUtil;
 import net.minecraft.network.chat.Component;
 
-public final class PokemonFormatters {
-    private PokemonFormatters() {
+public final class PokemonFormatUtil {
+    private PokemonFormatUtil() {
     }
 
     private static final Component SLASH_SEPERATOR = separator("/");

@@ -1,5 +1,8 @@
 package cc.turtl.cobbleaid.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,12 +26,16 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Category("pc")
     public PcConfig pc = new PcConfig();
 
-    @ConfigEntry.Gui.Tooltip
-    @ConfigEntry.Category("misc")
-    public boolean showPokeRodBaitAboveHotbar = true;
-
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
     public ThresholdConfig threshold = new ThresholdConfig();
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Category("hud")
+    public boolean showPokeRodBaitAboveHotbar = true;
+
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Category("hud")
+    public SpawnTrackerConfig spawnTracker = new SpawnTrackerConfig();
 
     // Hidden data stores!! Cannot be directly accessed in the config menu by the
     // player
@@ -95,5 +102,25 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public int maxIvs = 5;
+    }
+
+    public static class SpawnTrackerConfig implements ConfigData {
+        @ConfigEntry.Gui.Tooltip
+        public boolean enabled = false;
+
+        @ConfigEntry.Gui.Tooltip
+        public String bucket = "common";
+
+        @ConfigEntry.Gui.Tooltip
+        public List<String> trackedPokemon = new ArrayList<>(Arrays.asList(
+                "Bulbasaur",
+                "Fomantis",
+                "Dreepy"));
+
+        @ConfigEntry.Gui.Tooltip
+        public int hudX = 10;
+
+        @ConfigEntry.Gui.Tooltip
+        public int hudY = 10;
     }
 }

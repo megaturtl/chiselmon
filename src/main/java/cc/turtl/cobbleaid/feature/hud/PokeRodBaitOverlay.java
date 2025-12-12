@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature;
+package cc.turtl.cobbleaid.feature.hud;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
@@ -21,7 +21,7 @@ public class PokeRodBaitOverlay {
         // Get the currently held item
         ItemStack heldItem = player.getMainHandItem();
 
-        // Check if it's a PokéRod
+        // Check if it's a Poke Rod
         if (!(heldItem.getItem() instanceof PokerodItem))
             return;
 

@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.api.format.FormatUtil;
-import cc.turtl.cobbleaid.api.format.PokemonFormatters;
+import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
@@ -57,19 +57,19 @@ public class PokemonProvider implements IEntityComponentProvider {
         ItemStack mainHandItem = player.getMainHandItem();
 
         tooltip.clear();
-        tooltip.add(PokemonFormatters.detailedPokemonName(pokemon));
+        tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
         tooltip.add(new HealthElement(pokemonEntity.getMaxHealth(), pokemonEntity.getHealth()));
 
         if (config.get(POKEMON_ENTITY_TYPING_ID)) {
-            tooltip.add(FormatUtil.labelledValue("Type: ", PokemonFormatters.types(pokemon)));
+            tooltip.add(FormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {
-            tooltip.add(FormatUtil.labelledValue("Egg Groups: ", PokemonFormatters.eggGroups(pokemon.getSpecies())));
+            tooltip.add(FormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon.getSpecies())));
         }
 
         if (config.get(POKEMON_ENTITY_EV_ID)) {
-            tooltip.add(FormatUtil.labelledValue("EVs: ", PokemonFormatters.evYield(pokemon)));
+            tooltip.add(FormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
@@ -77,7 +77,7 @@ public class PokemonProvider implements IEntityComponentProvider {
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
                 tooltip.append(FormatUtil.labelledValue(" ",
-                        PokemonFormatters.catchChance(pokemonEntity, pokeBallItem.getPokeBall())));
+                        PokemonFormatUtil.catchChance(pokemonEntity, pokeBallItem.getPokeBall())));
             }
         }
 
@@ -85,7 +85,7 @@ public class PokemonProvider implements IEntityComponentProvider {
             if (PokemonPredicates.HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
                 tooltip.add(Component.literal("⚠ ")
                         .withColor(ColorUtil.RED));
-                tooltip.append(PokemonFormatters.selfDamagingMoves(pokemon));
+                tooltip.append(PokemonFormatUtil.selfDamagingMoves(pokemon));
             }
         }
     }

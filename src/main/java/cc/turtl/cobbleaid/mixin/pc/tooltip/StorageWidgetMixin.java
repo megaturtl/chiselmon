@@ -6,7 +6,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.format.FormatUtil;
-import cc.turtl.cobbleaid.api.format.PokemonFormatters;
+import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
 import net.minecraft.client.Minecraft;
@@ -49,9 +49,9 @@ public class StorageWidgetMixin {
 
         List<Component> tooltip = new ArrayList<>();
 
-        tooltip.add(PokemonFormatters.detailedPokemonName(pokemon));
+        tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
         if (config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-            tooltip.add(FormatUtil.labelledValue("IVs: ", PokemonFormatters.hypertrainedIVs(pokemon)));
+            tooltip.add(FormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
             tooltip.add(FormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
             tooltip.add(FormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));
             tooltip.add(FormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
