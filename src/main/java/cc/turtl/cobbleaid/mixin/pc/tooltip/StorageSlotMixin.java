@@ -27,7 +27,7 @@ public abstract class StorageSlotMixin {
     // Track which slot is hovered
     @Inject(method = "renderWidget", at = @At("HEAD"), remap = false)
     private void cobbleaid$trackHover(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (config.modDisabled || !config.showTooltips) {
+        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
             return;
         }
 

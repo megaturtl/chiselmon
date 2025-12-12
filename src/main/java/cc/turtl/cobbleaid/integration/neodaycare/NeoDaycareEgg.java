@@ -64,7 +64,7 @@ public class NeoDaycareEgg {
         if (pokemon == null) return null;
         
         ModConfig config = CobbleAid.getInstance().getConfig();
-        if (config.modDisabled || !config.showEggPreview || !isEgg(pokemon)) {
+        if (config.modDisabled || !config.pc.showEggPreview || !isEgg(pokemon)) {
             return pokemon;
         }
         return from(pokemon).createDummy();

@@ -35,17 +35,17 @@ public final class PokemonPredicates {
         if (config == null)
             return false;
 
-        return CalcUtil.countPerfectIVs(ivs) >= config.maxIvsThreshold;
+        return CalcUtil.countPerfectIVs(ivs) >= config.threshold.maxIvs;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
-        return config != null && pokemon.getScaleModifier() <= config.extremeSmallThreshold;
+        return config != null && pokemon.getScaleModifier() <= config.threshold.extremeSmall;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = pokemon -> {
         ModConfig config = CobbleAid.getInstance().getConfig();
-        return config != null && pokemon.getScaleModifier() >= config.extremeLargeThreshold;
+        return config != null && pokemon.getScaleModifier() >= config.threshold.extremeLarge;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);

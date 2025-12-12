@@ -49,30 +49,30 @@ public class PcIconRenderer {
         int currentY = posY + START_Y;
 
         // 1. Hidden Ability Icon
-        if (config.showHiddenAbilityIcons && PokemonPredicates.HAS_HIDDEN_ABILITY.test(pokemon)) {
+        if (config.pc.icons.hiddenAbility && PokemonPredicates.HAS_HIDDEN_ABILITY.test(pokemon)) {
             renderIcon(context, HIDDEN_ABILITY_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 2. High IVs Icon
-        if (config.showMaxIvsIcons && PokemonPredicates.HAS_HIGH_IVS.test(pokemon)) {
+        if (config.pc.icons.highIvs && PokemonPredicates.HAS_HIGH_IVS.test(pokemon)) {
             renderIcon(context, HIGH_IVS_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 3. Extreme Size Icon
-        if (config.showExtremeSizeIcons && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
+        if (config.pc.icons.extremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             renderIcon(context, SIZE_ICON, posX + 1, currentY);
             currentY += ICON_RENDER_SIZE + ICON_GAP;
         }
 
         // 4. Shiny Icon
-        if (config.showShinyIcons && PokemonPredicates.IS_SHINY.test(pokemon)) {
+        if (config.pc.icons.shiny && PokemonPredicates.IS_SHINY.test(pokemon)) {
             renderIcon(context, SHINY_ICON, posX + 1, currentY);
         }
 
         // 5. Rideable Icon
-        if (config.showRideableIcons && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
+        if (config.pc.icons.rideable && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
             renderIcon(context, RIDEABLE_ICON, posX + 1, currentY);
         }
     }

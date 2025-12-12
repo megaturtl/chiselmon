@@ -1,7 +1,6 @@
 High priority:
 - HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command?)
-- Command/ ui button etc to switch 2 boxes
-- Move all button that moves all mons to current box (and moves the first 6 to your party if possible)
+- Make sure eggs work (i changed how they display the dummy etc)
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
@@ -14,3 +13,7 @@ One day:
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Show actual marks on hover with their chance
 - Add a jade tooltip if a block is pokemon spawnable
+
+- BELOW ARE IN MORECOBBLETWEAKS
+- Command/ ui button etc to switch 2 boxes
+- Move all button that moves all mons to current box (and moves the first 6 to your party if possible)

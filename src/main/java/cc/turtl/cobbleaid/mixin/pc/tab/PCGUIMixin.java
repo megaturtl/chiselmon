@@ -63,7 +63,7 @@ public abstract class PCGUIMixin extends Screen {
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addTabElements(CallbackInfo ci) {
-        if (config.modDisabled || !config.bookmarksEnabled) {
+        if (config.modDisabled || !config.pc.bookmarksEnabled) {
             return;
         }
 
@@ -97,7 +97,7 @@ public abstract class PCGUIMixin extends Screen {
     @Inject(method = "render", at = @At("HEAD"))
     private void cobbleaid$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
-        if (config.modDisabled || !config.bookmarksEnabled || this.cobbleaid$bookmarkButton == null) {
+        if (config.modDisabled || !config.pc.bookmarksEnabled || this.cobbleaid$bookmarkButton == null) {
             return;
         }
         PCTabStore tabStore = cobbleaid$getTabStore();

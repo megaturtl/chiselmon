@@ -33,7 +33,7 @@ public abstract class StorageSlotMixin {
         }
         Pokemon pokemon = getPokemon();
 
-        if (config.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {
+        if (config.pc.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {
             PcEggRenderer.renderEggPreviewElements(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
         }
 

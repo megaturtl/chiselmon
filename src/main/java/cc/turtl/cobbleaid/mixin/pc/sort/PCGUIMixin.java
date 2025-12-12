@@ -89,7 +89,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
             CallbackInfoReturnable<Boolean> cir) {
-        if (config.modDisabled || !config.quickSortEnabled) {
+        if (config.modDisabled || !config.pc.quickSortEnabled) {
             return;
         }
 
@@ -110,7 +110,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         new SortPCBoxPacket(
                 this.pc.getUuid(),
                 this.storageWidget.getBox(),
-                config.quickSortMode,
+                config.pc.quickSortMode,
                 hasShiftDown()).sendToServer();
     }
 }
