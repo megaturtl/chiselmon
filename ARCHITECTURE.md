@@ -29,15 +29,29 @@ cc.turtl.cobbleaid/
 │
 ├── feature/                    # Modular features
 │   ├── demo/                  # Example feature
-│   │   └── DemoFeature.java
+│   │   └── DemoFeature.java   # Demo feature implementation
 │   ├── hud/                   # HUD elements
+│   │   ├── HudFeature.java    # HUD feature implementation
 │   │   └── PokeRodBaitOverlay.java
 │   └── pc/                    # PC-related features
-│       ├── PcIconRenderer.java
+│       ├── eggs/              # Egg preview
+│       │   ├── PcEggsFeature.java
+│       │   └── PcEggRenderer.java
+│       ├── icons/             # PC slot icons
+│       │   ├── PcIconsFeature.java
+│       │   └── PcIconRenderer.java
 │       ├── neodaycare/        # Neo Daycare integration
-│       ├── sort/              # PC sorting
-│       ├── tab/               # PC bookmarks/tabs
-│       └── tooltip/           # PC tooltips
+│       ├── sorting/           # PC sorting
+│       │   ├── PcSortingFeature.java
+│       │   ├── PcSorter.java
+│       │   └── PcSortUIHandler.java
+│       ├── tabs/              # PC bookmarks/tabs
+│       │   ├── PcTabsFeature.java
+│       │   ├── PCTabManager.java
+│       │   └── ... (tab components)
+│       └── tooltips/          # PC tooltips
+│           ├── PcTooltipsFeature.java
+│           └── StorageSlotTooltipState.java
 │
 ├── command/                    # Client commands
 │   ├── CobbleAidCommand.java  # Main command
@@ -56,11 +70,12 @@ cc.turtl.cobbleaid/
 │   ├── GuiMixin.java
 │   └── pc/                    # PC-related mixins
 │       ├── StorageSlotMixin.java
-│       ├── neodaycare/
-│       ├── sort/
-│       ├── tab/
-│       ├── tooltip/
-│       └── wallpaper/
+│       ├── eggs/              # (future - currently in neodaycare)
+│       ├── neodaycare/        # Neo Daycare mixins
+│       ├── sorting/           # Sorting mixins
+│       ├── tabs/              # Tab mixins
+│       ├── tooltips/          # Tooltip mixins
+│       └── wallpaper/         # Wallpaper mixins
 │
 └── util/                       # Utility classes
     ├── MiscUtil.java
@@ -86,6 +101,45 @@ Features are managed by the `FeatureManager`, which handles:
 - Feature registration
 - Lifecycle management
 - Error handling and logging
+
+#### Registered Features
+
+The following features are currently registered in CobbleAid:
+
+1. **DemoFeature** (`feature.demo.DemoFeature`)
+   - Example feature for developers
+   - Always disabled (no config entry)
+   - Demonstrates feature implementation patterns
+
+2. **HudFeature** (`feature.hud.HudFeature`)
+   - Manages HUD overlays
+   - Includes PokeRod bait display
+   - Enabled via `config.showPokeRodBaitAboveHotbar`
+
+3. **PcIconsFeature** (`feature.pc.icons.PcIconsFeature`)
+   - Displays icons on PC slots
+   - Icons for: hidden ability, high IVs, shiny, extreme size, rideable
+   - Enabled if any icon is enabled in `config.pc.icons`
+
+4. **PcSortingFeature** (`feature.pc.sorting.PcSortingFeature`)
+   - Quick sort functionality for PC boxes
+   - Enabled via `config.pc.quickSortEnabled`
+
+5. **PcTabsFeature** (`feature.pc.tabs.PcTabsFeature`)
+   - Bookmark/tabs for PC boxes
+   - Per-world bookmark persistence
+   - Enabled via `config.pc.bookmarksEnabled`
+
+6. **PcTooltipsFeature** (`feature.pc.tooltips.PcTooltipsFeature`)
+   - Enhanced tooltips for PC slots
+   - Shows detailed Pokemon info
+   - Enabled via `config.pc.tooltip.showTooltips`
+
+7. **PcEggsFeature** (`feature.pc.eggs.PcEggsFeature`)
+   - Egg preview in PC (Neo Daycare integration)
+   - Enabled via `config.pc.showEggPreview`
+
+Each feature implements initialization logic and enablement checks based on configuration.
 
 ### Initialization Flow
 

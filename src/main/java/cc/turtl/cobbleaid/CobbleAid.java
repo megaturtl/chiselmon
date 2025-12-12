@@ -68,10 +68,19 @@ public class CobbleAid implements ClientModInitializer {
     
     private void registerFeatures() {
         // Register all features here
-        // Example: featureManager.register(new DemoFeature());
         
         // Demo feature (for developer reference)
         featureManager.register(new cc.turtl.cobbleaid.feature.demo.DemoFeature());
+        
+        // HUD features
+        featureManager.register(new cc.turtl.cobbleaid.feature.hud.HudFeature());
+        
+        // PC features
+        featureManager.register(new cc.turtl.cobbleaid.feature.pc.icons.PcIconsFeature());
+        featureManager.register(new cc.turtl.cobbleaid.feature.pc.sorting.PcSortingFeature());
+        featureManager.register(new cc.turtl.cobbleaid.feature.pc.tabs.PcTabsFeature());
+        featureManager.register(new cc.turtl.cobbleaid.feature.pc.tooltips.PcTooltipsFeature());
+        featureManager.register(new cc.turtl.cobbleaid.feature.pc.eggs.PcEggsFeature());
         
         LOGGER.debug("Features registered.");
     }
