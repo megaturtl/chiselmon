@@ -10,8 +10,8 @@ import com.cobblemon.mod.common.client.tooltips.SeasoningTooltipHelperKt;
 import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
 
-import cc.turtl.cobbleaid.api.format.FormatUtil;
-import cc.turtl.cobbleaid.api.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
-import static cc.turtl.cobbleaid.util.MiscUtil.modResource;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PokeSnackProvider implements IBlockComponentProvider {
     private PokeSnackProvider() {
@@ -58,7 +58,7 @@ public class PokeSnackProvider implements IBlockComponentProvider {
         if (config.get(POKESNACK_BLOCK_BITES_ID)) {
             int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
             int bitesRemaining = 9 - bites;
-            tooltip.add(FormatUtil.labelledValue("Bites Remaining: ", bitesRemaining));
+            tooltip.add(ComponentFormatUtil.labelledValue("Bites Remaining: ", bitesRemaining));
         }
 
         if (config.get(POKESNACK_BLOCK_INGREDIENTS_ID)) {

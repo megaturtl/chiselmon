@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.api.util;
+package cc.turtl.cobbleaid.util;
 
 public class ColorUtil {
     public static final int WHITE = 0xFFFFFF;

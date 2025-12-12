@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
-import cc.turtl.cobbleaid.api.render.TextRenderUtil;
-import cc.turtl.cobbleaid.api.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.TextRenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -14,10 +14,10 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PCTabButton extends Button implements CobblemonRenderable {
-    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath("cobbleaid",
-            "textures/gui/pc/pc_button_tab.png");
+    private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_tab.png");
 
     private static final int TEXTURE_WIDTH = 35;
     private static final int TEXTURE_HEIGHT = 20;

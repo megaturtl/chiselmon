@@ -4,10 +4,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.format.FormatUtil;
 import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
-import cc.turtl.cobbleaid.api.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.impl.ui.HealthElement;
-import static cc.turtl.cobbleaid.util.MiscUtil.modResource;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PokemonProvider implements IEntityComponentProvider {
     private PokemonProvider() {
@@ -61,22 +61,22 @@ public class PokemonProvider implements IEntityComponentProvider {
         tooltip.add(new HealthElement(pokemonEntity.getMaxHealth(), pokemonEntity.getHealth()));
 
         if (config.get(POKEMON_ENTITY_TYPING_ID)) {
-            tooltip.add(FormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {
-            tooltip.add(FormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon.getSpecies())));
+            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon.getSpecies())));
         }
 
         if (config.get(POKEMON_ENTITY_EV_ID)) {
-            tooltip.add(FormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
-            tooltip.add(FormatUtil.labelledValue("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
+            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
-                tooltip.append(FormatUtil.labelledValue(" ",
+                tooltip.append(ComponentFormatUtil.labelledValue(" ",
                         PokemonFormatUtil.catchChance(pokemonEntity, pokeBallItem.getPokeBall())));
             }
         }

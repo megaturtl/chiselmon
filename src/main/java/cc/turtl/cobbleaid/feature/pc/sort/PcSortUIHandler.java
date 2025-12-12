@@ -8,6 +8,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 import java.util.List;
 
@@ -16,7 +17,9 @@ public class PcSortUIHandler {
     // Helper interface to allow the handler to add buttons to the PCGUI
     public interface ButtonAdder {
         void addRenderableWidget(IconButton button);
+
         boolean isDisplayingOptions();
+
         List<IconButton> getOptionButtons();
     }
 
@@ -49,12 +52,8 @@ public class PcSortUIHandler {
             String tooltipKey = "ui.sort." + typeName;
             String labelKey = "sort_" + typeName;
 
-            ResourceLocation btnTexture = ResourceLocation.fromNamespaceAndPath(
-                    "cobbleaid",
-                    "textures/gui/pc/pc_button_sort_" + typeName + ".png");
-            ResourceLocation btnTextureAlt = ResourceLocation.fromNamespaceAndPath(
-                    "cobbleaid",
-                    "textures/gui/pc/pc_button_sort_" + typeName + "_reverse.png");
+            ResourceLocation btnTexture = modResource("textures/gui/pc/pc_button_sort_" + typeName + ".png");
+            ResourceLocation btnTextureAlt = modResource("textures/gui/pc/pc_button_sort_" + typeName + "_reverse.png");
 
             IconButton customSortBtn = new IconButton(
                     btnX, btnY,

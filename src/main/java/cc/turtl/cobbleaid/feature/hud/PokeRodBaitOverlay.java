@@ -2,7 +2,7 @@ package cc.turtl.cobbleaid.feature.hud;
 
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
-import cc.turtl.cobbleaid.api.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

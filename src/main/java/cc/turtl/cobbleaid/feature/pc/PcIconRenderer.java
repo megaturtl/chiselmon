@@ -6,27 +6,14 @@ import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.config.ModConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PcIconRenderer {
-    private static final ResourceLocation HIDDEN_ABILITY_ICON = ResourceLocation.fromNamespaceAndPath(
-            "cobbleaid",
-            "textures/gui/pc/ability_patch_icon.png");
-
-    private static final ResourceLocation HIGH_IVS_ICON = ResourceLocation.fromNamespaceAndPath(
-            "cobbleaid",
-            "textures/gui/pc/bottle_cap_icon.png");
-
-    private static final ResourceLocation SIZE_ICON = ResourceLocation.fromNamespaceAndPath(
-            "cobbleaid",
-            "textures/gui/pc/size_shroom_icon.png");
-
-    private static final ResourceLocation SHINY_ICON = ResourceLocation.fromNamespaceAndPath(
-            "cobbleaid",
-            "textures/gui/pc/shiny_sparkle_icon.png");
-
-    private static final ResourceLocation RIDEABLE_ICON = ResourceLocation.fromNamespaceAndPath(
-            "cobbleaid",
-            "textures/gui/pc/saddle_icon.png");
+    private static final ResourceLocation HIDDEN_ABILITY_ICON = modResource("textures/gui/pc/ability_patch_icon.png");
+    private static final ResourceLocation HIGH_IVS_ICON = modResource("textures/gui/pc/bottle_cap_icon.png");
+    private static final ResourceLocation SIZE_ICON = modResource("textures/gui/pc/size_shroom_icon.png");
+    private static final ResourceLocation SHINY_ICON = modResource("textures/gui/pc/shiny_sparkle_icon.png");
+    private static final ResourceLocation RIDEABLE_ICON = modResource("textures/gui/pc/saddle_icon.png");
 
     private static final int ICON_SIZE = 9; // Source texture size
     private static final int ICON_RENDER_SIZE = 5; // Target rendered size

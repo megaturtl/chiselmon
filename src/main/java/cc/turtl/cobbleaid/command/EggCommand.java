@@ -3,11 +3,11 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.format.FormatUtil;
 import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
-import cc.turtl.cobbleaid.util.StringUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
+import cc.turtl.cobbleaid.util.StringUtils;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.storage.ClientParty;
@@ -81,9 +81,9 @@ public class EggCommand {
             source.sendFeedback(Component.literal("Ability: §f").append(abilityName));
 
             source.sendFeedback(Component.literal("Size: §f" + String.format("%.2f", eggData.getEgg().getScaleModifier())));
-            source.sendFeedback(FormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
+            source.sendFeedback(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
             source.sendFeedback(Component.literal("Est. Steps Remaining: §f" + eggData.getStepsRemaining()));
-            source.sendFeedback(Component.literal("Est. Completion: §f" + StringUtil.formatPercentage(eggData.getHatchCompletion())));
+            source.sendFeedback(Component.literal("Est. Completion: §f" + StringUtils.formatPercentage(eggData.getHatchCompletion())));
 
             return 1;
 

@@ -5,10 +5,10 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.format.FormatUtil;
 import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -51,11 +51,11 @@ public class StorageWidgetMixin {
 
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
         if (config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
-            tooltip.add(FormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
-            tooltip.add(FormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(FormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));
-            tooltip.add(FormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
-            tooltip.add(FormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
+            tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));
+            tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
+            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
         }
 
         context.renderComponentTooltip(

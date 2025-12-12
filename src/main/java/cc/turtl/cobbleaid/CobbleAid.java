@@ -21,9 +21,6 @@ public class CobbleAid implements ClientModInitializer {
     private ModConfig config;
     private WorldDataManager worldManager;
 
-    public CobbleAid() {
-    }
-
     @Override
     public void onInitializeClient() {
         INSTANCE = this;

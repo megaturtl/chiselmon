@@ -13,10 +13,10 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 public class PCBookmarkButton extends Button implements CobblemonRenderable {
-    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath("cobbleaid",
-            "textures/gui/pc/pc_button_bookmark.png");
+    private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_bookmark.png");
 
     private static final int TEXTURE_WIDTH = 15;
     private static final int TEXTURE_HEIGHT = 28;

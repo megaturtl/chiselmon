@@ -1,6 +1,6 @@
 package cc.turtl.cobbleaid.api.format;
 
-import static cc.turtl.cobbleaid.api.format.FormatUtil.*;
+import static cc.turtl.cobbleaid.util.ComponentFormatUtil.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +21,8 @@ import com.cobblemon.mod.common.pokemon.Species;
 import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
 import cc.turtl.cobbleaid.api.predicate.MovePredicates;
 import cc.turtl.cobbleaid.api.util.CalcUtil;
-import cc.turtl.cobbleaid.api.util.ColorUtil;
-import cc.turtl.cobbleaid.util.StringUtil;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.StringUtils;
 import net.minecraft.network.chat.Component;
 
 public final class PokemonFormatUtil {
@@ -82,7 +82,7 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        IVs ivs = pokemon.getIvs(); 
+        IVs ivs = pokemon.getIvs();
 
         Component statsComponent = buildComponentWithSeparator(
                 Stats.Companion.getPERMANENT(),
@@ -99,7 +99,7 @@ public final class PokemonFormatUtil {
         return Component.empty()
                 .append(statsComponent)
                 .append(" (")
-                .append(colored(StringUtil.formatPercentage(totalPercent), totalRGB))
+                .append(colored(StringUtils.formatPercentage(totalPercent), totalRGB))
                 .append(")");
     }
 
@@ -175,7 +175,7 @@ public final class PokemonFormatUtil {
         float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
         int rgb = ColorUtil.getRatioGradientColor(catchChance / 1.0f);
 
-        Component catchChanceComponent = colored(StringUtil.formatPercentage(catchChance), rgb);
+        Component catchChanceComponent = colored(StringUtils.formatPercentage(catchChance), rgb);
 
         return Component.empty()
                 .append(colored("(", ColorUtil.LIGHT_GRAY))

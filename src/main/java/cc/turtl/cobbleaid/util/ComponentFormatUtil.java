@@ -1,6 +1,5 @@
-package cc.turtl.cobbleaid.api.format;
+package cc.turtl.cobbleaid.util;
 
-import cc.turtl.cobbleaid.api.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -11,15 +10,15 @@ import java.util.function.Function;
 /**
  * Base utility class for formatters providing common formatting utilities.
  */
-public class FormatUtil {
+public class ComponentFormatUtil {
 
     public static final Component UNKNOWN = colored("???", ColorUtil.DARK_GRAY);
 
-    protected static MutableComponent colored(String text, int color) {
+    public static MutableComponent colored(String text, int color) {
         return Component.literal(text).withColor(color);
     }
 
-    protected static MutableComponent colored(MutableComponent component, int color) {
+    public static MutableComponent colored(MutableComponent component, int color) {
         return component.withColor(color);
     }
 
@@ -27,7 +26,7 @@ public class FormatUtil {
         return colored(text, ColorUtil.LIGHT_GRAY);
     }
 
-    protected static <E> Component buildComponentWithSeparator(
+    public static <E> Component buildComponentWithSeparator(
             @Nullable Iterable<E> items,
             @NotNull Component separator,
             @NotNull Function<E, Component> mapper) {
@@ -70,6 +69,6 @@ public class FormatUtil {
         return labelComponent.append(valueComponent);
     }
 
-    private FormatUtil() {
+    private ComponentFormatUtil() {
     }
 }
