@@ -5,6 +5,9 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.WorldDataManager;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
+import cc.turtl.cobbleaid.util.ObjectDumper;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.storage.ClientParty;
@@ -16,10 +19,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
-import cc.turtl.cobbleaid.util.ObjectDumper;
 
 public class DebugCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
@@ -36,18 +36,18 @@ public class DebugCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandFeedbackHelper.sendHeader(source, "Debug Commands");
-        CommandFeedbackHelper.sendUsageWithDescription(source, "/cobbleaid debug dump <slot>", "Dumps info about provided slot.");
-        CommandFeedbackHelper.sendUsageWithDescription(source, "/cobbleaid debug dump look", "Dumps info about targeted pokemon entity.");
+        CommandFeedbackHelper.sendUsageWithDescription(source, "/" + CobbleAid.MODID + " debug dump <slot>",
+                "Dumps info about provided slot.");
+        CommandFeedbackHelper.sendUsageWithDescription(source, "/" + CobbleAid.MODID + " debug dump look",
+                "Dumps info about targeted pokemon entity.");
         return 1;
     }
 
     private static int executeTest(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("Testing random things"));
+        context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.CYAN));
+        context.getSource().sendFeedback(ComponentFormatUtil.colored("World ID:", ColorUtil.LIGHT_GRAY));
         context.getSource()
-                .sendFeedback(Component.literal("World ID:"));
-        context.getSource()
-                .sendFeedback(Component
-                        .literal(WorldDataManager.getWorldIdentifier()));
+                .sendFeedback(ComponentFormatUtil.colored(WorldDataManager.getWorldIdentifier(), ColorUtil.WHITE));
         return 1;
     }
 
@@ -68,12 +68,12 @@ public class DebugCommand {
                 return 1;
             }
 
-            source.sendFeedback(Component.literal("--- Dumping Pokemon at Slot " + (slot + 1) + " ---")
-                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FFFF))));
-            source.sendFeedback(Component.literal("Species: §f" + pokemon.getSpecies().getName()));
             source.sendFeedback(
-                    Component.literal("Species Resource ID: §f" + pokemon.getSpecies().getResourceIdentifier()));
-            source.sendFeedback(Component.literal("Level: §f" + pokemon.getLevel()));
+                    ComponentFormatUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.CYAN));
+            CommandFeedbackHelper.sendLabeled(source, "Species", pokemon.getSpecies().getName());
+            CommandFeedbackHelper.sendLabeled(source, "Species Resource ID",
+                    pokemon.getSpecies().getResourceIdentifier().toString());
+            CommandFeedbackHelper.sendLabeled(source, "Level", String.valueOf(pokemon.getLevel()));
 
             LOGGER.info("--- DUMPING FIELDS FOR POKEMON '{}' at slot {} ---", pokemon.getSpecies().getName(), slot + 1);
             ObjectDumper.logObjectFields(LOGGER, pokemon);
@@ -84,7 +84,7 @@ public class DebugCommand {
 
         } catch (Exception e) {
             CommandFeedbackHelper.sendError(source, "An unexpected error occurred during dump command!");
-            LOGGER.error("Error executing dump command:", e);
+            CobbleAid.getLogger().error("Error executing dump command:", e);
             return 0;
         }
     }
@@ -94,8 +94,7 @@ public class DebugCommand {
         FabricClientCommandSource source = context.getSource();
 
         try {
-            source.sendFeedback(Component.literal("--- Dumping Targeted Entity ---")
-                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FFFF))));
+            source.sendFeedback(ComponentFormatUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.CYAN));
             Minecraft minecraftClient = Minecraft.getInstance();
             Entity lookingAtEntity = minecraftClient.crosshairPickEntity;
 
@@ -107,10 +106,11 @@ public class DebugCommand {
             if (lookingAtEntity instanceof PokemonEntity pokemonEntity) {
                 Pokemon pokemon = pokemonEntity.getPokemon();
 
-                source.sendFeedback(Component.literal("--- Dumping Targeted POKEMON Object ---")
-                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FF55))));
-                source.sendFeedback(Component.literal("Moves: " + pokemonEntity.getPokemon().getMoveSet().getMoves()
-                        .stream().map(m -> m.getTemplate().getName()).toList()));
+                source.sendFeedback(
+                        ComponentFormatUtil.colored("--- Dumping Targeted POKEMON Object ---", ColorUtil.GREEN));
+                CommandFeedbackHelper.sendLabeled(source, "Moves", pokemonEntity.getPokemon().getMoveSet().getMoves()
+                        .stream().map(m -> m.getTemplate().getName()).toList().toString());
+                LOGGER.info("Logging object details for targeted Pokemon...");
                 ObjectDumper.logObjectFields(LOGGER, pokemon);
                 CommandFeedbackHelper.sendWarning(source, "Full object dump sent to console/log.");
                 return 1;

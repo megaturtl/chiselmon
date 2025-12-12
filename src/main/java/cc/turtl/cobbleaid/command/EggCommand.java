@@ -8,6 +8,7 @@ import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import cc.turtl.cobbleaid.util.StringUtils;
+import cc.turtl.cobbleaid.util.ColorUtil;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.storage.ClientParty;
@@ -19,7 +20,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextColor;
 
 public class EggCommand {
 
@@ -33,7 +33,7 @@ public class EggCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandFeedbackHelper.sendHeader(source, "Egg Commands");
-        CommandFeedbackHelper.sendUsage(source, "/cobbleaid egg info <slot>");
+        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " egg info <slot>");
         return 1;
     }
 
@@ -67,27 +67,26 @@ public class EggCommand {
 
             NeoDaycareEgg eggData = NeoDaycareEgg.from(pokemon);
 
-            source.sendFeedback(Component.literal("--- Egg Info at slot " + (slot + 1) + " ---")
-                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x55FFFF))));
-            source.sendFeedback(Component.literal("Species: §f" + eggData.getEgg().getSpecies().getName()));
-            source.sendFeedback(Component.literal("Gender: §f" + eggData.getEgg().getGender()));
+            source.sendFeedback(ComponentFormatUtil.colored("--- Egg Info at slot " + (slot + 1) + " ---", ColorUtil.CYAN));
+            CommandFeedbackHelper.sendLabeled(source, "Species", eggData.getEgg().getSpecies().getName());
+            CommandFeedbackHelper.sendLabeled(source, "Gender", eggData.getEgg().getGender().toString());
 
             MutableComponent natureName = Component.translatable(eggData.getEgg().getNature().getDisplayName());
-            source.sendFeedback(Component.literal("Nature: §f").append(natureName));
+            CommandFeedbackHelper.sendLabeled(source, "Nature", natureName);
 
             MutableComponent abilityName = Component.translatable(eggData.getEgg().getAbility().getDisplayName());
-            source.sendFeedback(Component.literal("Ability: §f").append(abilityName));
+            CommandFeedbackHelper.sendLabeled(source, "Ability", abilityName);
 
-            source.sendFeedback(Component.literal("Size: §f" + String.format("%.2f", eggData.getEgg().getScaleModifier())));
+            CommandFeedbackHelper.sendLabeled(source, "Size", String.format("%.2f", eggData.getEgg().getScaleModifier()));
             source.sendFeedback(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
-            source.sendFeedback(Component.literal("Est. Steps Remaining: §f" + eggData.getStepsRemaining()));
-            source.sendFeedback(Component.literal("Est. Completion: §f" + StringUtils.formatPercentage(eggData.getHatchCompletion())));
+            CommandFeedbackHelper.sendLabeled(source, "Est. Steps Remaining", String.valueOf(eggData.getStepsRemaining()));
+            CommandFeedbackHelper.sendLabeled(source, "Est. Completion", StringUtils.formatPercentage(eggData.getHatchCompletion()));
 
             return 1;
 
         } catch (Exception e) {
             CommandFeedbackHelper.sendError(source, "An unexpected error occurred during egg info command!");
-            LOGGER.error("Error executing egg info command:", e);
+            CobbleAid.getLogger().error("Error executing egg info command:", e);
             return 0;
         }
     }

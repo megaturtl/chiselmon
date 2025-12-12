@@ -1,144 +1,170 @@
 package cc.turtl.cobbleaid.util;
 
-import java.lang.reflect.Field;
-
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * Improved, readable Object dumper:
+ * - prints one logical line per field
+ * - supports arrays and Collections
+ * - avoids infinite recursion via identity-based visited set
+ * - has a configurable max recursion depth
+ */
 public class ObjectDumper {
 
-    // Maximum recursion depth to prevent StackOverflowError on circular references.
-    // Set to 2 as per the user's latest provided code.
-    private static final int MAX_RECURSION_DEPTH = 2;
+    private static final int DEFAULT_MAX_DEPTH = 3;
+    private static final int INDENT_SPACES = 2;
 
-    /**
-     * Public entry point for dumping an object. Starts the recursion at depth 0.
-     *
-     * @param logger The custom Logger instance to use for output.
-     * @param obj    The object instance to inspect and log.
-     */
     public static void logObjectFields(CobbleAidLogger logger, Object obj) {
-        logObjectFields(logger, obj, 0, MAX_RECURSION_DEPTH);
+        logObjectFields(logger, obj, DEFAULT_MAX_DEPTH);
     }
 
-    /**
-     * Generates an indentation string based on the current depth level.
-     */
-    private static String getIndentation(int depth) {
-        // Use 4 spaces per depth level for readability
-        return " ".repeat(depth * 4);
-    }
-
-    /**
-     * Checks if a type is considered a "complex object" that should be recursively
-     * inspected, or a simple type (primitive, String, array, wrapper, or
-     * Collection)
-     * that should just be logged directly using its toString() method.
-     */
-    private static boolean isComplexObject(Class<?> type) {
-        // Check for common simple/utility types first
-        return !type.isPrimitive() &&
-                !type.isArray() &&
-                !type.equals(String.class) &&
-                !type.isEnum() &&
-                // Check if it's a standard Java Collection (List, Set, Map, etc.)
-                !Collection.class.isAssignableFrom(type) &&
-                // Check if it belongs to standard java namespaces that should be filtered
-                !type.getName().startsWith("java.lang.") &&
-                !Number.class.isAssignableFrom(type) &&
-                !Boolean.class.isAssignableFrom(type) &&
-                !Character.class.isAssignableFrom(type);
-    }
-
-    /**
-     * The core recursive method for dumping object fields.
-     */
-    private static void logObjectFields(CobbleAidLogger logger, Object obj, int depth, int maxDepth) {
+    public static void logObjectFields(CobbleAidLogger logger, Object obj, int maxDepth) {
+        Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
         if (obj == null) {
-            // Log null check message at INFO level
-            logger.info(getIndentation(depth) + "Attempted to dump fields for a null object.");
+            logger.info("[ObjectDumper] Attempted to dump a null object.");
+            return;
+        }
+        dump(logger, obj, 0, maxDepth, visited);
+    }
+
+    private static String indent(int depth) {
+        return " ".repeat(Math.max(0, depth * INDENT_SPACES));
+    }
+
+    private static void dump(CobbleAidLogger logger, Object obj, int depth, int maxDepth, Set<Object> visited) {
+        if (obj == null) {
+            logger.info("{}null", indent(depth));
             return;
         }
 
         if (depth > maxDepth) {
-            // Log depth limit message at TRACE level (suppressed from INFO output)
-            logger.trace(
-                    getIndentation(depth)
-                            + "[DEPTH LIMIT] Object of type {} reached max recursion depth ({}). Skipping...",
-                    obj.getClass().getSimpleName(), maxDepth);
+            logger.info("{}[DEPTH LIMIT] {} (skipping details)", indent(depth), obj.getClass().getName());
             return;
         }
+
+        // Avoid cycles by identity
+        if (visited.contains(obj)) {
+            logger.info("{}[CYCLE] {} (already visited)", indent(depth), obj.getClass().getName());
+            return;
+        }
+        visited.add(obj);
 
         Class<?> clazz = obj.getClass();
-        String className = clazz.getName();
-        String indent = getIndentation(depth);
+        String header = clazz.getName();
 
-        // --- Class Filtering Check ---
-        // Skip reflection for core Java types to avoid InaccessibleObjectException.
-        if (className.startsWith("java.") ||
-                className.startsWith("javax.") ||
-                className.startsWith("jdk.") ||
-                className.startsWith("sun.")) {
-            // Log filtering at TRACE level (suppressed from INFO output)
-            logger.trace(indent + "Skipping field dump for core Java type: {}", className);
+        // Skip dumping full internals of JDK/core classes — print concise
+        // representation instead
+        if (isCoreJavaClass(clazz)) {
+            logger.info("{}{} => {}", indent(depth), header, obj.toString());
             return;
         }
-        // --- END Class Filtering Check ---
 
-        // Log DUMPING marker at INFO level
-        logger.info(indent + "--- DUMPING: {} (Depth: {}) ---", className, depth);
+        logger.info("{}--- DUMP: {} ---", indent(depth), header);
 
         Field[] fields = clazz.getDeclaredFields();
-
         if (fields.length == 0) {
-            // Log 'No fields found' at INFO level
-            logger.info(indent + "No fields found in class {}.", className);
+            logger.info("{}(no declared fields)", indent(depth + 1));
+            logger.info("{}--- END DUMP: {} ---", indent(depth), header);
             return;
         }
 
         for (Field field : fields) {
-            String fieldName = field.getName();
-            Object fieldValue = null;
-
+            String name = field.getName();
             try {
-                // Bypass Java language access checking (required for private fields)
                 field.setAccessible(true);
+                Object value = field.get(obj);
+                Class<?> type = field.getType();
 
-                fieldValue = field.get(obj);
-                String typeName = field.getType().getSimpleName();
-
-                // Get the full class name of the nested object for detailed output
-                String nestedClassName = (fieldValue != null) ? fieldValue.getClass().getName() : "null";
-
-                // SUCCESS messages are at INFO level
-                if (field.getType().isArray()) {
-                    // Handle arrays separately for clean output
-                    String arrayString = (fieldValue != null) ? Arrays.toString((Object[]) fieldValue) : "null";
-                    logger.info(indent + "  [SUCCESS] {}: {} (Type: {})",
-                            fieldName, arrayString, typeName);
-                } else if (isComplexObject(field.getType())) {
-                    // MODIFIED: Log the full class name instead of "<Nested Object>"
-                    logger.info(indent + "  [SUCCESS] {}: <{}> (Type: {})",
-                            fieldName, nestedClassName, typeName);
-                    // Recursive call with incremented depth
-                    logObjectFields(logger, fieldValue, depth + 1, maxDepth);
-                } else {
-                    // Simple object, Wrapper, String, Enum, or Collection (prints via toString())
-                    logger.info(indent + "  [SUCCESS] {}: {} (Type: {})",
-                            fieldName, fieldValue, typeName);
+                if (value == null) {
+                    logger.info("{}{}: null (Type: {})", indent(depth + 1), name, type.getSimpleName());
+                    continue;
                 }
 
-            } catch (Exception e) {
-                // Skip/Error messages are now at TRACE level (suppressed from INFO output)
-                // Catching all reflection exceptions safely
-                logger.trace(indent + "  [SKIP] Could not access field '{}'. Reason: {}. Continuing...",
-                        fieldName,
-                        e.getMessage());
+                if (type.isArray()) {
+                    int length = Array.getLength(value);
+                    List<String> elems = new ArrayList<>(length);
+                    for (int i = 0; i < length; i++) {
+                        Object el = Array.get(value, i);
+                        elems.add(simpleRepresentation(el));
+                    }
+                    logger.info("{}{}: [{}] (Type: {}[])",
+                            indent(depth + 1), name, String.join(", ", elems), type.getComponentType().getSimpleName());
+                } else if (Collection.class.isAssignableFrom(type)) {
+                    Collection<?> col = (Collection<?>) value;
+                    String repr = col.stream().map(ObjectDumper::simpleRepresentation).limit(20)
+                            .collect(Collectors.joining(", "));
+                    if (col.size() > 20)
+                        repr += ", ... (+" + (col.size() - 20) + ")";
+                    logger.info("{}{}: [{}] (Type: Collection, size={})", indent(depth + 1), name, repr, col.size());
+                } else if (Map.class.isAssignableFrom(type)) {
+                    Map<?, ?> m = (Map<?, ?>) value;
+                    String repr = m.entrySet().stream()
+                            .map(e -> simpleRepresentation(e.getKey()) + "=" + simpleRepresentation(e.getValue()))
+                            .limit(20)
+                            .collect(Collectors.joining(", "));
+                    if (m.size() > 20)
+                        repr += ", ... (+" + (m.size() - 20) + ")";
+                    logger.info("{}{}: {{{}}} (Type: Map, size={})", indent(depth + 1), name, repr, m.size());
+                } else if (isSimpleType(type)) {
+                    logger.info("{}{}: {} (Type: {})", indent(depth + 1), name, simpleRepresentation(value),
+                            type.getSimpleName());
+                } else {
+                    // Complex object: print summary and then recurse
+                    logger.info("{}{}: <{}> (Type: {})", indent(depth + 1), name, value.getClass().getName(),
+                            type.getSimpleName());
+                    dump(logger, value, depth + 1, maxDepth, visited);
+                }
+
+            } catch (Exception ex) {
+                logger.trace("{}[SKIP] {}: (could not access) - {}", indent(depth + 1), name, ex.getMessage());
             }
         }
-        // Log END DUMP marker at INFO level
-        logger.info(indent + "--- END DUMP: {} ---", className);
+
+        logger.info("{}--- END DUMP: {} ---", indent(depth), header);
+    }
+
+    private static boolean isSimpleType(Class<?> cls) {
+        return cls.isPrimitive() ||
+                Number.class.isAssignableFrom(cls) ||
+                Boolean.class.isAssignableFrom(cls) ||
+                Character.class.isAssignableFrom(cls) ||
+                String.class.equals(cls) ||
+                cls.isEnum() ||
+                cls.getName().startsWith("java.");
+    }
+
+    private static boolean isCoreJavaClass(Class<?> cls) {
+        String n = cls.getName();
+        return n.startsWith("java.") || n.startsWith("javax.") || n.startsWith("sun.") || n.startsWith("jdk.");
+    }
+
+    private static String simpleRepresentation(Object o) {
+        if (o == null)
+            return "null";
+        if (o.getClass().isArray()) {
+            int len = Array.getLength(o);
+            List<String> items = new ArrayList<>(len);
+            for (int i = 0; i < len && i < 10; i++) {
+                items.add(simpleRepresentation(Array.get(o, i)));
+            }
+            if (len > 10)
+                items.add("... (+" + (len - 10) + ")");
+            return "[" + String.join(", ", items) + "]";
+        }
+        if (o instanceof Collection<?> c) {
+            return "[" + c.stream().map(ObjectDumper::simpleRepresentation).limit(10).collect(Collectors.joining(", "))
+                    + "]";
+        }
+        if (o instanceof Map<?, ?> m) {
+            return "{" + m.entrySet().stream()
+                    .map(e -> simpleRepresentation(e.getKey()) + "=" + simpleRepresentation(e.getValue())).limit(10)
+                    .collect(Collectors.joining(", ")) + "}";
+        }
+        return o.toString();
     }
 }

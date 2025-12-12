@@ -4,11 +4,12 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.network.chat.Component;
 
 public class ConfigCommand {
 
@@ -23,9 +24,9 @@ public class ConfigCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandFeedbackHelper.sendHeader(source, "Config Commands");
-        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config enable");
-        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config disable");
-        CommandFeedbackHelper.sendUsage(source, "/cobbleaid config status");
+        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config enable");
+        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config disable");
+        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config status");
         return 1;
     }
 
@@ -43,14 +44,22 @@ public class ConfigCommand {
         config.modDisabled = true;
         CobbleAid.getInstance().saveConfig();
 
-        context.getSource().sendFeedback(Component.literal("§cCobble Aid has been disabled!"));
+        CommandFeedbackHelper.sendError(context.getSource(), "Cobble Aid has been disabled!");
         return 1;
     }
 
     private static int executeStatus(CommandContext<FabricClientCommandSource> context) {
         ModConfig config = CobbleAid.getInstance().getConfig();
-        String status = config.modDisabled ? "§cDisabled" : "§aEnabled";
-        context.getSource().sendFeedback(Component.literal("§7Cobble Aid Status: " + status));
+        FabricClientCommandSource source = context.getSource();
+
+        if (config.modDisabled) {
+            CommandFeedbackHelper.sendLabeled(source, "Cobble Aid Status",
+                    ComponentFormatUtil.colored("Disabled", ColorUtil.RED));
+        } else {
+            CommandFeedbackHelper.sendLabeled(source, "Cobble Aid Status",
+                    ComponentFormatUtil.colored("Enabled", ColorUtil.GREEN));
+        }
+
         return 1;
     }
 }

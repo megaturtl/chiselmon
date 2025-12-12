@@ -12,7 +12,6 @@ chmod +x ./gradlew  # Run once if permission denied
 ./gradlew build     # Takes 2-3 minutes
 ```
 
-**Known Issue**: `loom_version=1.13-SNAPSHOT` may fail locally → **Resolves to 1.13.6 in CI**. Don't modify.
 **Expected warning**: `Cannot remap outer...WallpaperEntry` during remapJar (non-critical).
 
 ## CI Workflow (.github/workflows/build.yml)
@@ -200,7 +199,5 @@ IVs.MAX_VALUE = 31
 - **CLIENT-SIDE ONLY** - No server code
 - **Java 21 required** - CI uses 21.0.2 (Microsoft)
 - **Trust these instructions** - Search only if incomplete/incorrect
-- **CI is authoritative** - Local SNAPSHOT issue OK if CI passes
 - **Mixin fragility** - Test thoroughly, breaks with Cobblemon updates
 - **Null safety** - Use `Comparator.nullsLast()`, check config nulls
-- **Z-index** - Use 99.0 for overlays to render on top

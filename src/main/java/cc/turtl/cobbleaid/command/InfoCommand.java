@@ -15,8 +15,8 @@ public class InfoCommand {
     private static int execute(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandFeedbackHelper.sendHeader(source, "Cobble Aid Info");
-        CommandFeedbackHelper.sendInfo(source, "Version", CobbleAid.VERSION);
-        CommandFeedbackHelper.sendInfo(source, "Author", "megaturtl");
+        CommandFeedbackHelper.sendLabeled(source, "Version", CobbleAid.VERSION);
+        CommandFeedbackHelper.sendLabeled(source, "Author", "megaturtl");
         return 1;
     }
     
