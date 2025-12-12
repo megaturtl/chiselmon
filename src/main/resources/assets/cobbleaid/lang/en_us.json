@@ -2,7 +2,7 @@
     "text.autoconfig.cobbleaid.title": "Cobble Aid Config",
     "text.autoconfig.cobbleaid.category.default": "General Settings",
     "text.autoconfig.cobbleaid.category.pc": "PC Settings",
-    "text.autoconfig.cobbleaid.category.misc": "Misc Settings",
+    "text.autoconfig.cobbleaid.category.hud": "HUD Settings",
     
     
     "text.autoconfig.cobbleaid.option.modDisabled": "Disable Cobble Aid",
