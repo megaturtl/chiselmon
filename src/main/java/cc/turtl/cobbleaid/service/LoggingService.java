@@ -26,10 +26,6 @@ public class LoggingService {
         });
     }
 
-    public CobbleAidLogger logger(Class<?> clazz) {
-        return getLogger(clazz);
-    }
-
     public void setDebugMode(boolean enabled) {
         this.debugEnabled = enabled;
         rootLogger.setDebugMode(enabled);

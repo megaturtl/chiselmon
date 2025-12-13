@@ -10,6 +10,6 @@ public interface CobbleAidServices {
     WorldDataService worldData();
 
     default CobbleAidLogger logger(Class<?> clazz) {
-        return logging().logger(clazz);
+        return logging().getLogger(clazz);
     }
 }
