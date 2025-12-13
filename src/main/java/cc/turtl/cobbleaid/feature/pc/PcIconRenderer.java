@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -61,7 +62,8 @@ public class PcIconRenderer {
             return;
         }
 
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ConfigService configService = CobbleAid.services().config();
+        ModConfig config = configService.get();
         if (config == null) {
             return;
         }

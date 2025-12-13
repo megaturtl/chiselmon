@@ -3,85 +3,55 @@ package cc.turtl.cobbleaid;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.config.ModConfig;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import cc.turtl.cobbleaid.service.CobbleAidServices;
+import cc.turtl.cobbleaid.service.ConfigService;
+import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
+import cc.turtl.cobbleaid.service.LoggingService;
+import cc.turtl.cobbleaid.service.WorldDataService;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.world.InteractionResult;
 
 public class CobbleAid implements ClientModInitializer {
     public static final String MODID = "cobbleaid";
     public static final String VERSION = "1.0.1";
 
-    private static final CobbleAidLogger LOGGER = new CobbleAidLogger(MODID);
-
     private static CobbleAid INSTANCE;
-
-    private ConfigHolder<ModConfig> configHolder;
-    private ModConfig config;
-    private WorldDataManager worldManager;
+    private CobbleAidServices services;
+    private CobbleAidLogger logger;
 
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
-
-        preInitialize();
-        initialize();
-
-        LOGGER.info("Cobble Aid " + VERSION + " initialized.");
-    }
-
-    private void preInitialize() {
-        loadConfig();
-        initializeWorldManager();
-
-        LOGGER.debug("Pre-initialization complete.");
-    }
-
-    private void initialize() {
+        initializeServices();
         registerCommands();
         registerListeners();
-        LOGGER.debug("Initialization complete.");
+        logger.info("Cobble Aid " + VERSION + " initialized.");
     }
 
     private void registerCommands() {
         CobbleAidCommand.register();
-        LOGGER.debug("Commands registered.");
+        logger.debug("Commands registered.");
     }
 
     private void registerListeners() {
     }
 
-    private void loadConfig() {
-        this.configHolder = AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-        configHolder.registerSaveListener(this::onConfigSave);
-
-        this.config = configHolder.getConfig();
-        LOGGER.setDebugMode(config.debugMode);
-    }
-
-    private void initializeWorldManager() {
-        // Pass the persistent map from the loaded config to the WorldManager
-        // constructor.
-        this.worldManager = new WorldDataManager(this.config.worldDataMap);
-        LOGGER.debug("WorldManager initialized with persistent data.");
-    }
-
-    private InteractionResult onConfigSave(ConfigHolder<ModConfig> manager, ModConfig data) {
-        data.validate_fields();
-        LOGGER.setDebugMode(data.debugMode);
-        LOGGER.debug("Configuration saved successfully.");
-        return InteractionResult.SUCCESS;
+    private void initializeServices() {
+        LoggingService loggingService = new LoggingService(MODID);
+        ConfigService configService = new ConfigService(loggingService.getLogger(CobbleAid.class));
+        configService.addListener(cfg -> loggingService.setDebugMode(cfg.debugMode));
+        loggingService.setDebugMode(configService.get().debugMode);
+        WorldDataService worldDataService = new WorldDataService(configService.get().worldDataMap);
+        this.services = new DefaultCobbleAidServices(configService, loggingService, worldDataService);
+        this.logger = this.services.logger(CobbleAid.class);
+        this.logger.debug("Services initialized.");
     }
 
     public void reloadConfig() {
-        this.config = configHolder.getConfig();
-        LOGGER.setDebugMode(config.debugMode);
-        LOGGER.info("Configuration reloaded.");
+        services.config().reload();
     }
 
     public void saveConfig() {
-        configHolder.save();
+        services.config().save();
     }
 
     public static CobbleAid getInstance() {
@@ -92,18 +62,21 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     public static CobbleAidLogger getLogger() {
-        return LOGGER;
+        return services().logger(CobbleAid.class);
     }
 
-    public ConfigHolder<ModConfig> getConfigHolder() {
-        return configHolder;
+    public static CobbleAidServices services() {
+        if (getInstance().services == null) {
+            throw new IllegalStateException("Cobble Aid services have not been initialized yet!");
+        }
+        return getInstance().services;
     }
 
     public ModConfig getConfig() {
-        return config;
+        return services().config().get();
     }
 
     public WorldDataStore getWorldData() {
-        return worldManager.getOrCreateStore();
+        return services().worldData().current();
     }
 }

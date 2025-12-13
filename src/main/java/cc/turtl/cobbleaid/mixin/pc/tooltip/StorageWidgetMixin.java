@@ -8,6 +8,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
+import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -29,7 +30,8 @@ public class StorageWidgetMixin {
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void cobbleaid$renderStorageTooltips(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ConfigService configService = CobbleAid.services().config();
+        ModConfig config = configService.get();
 
         if (config.modDisabled || !config.pc.tooltip.showTooltips) {
             StorageSlotTooltipState.clear();

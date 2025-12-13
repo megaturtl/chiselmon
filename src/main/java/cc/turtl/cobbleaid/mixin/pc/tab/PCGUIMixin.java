@@ -11,6 +11,8 @@ import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
+import cc.turtl.cobbleaid.service.ConfigService;
+import cc.turtl.cobbleaid.service.CobbleAidServices;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -52,17 +54,18 @@ public abstract class PCGUIMixin extends Screen {
     @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
-    final CobbleAid INSTANCE = CobbleAid.getInstance();
-    ModConfig config = CobbleAid.getInstance().getConfig();
+    private final CobbleAidServices services = CobbleAid.services();
+    private final ConfigService configService = services.config();
 
     @Unique
     private PCTabStore cobbleaid$getTabStore() {
-        return INSTANCE.getWorldData().getPcTabStore();
+        return services.worldData().current().getPcTabStore();
     }
 
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addTabElements(CallbackInfo ci) {
+        ModConfig config = configService.get();
         if (config.modDisabled || !config.pc.bookmarksEnabled) {
             return;
         }
@@ -74,12 +77,12 @@ public abstract class PCGUIMixin extends Screen {
             int currentBoxNumber = storageWidget.getBox();
             if (tabStore.hasBoxNumber(currentBoxNumber)) {
                 tabStore.removeTab(currentBoxNumber);
-                INSTANCE.saveConfig();
+                configService.save();
             } else if (tabStore.isFull()) {
                 return;
             } else {
                 tabStore.addTab(currentBoxNumber);
-                INSTANCE.saveConfig();
+                configService.save();
             }
             cobbleaid$rebuildTabButtons();
         };
@@ -97,6 +100,7 @@ public abstract class PCGUIMixin extends Screen {
     @Inject(method = "render", at = @At("HEAD"))
     private void cobbleaid$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
+        ModConfig config = configService.get();
         if (config.modDisabled || !config.pc.bookmarksEnabled || this.cobbleaid$bookmarkButton == null) {
             return;
         }

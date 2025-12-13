@@ -17,6 +17,14 @@ public final class PokemonPredicates {
     private PokemonPredicates() {
     }
 
+    private static ModConfig getConfigSafe() {
+        try {
+            return CobbleAid.services().config().get();
+        } catch (IllegalStateException e) {
+            return null;
+        }
+    }
+
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
@@ -31,7 +39,7 @@ public final class PokemonPredicates {
         if (ivs == null)
             return false;
 
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = getConfigSafe();
         if (config == null)
             return false;
 
@@ -39,12 +47,12 @@ public final class PokemonPredicates {
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = getConfigSafe();
         return config != null && pokemon.getScaleModifier() <= config.threshold.extremeSmall;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = pokemon -> {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = getConfigSafe();
         return config != null && pokemon.getScaleModifier() >= config.threshold.extremeLarge;
     };
 
