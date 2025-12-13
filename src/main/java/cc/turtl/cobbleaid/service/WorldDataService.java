@@ -1,5 +1,6 @@
 package cc.turtl.cobbleaid.service;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +19,6 @@ public class WorldDataService {
     }
 
     public Map<String, WorldDataStore> backingStore() {
-        return worldDataMap;
+        return Collections.unmodifiableMap(worldDataMap);
     }
 }
