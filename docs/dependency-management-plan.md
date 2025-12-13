@@ -16,7 +16,7 @@ Create a small, explicit service container that owns the core dependencies and e
   - `LoggingService` (creates loggers; reacts to config debug flag changes)
   - `WorldDataService` (per-world store lookup/persistence; decoupled from config storage)
   - Optional helpers (e.g., `LifecycleEvents`, `Scheduler`) if needed later.
-- **Access**: Provide a single static accessor `CobbleAid.services()` returning the context; other classes request specific services (`services().config()`, `services().worldData()`, `services().logger(Class<?>)`). Avoid caching config snapshots; prefer lightweight accessors or listeners.
+- **Access**: Provide a single static accessor `CobbleAid.services()` returning the context; other classes request specific services (`services().config()`, `services().worldData()`, `services().logging()` with a short alias like `services().logger(Class<?>)`). Avoid caching config snapshots; prefer lightweight accessors or listeners.
 - **Lifecycle**: Bootstrap order in `onInitializeClient`: construct context → load config → wire logger level → create world data service → register commands/listeners with dependencies passed in (not read statically).
 
 ## Refactor plan (phased, minimal-risk)
@@ -30,7 +30,7 @@ Create a small, explicit service container that owns the core dependencies and e
    - Register commands/listeners by passing required services explicitly (constructor params or method args).
 3. **Migrate consumers incrementally**
    - Replace `CobbleAid.getInstance().getConfig()` usage with `CobbleAid.services().config().get()`; avoid caching in fields where reload is expected.
-   - Replace `CobbleAid.getLogger()` usages with `CobbleAid.services().logging().getLogger(Class<?>)`.
+   - Replace `CobbleAid.getLogger()` usages with `CobbleAid.services().logging().getLogger(Class<?>)` (or the alias `services().logger(Class<?>)` for brevity).
    - Replace `CobbleAid.getWorldData()` with `CobbleAid.services().worldData().current()` (or similar).
    - Update mixins with small helper accessors to call services at use time (keeps lazy and reload-safe).
 4. **Decouple world data from config storage**
