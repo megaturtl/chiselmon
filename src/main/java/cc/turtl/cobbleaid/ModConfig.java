@@ -111,14 +111,8 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public List<String> trackedPokemon = new ArrayList<>(Arrays.asList(
-                "Bulbasaur",
+                "Sentret",
                 "Fomantis",
-                "Dreepy"));
-
-        @ConfigEntry.Gui.Tooltip
-        public int hudX = 10;
-
-        @ConfigEntry.Gui.Tooltip
-        public int hudY = 10;
+                "Bidoof"));
     }
 }
