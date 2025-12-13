@@ -67,7 +67,7 @@ public class CobbleAid implements ClientModInitializer {
 
     public static CobbleAidServices services() {
         if (getInstance().services == null) {
-            throw new IllegalStateException("Cobble Aid services have not been initialized yet!");
+            throw new IllegalStateException("Cobble Aid services are not initialized yet; access them after client initialization.");
         }
         return getInstance().services;
     }

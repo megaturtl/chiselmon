@@ -17,6 +17,7 @@ public final class PokemonPredicates {
     private PokemonPredicates() {
     }
 
+    // Defensive helper to avoid crashes if predicates are invoked before services finish bootstrapping.
     private static ModConfig getConfigSafe() {
         try {
             return CobbleAid.services().config().get();

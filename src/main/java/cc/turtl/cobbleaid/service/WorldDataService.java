@@ -22,7 +22,16 @@ public class WorldDataService {
     }
 
     public WorldDataStore current() {
-        return worldDataMap.computeIfAbsent(worldIdentifierSupplier.get(), x -> new WorldDataStore());
+        String worldId;
+        try {
+            worldId = worldIdentifierSupplier.get();
+        } catch (Exception e) {
+            worldId = "FALLBACK";
+        }
+        if (worldId == null) {
+            worldId = "FALLBACK";
+        }
+        return worldDataMap.computeIfAbsent(worldId, x -> new WorldDataStore());
     }
 
     public Map<String, WorldDataStore> backingStore() {

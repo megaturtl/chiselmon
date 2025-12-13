@@ -19,9 +19,10 @@ public class LoggingService {
     }
 
     public CobbleAidLogger getLogger(Class<?> clazz) {
+        final boolean enabled = debugEnabled;
         return loggerMap.computeIfAbsent(clazz, c -> {
             CobbleAidLogger logger = new CobbleAidLogger(c.getName());
-            logger.setDebugMode(debugEnabled);
+            logger.setDebugMode(enabled);
             return logger;
         });
     }
