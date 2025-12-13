@@ -14,6 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ChatComponentMixin {
     @Inject(method = "addMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/GuiMessageTag;)V", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$captureSpawnResponses(Component chatComponent, MessageSignature signature, GuiMessageTag guiMessageTag, CallbackInfo ci) {
+        if (signature != null) {
+            return;
+        }
+
         if (SpawnHudFeature.captureChat(chatComponent)) {
             ci.cancel();
         }
