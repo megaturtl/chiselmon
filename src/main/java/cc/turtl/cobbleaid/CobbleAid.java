@@ -8,6 +8,7 @@ import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
 import cc.turtl.cobbleaid.service.LoggerService;
 import cc.turtl.cobbleaid.service.WorldDataService;
+import cc.turtl.cobbleaid.feature.spawn.SpawnHudFeature;
 import net.fabricmc.api.ClientModInitializer;
 
 public class CobbleAid implements ClientModInitializer {
@@ -33,6 +34,7 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     private void registerListeners() {
+        SpawnHudFeature.register();
     }
 
     private void initializeServices() {
