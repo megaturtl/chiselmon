@@ -1,6 +1,5 @@
 package cc.turtl.cobbleaid.mixin;
 
-import cc.turtl.cobbleaid.feature.spawn.SpawnHudFeature;
 import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
@@ -10,6 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import cc.turtl.cobbleaid.feature.hud.spawntracker.SpawnTrackerFeature;
+
 @Mixin(ChatComponent.class)
 public abstract class ChatComponentMixin {
     @Inject(method = "addMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/GuiMessageTag;)V", at = @At("HEAD"), cancellable = true)
@@ -18,7 +19,7 @@ public abstract class ChatComponentMixin {
             return;
         }
 
-        if (SpawnHudFeature.captureChat(chatComponent)) {
+        if (SpawnTrackerFeature.captureChat(chatComponent)) {
             ci.cancel();
         }
     }

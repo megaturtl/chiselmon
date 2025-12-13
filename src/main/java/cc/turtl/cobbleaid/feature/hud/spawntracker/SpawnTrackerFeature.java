@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.spawn;
+package cc.turtl.cobbleaid.feature.hud.spawntracker;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
@@ -7,8 +7,11 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.Logger;
+
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
@@ -18,37 +21,34 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
 
-public final class SpawnHudFeature {
+public final class SpawnTrackerFeature {
     private static final long MIN_POLL_INTERVAL_MS = 3000L;
     private static final int MAX_DISPLAY_ENTRIES = 3;
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("0.##");
-    private static final int COLOR_PURPLE = 0xFFAAFF;
-    private static final int COLOR_RED = 0xFF5555;
-    private static final int COLOR_YELLOW = 0xFFFF55;
-    private static final int COLOR_GREEN = 0x55FF55;
 
-    private static SpawnHudFeature INSTANCE;
+    private static SpawnTrackerFeature INSTANCE;
+    private static Logger LOGGER = CobbleAid.getLogger();
 
     private final SpawnResponseCapture capture;
     private List<SpawnEntry> visibleEntries = List.of();
     private long lastPollMs = 0L;
 
-    private SpawnHudFeature() {
+    private SpawnTrackerFeature() {
         this.capture = new SpawnResponseCapture(this::updateEntries);
     }
 
     public static void register() {
-        INSTANCE = new SpawnHudFeature();
+        INSTANCE = new SpawnTrackerFeature();
         INSTANCE.registerListeners();
+        LOGGER.debug("SpawnTracker Feature Registered");
     }
 
     public static boolean captureChat(Component component) {
-        SpawnHudFeature instance = INSTANCE;
-        if (instance == null || component == null) {
+        if (INSTANCE == null || component == null) {
             return false;
         }
 
-        return instance.capture.tryCapture(component.getString());
+        return INSTANCE.capture.tryCapture(component.getString());
     }
 
     private void registerListeners() {
@@ -108,8 +108,10 @@ public final class SpawnHudFeature {
         try {
             connection.sendCommand("checkspawn " + bucket);
             lastPollMs = now;
+            LOGGER.debug("Checkspawn command sent silently");
         } catch (Exception ignored) {
             capture.cancel();
+            LOGGER.debug("Checkspawn command couldn't send");
         }
     }
 
@@ -123,17 +125,26 @@ public final class SpawnHudFeature {
             return;
         }
 
-        int x = config.spawnTracker.hudX;
-        int y = config.spawnTracker.hudY;
+        int screenWidth = guiGraphics.guiWidth();
+        int screenHeight = guiGraphics.guiHeight();
 
         var font = Minecraft.getInstance().font;
         int lineHeight = font.lineHeight + 2;
+        
+        // Offset below the crosshair (center Y + 10 pixels padding)
+        int startY = (screenHeight / 2) + 10;
 
         for (int i = 0; i < visibleEntries.size(); i++) {
             SpawnEntry entry = visibleEntries.get(i);
             String text = entry.name() + " " + PERCENT_FORMAT.format(entry.percentage()) + "%";
+            
+            // Calculate X so the text is perfectly centered
+            int textWidth = font.width(text);
+            int x = (screenWidth - textWidth) / 2;
+            int y = startY + (i * lineHeight);
+
             int color = colorFor(entry.percentage());
-            guiGraphics.drawString(font, text, x, y + (i * lineHeight), color, true);
+            guiGraphics.drawString(font, text, x, y, color, true);
         }
     }
 
@@ -159,17 +170,17 @@ public final class SpawnHudFeature {
 
     private int colorFor(float percentage) {
         if (percentage < 0.01F) {
-            return COLOR_PURPLE;
+            return ColorUtil.PURPLE;
         }
 
         if (percentage < 0.1F) {
-            return COLOR_RED;
+            return ColorUtil.RED;
         }
 
         if (percentage < 5F) {
-            return COLOR_YELLOW;
+            return ColorUtil.YELLOW;
         }
 
-        return COLOR_GREEN;
+        return ColorUtil.GREEN;
     }
 }

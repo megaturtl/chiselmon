@@ -1,10 +1,14 @@
-package cc.turtl.cobbleaid.feature.spawn;
+package cc.turtl.cobbleaid.feature.hud.spawntracker;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
+
+import org.apache.logging.log4j.Logger;
+
+import cc.turtl.cobbleaid.CobbleAid;
 
 class SpawnResponseCapture {
     private static final long CAPTURE_TIMEOUT_MS = 1500L;
@@ -13,6 +17,8 @@ class SpawnResponseCapture {
     private final List<String> bufferedLines = new ArrayList<>();
     private boolean active;
     private long deadlineMs;
+
+    private static Logger LOGGER = CobbleAid.getLogger();
 
     SpawnResponseCapture(Consumer<List<String>> completionCallback) {
         this.completionCallback = completionCallback;
@@ -58,11 +64,15 @@ class SpawnResponseCapture {
             return false;
         }
 
+        LOGGER.debug("Attempting to capture message:");
+        LOGGER.debug(message);
+
         if (!matchesResponse(message)) {
             return false;
         }
 
         bufferedLines.add(message);
+        LOGGER.debug("Added message to buffered lines.");
 
         if (isTerminal(message)) {
             finish();

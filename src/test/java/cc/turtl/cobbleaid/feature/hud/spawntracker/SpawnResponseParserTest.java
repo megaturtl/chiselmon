@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.spawn;
+package cc.turtl.cobbleaid.feature.hud.spawntracker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

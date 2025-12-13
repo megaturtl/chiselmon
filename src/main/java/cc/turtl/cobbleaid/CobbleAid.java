@@ -3,12 +3,12 @@ package cc.turtl.cobbleaid;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
+import cc.turtl.cobbleaid.feature.hud.spawntracker.SpawnTrackerFeature;
 import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
 import cc.turtl.cobbleaid.service.LoggerService;
 import cc.turtl.cobbleaid.service.WorldDataService;
-import cc.turtl.cobbleaid.feature.spawn.SpawnHudFeature;
 import net.fabricmc.api.ClientModInitializer;
 
 public class CobbleAid implements ClientModInitializer {
@@ -34,7 +34,7 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     private void registerListeners() {
-        SpawnHudFeature.register();
+        SpawnTrackerFeature.register();
     }
 
     private void initializeServices() {
