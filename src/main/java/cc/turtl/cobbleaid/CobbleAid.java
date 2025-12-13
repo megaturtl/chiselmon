@@ -72,11 +72,17 @@ public class CobbleAid implements ClientModInitializer {
         return getInstance().services;
     }
 
+    /**
+     * @deprecated Use {@link #services()} and {@link cc.turtl.cobbleaid.service.ConfigService} for configuration access.
+     */
     @Deprecated
     public ModConfig getConfig() {
         return services().config().get();
     }
 
+    /**
+     * @deprecated Use {@link #services()} and {@link cc.turtl.cobbleaid.service.WorldDataService} to access per-world data.
+     */
     @Deprecated
     public WorldDataStore getWorldData() {
         return services().worldData().current();

@@ -97,13 +97,13 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
 
         // middle mouse click
         if (button == 2) {
-            cobbleaid$executeQuickSort();
+            cobbleaid$executeQuickSort(config);
             cir.setReturnValue(true);
         }
     }
 
     @Unique
-    private void cobbleaid$executeQuickSort() {
+    private void cobbleaid$executeQuickSort(ModConfig config) {
 
         if (this.storageWidget != null) {
             this.storageWidget.resetSelected();
@@ -112,7 +112,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         new SortPCBoxPacket(
                 this.pc.getUuid(),
                 this.storageWidget.getBox(),
-                configService.get().pc.quickSortMode,
+                config.pc.quickSortMode,
                 hasShiftDown()).sendToServer();
     }
 }
