@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.cobbleaid.api.util.CalcUtil;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {
@@ -31,20 +31,17 @@ public final class PokemonPredicates {
         if (ivs == null)
             return false;
 
-        ModConfig config = CobbleAid.getInstance().getConfig();
-        if (config == null)
-            return false;
-
+        ModConfig config = CobbleAid.services().config().get();
         return CalcUtil.countPerfectIVs(ivs) >= config.threshold.maxIvs;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = CobbleAid.services().config().get();
         return config != null && pokemon.getScaleModifier() <= config.threshold.extremeSmall;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = pokemon -> {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = CobbleAid.services().config().get();
         return config != null && pokemon.getScaleModifier() >= config.threshold.extremeLarge;
     };
 

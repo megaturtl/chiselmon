@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 
@@ -31,25 +31,25 @@ public class ConfigCommand {
     }
 
     private static int executeEnable(CommandContext<FabricClientCommandSource> context) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = CobbleAid.services().config().get();
         config.modDisabled = false;
-        CobbleAid.getInstance().saveConfig();
+        CobbleAid.services().config().save();
 
         CommandFeedbackHelper.sendSuccess(context.getSource(), "Cobble Aid has been enabled!");
         return 1;
     }
 
     private static int executeDisable(CommandContext<FabricClientCommandSource> context) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = CobbleAid.services().config().get();
         config.modDisabled = true;
-        CobbleAid.getInstance().saveConfig();
+        CobbleAid.services().config().save();
 
         CommandFeedbackHelper.sendError(context.getSource(), "Cobble Aid has been disabled!");
         return 1;
     }
 
     private static int executeStatus(CommandContext<FabricClientCommandSource> context) {
-        ModConfig config = CobbleAid.getInstance().getConfig();
+        ModConfig config = CobbleAid.services().config().get();
         FabricClientCommandSource source = context.getSource();
 
         if (config.modDisabled) {

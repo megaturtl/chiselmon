@@ -7,7 +7,8 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBo
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -36,7 +37,7 @@ public abstract class WallpaperEntryMixin {
     @Shadow @Final private ResourceLocation altWallpaper;
     @Shadow private boolean isNew;
 
-    ModConfig config = CobbleAid.getInstance().getConfig();
+    private final ConfigService configService = CobbleAid.services().config();
 
     @Inject(
         method = "render",
@@ -49,6 +50,7 @@ public abstract class WallpaperEntryMixin {
         boolean hovering, float partialTick,
         CallbackInfo ci
     ) {
+        ModConfig config = configService.get();
         if (config.modDisabled) {
             return;
         }
@@ -83,6 +85,7 @@ public abstract class WallpaperEntryMixin {
         double mouseX, double mouseY, int button,
         CallbackInfoReturnable<Boolean> cir
     ) {
+        ModConfig config = configService.get();
         if (config.modDisabled || !Screen.hasControlDown()) return;
 
         Minecraft mc = Minecraft.getInstance();

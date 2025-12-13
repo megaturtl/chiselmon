@@ -2,9 +2,10 @@ package cc.turtl.cobbleaid.command;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
+import org.apache.logging.log4j.Logger;
+
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.api.format.PokemonFormatUtil;
-import cc.turtl.cobbleaid.config.CobbleAidLogger;
+import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import cc.turtl.cobbleaid.util.StringUtils;
@@ -38,7 +39,7 @@ public class EggCommand {
     }
 
     private static int executeInfo(CommandContext<FabricClientCommandSource> context) {
-        CobbleAidLogger LOGGER = CobbleAid.getLogger();
+        Logger LOGGER = CobbleAid.getLogger();
         FabricClientCommandSource source = context.getSource();
 
         try {

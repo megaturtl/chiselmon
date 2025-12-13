@@ -1,11 +1,11 @@
 package cc.turtl.cobbleaid.util;
 
-import cc.turtl.cobbleaid.config.CobbleAidLogger;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * Improved, readable Object dumper:
@@ -19,11 +19,11 @@ public class ObjectDumper {
     private static final int DEFAULT_MAX_DEPTH = 3;
     private static final int INDENT_SPACES = 2;
 
-    public static void logObjectFields(CobbleAidLogger logger, Object obj) {
+    public static void logObjectFields(Logger logger, Object obj) {
         logObjectFields(logger, obj, DEFAULT_MAX_DEPTH);
     }
 
-    public static void logObjectFields(CobbleAidLogger logger, Object obj, int maxDepth) {
+    public static void logObjectFields(Logger logger, Object obj, int maxDepth) {
         Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
         if (obj == null) {
             logger.info("[ObjectDumper] Attempted to dump a null object.");
@@ -36,7 +36,7 @@ public class ObjectDumper {
         return " ".repeat(Math.max(0, depth * INDENT_SPACES));
     }
 
-    private static void dump(CobbleAidLogger logger, Object obj, int depth, int maxDepth, Set<Object> visited) {
+    private static void dump(Logger logger, Object obj, int depth, int maxDepth, Set<Object> visited) {
         if (obj == null) {
             logger.info("{}null", indent(depth));
             return;

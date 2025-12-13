@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.api.format;
+package cc.turtl.cobbleaid.api.util;
 
 import static cc.turtl.cobbleaid.util.ComponentFormatUtil.*;
 
@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.pokemon.Species;
 
 import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
 import cc.turtl.cobbleaid.api.predicate.MovePredicates;
-import cc.turtl.cobbleaid.api.util.CalcUtil;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.StringUtils;
 import net.minecraft.network.chat.Component;

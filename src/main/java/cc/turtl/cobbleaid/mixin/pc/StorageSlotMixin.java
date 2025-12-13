@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.PcIconRenderer;
 import cc.turtl.cobbleaid.feature.pc.neodaycare.PcEggRenderer;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
@@ -24,10 +24,9 @@ public abstract class StorageSlotMixin {
     @Shadow(remap = false)
     public abstract boolean isHovered(int mouseX, int mouseY);
 
-    ModConfig config = CobbleAid.getInstance().getConfig();
-
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", ordinal = 1), remap = false)
     private void cobbleaid$renderCustomElements(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        ModConfig config = CobbleAid.services().config().get();
         if (config.modDisabled) {
             return;
         }

@@ -1,7 +1,6 @@
 package cc.turtl.cobbleaid.api.capture;
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
-// Replace these with your actual Cobblemon imports
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.pokeball.PokeBall;

@@ -18,7 +18,7 @@
 			"cc.turtl.cobbleaid.CobbleAid"
 		],
 		"modmenu": [
-			"cc.turtl.cobbleaid.config.ModMenuIntegration"
+			"cc.turtl.cobbleaid.integration.ModMenuIntegration"
 		],
         "jade": [
             "cc.turtl.cobbleaid.integration.jade.CobbleAidJadePlugin"
