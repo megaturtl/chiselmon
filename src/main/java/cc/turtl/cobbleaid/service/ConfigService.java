@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import cc.turtl.cobbleaid.config.CobbleAidLogger;
-import cc.turtl.cobbleaid.config.ModConfig;
+import org.apache.logging.log4j.Logger;
+
+import cc.turtl.cobbleaid.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.world.InteractionResult;
 
 public class ConfigService {
-    private final CobbleAidLogger logger;
+    private final Logger logger;
     private final ConfigHolder<ModConfig> holder;
     private final List<Consumer<ModConfig>> listeners = new ArrayList<>();
 
-    public ConfigService(CobbleAidLogger logger) {
+    public ConfigService(Logger logger) {
         this.logger = logger;
         this.holder = AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         this.holder.registerSaveListener(this::onSave);

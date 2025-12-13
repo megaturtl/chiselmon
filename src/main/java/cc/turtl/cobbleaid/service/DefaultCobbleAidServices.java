@@ -1,16 +1,16 @@
 package cc.turtl.cobbleaid.service;
 
-public class DefaultCobbleAidServices implements CobbleAidServices {
+public class DefaultCobbleAidServices implements ICobbleAidServices {
     private final ConfigService configService;
-    private final LoggingService loggingService;
+    private final LoggerService loggerService;
     private final WorldDataService worldDataService;
 
     public DefaultCobbleAidServices(
             ConfigService configService,
-            LoggingService loggingService,
+            LoggerService loggerService,
             WorldDataService worldDataService) {
         this.configService = configService;
-        this.loggingService = loggingService;
+        this.loggerService = loggerService;
         this.worldDataService = worldDataService;
     }
 
@@ -20,8 +20,8 @@ public class DefaultCobbleAidServices implements CobbleAidServices {
     }
 
     @Override
-    public LoggingService logging() {
-        return loggingService;
+    public LoggerService logger() {
+        return loggerService;
     }
 
     @Override

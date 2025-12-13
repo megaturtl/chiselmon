@@ -1,12 +1,12 @@
 package cc.turtl.cobbleaid;
 
+import org.apache.logging.log4j.Logger;
+
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
-import cc.turtl.cobbleaid.config.CobbleAidLogger;
-import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.service.CobbleAidServices;
+import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
-import cc.turtl.cobbleaid.service.LoggingService;
+import cc.turtl.cobbleaid.service.LoggerService;
 import cc.turtl.cobbleaid.service.WorldDataService;
 import net.fabricmc.api.ClientModInitializer;
 
@@ -15,8 +15,8 @@ public class CobbleAid implements ClientModInitializer {
     public static final String VERSION = "1.0.1";
 
     private static CobbleAid INSTANCE;
-    private volatile CobbleAidServices services;
-    private CobbleAidLogger logger;
+    private volatile ICobbleAidServices services;
+    private Logger logger;
 
     @Override
     public void onInitializeClient() {
@@ -24,7 +24,7 @@ public class CobbleAid implements ClientModInitializer {
         initializeServices();
         registerCommands();
         registerListeners();
-        logger.info("Cobble Aid " + VERSION + " initialized.");
+        logger.info("Cobble Aid {} initialized.", VERSION);
     }
 
     private void registerCommands() {
@@ -36,13 +36,13 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     private void initializeServices() {
-        LoggingService loggingService = new LoggingService(MODID);
-        ConfigService configService = new ConfigService(loggingService.getLogger(CobbleAid.class));
-        configService.addListener(cfg -> loggingService.setDebugMode(cfg.debugMode));
-        loggingService.setDebugMode(configService.get().debugMode);
+        LoggerService loggerService = new LoggerService(MODID);
+        ConfigService configService = new ConfigService(loggerService.get());
+        configService.addListener(cfg -> loggerService.setDebugMode(cfg.debugMode));
+        loggerService.setDebugMode(configService.get().debugMode);
         WorldDataService worldDataService = new WorldDataService(configService.get().worldDataMap);
-        this.services = new DefaultCobbleAidServices(configService, loggingService, worldDataService);
-        this.logger = this.services.logger(CobbleAid.class);
+        this.services = new DefaultCobbleAidServices(configService, loggerService, worldDataService);
+        this.logger = services.logger().get();
         this.logger.debug("Services initialized.");
     }
 
@@ -61,11 +61,11 @@ public class CobbleAid implements ClientModInitializer {
         return INSTANCE;
     }
 
-    public static CobbleAidLogger getLogger() {
-        return services().logger(CobbleAid.class);
+    public static Logger getLogger() {
+        return services().logger().get();
     }
 
-    public static CobbleAidServices services() {
+    public static ICobbleAidServices services() {
         if (getInstance().services == null) {
             throw new IllegalStateException("Cobble Aid services are not initialized yet; access them after client initialization.");
         }

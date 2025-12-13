@@ -2,9 +2,8 @@ package cc.turtl.cobbleaid.feature.pc;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
-import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -34,8 +33,8 @@ public class PcIconRenderer {
         final ResourceLocation icon;
 
         IconConfig(Function<ModConfig.PcConfig.PcIconConfig, Boolean> configGetter,
-                   Predicate<Pokemon> predicate,
-                   ResourceLocation icon) {
+                Predicate<Pokemon> predicate,
+                ResourceLocation icon) {
             this.configGetter = configGetter;
             this.predicate = predicate;
             this.icon = icon;
@@ -47,11 +46,11 @@ public class PcIconRenderer {
     }
 
     private static final IconConfig[] ICON_CONFIGS = {
-        new IconConfig(c -> c.hiddenAbility, PokemonPredicates.HAS_HIDDEN_ABILITY, HIDDEN_ABILITY_ICON),
-        new IconConfig(c -> c.highIvs, PokemonPredicates.HAS_HIGH_IVS, HIGH_IVS_ICON),
-        new IconConfig(c -> c.extremeSize, PokemonPredicates.IS_EXTREME_SIZE, SIZE_ICON),
-        new IconConfig(c -> c.shiny, PokemonPredicates.IS_SHINY, SHINY_ICON),
-        new IconConfig(c -> c.rideable, PokemonPredicates.IS_RIDEABLE, RIDEABLE_ICON)
+            new IconConfig(c -> c.hiddenAbility, PokemonPredicates.HAS_HIDDEN_ABILITY, HIDDEN_ABILITY_ICON),
+            new IconConfig(c -> c.highIvs, PokemonPredicates.HAS_HIGH_IVS, HIGH_IVS_ICON),
+            new IconConfig(c -> c.extremeSize, PokemonPredicates.IS_EXTREME_SIZE, SIZE_ICON),
+            new IconConfig(c -> c.shiny, PokemonPredicates.IS_SHINY, SHINY_ICON),
+            new IconConfig(c -> c.rideable, PokemonPredicates.IS_RIDEABLE, RIDEABLE_ICON)
     };
 
     private PcIconRenderer() {
@@ -62,8 +61,7 @@ public class PcIconRenderer {
             return;
         }
 
-        ConfigService configService = CobbleAid.services().config();
-        ModConfig config = configService.get();
+        ModConfig config = CobbleAid.services().config().get();
         if (config == null) {
             return;
         }

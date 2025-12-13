@@ -5,14 +5,14 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabStore;
 import cc.turtl.cobbleaid.service.ConfigService;
-import cc.turtl.cobbleaid.service.CobbleAidServices;
+import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -54,7 +54,7 @@ public abstract class PCGUIMixin extends Screen {
     @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
-    private final CobbleAidServices services = CobbleAid.services();
+    private final ICobbleAidServices services = CobbleAid.services();
     private final ConfigService configService = services.config();
 
     @Unique

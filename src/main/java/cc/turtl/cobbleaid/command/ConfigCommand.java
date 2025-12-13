@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 

@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.config;
+package cc.turtl.cobbleaid;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 
-import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.WorldDataStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;

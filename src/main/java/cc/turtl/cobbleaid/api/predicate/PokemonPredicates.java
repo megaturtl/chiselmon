@@ -11,19 +11,10 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.cobbleaid.api.util.CalcUtil;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {
-    }
-
-    // Defensive helper to avoid crashes if predicates are invoked before services finish bootstrapping.
-    private static ModConfig getConfigSafe() {
-        try {
-            return CobbleAid.services().config().get();
-        } catch (IllegalStateException e) {
-            return null;
-        }
     }
 
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
@@ -40,20 +31,17 @@ public final class PokemonPredicates {
         if (ivs == null)
             return false;
 
-        ModConfig config = getConfigSafe();
-        if (config == null)
-            return false;
-
+        ModConfig config = CobbleAid.services().config().get();
         return CalcUtil.countPerfectIVs(ivs) >= config.threshold.maxIvs;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
-        ModConfig config = getConfigSafe();
+        ModConfig config = CobbleAid.services().config().get();
         return config != null && pokemon.getScaleModifier() <= config.threshold.extremeSmall;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = pokemon -> {
-        ModConfig config = getConfigSafe();
+        ModConfig config = CobbleAid.services().config().get();
         return config != null && pokemon.getScaleModifier() >= config.threshold.extremeLarge;
     };
 

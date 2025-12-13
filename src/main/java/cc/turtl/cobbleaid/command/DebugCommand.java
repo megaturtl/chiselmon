@@ -2,9 +2,9 @@ package cc.turtl.cobbleaid.command;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
+import org.apache.logging.log4j.Logger;
+
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.WorldDataManager;
-import cc.turtl.cobbleaid.config.CobbleAidLogger;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import cc.turtl.cobbleaid.util.ObjectDumper;
@@ -45,14 +45,11 @@ public class DebugCommand {
 
     private static int executeTest(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.CYAN));
-        context.getSource().sendFeedback(ComponentFormatUtil.colored("World ID:", ColorUtil.LIGHT_GRAY));
-        context.getSource()
-                .sendFeedback(ComponentFormatUtil.colored(WorldDataManager.getWorldIdentifier(), ColorUtil.WHITE));
         return 1;
     }
 
     private static int executeDump(CommandContext<FabricClientCommandSource> context) {
-        CobbleAidLogger LOGGER = CobbleAid.getLogger();
+        Logger LOGGER = CobbleAid.getLogger();
         FabricClientCommandSource source = context.getSource();
 
         try {
@@ -90,7 +87,7 @@ public class DebugCommand {
     }
 
     private static int executeLookDump(CommandContext<FabricClientCommandSource> context) {
-        CobbleAidLogger LOGGER = CobbleAid.getLogger();
+        Logger LOGGER = CobbleAid.getLogger();
         FabricClientCommandSource source = context.getSource();
 
         try {

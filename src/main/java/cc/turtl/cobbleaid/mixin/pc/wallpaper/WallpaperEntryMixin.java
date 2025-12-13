@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBo
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

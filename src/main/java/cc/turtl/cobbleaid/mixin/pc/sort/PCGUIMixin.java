@@ -8,8 +8,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.SortPCBoxPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.ModConfig;
-import cc.turtl.cobbleaid.service.ConfigService;
+import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.sort.PcSortUIHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -66,12 +65,10 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
         return this.optionButtons;
     }
 
-    private final ConfigService configService = CobbleAid.services().config();
-
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addSortElements(CallbackInfo ci) {
-        ModConfig config = configService.get();
+        ModConfig config = CobbleAid.services().config().get();
         if (config.modDisabled) {
             return;
         }
@@ -90,7 +87,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
             CallbackInfoReturnable<Boolean> cir) {
-        ModConfig config = configService.get();
+        ModConfig config = CobbleAid.services().config().get();
         if (config.modDisabled || !config.pc.quickSortEnabled) {
             return;
         }
