@@ -47,6 +47,10 @@ public class ModConfig implements ConfigData {
     }
 
     public static class PcConfig implements ConfigData {
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean highlightHA = false;
+
         @ConfigEntry.Gui.Tooltip
         public boolean quickSortEnabled = false;
 

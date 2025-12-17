@@ -91,7 +91,7 @@ public abstract class PCGUIMixin extends Screen {
         int guiTop = (this.height - BASE_HEIGHT) / 2;
 
         int bookmarkX = guiLeft + 239;
-        int bookmarkY = guiTop + 13;
+        int bookmarkY = guiTop + 12;
         PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
         this.cobbleaid$bookmarkButton = bookmarkButton;
         this.addRenderableWidget(bookmarkButton);

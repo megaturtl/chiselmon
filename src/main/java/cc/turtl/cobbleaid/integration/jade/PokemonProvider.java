@@ -17,7 +17,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.impl.ui.HealthElement;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
 public class PokemonProvider implements IEntityComponentProvider {
     private PokemonProvider() {

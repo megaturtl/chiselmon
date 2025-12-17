@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.pc.neodaycare;
+package cc.turtl.cobbleaid.feature.pc;
 
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;
@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
+import cc.turtl.cobbleaid.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
@@ -19,16 +20,17 @@ public final class PcEggRenderer {
     private PcEggRenderer() {
     }
 
-    private static final float MODEL_SCALE_FACTOR = 3.5F;
-    
+    private static final float MODEL_SCALE_FACTOR = 4F;
+
     // Hatch progress bar constants
     private static final int SLOT_WIDTH = 25;
     private static final int BAR_HEIGHT = 1;
     private static final int BAR_Y_OFFSET = 23;
-    private static final int BAR_COLOR_BACKGROUND = 0xFF474747;
-    private static final int BAR_COLOR = 0xFF009432;
+    private static final int BAR_COLOR_BACKGROUND = ColorUtil.DARK_GRAY;
+    private static final int BAR_COLOR = ColorUtil.GREEN;
 
-    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon, int posX, int posY) {
+    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon,
+            int posX, int posY) {
 
         renderProgressBar(context, dummyPokemon.getHatchCompletion(), posX, posY);
 
@@ -40,19 +42,18 @@ public final class PcEggRenderer {
 
         // Draws the original egg in the bottom right corner
         PokemonGuiUtilsKt.drawProfilePokemon(
-                dummyPokemon.getOriginaPokemon().asRenderablePokemon(), // 1. renderablePokemon
-                matrices, // 2. matrixStack
-                QuaternionUtilsKt.fromEulerXYZDegrees(new Quaternionf(), new Vector3f(13F, 35F, 0F)), // 3. rotation
-                PoseType.PROFILE, // 4. poseType (default)
-                new FloatingState(), // 5. state (fixed)
-                0F, // 6. partialTicks
-                2.0F, // 7. scale (fixed)
-                true, // 8. applyProfileTransform (default)
-                false, // 9. applyBaseScale (default)
-                1F, 1F, 1F, 1F, // 10. r, g, b, a (defaults)
-                0F, // 11. headYaw (default)
-                0F // 12. headPitch (default)
-        );
+                dummyPokemon.getOriginaPokemon().asRenderablePokemon(),
+                matrices,
+                QuaternionUtilsKt.fromEulerXYZDegrees(new Quaternionf(), new Vector3f(13F, 35F, 0F)),
+                PoseType.PROFILE,
+                new FloatingState(),
+                0F,
+                2.0F,
+                true,
+                false,
+                1F, 1F, 1F, 1F,
+                0F,
+                0F);
 
         matrices.popPose();
     }

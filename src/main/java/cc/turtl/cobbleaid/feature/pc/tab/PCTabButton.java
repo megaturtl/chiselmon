@@ -3,7 +3,6 @@ package cc.turtl.cobbleaid.feature.pc.tab;
 import org.jetbrains.annotations.NotNull;
 
 import com.cobblemon.mod.common.CobblemonSounds;
-import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.TextRenderUtil;
@@ -14,9 +13,9 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
-public class PCTabButton extends Button implements CobblemonRenderable {
+public class PCTabButton extends Button {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_tab.png");
 
     private static final int TEXTURE_WIDTH = 35;
@@ -35,7 +34,7 @@ public class PCTabButton extends Button implements CobblemonRenderable {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int pMouseX, int pMouseY, float pPartialTicks) {
+    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
         int textureYOffset = this.isHovered() ? HOVERED_Y_OFFSET : 0;
 
         context.blit(
@@ -52,14 +51,13 @@ public class PCTabButton extends Button implements CobblemonRenderable {
         int centerX = this.getX() + BUTTON_WIDTH / 2;
         int centerY = this.getY() + BUTTON_HEIGHT / 2;
 
-        TextRenderUtil.renderScaledCenteredText(
+        TextRenderUtil.renderCenteredText(
                 context,
                 this.getMessage(),
                 ColorUtil.WHITE,
                 centerX,
                 centerY,
-                BUTTON_WIDTH - 6,
-                BUTTON_HEIGHT - 2);
+                BUTTON_WIDTH - 4);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
-import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
+import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

@@ -13,13 +13,13 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
 public class PCBookmarkButton extends Button implements CobblemonRenderable {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_bookmark.png");
 
     private static final int TEXTURE_WIDTH = 15;
-    private static final int TEXTURE_HEIGHT = 28;
+    private static final int TEXTURE_HEIGHT = 30;
 
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
@@ -31,11 +31,10 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
 
     public PCBookmarkButton(int x, int y, OnPress onPress) {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
-        this.setTooltip(Tooltip.create(Component.literal("Add Bookmark")));
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int pMouseX, int pMouseY, float pPartialTicks) {
+    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
 
         if (this.isToggled()) {
             this.setTooltip(TOOLTIP_ON);

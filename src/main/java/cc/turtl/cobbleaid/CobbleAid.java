@@ -24,7 +24,7 @@ public class CobbleAid implements ClientModInitializer {
         INSTANCE = this;
         initializeServices();
         registerCommands();
-        registerListeners();
+        registerFeatures();
         logger.info("Cobble Aid {} initialized.", VERSION);
     }
 
@@ -33,7 +33,7 @@ public class CobbleAid implements ClientModInitializer {
         logger.debug("Commands registered.");
     }
 
-    private void registerListeners() {
+    private void registerFeatures() {
         SpawnTrackerFeature.register();
     }
 

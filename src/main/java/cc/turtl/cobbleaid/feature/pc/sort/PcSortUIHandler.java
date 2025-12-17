@@ -8,7 +8,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
 import java.util.List;
 
