@@ -23,6 +23,8 @@ public class PcIconRenderer {
     private static final int ICON_RENDER_SIZE = 5; // Target rendered size
     private static final int ICON_GAP = 0;
     private static final int START_Y = 6;
+    private static final int ICONS_PER_COLUMN = 3;
+    private static final int COLUMN_X_OFFSET = 20;
 
     /**
      * Helper class to encapsulate icon rendering configuration
@@ -66,13 +68,19 @@ public class PcIconRenderer {
             return;
         }
 
-        int currentY = posY + START_Y;
         ModConfig.PcConfig.PcIconConfig iconConfig = config.pc.icons;
+        int iconIndex = 0;
 
         for (IconConfig iconCfg : ICON_CONFIGS) {
             if (iconCfg.shouldRender(iconConfig, pokemon)) {
-                renderIcon(context, iconCfg.icon, posX + 1, currentY);
-                currentY += ICON_RENDER_SIZE + ICON_GAP;
+                int column = iconIndex / ICONS_PER_COLUMN;
+                int row = iconIndex % ICONS_PER_COLUMN;
+
+                int x = posX + 1 + (column * COLUMN_X_OFFSET);
+                int y = posY + START_Y + (row * (ICON_RENDER_SIZE + ICON_GAP));
+
+                renderIcon(context, iconCfg.icon, x, y);
+                iconIndex++;
             }
         }
     }

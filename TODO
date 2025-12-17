@@ -1,5 +1,5 @@
 High priority
-- Fix moving eggs visual glitch.
+- Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
 
 Nice to have:

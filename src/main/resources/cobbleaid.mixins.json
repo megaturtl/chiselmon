@@ -10,9 +10,8 @@
         "pc.tab.PCGUIMixin",
         "pc.tooltip.StorageWidgetMixin",
         "pc.tooltip.StorageSlotMixin",
-        "pc.neodaycare.BoxStorageSlotMixin",
-        "pc.neodaycare.GrabbedStorageSlotMixin",
-        "pc.neodaycare.PartyStorageSlotMixin",
+        "pc.neodaycare.ClientPartyMixin",
+        "pc.neodaycare.ClientPCMixin",
         "pc.wallpaper.WallpaperEntryMixin"
     ],
     "injectors": {
