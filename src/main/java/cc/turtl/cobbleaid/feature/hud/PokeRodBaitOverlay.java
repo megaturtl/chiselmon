@@ -59,8 +59,8 @@ public class PokeRodBaitOverlay {
         // Calculate X position (j): Centered
         int x = (guiGraphics.guiWidth() - textWidth) / 2;
 
-        // Calculate initial Y position (k): Above hotbar (guiHeight - 59)
-        int y = guiGraphics.guiHeight() - 59;
+        // Calculate initial Y position (k): Above hotbar (guiHeight - 54)
+        int y = guiGraphics.guiHeight() - 54;
 
         // Shift down if health bar doesn't show (creative/spectator)
         if (minecraft.player != null && minecraft.player.isCreative() && !minecraft.gameMode.canHurtPlayer()) {
@@ -92,8 +92,8 @@ public class PokeRodBaitOverlay {
         // Center the entire display (icon + text) (j logic applied to totalWidth)
         int startX = (guiGraphics.guiWidth() - totalWidth) / 2;
 
-        // Calculate initial Y position (k): Above hotbar (guiHeight - 59)
-        int y = guiGraphics.guiHeight() - 59;
+        // Calculate initial Y position (k): Above hotbar (guiHeight - 54)
+        int y = guiGraphics.guiHeight() - 54;
 
         // Shift down if health bar doesn't show (creative/spectator)
         if (minecraft.player != null && minecraft.player.isCreative() && !minecraft.gameMode.canHurtPlayer()) {
