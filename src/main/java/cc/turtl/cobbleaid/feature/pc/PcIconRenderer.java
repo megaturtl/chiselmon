@@ -24,7 +24,7 @@ public class PcIconRenderer {
     private static final int ICON_GAP = 0;
     private static final int START_Y = 6;
     private static final int ICONS_PER_COLUMN = 3;
-    private static final int COLUMN_X_OFFSET = 20;
+    private static final int COLUMN_X_OFFSET = 18;
 
     /**
      * Helper class to encapsulate icon rendering configuration

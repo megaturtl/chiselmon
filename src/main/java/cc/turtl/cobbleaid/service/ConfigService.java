@@ -48,7 +48,6 @@ public class ConfigService {
     }
 
     private InteractionResult onSave(ConfigHolder<ModConfig> manager, ModConfig data) {
-        holder.load();
         notifyListeners(data);
         logger.debug("Configuration saved successfully.");
         return InteractionResult.SUCCESS;
