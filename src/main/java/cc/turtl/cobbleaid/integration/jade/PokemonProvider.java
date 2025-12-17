@@ -65,7 +65,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         }
 
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon.getSpecies())));
+            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_EV_ID)) {

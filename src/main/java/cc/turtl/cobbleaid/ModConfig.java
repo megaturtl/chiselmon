@@ -41,8 +41,9 @@ public class ModConfig implements ConfigData {
     public Map<String, WorldDataStore> worldDataMap = new ConcurrentHashMap<>();
 
     // custom validation to run on save and load
-    public ModConfig validate_fields() {
-        return this;
+    @Override
+    public void validatePostLoad() {
+        spawnTracker.validatePostLoad();
     }
 
     public static class PcConfig implements ConfigData {
@@ -103,8 +104,20 @@ public class ModConfig implements ConfigData {
     }
 
     public static class SpawnTrackerConfig implements ConfigData {
+
+        @ConfigEntry.Gui.Excluded
+        private static final int DEFAULT_POLL_TICK_INTERVAL = 60;
+        @ConfigEntry.Gui.Excluded
+        private static final int MIN_POLL_TICK_INTERVAL = 20;
+        @ConfigEntry.Gui.Excluded
+        private static final int MAX_POLL_TICK_INTERVAL = 200;
+
         @ConfigEntry.Gui.Tooltip
         public boolean enabled = false;
+
+        @ConfigEntry.BoundedDiscrete(min = MIN_POLL_TICK_INTERVAL, max = MAX_POLL_TICK_INTERVAL)
+        @ConfigEntry.Gui.Tooltip
+        public int pollTickInterval = DEFAULT_POLL_TICK_INTERVAL;
 
         @ConfigEntry.Gui.Tooltip
         public String bucket = "common";
@@ -114,5 +127,12 @@ public class ModConfig implements ConfigData {
                 "Sentret",
                 "Fomantis",
                 "Bidoof"));
+
+        @Override
+        public void validatePostLoad() {
+            if (pollTickInterval < MIN_POLL_TICK_INTERVAL || pollTickInterval > MAX_POLL_TICK_INTERVAL) {
+                pollTickInterval = DEFAULT_POLL_TICK_INTERVAL;
+            }
+        }
     }
 }

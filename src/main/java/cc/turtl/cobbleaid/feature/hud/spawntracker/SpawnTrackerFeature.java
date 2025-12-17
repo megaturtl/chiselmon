@@ -1,28 +1,27 @@
-package cc.turtl.cobbleaid.feature.hud.spawntracker;
+package cc.turtl. cobbleaid.feature.hud.spawntracker;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util. Locale;
+import java.util. Set;
+import java.util. stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
-import cc.turtl.cobbleaid.util.ColorUtil;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import cc. turtl.cobbleaid. util.ColorUtil;
+import net.fabricmc.fabric.api. client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api. client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client. DeltaTracker;
+import net.minecraft.client.gui. GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.network.chat.Component;
+import net. minecraft.client.multiplayer.ClientPacketListener;
+import net. minecraft.network.chat.Component;
 
 public final class SpawnTrackerFeature {
-    private static final long MIN_POLL_INTERVAL_MS = 3000L;
     private static final int MAX_DISPLAY_ENTRIES = 3;
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("0.##");
 
@@ -30,8 +29,8 @@ public final class SpawnTrackerFeature {
     private static Logger LOGGER = CobbleAid.getLogger();
 
     private final SpawnResponseCapture capture;
-    private List<SpawnEntry> visibleEntries = List.of();
-    private long lastPollMs = 0L;
+    private List<SpawnEntry> visibleEntries = List. of();
+    private int ticksSinceLastPoll = 0;
 
     private SpawnTrackerFeature() {
         this.capture = new SpawnResponseCapture(this::updateEntries);
@@ -52,7 +51,7 @@ public final class SpawnTrackerFeature {
     }
 
     private void registerListeners() {
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
+        ClientTickEvents.END_CLIENT_TICK.register(this:: onClientTick);
         HudRenderCallback.EVENT.register(this::onHudRender);
     }
 
@@ -61,15 +60,17 @@ public final class SpawnTrackerFeature {
 
         ModConfig config = CobbleAid.services().config().get();
 
-        if (config.modDisabled || !config.spawnTracker.enabled) {
+        if (config. modDisabled || !config.spawnTracker.enabled) {
             capture.cancel();
             visibleEntries = List.of();
+            ticksSinceLastPoll = 0;
             return;
         }
 
         if (client == null || client.player == null) {
             capture.cancel();
             visibleEntries = List.of();
+            ticksSinceLastPoll = 0;
             return;
         }
 
@@ -81,13 +82,15 @@ public final class SpawnTrackerFeature {
             return;
         }
 
-        long now = System.currentTimeMillis();
-
         if (capture.isActive()) {
             return;
         }
 
-        if (now - lastPollMs < MIN_POLL_INTERVAL_MS) {
+        ticksSinceLastPoll++;
+
+        int pollInterval = config.spawnTracker.pollTickInterval;
+
+        if (ticksSinceLastPoll < pollInterval) {
             return;
         }
 
@@ -100,14 +103,14 @@ public final class SpawnTrackerFeature {
             return;
         }
 
-        String bucket = config.spawnTracker.bucket;
+        String bucket = config. spawnTracker.bucket;
         if (bucket == null || bucket.isBlank()) {
             bucket = "common";
         }
 
         try {
-            connection.sendCommand("checkspawn " + bucket);
-            lastPollMs = now;
+            connection. sendCommand("checkspawn " + bucket);
+            ticksSinceLastPoll = 0;
             LOGGER.debug("Checkspawn command sent silently");
         } catch (Exception ignored) {
             capture.cancel();
@@ -117,18 +120,18 @@ public final class SpawnTrackerFeature {
 
     private void onHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         ModConfig config = CobbleAid.services().config().get();
-        if (config.modDisabled || !config.spawnTracker.enabled) {
+        if (config.modDisabled || !config. spawnTracker.enabled) {
             return;
         }
 
-        if (visibleEntries.isEmpty()) {
+        if (visibleEntries. isEmpty()) {
             return;
         }
 
         int screenWidth = guiGraphics.guiWidth();
         int screenHeight = guiGraphics.guiHeight();
 
-        var font = Minecraft.getInstance().font;
+        var font = Minecraft. getInstance().font;
         int lineHeight = font.lineHeight + 2;
         
         // Offset below the crosshair (center Y + 10 pixels padding)
@@ -178,7 +181,7 @@ public final class SpawnTrackerFeature {
         }
 
         if (percentage < 5F) {
-            return ColorUtil.YELLOW;
+            return ColorUtil. YELLOW;
         }
 
         return ColorUtil.GREEN;

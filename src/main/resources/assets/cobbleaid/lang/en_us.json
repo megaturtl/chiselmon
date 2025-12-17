@@ -49,7 +49,9 @@
 
         "text.autoconfig.cobbleaid.option.spawnTracker": "Spawn Tracker Settings",
             "text.autoconfig.cobbleaid.option.spawnTracker.enabled": "Enable Spawn Tracker",
-            "text.autoconfig.cobbleaid.option.spawnTracker.enabled.@Tooltip": "Shows the spawn rate of pokemon you're hunting at your current location. WARNING: Sends a command to the server every 3 seconds when enabled!",
+            "text.autoconfig.cobbleaid.option.spawnTracker.enabled.@Tooltip": "Shows the spawn rate of pokemon you're hunting at your current location. WARNING: Sends commands to the server invisibly. Can get you kicked for spamming.",
+            "text.autoconfig.cobbleaid.option.spawnTracker.pollTickInterval": "Poll Tick Interval",
+            "text.autoconfig.cobbleaid.option.spawnTracker.pollTickInterval.@Tooltip": "How long to wait between command sends (in game ticks)",
             "text.autoconfig.cobbleaid.option.spawnTracker.bucket": "Bucket to Track",
             "text.autoconfig.cobbleaid.option.spawnTracker.bucket.@Tooltip": "Choose between: common, uncommon, rare, ultra-rare",
             "text.autoconfig.cobbleaid.option.spawnTracker.trackedPokemon": "Pokemon to Track",

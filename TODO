@@ -1,6 +1,6 @@
-High priority:
-- HUD Element that tells current spawn rate of a mon and the bracket it's in (from a command?)
-- Make sure eggs work (i changed how they display the dummy etc)
+High priority
+- Fix moving eggs visual glitch.
+- Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)

@@ -2,7 +2,6 @@ package cc.turtl.cobbleaid.api.util;
 
 import static cc.turtl.cobbleaid.util.ComponentFormatUtil.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,10 +12,10 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
+import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.Species;
 
 import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
 import cc.turtl.cobbleaid.api.predicate.MovePredicates;
@@ -65,12 +64,14 @@ public final class PokemonFormatUtil {
             Map.entry(EggGroup.DRAGON, 0x5E57BF),
             Map.entry(EggGroup.UNDISCOVERED, ColorUtil.DARK_GRAY));
 
-    public static Component eggGroups(Species species) {
-        if (species == null)
+    public static Component eggGroups(Pokemon pokemon) {
+        if (pokemon == null)
             return UNKNOWN;
 
+        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
+
         return buildComponentWithSeparator(
-                species.getEggGroups(),
+                formData.getEggGroups(),
                 SLASH_SPACE_SEPERATOR,
                 group -> colored(
                         group.getShowdownID(),
@@ -132,7 +133,9 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        final HashMap<Stat, Integer> eVMap = pokemon.getSpecies().getEvYield();
+        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
+
+        final Map<Stat, Integer> eVMap = formData.getEvYield();
 
         // 1. Create a List of ONLY the Stats that have a non-zero EV yield
         List<Stat> yieldingStats = Stats.Companion.getPERMANENT().stream()

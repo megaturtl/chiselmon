@@ -243,6 +243,7 @@ public class BallBonusEstimator {
 
     // Timer Ball: Turn based
     private static float calculateTimerBall(CaptureContext ctx) {
+        // this won't be working client side til i figure out how to get the turn.
         UUID battleId = ctx.targetEntity.getBattleId();
         if (battleId == null) {
             return BASE_BONUS;
@@ -261,19 +262,8 @@ public class BallBonusEstimator {
 
     // Quick Ball: 5x on turn 1
     private static float calculateQuickBall(CaptureContext ctx) {
-
-        UUID battleId = ctx.targetEntity.getBattleId();
-        if (battleId == null) {
-            return BASE_BONUS;
-        }
-
-        PokemonBattle battle = BattleRegistry.getBattle(battleId);
-        if (battle == null) {
-            return BASE_BONUS;
-        }
-
-        int turn = battle.getTurn();
-        return turn == 1 ? 5.0F : BASE_BONUS;
+        // Can't figure out how to get the round client side so just assume it's turn 1 if battling.
+        return ctx.targetEntity.isBattling() ? 5.0f : BASE_BONUS;
     }
 
     // Safari Ball: 1.5x if not battling
@@ -296,7 +286,8 @@ public class BallBonusEstimator {
 
     // Beast Ball: 5x for Ultra Beasts, 0.1x otherwise
     private static float calculateBeastBall(CaptureContext ctx) {
-        return ctx.pokemon.isUltraBeast() ? 5.0f : 0.1f;
+        // 0.1x doesn't seem to be programmed into cobblemon yet, using base bonus for now.
+        return ctx.pokemon.isUltraBeast() ? 5.0f : BASE_BONUS;
     }
 
     // --- Context Object ---
