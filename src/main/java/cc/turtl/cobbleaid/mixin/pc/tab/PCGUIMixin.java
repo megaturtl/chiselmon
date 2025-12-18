@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
+import cc.turtl.cobbleaid.feature.pc.tab.PCHomeButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
@@ -52,6 +53,9 @@ public abstract class PCGUIMixin extends Screen {
     private PCBookmarkButton cobbleaid$bookmarkButton;
 
     @Unique
+    private PCHomeButton cobbleaid$homeButton;
+
+    @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
     private final ICobbleAidServices services = CobbleAid.services();
@@ -95,6 +99,16 @@ public abstract class PCGUIMixin extends Screen {
         PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
         this.cobbleaid$bookmarkButton = bookmarkButton;
         this.addRenderableWidget(bookmarkButton);
+
+        Button.OnPress homeToggle = (button) -> {
+            storageWidget.setBox(0);
+        };
+
+        int homeX = guiLeft + 59;
+        int homeY = guiTop + 12;
+        PCHomeButton homeButton = new PCHomeButton(homeX, homeY, homeToggle);
+        this.cobbleaid$homeButton = homeButton;
+        this.addRenderableWidget(homeButton);
     }
 
     @Inject(method = "render", at = @At("HEAD"))

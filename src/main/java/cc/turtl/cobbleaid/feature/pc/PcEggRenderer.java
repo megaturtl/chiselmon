@@ -42,7 +42,7 @@ public final class PcEggRenderer {
 
         // Draws the original egg in the bottom right corner
         PokemonGuiUtilsKt.drawProfilePokemon(
-                dummyPokemon.getOriginaPokemon().asRenderablePokemon(),
+                dummyPokemon.getOriginalPokemon().asRenderablePokemon(),
                 matrices,
                 QuaternionUtilsKt.fromEulerXYZDegrees(new Quaternionf(), new Vector3f(13F, 35F, 0F)),
                 PoseType.PROFILE,

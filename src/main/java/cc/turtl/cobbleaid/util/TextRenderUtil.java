@@ -33,9 +33,9 @@ public class TextRenderUtil {
         int textWidth = font.width(text);
 
         if (textWidth > maxWidth) {
-            displayText = Component.literal(font.plainSubstrByWidth(text.getString(), maxWidth))
+            displayText = Component.literal(font.plainSubstrByWidth(text.getString(), maxWidth).trim())
                     .withStyle(displayText.getStyle());
-            textWidth = maxWidth;
+            textWidth = font.width(displayText);
         }
 
         // Calculate position for centered text

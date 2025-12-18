@@ -3,11 +3,11 @@ package cc.turtl.cobbleaid.feature.pc.tab;
 import org.jetbrains.annotations.NotNull;
 
 import com.cobblemon.mod.common.CobblemonSounds;
+import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
-import cc.turtl.cobbleaid.util.ColorUtil;
-import cc.turtl.cobbleaid.util.TextRenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -15,27 +15,27 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
-public class PCTabButton extends Button {
-    private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_tab.png");
+public class PCHomeButton extends Button implements CobblemonRenderable {
+    private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_home.png");
 
-    private static final int TEXTURE_WIDTH = 35;
-    private static final int TEXTURE_HEIGHT = 20;
+    private static final int TEXTURE_WIDTH = 15;
+    private static final int TEXTURE_HEIGHT = 30;
 
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
-    private static final int HOVERED_Y_OFFSET = BUTTON_HEIGHT;
+    private static final Tooltip TOOLTIP = Tooltip.create(Component.literal("Go to Box 1"));
 
-    private final int forBox;
-
-    public PCTabButton(int x, int y, int forBox, Component message, OnPress onPress) {
-        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, message, onPress, DEFAULT_NARRATION);
-        this.forBox = forBox;
+    public PCHomeButton(int x, int y, OnPress onPress) {
+        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
-        int textureYOffset = this.isHovered() ? HOVERED_Y_OFFSET : 0;
+        this.setTooltip(TOOLTIP);
+
+        // invert the offset if toggled
+        int textureYOffset = (this.isHovered() ? BUTTON_HEIGHT : 0);
 
         context.blit(
                 SPRITE,
@@ -47,25 +47,10 @@ public class PCTabButton extends Button {
                 BUTTON_HEIGHT,
                 TEXTURE_WIDTH,
                 TEXTURE_HEIGHT);
-
-        int centerX = this.getX() + BUTTON_WIDTH / 2;
-        int centerY = this.getY() + BUTTON_HEIGHT / 2;
-
-        TextRenderUtil.renderCenteredText(
-                context,
-                this.getMessage(),
-                ColorUtil.WHITE,
-                centerX,
-                centerY,
-                BUTTON_WIDTH - 5);
     }
 
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
         soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
-    }
-
-    public int getBox() {
-        return this.forBox;
     }
 }

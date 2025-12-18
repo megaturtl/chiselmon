@@ -24,9 +24,11 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         setNature(egg.getNature());
         setTeraType(egg.getTeraType());
         setAbility$common(egg.getAbility());
-        setUuid(egg.getUuid());
         setTradeable(egg.isTradeable());
         setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
+
+        // keep uuid of the original egg pokemon
+        setUuid(eggData.getOriginalPokemon().getUuid());
 
         for (Stat stat : Stats.Companion.getPERMANENT()) {
             setIV(stat, egg.getIvs().get(stat));
@@ -48,7 +50,7 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         return eggData.getHatchCompletion();
     }
 
-    public Pokemon getOriginaPokemon() {
+    public Pokemon getOriginalPokemon() {
         return eggData.getOriginalPokemon();
     }
 }

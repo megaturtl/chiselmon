@@ -8,6 +8,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPack
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.api.comparator.PokemonComparators;
+import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public final class PcSorter {
 
         List<Pokemon> pokemonList = currentBox.getSlots().stream()
                 .filter(pokemon -> pokemon != null)
+                .map(NeoDaycareEgg::getDummyOrOriginal)
                 .toList();
 
         if (pokemonList.isEmpty()) {
