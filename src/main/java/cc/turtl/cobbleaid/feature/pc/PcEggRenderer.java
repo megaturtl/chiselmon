@@ -26,8 +26,8 @@ public final class PcEggRenderer {
     private static final int SLOT_WIDTH = 25;
     private static final int BAR_HEIGHT = 1;
     private static final int BAR_Y_OFFSET = 23;
-    private static final int BAR_COLOR_BACKGROUND = ColorUtil.DARK_GRAY;
-    private static final int BAR_COLOR = ColorUtil.GREEN;
+    private static final int BAR_COLOR_BACKGROUND = ColorUtil.alphaColor(ColorUtil.DARK_GRAY,1);
+    private static final int BAR_COLOR = ColorUtil.alphaColor(ColorUtil.GREEN,1);;
 
     public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareDummyPokemon dummyPokemon,
             int posX, int posY) {

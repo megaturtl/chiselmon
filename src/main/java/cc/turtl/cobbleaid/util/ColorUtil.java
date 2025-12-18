@@ -31,7 +31,7 @@ public class ColorUtil {
     public static final int OLIVE = 0x808000;
     public static final int TEAL = 0x008080;
 
-    public int alphaColor(int color, double opacity) {
+    public static int alphaColor(int color, double opacity) {
         int alphaValue = percentToAlpha(opacity);
         int alphaShifted = alphaValue << 24;
         return alphaShifted | color;
