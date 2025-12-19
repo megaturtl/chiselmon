@@ -104,7 +104,7 @@ public abstract class PCGUIMixin extends Screen {
             storageWidget.setBox(0);
         };
 
-        int homeX = guiLeft + 59;
+        int homeX = guiLeft + 90;
         int homeY = guiTop + 12;
         PCHomeButton homeButton = new PCHomeButton(homeX, homeY, homeToggle);
         this.cobbleaid$homeButton = homeButton;

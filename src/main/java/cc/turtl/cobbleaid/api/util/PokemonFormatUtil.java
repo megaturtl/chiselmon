@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
+import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -67,14 +68,10 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        // Use the new loader which handles both local and server scenarios
-        Set<EggGroup> eggGroups = SpeciesDataLoader.getEggGroups(pokemon);
-
-        if (eggGroups.isEmpty())
-            return UNKNOWN;
+        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
 
         return buildComponentWithSeparator(
-                eggGroups,
+                formData.getEggGroups(),
                 SLASH_SPACE_SEPERATOR,
                 group -> colored(
                         group.getShowdownID(),
@@ -136,18 +133,16 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        // Use the new loader which handles both local and server scenarios
-        Map<Stat, Integer> evMap = SpeciesDataLoader.getEvYield(pokemon);
+        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
 
-        if (evMap.isEmpty())
-            return UNKNOWN;
+        final Map<Stat, Integer> eVMap = formData.getEvYield();
 
-        // Create a List of ONLY the Stats that have a non-zero EV yield
+        // 1. Create a List of ONLY the Stats that have a non-zero EV yield
         List<Stat> yieldingStats = Stats.Companion.getPERMANENT().stream()
-                .filter(stat -> evMap.getOrDefault(stat, 0) != 0)
+                .filter(stat -> eVMap.getOrDefault(stat, 0) != 0)
                 .toList();
 
-        // If no stats yield EVs, return UNKNOWN
+        // If no stats yield EVs, return UNKNOWN immediately
         if (yieldingStats.isEmpty())
             return UNKNOWN;
 
@@ -155,7 +150,7 @@ public final class PokemonFormatUtil {
                 yieldingStats,
                 COMMA_SEPARATOR,
                 stat -> {
-                    int value = evMap.get(stat);
+                    int value = eVMap.get(stat);
                     return Component.empty()
                             .append(colored(String.valueOf(value), ColorUtil.WHITE))
                             .append(Component.literal(" "))

@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
-import cc.turtl.cobbleaid.api.util.SpeciesDataLoader;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.network.chat.Component;
@@ -74,7 +73,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", SpeciesDataLoader.getCatchRate(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
                 tooltip.append(ComponentFormatUtil.labelledValue(" ",

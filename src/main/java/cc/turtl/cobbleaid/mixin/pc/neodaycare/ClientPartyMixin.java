@@ -18,7 +18,8 @@ public class ClientPartyMixin {
     // Intercepts getting the pokemon and replaces with a dummy if it's an egg
     private void onGetPokemon(PartyPosition position, CallbackInfoReturnable<Pokemon> cir) {
         Pokemon pokemon = cir.getReturnValue();
-        if (pokemon != null) {
+        // Only create dummy if we're not already returning a dummy
+        if (pokemon != null && !NeoDaycareEgg.isDummy(pokemon)) {
             Pokemon processed = NeoDaycareEgg.getDummyOrOriginal(pokemon);
             cir.setReturnValue(processed);
         }

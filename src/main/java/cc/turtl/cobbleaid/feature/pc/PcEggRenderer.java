@@ -24,7 +24,7 @@ public final class PcEggRenderer {
 
     // Hatch progress bar constants
     private static final int SLOT_WIDTH = 25;
-    private static final int BAR_HEIGHT = 1;
+    private static final int BAR_HEIGHT = 2;
     private static final int BAR_Y_OFFSET = 23;
     private static final int BAR_COLOR_BACKGROUND = ColorUtil.alphaColor(ColorUtil.DARK_GRAY,1);
     private static final int BAR_COLOR = ColorUtil.alphaColor(ColorUtil.GREEN,1);;

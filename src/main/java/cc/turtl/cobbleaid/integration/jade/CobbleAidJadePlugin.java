@@ -19,8 +19,8 @@ public class CobbleAidJadePlugin implements IWailaPlugin {
         registration.registerEntityComponent(PokemonProvider.INSTANCE, PokemonEntity.class);
 
         registration.addConfig(POKEMON_ENTITY_TYPING_ID, true);
-        registration.addConfig(POKEMON_ENTITY_EGG_GROUP_ID, true);
-        registration.addConfig(POKEMON_ENTITY_EV_ID, true);
+        registration.addConfig(POKEMON_ENTITY_EGG_GROUP_ID, false);
+        registration.addConfig(POKEMON_ENTITY_EV_ID, false);
         registration.addConfig(POKEMON_ENTITY_CATCH_RATE_ID, true);
         registration.addConfig(POKEMON_ENTITY_WARNING_ID, true);
 

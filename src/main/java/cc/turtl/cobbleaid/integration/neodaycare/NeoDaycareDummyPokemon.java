@@ -9,10 +9,10 @@ import net.minecraft.network.chat.Component;
 import java.util.Set;
 
 public class NeoDaycareDummyPokemon extends Pokemon {
-    private final NeoDaycareEgg eggData;
+    private final Pokemon originalPokemon;
 
     public NeoDaycareDummyPokemon(NeoDaycareEgg eggData) {
-        this.eggData = eggData;
+        this.originalPokemon = eggData.getOriginalPokemon();
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
         setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
@@ -43,14 +43,14 @@ public class NeoDaycareDummyPokemon extends Pokemon {
     }
 
     public int getStepsRemaining() {
-        return eggData.getStepsRemaining();
+        return NeoDaycareEgg.from(originalPokemon).getStepsRemaining();
     }
 
     public float getHatchCompletion() {
-        return eggData.getHatchCompletion();
+        return NeoDaycareEgg.from(originalPokemon).getHatchCompletion();
     }
 
     public Pokemon getOriginalPokemon() {
-        return eggData.getOriginalPokemon();
+        return originalPokemon;
     }
 }

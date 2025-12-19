@@ -1,5 +1,4 @@
 Bugs:
-- When a pc box name is too long it truncates but there iss a gap to the right of the text
 - Pc bookmark button renders after the glow which looks weird
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
@@ -7,7 +6,7 @@ Bugs:
 
 
 High priority:
-- Add the pc home button
+- Add a tooltip to the pc tabs with full name + "click to jump, right click to delete" or smth
 
 
 Nice to have:
