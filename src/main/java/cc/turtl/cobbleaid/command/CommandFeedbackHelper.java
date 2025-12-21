@@ -1,10 +1,12 @@
 package cc.turtl.cobbleaid.command;
 
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
+
+import org.jetbrains.annotations.Nullable;
+
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.network.chat.Component;
 
 /**
  * Helper utility for consistent command feedback formatting.
@@ -65,17 +67,12 @@ public class CommandFeedbackHelper {
         source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.YELLOW));
     }
 
-    /**
-     * Sends a labeled Component (label colored light gray, value white).
-     */
-    public static void sendLabeled(FabricClientCommandSource source, String label, Component value) {
-        source.sendFeedback(ComponentFormatUtil.labelledValue(label, value));
-    }
 
     /**
-     * Sends a labeled string value.
+     * Sends a labeled string value (label colored light gray, value white).
      */
-    public static void sendLabeled(FabricClientCommandSource source, String label, String value) {
-        source.sendFeedback(ComponentFormatUtil.labelledValue(label, value));
+    public static void sendLabeled(FabricClientCommandSource source, String label, @Nullable Object value) {
+        source.sendFeedback(ComponentFormatUtil.labelledValue(label + ": ", value));
     }
+
 }

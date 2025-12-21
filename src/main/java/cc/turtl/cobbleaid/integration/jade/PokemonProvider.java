@@ -30,6 +30,8 @@ public class PokemonProvider implements IEntityComponentProvider {
             POKEMON_ENTITY_PARENT_PATH);
     public static final ResourceLocation POKEMON_ENTITY_TYPING_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".typing");
+    public static final ResourceLocation POKEMON_ENTITY_FORM_ID = modResource(
+            POKEMON_ENTITY_PARENT_PATH + ".form");
     public static final ResourceLocation POKEMON_ENTITY_EGG_GROUP_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".egg_groups");
     public static final ResourceLocation POKEMON_ENTITY_EV_ID = modResource(
@@ -62,6 +64,10 @@ public class PokemonProvider implements IEntityComponentProvider {
 
         if (config.get(POKEMON_ENTITY_TYPING_ID)) {
             tooltip.add(ComponentFormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
+        }
+
+        if (config.get(POKEMON_ENTITY_FORM_ID)) {
+            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
         }
 
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {

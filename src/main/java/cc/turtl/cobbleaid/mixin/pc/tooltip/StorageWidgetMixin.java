@@ -31,7 +31,9 @@ public class StorageWidgetMixin {
             CallbackInfo ci) {
         ModConfig config = CobbleAid.services().config().get();
 
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        boolean isShiftHoverActive = config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown();
+
+        if (config.modDisabled || (!config.pc.tooltip.showTooltips && !isShiftHoverActive)) {
             StorageSlotTooltipState.clear();
             return;
         }
@@ -50,7 +52,8 @@ public class StorageWidgetMixin {
         List<Component> tooltip = new ArrayList<>();
 
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
-        if (config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
+
+        if (isShiftHoverActive) {
             tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
             tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
             tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));

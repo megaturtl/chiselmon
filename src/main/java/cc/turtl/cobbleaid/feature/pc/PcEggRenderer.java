@@ -20,7 +20,7 @@ public final class PcEggRenderer {
     private PcEggRenderer() {
     }
 
-    private static final float MODEL_SCALE_FACTOR = 4F;
+    private static final float MODEL_SCALE_FACTOR = 5F;
 
     // Hatch progress bar constants
     private static final int SLOT_WIDTH = 25;
@@ -37,7 +37,7 @@ public final class PcEggRenderer {
         final var matrices = context.pose();
         matrices.pushPose();
 
-        matrices.translate(posX + 20.0, posY + 8.0, 0.0);
+        matrices.translate(posX + 20F, posY + 8F, 150F);
         matrices.scale(MODEL_SCALE_FACTOR, MODEL_SCALE_FACTOR, 1F);
 
         // Draws the original egg in the bottom right corner

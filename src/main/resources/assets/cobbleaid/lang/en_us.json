@@ -65,6 +65,7 @@
 
     "config.jade.plugin_cobbleaid.pokemon_entity": "Pokemon Entity",
     "config.jade.plugin_cobbleaid.pokemon_entity.typing": "Types",
+    "config.jade.plugin_cobbleaid.pokemon_entity.form": "Form",
     "config.jade.plugin_cobbleaid.pokemon_entity.egg_groups": "Egg Groups",
     "config.jade.plugin_cobbleaid.pokemon_entity.ev_yield": "EV Yield",
     "config.jade.plugin_cobbleaid.pokemon_entity.catch_rate": "Catch Rate & Catch Chance",
