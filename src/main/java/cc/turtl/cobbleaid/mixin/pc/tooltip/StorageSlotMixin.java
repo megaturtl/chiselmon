@@ -29,7 +29,7 @@ public abstract class StorageSlotMixin {
     @Inject(method = "renderWidget", at = @At("HEAD"), remap = false)
     private void cobbleaid$trackHover(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         ModConfig config = configService.get();
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        if (config.modDisabled) {
             return;
         }
 
