@@ -4,9 +4,11 @@ Bugs:
 - Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
 - fix catch rate (e.g. victinni shows 45 when its actually 3)
 - make egg show in front of portrait
+- Pasture block "deployed" thingy renders over tooltip
 
 High priority:
 - Add a tooltip to the pc tabs with full name + "click to jump, right click to delete" or smth
+- Make all the quick sorting logic use my custom sorter
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)

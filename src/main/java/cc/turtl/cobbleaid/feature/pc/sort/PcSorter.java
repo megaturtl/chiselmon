@@ -7,7 +7,6 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.api.comparator.PokemonComparators;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
 
 import java.util.Comparator;
@@ -18,18 +17,8 @@ import java.util.UUID;
 
 public final class PcSorter {
 
-    public enum SortType {
-        IVS, SIZE
-    }
-
-    private static Comparator<Pokemon> getComparator(SortType sortType) {
-        return switch (sortType) {
-            case SIZE -> PokemonComparators.SIZE_COMPARATOR;
-            case IVS -> PokemonComparators.IVS_COMPARATOR;
-        };
-    }
-
-    public static boolean sortPCBox(ClientPC clientPC, int boxNumber, SortType sortType, boolean reversed) {
+    public static boolean sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortType sortType,
+            boolean reversed) {
         if (clientPC == null || boxNumber < 0) {
             return false;
         }
@@ -49,25 +38,19 @@ public final class PcSorter {
             return false;
         }
 
-        List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, getComparator(sortType), reversed);
+        Comparator<Pokemon> comparator = sortType.comparator(reversed).thenComparing(Pokemon::getUuid);
+
+        List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, comparator);
         applySortedOrder(boxNumber, currentBox, sortedPokemon);
 
         return true;
     }
 
-    private static List<Pokemon> sortPokemonList(List<Pokemon> pokemonList, Comparator<Pokemon> comparator,
-            boolean reversed) {
-        if (pokemonList.isEmpty()) {
-            return pokemonList;
-        }
-
-        if (reversed) {
-            comparator = comparator.reversed();
-        }
-
+    private static List<Pokemon> sortPokemonList(
+            List<Pokemon> pokemonList,
+            Comparator<Pokemon> comparator) {
         List<Pokemon> sortedList = new java.util.ArrayList<>(pokemonList);
-        sortedList.sort(comparator.thenComparing(Pokemon::getUuid));
-
+        sortedList.sort(comparator);
         return sortedList;
     }
 
