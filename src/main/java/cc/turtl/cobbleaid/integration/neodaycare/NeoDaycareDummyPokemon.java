@@ -16,6 +16,7 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
         setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
+        setForm(egg.getForm());
         setSpecies(egg.getSpecies());
         setLevel(egg.getLevel());
         setGender(egg.getGender());

@@ -110,6 +110,7 @@ public class NeoDaycareEgg {
         private final TeraType teraType;
         private final boolean tradeable;
         private final UUID uuid;
+        private final FormData form;
 
         private Egg(CompoundTag tag) {
             this.level = tag.getInt(DataKeys.POKEMON_LEVEL);
@@ -131,6 +132,7 @@ public class NeoDaycareEgg {
             this.ivs = parseIVs(tag);
             this.ability = parseAbility(tag);
             this.moveSet = new MoveSet().loadFromNBT(tag);
+            this.form = this.species.getFormByShowdownId(tag.getString("FormId"));
         }
 
         private static IVs parseIVs(CompoundTag tag) {
@@ -167,5 +169,6 @@ public class NeoDaycareEgg {
         public TeraType getTeraType() { return teraType; }
         public boolean isTradeable() { return tradeable; }
         public UUID getUuid() { return uuid; }
+        public FormData getForm() { return form; }
     }
 }
