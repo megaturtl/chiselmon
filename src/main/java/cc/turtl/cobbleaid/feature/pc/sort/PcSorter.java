@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public final class PcSorter {
 
-    public static boolean sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortType sortType,
+    public static boolean sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortMode sortType,
             boolean reversed) {
         if (clientPC == null || boxNumber < 0) {
             return false;

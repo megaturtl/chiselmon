@@ -4,12 +4,12 @@ import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-import com.cobblemon.mod.common.net.messages.server.storage.pc.SortPCBoxPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.sort.PcSortUIHandler;
+import cc.turtl.cobbleaid.feature.pc.sort.PcSorter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -106,10 +106,6 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
             this.storageWidget.resetSelected();
         }
 
-        new SortPCBoxPacket(
-                this.pc.getUuid(),
-                this.storageWidget.getBox(),
-                config.pc.quickSortMode,
-                hasShiftDown()).sendToServer();
+        PcSorter.sortPCBox(this.pc, this.storageWidget.getBox(), config.pc.quickSortMode, hasShiftDown());
     }
 }

@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
-public enum PokemonCustomSortType {
+public enum PokemonCustomSortMode {
 
     SIZE(
         "size",
@@ -19,6 +19,16 @@ public enum PokemonCustomSortType {
     IVS(
         "ivs",
         PokemonComparators.IVS_COMPARATOR,
+        true
+    ),
+    LEVEL(
+        "ivs",
+        PokemonComparators.LEVEL_COMPARATOR,
+        true
+    ),
+    POKEDEX_NUMBER(
+        "ivs",
+        PokemonComparators.POKEDEX_COMPARATOR,
         true
     );
 
@@ -31,7 +41,7 @@ public enum PokemonCustomSortType {
     private final ResourceLocation icon;
     private final ResourceLocation iconReversed;
 
-    PokemonCustomSortType(
+    PokemonCustomSortMode(
             String id,
             Comparator<Pokemon> comparator,
             boolean showInUI

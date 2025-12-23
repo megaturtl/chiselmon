@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
-
+import cc.turtl.cobbleaid.feature.pc.sort.PokemonCustomSortMode;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -56,7 +55,7 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.DROPDOWN)
-        public PokemonSortMode quickSortMode = PokemonSortMode.POKEDEX_NUMBER;
+        public PokemonCustomSortMode quickSortMode = PokemonCustomSortMode.POKEDEX_NUMBER;
 
         @ConfigEntry.Gui.Tooltip
         public boolean bookmarksEnabled = true;

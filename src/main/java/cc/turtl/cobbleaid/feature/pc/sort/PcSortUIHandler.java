@@ -44,7 +44,7 @@ public class PcSortUIHandler {
         int btnWidth = 20;
         int btnHeight = 20;
 
-        for (PokemonCustomSortType sortType : PokemonCustomSortType.values()) {
+        for (PokemonCustomSortMode sortType : PokemonCustomSortMode.values()) {
 
             if (!sortType.showInUI()) {
                 continue;
