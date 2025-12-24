@@ -19,7 +19,9 @@ public class MovePredicates {
             "curse",
             // Fainting moves
             "selfdestruct", "explosion", "finalgambit",
-            "healingwish", "lunardance", "memento", "mistyexplosion");
+            "healingwish", "lunardance", "memento", "mistyexplosion",
+            // Confusion inducing moves
+            "outrage", "petaldance", "thrash");
 
     public static final Predicate<MoveTemplate> IS_SELF_DAMAGING = move -> SELF_DAMAGE_MOVES
             .contains(move.getName().toLowerCase());

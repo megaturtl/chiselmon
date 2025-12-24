@@ -104,7 +104,7 @@ public final class PokemonFormatUtil {
     }
 
     public static Component selfDamagingMoves(Pokemon pokemon) {
-        Set<MoveTemplate> possibleMoves = CalcUtil.getPossibleMoves(pokemon, true);
+        Set<MoveTemplate> possibleMoves = PokemonCalcUtil.getPossibleMoves(pokemon, true);
         List<MoveTemplate> possibleSelfDamagingMoves = possibleMoves.stream()
                 .filter(MovePredicates.IS_SELF_DAMAGING)
                 .toList();

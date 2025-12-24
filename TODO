@@ -8,7 +8,6 @@ Bugs:
 
 High priority:
 - Add a tooltip to the pc tabs with full name + "click to jump, right click to delete" or smth
-- Make all the quick sorting logic use my custom sorter
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)

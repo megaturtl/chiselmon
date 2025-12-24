@@ -5,11 +5,10 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
-import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
-import cc.turtl.cobbleaid.api.util.CalcUtil;
+import cc.turtl.cobbleaid.api.util.PokemonCalcUtil;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 
@@ -20,19 +19,15 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
-        if (CalcUtil.countUniqueAbilities(pokemon.getSpecies()) <= 1) {
+        if (PokemonCalcUtil.countUniqueAbilities(pokemon) <= 1) {
             return false;
         }
         return new HiddenAbilityProperty(true).matches(pokemon);
     };
 
     public static final Predicate<Pokemon> HAS_HIGH_IVS = pokemon -> {
-        IVs ivs = pokemon.getIvs();
-        if (ivs == null)
-            return false;
-
         ModConfig config = CobbleAid.services().config().get();
-        return CalcUtil.countPerfectIVs(ivs) >= config.threshold.maxIvs;
+        return PokemonCalcUtil.countPerfectIVs(pokemon) >= config.threshold.maxIvs;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
@@ -50,7 +45,7 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !pokemon.getRiding().getSeats().isEmpty();
 
     public static final Predicate<Pokemon> HAS_SELF_DAMAGING_MOVE = pokemon -> {
-        Set<MoveTemplate> possibleMoves = CalcUtil.getPossibleMoves(pokemon, true);
+        Set<MoveTemplate> possibleMoves = PokemonCalcUtil.getPossibleMoves(pokemon, true);
         List<MoveTemplate> possibleSelfDamagingMoves = possibleMoves.stream()
                 .filter(MovePredicates.IS_SELF_DAMAGING)
                 .toList();
