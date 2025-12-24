@@ -5,17 +5,17 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
+import cc.turtl.cobbleaid.api.SimpleSpecies;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import cc.turtl.cobbleaid.util.ObjectDumper;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.client.storage.ClientStorageManager;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.Species;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -142,16 +142,15 @@ public class DebugCommand {
         try {
             String speciesName = StringArgumentType.getString(context, "name");
 
-            Species species = PokemonSpecies.getByName(speciesName);
+            SimpleSpecies species = SimpleSpeciesRegistry.getByName(speciesName);
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Species " + species.getName() + " ---", ColorUtil.CYAN));
-            CommandFeedbackHelper.sendLabeled(source, "Primary Type", species.getPrimaryType().getName());
-            CommandFeedbackHelper.sendLabeled(source, "Resource ID", species.getResourceIdentifier().toString());
-            CommandFeedbackHelper.sendLabeled(source, "Catch Rate", species.getCatchRate());
-            CommandFeedbackHelper.sendLabeled(source, "EV Yield", species.getEvYield());
+                    ComponentFormatUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.CYAN));
+            CommandFeedbackHelper.sendLabeled(source, "Catch Rate", species.catchRate);
+            CommandFeedbackHelper.sendLabeled(source, "Egg Groups", species.eggGroups);
+            CommandFeedbackHelper.sendLabeled(source, "EV Yield", species.evYield);
 
-            LOGGER.info("--- DUMPING FIELDS FOR SPECIES '{}' ---", species.getName());
+            LOGGER.info("--- DUMPING FIELDS FOR SPECIES '{}' ---", species.name);
             ObjectDumper.logObjectFields(LOGGER, species);
 
             CommandFeedbackHelper.sendWarning(source, "Full species object dump sent to console/log.");

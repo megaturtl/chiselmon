@@ -7,16 +7,14 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
-import com.cobblemon.mod.common.api.pokemon.egg.EggGroup;
-import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
-import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.api.SimpleSpecies;
 import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
 import cc.turtl.cobbleaid.api.predicate.MovePredicates;
 import cc.turtl.cobbleaid.util.ColorUtil;
@@ -47,35 +45,38 @@ public final class PokemonFormatUtil {
         };
     }
 
-    private static final Map<EggGroup, Integer> EGG_GROUP_COLORS = Map.ofEntries(
-            Map.entry(EggGroup.MONSTER, 0x97724C),
-            Map.entry(EggGroup.WATER_1, 0x6BD1F9),
-            Map.entry(EggGroup.BUG, 0xAAC22A),
-            Map.entry(EggGroup.FLYING, 0x90AFF1),
-            Map.entry(EggGroup.FIELD, 0xE5BA65),
-            Map.entry(EggGroup.FAIRY, 0xFF9EB9),
-            Map.entry(EggGroup.GRASS, 0x82D25A),
-            Map.entry(EggGroup.HUMAN_LIKE, 0x47B7AE),
-            Map.entry(EggGroup.WATER_3, 0x2271B4),
-            Map.entry(EggGroup.MINERAL, 0x979067),
-            Map.entry(EggGroup.AMORPHOUS, 0x9F82CC),
-            Map.entry(EggGroup.WATER_2, 0x4B94ED),
-            Map.entry(EggGroup.DITTO, 0xB6AAD5),
-            Map.entry(EggGroup.DRAGON, 0x5E57BF),
-            Map.entry(EggGroup.UNDISCOVERED, ColorUtil.DARK_GRAY));
+    private static final Map<String, Integer> EGG_GROUP_COLORS = Map.ofEntries(
+            Map.entry("monster", 0x97724C),
+            Map.entry("water_1", 0x6BD1F9),
+            Map.entry("bug", 0xAAC22A),
+            Map.entry("flying", 0x90AFF1),
+            Map.entry("field", 0xE5BA65),
+            Map.entry("fairy", 0xFF9EB9),
+            Map.entry("grass", 0x82D25A),
+            Map.entry("human_like", 0x47B7AE),
+            Map.entry("water_3", 0x2271B4),
+            Map.entry("mineral", 0x979067),
+            Map.entry("amorphous", 0x9F82CC),
+            Map.entry("water_2", 0x4B94ED),
+            Map.entry("ditto", 0xB6AAD5),
+            Map.entry("dragon", 0x5E57BF),
+            Map.entry("undiscovered", ColorUtil.DARK_GRAY));
 
-    public static Component eggGroups(Pokemon pokemon) {
-        if (pokemon == null)
+    public static Component eggGroups(SimpleSpecies species) {
+        if (species == null || species.eggGroups.isEmpty())
             return UNKNOWN;
 
-        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
-
         return buildComponentWithSeparator(
-                formData.getEggGroups(),
+                species.eggGroups,
                 SLASH_SPACE_SEPERATOR,
-                group -> colored(
-                        group.getShowdownID(),
-                        EGG_GROUP_COLORS.getOrDefault(group, ColorUtil.WHITE)));
+                groupName -> {
+                    String key = groupName.toLowerCase();
+                    int color = EGG_GROUP_COLORS.getOrDefault(key, ColorUtil.WHITE);
+
+                    String displayName = StringUtils.formatDisplayName(groupName);
+
+                    return colored(displayName, color);
+                });
     }
 
     public static Component hypertrainedIVs(Pokemon pokemon) {
@@ -129,32 +130,29 @@ public final class PokemonFormatUtil {
                         type.getHue()));
     }
 
-    public static Component evYield(Pokemon pokemon) {
-        if (pokemon == null)
+    public static Component evYield(SimpleSpecies species) {
+        if (species == null || species.evYield == null || species.evYield.isEmpty())
             return UNKNOWN;
 
-        FormData formData = pokemon.getForm() != null ? pokemon.getForm() : pokemon.getSpecies().getStandardForm();
-
-        final Map<Stat, Integer> eVMap = formData.getEvYield();
-
-        // 1. Create a List of ONLY the Stats that have a non-zero EV yield
-        List<Stat> yieldingStats = Stats.Companion.getPERMANENT().stream()
-                .filter(stat -> eVMap.getOrDefault(stat, 0) != 0)
+        List<String> yieldingStatKeys = species.evYield.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(Map.Entry::getKey)
                 .toList();
 
-        // If no stats yield EVs, return UNKNOWN immediately
-        if (yieldingStats.isEmpty())
+        if (yieldingStatKeys.isEmpty())
             return UNKNOWN;
 
         return buildComponentWithSeparator(
-                yieldingStats,
+                yieldingStatKeys,
                 COMMA_SEPARATOR,
-                stat -> {
-                    int value = eVMap.get(stat);
+                statKey -> {
+                    int value = species.evYield.get(statKey);
+                    String displayName = getStatDisplayName(statKey);
+
                     return Component.empty()
                             .append(colored(String.valueOf(value), ColorUtil.WHITE))
                             .append(Component.literal(" "))
-                            .append(stat.getDisplayName().copy().withColor(ColorUtil.WHITE));
+                            .append(colored(displayName, ColorUtil.WHITE));
                 });
     }
 
@@ -183,5 +181,19 @@ public final class PokemonFormatUtil {
                 .append(colored("(", ColorUtil.LIGHT_GRAY))
                 .append(catchChanceComponent)
                 .append(colored(")", ColorUtil.LIGHT_GRAY));
+    }
+
+    private static String getStatDisplayName(String internalKey) {
+        return switch (internalKey.toLowerCase()) {
+            case "hp" -> "HP";
+            case "attack" -> "Atk";
+            case "defense" -> "Def";
+            case "defence" -> "Def";
+            case "special_attack" -> "Sp. Atk";
+            case "special_defense" -> "Sp. Def";
+            case "special_defence" -> "Sp. Def";
+            case "speed" -> "Spe";
+            default -> internalKey;
+        };
     }
 }
