@@ -17,7 +17,7 @@ public class SimpleSpecies {
     @SerializedName("eggGroups")
     public List<String> eggGroups = new ArrayList<>();
 
-    // Map keys will be "hp", "attack", "defense", "special_attack", etc.
+    // Map keys will be "hp", "attack", "defence", "special_attack", etc.
     public Map<String, Integer> evYield = new HashMap<>();
 
     public static String formatEggGroupName(String internalName) {

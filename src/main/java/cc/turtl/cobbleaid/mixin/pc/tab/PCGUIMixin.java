@@ -126,13 +126,11 @@ public abstract class PCGUIMixin extends Screen {
 
     @Unique
     private void cobbleaid$rebuildTabButtons() {
-        // 1. Clear existing buttons from the list and the screen
         for (PCTabButton button : this.cobbleaid$tabButtons) {
-            this.removeWidget(button); // Use Screen.removeWidget to remove it from rendering
+            this.removeWidget(button);
         }
         this.cobbleaid$tabButtons.clear();
 
-        // 2. Re-calculate positions and create new buttons
         PCTabStore tabStore = cobbleaid$getTabStore();
         List<PCTab> tabs = tabStore.getTabs();
 
@@ -148,11 +146,10 @@ public abstract class PCGUIMixin extends Screen {
                 tabStartX,
                 tabStartY);
 
-        // 3. Add all new buttons to the screen and our tracking list
         if (!newTabButtons.isEmpty()) {
             for (PCTabButton button : newTabButtons) {
                 this.addRenderableWidget(button);
-                this.cobbleaid$tabButtons.add(button); // Track the new buttons
+                this.cobbleaid$tabButtons.add(button); // Track the new buttons with the list
             }
         }
     }

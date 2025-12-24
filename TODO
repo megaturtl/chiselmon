@@ -1,8 +1,6 @@
 Bugs:
 - Pc bookmark button renders after the glow which looks weird
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
-- Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
-- fix catch rate (e.g. victinni shows 45 when its actually 3)
 - make egg show in front of portrait
 - Pasture block "deployed" thingy renders over tooltip
 
