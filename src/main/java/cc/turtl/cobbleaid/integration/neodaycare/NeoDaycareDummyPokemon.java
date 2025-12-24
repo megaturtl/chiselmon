@@ -9,13 +9,14 @@ import net.minecraft.network.chat.Component;
 import java.util.Set;
 
 public class NeoDaycareDummyPokemon extends Pokemon {
-    private final NeoDaycareEgg eggData;
+    private final Pokemon originalPokemon;
 
     public NeoDaycareDummyPokemon(NeoDaycareEgg eggData) {
-        this.eggData = eggData;
+        this.originalPokemon = eggData.getOriginalPokemon();
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
         setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
+        setForm(egg.getForm());
         setSpecies(egg.getSpecies());
         setLevel(egg.getLevel());
         setGender(egg.getGender());
@@ -24,9 +25,11 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         setNature(egg.getNature());
         setTeraType(egg.getTeraType());
         setAbility$common(egg.getAbility());
-        setUuid(egg.getUuid());
         setTradeable(egg.isTradeable());
         setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
+
+        // keep uuid of the original egg pokemon
+        setUuid(eggData.getOriginalPokemon().getUuid());
 
         for (Stat stat : Stats.Companion.getPERMANENT()) {
             setIV(stat, egg.getIvs().get(stat));
@@ -41,14 +44,14 @@ public class NeoDaycareDummyPokemon extends Pokemon {
     }
 
     public int getStepsRemaining() {
-        return eggData.getStepsRemaining();
+        return NeoDaycareEgg.from(originalPokemon).getStepsRemaining();
     }
 
     public float getHatchCompletion() {
-        return eggData.getHatchCompletion();
+        return NeoDaycareEgg.from(originalPokemon).getHatchCompletion();
     }
 
-    public Pokemon getOriginaPokemon() {
-        return eggData.getOriginalPokemon();
+    public Pokemon getOriginalPokemon() {
+        return originalPokemon;
     }
 }

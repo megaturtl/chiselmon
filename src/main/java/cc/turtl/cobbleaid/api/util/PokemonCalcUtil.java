@@ -12,12 +12,11 @@ import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.Species;
 
-public class CalcUtil {
+public class PokemonCalcUtil {
 
-    public static int countUniqueAbilities(Species species) {
-        AbilityPool pool = species.getAbilities();
+    public static int countUniqueAbilities(Pokemon pokemon) {
+        AbilityPool pool = pokemon.getForm().getAbilities();
 
         return (int) pool.getMapping().values().stream()
                 .flatMap(List::stream)
@@ -29,7 +28,8 @@ public class CalcUtil {
                 .count();
     }
 
-    public static final int countPerfectIVs(IVs ivs) {
+    public static final int countPerfectIVs(Pokemon pokemon) {
+        IVs ivs = pokemon.getIvs();
         long perfectCount = Stats.Companion.getPERMANENT().stream()
                 // Map each Stat object to its effective IV value
                 .mapToInt(ivs::getEffectiveBattleIV)

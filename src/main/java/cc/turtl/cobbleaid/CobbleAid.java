@@ -2,6 +2,7 @@ package cc.turtl.cobbleaid;
 
 import org.apache.logging.log4j.Logger;
 
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.feature.hud.spawntracker.SpawnTrackerFeature;
 import cc.turtl.cobbleaid.service.ICobbleAidServices;
@@ -10,10 +11,11 @@ import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
 import cc.turtl.cobbleaid.service.LoggerService;
 import cc.turtl.cobbleaid.service.WorldDataService;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class CobbleAid implements ClientModInitializer {
     public static final String MODID = "cobbleaid";
-    public static final String VERSION = "1.0.1";
+    public static final String VERSION = "1.0.2-alpha";
 
     private static CobbleAid INSTANCE;
     private volatile ICobbleAidServices services;
@@ -24,6 +26,7 @@ public class CobbleAid implements ClientModInitializer {
         INSTANCE = this;
         initializeServices();
         registerCommands();
+        registerFeatures();
         registerListeners();
         logger.info("Cobble Aid {} initialized.", VERSION);
     }
@@ -33,7 +36,7 @@ public class CobbleAid implements ClientModInitializer {
         logger.debug("Commands registered.");
     }
 
-    private void registerListeners() {
+    private void registerFeatures() {
         SpawnTrackerFeature.register();
     }
 
@@ -45,7 +48,15 @@ public class CobbleAid implements ClientModInitializer {
         WorldDataService worldDataService = new WorldDataService(configService.get().worldDataMap);
         this.services = new DefaultCobbleAidServices(configService, loggerService, worldDataService);
         this.logger = services.logger().get();
-        this.logger.debug("Services initialized.");
+        logger.debug("Services initialized.");
+    }
+
+    private void registerListeners() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.level != null && !SimpleSpeciesRegistry.isLoaded()) {
+                SimpleSpeciesRegistry.loadAsync();
+            }
+        });
     }
 
     public void reloadConfig() {
@@ -69,13 +80,16 @@ public class CobbleAid implements ClientModInitializer {
 
     public static ICobbleAidServices services() {
         if (getInstance().services == null) {
-            throw new IllegalStateException("Cobble Aid services are not initialized yet; access them after client initialization.");
+            throw new IllegalStateException(
+                    "Cobble Aid services are not initialized yet; access them after client initialization.");
         }
         return getInstance().services;
     }
 
     /**
-     * @deprecated Use {@link #services()} and {@link cc.turtl.cobbleaid.service.ConfigService} for configuration access.
+     * @deprecated Use {@link #services()} and
+     *             {@link cc.turtl.cobbleaid.service.ConfigService} for
+     *             configuration access.
      */
     @Deprecated
     public ModConfig getConfig() {
@@ -83,7 +97,9 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     /**
-     * @deprecated Use {@link #services()} and {@link cc.turtl.cobbleaid.service.WorldDataService} to access per-world data.
+     * @deprecated Use {@link #services()} and
+     *             {@link cc.turtl.cobbleaid.service.WorldDataService} to access
+     *             per-world data.
      */
     @Deprecated
     public WorldDataStore getWorldData() {

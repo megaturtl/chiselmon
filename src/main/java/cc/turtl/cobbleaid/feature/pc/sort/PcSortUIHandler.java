@@ -7,8 +7,6 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
 
 import java.util.List;
 
@@ -24,7 +22,6 @@ public class PcSortUIHandler {
     }
 
     private PcSortUIHandler() {
-        // Prevent instantiation
     }
 
     public static void initializeSortButtons(
@@ -47,27 +44,26 @@ public class PcSortUIHandler {
         int btnWidth = 20;
         int btnHeight = 20;
 
-        for (PcSorter.SortType sortType : PcSorter.SortType.values()) {
-            String typeName = sortType.toString().toLowerCase();
-            String tooltipKey = "ui.sort." + typeName;
-            String labelKey = "sort_" + typeName;
+        for (PokemonCustomSortMode sortType : PokemonCustomSortMode.values()) {
 
-            ResourceLocation btnTexture = modResource("textures/gui/pc/pc_button_sort_" + typeName + ".png");
-            ResourceLocation btnTextureAlt = modResource("textures/gui/pc/pc_button_sort_" + typeName + "_reverse.png");
+            if (!sortType.showInUI()) {
+                continue;
+            }
 
             IconButton customSortBtn = new IconButton(
                     btnX, btnY,
                     btnWidth, btnHeight,
-                    btnTexture,
-                    btnTextureAlt,
-                    tooltipKey,
-                    labelKey,
-                    btn -> PcSorter.sortPCBox(pc, storage.getBox(), sortType, Screen.hasShiftDown()));
+                    sortType.icon(),
+                    sortType.iconReversed(),
+                    sortType.tooltipKey(),
+                    sortType.labelKey(),
+                    btn -> PcSorter.sortPCBox(
+                            pc,
+                            storage.getBox(),
+                            sortType,
+                            Screen.hasShiftDown()));
 
-            // Sync with the options button visibility
             customSortBtn.visible = adder.isDisplayingOptions();
-
-            // Add to screen and internal list via the adder interface
             adder.addRenderableWidget(customSortBtn);
             adder.getOptionButtons().add(customSortBtn);
 

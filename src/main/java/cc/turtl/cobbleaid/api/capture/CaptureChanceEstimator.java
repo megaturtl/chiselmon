@@ -11,6 +11,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
@@ -80,7 +81,7 @@ public class CaptureChanceEstimator {
         float h = (float) targetEntity.getHealth();
 
         // Base Catch Rate (C)
-        float C = (float) pokemon.getForm().getCatchRate();
+        float C = (float) SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).catchRate;
 
         // Target Level (L)
         int targetLevel = pokemon.getLevel();

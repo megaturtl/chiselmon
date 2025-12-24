@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
+import cc.turtl.cobbleaid.feature.pc.tab.PCHomeButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTabManager;
@@ -52,6 +53,9 @@ public abstract class PCGUIMixin extends Screen {
     private PCBookmarkButton cobbleaid$bookmarkButton;
 
     @Unique
+    private PCHomeButton cobbleaid$homeButton;
+
+    @Unique
     private final List<PCTabButton> cobbleaid$tabButtons = new ArrayList<>();
 
     private final ICobbleAidServices services = CobbleAid.services();
@@ -91,10 +95,20 @@ public abstract class PCGUIMixin extends Screen {
         int guiTop = (this.height - BASE_HEIGHT) / 2;
 
         int bookmarkX = guiLeft + 239;
-        int bookmarkY = guiTop + 13;
+        int bookmarkY = guiTop + 12;
         PCBookmarkButton bookmarkButton = new PCBookmarkButton(bookmarkX, bookmarkY, bookmarkToggle);
         this.cobbleaid$bookmarkButton = bookmarkButton;
         this.addRenderableWidget(bookmarkButton);
+
+        Button.OnPress homeToggle = (button) -> {
+            storageWidget.setBox(0);
+        };
+
+        int homeX = guiLeft + 90;
+        int homeY = guiTop + 12;
+        PCHomeButton homeButton = new PCHomeButton(homeX, homeY, homeToggle);
+        this.cobbleaid$homeButton = homeButton;
+        this.addRenderableWidget(homeButton);
     }
 
     @Inject(method = "render", at = @At("HEAD"))
@@ -112,13 +126,11 @@ public abstract class PCGUIMixin extends Screen {
 
     @Unique
     private void cobbleaid$rebuildTabButtons() {
-        // 1. Clear existing buttons from the list and the screen
         for (PCTabButton button : this.cobbleaid$tabButtons) {
-            this.removeWidget(button); // Use Screen.removeWidget to remove it from rendering
+            this.removeWidget(button);
         }
         this.cobbleaid$tabButtons.clear();
 
-        // 2. Re-calculate positions and create new buttons
         PCTabStore tabStore = cobbleaid$getTabStore();
         List<PCTab> tabs = tabStore.getTabs();
 
@@ -134,11 +146,10 @@ public abstract class PCGUIMixin extends Screen {
                 tabStartX,
                 tabStartY);
 
-        // 3. Add all new buttons to the screen and our tracking list
         if (!newTabButtons.isEmpty()) {
             for (PCTabButton button : newTabButtons) {
                 this.addRenderableWidget(button);
-                this.cobbleaid$tabButtons.add(button); // Track the new buttons
+                this.cobbleaid$tabButtons.add(button); // Track the new buttons with the list
             }
         }
     }

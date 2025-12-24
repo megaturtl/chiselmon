@@ -4,6 +4,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.api.SimpleSpecies;
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
 import cc.turtl.cobbleaid.util.ColorUtil;
@@ -17,7 +19,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.impl.ui.HealthElement;
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
 public class PokemonProvider implements IEntityComponentProvider {
     private PokemonProvider() {
@@ -30,6 +32,8 @@ public class PokemonProvider implements IEntityComponentProvider {
             POKEMON_ENTITY_PARENT_PATH);
     public static final ResourceLocation POKEMON_ENTITY_TYPING_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".typing");
+    public static final ResourceLocation POKEMON_ENTITY_FORM_ID = modResource(
+            POKEMON_ENTITY_PARENT_PATH + ".form");
     public static final ResourceLocation POKEMON_ENTITY_EGG_GROUP_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".egg_groups");
     public static final ResourceLocation POKEMON_ENTITY_EV_ID = modResource(
@@ -52,6 +56,7 @@ public class PokemonProvider implements IEntityComponentProvider {
 
         PokemonEntity pokemonEntity = (PokemonEntity) accessor.getEntity();
         Pokemon pokemon = pokemonEntity.getPokemon();
+        SimpleSpecies simpleSpecies = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
         Player player = accessor.getPlayer();
 
         ItemStack mainHandItem = player.getMainHandItem();
@@ -64,16 +69,20 @@ public class PokemonProvider implements IEntityComponentProvider {
             tooltip.add(ComponentFormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
         }
 
+        if (config.get(POKEMON_ENTITY_FORM_ID)) {
+            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+        }
+
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(simpleSpecies)));
         }
 
         if (config.get(POKEMON_ENTITY_EV_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(pokemon)));
+            tooltip.add(ComponentFormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(simpleSpecies)));
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", pokemon.getSpecies().getCatchRate()));
+            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", simpleSpecies.catchRate));
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
                 tooltip.append(ComponentFormatUtil.labelledValue(" ",

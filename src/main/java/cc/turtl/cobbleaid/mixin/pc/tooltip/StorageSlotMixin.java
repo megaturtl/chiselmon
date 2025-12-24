@@ -5,8 +5,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.service.ConfigService;
-import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +29,7 @@ public abstract class StorageSlotMixin {
     @Inject(method = "renderWidget", at = @At("HEAD"), remap = false)
     private void cobbleaid$trackHover(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         ModConfig config = configService.get();
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        if (config.modDisabled) {
             return;
         }
 

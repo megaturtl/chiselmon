@@ -1,6 +1,11 @@
-High priority
+Bugs:
+- Pc bookmark button renders after the glow which looks weird
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
-- Fix the egg group and ev yield jade tooltip (maybe fixed need to check on server)
+- make egg show in front of portrait
+- Pasture block "deployed" thingy renders over tooltip
+
+High priority:
+- Add a tooltip to the pc tabs with full name + "click to jump, right click to delete" or smth
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
@@ -13,6 +18,7 @@ One day:
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Show actual marks on hover with their chance
 - Add a jade tooltip if a block is pokemon spawnable
+- track the mon/minute spawn rate
 
 - BELOW ARE IN MORECOBBLETWEAKS
 - Command/ ui button etc to switch 2 boxes

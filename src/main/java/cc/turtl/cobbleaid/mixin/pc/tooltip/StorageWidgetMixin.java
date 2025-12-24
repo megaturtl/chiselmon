@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
-import cc.turtl.cobbleaid.feature.pc.tooltip.StorageSlotTooltipState;
+import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,7 +31,9 @@ public class StorageWidgetMixin {
             CallbackInfo ci) {
         ModConfig config = CobbleAid.services().config().get();
 
-        if (config.modDisabled || !config.pc.tooltip.showTooltips) {
+        boolean isShiftHoverActive = config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown();
+
+        if (config.modDisabled || (!config.pc.tooltip.showTooltips && !isShiftHoverActive)) {
             StorageSlotTooltipState.clear();
             return;
         }
@@ -50,7 +52,8 @@ public class StorageWidgetMixin {
         List<Component> tooltip = new ArrayList<>();
 
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
-        if (config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown()) {
+
+        if (isShiftHoverActive) {
             tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
             tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
             tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));

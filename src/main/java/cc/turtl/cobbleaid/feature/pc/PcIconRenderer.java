@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static cc.turtl.cobbleaid.util.MiscUtils.modResource;
+import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 
 public class PcIconRenderer {
     private static final ResourceLocation HIDDEN_ABILITY_ICON = modResource("textures/gui/pc/ability_patch_icon.png");
