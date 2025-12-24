@@ -3,7 +3,7 @@
 Client-side quality-of-life improvements for Cobblemon. Lightweight, configurable, and focused on PC management, fishing, and Jade additions.
 
 ## Install
-1. Install Cobblemon and Cloth Config.
+1. Install Cobblemon, Cloth Config, and Jade (optional).
 2. Drop the jar file into your mods folder and launch the game.
 
 ## Key features
