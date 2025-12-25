@@ -171,6 +171,14 @@ public final class PokemonFormatUtil {
                 .append(colored(" (" + sizeString + ")", ColorUtil.TEAL));
     }
 
+    public static Component catchRate(SimpleSpecies species) {
+        if (species == null)
+            return UNKNOWN;
+
+        return Component.empty()
+                .append(String.valueOf(species.catchRate));
+    }
+
     public static Component catchChance(PokemonEntity pokemonEntity, PokeBall ball) {
         float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
         int rgb = ColorUtil.getRatioGradientColor(catchChance / 1.0f);
