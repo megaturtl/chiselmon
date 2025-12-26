@@ -8,6 +8,8 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
+import cc.turtl.cobbleaid.api.SimpleSpecies;
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.api.util.PokemonCalcUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.CobbleAid;
@@ -17,9 +19,22 @@ public final class PokemonPredicates {
     }
 
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
-    public static final Predicate<Pokemon> IS_LEGENDARY = pokemon -> pokemon.isLegendary() || pokemon.isMythical();
-    public static final Predicate<Pokemon> IS_ULTRABEAST = Pokemon::isUltraBeast;
-    public static final Predicate<Pokemon> IS_PARADOX = pokemon -> pokemon.hasLabels("paradox");
+    public static final Predicate<Pokemon> IS_LEGENDARY = pokemon -> {
+        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        return species.labels.contains("legendary");
+    };
+    public static final Predicate<Pokemon> IS_MYTHICAL = pokemon -> {
+        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        return species.labels.contains("mythical");
+    };
+    public static final Predicate<Pokemon> IS_ULTRABEAST = pokemon -> {
+        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        return species.labels.contains("ultra_beast");
+    };
+    public static final Predicate<Pokemon> IS_PARADOX = pokemon -> {
+        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        return species.labels.contains("paradox");
+    };
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
         if (PokemonCalcUtil.countUniqueAbilities(pokemon) <= 1) {

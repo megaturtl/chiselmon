@@ -1,65 +1,95 @@
 package cc.turtl.cobbleaid.feature.spawnalert;
 
-import org.apache.logging.log4j.Logger;
-
+import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.predicate.PokemonEntityPredicates;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.config.SpawnAlertConfig;
+import cc.turtl.cobbleaid.feature.AbstractFeature;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 
-public final class SpawnAlertFeature {
-    private static SpawnAlertFeature INSTANCE;
-    private static Logger LOGGER = CobbleAid.getLogger();
+import com.cobblemon.mod.common.api.Priority;
+
+public final class SpawnAlertFeature extends AbstractFeature {
+    private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
+    private AlertSoundManager alertSoundManager;
 
     private SpawnAlertFeature() {
+        super("SpawnAlert");
     }
 
-    public static void register() {
-        INSTANCE = new SpawnAlertFeature();
-        INSTANCE.registerListeners();
-        LOGGER.debug("SpawnAlert Feature Registered");
+    public static SpawnAlertFeature getInstance() {
+        return INSTANCE;
     }
 
-    private void registerListeners() {
+    @Override
+    protected boolean isFeatureEnabled() {
+        return getConfig().spawnAlert.enabled;
+    }
+
+    @Override
+    protected void init() {
+        alertSoundManager = new AlertSoundManager(getConfig().spawnAlert);
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (canRun()) {
+                alertSoundManager.tick();
+            }
+        });
+
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
+
+        ClientEntityEvents.ENTITY_UNLOAD.register((entity, level) -> {
+            alertSoundManager.removeTarget(entity.getUUID());
+        });
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            alertSoundManager.clearTargets();
+        });
+
+        // if battle starts, remove the pokemon from the alert list
+        CobblemonEvents.BATTLE_STARTED_POST.subscribe(Priority.NORMAL, event -> {
+            event.getBattle().getActors().forEach(actor -> {
+                actor.getPokemonList().forEach(pokemon -> {
+                    alertSoundManager.removeTarget(pokemon.getEntity().getUUID());
+                });
+            });
+            return kotlin.Unit.INSTANCE;
+        });
     }
 
-    private void onEntityLoad(Entity entity, ClientLevel clientLevel) {
-        if (CobbleAid.isDisabled()) return;
-        if (entity instanceof PokemonEntity pe) {
-            SpawnAlertConfig config = CobbleAid.services().config().get().spawnAlert;
-            shouldAlert(pe, config);
+    private void onEntityLoad(Entity entity, ClientLevel level) {
+        if (canRun() && entity instanceof PokemonEntity pe) {
+            if (shouldAlert(pe, getConfig().spawnAlert)) {
+                alertSoundManager.addTarget(entity.getUUID());
+                AlertMessage.sendChatAlert(pe);
+            }
         }
     }
 
     private boolean shouldAlert(PokemonEntity pokemonEntity, SpawnAlertConfig config) {
+        if (PokemonEntityPredicates.IS_OWNED.test(pokemonEntity)
+                || PokemonEntityPredicates.IS_PLUSHIE.test(pokemonEntity))
+            return false;
+
         Pokemon pokemon = pokemonEntity.getPokemon();
-        if (config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon)) {
-            return true;
-        }
 
-        if (config.alertOnLegendary && PokemonPredicates.IS_LEGENDARY.test(pokemon)) {
-            return true;
-        }
+        return (config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon))
+                || (config.alertOnLegendary && (PokemonPredicates.IS_LEGENDARY.test(pokemon)
+                        || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
+                || (config.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon))
+                || (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon))
+                || (config.alertOnCustomList
+                        && PokemonPredicates.isInCustomList(config.customPokemonList).test(pokemon));
+    }
 
-        if (config.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon)) {
-            return true;
-        }
-
-        if (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon)) {
-            return true;
-        }
-
-        if (config.alertOnCustomList &&
-                PokemonPredicates.isInCustomList(config.customPokemonList).test(pokemon)) {
-            return true;
-        }
-
-        return false;
+    public AlertSoundManager getAlertSoundManager() {
+        return alertSoundManager;
     }
 }

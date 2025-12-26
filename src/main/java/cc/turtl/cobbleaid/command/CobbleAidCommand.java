@@ -5,6 +5,7 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertCommand;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;
@@ -24,7 +25,8 @@ public class CobbleAidCommand {
                 .then(InfoCommand.register())
                 .then(ConfigCommand.register())
                 .then(DebugCommand.register())
-                .then(EggCommand.register());
+                .then(EggCommand.register())
+                .then(SpawnAlertCommand.register());
 
         dispatcher.register(baseCommand);
         dispatcher.register(literal("ca").redirect(baseCommand.build()));

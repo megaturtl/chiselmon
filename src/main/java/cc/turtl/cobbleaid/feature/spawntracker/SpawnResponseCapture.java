@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.hud.spawntracker;
+package cc.turtl.cobbleaid.feature.spawntracker;
 
 import java.util.ArrayList;
 import java.util.Collections;

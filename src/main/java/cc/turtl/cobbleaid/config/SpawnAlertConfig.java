@@ -1,4 +1,4 @@
-package cc.turtl. cobbleaid.config;
+package cc.turtl.cobbleaid.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,16 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 public class SpawnAlertConfig implements ConfigData {
+
+    @ConfigEntry.Gui.Excluded
+    private static final int MIN_VOLUME = 0;
+    @ConfigEntry.Gui.Excluded
+    private static final int MAX_VOLUME = 100;
+
+    @ConfigEntry.Gui.Excluded
+    private static final int MIN_SOUND_DELAY = 5;
+    @ConfigEntry.Gui.Excluded
+    private static final int MAX_SOUND_DELAY = 100;
 
     @ConfigEntry.Gui.Tooltip
     public boolean enabled = false;
@@ -25,40 +35,26 @@ public class SpawnAlertConfig implements ConfigData {
     public boolean alertOnParadox = true;
 
     @ConfigEntry.Gui.Tooltip
-    public boolean alertOnCustomList = false;
+    public boolean alertOnCustomList = true;
 
     @ConfigEntry.Gui.Tooltip
-    public List<String> customPokemonList = new ArrayList<>(Arrays.asList(
-            "Ditto",
-            "Eevee",
-            "Rotom"));
+    public List<String> customPokemonList = new ArrayList<>(Arrays.asList());
 
+    @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
     @ConfigEntry.Gui.Tooltip
-    public AlertDisplayMode displayMode = AlertDisplayMode.CHAT_AND_SOUND;
+    public int soundVolume = 100;
 
+    @ConfigEntry.BoundedDiscrete(min = MIN_SOUND_DELAY, max = MAX_SOUND_DELAY)
     @ConfigEntry.Gui.Tooltip
-    public String alertSound = "entity.experience_orb.pickup";
-
-    @ConfigEntry. Gui.Tooltip
-    public float soundVolume = 1.0f;
-
-    @ConfigEntry.Gui.Tooltip
-    public float soundPitch = 1.0f;
-
-    public enum AlertDisplayMode {
-        CHAT_ONLY,
-        SOUND_ONLY,
-        CHAT_AND_SOUND,
-        TOAST_NOTIFICATION
-    }
+    public int soundDelay = 20;
 
     @Override
     public void validatePostLoad() throws ValidationException {
-        if (soundVolume < 0.0f) {
-            soundVolume = 0.0f;
+        if (soundVolume > MAX_VOLUME) {
+            soundVolume = 100;
         }
-        if (soundVolume > 1.0f) {
-            soundVolume = 1.0f;
+        if (soundVolume < MIN_VOLUME) {
+            soundVolume = 0;
         }
     }
 }

@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import cc.turtl.cobbleaid.feature.spawntracker.SpawnEntry;
+import cc.turtl.cobbleaid.feature.spawntracker.SpawnResponseParser;
+
 public class SpawnResponseParserTest {
 
     @Test
