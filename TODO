@@ -12,6 +12,7 @@ Nice to have:
     KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
 - Customise pc expanded tooltip in the config (choose the fields you want)
 
+- Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!
 
 One day:
 - Add a set all before/after key in wallpapers
