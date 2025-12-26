@@ -5,8 +5,8 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import net.minecraft.client.Minecraft;
@@ -29,11 +29,12 @@ public class StorageWidgetMixin {
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void cobbleaid$renderStorageTooltips(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
+        if (CobbleAid.isDisabled()) return;
         ModConfig config = CobbleAid.services().config().get();
 
         boolean isShiftHoverActive = config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown();
 
-        if (config.modDisabled || (!config.pc.tooltip.showTooltips && !isShiftHoverActive)) {
+        if (!config.pc.tooltip.showTooltips && !isShiftHoverActive) {
             StorageSlotTooltipState.clear();
             return;
         }

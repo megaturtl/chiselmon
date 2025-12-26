@@ -7,8 +7,6 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBo
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
-import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -33,60 +31,55 @@ public abstract class WallpaperEntryMixin {
     private WallpapersScrollingWidget outer;
 
     // Belong to inner class
-    @Shadow @Final private ResourceLocation wallpaper;
-    @Shadow @Final private ResourceLocation altWallpaper;
-    @Shadow private boolean isNew;
+    @Shadow
+    @Final
+    private ResourceLocation wallpaper;
+    @Shadow
+    @Final
+    private ResourceLocation altWallpaper;
+    @Shadow
+    private boolean isNew;
 
-    private final ConfigService configService = CobbleAid.services().config();
-
-    @Inject(
-        method = "render",
-        at = @At("RETURN") // Draw AFTER the wallpaper so text is on top
+    @Inject(method = "render", at = @At("RETURN") // Draw AFTER the wallpaper so text is on top
     )
     private void cobbleaid$renderBulkOverlay(
-        GuiGraphics guiGraphics,
-        int index, int top, int left, int width, int height,
-        int mouseX, int mouseY,
-        boolean hovering, float partialTick,
-        CallbackInfo ci
-    ) {
-        ModConfig config = configService.get();
-        if (config.modDisabled) {
+            GuiGraphics guiGraphics,
+            int index, int top, int left, int width, int height,
+            int mouseX, int mouseY,
+            boolean hovering, float partialTick,
+            CallbackInfo ci) {
+        if (CobbleAid.isDisabled()) {
             return;
         }
         if (Screen.hasControlDown()) {
             PoseStack pose = guiGraphics.pose();
             pose.pushPose();
-            
-            float scale = 0.5F; 
-            double xPos = (left + width) - 30; 
+
+            float scale = 0.5F;
+            double xPos = (left + width) - 30;
             double yPos = (top + height) - 10;
-            
+
             pose.translate(xPos, yPos, 200.0f); // Z=200 ensures it renders above the image
             pose.scale(scale, scale, scale);
 
             guiGraphics.drawString(
-                Minecraft.getInstance().font,
-                Component.literal("SET ALL").withStyle(ChatFormatting.BOLD, ChatFormatting.YELLOW),
-                0, 0, 0xFFFFFF,
-                true
-            );
+                    Minecraft.getInstance().font,
+                    Component.literal("SET ALL").withStyle(ChatFormatting.BOLD, ChatFormatting.YELLOW),
+                    0, 0, 0xFFFFFF,
+                    true);
 
             pose.popPose();
         }
     }
 
-    @Inject(
-        method = "mouseClicked(DDI)Z",
-        at = @At("HEAD"),
-        cancellable = true
-    )
+    @Inject(method = "mouseClicked(DDI)Z", at = @At("HEAD"), cancellable = true)
     private void cobbleaid$bulkWallpaperClick(
-        double mouseX, double mouseY, int button,
-        CallbackInfoReturnable<Boolean> cir
-    ) {
-        ModConfig config = configService.get();
-        if (config.modDisabled || !Screen.hasControlDown()) return;
+            double mouseX, double mouseY, int button,
+            CallbackInfoReturnable<Boolean> cir) {
+        if (CobbleAid.isDisabled())
+            return;
+        if (!Screen.hasControlDown())
+            return;
 
         Minecraft mc = Minecraft.getInstance();
         PCGUI pcGui = this.outer.getPcGui();
@@ -104,11 +97,10 @@ public abstract class WallpaperEntryMixin {
 
             // 2. Send packet to server
             new RequestChangePCBoxWallpaperPacket(
-                pcGui.getPc().getUuid(),
-                i,
-                this.wallpaper,
-                Screen.hasShiftDown() ? this.altWallpaper : null
-            ).sendToServer();
+                    pcGui.getPc().getUuid(),
+                    i,
+                    this.wallpaper,
+                    Screen.hasShiftDown() ? this.altWallpaper : null).sendToServer();
         }
 
         // GUI Cleanup

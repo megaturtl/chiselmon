@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import com.cobblemon.mod.common.util.DataKeys;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
 
 import java.util.UUID;
 
@@ -65,7 +65,7 @@ public class NeoDaycareEgg {
         if (pokemon == null) return null;
         
         ModConfig config = CobbleAid.services().config().get();
-        if (config.modDisabled || !config.pc.showEggPreview || !isEgg(pokemon)) {
+        if (CobbleAid.isDisabled() || !config.pc.showEggPreview || !isEgg(pokemon)) {
             return pokemon;
         }
         return from(pokemon).createDummy();

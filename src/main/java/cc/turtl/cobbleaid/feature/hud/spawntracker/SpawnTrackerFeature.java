@@ -10,7 +10,8 @@ import java.util. stream.Collectors;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.config.SpawnTrackerConfig;
 import cc. turtl.cobbleaid. util.ColorUtil;
 import net.fabricmc.fabric.api. client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api. client.rendering.v1.HudRenderCallback;
@@ -29,7 +30,7 @@ public final class SpawnTrackerFeature {
     private static Logger LOGGER = CobbleAid.getLogger();
 
     private final SpawnResponseCapture capture;
-    private List<SpawnEntry> visibleEntries = List. of();
+    private List<SpawnEntry> visibleEntries = List.of();
     private int ticksSinceLastPoll = 0;
 
     private SpawnTrackerFeature() {
@@ -58,9 +59,9 @@ public final class SpawnTrackerFeature {
     private void onClientTick(Minecraft client) {
         capture.tick();
 
-        ModConfig config = CobbleAid.services().config().get();
+        SpawnTrackerConfig config = CobbleAid.services().config().get().spawnTracker;
 
-        if (config. modDisabled || !config.spawnTracker.enabled) {
+        if (!config.enabled) {
             capture.cancel();
             visibleEntries = List.of();
             ticksSinceLastPoll = 0;
@@ -88,7 +89,7 @@ public final class SpawnTrackerFeature {
 
         ticksSinceLastPoll++;
 
-        int pollInterval = config.spawnTracker.pollTickInterval;
+        int pollInterval = config.pollTickInterval;
 
         if (ticksSinceLastPoll < pollInterval) {
             return;
@@ -103,7 +104,7 @@ public final class SpawnTrackerFeature {
             return;
         }
 
-        String bucket = config. spawnTracker.bucket;
+        String bucket = config.bucket;
         if (bucket == null || bucket.isBlank()) {
             bucket = "common";
         }
@@ -120,7 +121,7 @@ public final class SpawnTrackerFeature {
 
     private void onHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         ModConfig config = CobbleAid.services().config().get();
-        if (config.modDisabled || !config. spawnTracker.enabled) {
+        if (CobbleAid.isDisabled() || !config. spawnTracker.enabled) {
             return;
         }
 

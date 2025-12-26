@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.feature.hud.spawntracker.SpawnTrackerFeature;
+import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertFeature;
 import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
@@ -38,6 +39,7 @@ public class CobbleAid implements ClientModInitializer {
 
     private void registerFeatures() {
         SpawnTrackerFeature.register();
+        SpawnAlertFeature.register();
     }
 
     private void initializeServices() {
@@ -53,6 +55,7 @@ public class CobbleAid implements ClientModInitializer {
 
     private void registerListeners() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (isDisabled()) return;
             if (client.level != null && !SimpleSpeciesRegistry.isLoaded()) {
                 SimpleSpeciesRegistry.loadAsync();
             }
@@ -86,23 +89,7 @@ public class CobbleAid implements ClientModInitializer {
         return getInstance().services;
     }
 
-    /**
-     * @deprecated Use {@link #services()} and
-     *             {@link cc.turtl.cobbleaid.service.ConfigService} for
-     *             configuration access.
-     */
-    @Deprecated
-    public ModConfig getConfig() {
-        return services().config().get();
-    }
-
-    /**
-     * @deprecated Use {@link #services()} and
-     *             {@link cc.turtl.cobbleaid.service.WorldDataService} to access
-     *             per-world data.
-     */
-    @Deprecated
-    public WorldDataStore getWorldData() {
-        return services().worldData().current();
+    public static boolean isDisabled() {
+        return services().config().get().modDisabled;
     }
 }

@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.PcEggRenderer;
 import cc.turtl.cobbleaid.feature.pc.PcIconRenderer;
 import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
@@ -26,10 +26,10 @@ public abstract class StorageSlotMixin {
 
     @Inject(method = "renderSlot", at = @At("RETURN"), remap = false)
     private void cobbleaid$renderCustomElements(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
-        ModConfig config = CobbleAid.services().config().get();
-        if (config.modDisabled) {
+        if (CobbleAid.isDisabled()) {
             return;
         }
+        ModConfig config = CobbleAid.services().config().get();
         Pokemon pokemon = getPokemon();
 
         if (config.pc.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {

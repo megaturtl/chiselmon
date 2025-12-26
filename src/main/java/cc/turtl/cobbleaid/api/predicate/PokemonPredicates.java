@@ -9,14 +9,17 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.cobbleaid.api.util.PokemonCalcUtil;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {
     }
 
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
+    public static final Predicate<Pokemon> IS_LEGENDARY = pokemon -> pokemon.isLegendary() || pokemon.isMythical();
+    public static final Predicate<Pokemon> IS_ULTRABEAST = Pokemon::isUltraBeast;
+    public static final Predicate<Pokemon> IS_PARADOX = pokemon -> pokemon.hasLabels("paradox");
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
         if (PokemonCalcUtil.countUniqueAbilities(pokemon) <= 1) {
@@ -52,4 +55,15 @@ public final class PokemonPredicates {
 
         return !possibleSelfDamagingMoves.isEmpty();
     };
+
+    public static Predicate<Pokemon> isInCustomList(List<String> customList) {
+        return pokemon -> {
+            if (customList == null || customList.isEmpty()) {
+                return false;
+            }
+            String speciesName = pokemon.getSpecies().getName();
+            return customList.stream()
+                    .anyMatch(name -> name.equalsIgnoreCase(speciesName));
+        };
+    }
 }

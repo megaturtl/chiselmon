@@ -3,7 +3,7 @@ package cc.turtl.cobbleaid.command;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 
@@ -49,10 +49,9 @@ public class ConfigCommand {
     }
 
     private static int executeStatus(CommandContext<FabricClientCommandSource> context) {
-        ModConfig config = CobbleAid.services().config().get();
         FabricClientCommandSource source = context.getSource();
 
-        if (config.modDisabled) {
+        if (CobbleAid.isDisabled()) {
             CommandFeedbackHelper.sendLabeled(source, "Cobble Aid Status",
                     ComponentFormatUtil.colored("Disabled", ColorUtil.RED));
         } else {
