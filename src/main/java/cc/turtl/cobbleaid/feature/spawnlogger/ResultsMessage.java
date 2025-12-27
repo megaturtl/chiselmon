@@ -3,17 +3,16 @@ package cc.turtl.cobbleaid.feature.spawnlogger;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.StringUtils;
+
 import static cc.turtl.cobbleaid.util.ComponentFormatUtil.colored;
 import static cc.turtl.cobbleaid.util.ComponentFormatUtil.labelledValue;
 
 public class ResultsMessage {
-    private static final String DURATION_FORMAT = "mm:ss";
 
     public static void sendResultsMessage(SpawnLoggerSession session) {
         Minecraft client = Minecraft.getInstance();
@@ -27,25 +26,24 @@ public class ResultsMessage {
 
     private static MutableComponent buildResultsMessage(SpawnLoggerSession session) {
         Collection<LoggedPokemon> logs = session.getResults();
-        long totalSeconds = session.getElapsedSeconds();
-        int totalSpawns = logs.size();
-        double spawnsPerMinute = calculateSpawnsPerMinute(totalSeconds, totalSpawns);
+        long elapsedMs = session.getElapsedMs();
+        int totalSpawns = session.getLoggedAmount();
+        double spawnsPerMinute = calculateSpawnsPerMinute(elapsedMs, totalSpawns);
 
         MutableComponent message = colored("=== Spawn Logger Report ===", ColorUtil.TURQUOISE);
-        appendSessionStats(message, totalSeconds, totalSpawns, spawnsPerMinute);
+        appendSessionStats(message, elapsedMs, totalSpawns, spawnsPerMinute);
         appendSpecialEncounters(message, logs);
 
         return message;
     }
 
-    private static double calculateSpawnsPerMinute(long totalSeconds, int totalSpawns) {
-        return totalSeconds > 0 ? (totalSpawns * 60.0) / totalSeconds : 0.0;
+    private static double calculateSpawnsPerMinute(long elapsedMs, int totalSpawns) {
+        return elapsedMs > 0 ? (totalSpawns * 60.0 * 1000.0) / elapsedMs : 0.0;
     }
 
-    private static void appendSessionStats(MutableComponent message, long totalSeconds, int totalSpawns,
+    private static void appendSessionStats(MutableComponent message, long durationMs, int totalSpawns,
             double spawnsPerMinute) {
-        String timeString = DurationFormatUtils.formatDuration(totalSeconds * 1000, DURATION_FORMAT);
-        message.append(labelledValue("\nTime Elapsed: ", timeString));
+        message.append(labelledValue("\nTime Elapsed: ", StringUtils.formatDurationMs(durationMs)));
         message.append(labelledValue("\nTotal Spawns: ", totalSpawns));
         message.append(labelledValue("\nSpawns/Min: ", String.format("%.2f", spawnsPerMinute)));
     }

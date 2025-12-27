@@ -73,8 +73,7 @@ public final class SpawnAlertFeature extends AbstractFeature {
     }
 
     private boolean shouldAlert(PokemonEntity pokemonEntity, SpawnAlertConfig config) {
-        if (PokemonEntityPredicates.IS_OWNED.test(pokemonEntity)
-                || PokemonEntityPredicates.IS_PLUSHIE.test(pokemonEntity))
+        if (!PokemonEntityPredicates.IS_WILD.test(pokemonEntity))
             return false;
 
         Pokemon pokemon = pokemonEntity.getPokemon();
@@ -84,6 +83,7 @@ public final class SpawnAlertFeature extends AbstractFeature {
                         || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
                 || (config.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon))
                 || (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon))
+                || (config.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon))
                 || (config.alertOnCustomList
                         && PokemonPredicates.isInCustomList(config.customPokemonList).test(pokemon));
     }

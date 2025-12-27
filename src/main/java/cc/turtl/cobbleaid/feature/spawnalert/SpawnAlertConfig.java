@@ -35,6 +35,9 @@ public class SpawnAlertConfig implements ConfigData {
     public boolean alertOnParadox = true;
 
     @ConfigEntry.Gui.Tooltip
+    public boolean alertOnExtremeSize = false;
+
+    @ConfigEntry.Gui.Tooltip
     public boolean alertOnCustomList = true;
 
     @ConfigEntry.Gui.Tooltip

@@ -7,17 +7,16 @@ import java.util.UUID;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
+import cc.turtl.cobbleaid.CobbleAid;
 
 public class SpawnLoggerSession {
-    private final long targetDurationMs;
     private long accumulatedTimeMs = 0;
     private long lastStartTime;
     private boolean paused = false;
 
     private final Map<UUID, LoggedPokemon> loggedPokemon = new LinkedHashMap<>();
 
-    public SpawnLoggerSession(int durationMinutes) {
-        this.targetDurationMs = (long) durationMinutes * 60 * 1000;
+    public SpawnLoggerSession() {
         this.lastStartTime = System.currentTimeMillis();
     }
 
@@ -33,37 +32,28 @@ public class SpawnLoggerSession {
                     pokemon.getScaleModifier(),
                     System.currentTimeMillis());
 
+            CobbleAid.getLogger().debug("Logging Lvl. " + pokemon.getLevel() + " " + pokemon.getSpecies().getName());
             loggedPokemon.putIfAbsent(uuid, data);
         }
     }
 
-    public void togglePause() {
-        if (paused) {
-            lastStartTime = System.currentTimeMillis();
-            paused = false;
-        } else {
+    public void pause() {
+        if (!paused) {
             accumulatedTimeMs += (System.currentTimeMillis() - lastStartTime);
             paused = true;
         }
     }
 
-    public boolean isExpired() {
-        if (paused)
-            return false;
-        return getElapsedMs() >= targetDurationMs;
+    public void resume() {
+        if (paused) {
+            lastStartTime = System.currentTimeMillis();
+            paused = false;
+        }
     }
 
-    private long getElapsedMs() {
+    public long getElapsedMs() {
         long currentChunk = paused ? 0 : (System.currentTimeMillis() - lastStartTime);
         return accumulatedTimeMs + currentChunk;
-    }
-
-    public long getElapsedSeconds() {
-        return getElapsedMs() / 1000;
-    }
-
-    public long getRemainingSeconds() {
-        return (targetDurationMs - getElapsedMs()) / 1000;
     }
 
     public boolean isPaused() {
@@ -72,5 +62,9 @@ public class SpawnLoggerSession {
 
     public Collection<LoggedPokemon> getResults() {
         return loggedPokemon.values();
+    }
+
+    public int getLoggedAmount() {
+        return loggedPokemon.size();
     }
 }

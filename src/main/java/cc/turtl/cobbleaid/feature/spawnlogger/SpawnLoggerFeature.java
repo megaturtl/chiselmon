@@ -6,6 +6,8 @@ import cc.turtl.cobbleaid.feature.AbstractFeature;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.Entity;
 
 public final class SpawnLoggerFeature extends AbstractFeature {
     private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
@@ -31,39 +33,26 @@ public final class SpawnLoggerFeature extends AbstractFeature {
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
     }
 
-    private void onEntityLoad(net.minecraft.world.entity.Entity entity, net.minecraft.world.level.Level level) {
+    private void onEntityLoad(Entity entity, ClientLevel level) {
         if (!canRun() || currentSession == null || currentSession.isPaused()) {
             return;
         }
 
-        if (entity instanceof PokemonEntity pokemonEntity && shouldTrack(pokemonEntity)) {
+        if (entity instanceof PokemonEntity pokemonEntity && PokemonEntityPredicates.IS_WILD.test(pokemonEntity)) {
             currentSession.log(entity.getUUID(), pokemonEntity.getPokemon());
         }
     }
 
     private void onClientTick(Minecraft client) {
-        if (currentSession != null && currentSession.isExpired()) {
-            finishSession();
+        if (canRun() && currentSession != null && getConfig().spawnLogger.showActionBarStatus) {
+            ActionBarStatus.updateActionBar(currentSession);
         }
     }
 
-    private boolean shouldTrack(PokemonEntity pokemonEntity) {
-        return !PokemonEntityPredicates.IS_OWNED.test(pokemonEntity)
-                && !PokemonEntityPredicates.IS_PLUSHIE.test(pokemonEntity);
-    }
-
-    public void startSession(int minutes) {
+    public void startSession() {
         if (currentSession == null) {
-            currentSession = new SpawnLoggerSession(minutes);
+            currentSession = new SpawnLoggerSession();
         }
-    }
-
-    public boolean toggleSessionPause() {
-        if (currentSession != null) {
-            currentSession.togglePause();
-            return !currentSession.isPaused();
-        }
-        return false;
     }
 
     public void finishSession() {

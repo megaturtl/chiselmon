@@ -1,6 +1,5 @@
 package cc.turtl.cobbleaid.feature.spawnlogger;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -13,22 +12,24 @@ import cc.turtl.cobbleaid.CobbleAid;
 public class SpawnLoggerCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
 
-        
         var startBranch = literal("start")
-                .then(argument("minutes", IntegerArgumentType.integer(1, 60))
-                        .executes(SpawnLoggerCommand::executeStart));
+                .executes(SpawnLoggerCommand::executeStart);
 
         var pauseBranch = literal("pause")
                 .executes(SpawnLoggerCommand::executePause);
         
-        var cancelBranch = literal("cancel")
-                .executes(SpawnLoggerCommand::executeCancel);
+        var resumeBranch = literal("resume")
+                .executes(SpawnLoggerCommand::executeResume);
+
+        var stopBranch = literal("stop")
+                .executes(SpawnLoggerCommand::executeStop);
 
         return literal("log")
                 .executes(SpawnLoggerCommand::executeHelp)
                 .then(startBranch)
                 .then(pauseBranch)
-                .then(cancelBranch);
+                .then(resumeBranch)
+                .then(stopBranch);
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
@@ -43,7 +44,6 @@ public class SpawnLoggerCommand {
 
     private static int executeStart(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        int mins = IntegerArgumentType.getInteger(context, "minutes");
         SpawnLoggerFeature spawnLogger = SpawnLoggerFeature.getInstance();
 
         if (spawnLogger.getSession() != null) {
@@ -52,8 +52,8 @@ public class SpawnLoggerCommand {
         }
 
         try {
-            spawnLogger.startSession(mins);
-            CommandUtils.sendSuccess(source, "Spawn Logger session started, running for " + mins + " mins");
+            spawnLogger.startSession();
+            CommandUtils.sendSuccess(source, "Spawn Logger session started!");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred during 'log start' command!");
             CobbleAid.getLogger().error("Error executing 'log start' command:", e);
@@ -65,20 +65,21 @@ public class SpawnLoggerCommand {
 
     private static int executePause(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerFeature spawnLogger = SpawnLoggerFeature.getInstance();
+        SpawnLoggerSession session = SpawnLoggerFeature.getInstance().getSession();
 
-        if (spawnLogger.getSession() == null) {
+        if (session == null) {
             CommandUtils.sendWarning(source, "No Spawn Logger currently running!");
             return 1;
         }
 
-        try {
-            boolean paused = spawnLogger.toggleSessionPause();
-            String status = paused ? "Paused" : "Resumed";
+        if (session.isPaused()) {
+            CommandUtils.sendWarning(source, "Spawn Logger is already paused!");
+            return 1;
+        }
 
-            CommandUtils.sendToggle(source,
-                    "Spawn Logger " + status + ". (" + spawnLogger.getSession().getRemainingSeconds() + "s left)",
-                    !paused);
+        try {
+            session.pause();
+            CommandUtils.sendSuccess(source, "Spawn Logger paused.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred during 'log pause' command!");
             CobbleAid.getLogger().error("Error executing 'log pause' command:", e);
@@ -88,7 +89,33 @@ public class SpawnLoggerCommand {
         return 1;
     }
 
-    private static int executeCancel(CommandContext<FabricClientCommandSource> context) {
+    private static int executeResume(CommandContext<FabricClientCommandSource> context) {
+        FabricClientCommandSource source = context.getSource();
+        SpawnLoggerSession session = SpawnLoggerFeature.getInstance().getSession();
+
+        if (session == null) {
+            CommandUtils.sendWarning(source, "No Spawn Logger currently running!");
+            return 1;
+        }
+
+        if (!session.isPaused()) {
+            CommandUtils.sendWarning(source, "Spawn Logger is not paused!");
+            return 1;
+        }
+
+        try {
+            session.resume();
+            CommandUtils.sendSuccess(source, "Spawn Logger resumed.");
+        } catch (Exception e) {
+            CommandUtils.sendError(source, "An unexpected error occurred during 'log pause' command!");
+            CobbleAid.getLogger().error("Error executing 'log pause' command:", e);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    private static int executeStop(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         SpawnLoggerFeature spawnLogger = SpawnLoggerFeature.getInstance();
 
@@ -100,8 +127,8 @@ public class SpawnLoggerCommand {
         try {
             spawnLogger.finishSession();
         } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred during 'log cancel' command!");
-            CobbleAid.getLogger().error("Error executing 'log cancel' command:", e);
+            CommandUtils.sendError(source, "An unexpected error occurred during 'log stop' command!");
+            CobbleAid.getLogger().error("Error executing 'log stop' command:", e);
             return 0;
         }
 

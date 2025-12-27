@@ -14,4 +14,11 @@ public final class PokemonEntityPredicates {
     public static final Predicate<PokemonEntity> IS_PLUSHIE = entity -> {
         return (entity.getPokemon().getLevel() == 1 && entity.getPokemon().getExperience() == 0);
     };
+
+    // Raid or normal boss, usually pokemon can't be above 2.0 in scale
+    public static final Predicate<PokemonEntity> IS_BOSS = entity -> {
+        return (entity.getPokemon().getScaleModifier() > 2);
+    };
+
+    public static final Predicate<PokemonEntity> IS_WILD = (IS_OWNED.or(IS_PLUSHIE).or(IS_BOSS)).negate();
 }

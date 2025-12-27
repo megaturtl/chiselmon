@@ -5,6 +5,7 @@ import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 /**
@@ -55,6 +56,19 @@ public class ComponentFormatUtil {
         }
 
         return hasContent ? result : UNKNOWN;
+    }
+
+    public static Component buildComponentFromStrings(Collection<String> strings, int color) {
+        if (strings == null) {
+            return UNKNOWN;
+        }
+
+        MutableComponent result = Component.empty();
+        for (String string : strings) {
+            result.append(colored(string, color));
+        }
+
+        return result.getString().isEmpty() ? UNKNOWN : result;
     }
 
     public static Component labelledValue(@NotNull String label, @Nullable Object value) {
