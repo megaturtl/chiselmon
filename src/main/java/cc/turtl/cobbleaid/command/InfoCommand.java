@@ -6,6 +6,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import cc.turtl.cobbleaid.util.CommandUtils;
 
 public class InfoCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
@@ -14,9 +15,9 @@ public class InfoCommand {
     }
     private static int execute(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        CommandFeedbackHelper.sendHeader(source, "Cobble Aid Info");
-        CommandFeedbackHelper.sendLabeled(source, "Version", CobbleAid.VERSION);
-        CommandFeedbackHelper.sendLabeled(source, "Author", "megaturtl");
+        CommandUtils.sendHeader(source, "Cobble Aid Info");
+        CommandUtils.sendLabeled(source, "Version", CobbleAid.VERSION);
+        CommandUtils.sendLabeled(source, "Author", "megaturtl");
         return 1;
     }
     

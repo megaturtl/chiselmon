@@ -9,7 +9,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition;
 import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
+import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareEgg;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {
@@ -17,6 +18,7 @@ public class ClientPartyMixin {
     @Inject(method = "get(Lcom/cobblemon/mod/common/api/storage/party/PartyPosition;)Lcom/cobblemon/mod/common/pokemon/Pokemon;", at = @At("RETURN"), cancellable = true, remap = false)
     // Intercepts getting the pokemon and replaces with a dummy if it's an egg
     private void onGetPokemon(PartyPosition position, CallbackInfoReturnable<Pokemon> cir) {
+        if (CobbleAid.isDisabled()) return;
         Pokemon pokemon = cir.getReturnValue();
         // Only create dummy if we're not already returning a dummy
         if (pokemon != null && !NeoDaycareEgg.isDummy(pokemon)) {

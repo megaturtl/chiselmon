@@ -1,22 +1,22 @@
-package cc.turtl.cobbleaid.feature.hud.spawntracker;
+package cc.turtl.cobbleaid.feature.checkspawntracker;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class SpawnResponseParser {
+public final class CheckSpawnResponseParser {
     private static final Pattern ENTRY_PATTERN = Pattern.compile("\\s*([^:,]+):\\s*([\\d.,]+)%\\s*");
 
-    private SpawnResponseParser() {
+    private CheckSpawnResponseParser() {
     }
 
-    public static List<SpawnEntry> parse(List<String> lines) {
+    public static List<CheckSpawnEntry> parse(List<String> lines) {
         if (lines == null || lines.isEmpty()) {
             return List.of();
         }
 
-        List<SpawnEntry> entries = new ArrayList<>();
+        List<CheckSpawnEntry> entries = new ArrayList<>();
         for (String line : lines) {
             if (line == null || line.isBlank()) {
                 continue;
@@ -34,7 +34,7 @@ public final class SpawnResponseParser {
 
                 try {
                     float percentage = Float.parseFloat(percentText);
-                    entries.add(new SpawnEntry(name, percentage));
+                    entries.add(new CheckSpawnEntry(name, percentage));
                 } catch (NumberFormatException ignored) {
                 }
             }

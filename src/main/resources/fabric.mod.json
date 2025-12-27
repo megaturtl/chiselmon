@@ -18,10 +18,10 @@
 			"cc.turtl.cobbleaid.CobbleAid"
 		],
 		"modmenu": [
-			"cc.turtl.cobbleaid.integration.ModMenuIntegration"
+			"cc.turtl.cobbleaid.compat.ModMenuIntegration"
 		],
         "jade": [
-            "cc.turtl.cobbleaid.integration.jade.CobbleAidJadePlugin"
+            "cc.turtl.cobbleaid.compat.jade.CobbleAidJadePlugin"
         ]
 	},
 	"mixins": [

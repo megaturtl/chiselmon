@@ -24,7 +24,7 @@ public class PCHomeButton extends Button implements CobblemonRenderable {
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
-    private static final Tooltip TOOLTIP = Tooltip.create(Component.literal("Go to Box 1"));
+    private static final Tooltip TOOLTIP = Tooltip.create(Component.literal("Jump to Box 1"));
 
     public PCHomeButton(int x, int y, OnPress onPress) {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);

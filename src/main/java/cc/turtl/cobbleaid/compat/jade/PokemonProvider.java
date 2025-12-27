@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.integration.jade;
+package cc.turtl.cobbleaid.compat.jade;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
@@ -82,7 +82,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", simpleSpecies.catchRate));
+            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", PokemonFormatUtil.catchRate(simpleSpecies)));
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
                 tooltip.append(ComponentFormatUtil.labelledValue(" ",

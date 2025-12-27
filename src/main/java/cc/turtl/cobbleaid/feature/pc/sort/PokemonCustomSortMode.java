@@ -11,28 +11,28 @@ import static cc.turtl.cobbleaid.util.TextUtil.modResource;
 public enum PokemonCustomSortMode {
 
     SIZE(
-        "size",
-        PokemonComparators.SIZE_COMPARATOR,
-        true
-    ),
-
+            "size",
+            "Size",
+            PokemonComparators.SIZE_COMPARATOR,
+            true),
     IVS(
-        "ivs",
-        PokemonComparators.IVS_COMPARATOR,
-        true
-    ),
+            "ivs",
+            "IVs",
+            PokemonComparators.IVS_COMPARATOR,
+            true),
     LEVEL(
-        "ivs",
-        PokemonComparators.LEVEL_COMPARATOR,
-        true
-    ),
+            "level",
+            "Level",
+            PokemonComparators.LEVEL_COMPARATOR,
+            false),
     POKEDEX_NUMBER(
-        "ivs",
-        PokemonComparators.POKEDEX_COMPARATOR,
-        true
-    );
+            "pokedex",
+            "Pokédex Number",
+            PokemonComparators.POKEDEX_COMPARATOR,
+            false);
 
     private final String id;
+    private final String displayName;
     private final Comparator<Pokemon> comparator;
     private final boolean showInUI;
 
@@ -43,10 +43,11 @@ public enum PokemonCustomSortMode {
 
     PokemonCustomSortMode(
             String id,
+            String displayName,
             Comparator<Pokemon> comparator,
-            boolean showInUI
-    ) {
+            boolean showInUI) {
         this.id = id;
+        this.displayName = displayName;
         this.comparator = comparator;
         this.showInUI = showInUI;
 
@@ -84,5 +85,14 @@ public enum PokemonCustomSortMode {
 
     public ResourceLocation iconReversed() {
         return iconReversed;
+    }
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

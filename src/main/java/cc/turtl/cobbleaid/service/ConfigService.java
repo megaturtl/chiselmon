@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import org.apache.logging.log4j.Logger;
 
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;

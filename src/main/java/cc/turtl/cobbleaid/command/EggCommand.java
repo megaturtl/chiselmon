@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareEgg;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import cc.turtl.cobbleaid.util.StringUtils;
 import cc.turtl.cobbleaid.util.ColorUtil;
@@ -21,6 +21,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import cc.turtl.cobbleaid.util.CommandUtils;
 
 public class EggCommand {
 
@@ -33,8 +34,8 @@ public class EggCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        CommandFeedbackHelper.sendHeader(source, "Egg Commands");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " egg info <slot>");
+        CommandUtils.sendHeader(source, "Egg Commands");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " egg info <slot>");
         return 1;
     }
 
@@ -50,14 +51,14 @@ public class EggCommand {
             ClientParty party = storageManager.getParty();
 
             if (party.get(slot) == null) {
-                CommandFeedbackHelper.sendError(source, "Nothing found at slot " + (slot + 1) + "!");
+                CommandUtils.sendError(source, "Nothing found at slot " + (slot + 1) + "!");
                 return 1;
             }
 
             Pokemon pokemon = party.get(slot);
 
             if (!NeoDaycareEgg.isEgg(pokemon)) {
-                CommandFeedbackHelper.sendError(source, "Egg not found at slot " + (slot + 1) + "!");
+                CommandUtils.sendError(source, "Egg not found at slot " + (slot + 1) + "!");
                 LOGGER.debug("Egg not found at slot " + (slot + 1) + "!");
                 LOGGER.debug("Slot class: '{}'", pokemon.getSpecies().resourceIdentifier.toString());
                 return 1;
@@ -69,24 +70,24 @@ public class EggCommand {
             NeoDaycareEgg eggData = NeoDaycareEgg.from(pokemon);
 
             source.sendFeedback(ComponentFormatUtil.colored("--- Egg Info at slot " + (slot + 1) + " ---", ColorUtil.CYAN));
-            CommandFeedbackHelper.sendLabeled(source, "Species", eggData.getEgg().getSpecies().getName());
-            CommandFeedbackHelper.sendLabeled(source, "Gender", eggData.getEgg().getGender().toString());
+            CommandUtils.sendLabeled(source, "Species", eggData.getEgg().getSpecies().getName());
+            CommandUtils.sendLabeled(source, "Gender", eggData.getEgg().getGender().toString());
 
             MutableComponent natureName = Component.translatable(eggData.getEgg().getNature().getDisplayName());
-            CommandFeedbackHelper.sendLabeled(source, "Nature", natureName);
+            CommandUtils.sendLabeled(source, "Nature", natureName);
 
             MutableComponent abilityName = Component.translatable(eggData.getEgg().getAbility().getDisplayName());
-            CommandFeedbackHelper.sendLabeled(source, "Ability", abilityName);
+            CommandUtils.sendLabeled(source, "Ability", abilityName);
 
-            CommandFeedbackHelper.sendLabeled(source, "Size", String.format("%.2f", eggData.getEgg().getScaleModifier()));
+            CommandUtils.sendLabeled(source, "Size", String.format("%.2f", eggData.getEgg().getScaleModifier()));
             source.sendFeedback(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
-            CommandFeedbackHelper.sendLabeled(source, "Est. Steps Remaining", String.valueOf(eggData.getStepsRemaining()));
-            CommandFeedbackHelper.sendLabeled(source, "Est. Completion", StringUtils.formatPercentage(eggData.getHatchCompletion()));
+            CommandUtils.sendLabeled(source, "Est. Steps Remaining", String.valueOf(eggData.getStepsRemaining()));
+            CommandUtils.sendLabeled(source, "Est. Completion", StringUtils.formatPercentage(eggData.getHatchCompletion()));
 
             return 1;
 
         } catch (Exception e) {
-            CommandFeedbackHelper.sendError(source, "An unexpected error occurred during egg info command!");
+            CommandUtils.sendError(source, "An unexpected error occurred during egg info command!");
             CobbleAid.getLogger().error("Error executing egg info command:", e);
             return 0;
         }

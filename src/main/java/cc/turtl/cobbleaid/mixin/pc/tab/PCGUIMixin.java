@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
+import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.tab.PCBookmarkButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCHomeButton;
 import cc.turtl.cobbleaid.feature.pc.tab.PCTab;
@@ -69,8 +69,10 @@ public abstract class PCGUIMixin extends Screen {
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void cobbleaid$addTabElements(CallbackInfo ci) {
+        if (CobbleAid.isDisabled())
+            return;
         ModConfig config = configService.get();
-        if (config.modDisabled || !config.pc.bookmarksEnabled) {
+        if (!config.pc.bookmarksEnabled) {
             return;
         }
 
@@ -114,8 +116,10 @@ public abstract class PCGUIMixin extends Screen {
     @Inject(method = "render", at = @At("HEAD"))
     private void cobbleaid$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
+        if (CobbleAid.isDisabled())
+            return;
         ModConfig config = configService.get();
-        if (config.modDisabled || !config.pc.bookmarksEnabled || this.cobbleaid$bookmarkButton == null) {
+        if (!config.pc.bookmarksEnabled || this.cobbleaid$bookmarkButton == null) {
             return;
         }
         PCTabStore tabStore = cobbleaid$getTabStore();

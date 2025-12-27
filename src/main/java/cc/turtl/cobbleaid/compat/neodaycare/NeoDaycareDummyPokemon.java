@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.integration.neodaycare;
+package cc.turtl.cobbleaid.compat.neodaycare;
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;

@@ -5,20 +5,19 @@ Bugs:
 - Pasture block "deployed" thingy renders over tooltip
 
 High priority:
-- Add a tooltip to the pc tabs with full name + "click to jump, right click to delete" or smth
 
 Nice to have:
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
     KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
 - Customise pc expanded tooltip in the config (choose the fields you want)
 
+- Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!
 
 One day:
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Show actual marks on hover with their chance
 - Add a jade tooltip if a block is pokemon spawnable
-- track the mon/minute spawn rate
 
 - BELOW ARE IN MORECOBBLETWEAKS
 - Command/ ui button etc to switch 2 boxes

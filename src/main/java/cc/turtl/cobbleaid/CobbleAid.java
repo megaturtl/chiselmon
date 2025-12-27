@@ -1,10 +1,15 @@
 package cc.turtl.cobbleaid;
 
+import java.util.List;
+
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
-import cc.turtl.cobbleaid.feature.hud.spawntracker.SpawnTrackerFeature;
+import cc.turtl.cobbleaid.feature.AbstractFeature;
+import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertFeature;
+import cc.turtl.cobbleaid.feature.spawnlogger.SpawnLoggerFeature;
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnTrackerFeature;
 import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
@@ -15,7 +20,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class CobbleAid implements ClientModInitializer {
     public static final String MODID = "cobbleaid";
-    public static final String VERSION = "1.0.2-alpha";
+    public static final String VERSION = "1.0.3-alpha";
 
     private static CobbleAid INSTANCE;
     private volatile ICobbleAidServices services;
@@ -37,7 +42,11 @@ public class CobbleAid implements ClientModInitializer {
     }
 
     private void registerFeatures() {
-        SpawnTrackerFeature.register();
+        final List<AbstractFeature> features = List.of(
+                SpawnAlertFeature.getInstance(),
+                CheckSpawnTrackerFeature.getInstance(),
+                SpawnLoggerFeature.getInstance());
+        features.forEach(AbstractFeature::initialize);
     }
 
     private void initializeServices() {
@@ -53,6 +62,8 @@ public class CobbleAid implements ClientModInitializer {
 
     private void registerListeners() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (isDisabled())
+                return;
             if (client.level != null && !SimpleSpeciesRegistry.isLoaded()) {
                 SimpleSpeciesRegistry.loadAsync();
             }
@@ -86,23 +97,7 @@ public class CobbleAid implements ClientModInitializer {
         return getInstance().services;
     }
 
-    /**
-     * @deprecated Use {@link #services()} and
-     *             {@link cc.turtl.cobbleaid.service.ConfigService} for
-     *             configuration access.
-     */
-    @Deprecated
-    public ModConfig getConfig() {
-        return services().config().get();
-    }
-
-    /**
-     * @deprecated Use {@link #services()} and
-     *             {@link cc.turtl.cobbleaid.service.WorldDataService} to access
-     *             per-world data.
-     */
-    @Deprecated
-    public WorldDataStore getWorldData() {
-        return services().worldData().current();
+    public static boolean isDisabled() {
+        return services().config().get().modDisabled;
     }
 }

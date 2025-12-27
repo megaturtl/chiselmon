@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnEntry;
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnResponseParser;
+
 public class SpawnResponseParserTest {
 
     @Test
@@ -15,7 +18,7 @@ public class SpawnResponseParserTest {
                 "Nearby spawns:",
                 "Dreepy: 0.07%, Bulbasaur: 5%, Rattata: 11%");
 
-        List<SpawnEntry> entries = SpawnResponseParser.parse(lines);
+        List<CheckSpawnEntry> entries = CheckSpawnResponseParser.parse(lines);
 
         assertEquals(3, entries.size());
         assertEquals("Dreepy", entries.get(0).name());
@@ -31,7 +34,7 @@ public class SpawnResponseParserTest {
                 "Murkrow: 1.25%",
                 "Scyther: 12.75%");
 
-        List<SpawnEntry> entries = SpawnResponseParser.parse(lines);
+        List<CheckSpawnEntry> entries = CheckSpawnResponseParser.parse(lines);
 
         assertEquals(3, entries.size());
         assertEquals("Murkrow", entries.get(1).name());
@@ -44,7 +47,7 @@ public class SpawnResponseParserTest {
                 "command.checkspawns.nothing",
                 "No spawnable Pokémon nearby");
 
-        List<SpawnEntry> entries = SpawnResponseParser.parse(lines);
+        List<CheckSpawnEntry> entries = CheckSpawnResponseParser.parse(lines);
 
         assertTrue(entries.isEmpty());
     }

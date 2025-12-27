@@ -4,9 +4,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
-import cc.turtl.cobbleaid.service.ConfigService;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,13 +21,10 @@ public abstract class StorageSlotMixin {
     @Shadow(remap = false)
     public abstract boolean isHovered(int mouseX, int mouseY);
 
-    private final ConfigService configService = CobbleAid.services().config();
-
     // Track which slot is hovered
     @Inject(method = "renderWidget", at = @At("HEAD"), remap = false)
     private void cobbleaid$trackHover(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        ModConfig config = configService.get();
-        if (config.modDisabled) {
+        if (CobbleAid.isDisabled()) {
             return;
         }
 

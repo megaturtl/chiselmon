@@ -2,8 +2,9 @@ package cc.turtl.cobbleaid.feature.pc;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.ModConfig;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
+import cc.turtl.cobbleaid.config.ModConfig;
+import cc.turtl.cobbleaid.config.PcConfig.PcIconConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -26,15 +27,12 @@ public class PcIconRenderer {
     private static final int ICONS_PER_COLUMN = 3;
     private static final int COLUMN_X_OFFSET = 18;
 
-    /**
-     * Helper class to encapsulate icon rendering configuration
-     */
     private static class IconConfig {
-        final Function<ModConfig.PcConfig.PcIconConfig, Boolean> configGetter;
+        final Function<PcIconConfig, Boolean> configGetter;
         final Predicate<Pokemon> predicate;
         final ResourceLocation icon;
 
-        IconConfig(Function<ModConfig.PcConfig.PcIconConfig, Boolean> configGetter,
+        IconConfig(Function<PcIconConfig, Boolean> configGetter,
                 Predicate<Pokemon> predicate,
                 ResourceLocation icon) {
             this.configGetter = configGetter;
@@ -42,7 +40,7 @@ public class PcIconRenderer {
             this.icon = icon;
         }
 
-        boolean shouldRender(ModConfig.PcConfig.PcIconConfig iconConfig, Pokemon pokemon) {
+        boolean shouldRender(PcIconConfig iconConfig, Pokemon pokemon) {
             return configGetter.apply(iconConfig) && predicate.test(pokemon);
         }
     }
@@ -68,7 +66,7 @@ public class PcIconRenderer {
             return;
         }
 
-        ModConfig.PcConfig.PcIconConfig iconConfig = config.pc.icons;
+        PcIconConfig iconConfig = config.pc.icons;
         int iconIndex = 0;
 
         for (IconConfig iconCfg : ICON_CONFIGS) {
