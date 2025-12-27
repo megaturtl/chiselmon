@@ -78,17 +78,20 @@
         "text.autoconfig.cobbleaid.option.spawnAlert.alertOnExtremeSize": "Alert on Extreme Size",
         "text.autoconfig.cobbleaid.option.spawnAlert.alertOnExtremeSize.@Tooltip": "Triggers an alert when an extreme sized pokemon spawns nearby.",
         
-        "text.autoconfig.cobbleaid.option.spawnAlert.alertOnCustomList": "Alert on Custom List",
-        "text.autoconfig.cobbleaid.option.spawnAlert.alertOnCustomList.@Tooltip": "Triggers an alert for any pokemon named in your Custom List.",
-        
-        "text.autoconfig.cobbleaid.option.spawnAlert.customPokemonList": "Custom Pokemon List",
-        "text.autoconfig.cobbleaid.option.spawnAlert.customPokemonList.@Tooltip": "Add specific pokemon names here to receive alerts for them.",
+        "text.autoconfig.cobbleaid.option.spawnAlert.alertOnCustomList": "Alert on Whitelisted",
+        "text.autoconfig.cobbleaid.option.spawnAlert.alertOnCustomList.@Tooltip": "Triggers an alert for any pokemon named in your custom whitelist.",
         
         "text.autoconfig.cobbleaid.option.spawnAlert.soundVolume": "Sound Volume",
         "text.autoconfig.cobbleaid.option.spawnAlert.soundVolume.@Tooltip": "Adjusts the volume of the alert notification sound.",
         
         "text.autoconfig.cobbleaid.option.spawnAlert.soundDelay": "Sound Delay (Ticks)",
         "text.autoconfig.cobbleaid.option.spawnAlert.soundDelay.@Tooltip": "How quickly the alert sound should repeat.",
+
+        "text.autoconfig.cobbleaid.option.spawnAlert.whitelist": "Pokemon Whitelist",
+        "text.autoconfig.cobbleaid.option.spawnAlert.whitelist.@Tooltip": "Track custom pokemon species as defined here.",
+
+        "text.autoconfig.cobbleaid.option.spawnAlert.blacklist": "Pokemon Blacklist",
+        "text.autoconfig.cobbleaid.option.spawnAlert.blacklist.@Tooltip": "Suppress alerts from pokemon defined here.",
 
     "text.autoconfig.cobbleaid.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.cobbleaid.option.spawnLogger.enabled": "Enable Spawn Logger",
