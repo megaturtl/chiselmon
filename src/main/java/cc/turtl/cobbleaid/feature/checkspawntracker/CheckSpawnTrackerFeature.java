@@ -11,11 +11,11 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
 
@@ -39,14 +39,23 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
     }
 
     @Override
-    protected void init() {
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
-        HudRenderCallback.EVENT.register(this::onHudRender);
+    protected boolean isFeatureEnabled() {
+        return getConfig().checkSpawnTracker.enabled;
     }
 
     @Override
-    protected boolean isFeatureEnabled() {
-        return getConfig().checkSpawnTracker.enabled;
+    protected void init() {
+        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
+        HudRenderCallback.EVENT.register(this::onHudRender);
+
+        ClientReceiveMessageEvents.ALLOW_GAME.register((message, overlay) -> {
+            if (!canRun() || overlay) {
+                return true;
+            }
+            boolean captured = this.captureChat(message);
+            // if we capture the checkspawn message, don't show it to the user
+            return !captured;
+        });
     }
 
     public boolean captureChat(Component component) {
@@ -57,18 +66,9 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
     }
 
     private void onClientTick(Minecraft client) {
-        // Essential tick logic for the capture state machine
         capture.tick();
 
-        if (!canRun()) {
-            return;
-        }
-
-        if (client == null || client.player == null || client.screen instanceof ChatScreen || client.isPaused()) {
-            return;
-        }
-
-        if (capture.isActive()) {
+        if (shouldSkipTick(client) || capture.isActive()) {
             return;
         }
 
@@ -79,17 +79,30 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
             return;
         }
 
+        sendCheckSpawnCommand(client, config);
+    }
+
+    private boolean shouldSkipTick(Minecraft client) {
+        return !canRun()
+                || client == null
+                || client.player == null
+                || client.screen != null
+                || client.isPaused();
+    }
+
+    private void sendCheckSpawnCommand(Minecraft client, CheckSpawnTrackerConfig config) {
         ClientPacketListener connection = client.getConnection();
-        if (connection != null && capture.begin()) {
-            String bucket = (config.bucket == null || config.bucket.isBlank()) ? "common" : config.bucket;
-            try {
-                connection.sendCommand("checkspawn " + bucket);
-                ticksSinceLastPoll = 0;
-                CobbleAid.getLogger().debug("Checkspawn command sent silently");
-            } catch (Exception e) {
-                capture.cancel();
-                CobbleAid.getLogger().debug("Checkspawn command failed to send");
-            }
+        if (connection == null || !capture.begin()) {
+            return;
+        }
+
+        try {
+            connection.sendCommand("checkspawn " + config.bucket);
+            ticksSinceLastPoll = 0;
+            CobbleAid.getLogger().debug("Checkspawn command sent silently");
+        } catch (Exception e) {
+            capture.cancel();
+            CobbleAid.getLogger().debug("Checkspawn command failed to send");
         }
     }
 
