@@ -10,6 +10,7 @@ import cc.turtl.cobbleaid.util.ComponentFormatUtil;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import cc.turtl.cobbleaid.util.CommandUtils;
 
 public class ConfigCommand {
 
@@ -23,10 +24,10 @@ public class ConfigCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        CommandFeedbackHelper.sendHeader(source, "Config Commands");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config enable");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config disable");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config status");
+        CommandUtils.sendHeader(source, "Config Commands");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " config enable");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " config disable");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " config status");
         return 1;
     }
 
@@ -35,7 +36,7 @@ public class ConfigCommand {
         config.modDisabled = false;
         CobbleAid.services().config().save();
 
-        CommandFeedbackHelper.sendSuccess(context.getSource(), "Cobble Aid has been enabled!");
+        CommandUtils.sendSuccess(context.getSource(), "Cobble Aid has been enabled!");
         return 1;
     }
 
@@ -44,7 +45,7 @@ public class ConfigCommand {
         config.modDisabled = true;
         CobbleAid.services().config().save();
 
-        CommandFeedbackHelper.sendError(context.getSource(), "Cobble Aid has been disabled!");
+        CommandUtils.sendError(context.getSource(), "Cobble Aid has been disabled!");
         return 1;
     }
 
@@ -52,10 +53,10 @@ public class ConfigCommand {
         FabricClientCommandSource source = context.getSource();
 
         if (CobbleAid.isDisabled()) {
-            CommandFeedbackHelper.sendLabeled(source, "Cobble Aid Status",
+            CommandUtils.sendLabeled(source, "Cobble Aid Status",
                     ComponentFormatUtil.colored("Disabled", ColorUtil.RED));
         } else {
-            CommandFeedbackHelper.sendLabeled(source, "Cobble Aid Status",
+            CommandUtils.sendLabeled(source, "Cobble Aid Status",
                     ComponentFormatUtil.colored("Enabled", ColorUtil.GREEN));
         }
 

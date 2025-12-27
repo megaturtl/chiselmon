@@ -9,6 +9,7 @@ import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertCommand;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;
+import cc.turtl.cobbleaid.util.CommandUtils;
 
 public class CobbleAidCommand {
     
@@ -34,11 +35,11 @@ public class CobbleAidCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        CommandFeedbackHelper.sendHeader(source, "Cobble Aid Commands");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " info");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " config");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " debug");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " egg");
+        CommandUtils.sendHeader(source, "Cobble Aid Commands");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " info");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " config");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " debug");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " egg");
 
         return 1;
     }

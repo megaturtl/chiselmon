@@ -8,7 +8,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.command.CommandFeedbackHelper;
+import cc.turtl.cobbleaid.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class SpawnAlertCommand {
@@ -22,8 +22,8 @@ public class SpawnAlertCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        CommandFeedbackHelper.sendHeader(source, "Spawn Alert Commands");
-        CommandFeedbackHelper.sendUsage(source, "/" + CobbleAid.MODID + " alert mute <UUID>");
+        CommandUtils.sendHeader(source, "Spawn Alert Commands");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " alert mute <UUID>");
         return 1;
     }
 
@@ -32,9 +32,9 @@ public class SpawnAlertCommand {
         try {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
             SpawnAlertFeature.getInstance().getAlertSoundManager().muteTarget(uuid);
-            CommandFeedbackHelper.sendSuccess(source, "Pokemon muted.");
+            CommandUtils.sendSuccess(source, "Pokemon muted.");
         } catch (Exception e) {
-            CommandFeedbackHelper.sendError(source, "Invalid UUID.");
+            CommandUtils.sendError(source, "Invalid UUID.");
         }
         return 1;
     }

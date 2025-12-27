@@ -1,11 +1,8 @@
-package cc.turtl.cobbleaid.command;
-
-import cc.turtl.cobbleaid.util.ComponentFormatUtil;
+package cc.turtl.cobbleaid.util;
 
 import org.jetbrains.annotations.Nullable;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 /**
@@ -15,11 +12,11 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
  *
  * Note: sendInfo was removed in favor of sendLabeled which uses ComponentFormatUtil.labelledValue.
  */
-public class CommandFeedbackHelper {
+public class CommandUtils {
 
     private static final String PREFIX = "[" + CobbleAid.MODID + "] ";
 
-    private CommandFeedbackHelper() {
+    private CommandUtils() {
     }
 
     /**

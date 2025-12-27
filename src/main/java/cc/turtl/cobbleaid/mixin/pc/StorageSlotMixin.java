@@ -7,7 +7,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.PcEggRenderer;
 import cc.turtl.cobbleaid.feature.pc.PcIconRenderer;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareDummyPokemon;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;

@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.api.predicate.PokemonEntityPredicates;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
-import cc.turtl.cobbleaid.config.SpawnAlertConfig;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.integration;
+package cc.turtl.cobbleaid.compat;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

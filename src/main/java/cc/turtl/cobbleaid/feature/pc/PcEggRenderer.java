@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;
 import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareDummyPokemon;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareDummyPokemon;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;

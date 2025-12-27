@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.WorldDataStore;
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnTrackerConfig;
+import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -34,7 +36,7 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("alert")
-    public SpawnAlertConfig spawnAlert = new SpawnAlertConfig();    
+    public SpawnAlertConfig spawnAlert = new SpawnAlertConfig();
 
     // Hidden data stores!! Cannot be directly accessed in the config menu by the
     // player

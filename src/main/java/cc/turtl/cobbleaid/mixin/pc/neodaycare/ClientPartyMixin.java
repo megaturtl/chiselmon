@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.integration.neodaycare.NeoDaycareEgg;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareEgg;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {

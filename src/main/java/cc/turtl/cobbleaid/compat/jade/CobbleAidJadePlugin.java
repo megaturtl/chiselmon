@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.integration.jade;
+package cc.turtl.cobbleaid.compat.jade;
 
 import com.cobblemon.mod.common.block.PokeSnackBlock;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -6,8 +6,8 @@ import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
 import static cc.turtl.cobbleaid.CobbleAid.MODID;
-import static cc.turtl.cobbleaid.integration.jade.PokemonProvider.*;
-import static cc.turtl.cobbleaid.integration.jade.PokeSnackProvider.*;
+import static cc.turtl.cobbleaid.compat.jade.PokemonProvider.*;
+import static cc.turtl.cobbleaid.compat.jade.PokeSnackProvider.*;
 
 @WailaPlugin(MODID)
 public class CobbleAidJadePlugin implements IWailaPlugin {

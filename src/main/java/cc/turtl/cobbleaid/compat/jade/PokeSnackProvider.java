@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.integration.jade;
+package cc.turtl.cobbleaid.compat.jade;
 
 import java.util.List;
 

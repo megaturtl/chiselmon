@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.config;
+package cc.turtl.cobbleaid.feature.spawnalert;
 
 import java.util.ArrayList;
 import java.util.Arrays;

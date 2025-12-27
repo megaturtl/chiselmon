@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.CheckSpawnTrackerConfig;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
