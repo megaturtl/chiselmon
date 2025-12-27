@@ -8,7 +8,7 @@ import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.command.CobbleAidCommand;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
 import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertFeature;
-import cc.turtl.cobbleaid.feature.spawntracker.SpawnTrackerFeature;
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnTrackerFeature;
 import cc.turtl.cobbleaid.service.ICobbleAidServices;
 import cc.turtl.cobbleaid.service.ConfigService;
 import cc.turtl.cobbleaid.service.DefaultCobbleAidServices;
@@ -43,7 +43,7 @@ public class CobbleAid implements ClientModInitializer {
     private void registerFeatures() {
         final List<AbstractFeature> features = List.of(
                 SpawnAlertFeature.getInstance(),
-                SpawnTrackerFeature.getInstance());
+                CheckSpawnTrackerFeature.getInstance());
         features.forEach(AbstractFeature::initialize);
     }
 

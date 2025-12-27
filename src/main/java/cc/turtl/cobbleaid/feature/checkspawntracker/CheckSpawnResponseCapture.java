@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.spawntracker;
+package cc.turtl.cobbleaid.feature.checkspawntracker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import cc.turtl.cobbleaid.CobbleAid;
 
-class SpawnResponseCapture {
+class CheckSpawnResponseCapture {
     private static final long CAPTURE_TIMEOUT_MS = 1500L;
 
     private final Consumer<List<String>> completionCallback;
@@ -20,7 +20,7 @@ class SpawnResponseCapture {
 
     private static Logger LOGGER = CobbleAid.getLogger();
 
-    SpawnResponseCapture(Consumer<List<String>> completionCallback) {
+    CheckSpawnResponseCapture(Consumer<List<String>> completionCallback) {
         this.completionCallback = completionCallback;
     }
 

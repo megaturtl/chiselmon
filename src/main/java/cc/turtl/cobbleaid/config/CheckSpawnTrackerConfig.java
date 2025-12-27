@@ -7,7 +7,7 @@ import java.util.List;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-public class SpawnTrackerConfig implements ConfigData {
+public class CheckSpawnTrackerConfig implements ConfigData {
 
         @ConfigEntry.Gui.Excluded
         private static final int DEFAULT_POLL_TICK_INTERVAL = 60;

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.feature.spawntracker.SpawnTrackerFeature;
+import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnTrackerFeature;
 
 @Mixin(ChatComponent.class)
 public abstract class ChatComponentMixin {
@@ -23,7 +23,7 @@ public abstract class ChatComponentMixin {
             return;
         }
 
-        if (SpawnTrackerFeature.getInstance().captureChat(chatComponent)) {
+        if (CheckSpawnTrackerFeature.getInstance().captureChat(chatComponent)) {
             ci.cancel();
         }
     }

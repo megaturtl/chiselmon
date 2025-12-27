@@ -30,7 +30,7 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
     @ConfigEntry.Category("hud")
-    public SpawnTrackerConfig spawnTracker = new SpawnTrackerConfig();
+    public CheckSpawnTrackerConfig checkSpawnTracker = new CheckSpawnTrackerConfig();
 
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("alert")
@@ -44,6 +44,6 @@ public class ModConfig implements ConfigData {
     // custom validation to run on save and load
     @Override
     public void validatePostLoad() {
-        spawnTracker.validatePostLoad();
+        checkSpawnTracker.validatePostLoad();
     }
 }

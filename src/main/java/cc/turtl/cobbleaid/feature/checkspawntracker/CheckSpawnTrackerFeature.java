@@ -1,4 +1,4 @@
-package cc.turtl.cobbleaid.feature.spawntracker;
+package cc.turtl.cobbleaid.feature.checkspawntracker;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import cc.turtl.cobbleaid.CobbleAid;
-import cc.turtl.cobbleaid.config.SpawnTrackerConfig;
+import cc.turtl.cobbleaid.config.CheckSpawnTrackerConfig;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -20,22 +20,22 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
 
-public final class SpawnTrackerFeature extends AbstractFeature {
-    public static final SpawnTrackerFeature INSTANCE = new SpawnTrackerFeature();
+public final class CheckSpawnTrackerFeature extends AbstractFeature {
+    public static final CheckSpawnTrackerFeature INSTANCE = new CheckSpawnTrackerFeature();
 
     private static final int MAX_DISPLAY_ENTRIES = 3;
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("0.##");
 
-    private final SpawnResponseCapture capture;
-    private List<SpawnEntry> visibleEntries = List.of();
+    private final CheckSpawnResponseCapture capture;
+    private List<CheckSpawnEntry> visibleEntries = List.of();
     private int ticksSinceLastPoll = 0;
 
-    private SpawnTrackerFeature() {
-        super("SpawnTracker");
-        this.capture = new SpawnResponseCapture(this::updateEntries);
+    private CheckSpawnTrackerFeature() {
+        super("CheckSpawnTracker");
+        this.capture = new CheckSpawnResponseCapture(this::updateEntries);
     }
 
-    public static SpawnTrackerFeature getInstance() {
+    public static CheckSpawnTrackerFeature getInstance() {
         return INSTANCE;
     }
 
@@ -47,7 +47,7 @@ public final class SpawnTrackerFeature extends AbstractFeature {
 
     @Override
     protected boolean isFeatureEnabled() {
-        return getConfig().spawnTracker.enabled;
+        return getConfig().checkSpawnTracker.enabled;
     }
 
     public boolean captureChat(Component component) {
@@ -74,7 +74,7 @@ public final class SpawnTrackerFeature extends AbstractFeature {
         }
 
         ticksSinceLastPoll++;
-        SpawnTrackerConfig config = getConfig().spawnTracker;
+        CheckSpawnTrackerConfig config = getConfig().checkSpawnTracker;
 
         if (ticksSinceLastPoll < config.pollTickInterval) {
             return;
@@ -106,7 +106,7 @@ public final class SpawnTrackerFeature extends AbstractFeature {
         int startY = (screenHeight / 2) + 10;
 
         for (int i = 0; i < visibleEntries.size(); i++) {
-            SpawnEntry entry = visibleEntries.get(i);
+            CheckSpawnEntry entry = visibleEntries.get(i);
             String text = entry.name() + " " + PERCENT_FORMAT.format(entry.percentage()) + "%";
 
             int textWidth = font.width(text);
@@ -118,8 +118,8 @@ public final class SpawnTrackerFeature extends AbstractFeature {
     }
 
     private void updateEntries(List<String> lines) {
-        SpawnTrackerConfig config = getConfig().spawnTracker;
-        List<SpawnEntry> parsed = SpawnResponseParser.parse(lines);
+        CheckSpawnTrackerConfig config = getConfig().checkSpawnTracker;
+        List<CheckSpawnEntry> parsed = CheckSpawnResponseParser.parse(lines);
 
         if (config.trackedPokemon != null && !config.trackedPokemon.isEmpty()) {
             Set<String> trackedLower = config.trackedPokemon.stream()
