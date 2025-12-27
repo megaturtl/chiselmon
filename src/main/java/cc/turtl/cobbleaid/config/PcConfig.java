@@ -13,7 +13,7 @@ public class PcConfig implements ConfigData {
     public boolean quickSortEnabled = false;
 
     @ConfigEntry.Gui.Tooltip
-    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.DROPDOWN)
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public PokemonCustomSortMode quickSortMode = PokemonCustomSortMode.POKEDEX_NUMBER;
 
     @ConfigEntry.Gui.Tooltip

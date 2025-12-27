@@ -78,6 +78,10 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
         Pokemon pokemon = pokemonEntity.getPokemon();
 
+        if (PokemonPredicates.isInCustomList(config.blackList).test(pokemon)) {
+            return false;
+        }
+
         return (config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon))
                 || (config.alertOnLegendary && (PokemonPredicates.IS_LEGENDARY.test(pokemon)
                         || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
@@ -85,7 +89,7 @@ public final class SpawnAlertFeature extends AbstractFeature {
                 || (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon))
                 || (config.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon))
                 || (config.alertOnCustomList
-                        && PokemonPredicates.isInCustomList(config.customPokemonList).test(pokemon));
+                        && PokemonPredicates.isInCustomList(config.whiteList).test(pokemon));
     }
 
     public AlertSoundManager getAlertSoundManager() {

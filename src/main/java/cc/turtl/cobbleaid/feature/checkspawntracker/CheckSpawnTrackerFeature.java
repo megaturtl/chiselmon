@@ -97,7 +97,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
         }
 
         try {
-            connection.sendCommand("checkspawn " + config.bucket);
+            connection.sendCommand("checkspawn " + config.bucket.getId());
             ticksSinceLastPoll = 0;
             CobbleAid.getLogger().debug("Checkspawn command sent silently");
         } catch (Exception e) {

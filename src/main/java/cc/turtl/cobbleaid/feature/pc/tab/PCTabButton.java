@@ -8,6 +8,7 @@ import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.TextRenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -28,13 +29,18 @@ public class PCTabButton extends Button {
 
     private final int forBox;
 
-    public PCTabButton(int x, int y, int forBox, Component message, OnPress onPress) {
-        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, message, onPress, DEFAULT_NARRATION);
+    private final Tooltip tooltip;
+
+    public PCTabButton(int x, int y, int forBox, Component boxName, OnPress onPress) {
+        super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, boxName, onPress, DEFAULT_NARRATION);
         this.forBox = forBox;
+        this.tooltip = Tooltip
+                .create(Component.literal("Jump to " + this.getMessage().getString() + " (" + this.forBox + ")"));
     }
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
+        this.setTooltip(tooltip);
         int textureYOffset = this.isHovered() ? HOVERED_Y_OFFSET : 0;
 
         context.blit(

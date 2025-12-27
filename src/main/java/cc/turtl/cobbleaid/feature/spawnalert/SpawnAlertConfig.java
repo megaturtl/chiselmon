@@ -40,9 +40,6 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean alertOnCustomList = true;
 
-    @ConfigEntry.Gui.Tooltip
-    public List<String> customPokemonList = new ArrayList<>(Arrays.asList());
-
     @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
     @ConfigEntry.Gui.Tooltip
     public int soundVolume = 100;
@@ -50,6 +47,12 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.BoundedDiscrete(min = MIN_SOUND_DELAY, max = MAX_SOUND_DELAY)
     @ConfigEntry.Gui.Tooltip
     public int soundDelay = 20;
+
+    @ConfigEntry.Gui.Tooltip
+    public List<String> whiteList = new ArrayList<>(Arrays.asList());
+
+    @ConfigEntry.Gui.Tooltip
+    public List<String> blackList = new ArrayList<>(Arrays.asList());
 
     @Override
     public void validatePostLoad() throws ValidationException {
