@@ -35,6 +35,7 @@ public final class PokemonPredicates {
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
         return species.labels.contains("paradox");
     };
+    public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST).or(IS_PARADOX);
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
         if (PokemonCalcUtil.countUniqueAbilities(pokemon) <= 1) {

@@ -7,6 +7,7 @@ import cc.turtl.cobbleaid.CobbleAid;
 import cc.turtl.cobbleaid.WorldDataStore;
 import cc.turtl.cobbleaid.feature.checkspawntracker.CheckSpawnTrackerConfig;
 import cc.turtl.cobbleaid.feature.spawnalert.SpawnAlertConfig;
+import cc.turtl.cobbleaid.feature.spawnlogger.SpawnLoggerConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -35,8 +36,12 @@ public class ModConfig implements ConfigData {
     public CheckSpawnTrackerConfig checkSpawnTracker = new CheckSpawnTrackerConfig();
 
     @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("alert")
+    @ConfigEntry.Category("spawnAlert")
     public SpawnAlertConfig spawnAlert = new SpawnAlertConfig();
+
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("spawnLogger")
+    public SpawnLoggerConfig spawnLogger = new SpawnLoggerConfig();
 
     // Hidden data stores!! Cannot be directly accessed in the config menu by the
     // player

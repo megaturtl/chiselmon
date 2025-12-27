@@ -20,6 +20,13 @@ public class CommandUtils {
     }
 
     /**
+     * Sends a generic colored message
+     */
+    public static void sendColored(FabricClientCommandSource source, String message, int color) {
+        source.sendFeedback(ComponentFormatUtil.colored(message, color));
+    }
+
+    /**
      * Sends a header message with purple color
      */
     public static void sendHeader(FabricClientCommandSource source, String title) {
@@ -47,6 +54,11 @@ public class CommandUtils {
      */
     public static void sendSuccess(FabricClientCommandSource source, String message) {
         source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.GREEN));
+    }
+
+    public static void sendToggle(FabricClientCommandSource source, String message, boolean toggleOn) {
+        int color = toggleOn ? ColorUtil.GREEN : ColorUtil.ORANGE;
+        source.sendFeedback(ComponentFormatUtil.colored(message, color));
     }
 
     /**
