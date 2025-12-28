@@ -16,8 +16,6 @@
             "text.autoconfig.cobbleaid.option.threshold.maxIvs.@Tooltip": "# Max IVs (including hypertraining) at which Pokemon are treated as high IV.",
 
     "text.autoconfig.cobbleaid.category.pc": "PC Settings",
-        "text.autoconfig.cobbleaid.option.pc.highlightHA": "Highlight Hidden Ability",
-        "text.autoconfig.cobbleaid.option.pc.highlightHA.@Tooltip": "Highlights hidden ability text with gold.",
         "text.autoconfig.cobbleaid.option.pc.quickSortEnabled": "Enable Quick Sort",
         "text.autoconfig.cobbleaid.option.pc.quickSortEnabled.@Tooltip": "Sorts the current PC box on middle mouse click.",
         "text.autoconfig.cobbleaid.option.pc.quickSortMode": "Quick Sort Mode",

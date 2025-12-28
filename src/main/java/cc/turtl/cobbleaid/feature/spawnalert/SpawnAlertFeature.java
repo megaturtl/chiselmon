@@ -1,6 +1,5 @@
 package cc.turtl.cobbleaid.feature.spawnalert;
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -13,11 +12,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 
-import com.cobblemon.mod.common.api.Priority;
-
 public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
-    private AlertSoundManager alertSoundManager;
+    private AlertManager alertManager;
 
     private SpawnAlertFeature() {
         super("SpawnAlert");
@@ -34,40 +31,29 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
     @Override
     protected void init() {
-        alertSoundManager = new AlertSoundManager(getConfig().spawnAlert);
+        alertManager = new AlertManager(getConfig().spawnAlert);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (canRun()) {
-                alertSoundManager.tick();
+                alertManager.tick();
             }
         });
 
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
 
         ClientEntityEvents.ENTITY_UNLOAD.register((entity, level) -> {
-            alertSoundManager.removeTarget(entity.getUUID());
+            alertManager.removeTarget(entity.getUUID());
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-            alertSoundManager.clearTargets();
-        });
-
-        // if battle starts, remove the pokemon from the alert list
-        CobblemonEvents.BATTLE_STARTED_POST.subscribe(Priority.NORMAL, event -> {
-            event.getBattle().getActors().forEach(actor -> {
-                actor.getPokemonList().forEach(pokemon -> {
-                    alertSoundManager.removeTarget(pokemon.getEntity().getUUID());
-                });
-            });
-            return kotlin.Unit.INSTANCE;
+            alertManager.clearTargets();
         });
     }
 
     private void onEntityLoad(Entity entity, ClientLevel level) {
         if (canRun() && entity instanceof PokemonEntity pe) {
             if (shouldAlert(pe, getConfig().spawnAlert)) {
-                alertSoundManager.addTarget(entity.getUUID());
-                AlertMessage.sendChatAlert(pe);
+                alertManager.addTarget(pe);
             }
         }
     }
@@ -92,7 +78,7 @@ public final class SpawnAlertFeature extends AbstractFeature {
                         && PokemonPredicates.isInCustomList(config.whiteList).test(pokemon));
     }
 
-    public AlertSoundManager getAlertSoundManager() {
-        return alertSoundManager;
+    public AlertManager getAlertManager() {
+        return alertManager;
     }
 }

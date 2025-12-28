@@ -45,7 +45,7 @@ public class ResultsMessage {
             double spawnsPerMinute) {
         message.append(labelledValue("\nTime Elapsed: ", StringUtils.formatDurationMs(durationMs)));
         message.append(labelledValue("\nTotal Spawns: ", totalSpawns));
-        message.append(labelledValue("\nSpawns/Min: ", String.format("%.2f", spawnsPerMinute)));
+        message.append(labelledValue("\nSpawns/Min: ", StringUtils.formatDecimal(spawnsPerMinute)));
     }
 
     private static void appendSpecialEncounters(MutableComponent message, Collection<LoggedPokemon> logs) {
@@ -70,7 +70,7 @@ public class ResultsMessage {
             message.append(colored(" (Shiny)", ColorUtil.GOLD));
         }
         if (pokemon.isExtremeSize()) {
-            message.append(colored(" [" + pokemon.scaleModifier() + "x]", ColorUtil.TURQUOISE));
+            message.append(colored(" (" + StringUtils.formatDecimal(pokemon.scaleModifier())  + ")", ColorUtil.TEAL));
         }
     }
 }

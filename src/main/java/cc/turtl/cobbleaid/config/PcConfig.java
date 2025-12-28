@@ -7,9 +7,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class PcConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
-    public boolean highlightHA = false;
-
-    @ConfigEntry.Gui.Tooltip
     public boolean quickSortEnabled = false;
 
     @ConfigEntry.Gui.Tooltip

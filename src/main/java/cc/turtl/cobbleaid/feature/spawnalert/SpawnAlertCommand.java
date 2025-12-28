@@ -17,13 +17,16 @@ public class SpawnAlertCommand {
         return literal("alert")
                 .executes(SpawnAlertCommand::executeHelp)
                 .then(literal("mute").then(argument("uuid", StringArgumentType.string())
-                        .executes(SpawnAlertCommand::executeMute)));
+                        .executes(SpawnAlertCommand::executeMute)))
+                .then(literal("unmuteall")
+                        .executes(SpawnAlertCommand::executeUnmuteAll));
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandUtils.sendHeader(source, "Spawn Alert Commands");
         CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " alert mute <UUID>");
+        CommandUtils.sendUsage(source, "/" + CobbleAid.MODID + " alert unmuteall");
         return 1;
     }
 
@@ -31,10 +34,23 @@ public class SpawnAlertCommand {
         FabricClientCommandSource source = context.getSource();
         try {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
-            SpawnAlertFeature.getInstance().getAlertSoundManager().muteTarget(uuid);
+            SpawnAlertFeature.getInstance().getAlertManager().muteTarget(uuid);
             CommandUtils.sendSuccess(source, "Pokemon muted.");
         } catch (Exception e) {
-            CommandUtils.sendError(source, "Invalid UUID.");
+            CommandUtils.sendError(source, "An unexpected error occurred!");
+            CobbleAid.getLogger().error("Error executing 'alert mute' command:", e);
+        }
+        return 1;
+    }
+
+    private static int executeUnmuteAll(CommandContext<FabricClientCommandSource> context) {
+        FabricClientCommandSource source = context.getSource();
+        try {
+            SpawnAlertFeature.getInstance().getAlertManager().unmuteAllTargets();
+            CommandUtils.sendSuccess(source, "All alerts unmuted.");
+        } catch (Exception e) {
+            CommandUtils.sendError(source, "An unexpected error occurred!");
+            CobbleAid.getLogger().error("Error executing 'alert unmuteall' command:", e);
         }
         return 1;
     }
