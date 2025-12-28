@@ -62,11 +62,17 @@ public class StorageWidgetMixin {
             tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
         }
 
+        context.pose().pushPose();
+        // Need to shift the pose stack forward to get in front of pasture overlay
+        context.pose().translate(0, 0, 200f);
+
         context.renderComponentTooltip(
                 Minecraft.getInstance().font,
                 tooltip,
                 StorageSlotTooltipState.getTooltipMouseX(),
                 StorageSlotTooltipState.getTooltipMouseY());
+
+        context.pose().popPose();
 
         // Clear for next frame
         StorageSlotTooltipState.clear();

@@ -35,7 +35,7 @@ public class PCTabButton extends Button {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, boxName, onPress, DEFAULT_NARRATION);
         this.forBox = forBox;
         this.tooltip = Tooltip
-                .create(Component.literal("Jump to " + this.getMessage().getString() + " (" + this.forBox + ")"));
+                .create(Component.literal("Jump to " + this.getMessage().getString() + " (pg. " + (this.forBox + 1) + ")"));
     }
 
     @Override

@@ -2,11 +2,16 @@ Bugs:
 - Pc bookmark button renders after the glow which looks weird
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - make egg show in front of portrait
-- Pasture block "deployed" thingy renders over tooltip
+- forms aren't being synched to the dummyegg pokemon
 
 High priority:
+- add a highlight to alerts
+- add a way to save the logger session in a txt file or smth
+- customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
 
 Nice to have:
+- make all text translatable (lang file)
+- total pc fullness %
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
     KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
 - Customise pc expanded tooltip in the config (choose the fields you want)
