@@ -5,13 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import cc.turtl.cobbleaid.CobbleAid;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-/**
- * Helper utility for consistent command feedback formatting.
- *
- * Centralizes formatting so commands are smaller and consistent.
- *
- * Note: sendInfo was removed in favor of sendLabeled which uses ComponentFormatUtil.labelledValue.
- */
 public class CommandUtils {
 
     private static final String PREFIX = "[" + CobbleAid.MODID + "] ";
@@ -62,7 +55,7 @@ public class CommandUtils {
     }
 
     /**
-     * Sends an error message with red color and [Cobble Aid] prefix
+     * Sends an error message with red color and prefix
      */
     public static void sendError(FabricClientCommandSource source, String message) {
         source.sendFeedback(

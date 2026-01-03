@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
+import cc.turtl.cobbleaid.mixin.accessor.EntityAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
@@ -30,6 +31,9 @@ public class AlertManager {
             tracked.muted = true;
         } else {
             AlertMessage.sendChatAlert(entity);
+            
+            // sets the glowing flag client side
+            ((EntityAccessor) entity).invokeSetSharedFlag(6, true);
         }
 
         trackedPokemon.put(uuid, tracked);
@@ -53,11 +57,11 @@ public class AlertManager {
 
     public void muteTargetByActorId(UUID actorId) {
 
-        Map.Entry<UUID,TrackedPokemon> targetEntry = trackedPokemon.entrySet().stream()
+        Map.Entry<UUID, TrackedPokemon> targetEntry = trackedPokemon.entrySet().stream()
                 .filter(entry -> entry.getValue().entity.getPokemon().getUuid().equals(actorId))
                 .findFirst()
                 .orElse(null);
-                
+
         if (targetEntry != null) {
             mutedUuids.add(targetEntry.getKey());
             targetEntry.getValue().muted = true;
