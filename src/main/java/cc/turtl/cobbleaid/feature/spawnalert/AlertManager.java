@@ -16,7 +16,7 @@ public class AlertManager {
     private final Map<UUID, TrackedPokemon> trackedPokemon = new LinkedHashMap<>();
     private final Set<UUID> mutedUuids = new HashSet<>();
     private final SpawnAlertConfig config;
-    private int soundDelayTicks = 0;
+    private int soundDelayTicks = 20;
 
     public AlertManager(SpawnAlertConfig config) {
         this.config = config;
@@ -35,6 +35,14 @@ public class AlertManager {
         trackedPokemon.put(uuid, tracked);
     }
 
+    public TrackedPokemon getTarget(UUID uuid) {
+        return trackedPokemon.get(uuid);
+    }
+
+    public Set<UUID> getTrackedUuids() {
+        return trackedPokemon.keySet();
+    }
+
     public void muteTarget(UUID uuid) {
         mutedUuids.add(uuid);
         TrackedPokemon target = trackedPokemon.get(uuid);
@@ -43,9 +51,33 @@ public class AlertManager {
         }
     }
 
+    public void muteTargetByActorId(UUID actorId) {
+
+        Map.Entry<UUID,TrackedPokemon> targetEntry = trackedPokemon.entrySet().stream()
+                .filter(entry -> entry.getValue().entity.getPokemon().getUuid().equals(actorId))
+                .findFirst()
+                .orElse(null);
+                
+        if (targetEntry != null) {
+            mutedUuids.add(targetEntry.getKey());
+            targetEntry.getValue().muted = true;
+        }
+    }
+
+    public boolean isTargetMuted(UUID uuid) {
+        return mutedUuids.contains(uuid);
+    }
+
     public void unmuteAllTargets() {
         mutedUuids.clear();
         trackedPokemon.values().forEach(t -> t.muted = false);
+    }
+
+    public void muteAllTargets() {
+        trackedPokemon.forEach((uuid, pokemon) -> {
+            mutedUuids.add(uuid);
+            pokemon.muted = true;
+        });
     }
 
     public boolean hasActiveTarget() {

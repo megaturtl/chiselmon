@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
@@ -29,7 +30,8 @@ public class StorageWidgetMixin {
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void cobbleaid$renderStorageTooltips(GuiGraphics context, int mouseX, int mouseY, float delta,
             CallbackInfo ci) {
-        if (CobbleAid.isDisabled()) return;
+        if (CobbleAid.isDisabled())
+            return;
         ModConfig config = CobbleAid.services().config().get();
 
         boolean isShiftHoverActive = config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown();
@@ -57,9 +59,17 @@ public class StorageWidgetMixin {
         if (isShiftHoverActive) {
             tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
             tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", pokemon.getMarks().size()));
             tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
             tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+
+            if (PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Ride Styles: ", PokemonFormatUtil.rideStyles(pokemon)));
+            }
+
+            if (PokemonPredicates.IS_MARKED.test(pokemon)) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
+            }
+
         }
 
         context.pose().pushPose();

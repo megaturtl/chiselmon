@@ -28,4 +28,8 @@ public class StringUtils {
         return DurationFormatUtils.formatDuration(milliseconds, DURATION_FORMAT);
     }
 
+    public static String formatTitleCase(String text) {
+        return org.apache.commons.lang3.StringUtils.capitalize(text);
+    }
+
 }

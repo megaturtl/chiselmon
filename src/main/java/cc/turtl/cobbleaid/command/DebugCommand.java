@@ -55,7 +55,7 @@ public class DebugCommand {
     }
 
     private static int executeTest(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.CYAN));
+        context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.AQUA));
         return 1;
     }
 
@@ -77,7 +77,7 @@ public class DebugCommand {
             }
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.CYAN));
+                    ComponentFormatUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Species", pokemon.getSpecies().getName());
             CommandUtils.sendLabeled(source, "Species Resource ID",
                     pokemon.getSpecies().getResourceIdentifier().toString());
@@ -102,7 +102,7 @@ public class DebugCommand {
         FabricClientCommandSource source = context.getSource();
 
         try {
-            source.sendFeedback(ComponentFormatUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.CYAN));
+            source.sendFeedback(ComponentFormatUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.AQUA));
             Minecraft minecraftClient = Minecraft.getInstance();
             Entity lookingAtEntity = minecraftClient.crosshairPickEntity;
 
@@ -146,7 +146,7 @@ public class DebugCommand {
             SimpleSpecies species = SimpleSpeciesRegistry.getByName(speciesName);
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.CYAN));
+                    ComponentFormatUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Catch Rate", species.catchRate);
             CommandUtils.sendLabeled(source, "Egg Groups", species.eggGroups);
             CommandUtils.sendLabeled(source, "EV Yield", species.evYield);

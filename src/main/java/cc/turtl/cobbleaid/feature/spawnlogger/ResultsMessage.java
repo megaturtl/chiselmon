@@ -30,7 +30,7 @@ public class ResultsMessage {
         int totalSpawns = session.getLoggedAmount();
         double spawnsPerMinute = calculateSpawnsPerMinute(elapsedMs, totalSpawns);
 
-        MutableComponent message = colored("=== Spawn Logger Report ===", ColorUtil.TURQUOISE);
+        MutableComponent message = colored("=== Spawn Logger Report ===", ColorUtil.AQUA);
         appendSessionStats(message, elapsedMs, totalSpawns, spawnsPerMinute);
         appendSpecialEncounters(message, logs);
 
@@ -64,7 +64,7 @@ public class ResultsMessage {
     private static void appendPokemonEntry(MutableComponent message, LoggedPokemon pokemon) {
 
         message.append(colored("\n- ", ColorUtil.LIGHT_GRAY));
-        message.append(colored("Lvl. " + pokemon.level() + " " + pokemon.species(), ColorUtil.TURQUOISE));
+        message.append(colored("Lvl. " + pokemon.level() + " " + pokemon.species(), ColorUtil.AQUA));
 
         if (pokemon.isShiny()) {
             message.append(colored(" (Shiny)", ColorUtil.GOLD));

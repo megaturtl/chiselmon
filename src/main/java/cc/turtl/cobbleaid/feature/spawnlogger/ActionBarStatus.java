@@ -14,7 +14,7 @@ public class ActionBarStatus {
 
         int totalSpawns = session.getLoggedAmount();
 
-        MutableComponent message = colored("Spawn Logger: ", ColorUtil.TURQUOISE);
+        MutableComponent message = colored("Spawn Logger: ", ColorUtil.AQUA);
         message.append(colored(totalSpawns + " Spawns, ", ColorUtil.CORAL));
         message.append(colored(StringUtils.formatDurationMs(session.getElapsedMs()) + " elapsed", ColorUtil.GREEN));
 

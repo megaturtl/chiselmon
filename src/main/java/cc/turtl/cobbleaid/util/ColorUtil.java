@@ -18,17 +18,14 @@ public class ColorUtil {
     public static final int CORAL = 0xFF7F50;
     public static final int GOLD = 0xFFD700;
     public static final int LIME = 0x32CD32;
-    public static final int CYAN = 0x00CED1;
     public static final int INDIGO = 0x4B0082;
     public static final int MAGENTA = 0xFF00FF;
     public static final int BROWN = 0x8B4513;
-    public static final int TURQUOISE = 0x40E0D0;
-    public static final int LAVENDER = 0xE6E6FA;
+    public static final int AQUA = 0x40E0D0;
+    public static final int LAVENDER = 0xDEDEFC;
     public static final int MINT = 0x98FF98;
     public static final int PEACH = 0xFFDAB9;
     public static final int NAVY = 0x000080;
-    public static final int MAROON = 0x800000;
-    public static final int OLIVE = 0x808000;
     public static final int TEAL = 0x008080;
 
     public static int alphaColor(int color, double opacity) {

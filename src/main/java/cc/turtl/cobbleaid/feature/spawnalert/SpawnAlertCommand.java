@@ -18,6 +18,8 @@ public class SpawnAlertCommand {
                 .executes(SpawnAlertCommand::executeHelp)
                 .then(literal("mute").then(argument("uuid", StringArgumentType.string())
                         .executes(SpawnAlertCommand::executeMute)))
+                .then(literal("muteall")
+                        .executes(SpawnAlertCommand::executeMuteAll))
                 .then(literal("unmuteall")
                         .executes(SpawnAlertCommand::executeUnmuteAll));
     }
@@ -34,11 +36,29 @@ public class SpawnAlertCommand {
         FabricClientCommandSource source = context.getSource();
         try {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
-            SpawnAlertFeature.getInstance().getAlertManager().muteTarget(uuid);
+            AlertManager manager = SpawnAlertFeature.getInstance().getAlertManager();
+
+            if (manager.isTargetMuted(uuid)) {
+                CommandUtils.sendWarning(source, "Pokemon already muted!");
+            }
+
+            manager.muteTarget(uuid);
             CommandUtils.sendSuccess(source, "Pokemon muted.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred!");
             CobbleAid.getLogger().error("Error executing 'alert mute' command:", e);
+        }
+        return 1;
+    }
+
+    private static int executeMuteAll(CommandContext<FabricClientCommandSource> context) {
+        FabricClientCommandSource source = context.getSource();
+        try {
+            SpawnAlertFeature.getInstance().getAlertManager().muteAllTargets();
+            CommandUtils.sendSuccess(source, "All active alerts muted.");
+        } catch (Exception e) {
+            CommandUtils.sendError(source, "An unexpected error occurred!");
+            CobbleAid.getLogger().error("Error executing 'alert muteall' command:", e);
         }
         return 1;
     }

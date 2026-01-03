@@ -69,7 +69,7 @@ public class EggCommand {
 
             NeoDaycareEgg eggData = NeoDaycareEgg.from(pokemon);
 
-            source.sendFeedback(ComponentFormatUtil.colored("--- Egg Info at slot " + (slot + 1) + " ---", ColorUtil.CYAN));
+            source.sendFeedback(ComponentFormatUtil.colored("--- Egg Info at slot " + (slot + 1) + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Species", eggData.getEgg().getSpecies().getName());
             CommandUtils.sendLabeled(source, "Gender", eggData.getEgg().getGender().toString());
 

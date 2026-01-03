@@ -57,7 +57,7 @@ public class AlertMessage {
         }
 
         message.append(colored(" spawned nearby! ", ColorUtil.CORAL));
-        message.append(colored("(" + entity.getOnPos().toShortString() + ")", ColorUtil.TURQUOISE));
+        message.append(colored("(" + entity.getOnPos().toShortString() + ")", ColorUtil.AQUA));
 
         return message;
     }

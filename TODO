@@ -3,11 +3,16 @@ Bugs:
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - make egg show in front of portrait
 - forms aren't being synched to the dummyegg pokemon
+- abilities are flickering weirdly on the dummyegg
+- sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
 - add a highlight to alerts
 - add a way to save the logger session in a txt file or smth
 - customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
+- update name to Chiseledmon!
+- make sure alert stops in battle (hopefully done - not rly because events seem to be server side only - but now i made my own impl - still ddon work)
+- add flying type (jet etc) to the tooltip in pc (hopefully done)
 
 Nice to have:
 - make all text translatable (lang file)

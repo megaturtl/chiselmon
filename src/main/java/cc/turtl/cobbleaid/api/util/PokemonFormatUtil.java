@@ -2,12 +2,17 @@ package cc.turtl.cobbleaid.api.util;
 
 import static cc.turtl.cobbleaid.util.ComponentFormatUtil.*;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
+import com.cobblemon.mod.common.api.riding.RidingStyle;
+import com.cobblemon.mod.common.api.riding.behaviour.RidingBehaviourSettings;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Gender;
@@ -17,9 +22,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.cobbleaid.api.SimpleSpecies;
 import cc.turtl.cobbleaid.api.capture.CaptureChanceEstimator;
 import cc.turtl.cobbleaid.api.predicate.MovePredicates;
+import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.util.ColorUtil;
 import cc.turtl.cobbleaid.util.StringUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public final class PokemonFormatUtil {
     private PokemonFormatUtil() {
@@ -191,15 +198,76 @@ public final class PokemonFormatUtil {
                 .append(colored(")", ColorUtil.LIGHT_GRAY));
     }
 
+    public static Component rideStyles(Pokemon pokemon) {
+        if (!PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
+            return UNKNOWN;
+        }
+
+        Map<RidingStyle, RidingBehaviourSettings> rideStyleBehaviours = pokemon.getRiding().getBehaviours();
+
+        List<Component> rideStyleComponents = createRideStyleComponents(rideStyleBehaviours);
+
+        return buildComponentWithSeparator(
+                rideStyleComponents,
+                COMMA_SEPARATOR,
+                rideStyle -> rideStyle);
+    }
+
+    public static Component marks(Pokemon pokemon) {
+        if (!PokemonPredicates.IS_MARKED.test(pokemon)) {
+            return UNKNOWN;
+        }
+
+        Set<Mark> marks = pokemon.getMarks();
+
+        return buildComponentWithSeparator(
+                marks,
+                COMMA_SEPARATOR,
+                mark -> {
+                    try {
+                        Field nameField = Mark.class.getDeclaredField("name");
+                        nameField.setAccessible(true);
+                        String translationKey = (String) nameField.get(mark);
+
+                        MutableComponent nameComponent = Component.translatable(translationKey);
+                        nameComponent
+                                .append(Component.literal(" (" + StringUtils.formatPercentage(mark.getChance()) + ")"));
+
+                        return colored(nameComponent, Integer.parseInt(mark.getTitleColour(), 16));
+                    } catch (Exception e) {
+                        return UNKNOWN;
+                    }
+                });
+    }
+
+    private static List<Component> createRideStyleComponents(Map<RidingStyle, RidingBehaviourSettings> behaviours) {
+
+        List<Component> components = new ArrayList<>();
+
+        behaviours.forEach((style, settings) -> {
+            int color = switch (style) {
+                case LAND -> ColorUtil.GREEN;
+                case LIQUID -> ColorUtil.AQUA;
+                case AIR -> ColorUtil.LAVENDER;
+            };
+
+            String key = settings.getKey().toLanguageKey();
+            String label = key.substring(key.lastIndexOf("/") + 1);
+
+            components.add(colored(StringUtils.formatTitleCase(label), color));
+        });
+        return components;
+    }
+
     private static String getStatDisplayName(String internalKey) {
         return switch (internalKey.toLowerCase()) {
             case "hp" -> "HP";
             case "attack" -> "Atk";
             case "defense" -> "Def";
             case "defence" -> "Def";
-            case "special_attack" -> "Sp. Atk";
-            case "special_defense" -> "Sp. Def";
-            case "special_defence" -> "Sp. Def";
+            case "special_attack" -> "SpA";
+            case "special_defense" -> "SpD";
+            case "special_defence" -> "SpD";
             case "speed" -> "Spe";
             default -> internalKey;
         };

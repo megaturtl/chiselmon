@@ -1,23 +1,40 @@
 package cc.turtl.cobbleaid.feature.spawnalert;
 
+import java.util.UUID;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.cobblemon.mod.common.client.CobblemonClient;
+import com.cobblemon.mod.common.client.battle.ClientBattle;
+import com.cobblemon.mod.common.client.battle.ClientBattleActor;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.CobbleAidConstants;
 import cc.turtl.cobbleaid.api.predicate.PokemonEntityPredicates;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.feature.AbstractFeature;
+import cc.turtl.cobbleaid.util.ColorUtil;
+import cc.turtl.cobbleaid.util.ComponentFormatUtil;
+import cc.turtl.cobbleaid.util.ObjectDumper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 
 public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
     private AlertManager alertManager;
+    private KeyMapping muteAlertsKey;
+    private ClientBattle lastBattle = null;
 
     private SpawnAlertFeature() {
-        super("SpawnAlert");
+        super("Spawn Alert");
     }
 
     public static SpawnAlertFeature getInstance() {
@@ -31,13 +48,12 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
     @Override
     protected void init() {
+
+        registerKeybinds();
+
         alertManager = new AlertManager(getConfig().spawnAlert);
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (canRun()) {
-                alertManager.tick();
-            }
-        });
+        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
 
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
 
@@ -48,6 +64,48 @@ public final class SpawnAlertFeature extends AbstractFeature {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             alertManager.clearTargets();
         });
+    }
+
+    private void registerKeybinds() {
+        muteAlertsKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                "key.cobbleaid.spawnalert.mutealerts",
+                GLFW.GLFW_KEY_M,
+                CobbleAidConstants.KEYBIND_CATEGORY_KEY));
+    }
+
+    private void onClientTickEnd(Minecraft client) {
+        if (canRun()) {
+
+            // Handle the mute keybind
+            while (muteAlertsKey.consumeClick()) {
+                alertManager.muteAllTargets();
+                Minecraft.getInstance().player
+                        .sendSystemMessage(ComponentFormatUtil.colored("All active alerts muted.", ColorUtil.GREEN));
+            }
+
+            // Track new battles starting
+            ClientBattle currentBattle = CobblemonClient.INSTANCE.getBattle();
+            if (currentBattle != null && currentBattle != lastBattle) {
+                onBattleStarted(currentBattle);
+                lastBattle = currentBattle;
+            } else if (currentBattle == null) {
+                lastBattle = null;
+            }
+
+            // Run the alert sound tick logic
+            alertManager.tick();
+        }
+    }
+
+    private void onBattleStarted(ClientBattle battle) {
+
+        ObjectDumper.logObjectFields(CobbleAid.getLogger(), battle);
+
+        ClientBattleActor wildActor = battle.getWildActor();
+        if (wildActor != null) {
+                UUID uuid = wildActor.getUuid();
+                alertManager.muteTargetByActorId(uuid);
+            }
     }
 
     private void onEntityLoad(Entity entity, ClientLevel level) {
@@ -64,18 +122,24 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
         Pokemon pokemon = pokemonEntity.getPokemon();
 
-        if (PokemonPredicates.isInCustomList(config.blackList).test(pokemon)) {
+        // Priority alerts that bypass the blacklist
+        if ((config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon))
+                || (config.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon))) {
+            return true;
+        }
+
+        // Check blacklist before species based alerts
+        if (PokemonPredicates.isInCustomList(config.blacklist).test(pokemon)) {
             return false;
         }
 
-        return (config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon))
-                || (config.alertOnLegendary && (PokemonPredicates.IS_LEGENDARY.test(pokemon)
-                        || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
+        // Species based alerts
+        return (config.alertOnLegendary && (PokemonPredicates.IS_LEGENDARY.test(pokemon)
+                || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
                 || (config.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon))
                 || (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon))
-                || (config.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon))
                 || (config.alertOnCustomList
-                        && PokemonPredicates.isInCustomList(config.whiteList).test(pokemon));
+                        && PokemonPredicates.isInCustomList(config.whitelist).test(pokemon));
     }
 
     public AlertManager getAlertManager() {

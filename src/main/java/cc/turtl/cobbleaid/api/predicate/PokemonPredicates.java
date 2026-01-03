@@ -72,6 +72,8 @@ public final class PokemonPredicates {
         return !possibleSelfDamagingMoves.isEmpty();
     };
 
+    public static final Predicate<Pokemon> IS_MARKED = pokemon -> !pokemon.getMarks().isEmpty();
+
     public static Predicate<Pokemon> isInCustomList(List<String> customList) {
         return pokemon -> {
             if (customList == null || customList.isEmpty()) {

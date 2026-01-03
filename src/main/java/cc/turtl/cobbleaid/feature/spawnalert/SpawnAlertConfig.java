@@ -49,10 +49,10 @@ public class SpawnAlertConfig implements ConfigData {
     public int soundDelay = 20;
 
     @ConfigEntry.Gui.Tooltip
-    public List<String> whiteList = new ArrayList<>(Arrays.asList());
+    public List<String> whitelist = new ArrayList<>(Arrays.asList());
 
     @ConfigEntry.Gui.Tooltip
-    public List<String> blackList = new ArrayList<>(Arrays.asList());
+    public List<String> blacklist = new ArrayList<>(Arrays.asList());
 
     @Override
     public void validatePostLoad() throws ValidationException {
