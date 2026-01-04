@@ -15,32 +15,54 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         this.originalPokemon = eggData.getOriginalPokemon();
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
-        setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
-        setForm(egg.getForm());
-        setSpecies(egg.getSpecies());
-        setLevel(egg.getLevel());
-        setGender(egg.getGender());
-        setShiny(egg.isShiny());
-        setScaleModifier(egg.getScaleModifier());
-        setNature(egg.getNature());
-        setTeraType(egg.getTeraType());
+        // Follow the ordering from Pokemon.copyFrom()
+
+        // Keep uuid of the original egg pokemon
+        setUuid(originalPokemon.getUuid());
+
+        // set features first maybe?
+        setFeatures(egg.getFeatures());
+
+        // Set ability before species/form
         setAbility$common(egg.getAbility());
-        setTradeable(egg.isTradeable());
-        setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
 
-        // keep uuid of the original egg pokemon
-        setUuid(eggData.getOriginalPokemon().getUuid());
+        // Set species, then form
+        setSpecies(egg.getSpecies());
+        setForm(egg.getForm());
 
-        for (Stat stat : Stats.Companion.getPERMANENT()) {
-            setIV(stat, egg.getIvs().get(stat));
-        }
+        setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
+        setLevel(egg.getLevel());
 
-        getMoveSet().clear();
-        egg.getMoveSet().getMoves().forEach(getMoveSet()::add);
+        // Set IVs (using doWithoutEmitting pattern like copyFrom)
+        getIvs().doWithoutEmitting(() -> {
+            for (Stat stat : Stats.Companion.getPERMANENT()) {
+                getIvs().set(stat, egg.getIvs().get(stat));
+            }
+            return null;
+        });
+
+        setGender(egg.getGender());
+        getMoveSet().doWithoutEmitting(() -> {
+            egg.getMoveSet().forEach(move -> {
+                if (move != null) {
+                    getMoveSet().add(move.copy());
+                }
+            });
+            return null;
+        });
+        setScaleModifier(egg.getScaleModifier());
+        setShiny(egg.isShiny());
 
         if (egg.getCaughtBall() != null) {
             setCaughtBall(egg.getCaughtBall());
         }
+
+        setNature(egg.getNature());
+        setTeraType(egg.getTeraType());
+        setTradeable(egg.isTradeable());
+
+        setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
+        updateAspects();
     }
 
     public int getStepsRemaining() {

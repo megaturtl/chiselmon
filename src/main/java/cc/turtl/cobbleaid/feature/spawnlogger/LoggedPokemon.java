@@ -7,5 +7,5 @@ public record LoggedPokemon(
         boolean isSpecial, // leg/mythical/ultrabeast
         boolean isExtremeSize,
         float scaleModifier,
-        long timeLoggesMs) {
+        long timeLoggedMs) {
 }

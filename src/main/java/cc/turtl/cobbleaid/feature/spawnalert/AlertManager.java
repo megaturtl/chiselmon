@@ -23,16 +23,15 @@ public class AlertManager {
         this.config = config;
     }
 
-    public void addTarget(PokemonEntity entity) {
+    public void addTarget(PokemonEntity entity, AlertPriority priority) {
         UUID uuid = entity.getUUID();
         TrackedPokemon tracked = new TrackedPokemon(entity);
+        tracked.priority = priority; // Store the reason
 
         if (mutedUuids.contains(uuid)) {
             tracked.muted = true;
         } else {
             AlertMessage.sendChatAlert(entity);
-            
-            // sets the glowing flag client side
             ((EntityAccessor) entity).invokeSetSharedFlag(6, true);
         }
 
@@ -98,7 +97,14 @@ public class AlertManager {
     }
 
     public void tick() {
-        if (!hasActiveTarget() || config.soundVolume <= 0) {
+        // Find the highest priority among all tracked pokemon that are NOT muted
+        AlertPriority highestActive = trackedPokemon.values().stream()
+                .filter(t -> !t.muted)
+                .map(t -> t.priority)
+                .max((p1, p2) -> Integer.compare(p1.weight, p2.weight))
+                .orElse(AlertPriority.NONE);
+
+        if (highestActive == AlertPriority.NONE || config.soundVolume <= 0) {
             return;
         }
 
@@ -107,18 +113,32 @@ public class AlertManager {
             return;
         }
 
-        playSound();
-
+        playSound(highestActive);
         this.soundDelayTicks = config.soundDelay;
     }
 
-    private void playSound() {
+    private final Map<AlertPriority, AlertSoundProfile> soundProfiles = Map.of(
+            AlertPriority.LEGENDARY, new AlertSoundProfile(
+                    SoundEvents.PLAYER_LEVELUP, 1.0f, 0.8f),
+            AlertPriority.SHINY, new AlertSoundProfile(
+                    SoundEvents.EXPERIENCE_ORB_PICKUP, 1.0f, 0.8f),
+            AlertPriority.SIZE, new AlertSoundProfile(
+                    SoundEvents.NOTE_BLOCK_BIT.value(), 1.0f, 1.0f),
+            AlertPriority.CUSTOM, new AlertSoundProfile(
+                    SoundEvents.NOTE_BLOCK_PLING.value(), 1.18f, 1.0f));
+
+    private void playSound(AlertPriority priority) {
+        AlertSoundProfile profile = soundProfiles.get(priority);
+        if (profile == null)
+            return;
+
         Minecraft mc = Minecraft.getInstance();
+        float finalVolume = (config.soundVolume / 100f) * profile.volumeMultiplier();
 
         SimpleSoundInstance alert = SimpleSoundInstance.forUI(
-                SoundEvents.EXPERIENCE_ORB_PICKUP,
-                1.0f,
-                config.soundVolume / 100f);
+                profile.sound(),
+                profile.pitch(),
+                finalVolume);
 
         mc.getSoundManager().play(alert);
     }

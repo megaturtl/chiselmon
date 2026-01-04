@@ -3,13 +3,13 @@ Bugs:
 - Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - make egg show in front of portrait
 - forms aren't being synched to the dummyegg pokemon
-- abilities are flickering weirdly on the dummyegg
 - sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
-- add a way to save the logger session in a txt file or smth
+- add a way to save the logger session in a txt file or smth (csv better)
 - customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
 - update name to Chiseledmon!
+- add new alert sounds (bow ping etc) (done)
 
 Nice to have:
 - make all text translatable (lang file)
@@ -21,6 +21,7 @@ Nice to have:
 - Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!
 
 One day:
+- improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Show actual marks on hover with their chance
