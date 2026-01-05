@@ -8,7 +8,7 @@ import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareDummyPokemon;
 import cc.turtl.chiselmon.config.ModConfig;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentFormatUtil;
@@ -72,9 +72,10 @@ public class StorageWidgetMixin {
                 tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
             }
 
-            if (NeoDaycareEgg.isDummy(pokemon)) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ",
-                        SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles));
+            if (pokemon instanceof NeoDaycareDummyPokemon dummy) {
+                int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
+                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ", cycles + " (~" +
+                        dummy.getStepsRemaining() + " steps rem.)"));
             }
         }
 

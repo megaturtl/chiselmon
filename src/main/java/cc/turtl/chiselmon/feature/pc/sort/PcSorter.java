@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.chiselmon.api.comparator.PokemonComparators;
 import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
 
 import java.util.Comparator;
@@ -38,7 +39,10 @@ public final class PcSorter {
             return false;
         }
 
-        Comparator<Pokemon> comparator = sortType.comparator(reversed).thenComparing(Pokemon::getUuid);
+        Comparator<Pokemon> comparator = PokemonComparators.EGG_DUMMY_COMPARATOR
+                .thenComparing(sortType.comparator(reversed))
+                .thenComparing(Pokemon::getLevel)
+                .thenComparing(Pokemon::getUuid);
 
         List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, comparator);
         applySortedOrder(boxNumber, currentBox, sortedPokemon);

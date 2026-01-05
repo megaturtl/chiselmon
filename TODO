@@ -1,13 +1,11 @@
 Bugs:
 - Pc bookmark button renders after the glow which looks weird
-- Fix moving eggs visual glitch (maybe fixed, changed where my mixin swaps the egg for the dummy pokemon)
 - make egg show in front of portrait
 - forms aren't being synched to the dummyegg pokemon
 - sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
 - add a way to save the logger session in a txt file or smth (csv better)
-- customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
 
 Nice to have:
 - make all text translatable (lang file)
