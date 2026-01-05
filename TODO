@@ -5,7 +5,8 @@ Bugs:
 - sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
-- Customise pc expanded tooltip in the config (choose the fields you want)
+- Customise pc expanded tooltip in the config (choose the fields you want) (should be done)
+- spawntracker shouldn't count time not in game (should be done)
 
 Nice to have:
 - make all text translatable (lang file)

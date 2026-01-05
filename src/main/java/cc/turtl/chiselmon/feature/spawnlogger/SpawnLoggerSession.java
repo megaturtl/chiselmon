@@ -48,7 +48,7 @@ public class SpawnLoggerSession {
                     System.currentTimeMillis());
 
             Chiselmon.getLogger().debug("Logging Lvl. " + pokemon.getLevel() + " " + pokemon.getSpecies().getName()
-                    + " at " + String.format("%.0f, %.0f, %.0f", x, y, z) + " in " + biomeName);
+                    + " at " + String.format("%d, %d, %d", x, y, z) + " in " + biomeName);
             loggedPokemon.putIfAbsent(uuid, data);
         }
     }

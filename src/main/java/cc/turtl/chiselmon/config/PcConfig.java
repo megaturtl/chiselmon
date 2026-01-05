@@ -30,7 +30,28 @@ public class PcConfig implements ConfigData {
         public boolean showTooltips = false;
 
         @ConfigEntry.Gui.Tooltip
-        public boolean showDetailedTooltipOnShift = false;
+        public boolean showDetailedTooltipOnShift = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showIvs = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showOriginalTrainer = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showForm = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showFriendship = false;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showRideStyles = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showMarks = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showEggCycles = false;
     }
 
     public static class PcIconConfig implements ConfigData {

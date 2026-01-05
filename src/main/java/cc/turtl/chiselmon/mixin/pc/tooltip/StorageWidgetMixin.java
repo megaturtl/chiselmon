@@ -59,20 +59,31 @@ public class StorageWidgetMixin {
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
 
         if (isShiftHoverActive) {
-            tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
-            tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
-            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            if (config.pc.tooltip.showIvs) {
+                tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
+            }
 
-            if (PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
+            if (config.pc.tooltip.showOriginalTrainer) {
+                tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
+            }
+
+            if (config.pc.tooltip.showForm) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            }
+
+            if (config.pc.tooltip.showFriendship) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
+            }
+
+            if (config.pc.tooltip.showRideStyles && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
                 tooltip.add(ComponentFormatUtil.labelledValue("Ride Styles: ", PokemonFormatUtil.rideStyles(pokemon)));
             }
 
-            if (PokemonPredicates.IS_MARKED.test(pokemon)) {
+            if (config.pc.tooltip.showMarks && PokemonPredicates.IS_MARKED.test(pokemon)) {
                 tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
             }
 
-            if (pokemon instanceof NeoDaycareDummyPokemon dummy) {
+            if (config.pc.tooltip.showEggCycles && pokemon instanceof NeoDaycareDummyPokemon dummy) {
                 int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
                 tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ", cycles + " (~" +
                         dummy.getStepsRemaining() + " steps rem.)"));
