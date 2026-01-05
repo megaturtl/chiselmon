@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "cobbleaid",
+	"id": "chiselmon",
 	"version": "${version}",
-	"name": "Cobble Aid",
+	"name": "Chiselmon",
 	"description": "Make your Cobblemon experience easier :D",
 	"authors": [
 		"megaturtl"
@@ -11,21 +11,21 @@
 		"homepage": "https://turtl.cc/"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/cobbleaid/icon.png",
+	"icon": "assets/chiselmon/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"cc.turtl.cobbleaid.CobbleAid"
+			"cc.turtl.chiselmon.Chiselmon"
 		],
 		"modmenu": [
-			"cc.turtl.cobbleaid.compat.ModMenuIntegration"
+			"cc.turtl.chiselmon.compat.ModMenuIntegration"
 		],
         "jade": [
-            "cc.turtl.cobbleaid.compat.jade.CobbleAidJadePlugin"
+            "cc.turtl.chiselmon.compat.jade.ChiselmonJadePlugin"
         ]
 	},
 	"mixins": [
-		"cobbleaid.mixins.json"
+		"chiselmon.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.17.3",
