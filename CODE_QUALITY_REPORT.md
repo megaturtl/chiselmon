@@ -40,7 +40,7 @@ Focus: small, low-risk fixes (no rewrites) that improve correctness or efficienc
 4) **Sorting packet emission does extra work per slot**  
    - **Priority:** Low (micro-optimization)  
    - **Ease:** Easy  
-   - **Details:** `applySortedOrder` searches for the occupant of each target slot by scanning `currentPositions` and then streaming `sortedPokemon`. Building a reverse `slot -> uuid` map once avoids repeated O(n²) lookups and keeps the method simpler.  
+   - **Details:** `applySortedOrder` searches for the occupant of each target slot by scanning `currentPositions` and then streaming `sortedPokemon`. Building a reverse `slot -> uuid` map once avoids repeated O(n^2) lookups and keeps the method simpler.  
    - **Example fix:**  
      ```java
      Map<Integer, UUID> slotToUuid = currentPositions.entrySet().stream()
@@ -48,10 +48,10 @@ Focus: small, low-risk fixes (no rewrites) that improve correctness or efficienc
      // use slotToUuid.get(targetSlot) instead of scanning each time
      ```
 
-5) **Capture estimate can null-deref species and recalculates ball bonus**  
+5) **Capture estimate can null-dereference species and recalculates ball bonus**  
    - **Priority:** Medium (stability & tiny perf gain)  
    - **Ease:** Easy  
-   - **Details:** `CaptureChanceEstimator` reads `SimpleSpeciesRegistry.getByName(...).catchRate` without a null guard, so a missing entry or not-yet-loaded registry will throw. It also calls `BallBonusEstimator.calculateBallBonus` twice with identical inputs.  
+   - **Details:** `CaptureChanceEstimator` reads `SimpleSpeciesRegistry.getByName(...).catchRate` without a null check, so a missing entry or not-yet-loaded registry will throw. It also calls `BallBonusEstimator.calculateBallBonus` twice with identical inputs.  
    - **Example fix:**  
      ```java
      SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
@@ -61,4 +61,5 @@ Focus: small, low-risk fixes (no rewrites) that improve correctness or efficienc
      ```
 
 ## Notes
-- Test suite could not be run locally because the build requires JVM 21 while the environment provides Java 17 (`./gradlew test` fails at plugin resolution).
+- Test suite could not be run locally because the build requires Java 21 while the environment provides Java 17 (`./gradlew test` fails at plugin resolution). The Java 21 requirement is set in `build.gradle` (JavaCompile release/source/target compatibility blocks).
+- To exercise the existing Gradle tasks locally, run them with a Java 21 runtime (e.g., set `JAVA_HOME` to a JDK 21 installation before invoking `./gradlew`).
