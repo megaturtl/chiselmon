@@ -7,5 +7,10 @@ public record LoggedPokemon(
         boolean isSpecial, // leg/mythical/ultrabeast
         boolean isExtremeSize,
         float scaleModifier,
+        int x,
+        int y,
+        int z,
+        String dimension,
+        String biome,
         long timeLoggedMs) {
 }

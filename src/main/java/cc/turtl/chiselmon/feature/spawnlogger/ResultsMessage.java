@@ -9,8 +9,11 @@ import java.util.List;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 
 public class ResultsMessage {
 
@@ -33,6 +36,7 @@ public class ResultsMessage {
         MutableComponent message = colored("=== Spawn Logger Report ===", ColorUtil.AQUA);
         appendSessionStats(message, elapsedMs, totalSpawns, spawnsPerMinute);
         appendSpecialEncounters(message, logs);
+        appendExportButton(message);
 
         return message;
     }
@@ -62,7 +66,6 @@ public class ResultsMessage {
     }
 
     private static void appendPokemonEntry(MutableComponent message, LoggedPokemon pokemon) {
-
         message.append(colored("\n- ", ColorUtil.LIGHT_GRAY));
         message.append(colored("Lvl. " + pokemon.level() + " " + pokemon.species(), ColorUtil.AQUA));
 
@@ -70,7 +73,19 @@ public class ResultsMessage {
             message.append(colored(" (Shiny)", ColorUtil.GOLD));
         }
         if (pokemon.isExtremeSize()) {
-            message.append(colored(" (" + StringUtils.formatDecimal(pokemon.scaleModifier())  + ")", ColorUtil.TEAL));
+            message.append(colored(" (" + StringUtils.formatDecimal(pokemon.scaleModifier()) + ")", ColorUtil.TEAL));
         }
+    }
+
+    private static void appendExportButton(MutableComponent message) {
+        MutableComponent exportButton = colored("\nExport to CSV]", ColorUtil.GREEN)
+                .setStyle(Style.EMPTY
+                        .withColor(ColorUtil.GREEN)
+                        .withBold(true)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, SpawnLoggerFeature.EXPORT_COMMAND_PATH))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                colored("Click to save this session as a CSV file", ColorUtil.YELLOW))));
+
+        message.append(exportButton);
     }
 }

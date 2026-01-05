@@ -27,21 +27,19 @@ public class ChiselmonCommand {
                 .executes(ChiselmonCommand::executeHelp)
                 .then(InfoCommand.register())
                 .then(DebugCommand.register())
-                .then(EggCommand.register())
                 .then(SpawnAlertCommand.register())
                 .then(SpawnLoggerCommand.register());
 
         dispatcher.register(baseCommand);
         dispatcher.register(literal("chisel").redirect(baseCommand.build()));
+        dispatcher.register(literal("ca").redirect(baseCommand.build()));
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandUtils.sendHeader(source, "Commands");
         CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " info");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " config");
         CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " debug");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " egg");
         CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " alert");
         CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " log");
 

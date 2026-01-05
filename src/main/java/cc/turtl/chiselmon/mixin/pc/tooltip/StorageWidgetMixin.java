@@ -8,7 +8,7 @@ import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareDummyPokemon;
 import cc.turtl.chiselmon.config.ModConfig;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentFormatUtil;
@@ -59,22 +59,34 @@ public class StorageWidgetMixin {
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
 
         if (isShiftHoverActive) {
-            tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
-            tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
-            tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
-            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            if (config.pc.tooltip.showIvs) {
+                tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
+            }
 
-            if (PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
+            if (config.pc.tooltip.showOriginalTrainer) {
+                tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
+            }
+
+            if (config.pc.tooltip.showForm) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            }
+
+            if (config.pc.tooltip.showFriendship) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
+            }
+
+            if (config.pc.tooltip.showRideStyles && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
                 tooltip.add(ComponentFormatUtil.labelledValue("Ride Styles: ", PokemonFormatUtil.rideStyles(pokemon)));
             }
 
-            if (PokemonPredicates.IS_MARKED.test(pokemon)) {
+            if (config.pc.tooltip.showMarks && PokemonPredicates.IS_MARKED.test(pokemon)) {
                 tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
             }
 
-            if (NeoDaycareEgg.isDummy(pokemon)) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ",
-                        SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles));
+            if (config.pc.tooltip.showEggCycles && pokemon instanceof NeoDaycareDummyPokemon dummy) {
+                int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
+                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ", cycles + " (~" +
+                        dummy.getStepsRemaining() + " steps rem.)"));
             }
         }
 

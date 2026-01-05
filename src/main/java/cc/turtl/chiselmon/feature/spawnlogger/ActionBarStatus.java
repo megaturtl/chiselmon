@@ -18,6 +18,10 @@ public class ActionBarStatus {
         message.append(colored(totalSpawns + " Spawns, ", ColorUtil.CORAL));
         message.append(colored(StringUtils.formatDurationMs(session.getElapsedMs()) + " elapsed", ColorUtil.GREEN));
 
+        if (session.isPaused()) {
+            message.append(colored(" [Paused]", ColorUtil.YELLOW));
+        }
+
         setActionBarStatus(message);
     }
 

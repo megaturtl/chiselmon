@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
@@ -21,8 +22,16 @@ public class SpawnLoggerSession {
         this.lastStartTime = System.currentTimeMillis();
     }
 
-    public void log(UUID uuid, Pokemon pokemon) {
+    public void log(UUID uuid, PokemonEntity pokemonEntity) {
         if (!paused) {
+            Pokemon pokemon = pokemonEntity.getPokemon();
+
+            int x = pokemonEntity.getBlockX();
+            int y = pokemonEntity.getBlockY();
+            int z = pokemonEntity.getBlockZ();
+
+            String dimensionName = pokemonEntity.level().dimension().location().toString();
+            String biomeName = getBiomeName(pokemonEntity);
 
             LoggedPokemon data = new LoggedPokemon(
                     pokemon.getSpecies().getName(),
@@ -31,11 +40,24 @@ public class SpawnLoggerSession {
                     PokemonPredicates.IS_LEGENDARY.test(pokemon),
                     PokemonPredicates.IS_EXTREME_SIZE.test(pokemon),
                     pokemon.getScaleModifier(),
+                    x,
+                    y,
+                    z,
+                    dimensionName,
+                    biomeName,
                     System.currentTimeMillis());
 
-            Chiselmon.getLogger().debug("Logging Lvl. " + pokemon.getLevel() + " " + pokemon.getSpecies().getName());
+            Chiselmon.getLogger().debug("Logging Lvl. " + pokemon.getLevel() + " " + pokemon.getSpecies().getName()
+                    + " at " + String.format("%d, %d, %d", x, y, z) + " in " + biomeName);
             loggedPokemon.putIfAbsent(uuid, data);
         }
+    }
+
+    private String getBiomeName(PokemonEntity entity) {
+        return entity.level().getBiome(entity.blockPosition())
+                .unwrapKey()
+                .map(key -> key.location().toString()) // Converts to "modid:biome_name"
+                .orElse("Unknown");
     }
 
     public void pause() {

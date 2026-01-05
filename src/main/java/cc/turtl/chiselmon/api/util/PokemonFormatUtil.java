@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.riding.RidingStyle;
 import com.cobblemon.mod.common.api.riding.behaviour.RidingBehaviourSettings;
+import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Gender;
@@ -137,6 +138,24 @@ public final class PokemonFormatUtil {
                         type.getHue()));
     }
 
+    public static Component effectiveTypesAgainst(Pokemon pokemon) {
+        if (pokemon == null)
+            return UNKNOWN;
+
+        List<ElementalType> superEffectiveTypes = TypeEffectivenessUtil.getSuperEffectiveTypes(pokemon.getTypes());
+
+        if (superEffectiveTypes.isEmpty()) {
+            return UNKNOWN;
+        }
+
+        return buildComponentWithSeparator(
+                superEffectiveTypes,
+                SLASH_SPACE_SEPERATOR,
+                type -> colored(
+                        type.getDisplayName(),
+                        type.getHue()));
+    }
+
     public static Component evYield(SimpleSpecies species) {
         if (species == null || species.evYield == null || species.evYield.isEmpty())
             return UNKNOWN;
@@ -182,8 +201,7 @@ public final class PokemonFormatUtil {
         if (species == null)
             return UNKNOWN;
 
-        return Component.empty()
-                .append(String.valueOf(species.catchRate));
+        return colored(String.valueOf(species.catchRate), ColorUtil.WHITE);
     }
 
     public static Component catchChance(PokemonEntity pokemonEntity, PokeBall ball) {
