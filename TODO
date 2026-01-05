@@ -9,13 +9,14 @@ High priority:
 - add a way to save the logger session in a txt file or smth (csv better)
 - customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
 - update name to Chiseledmon!
-- add new alert sounds (bow ping etc) (done)
+- add new alert sounds (bow ping etc) (hopefully done)
+- if an egg, add egg cycles in tooltip (hopefully done)
 
 Nice to have:
 - make all text translatable (lang file)
 - total pc fullness %
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
-    KEEP IN MIND: the /egginfo command egg hatches at 512 steps left (2 cycles) maybe that can help me get more accurate
+    KEEP IN MIND: eggs seem to hatch when the /egginfo command says 512 steps left (2 cycles) maybe that can help me get more accurate
 - Customise pc expanded tooltip in the config (choose the fields you want)
 
 - Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!

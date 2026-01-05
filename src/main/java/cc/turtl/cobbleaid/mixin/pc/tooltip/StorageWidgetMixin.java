@@ -5,8 +5,10 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.cobbleaid.CobbleAid;
+import cc.turtl.cobbleaid.api.SimpleSpeciesRegistry;
 import cc.turtl.cobbleaid.api.predicate.PokemonPredicates;
 import cc.turtl.cobbleaid.api.util.PokemonFormatUtil;
+import cc.turtl.cobbleaid.compat.neodaycare.NeoDaycareEgg;
 import cc.turtl.cobbleaid.config.ModConfig;
 import cc.turtl.cobbleaid.feature.pc.StorageSlotTooltipState;
 import cc.turtl.cobbleaid.util.ComponentFormatUtil;
@@ -70,6 +72,10 @@ public class StorageWidgetMixin {
                 tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
             }
 
+            if (NeoDaycareEgg.isDummy(pokemon)) {
+                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ",
+                        SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles));
+            }
         }
 
         context.pose().pushPose();

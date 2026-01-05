@@ -91,6 +91,9 @@
         "text.autoconfig.cobbleaid.option.spawnAlert.blacklist": "Pokemon Blacklist",
         "text.autoconfig.cobbleaid.option.spawnAlert.blacklist.@Tooltip": "Suppress alerts from pokemon defined here. Shinies and size variations will still alert.",
 
+        "text.autoconfig.cobbleaid.option.spawnAlert.highlightEntity": "Highlight Alerted Pokemon",
+        "text.autoconfig.cobbleaid.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon to locate them easier.",
+
     "text.autoconfig.cobbleaid.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.cobbleaid.option.spawnLogger.enabled": "Enable Spawn Logger",
         "text.autoconfig.cobbleaid.option.spawnLogger.enabled.@Tooltip": "Keeps track of pokemon that spawn around you. Helpful for judging platform rates.",

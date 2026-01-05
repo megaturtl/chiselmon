@@ -23,6 +23,9 @@ public class SimpleSpecies {
     @SerializedName("aspects")
     public List<String> aspects = new ArrayList<>();
 
+    @SerializedName("eggCycles")
+    public int eggCycles = 50;
+
     // Map keys will be "hp", "attack", "defence", "special_attack", etc.
     public Map<String, Integer> evYield = new HashMap<>();
 
