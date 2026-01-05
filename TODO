@@ -8,9 +8,6 @@ Bugs:
 High priority:
 - add a way to save the logger session in a txt file or smth (csv better)
 - customsorter should sort eggs after regular pokemon (as a species tiebreaker) and have another tiebreaker (level probably)
-- update name to Chiseledmon!
-- add new alert sounds (bow ping etc) (hopefully done)
-- if an egg, add egg cycles in tooltip (hopefully done)
 
 Nice to have:
 - make all text translatable (lang file)

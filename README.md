@@ -1,4 +1,4 @@
-# CobbleAid
+# Chiselmon
 
 Client-side quality-of-life improvements for Cobblemon. Lightweight, configurable, and focused on PC management, fishing, and Jade additions.
 
