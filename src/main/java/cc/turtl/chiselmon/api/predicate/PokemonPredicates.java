@@ -21,18 +21,26 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
     public static final Predicate<Pokemon> IS_LEGENDARY = pokemon -> {
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        if (species == null)
+            return false;
         return species.labels.contains("legendary");
     };
     public static final Predicate<Pokemon> IS_MYTHICAL = pokemon -> {
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        if (species == null)
+            return false;
         return species.labels.contains("mythical");
     };
     public static final Predicate<Pokemon> IS_ULTRABEAST = pokemon -> {
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        if (species == null)
+            return false;
         return species.labels.contains("ultra_beast");
     };
     public static final Predicate<Pokemon> IS_PARADOX = pokemon -> {
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        if (species == null)
+            return false;
         return species.labels.contains("paradox");
     };
     public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST).or(IS_PARADOX);

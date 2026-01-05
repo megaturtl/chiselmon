@@ -25,6 +25,8 @@ public final class PcSorter {
         }
 
         List<ClientBox> boxes = clientPC.getBoxes();
+        if (boxNumber >= boxes.size())
+            return false;
         ClientBox currentBox = boxes.get(boxNumber);
         if (currentBox == null) {
             return false;

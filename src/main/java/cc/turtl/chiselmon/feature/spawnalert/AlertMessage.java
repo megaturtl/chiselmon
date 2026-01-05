@@ -34,7 +34,7 @@ public class AlertMessage {
                 .withStyle(style -> style
                         .withClickEvent(
                                 new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                        "/" + ChiselmonConstants.MODID + "alert mute " + entity.getUUID().toString()))
+                                        "/" + ChiselmonConstants.MODID + " alert mute " + entity.getUUID().toString()))
                         .withHoverEvent(
                                 new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         Component.literal("Click to mute this Pokemon"))));
