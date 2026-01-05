@@ -1,0 +1,21 @@
+{
+    "required": true,
+    "package": "cc.turtl.chiselmon.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "accessor.EntityAccessor",
+        "GuiMixin",
+        "pc.StorageSlotMixin",
+        "pc.sort.PCGUIMixin",
+        "pc.tab.PCGUIMixin",
+        "pc.tooltip.StorageWidgetMixin",
+        "pc.tooltip.StorageSlotMixin",
+        "pc.neodaycare.ClientPartyMixin",
+        "pc.neodaycare.ClientPCMixin",
+        "pc.neodaycare.PCGUIMixin",
+        "pc.wallpaper.WallpaperEntryMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

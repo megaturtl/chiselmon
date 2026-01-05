@@ -33,7 +33,7 @@ repositories {
 
 loom {
     mods {
-        "cobbleaid" {
+        "chiselmon" {
             sourceSet sourceSets.main
         }
     }

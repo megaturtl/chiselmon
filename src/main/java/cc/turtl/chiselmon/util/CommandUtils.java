@@ -1,0 +1,80 @@
+package cc.turtl.chiselmon.util;
+
+import org.jetbrains.annotations.Nullable;
+
+import cc.turtl.chiselmon.Chiselmon;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+
+public class CommandUtils {
+
+    private static final String PREFIX = "[" + Chiselmon.MODID + "] ";
+
+    private CommandUtils() {
+    }
+
+    /**
+     * Sends a generic colored message
+     */
+    public static void sendColored(FabricClientCommandSource source, String message, int color) {
+        source.sendFeedback(ComponentFormatUtil.colored(message, color));
+    }
+
+    /**
+     * Sends a header message with purple color
+     */
+    public static void sendHeader(FabricClientCommandSource source, String title) {
+        source.sendFeedback(ComponentFormatUtil.colored("=== " + title + " ===", ColorUtil.PURPLE));
+    }
+
+    /**
+     * Sends a command usage message with gray color
+     */
+    public static void sendUsage(FabricClientCommandSource source, String command) {
+        source.sendFeedback(ComponentFormatUtil.colored(command, ColorUtil.LIGHT_GRAY));
+    }
+
+    /**
+     * Sends a command usage message with gray command and white description
+     */
+    public static void sendUsageWithDescription(FabricClientCommandSource source, String command, String description) {
+        source.sendFeedback(
+                ComponentFormatUtil.colored(command + " ", ColorUtil.LIGHT_GRAY)
+                        .append(ComponentFormatUtil.colored("- " + description, ColorUtil.WHITE)));
+    }
+
+    /**
+     * Sends a success message with green color
+     */
+    public static void sendSuccess(FabricClientCommandSource source, String message) {
+        source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.GREEN));
+    }
+
+    public static void sendToggle(FabricClientCommandSource source, String message, boolean toggleOn) {
+        int color = toggleOn ? ColorUtil.GREEN : ColorUtil.ORANGE;
+        source.sendFeedback(ComponentFormatUtil.colored(message, color));
+    }
+
+    /**
+     * Sends an error message with red color and prefix
+     */
+    public static void sendError(FabricClientCommandSource source, String message) {
+        source.sendFeedback(
+                ComponentFormatUtil.colored(PREFIX, ColorUtil.RED).append(ComponentFormatUtil.colored(message, ColorUtil.WHITE)));
+    }
+
+    /**
+     * Sends a warning/info message with yellow color
+     */
+    public static void sendWarning(FabricClientCommandSource source, String message) {
+        source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.YELLOW));
+    }
+
+
+    /**
+     * Sends a labeled string value (label colored light gray, value white).
+     */
+    public static void sendLabeled(FabricClientCommandSource source, String label, @Nullable Object value) {
+        source.sendFeedback(ComponentFormatUtil.labelledValue(label + ": ", value));
+    }
+
+}
