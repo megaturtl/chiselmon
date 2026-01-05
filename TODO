@@ -5,14 +5,13 @@ Bugs:
 - sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
-- add a way to save the logger session in a txt file or smth (csv better)
+- Customise pc expanded tooltip in the config (choose the fields you want)
 
 Nice to have:
 - make all text translatable (lang file)
 - total pc fullness %
 - Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
     KEEP IN MIND: eggs seem to hatch when the /egginfo command says 512 steps left (2 cycles) maybe that can help me get more accurate
-- Customise pc expanded tooltip in the config (choose the fields you want)
 
 - Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!
 

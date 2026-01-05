@@ -99,6 +99,8 @@
         "text.autoconfig.chiselmon.option.spawnLogger.enabled.@Tooltip": "Keeps track of pokemon that spawn around you. Helpful for judging platform rates.",
         "text.autoconfig.chiselmon.option.spawnLogger.showActionBarStatus": "Show Status in Action Bar",
         "text.autoconfig.chiselmon.option.spawnLogger.showActionBarStatus.@Tooltip": "Displays the current progress of the logging session above the  hotbar.",
+        "text.autoconfig.chiselmon.option.spawnLogger.autoSaveCsv": "Auto Save CSV",
+        "text.autoconfig.chiselmon.option.spawnLogger.autoSaveCsv.@Tooltip": "Automatically save each logger session as a CSV in '.minecraft/chiselmon'.",
     
     "cobblemon.ui.sort.ivs": "Sort by IVs",
     "cobblemon.ui.sort.size": "Sort by Size",

@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
+import java.nio.file.Path;
+
 public class SpawnLoggerCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
 
@@ -24,12 +26,16 @@ public class SpawnLoggerCommand {
         var stopBranch = literal("stop")
                 .executes(SpawnLoggerCommand::executeStop);
 
+        var exportBranch = literal("export")
+                .executes(SpawnLoggerCommand::executeExport);
+
         return literal("log")
                 .executes(SpawnLoggerCommand::executeHelp)
                 .then(startBranch)
                 .then(pauseBranch)
                 .then(resumeBranch)
-                .then(stopBranch);
+                .then(stopBranch)
+                .then(exportBranch);
     }
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
@@ -129,6 +135,28 @@ public class SpawnLoggerCommand {
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred during 'log stop' command!");
             Chiselmon.getLogger().error("Error executing 'log stop' command:", e);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    private static int executeExport(CommandContext<FabricClientCommandSource> context) {
+        FabricClientCommandSource source = context.getSource();
+        SpawnLoggerFeature spawnLogger = SpawnLoggerFeature.getInstance();
+        SpawnLoggerSession lastSession = spawnLogger.getLastCompletedSession();
+
+        if (lastSession == null) {
+            CommandUtils.sendWarning(source, "No completed session to export!");
+            return 1;
+        }
+
+        try {
+            Path exportPath = CsvExporter.exportSession(lastSession);
+            CommandUtils.sendSuccess(source, "Last completed session exported to: " + exportPath.getFileName());
+        } catch (Exception e) {
+            CommandUtils.sendError(source, "Failed to export session!");
+            Chiselmon.getLogger().error("Error executing 'log export' command:", e);
             return 0;
         }
 

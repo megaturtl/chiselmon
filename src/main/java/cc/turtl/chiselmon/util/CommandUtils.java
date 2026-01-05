@@ -4,12 +4,21 @@ import org.jetbrains.annotations.Nullable;
 
 import cc.turtl.chiselmon.Chiselmon;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 
 public class CommandUtils {
 
     private static final String PREFIX = "[" + Chiselmon.MODID + "] ";
 
     private CommandUtils() {
+    }
+
+    public static void executeClientCommand(String command) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.connection.sendCommand(command.startsWith("/") ? command.substring(1) : command);
+        }
     }
 
     /**
@@ -59,7 +68,8 @@ public class CommandUtils {
      */
     public static void sendError(FabricClientCommandSource source, String message) {
         source.sendFeedback(
-                ComponentFormatUtil.colored(PREFIX, ColorUtil.RED).append(ComponentFormatUtil.colored(message, ColorUtil.WHITE)));
+                ComponentFormatUtil.colored(PREFIX, ColorUtil.RED)
+                        .append(ComponentFormatUtil.colored(message, ColorUtil.WHITE)));
     }
 
     /**
@@ -68,7 +78,6 @@ public class CommandUtils {
     public static void sendWarning(FabricClientCommandSource source, String message) {
         source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.YELLOW));
     }
-
 
     /**
      * Sends a labeled string value (label colored light gray, value white).
