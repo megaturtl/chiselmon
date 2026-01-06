@@ -10,9 +10,11 @@ public final class PokemonEntityPredicates {
 
     public static final Predicate<PokemonEntity> IS_OWNED = entity -> entity.getOwnerUUID() != null;
 
-    // this is the best i can do rn but needs to be improved
+    // this is the best i can do rn but needs to be improved (plushies usually can't
+    // be shiny but if they do exist this will be a false positive)
     public static final Predicate<PokemonEntity> IS_PLUSHIE = entity -> {
-        return (entity.getPokemon().getLevel() == 1 && entity.getPokemon().getExperience() == 0);
+        return (entity.getPokemon().getLevel() == 1 && entity.getPokemon().getExperience() == 0
+                && !PokemonPredicates.IS_SHINY.test(entity.getPokemon()));
     };
 
     // Raid or normal boss, usually pokemon can't reach 2x scale
