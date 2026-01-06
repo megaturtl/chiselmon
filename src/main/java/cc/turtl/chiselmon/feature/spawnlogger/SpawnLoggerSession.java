@@ -37,7 +37,7 @@ public class SpawnLoggerSession {
                     pokemon.getSpecies().getName(),
                     pokemon.getLevel(),
                     PokemonPredicates.IS_SHINY.test(pokemon),
-                    PokemonPredicates.IS_LEGENDARY.test(pokemon),
+                    PokemonPredicates.IS_SPECIAL.test(pokemon),
                     PokemonPredicates.IS_EXTREME_SIZE.test(pokemon),
                     pokemon.getScaleModifier(),
                     x,
