@@ -49,8 +49,12 @@ private static final AtomicBoolean isLoading = new AtomicBoolean(false);
 private static volatile boolean loaded = false;
 
 public static void loadAsync() {
-    if (loaded || !isLoading.compareAndSet(false, true))
+    if (!isLoading.compareAndSet(false, true))
         return;
+    if (loaded) {
+        isLoading.set(false);
+        return;
+    }
     // ...
 }
 ```
@@ -148,8 +152,8 @@ private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.literal("Add
 **Fix**: Use translation keys:
 
 ```java
-private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.translatable("chiselmon.ui.bookmark.remove"));
-private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.translatable("chiselmon.ui.bookmark.add"));
+private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.translatable("chiselmon.tooltip.bookmark.remove"));
+private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.translatable("chiselmon.tooltip.bookmark.add"));
 ```
 
 ---
@@ -312,8 +316,15 @@ private static final Map<Set<ElementalType>, List<ElementalType>> SUPER_EFFECTIV
     new ConcurrentHashMap<>();
 
 public static List<ElementalType> getSuperEffectiveTypes(Iterable<ElementalType> defenders) {
-    Set<ElementalType> key = new HashSet<>();
-    defenders.forEach(key::add);
+    Set<ElementalType> key;
+    if (defenders instanceof Set) {
+        key = (Set<ElementalType>) defenders;
+    } else if (defenders instanceof Collection) {
+        key = new HashSet<>((Collection<? extends ElementalType>) defenders);
+    } else {
+        key = new HashSet<>();
+        defenders.forEach(key::add);
+    }
     
     return SUPER_EFFECTIVE_CACHE.computeIfAbsent(key, k -> 
         ElementalTypes.all().stream()
@@ -397,8 +408,11 @@ public static float calculatePcFullness(ClientPC pc) {
     int totalSlots = 0;
     int filledSlots = 0;
     for (ClientBox box : pc.getBoxes()) {
-        totalSlots += box.getSlots().size();
-        filledSlots += box.getSlots().stream().filter(Objects::nonNull).count();
+        List<Pokemon> slots = box.getSlots();
+        totalSlots += slots.size();
+        for (Pokemon slot : slots) {
+            if (slot != null) filledSlots++;
+        }
     }
     return totalSlots > 0 ? (float) filledSlots / totalSlots : 0f;
 }
