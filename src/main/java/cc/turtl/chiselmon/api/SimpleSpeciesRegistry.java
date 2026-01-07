@@ -11,18 +11,23 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 public class SimpleSpeciesRegistry {
     private static final Map<String, SimpleSpecies> FULL_DATA = new ConcurrentHashMap<>();
     private static final Gson CLEAN_GSON = new Gson();
-    private static boolean loaded = false;
-    private static boolean isLoading = false;
+    private static final AtomicBoolean isLoading = new AtomicBoolean(false);
+    private static volatile boolean loaded = false;
 
     public static void loadAsync() {
-        if (loaded || isLoading)
+        // Atomic check to prevent double-loading
+        if (!isLoading.compareAndSet(false, true))
             return;
-        isLoading = true;
+        if (loaded) {
+            isLoading.set(false);
+            return;
+        }
 
         CompletableFuture.runAsync(() -> {
             long startTime = System.currentTimeMillis();
@@ -53,7 +58,7 @@ public class SimpleSpeciesRegistry {
             });
 
             loaded = true;
-            isLoading = false;
+            isLoading.set(false);
             long duration = System.currentTimeMillis() - startTime;
             Chiselmon.getLogger().info("Indexed {} species in {}ms (Async POJO mode).", FULL_DATA.size(), duration);
         });
