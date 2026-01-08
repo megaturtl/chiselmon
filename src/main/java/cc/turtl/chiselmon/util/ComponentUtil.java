@@ -2,6 +2,8 @@ package cc.turtl.chiselmon.util;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,12 +15,18 @@ import java.util.function.Function;
 /**
  * Base utility class for formatters providing common formatting utilities.
  */
-public class ComponentFormatUtil {
+public class ComponentUtil {
 
     public static final Component UNKNOWN = colored("???", ColorUtil.DARK_GRAY);
 
-    public static MutableComponent translatable(String key) {
-        return Component.translatable(ChiselmonConstants.MODID + "." + key);
+    static MutableComponent modTranslatable(String key) {
+        String fullKey = ChiselmonConstants.MODID + "." + key;
+        return MutableComponent.create(new TranslatableContents(fullKey, null, TranslatableContents.NO_ARGS));
+    }
+
+    public static MutableComponent modTranslatable(String key, Object... args) {
+        String fullKey = ChiselmonConstants.MODID + "." + key;
+        return MutableComponent.create(new TranslatableContents(fullKey, null, args));
     }
 
     public static MutableComponent colored(String text, int color) {
@@ -89,6 +97,18 @@ public class ComponentFormatUtil {
         return labelComponent.append(valueComponent);
     }
 
-    private ComponentFormatUtil() {
+    public static Component labelledValue(@NotNull MutableComponent label, @Nullable Object value) {
+        MutableComponent labelComponent = colored(label, ColorUtil.LIGHT_GRAY);
+
+        Component valueComponent = (value == null)
+                ? UNKNOWN
+                : (value instanceof Component c)
+                        ? c
+                        : colored(value.toString(), ColorUtil.WHITE);
+
+        return labelComponent.append(valueComponent);
+    }
+
+    private ComponentUtil() {
     }
 }

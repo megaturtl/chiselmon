@@ -19,7 +19,7 @@ import cc.turtl.chiselmon.api.SimpleSpecies;
 import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.CommandUtils;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.ObjectDumper;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
@@ -55,7 +55,7 @@ public class DebugCommand {
     }
 
     private static int executeTest(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.AQUA));
+        context.getSource().sendFeedback(ComponentUtil.colored("Testing random things", ColorUtil.AQUA));
         return 1;
     }
 
@@ -77,7 +77,7 @@ public class DebugCommand {
             }
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.AQUA));
+                    ComponentUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Species", pokemon.getSpecies().getName());
             CommandUtils.sendLabeled(source, "Species Resource ID",
                     pokemon.getSpecies().getResourceIdentifier().toString());
@@ -102,7 +102,7 @@ public class DebugCommand {
         FabricClientCommandSource source = context.getSource();
 
         try {
-            source.sendFeedback(ComponentFormatUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.AQUA));
+            source.sendFeedback(ComponentUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.AQUA));
             Minecraft minecraftClient = Minecraft.getInstance();
             Entity lookingAtEntity = minecraftClient.crosshairPickEntity;
 
@@ -115,7 +115,7 @@ public class DebugCommand {
                 Pokemon pokemon = pokemonEntity.getPokemon();
 
                 source.sendFeedback(
-                        ComponentFormatUtil.colored("--- Dumping Targeted POKEMON Object ---", ColorUtil.GREEN));
+                        ComponentUtil.colored("--- Dumping Targeted POKEMON Object ---", ColorUtil.GREEN));
                 CommandUtils.sendLabeled(source, "Moves", pokemonEntity.getPokemon().getMoveSet().getMoves()
                         .stream().map(m -> m.getTemplate().getName()).toList().toString());
                 LOGGER.info("Logging object details for targeted Pokemon...");
@@ -146,7 +146,7 @@ public class DebugCommand {
             SimpleSpecies species = SimpleSpeciesRegistry.getByName(speciesName);
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.AQUA));
+                    ComponentUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Catch Rate", species.catchRate);
             CommandUtils.sendLabeled(source, "Egg Groups", species.eggGroups);
             CommandUtils.sendLabeled(source, "EV Yield", species.evYield);

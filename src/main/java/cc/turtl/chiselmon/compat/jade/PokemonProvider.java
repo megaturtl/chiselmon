@@ -11,8 +11,9 @@ import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
 import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -69,30 +70,36 @@ public class PokemonProvider implements IEntityComponentProvider {
         tooltip.add(new HealthElement(pokemonEntity.getMaxHealth(), pokemonEntity.getHealth()));
 
         if (config.get(POKEMON_ENTITY_TYPING_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Type: ", PokemonFormatUtil.types(pokemon)));
+            MutableComponent typeLabel = ComponentUtil.modTranslatable("ui.label.type");
+            tooltip.add(ComponentUtil.labelledValue(typeLabel, PokemonFormatUtil.types(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_EFFECTIVE_TYPING_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("SE Types: ", PokemonFormatUtil.effectiveTypesAgainst(pokemon)));
+            MutableComponent effectiveTypeLabel = ComponentUtil.modTranslatable("ui.label.effective_types");
+            tooltip.add(ComponentUtil.labelledValue(effectiveTypeLabel, PokemonFormatUtil.effectiveTypesAgainst(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_FORM_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+            MutableComponent formLabel = ComponentUtil.modTranslatable("ui.label.form");
+            tooltip.add(ComponentUtil.labelledValue(formLabel, pokemon.getForm().getName()));
         }
 
         if (config.get(POKEMON_ENTITY_EGG_GROUP_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Egg Groups: ", PokemonFormatUtil.eggGroups(simpleSpecies)));
+            MutableComponent eggGroupsLabel = ComponentUtil.modTranslatable("ui.label.egg_groups");
+            tooltip.add(ComponentUtil.labelledValue(eggGroupsLabel, PokemonFormatUtil.eggGroups(simpleSpecies)));
         }
 
         if (config.get(POKEMON_ENTITY_EV_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("EVs: ", PokemonFormatUtil.evYield(simpleSpecies)));
+            MutableComponent evYieldLabel = ComponentUtil.modTranslatable("ui.label.ev_yield");
+            tooltip.add(ComponentUtil.labelledValue(evYieldLabel, PokemonFormatUtil.evYield(simpleSpecies)));
         }
 
         if (config.get(POKEMON_ENTITY_CATCH_RATE_ID)) {
-            tooltip.add(ComponentFormatUtil.labelledValue("Catch Rate: ", PokemonFormatUtil.catchRate(simpleSpecies)));
+            MutableComponent catchRateLabel = ComponentUtil.modTranslatable("ui.label.catch_rate");
+            tooltip.add(ComponentUtil.labelledValue(catchRateLabel, PokemonFormatUtil.catchRate(simpleSpecies)));
 
             if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
-                tooltip.append(ComponentFormatUtil.labelledValue(" ",
+                tooltip.append(ComponentUtil.labelledValue(" ",
                         PokemonFormatUtil.catchChance(pokemonEntity, pokeBallItem.getPokeBall())));
             }
         }

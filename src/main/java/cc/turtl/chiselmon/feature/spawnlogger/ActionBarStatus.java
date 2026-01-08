@@ -1,8 +1,9 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import static cc.turtl.chiselmon.util.ComponentFormatUtil.colored;
+import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 
 import cc.turtl.chiselmon.util.ColorUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -14,12 +15,15 @@ public class ActionBarStatus {
 
         int totalSpawns = session.getLoggedAmount();
 
-        MutableComponent message = colored("Spawn Logger: ", ColorUtil.AQUA);
-        message.append(colored(totalSpawns + " Spawns, ", ColorUtil.CORAL));
-        message.append(colored(StringUtils.formatDurationMs(session.getElapsedMs()) + " elapsed", ColorUtil.GREEN));
+        MutableComponent message = colored(ComponentUtil.modTranslatable("spawnlogger.action_bar.title"),
+                ColorUtil.AQUA);
+        message.append(colored(String.valueOf(totalSpawns), ColorUtil.CORAL));
+        message.append(colored(ComponentUtil.modTranslatable("spawnlogger.action_bar.spawns"), ColorUtil.CORAL));
+        message.append(colored(StringUtils.formatDurationMs(session.getElapsedMs()), ColorUtil.GREEN));
+        message.append(colored(ComponentUtil.modTranslatable("spawnlogger.action_bar.elapsed"), ColorUtil.GREEN));
 
         if (session.isPaused()) {
-            message.append(colored(" [Paused]", ColorUtil.YELLOW));
+            message.append(colored(ComponentUtil.modTranslatable("spawnlogger.action_bar.paused"), ColorUtil.YELLOW));
         }
 
         setActionBarStatus(message);

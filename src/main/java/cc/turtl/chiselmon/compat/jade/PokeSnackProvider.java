@@ -13,9 +13,10 @@ import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
 
 import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,14 +60,18 @@ public class PokeSnackProvider implements IBlockComponentProvider {
         if (config.get(POKESNACK_BLOCK_BITES_ID)) {
             int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
             int bitesRemaining = 9 - bites;
-            tooltip.add(ComponentFormatUtil.labelledValue("Bites Remaining: ", bitesRemaining));
+
+            MutableComponent bitesRemainingLabel = ComponentUtil
+                    .modTranslatable("ui.label.pokesnack_block.bites_remaining");
+            tooltip.add(ComponentUtil.labelledValue(bitesRemainingLabel, bitesRemaining));
         }
 
         if (config.get(POKESNACK_BLOCK_INGREDIENTS_ID)) {
             IngredientComponent ingredientComponent = entity.getIngredientComponent();
             if (ingredientComponent == null) {
-                tooltip.add(Component.literal("No Ingredients")
-                        .withColor(ColorUtil.RED));
+                MutableComponent noIngredientsMsg = ComponentUtil
+                        .modTranslatable("ui.label.pokesnack_block.no_ingredients");
+                tooltip.add(noIngredientsMsg.withColor(ColorUtil.RED));
             } else {
                 tooltip.add(helper.spacer(0, 0));
                 boolean first = true;

@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import static cc.turtl.chiselmon.util.ComponentFormatUtil.colored;
+import static cc.turtl.chiselmon.util.ComponentUtil.colored;
+import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -8,6 +9,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
@@ -37,28 +39,31 @@ public class AlertMessage {
                                         "/" + ChiselmonConstants.MODID + " alert mute " + entity.getUUID().toString()))
                         .withHoverEvent(
                                 new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                        Component.literal("Click to mute this Pokemon"))));
+                                        ComponentUtil.modTranslatable("spawnalert.mute.tooltip"))));
 
         message.append(colored(speciesName, ColorUtil.CORAL));
 
         if (PokemonPredicates.IS_SHINY.test(pokemon)) {
-            message.append(colored(" (Shiny)", ColorUtil.GOLD));
+            message.append(colored(modTranslatable("chiselmon.spawnalert.message.shiny"), ColorUtil.GOLD));
         }
         if (PokemonPredicates.IS_LEGENDARY.test(pokemon)) {
-            message.append(colored(" (Legendary)", ColorUtil.MAGENTA));
+            message.append(colored(modTranslatable("chiselmon.spawnalert.message.legendary"), ColorUtil.MAGENTA));
+        }
+        if (PokemonPredicates.IS_MYTHICAL.test(pokemon)) {
+            message.append(colored(modTranslatable("chiselmon.spawnalert.message.mythical"), ColorUtil.MAGENTA));
         }
         if (PokemonPredicates.IS_ULTRABEAST.test(pokemon)) {
-            message.append(colored(" (Ultra Beast)", ColorUtil.BLUE));
+            message.append(colored(modTranslatable("chiselmon.spawnalert.message.ultra_beast"), ColorUtil.BLUE));
         }
         if (PokemonPredicates.IS_PARADOX.test(pokemon)) {
-            message.append(colored(" (Paradox)", ColorUtil.ORANGE));
+            message.append(colored(modTranslatable("chiselmon.spawnalert.message.paradox"), ColorUtil.ORANGE));
         }
         if (PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             message.append(
                     colored(" (" + StringUtils.formatDecimal(pokemon.getScaleModifier()) + ")", ColorUtil.TEAL));
         }
 
-        message.append(colored(" spawned nearby! ", ColorUtil.CORAL));
+        message.append(colored(modTranslatable("chiselmon.spawnalert.message.spawned_nearby"), ColorUtil.CORAL));
         message.append(colored("(" + entity.getOnPos().toShortString() + ")", ColorUtil.AQUA));
 
         return message;

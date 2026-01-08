@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.util;
 
-import static cc.turtl.chiselmon.util.ComponentFormatUtil.*;
+import static cc.turtl.chiselmon.util.ComponentUtil.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

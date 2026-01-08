@@ -137,7 +137,52 @@
     "key.categories.chiselmon": "Chiselmon",
     "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts",
 
-    "chiselmon.tooltip.bookmark.add": "Add Bookmark",
-    "chiselmon.tooltip.bookmark.remove": "Remove Bookmark"
+    "chiselmon.pc.bookmark_button.tooltip.add": "Add Bookmark",
+    "chiselmon.pc.bookmark_button.tooltip.remove": "Remove Bookmark",
 
+    "chiselmon.pc.home_button.tooltip": "Jump to Box 1",
+
+    "chiselmon.pc.tab_button.tooltip": "Jump to %s (pg. %d)",
+
+    "chiselmon.ui.label.pokesnack_block.bites_remaining": "Bites Remaining: ",
+    "chiselmon.ui.label.pokesnack_block.no_ingredients": "No Ingredients!",
+
+    "chiselmon.ui.label.ivs": "IVs: ",
+    "chiselmon.ui.label.original_trainer": "OT: ",
+    "chiselmon.ui.label.form": "Form: ",
+    "chiselmon.ui.label.friendship": "Friendship: ",
+    "chiselmon.ui.label.ride_styles": "Ride Styles: ",
+    "chiselmon.ui.label.marks": "Marks: ",
+    "chiselmon.ui.label.egg_cycles": "Egg Cycles: ",
+    "chiselmon.ui.label.type": "Types: ",
+    "chiselmon.ui.label.effective_types": "SE Types: ",
+    "chiselmon.ui.label.egg_groups": "Egg Groups: ",
+    "chiselmon.ui.label.ev_yield": "EV Yield: ",
+    "chiselmon.ui.label.catch_rate": "Catch Rate: ",
+
+    "chiselmon.spawnalert.message.mute.tooltip": "Click to mute this Pokemon",
+    "chiselmon.spawnalert.message.shiny": " (Shiny)",
+    "chiselmon.spawnalert.message.legendary": " (Legendary)",
+    "chiselmon.spawnalert.message.mythical": " (Mythical)",
+    "chiselmon.spawnalert.message.ultra_beast": " (Ultra Beast)",
+    "chiselmon.spawnalert.message.paradox": " (Paradox)",
+    "chiselmon.spawnalert.message.spawned_nearby": " spawned nearby! ",
+
+    "chiselmon.spawnalert.mute.success": "All active alerts muted.",
+
+    "chiselmon.spawnlogger.action_bar.title": "Spawn Logger: ",
+    "chiselmon.spawnlogger.action_bar.spawns": " Spawns, ",
+    "chiselmon.spawnlogger.action_bar.elapsed": " elapsed",
+    "chiselmon.spawnlogger.action_bar.paused": "[Paused]",
+
+    "chiselmon.spawnlogger.report.header": "=== Spawn Logger Report ===",
+    "chiselmon.spawnlogger.report.elapsed": "\nTime Elapsed: %s",
+    "chiselmon.spawnlogger.report.total_spawns": "\nTotal Spawns: %s",
+    "chiselmon.spawnlogger.report.spawns_per_min": "\nSpawns/Min: %s",
+    "chiselmon.spawnlogger.report.special_header": "\n\nSpecial Encounters:",
+    "chiselmon.spawnlogger.report.pokemon_entry": "\n- Lvl. %s %s",
+    "chiselmon.spawnlogger.report.shiny_label": " (Shiny)",
+    "chiselmon.spawnlogger.report.export_button": "\n[Export to CSV]",
+    "chiselmon.spawnlogger.report.export_hover": "Click to save this session as a CSV file"
+    
 }
