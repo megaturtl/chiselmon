@@ -21,8 +21,9 @@ import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpecies;
 import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.TypeEffectivenessCache;
 import cc.turtl.chiselmon.api.predicate.MovePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
@@ -143,7 +144,7 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        List<ElementalType> superEffectiveTypes = TypeEffectivenessUtil.getSuperEffectiveTypes(pokemon.getTypes());
+        List<ElementalType> superEffectiveTypes = TypeEffectivenessCache.getSuperEffectiveTypes(pokemon.getTypes());
 
         if (superEffectiveTypes.isEmpty()) {
             return UNKNOWN;

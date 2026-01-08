@@ -15,8 +15,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.CommandUtils;
 import cc.turtl.chiselmon.util.ComponentUtil;

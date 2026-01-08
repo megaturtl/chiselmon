@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.command.ChiselmonCommand;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;

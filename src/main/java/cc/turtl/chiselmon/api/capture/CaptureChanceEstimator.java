@@ -11,8 +11,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 

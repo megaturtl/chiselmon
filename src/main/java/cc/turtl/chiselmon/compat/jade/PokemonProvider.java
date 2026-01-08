@@ -6,8 +6,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
 import cc.turtl.chiselmon.util.ColorUtil;

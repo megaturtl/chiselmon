@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
 import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareDummyPokemon;

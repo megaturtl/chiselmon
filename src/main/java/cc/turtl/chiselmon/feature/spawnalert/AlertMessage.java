@@ -44,26 +44,26 @@ public class AlertMessage {
         message.append(colored(speciesName, ColorUtil.CORAL));
 
         if (PokemonPredicates.IS_SHINY.test(pokemon)) {
-            message.append(colored(modTranslatable("chiselmon.spawnalert.message.shiny"), ColorUtil.GOLD));
+            message.append(colored(modTranslatable("spawnalert.message.shiny"), ColorUtil.GOLD));
         }
         if (PokemonPredicates.IS_LEGENDARY.test(pokemon)) {
-            message.append(colored(modTranslatable("chiselmon.spawnalert.message.legendary"), ColorUtil.MAGENTA));
+            message.append(colored(modTranslatable("spawnalert.message.legendary"), ColorUtil.MAGENTA));
         }
         if (PokemonPredicates.IS_MYTHICAL.test(pokemon)) {
-            message.append(colored(modTranslatable("chiselmon.spawnalert.message.mythical"), ColorUtil.MAGENTA));
+            message.append(colored(modTranslatable("spawnalert.message.mythical"), ColorUtil.MAGENTA));
         }
         if (PokemonPredicates.IS_ULTRABEAST.test(pokemon)) {
-            message.append(colored(modTranslatable("chiselmon.spawnalert.message.ultra_beast"), ColorUtil.BLUE));
+            message.append(colored(modTranslatable("spawnalert.message.ultra_beast"), ColorUtil.BLUE));
         }
         if (PokemonPredicates.IS_PARADOX.test(pokemon)) {
-            message.append(colored(modTranslatable("chiselmon.spawnalert.message.paradox"), ColorUtil.ORANGE));
+            message.append(colored(modTranslatable("spawnalert.message.paradox"), ColorUtil.ORANGE));
         }
         if (PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             message.append(
                     colored(" (" + StringUtils.formatDecimal(pokemon.getScaleModifier()) + ")", ColorUtil.TEAL));
         }
 
-        message.append(colored(modTranslatable("chiselmon.spawnalert.message.spawned_nearby"), ColorUtil.CORAL));
+        message.append(colored(modTranslatable("spawnalert.message.spawned_nearby"), ColorUtil.CORAL));
         message.append(colored("(" + entity.getOnPos().toShortString() + ")", ColorUtil.AQUA));
 
         return message;

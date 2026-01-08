@@ -9,8 +9,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
 import cc.turtl.chiselmon.config.ModConfig;
 
