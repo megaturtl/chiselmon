@@ -2,6 +2,10 @@
 
 This report provides a comprehensive analysis of the Chiselmon mod, including potential bugs, code quality improvements, performance optimizations, and feature suggestions.
 
+> **Last Updated**: 2026-01-08
+> 
+> **Note**: Items marked with ✅ have been fixed in the dev branch.
+
 ---
 
 ## Table of Contents
@@ -10,6 +14,7 @@ This report provides a comprehensive analysis of the Chiselmon mod, including po
 3. [Code Quality Improvements](#code-quality-improvements)
 4. [Performance & Efficiency Improvements](#performance--efficiency-improvements)
 5. [Feature Suggestions](#feature-suggestions)
+6. [Remaining Code Edits](#remaining-code-edits)
 
 ---
 
@@ -28,167 +33,59 @@ Chiselmon is a well-structured client-side Fabric mod for Cobblemon with the fol
 
 ## Potential Bugs
 
-### 1. Race Condition in `SimpleSpeciesRegistry.loadAsync()`
-**Location**: `src/main/java/cc/turtl/chiselmon/api/SimpleSpeciesRegistry.java:22-59`
+### ✅ 1. Race Condition in `SimpleSpeciesRegistry.loadAsync()`
+**Status**: FIXED in commit 2e561b3
 
-**Issue**: The `loaded` and `isLoading` flags are not properly synchronized, which can lead to race conditions in a multi-threaded environment.
-
-```java
-public static void loadAsync() {
-    if (loaded || isLoading)
-        return;
-    isLoading = true;  // Not atomic with the check above
-    // ...
-}
-```
-
-**Fix**: Use `AtomicBoolean` or synchronize the check-and-set operation:
-
-```java
-private static final AtomicBoolean isLoading = new AtomicBoolean(false);
-private static volatile boolean loaded = false;
-
-public static void loadAsync() {
-    if (!isLoading.compareAndSet(false, true))
-        return;
-    if (loaded) {
-        isLoading.set(false);
-        return;
-    }
-    // ...
-}
-```
+**Location**: `src/main/java/cc/turtl/chiselmon/api/SimpleSpeciesRegistry.java`
 
 ---
 
-### 2. Memory Leak in `NeoDaycareEgg.DUMMY_CACHE`
-**Location**: `src/main/java/cc/turtl/chiselmon/compat/neodaycare/NeoDaycareEgg.java:34`
-
-**Issue**: The `DUMMY_CACHE` is a static `HashMap` that caches dummy Pokemon by UUID, but entries are only removed explicitly via `removeCached()`. If Pokemon are removed from the PC without calling this method, the cache will grow unbounded.
-
-**Fix**: Consider using a `WeakHashMap` or implementing a cache eviction strategy. Also ensure the cache is cleared when connecting to a new world:
-
-```java
-// Add to WorldDataService or handle in disconnect event
-NeoDaycareEgg.clearCache();
-```
+### ✅ 2. Memory Leak in `NeoDaycareEgg.DUMMY_CACHE`
+**Status**: FIXED in commit 6e7db11 - Added cache clearing on world disconnect
 
 ---
 
-### 3. Potential NPE in `PokemonFormatUtil.marks()`
-**Location**: `src/main/java/cc/turtl/chiselmon/api/util/PokemonFormatUtil.java:245-258`
-
-**Issue**: The reflection-based access to `Mark.name` field could fail silently and return `UNKNOWN` without proper error logging.
-
-```java
-try {
-    Field nameField = Mark.class.getDeclaredField("name");
-    nameField.setAccessible(true);
-    // ...
-} catch (Exception e) {
-    return UNKNOWN;  // Silent failure
-}
-```
-
-**Fix**: Add logging for debugging purposes:
-
-```java
-} catch (Exception e) {
-    Chiselmon.getLogger().debug("Failed to access Mark name field: {}", e.getMessage());
-    return UNKNOWN;
-}
-```
+### ✅ 3. Potential NPE in `PokemonFormatUtil.marks()`
+**Status**: FIXED in commit 6e7db11 - Added debug logging
 
 ---
 
-### 4. Incorrect Component Equality Check
-**Location**: `src/main/java/cc/turtl/chiselmon/util/ComponentFormatUtil.java:48`
-
-**Issue**: Reference equality (`!=`) is used to check if a component is empty, which may not work correctly for all Component implementations.
-
-```java
-if (mappedComponent != Component.empty()) {
-```
-
-**Fix**: Use a content-based check:
-
-```java
-if (mappedComponent != null && !mappedComponent.getString().isEmpty()) {
-```
+### ✅ 4. Incorrect Component Equality Check
+**Status**: FIXED in commit 6e7db11
 
 ---
 
-### 5. Missing Null Check in `PCTabManager.createTabButtons()`
-**Location**: `src/main/java/cc/turtl/chiselmon/feature/pc/tab/PCTabManager.java:40`
-
-**Issue**: `clientBoxes.get(targetBoxNumber).getName()` could throw an `IndexOutOfBoundsException` if `targetBoxNumber` equals `clientBoxes.size()`.
-
-```java
-if (clientBoxes.size() < targetBoxNumber) {  // Should be <=
-    continue;
-}
-```
-
-**Fix**: Change the condition:
-
-```java
-if (targetBoxNumber >= clientBoxes.size()) {
-    continue;
-}
-```
+### ✅ 5. Missing Null Check in `PCTabManager.createTabButtons()`
+**Status**: FIXED in commit 6e7db11
 
 ---
 
-### 6. Hardcoded Text in UI Components
-**Location**: Multiple files including `PCBookmarkButton.java:28-29`
-
-**Issue**: UI text is hardcoded rather than using translation keys, violating the TODO item to "make all text translatable."
-
-```java
-private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.literal("Remove Bookmark"));
-private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.literal("Add Bookmark"));
-```
-
-**Fix**: Use translation keys:
-
-```java
-private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.translatable("chiselmon.tooltip.bookmark.remove"));
-private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.translatable("chiselmon.tooltip.bookmark.add"));
-```
+### ✅ 6. Hardcoded Text in UI Components
+**Status**: FIXED in commit 6e7db11 - Added translation keys
 
 ---
 
-### 7. Moon Ball Time Range Check Error
-**Location**: `src/main/java/cc/turtl/chiselmon/api/capture/BallBonusEstimator.java:151`
-
-**Issue**: The time check `time > 24000` is always false since `time = ctx.level.getDayTime() % 24000` ensures `time` is in range `[0, 23999]`.
-
-```java
-if (time < 12000 || time > 24000)  // Should be time >= 24000 or removed entirely
-    return BASE_BONUS;
-```
-
-**Fix**:
-
-```java
-if (time < 12000)  // Only check for daytime
-    return BASE_BONUS;
-```
+### ✅ 7. Moon Ball Time Range Check Error
+**Status**: FIXED in commit 6e7db11
 
 ---
 
 ### 8. Potential Stale Data in `StorageSlotTooltipState`
+**Status**: PENDING
+
 **Location**: `src/main/java/cc/turtl/chiselmon/feature/pc/StorageSlotTooltipState.java`
 
 **Issue**: This static state holder could potentially hold stale references to `StorageSlot` objects across screen changes.
 
-**Fix**: Clear state in screen close/init events, or make it an instance field on the screen.
+**Fix**: Clear state in screen close/init events. See [Remaining Code Edits](#remaining-code-edits) section below.
 
 ---
 
 ## Code Quality Improvements
 
 ### 1. Extract Constants for Magic Numbers
+**Status**: PENDING
+
 **Location**: Various files
 
 **Examples**:
@@ -196,109 +93,53 @@ if (time < 12000)  // Only check for daytime
 - `PokeRodBaitOverlay.java`: Magic numbers like `54`, `14`, `16`, `3`
 - `PcEggRenderer.java`: `23`, `25`, `5F`
 
-**Recommendation**: Define named constants with clear descriptions:
-
-```java
-private static final float LOVE_BALL_SAME_SPECIES_MULTIPLIER = 8.0f;
-private static final float LOVE_BALL_OPPOSITE_GENDER_MULTIPLIER = 2.5f;
-```
+**Recommendation**: Define named constants with clear descriptions. See [Remaining Code Edits](#remaining-code-edits).
 
 ---
 
-### 2. Reduce Code Duplication in Predicates
-**Location**: `src/main/java/cc/turtl/chiselmon/api/predicate/PokemonPredicates.java:22-45`
-
-**Issue**: The label-checking predicates (`IS_LEGENDARY`, `IS_MYTHICAL`, `IS_ULTRABEAST`, `IS_PARADOX`) share nearly identical logic.
-
-**Fix**: Create a helper method:
-
-```java
-private static Predicate<Pokemon> hasLabel(String label) {
-    return pokemon -> {
-        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
-        return species != null && species.labels.contains(label);
-    };
-}
-
-public static final Predicate<Pokemon> IS_LEGENDARY = hasLabel("legendary");
-public static final Predicate<Pokemon> IS_MYTHICAL = hasLabel("mythical");
-// etc.
-```
+### ✅ 2. Reduce Code Duplication in Predicates
+**Status**: FIXED in commit 6e7db11 - Added `hasLabel()` helper method
 
 ---
 
-### 3. Use Enum for Alert Sound Profiles
-**Location**: `src/main/java/cc/turtl/chiselmon/feature/spawnalert/AlertManager.java:120-128`
-
-**Issue**: Sound profiles are defined as a Map but could be more cleanly integrated into the `AlertPriority` enum itself.
-
-**Fix**: Add sound profile as a field in `AlertPriority`:
-
-```java
-public enum AlertPriority {
-    NONE(0, null),
-    CUSTOM(1, new AlertSoundProfile(SoundEvents.NOTE_BLOCK_PLING.value(), 1.18f, 1.0f)),
-    // etc.
-    
-    public final int weight;
-    public final AlertSoundProfile soundProfile;
-}
-```
+### ✅ 3. Use Enum for Alert Sound Profiles
+**Status**: FIXED in commit 6e7db11 - Moved sound profiles to `AlertPriority` enum
 
 ---
 
 ### 4. Improve Resource Management
+**Status**: PENDING (Optional improvement)
+
 **Location**: `src/main/java/cc/turtl/chiselmon/api/SimpleSpeciesRegistry.java:33-48`
-
-**Issue**: The try-with-resources could be structured more cleanly and error handling could be more specific.
-
-**Fix**:
-
-```java
-try (Stream<Path> walk = Files.walk(speciesRoot)) {
-    walk.filter(p -> p.toString().endsWith(".json"))
-        .forEach(this::loadSpeciesFile);
-} catch (IOException e) {
-    Chiselmon.getLogger().error("Failed to walk Cobblemon species directory", e);
-}
-
-private void loadSpeciesFile(Path path) {
-    try (Reader reader = Files.newBufferedReader(path)) {
-        // ...
-    } catch (JsonSyntaxException e) {
-        Chiselmon.getLogger().warn("Invalid JSON in {}: {}", path.getFileName(), e.getMessage());
-    } catch (IOException e) {
-        Chiselmon.getLogger().error("Failed to read {}", path.getFileName(), e);
-    }
-}
-```
 
 ---
 
 ### 5. Add Null Safety Annotations
-**Location**: Throughout the codebase
+**Status**: PENDING (Optional improvement)
 
-**Issue**: Inconsistent use of `@NotNull` and `@Nullable` annotations.
+**Location**: Throughout the codebase
 
 **Recommendation**: Add JetBrains annotations to all public API methods for better IDE support and null safety.
 
 ---
 
 ### 6. Consolidate Mixin Classes
+**Status**: PENDING (Optional refactoring)
+
 **Location**: `src/main/java/cc/turtl/chiselmon/mixin/pc/`
 
-**Issue**: There are duplicate class names (`StorageSlotMixin.java`) in different packages, which can be confusing. Also, both `pc.sort.PCGUIMixin` and `pc.tab.PCGUIMixin` exist for the same target class.
+**Issue**: There are duplicate class names (`StorageSlotMixin.java`) in different packages. Also, both `pc.sort.PCGUIMixin` and `pc.tab.PCGUIMixin` exist for the same target class.
 
-**Recommendation**: Consolidate mixins for the same target class or use clear naming conventions like `PCGUISortMixin` and `PCGUITabMixin`.
+**Recommendation**: Use clear naming conventions like `PCGUISortMixin` and `PCGUITabMixin`.
 
 ---
 
 ### 7. Use Builder Pattern for Complex Configuration
+**Status**: PENDING (Optional improvement)
+
 **Location**: `src/main/java/cc/turtl/chiselmon/api/capture/BallBonusEstimator.java:293-310`
 
 **Issue**: The `CaptureContext` class has a long constructor with many parameters.
-
-**Fix**: Consider using a builder pattern for better readability.
 
 ---
 
@@ -475,16 +316,194 @@ public static float calculatePcFullness(ClientPC pc) {
 
 ## Summary
 
-The Chiselmon codebase is well-organized and follows good practices overall. The main areas for improvement are:
+The Chiselmon codebase is well-organized and follows good practices overall. Many issues from the original report have been addressed in commits 2e561b3 and 6e7db11. The remaining areas for improvement are:
 
-1. **Thread safety** in the species registry
-2. **Memory management** for caches
-3. **Internationalization** of hardcoded strings
-4. **Code deduplication** in predicates and configurations
-5. **Performance optimization** through caching and reduced allocations
-
-The mod has a solid foundation for additional features, and the modular architecture makes it easy to add new functionality.
+1. ~~**Thread safety** in the species registry~~ ✅ Fixed
+2. ~~**Memory management** for caches~~ ✅ Fixed
+3. ~~**Internationalization** of hardcoded strings~~ ✅ Fixed
+4. ~~**Code deduplication** in predicates and configurations~~ ✅ Fixed
+5. **Performance optimization** through caching (type effectiveness) - Optional
+6. **Stale state** in StorageSlotTooltipState - Pending
 
 ---
 
-*Report generated: 2026-01-07*
+## Remaining Code Edits
+
+This section contains specific code changes for items that haven't been addressed yet.
+
+### 1. Fix Stale State in `StorageSlotTooltipState`
+
+**File**: `src/main/java/cc/turtl/chiselmon/feature/pc/StorageSlotTooltipState.java`
+
+The static state could hold stale references. Add a method to also clear mouse coordinates and ensure it's called from the mixin when the screen closes.
+
+**Current Code**:
+```java
+public static void clear() {
+    hoveredSlot = null;
+}
+```
+
+**Replace with**:
+```java
+public static void clear() {
+    hoveredSlot = null;
+    tooltipMouseX = 0;
+    tooltipMouseY = 0;
+}
+```
+
+Then ensure `StorageSlotTooltipState.clear()` is called when PCGUI is closed. Add this to one of the PCGUI mixins:
+
+```java
+@Inject(method = "removed", at = @At("HEAD"))
+private void chiselmon$clearTooltipStateOnClose(CallbackInfo ci) {
+    StorageSlotTooltipState.clear();
+}
+```
+
+---
+
+### 2. Add Type Effectiveness Caching (Performance)
+
+**File**: `src/main/java/cc/turtl/chiselmon/api/util/TypeEffectivenessUtil.java`
+
+Add caching to avoid recalculating super effective types on every Jade tooltip render.
+
+**Add these imports**:
+```java
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
+```
+
+**Add this field after the TYPE_INDICES map**:
+```java
+// Cache for super effective type lookups
+private static final Map<Set<ElementalType>, List<ElementalType>> SUPER_EFFECTIVE_CACHE = 
+    new ConcurrentHashMap<>();
+```
+
+**Replace `getSuperEffectiveTypes(Iterable<ElementalType> defenders)` method**:
+```java
+public static List<ElementalType> getSuperEffectiveTypes(Iterable<ElementalType> defenders) {
+    if (defenders == null) {
+        return List.of();
+    }
+    
+    // Convert to Set for cache key
+    Set<ElementalType> key;
+    if (defenders instanceof Set) {
+        key = (Set<ElementalType>) defenders;
+    } else if (defenders instanceof Collection) {
+        key = new HashSet<>((Collection<? extends ElementalType>) defenders);
+    } else {
+        key = new HashSet<>();
+        defenders.forEach(key::add);
+    }
+    
+    return SUPER_EFFECTIVE_CACHE.computeIfAbsent(key, k -> 
+        ElementalTypes.all().stream()
+            .filter(type -> isSuperEffective(type, k))
+            .toList()
+    );
+}
+```
+
+---
+
+### 3. Extract Magic Numbers in BallBonusEstimator (Optional)
+
+**File**: `src/main/java/cc/turtl/chiselmon/api/capture/BallBonusEstimator.java`
+
+Add named constants for ball multipliers at the top of the class:
+
+```java
+// --- Ball Multiplier Constants ---
+private static final float BASE_BONUS = 1.0f;
+private static final float MASTER_BONUS = 999.0f;
+private static final float NET_BALL_MULTIPLIER = 3.0f;
+
+// Love Ball
+private static final float LOVE_BALL_SAME_SPECIES = 8.0f;
+private static final float LOVE_BALL_OPPOSITE_GENDER = 2.5f;
+
+// Park Ball
+private static final float PARK_BALL_TEMPERATE = 2.5f;
+
+// Moon Ball
+private static final float MOON_BALL_FULL_MOON = 4.0f;
+private static final float MOON_BALL_GIBBOUS = 2.5f;
+private static final float MOON_BALL_HALF = 1.5f;
+
+// Heavy Ball
+private static final float HEAVY_BALL_TIER3 = 4.0f;
+private static final float HEAVY_BALL_TIER2 = 2.5f;
+private static final float HEAVY_BALL_TIER1 = 1.5f;
+private static final float HEAVY_WEIGHT_TIER3 = 3000f;
+private static final float HEAVY_WEIGHT_TIER2 = 2000f;
+private static final float HEAVY_WEIGHT_TIER1 = 1000f;
+
+// Dusk Ball
+private static final float DUSK_BALL_DARK = 3.5f;
+private static final float DUSK_BALL_DIM = 3.0f;
+private static final int DUSK_BRIGHTNESS_THRESHOLD = 7;
+
+// Level Ball
+private static final float LEVEL_BALL_4X = 4.0f;
+private static final float LEVEL_BALL_3X = 3.0f;
+private static final float LEVEL_BALL_2X = 2.0f;
+
+// Repeat Ball
+private static final float REPEAT_BALL_CAUGHT = 3.5f;
+
+// Timer Ball
+private static final float TIMER_BALL_MAX = 4.0f;
+private static final float TIMER_BALL_MULTIPLIER = 1229F / 4096F;
+
+// Quick Ball
+private static final float QUICK_BALL_TURN1 = 5.0f;
+
+// Safari Ball
+private static final float SAFARI_BALL_PASSIVE = 1.5f;
+
+// Fast Ball
+private static final float FAST_BALL_FAST = 4.0f;
+private static final int FAST_SPEED_THRESHOLD = 100;
+
+// Lure Ball
+private static final float LURE_BALL_FISHED = 4.0f;
+
+// Dive Ball
+private static final float DIVE_BALL_UNDERWATER = 3.5f;
+
+// Dream Ball
+private static final float DREAM_BALL_ASLEEP = 4.0f;
+
+// Beast Ball
+private static final float BEAST_BALL_UB = 5.0f;
+```
+
+---
+
+### 4. Rename Duplicate Mixin Classes (Optional Refactoring)
+
+**Current structure**:
+```
+mixin/pc/StorageSlotMixin.java           
+mixin/pc/tooltip/StorageSlotMixin.java   <- Duplicate name!
+mixin/pc/sort/PCGUIMixin.java
+mixin/pc/tab/PCGUIMixin.java             <- Duplicate name!
+```
+
+**Suggested renames**:
+- `mixin/pc/StorageSlotMixin.java` → `mixin/pc/StorageSlotIconMixin.java`
+- `mixin/pc/tooltip/StorageSlotMixin.java` → `mixin/pc/tooltip/StorageSlotTooltipMixin.java`
+- `mixin/pc/sort/PCGUIMixin.java` → `mixin/pc/sort/PCGUISortMixin.java`
+- `mixin/pc/tab/PCGUIMixin.java` → `mixin/pc/tab/PCGUITabMixin.java`
+
+Remember to update `chiselmon.mixins.json` accordingly.
+
+---
+
+*Report updated: 2026-01-08*
