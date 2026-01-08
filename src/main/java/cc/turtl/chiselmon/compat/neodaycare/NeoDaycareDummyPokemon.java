@@ -15,16 +15,13 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         this.originalPokemon = eggData.getOriginalPokemon();
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
-        // 1. Identity & Base Properties
         setUuid(originalPokemon.getUuid());
         setFeatures(egg.getFeatures());
         setAbility$common(egg.getAbility());
         
-        // 2. Species & Form (Triggers model change)
         setSpecies(egg.getSpecies());
         setForm(egg.getForm());
 
-        // 3. Visuals & Stats
         setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
         setLevel(egg.getLevel());
         setScaleModifier(egg.getScaleModifier());
@@ -33,7 +30,6 @@ public class NeoDaycareDummyPokemon extends Pokemon {
         setNature(egg.getNature());
         setTeraType(egg.getTeraType());
 
-        // 4. IVs (Direct set to avoid unnecessary recalculations)
         getIvs().doWithoutEmitting(() -> {
             for (Stat stat : Stats.Companion.getPERMANENT()) {
                 getIvs().set(stat, egg.getIvs().get(stat));
@@ -41,7 +37,6 @@ public class NeoDaycareDummyPokemon extends Pokemon {
             return null;
         });
 
-        // 5. Moves
         getMoveSet().doWithoutEmitting(() -> {
             egg.getMoveSet().forEach(move -> {
                 if (move != null) {
@@ -51,13 +46,12 @@ public class NeoDaycareDummyPokemon extends Pokemon {
             return null;
         });
 
-        // 6. Metadata
         if (egg.getCaughtBall() != null) {
             setCaughtBall(egg.getCaughtBall());
         }
         setTradeable(egg.isTradeable());
 
-        // 7. Aspect Logic (For Chiselmon compatibility)
+        // Aspect for compatibility with other features
         setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
         updateAspects();
     }
