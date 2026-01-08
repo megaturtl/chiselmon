@@ -11,7 +11,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import cc.turtl.chiselmon.mixin.accessor.EntityAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.sounds.SoundEvents;
 
 public class AlertManager {
     private final Map<UUID, TrackedPokemon> trackedPokemon = new LinkedHashMap<>();
@@ -117,18 +116,8 @@ public class AlertManager {
         this.soundDelayTicks = config.soundDelay;
     }
 
-    private final Map<AlertPriority, AlertSoundProfile> soundProfiles = Map.of(
-            AlertPriority.LEGENDARY, new AlertSoundProfile(
-                    SoundEvents.PLAYER_LEVELUP, 1.0f, 0.8f),
-            AlertPriority.SHINY, new AlertSoundProfile(
-                    SoundEvents.EXPERIENCE_ORB_PICKUP, 1.0f, 0.8f),
-            AlertPriority.SIZE, new AlertSoundProfile(
-                    SoundEvents.NOTE_BLOCK_BIT.value(), 1.0f, 1.0f),
-            AlertPriority.CUSTOM, new AlertSoundProfile(
-                    SoundEvents.NOTE_BLOCK_PLING.value(), 1.18f, 1.0f));
-
     private void playSound(AlertPriority priority) {
-        AlertSoundProfile profile = soundProfiles.get(priority);
+        AlertSoundProfile profile = priority.soundProfile;
         if (profile == null)
             return;
 

@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.SimpleSpecies;
 import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.predicate.MovePredicates;
@@ -253,6 +254,7 @@ public final class PokemonFormatUtil {
 
                         return colored(nameComponent, Integer.parseInt(mark.getTitleColour(), 16));
                     } catch (Exception e) {
+                        Chiselmon.getLogger().error("Failed to access Mark name field: {}", e.getMessage());
                         return UNKNOWN;
                     }
                 });

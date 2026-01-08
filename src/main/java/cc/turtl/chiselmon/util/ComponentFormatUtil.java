@@ -5,6 +5,8 @@ import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import cc.turtl.chiselmon.ChiselmonConstants;
+
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -14,6 +16,10 @@ import java.util.function.Function;
 public class ComponentFormatUtil {
 
     public static final Component UNKNOWN = colored("???", ColorUtil.DARK_GRAY);
+
+    public static MutableComponent translatable(String key) {
+        return Component.translatable(ChiselmonConstants.MODID + "." + key);
+    }
 
     public static MutableComponent colored(String text, int color) {
         return Component.literal(text).withColor(color);
@@ -45,7 +51,7 @@ public class ComponentFormatUtil {
 
             // Only append separator if it's not the first item and the mapped component
             // isn't empty/null
-            if (mappedComponent != Component.empty()) {
+            if (mappedComponent != null && !mappedComponent.getString().isEmpty()) {
                 if (!first) {
                     result.append(separator);
                 }

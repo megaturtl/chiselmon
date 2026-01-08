@@ -148,7 +148,7 @@ public class BallBonusEstimator {
     // Moon Ball: Time (12k-24k) and Moon Phase
     private static float calculateMoonBall(CaptureContext ctx) {
         long time = ctx.level.getDayTime() % 24000;
-        if (time < 12000 || time > 24000)
+        if (time < 12000)
             return BASE_BONUS;
 
         return switch (ctx.level.getMoonPhase()) {

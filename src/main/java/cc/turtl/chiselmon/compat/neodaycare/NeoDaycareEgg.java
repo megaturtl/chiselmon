@@ -11,6 +11,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import com.cobblemon.mod.common.util.DataKeys;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import cc.turtl.chiselmon.Chiselmon;
@@ -21,17 +23,51 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures;
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureProvider;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class NeoDaycareEgg {
     private static final String EGG_SPECIES = "neodaycare:egg_species";
     public static final String DUMMY_ASPECT = "neoDaycareEggDummy";
 
     // Cache of dummy Pokemon by original Pokemon UUID
-    private static final Map<UUID, NeoDaycareDummyPokemon> DUMMY_CACHE = new HashMap<>();
+    private record CacheEntry(NeoDaycareDummyPokemon dummy, int lastSteps, int lastCycle) {
+    }
+
+    private static final Cache<UUID, CacheEntry> DUMMY_CACHE = CacheBuilder.newBuilder()
+            .maximumSize(1000)
+            .expireAfterAccess(15, TimeUnit.MINUTES)
+            .build();
+
+    public static Pokemon getDummyOrOriginal(Pokemon pokemon) {
+        if (pokemon == null)
+            return null;
+
+        ModConfig config = Chiselmon.services().config().get();
+        if (Chiselmon.isDisabled() || !config.pc.showEggPreview || !isEgg(pokemon)) {
+            return pokemon;
+        }
+
+        UUID uuid = pokemon.getUuid();
+        CompoundTag tag = pokemon.getPersistentData();
+        int currentSteps = tag.getInt("Steps");
+        int currentCycle = tag.getInt("Cycle");
+
+        CacheEntry entry = DUMMY_CACHE.getIfPresent(uuid);
+
+        // If cached AND the hatch progress hasn't changed, return the cached dummy
+        if (entry != null && entry.lastSteps() == currentSteps && entry.lastCycle() == currentCycle) {
+            return entry.dummy();
+        }
+
+        // Otherwise, create/re-create the dummy and update the cache
+        NeoDaycareEgg eggData = from(pokemon);
+        NeoDaycareDummyPokemon dummy = new NeoDaycareDummyPokemon(eggData);
+
+        DUMMY_CACHE.put(uuid, new CacheEntry(dummy, currentSteps, currentCycle));
+        return dummy;
+    }
 
     private int cycle;
     private int speciesCycles;
@@ -73,35 +109,12 @@ public class NeoDaycareEgg {
         return new NeoDaycareEgg(pokemon);
     }
 
-    public static Pokemon getDummyOrOriginal(Pokemon pokemon) {
-        if (pokemon == null)
-            return null;
-
-        ModConfig config = Chiselmon.services().config().get();
-        if (Chiselmon.isDisabled() || !config.pc.showEggPreview || !isEgg(pokemon)) {
-            return pokemon;
-        }
-
-        // Check cache first - reuse existing dummy if available
-        UUID pokemonUuid = pokemon.getUuid();
-        NeoDaycareDummyPokemon cached = DUMMY_CACHE.get(pokemonUuid);
-        if (cached != null) {
-            return cached;
-        }
-
-        // Create new dummy and cache it
-        NeoDaycareEgg eggData = from(pokemon);
-        NeoDaycareDummyPokemon dummy = new NeoDaycareDummyPokemon(eggData);
-        DUMMY_CACHE.put(pokemonUuid, dummy);
-        return dummy;
-    }
-
     public static void clearCache() {
-        DUMMY_CACHE.clear();
+        DUMMY_CACHE.invalidateAll();
     }
 
     public static void removeCached(UUID pokemonUuid) {
-        DUMMY_CACHE.remove(pokemonUuid);
+        DUMMY_CACHE.invalidate(pokemonUuid);
     }
 
     public float getHatchCompletion() {

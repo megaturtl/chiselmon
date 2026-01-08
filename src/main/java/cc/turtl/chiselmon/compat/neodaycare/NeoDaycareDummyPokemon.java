@@ -3,37 +3,37 @@ package cc.turtl.chiselmon.compat.neodaycare;
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import net.minecraft.network.chat.Component;
-
 import java.util.Set;
 
 public class NeoDaycareDummyPokemon extends Pokemon {
     private final Pokemon originalPokemon;
+    private final NeoDaycareEgg eggData;
 
     public NeoDaycareDummyPokemon(NeoDaycareEgg eggData) {
+        this.eggData = eggData;
         this.originalPokemon = eggData.getOriginalPokemon();
         NeoDaycareEgg.Egg egg = eggData.getEgg();
 
-        // Follow the ordering from Pokemon.copyFrom()
-
-        // Keep uuid of the original egg pokemon
+        // 1. Identity & Base Properties
         setUuid(originalPokemon.getUuid());
-
-        // set features first maybe?
         setFeatures(egg.getFeatures());
-
-        // Set ability before species/form
         setAbility$common(egg.getAbility());
-
-        // Set species, then form
+        
+        // 2. Species & Form (Triggers model change)
         setSpecies(egg.getSpecies());
         setForm(egg.getForm());
 
+        // 3. Visuals & Stats
         setNickname(Component.literal("(EGG) " + egg.getSpecies().getName()));
         setLevel(egg.getLevel());
+        setScaleModifier(egg.getScaleModifier());
+        setShiny(egg.isShiny());
+        setGender(egg.getGender());
+        setNature(egg.getNature());
+        setTeraType(egg.getTeraType());
 
-        // Set IVs (using doWithoutEmitting pattern like copyFrom)
+        // 4. IVs (Direct set to avoid unnecessary recalculations)
         getIvs().doWithoutEmitting(() -> {
             for (Stat stat : Stats.Companion.getPERMANENT()) {
                 getIvs().set(stat, egg.getIvs().get(stat));
@@ -41,7 +41,7 @@ public class NeoDaycareDummyPokemon extends Pokemon {
             return null;
         });
 
-        setGender(egg.getGender());
+        // 5. Moves
         getMoveSet().doWithoutEmitting(() -> {
             egg.getMoveSet().forEach(move -> {
                 if (move != null) {
@@ -50,30 +50,31 @@ public class NeoDaycareDummyPokemon extends Pokemon {
             });
             return null;
         });
-        setScaleModifier(egg.getScaleModifier());
-        setShiny(egg.isShiny());
 
+        // 6. Metadata
         if (egg.getCaughtBall() != null) {
             setCaughtBall(egg.getCaughtBall());
         }
-
-        setNature(egg.getNature());
-        setTeraType(egg.getTeraType());
         setTradeable(egg.isTradeable());
 
+        // 7. Aspect Logic (For Chiselmon compatibility)
         setForcedAspects(Set.of(NeoDaycareEgg.DUMMY_ASPECT));
         updateAspects();
     }
 
     public int getStepsRemaining() {
-        return NeoDaycareEgg.from(originalPokemon).getStepsRemaining();
+        return eggData.getStepsRemaining();
     }
 
     public float getHatchCompletion() {
-        return NeoDaycareEgg.from(originalPokemon).getHatchCompletion();
+        return eggData.getHatchCompletion();
     }
 
     public Pokemon getOriginalPokemon() {
         return originalPokemon;
+    }
+    
+    public NeoDaycareEgg getEggData() {
+        return eggData;
     }
 }

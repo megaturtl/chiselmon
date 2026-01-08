@@ -135,5 +135,9 @@
     "config.jade.plugin_chiselmon.pokesnack_block.effects": "Bait Effects",
 
     "key.categories.chiselmon": "Chiselmon",
-    "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts"
+    "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts",
+
+    "chiselmon.tooltip.bookmark.add": "Add Bookmark",
+    "chiselmon.tooltip.bookmark.remove": "Remove Bookmark"
+
 }

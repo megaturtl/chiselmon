@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 
+import cc.turtl.chiselmon.util.ComponentFormatUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -25,8 +26,8 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
-    private static final Tooltip TOOLTIP_ON = Tooltip.create(Component.literal("Remove Bookmark"));
-    private static final Tooltip TOOLTIP_OFF = Tooltip.create(Component.literal("Add Bookmark"));
+    private static final Tooltip TOOLTIP_ON = Tooltip.create(ComponentFormatUtil.translatable("tooltip.bookmark.remove"));
+    private static final Tooltip TOOLTIP_OFF = Tooltip.create(ComponentFormatUtil.translatable("tooltip.bookmark.add"));
 
     public boolean toggled = false;
 
