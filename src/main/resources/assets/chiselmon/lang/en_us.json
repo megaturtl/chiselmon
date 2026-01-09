@@ -22,8 +22,11 @@
         "text.autoconfig.chiselmon.option.pc.quickSortMode.@Tooltip": "What sort mode to use for quick sort.",
         "text.autoconfig.chiselmon.option.pc.bookmarksEnabled": "Enable Bookmarks",
         "text.autoconfig.chiselmon.option.pc.bookmarksEnabled.@Tooltip": "Allows bookmarking up to 5 PC boxes.",
-        "text.autoconfig.chiselmon.option.pc.showEggPreview": "Show Egg Preview",
-        "text.autoconfig.chiselmon.option.pc.showEggPreview.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
+
+        "text.autoconfig.chiselmon.option.eggPreview.enabled": "Enable Egg Preview",
+        "text.autoconfig.chiselmon.option.eggPreview.enabled.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync": "(EXPERIMENTAL) Attempt Hatch Sync",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically",
 
         "text.autoconfig.chiselmon.option.pc.tooltip": "PC Tooltip Settings",
             "text.autoconfig.chiselmon.option.pc.tooltip.showTooltips": "Show PC Tooltips",
@@ -63,7 +66,7 @@
         "text.autoconfig.chiselmon.option.showPokeRodBaitAboveHotbar.@Tooltip": "Shows current bait info above the hotbar when a Poke Rod is held.",
 
         "text.autoconfig.chiselmon.option.checkSpawnTracker": "Checkspawn Tracker Settings",
-            "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled": "Enable Checkspawn Tracker",
+            "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled": "(EXPERIMENTAL) Enable Checkspawn Tracker",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled.@Tooltip": "Shows the spawn rate of pokemon you're hunting at your current location. WARNING: Sends commands to the server invisibly. Can get you kicked for spamming.",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.pollTickInterval": "Poll Tick Interval",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.pollTickInterval.@Tooltip": "How long to wait between command sends (in game ticks)",
@@ -160,7 +163,6 @@
     "chiselmon.ui.label.ev_yield": "EV Yield: ",
     "chiselmon.ui.label.catch_rate": "Catch Rate: ",
 
-    "chiselmon.spawnalert.message.mute.tooltip": "Click to mute this Pokemon",
     "chiselmon.spawnalert.message.shiny": " (Shiny)",
     "chiselmon.spawnalert.message.legendary": " (Legendary)",
     "chiselmon.spawnalert.message.mythical": " (Mythical)",
@@ -168,6 +170,7 @@
     "chiselmon.spawnalert.message.paradox": " (Paradox)",
     "chiselmon.spawnalert.message.spawned_nearby": " spawned nearby! ",
 
+    "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",
     "chiselmon.spawnalert.mute.success": "All active alerts muted.",
 
     "chiselmon.spawnlogger.action_bar.title": "Spawn Logger: ",

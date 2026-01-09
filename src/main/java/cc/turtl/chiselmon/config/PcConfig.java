@@ -16,9 +16,6 @@ public class PcConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean bookmarksEnabled = true;
 
-    @ConfigEntry.Gui.Tooltip
-    public boolean showEggPreview = false;
-
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
     public PcTooltipConfig tooltip = new PcTooltipConfig();
 

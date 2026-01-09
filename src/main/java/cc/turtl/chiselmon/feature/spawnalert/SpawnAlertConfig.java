@@ -32,7 +32,7 @@ public class SpawnAlertConfig implements ConfigData {
     public boolean alertOnUltraBeast = true;
 
     @ConfigEntry.Gui.Tooltip
-    public boolean alertOnParadox = true;
+    public boolean alertOnParadox = false;
 
     @ConfigEntry.Gui.Tooltip
     public boolean alertOnExtremeSize = false;

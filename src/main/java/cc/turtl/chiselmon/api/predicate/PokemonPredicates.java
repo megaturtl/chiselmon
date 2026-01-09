@@ -13,6 +13,7 @@ import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
 import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {
@@ -81,4 +82,7 @@ public final class PokemonPredicates {
                     .anyMatch(name -> name.equalsIgnoreCase(speciesName));
         };
     }
+
+    public static final Predicate<Pokemon> IS_NEODAYCARE_EGG = pokemon -> NeoDaycareEggDummy.isEgg(pokemon);
+    public static final Predicate<Pokemon> IS_NEODAYCARE_DUMMY = pokemon -> NeoDaycareEggDummy.isDummy(pokemon);
 }

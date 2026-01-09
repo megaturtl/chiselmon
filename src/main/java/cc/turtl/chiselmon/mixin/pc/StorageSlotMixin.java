@@ -4,9 +4,9 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareDummyPokemon;
 import cc.turtl.chiselmon.config.ModConfig;
-import cc.turtl.chiselmon.feature.pc.PcEggRenderer;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.feature.eggpreview.EggPreviewRenderer;
 import cc.turtl.chiselmon.feature.pc.PcIconRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -32,8 +32,8 @@ public abstract class StorageSlotMixin {
         ModConfig config = Chiselmon.services().config().get();
         Pokemon pokemon = getPokemon();
 
-        if (config.pc.showEggPreview && pokemon instanceof NeoDaycareDummyPokemon) {
-            PcEggRenderer.renderEggPreviewElements(context, (NeoDaycareDummyPokemon) pokemon, posX, posY);
+        if (config.eggPreview.enabled && pokemon instanceof NeoDaycareEggDummy) {
+            EggPreviewRenderer.renderStorageSlotElements(context, (NeoDaycareEggDummy) pokemon, posX, posY);
         }
 
         PcIconRenderer.renderIconElements(context, pokemon, posX, posY);

@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.mixin.pc.neodaycare;
+package cc.turtl.chiselmon.mixin.eggpreview;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -10,7 +10,8 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {
@@ -21,8 +22,8 @@ public class ClientPartyMixin {
         if (Chiselmon.isDisabled()) return;
         Pokemon pokemon = cir.getReturnValue();
         // Only create dummy if we're not already returning a dummy
-        if (pokemon != null && !NeoDaycareEgg.isDummy(pokemon)) {
-            Pokemon processed = NeoDaycareEgg.getDummyOrOriginal(pokemon);
+        if (NeoDaycareEggDummy.isEgg(pokemon)) {
+            Pokemon processed = NeoDaycareEggCache.getDummyOrOriginal(pokemon);
             cir.setReturnValue(processed);
         }
     }
