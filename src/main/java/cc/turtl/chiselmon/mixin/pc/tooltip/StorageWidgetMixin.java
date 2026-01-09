@@ -8,10 +8,11 @@ import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentUtil;
+import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -93,8 +94,9 @@ public class StorageWidgetMixin {
             if (config.pc.tooltip.showEggCycles && pokemon instanceof NeoDaycareEggDummy dummy) {
                 MutableComponent eggCyclesLabel = ComponentUtil.modTranslatable("ui.label.egg_cycles");
                 int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
-                tooltip.add(ComponentUtil.labelledValue(eggCyclesLabel, cycles + " (~" +
-                        dummy.getStepsRemaining() + " steps rem.)"));
+                tooltip.add(ComponentUtil.labelledValue(eggCyclesLabel,
+                        dummy.getCyclesCompleted() + "/" + cycles + " ("
+                                + StringUtils.formatPercentage(dummy.getHatchCompletion()) + ")"));
             }
         }
 

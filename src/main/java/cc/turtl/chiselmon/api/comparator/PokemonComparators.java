@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.api.comparator;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 import java.util.Comparator;
 

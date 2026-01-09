@@ -1,11 +1,10 @@
-package cc.turtl.chiselmon.feature.pc;
+package cc.turtl.chiselmon.feature.eggpreview;
 
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;
 import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
 
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
@@ -15,9 +14,9 @@ import org.joml.Quaternionf;
 
 import org.joml.Vector3f;
 
-public final class PcEggRenderer {
+public final class EggPreviewRenderer {
 
-    private PcEggRenderer() {
+    private EggPreviewRenderer() {
     }
 
     private static final float MODEL_SCALE_FACTOR = 5F;
@@ -29,7 +28,7 @@ public final class PcEggRenderer {
     private static final int BAR_COLOR_BACKGROUND = ColorUtil.alphaColor(ColorUtil.DARK_GRAY,1);
     private static final int BAR_COLOR = ColorUtil.alphaColor(ColorUtil.GREEN,1);;
 
-    public static void renderEggPreviewElements(GuiGraphics context, @NotNull NeoDaycareEggDummy egg,
+    public static void renderStorageSlotElements(GuiGraphics context, @NotNull NeoDaycareEggDummy egg,
             int posX, int posY) {
 
         renderProgressBar(context, egg.getHatchCompletion(), posX, posY);

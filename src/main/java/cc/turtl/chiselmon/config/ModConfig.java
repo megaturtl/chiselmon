@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.WorldDataStore;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerConfig;
+import cc.turtl.chiselmon.feature.eggpreview.EggPreviewConfig;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerConfig;
 import me.shedaniel.autoconfig.ConfigData;
@@ -23,6 +24,10 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("pc")
     public PcConfig pc = new PcConfig();
+
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("pc")
+    public EggPreviewConfig eggPreview = new EggPreviewConfig();
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
     public ThresholdConfig threshold = new ThresholdConfig();
