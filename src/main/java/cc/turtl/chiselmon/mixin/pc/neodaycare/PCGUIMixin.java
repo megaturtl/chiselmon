@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.mixin.pc.neodaycare;
 
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggManager;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -20,6 +20,6 @@ public abstract class PCGUIMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void chiselmon$clearDummyCache(CallbackInfo ci) {
-        NeoDaycareEgg.clearCache();
+        NeoDaycareEggManager.clearCache();
     }
 }

@@ -10,7 +10,8 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEggManager;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {
@@ -21,8 +22,8 @@ public class ClientPartyMixin {
         if (Chiselmon.isDisabled()) return;
         Pokemon pokemon = cir.getReturnValue();
         // Only create dummy if we're not already returning a dummy
-        if (pokemon != null && !NeoDaycareEgg.isDummy(pokemon)) {
-            Pokemon processed = NeoDaycareEgg.getDummyOrOriginal(pokemon);
+        if (NeoDaycareEggDummy.isEgg(pokemon)) {
+            Pokemon processed = NeoDaycareEggManager.getDummyOrOriginal(pokemon);
             cir.setReturnValue(processed);
         }
     }
