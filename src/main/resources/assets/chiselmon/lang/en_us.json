@@ -77,7 +77,7 @@
 
     "text.autoconfig.chiselmon.category.spawnAlert": "Spawn Alert Settings",
         "text.autoconfig.chiselmon.option.spawnAlert.enabled": "Enable Spawn Alerts",
-        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Sends a notification and plays a sound when specific pokemon spawn nearby.",
+        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby.",
         
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny": "Alert on Shiny",
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny.@Tooltip": "Triggers an alert when a Shiny pokemon spawns nearby.",
@@ -96,6 +96,21 @@
         
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList": "Alert on Whitelisted",
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList.@Tooltip": "Triggers an alert for any pokemon named in your custom whitelist.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies": "Suppress Plushies",
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Will not fire for level 1 pokemon to exclude plushies from alerts.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage": "Send Chat Message",
+        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage.@Tooltip": "Sends a chat message when an alert is triggered.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage": "Shown Form in Message",
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage.@Tooltip": "Adds the pokemon's form to the alert message.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.playSound": "Play Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.playSound.@Tooltip": "Plays a repeating sound when an alert is triggered.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity": "Highlight Pokemon",
+        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon when an alert is triggered.",
         
         "text.autoconfig.chiselmon.option.spawnAlert.soundVolume": "Sound Volume",
         "text.autoconfig.chiselmon.option.spawnAlert.soundVolume.@Tooltip": "Adjusts the volume of the alert notification sound.",
@@ -108,9 +123,6 @@
 
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist": "Pokemon Blacklist",
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist.@Tooltip": "Suppress alerts from pokemon defined here. Shinies and size variations will still alert.",
-
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity": "Highlight Alerted Pokemon",
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon to locate them easier.",
 
     "text.autoconfig.chiselmon.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.chiselmon.option.spawnLogger.enabled": "Enable Spawn Logger",
@@ -158,7 +170,7 @@
     "chiselmon.ui.label.marks": "Marks: ",
     "chiselmon.ui.label.egg_cycles": "Egg Cycles: ",
     "chiselmon.ui.label.type": "Types: ",
-    "chiselmon.ui.label.effective_types": "SE Types: ",
+    "chiselmon.ui.label.effective_types": "Weak to: ",
     "chiselmon.ui.label.egg_groups": "Egg Groups: ",
     "chiselmon.ui.label.ev_yield": "EV Yield: ",
     "chiselmon.ui.label.catch_rate": "Catch Rate: ",
@@ -176,7 +188,7 @@
     "chiselmon.spawnlogger.action_bar.title": "Spawn Logger: ",
     "chiselmon.spawnlogger.action_bar.spawns": " Spawns, ",
     "chiselmon.spawnlogger.action_bar.elapsed": " elapsed",
-    "chiselmon.spawnlogger.action_bar.paused": "[Paused]",
+    "chiselmon.spawnlogger.action_bar.paused": " [Paused]",
 
     "chiselmon.spawnlogger.report.header": "=== Spawn Logger Report ===",
     "chiselmon.spawnlogger.report.elapsed": "\nTime Elapsed: %s",

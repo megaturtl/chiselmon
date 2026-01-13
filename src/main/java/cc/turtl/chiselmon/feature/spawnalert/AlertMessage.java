@@ -18,17 +18,17 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 public class AlertMessage {
-    public static void sendChatAlert(PokemonEntity entity) {
+    public static void sendChatAlert(PokemonEntity entity, boolean showForm) {
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) {
             return;
         }
 
-        Component message = buildAlertMessage(entity);
+        Component message = buildAlertMessage(entity, showForm);
         client.player.sendSystemMessage(message);
     }
 
-    private static Component buildAlertMessage(PokemonEntity entity) {
+    private static Component buildAlertMessage(PokemonEntity entity, boolean showForm) {
         Pokemon pokemon = entity.getPokemon();
         String speciesName = pokemon.getSpecies().getName();
 
@@ -42,6 +42,14 @@ public class AlertMessage {
                                         ComponentUtil.modTranslatable("spawnalert.mute.tooltip"))));
 
         message.append(colored(speciesName, ColorUtil.CORAL));
+
+        if (showForm) {
+            String formName = pokemon.getForm().getName();
+
+            if (!formName.trim().equalsIgnoreCase("normal")) {
+                message.append(colored("-" + formName, ColorUtil.CORAL));
+            }
+        }
 
         if (PokemonPredicates.IS_SHINY.test(pokemon)) {
             message.append(colored(modTranslatable("spawnalert.message.shiny"), ColorUtil.GOLD));

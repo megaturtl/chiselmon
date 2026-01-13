@@ -6,8 +6,13 @@ Bugs:
 
 High priority:
 - make the quicksort key bindable
+- fix archeops showing as ridable with no ride behaviours (hopefully done)
+- fix morecobblemontweaks not being able to multiselect egg dummies
 
 Nice to have:
+- auto pause logger when exit minecart
+- glow correspond to priority bucket?
+- show loaded pokemon count in the surrounding chunks, and eligible for despawn count?
 - make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
 

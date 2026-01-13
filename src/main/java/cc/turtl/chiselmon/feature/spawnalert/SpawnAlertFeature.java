@@ -123,6 +123,10 @@ public final class SpawnAlertFeature extends AbstractFeature {
             return AlertPriority.NONE;
         }
 
+        if (config.suppressPlushies && pokemonEntity.getPokemon().getLevel() == 1) {
+            return AlertPriority.NONE;
+        }
+
         Pokemon pokemon = pokemonEntity.getPokemon();
 
         // Check shiny and size first - bypasses blacklist

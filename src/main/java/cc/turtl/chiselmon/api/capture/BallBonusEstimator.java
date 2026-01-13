@@ -23,6 +23,8 @@ import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -287,7 +289,7 @@ public class BallBonusEstimator {
     // Beast Ball: 5x for Ultra Beasts, 0.1x otherwise
     private static float calculateBeastBall(CaptureContext ctx) {
         // 0.1x doesn't seem to be programmed into cobblemon yet, using base bonus for now.
-        return ctx.pokemon.isUltraBeast() ? 5.0f : BASE_BONUS;
+        return PokemonPredicates.IS_ULTRABEAST.test(ctx.pokemon) ? 5.0f : BASE_BONUS;
     }
 
     // --- Context Object ---

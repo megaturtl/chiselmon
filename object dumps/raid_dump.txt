@@ -883,9 +883,9 @@
 [21:53:37] [Render thread/INFO]:   faintedTimer: -1 (Type: int)
 [21:53:37] [Render thread/INFO]:   healTimer: 60 (Type: int)
 [21:53:37] [Render thread/INFO]:   tetheringId: null (Type: UUID)
-[21:53:37] [Render thread/INFO]:   originalTrainerType: NONE (Type: OriginalTrainerType)
-[21:53:37] [Render thread/INFO]:   originalTrainer: null (Type: String)
-[21:53:37] [Render thread/INFO]:   originalTrainerName: null (Type: String)
+!!![21:53:37] [Render thread/INFO]:   originalTrainerType: NONE (Type: OriginalTrainerType)
+!!![21:53:37] [Render thread/INFO]:   originalTrainer: null (Type: String)
+!!![21:53:37] [Render thread/INFO]:   originalTrainerName: null (Type: String)
 [21:53:37] [Render thread/INFO]:   benchedMoves: <com.cobblemon.mod.common.api.moves.BenchedMoves> (Type: BenchedMoves)
 [21:53:37] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.moves.BenchedMoves ---
 [21:53:37] [Render thread/INFO]:     Companion: <com.cobblemon.mod.common.api.moves.BenchedMoves$Companion> (Type: Companion)
@@ -956,7 +956,7 @@
 [21:53:37] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.codecs.RecordCodecBuilder$2 ---
 [21:53:37] [Render thread/INFO]:     --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
 [21:53:37] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.abilities.Ability ---
-[21:53:37] [Render thread/INFO]:   scaleModifier: 25.0 (Type: float)
+!!![21:53:37] [Render thread/INFO]:   scaleModifier: 25.0 (Type: float)
 [21:53:37] [Render thread/INFO]:   caughtBall: <com.cobblemon.mod.common.pokeball.PokeBall> (Type: PokeBall)
 [21:53:37] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.pokeball.PokeBall ---
 [21:53:37] [Render thread/INFO]:     Companion: <com.cobblemon.mod.common.pokeball.PokeBall$Companion> (Type: Companion)

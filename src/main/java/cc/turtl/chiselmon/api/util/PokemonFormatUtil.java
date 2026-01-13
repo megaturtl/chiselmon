@@ -225,6 +225,10 @@ public final class PokemonFormatUtil {
 
         Map<RidingStyle, RidingBehaviourSettings> rideStyleBehaviours = pokemon.getRiding().getBehaviours();
 
+        if (rideStyleBehaviours == null) {
+            return UNKNOWN;
+        }
+
         List<Component> rideStyleComponents = createRideStyleComponents(rideStyleBehaviours);
 
         return buildComponentWithSeparator(

@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 
 public class CsvExporter {
     
-    private static final String CSV_HEADER = "Species,Level,Shiny,Special,Extreme Size,Scale Modifier,X,Y,Z,Dimension,Biome,Timestamp";
+    private static final String CSV_HEADER = "Species,Form,Level,Shiny,Special,Extreme Size,Scale Modifier,Snack Spawn,X,Y,Z,Dimension,Biome,Timestamp";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
     
     public static Path exportSession(SpawnLoggerSession session) throws IOException {
@@ -41,11 +41,13 @@ public class CsvExporter {
     private static String formatPokemonAsCsv(LoggedPokemon pokemon) {
         return String.join(",",
             escapeCsvField(pokemon.species()),
+            escapeCsvField(pokemon.form()),
             String.valueOf(pokemon.level()),
             String.valueOf(pokemon.isShiny()),
             String.valueOf(pokemon.isSpecial()),
             String.valueOf(pokemon.isExtremeSize()),
             String.valueOf(pokemon.scaleModifier()),
+            String.valueOf(pokemon.snackSpawn()),
             String.valueOf(pokemon.x()),
             String.valueOf(pokemon.y()),
             String.valueOf(pokemon.z()),
