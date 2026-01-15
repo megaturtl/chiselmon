@@ -85,7 +85,7 @@ public final class SpawnAlertSystem {
         if (state.getLastSoundTick() == now) {
             return;
         }
-        AlertPriority highest = highestPriority();
+        AlertPriority highest = state.highestPriority();
         if (highest != AlertPriority.NONE) {
             sound.play(highest);
         }
@@ -112,22 +112,17 @@ public final class SpawnAlertSystem {
         }
 
         boolean isLegendary = PokemonPredicates.IS_LEGENDARY.test(pokemon) || PokemonPredicates.IS_MYTHICAL.test(pokemon);
-        if (cfg.alertOnLegendary && isLegendary) {
-            if (!PokemonPredicates.isInCustomList(cfg.blacklist).test(pokemon)) {
-                return AlertPriority.LEGENDARY;
-            }
+        boolean allowed = isAllowedAgainstBlacklist(pokemon, cfg);
+        if (cfg.alertOnLegendary && isLegendary && allowed) {
+            return AlertPriority.LEGENDARY;
         }
 
-        if (cfg.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon)) {
-            if (!PokemonPredicates.isInCustomList(cfg.blacklist).test(pokemon)) {
-                return AlertPriority.LEGENDARY;
-            }
+        if (cfg.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon) && allowed) {
+            return AlertPriority.LEGENDARY;
         }
 
-        if (cfg.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon)) {
-            if (!PokemonPredicates.isInCustomList(cfg.blacklist).test(pokemon)) {
-                return AlertPriority.LEGENDARY;
-            }
+        if (cfg.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon) && allowed) {
+            return AlertPriority.LEGENDARY;
         }
 
         boolean whitelisted = cfg.alertOnCustomList && PokemonPredicates.isInCustomList(cfg.whitelist).test(pokemon);
@@ -139,13 +134,7 @@ public final class SpawnAlertSystem {
         return AlertPriority.NONE;
     }
 
-    private AlertPriority highestPriority() {
-        AlertPriority highest = AlertPriority.NONE;
-        for (AlertPriority priority : state.targetsView().values()) {
-            if (priority.weight > highest.weight) {
-                highest = priority;
-            }
-        }
-        return highest;
+    private boolean isAllowedAgainstBlacklist(Pokemon pokemon, SpawnAlertConfig cfg) {
+        return !PokemonPredicates.isInCustomList(cfg.blacklist).test(pokemon);
     }
 }

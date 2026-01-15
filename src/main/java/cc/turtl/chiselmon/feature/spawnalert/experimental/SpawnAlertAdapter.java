@@ -51,15 +51,15 @@ public final class SpawnAlertAdapter {
     }
 
     private void onClientTick(Minecraft client) {
-        SpawnAlertConfig cfg = config.get();
-        if (cfg == null || !cfg.enabled) {
-            return;
-        }
-
         while (muteKey.consumeClick()) {
             Component muted = ComponentUtil.colored(
                     ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN);
             system.onMute(muted);
+        }
+
+        SpawnAlertConfig cfg = config.get();
+        if (cfg == null || !cfg.enabled) {
+            return;
         }
 
         ClientBattle battle = CobblemonClient.INSTANCE.getBattle();
