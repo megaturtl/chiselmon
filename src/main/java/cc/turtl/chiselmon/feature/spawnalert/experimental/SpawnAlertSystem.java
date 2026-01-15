@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.config.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnalert.AlertPriority;
@@ -83,6 +84,10 @@ public final class SpawnAlertSystem {
     }
 
     private AlertPriority getAlertPriority(PokemonEntity pokemonEntity, SpawnAlertConfig cfg) {
+        if (!PokemonEntityPredicates.IS_WILD.test(pokemonEntity)) {
+            return AlertPriority.NONE;
+        }
+
         Pokemon pokemon = pokemonEntity.getPokemon();
 
         if (cfg.suppressPlushies && pokemon.getLevel() == 1) {
