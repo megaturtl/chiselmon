@@ -46,11 +46,16 @@ public final class SpawnAlertAdapter {
         if (!(entity instanceof PokemonEntity pokemonEntity)) {
             return;
         }
-        system.onEntitySpawn(new SpawnAlertSystem.EntitySpawned(entity.getUUID(), pokemonEntity));
+        SpawnAlertConfig cfg = config.get();
+        if (cfg == null || !cfg.enabled) {
+            return;
+        }
+        system.onEntitySpawn(new SpawnAlertSystem.EntitySpawned(entity.getUUID(), pokemonEntity), cfg);
     }
 
     private void onClientTick(Minecraft client) {
-        if (!config.get().enabled) {
+        SpawnAlertConfig cfg = config.get();
+        if (cfg == null || !cfg.enabled) {
             return;
         }
 

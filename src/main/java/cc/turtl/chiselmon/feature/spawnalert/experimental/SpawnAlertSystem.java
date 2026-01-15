@@ -52,7 +52,10 @@ public final class SpawnAlertSystem {
     }
 
     public void onEntitySpawn(EntitySpawned evt) {
-        SpawnAlertConfig cfg = config.get();
+        onEntitySpawn(evt, config.get());
+    }
+
+    public void onEntitySpawn(EntitySpawned evt, SpawnAlertConfig cfg) {
         if (cfg == null || !cfg.enabled) {
             return;
         }
@@ -79,7 +82,10 @@ public final class SpawnAlertSystem {
         if (state.getLastSoundTick() == now) {
             return;
         }
-        state.targetsView().values().forEach(sound::play);
+        AlertPriority highest = highestPriority();
+        if (highest != AlertPriority.NONE) {
+            sound.play(highest);
+        }
         state.setLastSoundTick(now);
     }
 
@@ -128,5 +134,15 @@ public final class SpawnAlertSystem {
         }
 
         return AlertPriority.NONE;
+    }
+
+    private AlertPriority highestPriority() {
+        AlertPriority highest = AlertPriority.NONE;
+        for (AlertPriority priority : state.targetsView().values()) {
+            if (priority.weight > highest.weight) {
+                highest = priority;
+            }
+        }
+        return highest;
     }
 }
