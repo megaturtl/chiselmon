@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.util;
 
-import static cc.turtl.chiselmon.util.ComponentFormatUtil.*;
+import static cc.turtl.chiselmon.util.ComponentUtil.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,8 +20,10 @@ import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.api.SimpleSpecies;
+import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.TypeEffectivenessCache;
 import cc.turtl.chiselmon.api.predicate.MovePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
@@ -142,7 +144,7 @@ public final class PokemonFormatUtil {
         if (pokemon == null)
             return UNKNOWN;
 
-        List<ElementalType> superEffectiveTypes = TypeEffectivenessUtil.getSuperEffectiveTypes(pokemon.getTypes());
+        List<ElementalType> superEffectiveTypes = TypeEffectivenessCache.getSuperEffectiveTypes(pokemon.getTypes());
 
         if (superEffectiveTypes.isEmpty()) {
             return UNKNOWN;
@@ -223,6 +225,10 @@ public final class PokemonFormatUtil {
 
         Map<RidingStyle, RidingBehaviourSettings> rideStyleBehaviours = pokemon.getRiding().getBehaviours();
 
+        if (rideStyleBehaviours == null) {
+            return UNKNOWN;
+        }
+
         List<Component> rideStyleComponents = createRideStyleComponents(rideStyleBehaviours);
 
         return buildComponentWithSeparator(
@@ -253,6 +259,7 @@ public final class PokemonFormatUtil {
 
                         return colored(nameComponent, Integer.parseInt(mark.getTitleColour(), 16));
                     } catch (Exception e) {
+                        Chiselmon.getLogger().error("Failed to access Mark name field: {}", e.getMessage());
                         return UNKNOWN;
                     }
                 });

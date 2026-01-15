@@ -9,32 +9,30 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
 import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {
     }
 
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
-    public static final Predicate<Pokemon> IS_LEGENDARY = pokemon -> {
-        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
-        return species.labels.contains("legendary");
-    };
-    public static final Predicate<Pokemon> IS_MYTHICAL = pokemon -> {
-        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
-        return species.labels.contains("mythical");
-    };
-    public static final Predicate<Pokemon> IS_ULTRABEAST = pokemon -> {
-        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
-        return species.labels.contains("ultra_beast");
-    };
-    public static final Predicate<Pokemon> IS_PARADOX = pokemon -> {
-        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
-        return species.labels.contains("paradox");
-    };
+
+    private static Predicate<Pokemon> hasLabel(String label) {
+        return pokemon -> {
+            SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+            return species != null && species.labels.contains(label);
+        };
+    }
+
+    public static final Predicate<Pokemon> IS_LEGENDARY = hasLabel("legendary");
+    public static final Predicate<Pokemon> IS_MYTHICAL = hasLabel("mythical");
+    public static final Predicate<Pokemon> IS_ULTRABEAST = hasLabel("ultra_beast");
+    public static final Predicate<Pokemon> IS_PARADOX = hasLabel("paradox");
+
     public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST).or(IS_PARADOX);
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
@@ -61,7 +59,7 @@ public final class PokemonPredicates {
 
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 
-    public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !pokemon.getRiding().getSeats().isEmpty();
+    public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !(pokemon.getRiding().getBehaviours() == null);
 
     public static final Predicate<Pokemon> HAS_SELF_DAMAGING_MOVE = pokemon -> {
         Set<MoveTemplate> possibleMoves = PokemonCalcUtil.getPossibleMoves(pokemon, true);
@@ -84,4 +82,7 @@ public final class PokemonPredicates {
                     .anyMatch(name -> name.equalsIgnoreCase(speciesName));
         };
     }
+
+    public static final Predicate<Pokemon> IS_NEODAYCARE_EGG = pokemon -> NeoDaycareEggDummy.isEgg(pokemon);
+    public static final Predicate<Pokemon> IS_NEODAYCARE_DUMMY = pokemon -> NeoDaycareEggDummy.isDummy(pokemon);
 }

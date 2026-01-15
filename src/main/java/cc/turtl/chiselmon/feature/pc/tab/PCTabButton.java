@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.cobblemon.mod.common.CobblemonSounds;
 
 import cc.turtl.chiselmon.util.ColorUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.TextRenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -36,7 +37,8 @@ public class PCTabButton extends Button {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, boxName, onPress, DEFAULT_NARRATION);
         this.forBox = forBox;
         this.tooltip = Tooltip
-                .create(Component.literal("Jump to " + this.getMessage().getString() + " (pg. " + (this.forBox + 1) + ")"));
+                .create(ComponentUtil.modTranslatable("pc.tab_button.tooltip", this.getMessage(),
+                        (this.forBox + 1)));
     }
 
     @Override

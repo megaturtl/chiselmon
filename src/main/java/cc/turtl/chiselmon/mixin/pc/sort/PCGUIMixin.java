@@ -68,7 +68,8 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     // Add custom sort buttons and tab buttons
     @Inject(method = "init", at = @At("TAIL"))
     private void chiselmon$addSortElements(CallbackInfo ci) {
-        if (Chiselmon.isDisabled()) return;
+        if (Chiselmon.isDisabled())
+            return;
 
         PcSortUIHandler.initializeSortButtons(
                 (PCGUI) (Object) this,
@@ -85,7 +86,8 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void chiselmon$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
             CallbackInfoReturnable<Boolean> cir) {
-        if (Chiselmon.isDisabled()) return;
+        if (Chiselmon.isDisabled())
+            return;
         ModConfig config = Chiselmon.services().config().get();
         if (!config.pc.quickSortEnabled) {
             return;
@@ -101,10 +103,10 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Unique
     private void chiselmon$executeQuickSort(ModConfig config) {
 
-        if (this.storageWidget != null) {
-            this.storageWidget.resetSelected();
-        }
-
+        if (this.storageWidget == null)
+            return;
+        this.storageWidget.resetSelected();
         PcSorter.sortPCBox(this.pc, this.storageWidget.getBox(), config.pc.quickSortMode, hasShiftDown());
+
     }
 }

@@ -5,14 +5,15 @@ Bugs:
 - sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
-- Customise pc expanded tooltip in the config (choose the fields you want) (should be done)
-- spawntracker shouldn't count time not in game (should be done)
+- make the quicksort key bindable
+- fix morecobblemontweaks not being able to multiselect egg dummies
 
 Nice to have:
+- auto pause logger when exit minecart
+- glow correspond to priority bucket?
+- show loaded pokemon count in the surrounding chunks, and eligible for despawn count?
 - make all text translatable (lang file)
-- total pc fullness %
-- Find a way to get the egg packet sooner (currently only updates when put in and out of pc)
-    KEEP IN MIND: eggs seem to hatch when the /egginfo command says 512 steps left (2 cycles) maybe that can help me get more accurate
+- total pc fullness % (and number of eggs)
 
 - Eventually move each seperate config and command class to its own feature directory, everything should be owned by the features!!
 
@@ -20,7 +21,6 @@ One day:
 - improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
-- Show actual marks on hover with their chance
 - Add a jade tooltip if a block is pokemon spawnable
 
 - BELOW ARE IN MORECOBBLETWEAKS

@@ -11,7 +11,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import cc.turtl.chiselmon.mixin.accessor.EntityAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.sounds.SoundEvents;
 
 public class AlertManager {
     private final Map<UUID, TrackedPokemon> trackedPokemon = new LinkedHashMap<>();
@@ -31,8 +30,9 @@ public class AlertManager {
         if (mutedUuids.contains(uuid)) {
             tracked.muted = true;
         } else {
-            AlertMessage.sendChatAlert(entity);
-            ((EntityAccessor) entity).invokeSetSharedFlag(6, true);
+            if (config.sendChatMessage) {
+                AlertMessage.sendChatAlert(entity, config.showFormInMessage);
+            }
         }
 
         trackedPokemon.put(uuid, tracked);
@@ -97,38 +97,38 @@ public class AlertManager {
     }
 
     public void tick() {
-        // Find the highest priority among all tracked pokemon that are NOT muted
-        AlertPriority highestActive = trackedPokemon.values().stream()
-                .filter(t -> !t.muted)
-                .map(t -> t.priority)
-                .max((p1, p2) -> Integer.compare(p1.weight, p2.weight))
-                .orElse(AlertPriority.NONE);
 
-        if (highestActive == AlertPriority.NONE || config.soundVolume <= 0) {
-            return;
+        if (config.highlightEntity) {
+            for (TrackedPokemon tracked : trackedPokemon.values()) {
+                // sets the glowing flag using my mixin accessor
+                ((EntityAccessor) tracked.entity).invokeSetSharedFlag(6, true);
+            }
         }
 
-        if (soundDelayTicks > 0) {
-            soundDelayTicks--;
-            return;
-        }
+        if (config.playSound) {
+            // Find the highest priority among all tracked pokemon that are NOT muted
+            AlertPriority highestActive = trackedPokemon.values().stream()
+                    .filter(t -> !t.muted)
+                    .map(t -> t.priority)
+                    .max((p1, p2) -> Integer.compare(p1.weight, p2.weight))
+                    .orElse(AlertPriority.NONE);
 
-        playSound(highestActive);
-        this.soundDelayTicks = config.soundDelay;
+            if (highestActive == AlertPriority.NONE || config.soundVolume <= 0) {
+                return;
+            }
+
+            if (soundDelayTicks > 0) {
+                soundDelayTicks--;
+                return;
+            }
+
+            playSound(highestActive);
+            this.soundDelayTicks = config.soundDelay;
+        }
     }
 
-    private final Map<AlertPriority, AlertSoundProfile> soundProfiles = Map.of(
-            AlertPriority.LEGENDARY, new AlertSoundProfile(
-                    SoundEvents.PLAYER_LEVELUP, 1.0f, 0.8f),
-            AlertPriority.SHINY, new AlertSoundProfile(
-                    SoundEvents.EXPERIENCE_ORB_PICKUP, 1.0f, 0.8f),
-            AlertPriority.SIZE, new AlertSoundProfile(
-                    SoundEvents.NOTE_BLOCK_BIT.value(), 1.0f, 1.0f),
-            AlertPriority.CUSTOM, new AlertSoundProfile(
-                    SoundEvents.NOTE_BLOCK_PLING.value(), 1.18f, 1.0f));
-
     private void playSound(AlertPriority priority) {
-        AlertSoundProfile profile = soundProfiles.get(priority);
+        AlertSoundProfile profile = priority.soundProfile;
         if (profile == null)
             return;
 

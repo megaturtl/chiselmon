@@ -20,7 +20,8 @@ public class PCTabManager {
             int startY) {
         List<PCTabButton> buttons = new ArrayList<>();
 
-        if (tabs.isEmpty()) return buttons;
+        if (tabs.isEmpty())
+            return buttons;
 
         int currentX = startX;
 
@@ -29,7 +30,7 @@ public class PCTabManager {
         for (PCTab tab : tabs) {
             final int targetBoxNumber = tab.boxNumber;
 
-            if (clientBoxes.size() < targetBoxNumber) {
+            if (targetBoxNumber >= clientBoxes.size()) {
                 continue;
             }
 

@@ -16,7 +16,7 @@ import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.ObjectDumper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -80,7 +80,8 @@ public final class SpawnAlertFeature extends AbstractFeature {
             while (muteAlertsKey.consumeClick()) {
                 alertManager.muteAllTargets();
                 Minecraft.getInstance().player
-                        .sendSystemMessage(ComponentFormatUtil.colored("All active alerts muted.", ColorUtil.GREEN));
+                        .sendSystemMessage(ComponentUtil.colored(
+                                ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN));
             }
 
             // Track new battles starting
@@ -119,6 +120,10 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
     private AlertPriority getAlertPriority(PokemonEntity pokemonEntity, SpawnAlertConfig config) {
         if (!PokemonEntityPredicates.IS_WILD.test(pokemonEntity)) {
+            return AlertPriority.NONE;
+        }
+
+        if (config.suppressPlushies && pokemonEntity.getPokemon().getLevel() == 1) {
             return AlertPriority.NONE;
         }
 

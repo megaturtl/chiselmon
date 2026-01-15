@@ -35,11 +35,13 @@ public class SpawnLoggerSession {
 
             LoggedPokemon data = new LoggedPokemon(
                     pokemon.getSpecies().getName(),
+                    pokemon.getForm().getName(),
                     pokemon.getLevel(),
                     PokemonPredicates.IS_SHINY.test(pokemon),
-                    PokemonPredicates.IS_LEGENDARY.test(pokemon),
+                    PokemonPredicates.IS_SPECIAL.test(pokemon),
                     PokemonPredicates.IS_EXTREME_SIZE.test(pokemon),
                     pokemon.getScaleModifier(),
+                    pokemon.getForcedAspects().contains("poke_snack_crumbed"),
                     x,
                     y,
                     z,

@@ -11,7 +11,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
@@ -52,26 +53,31 @@ public class CaptureChanceEstimator {
         Optional<ClientBattle> clientBattleOpt = Optional.ofNullable(CobblemonClient.INSTANCE.getBattle());
 
         // --- Extract Battle Context Concisely ---
-        
+
         // This leverages Optional to simplify null checks for battle context.
         List<ClientBattlePokemon> throwerActiveBattlePokemon = clientBattleOpt
-            .map(battle -> battle.getParticipatingActor(thrower.getUUID()))
-            .map(ClientBattleActor::getActivePokemon)
-            .orElse(Collections.emptyList())
-            .stream()
-            .map(ActiveClientBattlePokemon::getBattlePokemon)
-            .collect(Collectors.toList());
+                .map(battle -> battle.getParticipatingActor(thrower.getUUID()))
+                .map(ClientBattleActor::getActivePokemon)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(ActiveClientBattlePokemon::getBattlePokemon)
+                .collect(Collectors.toList());
 
         // Use Optional to get the target's in-battle status safely.
         PersistentStatus targetStatus = clientBattleOpt
-            .map(ClientBattle::getWildActor)
-            .map(ClientBattleActor::getActivePokemon)
-            .filter(list -> !list.isEmpty())
-            .map(list -> list.getFirst().getBattlePokemon().getStatus())
-            .orElse(null);
+                .map(ClientBattle::getWildActor)
+                .map(ClientBattleActor::getActivePokemon)
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.getFirst().getBattlePokemon().getStatus())
+                .orElse(null);
+
+        // Ball Multiplier (B)
+        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon,
+                targetStatus);
+
         // --- 1. Master Ball Check ---
         // If the ball bonus is high (Master Ball), return 100% chance.
-        if (BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon, targetStatus) >= 999.0F) {
+        if (B >= 999.0F) {
             return 1.0F;
         }
 
@@ -81,13 +87,11 @@ public class CaptureChanceEstimator {
         float h = (float) targetEntity.getHealth();
 
         // Base Catch Rate (C)
-        float C = (float) SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).catchRate;
+        SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        float C = species != null ? species.catchRate : 0f;
 
         // Target Level (L)
         int targetLevel = pokemon.getLevel();
-
-        // Ball Multiplier (B)
-        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon, targetStatus);
 
         // Status Multiplier (S)
         float S = calculateStatusBonus(targetStatus);

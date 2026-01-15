@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.command.ChiselmonCommand;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
+import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
 import cc.turtl.chiselmon.service.ConfigService;
@@ -45,7 +46,8 @@ public class Chiselmon implements ClientModInitializer {
         final List<AbstractFeature> features = List.of(
                 SpawnAlertFeature.getInstance(),
                 CheckSpawnTrackerFeature.getInstance(),
-                SpawnLoggerFeature.getInstance());
+                SpawnLoggerFeature.getInstance(),
+                EggPreviewFeature.getInstance());
         features.forEach(AbstractFeature::initialize);
     }
 

@@ -15,11 +15,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpecies;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.CommandUtils;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.ObjectDumper;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
@@ -55,7 +56,7 @@ public class DebugCommand {
     }
 
     private static int executeTest(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(ComponentFormatUtil.colored("Testing random things", ColorUtil.AQUA));
+        context.getSource().sendFeedback(ComponentUtil.colored("Testing random things", ColorUtil.AQUA));
         return 1;
     }
 
@@ -77,7 +78,7 @@ public class DebugCommand {
             }
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.AQUA));
+                    ComponentUtil.colored("--- Dumping Pokemon at Slot " + (slot + 1) + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Species", pokemon.getSpecies().getName());
             CommandUtils.sendLabeled(source, "Species Resource ID",
                     pokemon.getSpecies().getResourceIdentifier().toString());
@@ -102,7 +103,6 @@ public class DebugCommand {
         FabricClientCommandSource source = context.getSource();
 
         try {
-            source.sendFeedback(ComponentFormatUtil.colored("--- Dumping Targeted Entity ---", ColorUtil.AQUA));
             Minecraft minecraftClient = Minecraft.getInstance();
             Entity lookingAtEntity = minecraftClient.crosshairPickEntity;
 
@@ -112,14 +112,45 @@ public class DebugCommand {
             }
 
             if (lookingAtEntity instanceof PokemonEntity pokemonEntity) {
-                Pokemon pokemon = pokemonEntity.getPokemon();
 
                 source.sendFeedback(
-                        ComponentFormatUtil.colored("--- Dumping Targeted POKEMON Object ---", ColorUtil.GREEN));
-                CommandUtils.sendLabeled(source, "Moves", pokemonEntity.getPokemon().getMoveSet().getMoves()
-                        .stream().map(m -> m.getTemplate().getName()).toList().toString());
+                        ComponentUtil.colored("--- Dumping Targeted PokemonEntity Object ---", ColorUtil.GREEN));
+                CommandUtils.sendLabeled(source, "isNoAi", pokemonEntity.isNoAi());
+                CommandUtils.sendLabeled(source, "isAttackable", pokemonEntity.isAttackable());
+                CommandUtils.sendLabeled(source, "isBusy", pokemonEntity.isBusy());
+                CommandUtils.sendLabeled(source, "isEffectiveAi", pokemonEntity.isEffectiveAi());
+                CommandUtils.sendLabeled(source, "isInvulnerable", pokemonEntity.isInvulnerable());
+                CommandUtils.sendLabeled(source, "isPushable", pokemonEntity.isPushable());
+                CommandUtils.sendLabeled(source, "isUncatchable", pokemonEntity.isUncatchable());
+                CommandUtils.sendLabeled(source, "scoreboardName", pokemonEntity.getScoreboardName());
+                CommandUtils.sendLabeled(source, "hasImpulse", pokemonEntity.hasImpulse);
+                CommandUtils.sendLabeled(source, "horizontalCollision", pokemonEntity.horizontalCollision);
+                CommandUtils.sendLabeled(source, "moveDist", pokemonEntity.moveDist);
+                CommandUtils.sendLabeled(source, "noCulling", pokemonEntity.noCulling);
+                CommandUtils.sendLabeled(source, "walkDist", pokemonEntity.walkDist);
+                CommandUtils.sendLabeled(source, "tickCount", pokemonEntity.tickCount);
+                CommandUtils.sendLabeled(source, "timeOffs", pokemonEntity.timeOffs);
+                CommandUtils.sendLabeled(source, "getX", pokemonEntity.getX());
+                CommandUtils.sendLabeled(source, "getY", pokemonEntity.getY());
+                CommandUtils.sendLabeled(source, "getZ", pokemonEntity.getZ());
+                CommandUtils.sendLabeled(source, "getXRot", pokemonEntity.getXRot());
+                CommandUtils.sendLabeled(source, "attackable", pokemonEntity.attackable());
+                CommandUtils.sendLabeled(source, "canWalk", pokemonEntity.canWalk());
+                CommandUtils.sendLabeled(source, "age", pokemonEntity.getAge());
+                CommandUtils.sendLabeled(source, "aspects", pokemonEntity.getAspects());
+                CommandUtils.sendLabeled(source, "displayName", pokemonEntity.getDisplayName());
+                CommandUtils.sendLabeled(source, "tickSpawned", pokemonEntity.getTickSpawned());
+                CommandUtils.sendLabeled(source, "ticksLived", pokemonEntity.getTicksLived());
+                CommandUtils.sendLabeled(source, "titledName", pokemonEntity.getTitledName());
+                CommandUtils.sendLabeled(source, "scoreboardName", pokemonEntity.getScoreboardName());
+
+                source.sendFeedback(
+                        ComponentUtil.colored("- Chiselmon Predicates -", ColorUtil.GREEN));
+                CommandUtils.sendLabeled(source, "IS_OWNED", PokemonEntityPredicates.IS_OWNED.test(pokemonEntity));
+                CommandUtils.sendLabeled(source, "IS_BOSS", PokemonEntityPredicates.IS_BOSS.test(pokemonEntity));
+                CommandUtils.sendLabeled(source, "IS_WILD", PokemonEntityPredicates.IS_WILD.test(pokemonEntity));
                 LOGGER.info("Logging object details for targeted Pokemon...");
-                ObjectDumper.logObjectFields(LOGGER, pokemon);
+                ObjectDumper.logObjectFields(LOGGER, pokemonEntity);
                 CommandUtils.sendWarning(source, "Full object dump sent to console/log.");
                 return 1;
 
@@ -146,7 +177,7 @@ public class DebugCommand {
             SimpleSpecies species = SimpleSpeciesRegistry.getByName(speciesName);
 
             source.sendFeedback(
-                    ComponentFormatUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.AQUA));
+                    ComponentUtil.colored("--- Dumping Species " + species.name + " ---", ColorUtil.AQUA));
             CommandUtils.sendLabeled(source, "Catch Rate", species.catchRate);
             CommandUtils.sendLabeled(source, "Egg Groups", species.eggGroups);
             CommandUtils.sendLabeled(source, "EV Yield", species.evYield);

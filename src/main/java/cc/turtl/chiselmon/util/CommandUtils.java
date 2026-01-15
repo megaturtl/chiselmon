@@ -25,21 +25,21 @@ public class CommandUtils {
      * Sends a generic colored message
      */
     public static void sendColored(FabricClientCommandSource source, String message, int color) {
-        source.sendFeedback(ComponentFormatUtil.colored(message, color));
+        source.sendFeedback(ComponentUtil.colored(message, color));
     }
 
     /**
      * Sends a header message with purple color
      */
     public static void sendHeader(FabricClientCommandSource source, String title) {
-        source.sendFeedback(ComponentFormatUtil.colored("=== " + title + " ===", ColorUtil.PURPLE));
+        source.sendFeedback(ComponentUtil.colored("=== " + title + " ===", ColorUtil.PURPLE));
     }
 
     /**
      * Sends a command usage message with gray color
      */
     public static void sendUsage(FabricClientCommandSource source, String command) {
-        source.sendFeedback(ComponentFormatUtil.colored(command, ColorUtil.LIGHT_GRAY));
+        source.sendFeedback(ComponentUtil.colored(command, ColorUtil.LIGHT_GRAY));
     }
 
     /**
@@ -47,20 +47,20 @@ public class CommandUtils {
      */
     public static void sendUsageWithDescription(FabricClientCommandSource source, String command, String description) {
         source.sendFeedback(
-                ComponentFormatUtil.colored(command + " ", ColorUtil.LIGHT_GRAY)
-                        .append(ComponentFormatUtil.colored("- " + description, ColorUtil.WHITE)));
+                ComponentUtil.colored(command + " ", ColorUtil.LIGHT_GRAY)
+                        .append(ComponentUtil.colored("- " + description, ColorUtil.WHITE)));
     }
 
     /**
      * Sends a success message with green color
      */
     public static void sendSuccess(FabricClientCommandSource source, String message) {
-        source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.GREEN));
+        source.sendFeedback(ComponentUtil.colored(message, ColorUtil.GREEN));
     }
 
     public static void sendToggle(FabricClientCommandSource source, String message, boolean toggleOn) {
         int color = toggleOn ? ColorUtil.GREEN : ColorUtil.ORANGE;
-        source.sendFeedback(ComponentFormatUtil.colored(message, color));
+        source.sendFeedback(ComponentUtil.colored(message, color));
     }
 
     /**
@@ -68,22 +68,22 @@ public class CommandUtils {
      */
     public static void sendError(FabricClientCommandSource source, String message) {
         source.sendFeedback(
-                ComponentFormatUtil.colored(PREFIX, ColorUtil.RED)
-                        .append(ComponentFormatUtil.colored(message, ColorUtil.WHITE)));
+                ComponentUtil.colored(PREFIX, ColorUtil.RED)
+                        .append(ComponentUtil.colored(message, ColorUtil.WHITE)));
     }
 
     /**
      * Sends a warning/info message with yellow color
      */
     public static void sendWarning(FabricClientCommandSource source, String message) {
-        source.sendFeedback(ComponentFormatUtil.colored(message, ColorUtil.YELLOW));
+        source.sendFeedback(ComponentUtil.colored(message, ColorUtil.YELLOW));
     }
 
     /**
      * Sends a labeled string value (label colored light gray, value white).
      */
     public static void sendLabeled(FabricClientCommandSource source, String label, @Nullable Object value) {
-        source.sendFeedback(ComponentFormatUtil.labelledValue(label + ": ", value));
+        source.sendFeedback(ComponentUtil.labelledValue(label + ": ", value));
     }
 
 }

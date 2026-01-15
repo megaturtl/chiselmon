@@ -5,17 +5,19 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.SimpleSpeciesRegistry;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareDummyPokemon;
 import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
-import cc.turtl.chiselmon.util.ComponentFormatUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
+import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,33 +62,41 @@ public class StorageWidgetMixin {
 
         if (isShiftHoverActive) {
             if (config.pc.tooltip.showIvs) {
-                tooltip.add(ComponentFormatUtil.labelledValue("IVs: ", PokemonFormatUtil.hypertrainedIVs(pokemon)));
+                MutableComponent ivsLabel = ComponentUtil.modTranslatable("ui.label.ivs");
+                tooltip.add(ComponentUtil.labelledValue(ivsLabel, PokemonFormatUtil.hypertrainedIVs(pokemon)));
             }
 
             if (config.pc.tooltip.showOriginalTrainer) {
-                tooltip.add(ComponentFormatUtil.labelledValue("OT: ", pokemon.getOriginalTrainerName()));
+                MutableComponent originalTrainerLabel = ComponentUtil.modTranslatable("ui.label.original_trainer");
+                tooltip.add(ComponentUtil.labelledValue(originalTrainerLabel, pokemon.getOriginalTrainerName()));
             }
 
             if (config.pc.tooltip.showForm) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Form: ", pokemon.getForm().getName()));
+                MutableComponent formLabel = ComponentUtil.modTranslatable("ui.label.form");
+                tooltip.add(ComponentUtil.labelledValue(formLabel, pokemon.getForm().getName()));
             }
 
             if (config.pc.tooltip.showFriendship) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Friendship: ", pokemon.getFriendship()));
+                MutableComponent friendshipLabel = ComponentUtil.modTranslatable("ui.label.friendship");
+                tooltip.add(ComponentUtil.labelledValue(friendshipLabel, pokemon.getFriendship()));
             }
 
             if (config.pc.tooltip.showRideStyles && PokemonPredicates.IS_RIDEABLE.test(pokemon)) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Ride Styles: ", PokemonFormatUtil.rideStyles(pokemon)));
+                MutableComponent rideStylesLabel = ComponentUtil.modTranslatable("ui.label.ride_styles");
+                tooltip.add(ComponentUtil.labelledValue(rideStylesLabel, PokemonFormatUtil.rideStyles(pokemon)));
             }
 
             if (config.pc.tooltip.showMarks && PokemonPredicates.IS_MARKED.test(pokemon)) {
-                tooltip.add(ComponentFormatUtil.labelledValue("Marks: ", PokemonFormatUtil.marks(pokemon)));
+                MutableComponent marksLabel = ComponentUtil.modTranslatable("ui.label.marks");
+                tooltip.add(ComponentUtil.labelledValue(marksLabel, PokemonFormatUtil.marks(pokemon)));
             }
 
-            if (config.pc.tooltip.showEggCycles && pokemon instanceof NeoDaycareDummyPokemon dummy) {
+            if (config.pc.tooltip.showEggCycles && pokemon instanceof NeoDaycareEggDummy dummy) {
+                MutableComponent eggCyclesLabel = ComponentUtil.modTranslatable("ui.label.egg_cycles");
                 int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
-                tooltip.add(ComponentFormatUtil.labelledValue("Egg Cycles: ", cycles + " (~" +
-                        dummy.getStepsRemaining() + " steps rem.)"));
+                tooltip.add(ComponentUtil.labelledValue(eggCyclesLabel,
+                        dummy.getCyclesCompleted() + "/" + cycles + " ("
+                                + StringUtils.formatPercentage(dummy.getHatchCompletion()) + ")"));
             }
         }
 

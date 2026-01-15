@@ -8,7 +8,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPack
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.api.comparator.PokemonComparators;
-import cc.turtl.chiselmon.compat.neodaycare.NeoDaycareEgg;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,6 +25,8 @@ public final class PcSorter {
         }
 
         List<ClientBox> boxes = clientPC.getBoxes();
+        if (boxNumber >= boxes.size())
+            return false;
         ClientBox currentBox = boxes.get(boxNumber);
         if (currentBox == null) {
             return false;
@@ -32,7 +34,7 @@ public final class PcSorter {
 
         List<Pokemon> pokemonList = currentBox.getSlots().stream()
                 .filter(pokemon -> pokemon != null)
-                .map(NeoDaycareEgg::getDummyOrOriginal)
+                .map(NeoDaycareEggCache::getDummyOrOriginal)
                 .toList();
 
         if (pokemonList.isEmpty()) {

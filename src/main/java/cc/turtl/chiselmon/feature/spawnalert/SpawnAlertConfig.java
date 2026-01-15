@@ -32,7 +32,7 @@ public class SpawnAlertConfig implements ConfigData {
     public boolean alertOnUltraBeast = true;
 
     @ConfigEntry.Gui.Tooltip
-    public boolean alertOnParadox = true;
+    public boolean alertOnParadox = false;
 
     @ConfigEntry.Gui.Tooltip
     public boolean alertOnExtremeSize = false;
@@ -41,10 +41,25 @@ public class SpawnAlertConfig implements ConfigData {
     public boolean alertOnCustomList = true;
 
     @ConfigEntry.Gui.Tooltip
+    public boolean suppressPlushies = true;
+
+    @ConfigEntry.Gui.Tooltip
     public List<String> whitelist = new ArrayList<>(Arrays.asList());
 
     @ConfigEntry.Gui.Tooltip
     public List<String> blacklist = new ArrayList<>(Arrays.asList());
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean sendChatMessage = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean showFormInMessage = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean playSound = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean highlightEntity = false;
 
     @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
     @ConfigEntry.Gui.Tooltip
@@ -53,9 +68,6 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.BoundedDiscrete(min = MIN_SOUND_DELAY, max = MAX_SOUND_DELAY)
     @ConfigEntry.Gui.Tooltip
     public int soundDelay = 20;
-
-    @ConfigEntry.Gui.Tooltip
-    public boolean highlightEntity = false;
 
     @Override
     public void validatePostLoad() throws ValidationException {

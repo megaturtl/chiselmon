@@ -22,8 +22,11 @@
         "text.autoconfig.chiselmon.option.pc.quickSortMode.@Tooltip": "What sort mode to use for quick sort.",
         "text.autoconfig.chiselmon.option.pc.bookmarksEnabled": "Enable Bookmarks",
         "text.autoconfig.chiselmon.option.pc.bookmarksEnabled.@Tooltip": "Allows bookmarking up to 5 PC boxes.",
-        "text.autoconfig.chiselmon.option.pc.showEggPreview": "Show Egg Preview",
-        "text.autoconfig.chiselmon.option.pc.showEggPreview.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
+
+        "text.autoconfig.chiselmon.option.eggPreview.enabled": "Enable Egg Preview",
+        "text.autoconfig.chiselmon.option.eggPreview.enabled.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync": "(EXPERIMENTAL) Attempt Hatch Sync",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically",
 
         "text.autoconfig.chiselmon.option.pc.tooltip": "PC Tooltip Settings",
             "text.autoconfig.chiselmon.option.pc.tooltip.showTooltips": "Show PC Tooltips",
@@ -63,7 +66,7 @@
         "text.autoconfig.chiselmon.option.showPokeRodBaitAboveHotbar.@Tooltip": "Shows current bait info above the hotbar when a Poke Rod is held.",
 
         "text.autoconfig.chiselmon.option.checkSpawnTracker": "Checkspawn Tracker Settings",
-            "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled": "Enable Checkspawn Tracker",
+            "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled": "(EXPERIMENTAL) Enable Checkspawn Tracker",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.enabled.@Tooltip": "Shows the spawn rate of pokemon you're hunting at your current location. WARNING: Sends commands to the server invisibly. Can get you kicked for spamming.",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.pollTickInterval": "Poll Tick Interval",
             "text.autoconfig.chiselmon.option.checkSpawnTracker.pollTickInterval.@Tooltip": "How long to wait between command sends (in game ticks)",
@@ -74,7 +77,7 @@
 
     "text.autoconfig.chiselmon.category.spawnAlert": "Spawn Alert Settings",
         "text.autoconfig.chiselmon.option.spawnAlert.enabled": "Enable Spawn Alerts",
-        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Sends a notification and plays a sound when specific pokemon spawn nearby.",
+        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby.",
         
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny": "Alert on Shiny",
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny.@Tooltip": "Triggers an alert when a Shiny pokemon spawns nearby.",
@@ -93,6 +96,21 @@
         
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList": "Alert on Whitelisted",
         "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList.@Tooltip": "Triggers an alert for any pokemon named in your custom whitelist.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies": "Suppress Plushies",
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Will not fire for level 1 pokemon to exclude plushies from alerts.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage": "Send Chat Message",
+        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage.@Tooltip": "Sends a chat message when an alert is triggered.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage": "Shown Form in Message",
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage.@Tooltip": "Adds the pokemon's form to the alert message.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.playSound": "Play Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.playSound.@Tooltip": "Plays a repeating sound when an alert is triggered.",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity": "Highlight Pokemon",
+        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon when an alert is triggered.",
         
         "text.autoconfig.chiselmon.option.spawnAlert.soundVolume": "Sound Volume",
         "text.autoconfig.chiselmon.option.spawnAlert.soundVolume.@Tooltip": "Adjusts the volume of the alert notification sound.",
@@ -105,9 +123,6 @@
 
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist": "Pokemon Blacklist",
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist.@Tooltip": "Suppress alerts from pokemon defined here. Shinies and size variations will still alert.",
-
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity": "Highlight Alerted Pokemon",
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon to locate them easier.",
 
     "text.autoconfig.chiselmon.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.chiselmon.option.spawnLogger.enabled": "Enable Spawn Logger",
@@ -135,5 +150,54 @@
     "config.jade.plugin_chiselmon.pokesnack_block.effects": "Bait Effects",
 
     "key.categories.chiselmon": "Chiselmon",
-    "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts"
+    "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts",
+
+    "chiselmon.pc.bookmark_button.tooltip.add": "Add Bookmark",
+    "chiselmon.pc.bookmark_button.tooltip.remove": "Remove Bookmark",
+
+    "chiselmon.pc.home_button.tooltip": "Jump to Box 1",
+
+    "chiselmon.pc.tab_button.tooltip": "Jump to %s (pg. %d)",
+
+    "chiselmon.ui.label.pokesnack_block.bites_remaining": "Bites Remaining: ",
+    "chiselmon.ui.label.pokesnack_block.no_ingredients": "No Ingredients!",
+
+    "chiselmon.ui.label.ivs": "IVs: ",
+    "chiselmon.ui.label.original_trainer": "OT: ",
+    "chiselmon.ui.label.form": "Form: ",
+    "chiselmon.ui.label.friendship": "Friendship: ",
+    "chiselmon.ui.label.ride_styles": "Ride Styles: ",
+    "chiselmon.ui.label.marks": "Marks: ",
+    "chiselmon.ui.label.egg_cycles": "Egg Cycles: ",
+    "chiselmon.ui.label.type": "Types: ",
+    "chiselmon.ui.label.effective_types": "Weak to: ",
+    "chiselmon.ui.label.egg_groups": "Egg Groups: ",
+    "chiselmon.ui.label.ev_yield": "EV Yield: ",
+    "chiselmon.ui.label.catch_rate": "Catch Rate: ",
+
+    "chiselmon.spawnalert.message.shiny": " (Shiny)",
+    "chiselmon.spawnalert.message.legendary": " (Legendary)",
+    "chiselmon.spawnalert.message.mythical": " (Mythical)",
+    "chiselmon.spawnalert.message.ultra_beast": " (Ultra Beast)",
+    "chiselmon.spawnalert.message.paradox": " (Paradox)",
+    "chiselmon.spawnalert.message.spawned_nearby": " spawned nearby! ",
+
+    "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",
+    "chiselmon.spawnalert.mute.success": "All active alerts muted.",
+
+    "chiselmon.spawnlogger.action_bar.title": "Spawn Logger: ",
+    "chiselmon.spawnlogger.action_bar.spawns": " Spawns, ",
+    "chiselmon.spawnlogger.action_bar.elapsed": " elapsed",
+    "chiselmon.spawnlogger.action_bar.paused": " [Paused]",
+
+    "chiselmon.spawnlogger.report.header": "=== Spawn Logger Report ===",
+    "chiselmon.spawnlogger.report.elapsed": "\nTime Elapsed: %s",
+    "chiselmon.spawnlogger.report.total_spawns": "\nTotal Spawns: %s",
+    "chiselmon.spawnlogger.report.spawns_per_min": "\nSpawns/Min: %s",
+    "chiselmon.spawnlogger.report.special_header": "\n\nSpecial Encounters:",
+    "chiselmon.spawnlogger.report.pokemon_entry": "\n- Lvl. %s %s",
+    "chiselmon.spawnlogger.report.shiny_label": " (Shiny)",
+    "chiselmon.spawnlogger.report.export_button": "\n[Export to CSV]",
+    "chiselmon.spawnlogger.report.export_hover": "Click to save this session as a CSV file"
+    
 }
