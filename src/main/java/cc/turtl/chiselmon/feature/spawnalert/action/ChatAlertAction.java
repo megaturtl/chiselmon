@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.feature.spawnalert;
+package cc.turtl.chiselmon.feature.spawnalert.action;
 
 import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
@@ -8,6 +8,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.feature.spawnalert.AlertPriority;
+import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringUtils;
@@ -18,22 +20,28 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 /**
- * @deprecated Use {@link cc.turtl.chiselmon.feature.spawnalert.action.ChatAlertAction} instead.
- *             This class is kept for backward compatibility but will be removed in a future version.
+ * Alert action that sends a chat message when a Pokemon is detected.
+ * The message includes the Pokemon name, special attributes, and location.
  */
-@Deprecated
-public class AlertMessage {
-    public static void sendChatAlert(PokemonEntity entity, boolean showForm) {
+public class ChatAlertAction implements AlertAction {
+
+    @Override
+    public boolean isEnabled(SpawnAlertConfig config) {
+        return config.sendChatMessage;
+    }
+
+    @Override
+    public void execute(PokemonEntity entity, AlertPriority priority, SpawnAlertConfig config) {
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) {
             return;
         }
 
-        Component message = buildAlertMessage(entity, showForm);
+        Component message = buildAlertMessage(entity, config.showFormInMessage);
         client.player.sendSystemMessage(message);
     }
 
-    private static Component buildAlertMessage(PokemonEntity entity, boolean showForm) {
+    private Component buildAlertMessage(PokemonEntity entity, boolean showForm) {
         Pokemon pokemon = entity.getPokemon();
         String speciesName = pokemon.getSpecies().getName();
 

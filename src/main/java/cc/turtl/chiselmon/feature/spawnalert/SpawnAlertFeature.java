@@ -8,13 +8,16 @@ import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.battle.ClientBattle;
 import com.cobblemon.mod.common.client.battle.ClientBattleActor;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.AbstractFeature;
+import cc.turtl.chiselmon.feature.spawnalert.condition.AlertConditionRegistry;
+import cc.turtl.chiselmon.feature.spawnalert.condition.CustomListCondition;
+import cc.turtl.chiselmon.feature.spawnalert.condition.ExtremeSizeCondition;
+import cc.turtl.chiselmon.feature.spawnalert.condition.LegendaryCondition;
+import cc.turtl.chiselmon.feature.spawnalert.condition.ShinyCondition;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.ObjectDumper;
@@ -27,6 +30,33 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 
+/**
+ * Feature that alerts players when notable Pokemon spawn nearby.
+ * 
+ * <p>This feature has been refactored to follow ECS best practices:
+ * <ul>
+ *   <li><strong>Conditions:</strong> Use {@link AlertConditionRegistry} for extensible spawn detection</li>
+ *   <li><strong>Actions:</strong> Alert behaviors are delegated to AlertAction implementations</li>
+ *   <li><strong>Events:</strong> Publishes events for other features to react to</li>
+ * </ul>
+ * 
+ * <h2>Extending Alert Detection:</h2>
+ * <p>To add new alert conditions, implement {@link cc.turtl.chiselmon.feature.spawnalert.condition.AlertCondition}
+ * and register it with {@link AlertConditionRegistry#register}.
+ * 
+ * <h2>Architecture:</h2>
+ * <pre>
+ * SpawnAlertFeature (orchestration)
+ *   ├── AlertConditionRegistry (detection strategy)
+ *   │     ├── ShinyCondition
+ *   │     ├── LegendaryCondition
+ *   │     ├── ExtremeSizeCondition
+ *   │     └── CustomListCondition
+ *   ├── AlertManager (state management)
+ *   │     └── AlertAction implementations (behaviors)
+ *   └── EventBus (cross-feature communication)
+ * </pre>
+ */
 public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
     private AlertManager alertManager;
@@ -48,22 +78,31 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
     @Override
     protected void init() {
-
+        registerConditions();
         registerKeybinds();
 
         alertManager = new AlertManager(getConfig().spawnAlert);
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
-
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
-
         ClientEntityEvents.ENTITY_UNLOAD.register((entity, level) -> {
             alertManager.removeTarget(entity.getUUID());
         });
-
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             alertManager.clearTargets();
         });
+    }
+
+    /**
+     * Register the built-in alert conditions.
+     * These are evaluated in order, with the highest matching priority being used.
+     */
+    private void registerConditions() {
+        AlertConditionRegistry.registerAll(
+                new ShinyCondition(),
+                new ExtremeSizeCondition(),
+                new LegendaryCondition(),
+                new CustomListCondition());
     }
 
     private void registerKeybinds() {
@@ -74,32 +113,35 @@ public final class SpawnAlertFeature extends AbstractFeature {
     }
 
     private void onClientTickEnd(Minecraft client) {
-        if (canRun()) {
+        if (!canRun()) {
+            return;
+        }
 
-            // Handle the mute keybind
-            while (muteAlertsKey.consumeClick()) {
-                alertManager.muteAllTargets();
-                Minecraft.getInstance().player
-                        .sendSystemMessage(ComponentUtil.colored(
-                                ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN));
-            }
+        handleMuteKeybind();
+        trackBattleState();
+        alertManager.tick();
+    }
 
-            // Track new battles starting
-            ClientBattle currentBattle = CobblemonClient.INSTANCE.getBattle();
-            if (currentBattle != null && currentBattle != lastBattle) {
-                onBattleStarted(currentBattle);
-                lastBattle = currentBattle;
-            } else if (currentBattle == null) {
-                lastBattle = null;
-            }
+    private void handleMuteKeybind() {
+        while (muteAlertsKey.consumeClick()) {
+            alertManager.muteAllTargets();
+            Minecraft.getInstance().player
+                    .sendSystemMessage(ComponentUtil.colored(
+                            ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN));
+        }
+    }
 
-            // Run the alert sound tick logic
-            alertManager.tick();
+    private void trackBattleState() {
+        ClientBattle currentBattle = CobblemonClient.INSTANCE.getBattle();
+        if (currentBattle != null && currentBattle != lastBattle) {
+            onBattleStarted(currentBattle);
+            lastBattle = currentBattle;
+        } else if (currentBattle == null) {
+            lastBattle = null;
         }
     }
 
     private void onBattleStarted(ClientBattle battle) {
-
         ObjectDumper.logObjectFields(Chiselmon.getLogger(), battle);
 
         ClientBattleActor wildActor = battle.getWildActor();
@@ -110,52 +152,28 @@ public final class SpawnAlertFeature extends AbstractFeature {
     }
 
     private void onEntityLoad(Entity entity, ClientLevel level) {
-        if (canRun() && entity instanceof PokemonEntity pe) {
-            AlertPriority priority = getAlertPriority(pe, getConfig().spawnAlert);
-            if (priority != AlertPriority.NONE) {
-                alertManager.addTarget(pe, priority);
-            }
-        }
-    }
-
-    private AlertPriority getAlertPriority(PokemonEntity pokemonEntity, SpawnAlertConfig config) {
-        if (!PokemonEntityPredicates.IS_WILD.test(pokemonEntity)) {
-            return AlertPriority.NONE;
+        if (!canRun() || !(entity instanceof PokemonEntity pe)) {
+            return;
         }
 
-        if (config.suppressPlushies && pokemonEntity.getPokemon().getLevel() == 1) {
-            return AlertPriority.NONE;
+        SpawnAlertConfig config = getConfig().spawnAlert;
+
+        // Pre-filter: only wild Pokemon
+        if (!PokemonEntityPredicates.IS_WILD.test(pe)) {
+            return;
         }
 
-        Pokemon pokemon = pokemonEntity.getPokemon();
-
-        // Check shiny and size first - bypasses blacklist
-        if ((config.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon))) {
-            return AlertPriority.SHINY;
+        // Pre-filter: suppress plushies (level 1 Pokemon)
+        if (config.suppressPlushies && pe.getPokemon().getLevel() == 1) {
+            return;
         }
 
-        if ((config.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon))) {
-            return AlertPriority.SIZE;
+        // Use the condition registry to determine alert priority
+        AlertPriority priority = AlertConditionRegistry.evaluate(pe, config);
+
+        if (priority != AlertPriority.NONE) {
+            alertManager.addTarget(pe, priority);
         }
-
-        // Check legendary types against blacklist
-        if ((config.alertOnLegendary
-                && (PokemonPredicates.IS_LEGENDARY.test(pokemon) || PokemonPredicates.IS_MYTHICAL.test(pokemon)))
-                || (config.alertOnUltraBeast && PokemonPredicates.IS_ULTRABEAST.test(pokemon))
-                || (config.alertOnParadox && PokemonPredicates.IS_PARADOX.test(pokemon))) {
-
-            if (!PokemonPredicates.isInCustomList(config.blacklist).test(pokemon)) {
-                return AlertPriority.LEGENDARY;
-            }
-        }
-
-        // Check custom whitelist against blacklist
-        if (config.alertOnCustomList && PokemonPredicates.isInCustomList(config.whitelist).test(pokemon)
-                && !PokemonPredicates.isInCustomList(config.blacklist).test(pokemon)) {
-            return AlertPriority.CUSTOM;
-        }
-
-        return AlertPriority.NONE;
     }
 
     public AlertManager getAlertManager() {
