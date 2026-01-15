@@ -27,6 +27,7 @@ public final class SpawnAlertAdapter {
     private final SpawnAlertSystem system;
     private final Supplier<SpawnAlertConfig> config;
     private final KeyMapping muteKey;
+    private ClientBattle lastBattle = null;
 
     public SpawnAlertAdapter(SpawnAlertSystem system, Supplier<SpawnAlertConfig> config) {
         this.system = system;
@@ -63,11 +64,14 @@ public final class SpawnAlertAdapter {
         }
 
         ClientBattle battle = CobblemonClient.INSTANCE.getBattle();
-        if (battle != null) {
+        if (battle != null && battle != lastBattle) {
             ClientBattleActor wildActor = battle.getWildActor();
             if (wildActor != null) {
                 system.onBattleStarted(wildActor.getUuid());
             }
+            lastBattle = battle;
+        } else if (battle == null) {
+            lastBattle = null;
         }
 
         system.tick();

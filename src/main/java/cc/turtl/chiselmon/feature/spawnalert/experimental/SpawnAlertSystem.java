@@ -105,11 +105,11 @@ public final class SpawnAlertSystem {
 
         boolean allowed = isAllowedAgainstBlacklist(pokemon, cfg);
 
-        if (cfg.alertOnShiny && allowed && PokemonPredicates.IS_SHINY.test(pokemon)) {
+        if (cfg.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon)) {
             return AlertPriority.SHINY;
         }
 
-        if (cfg.alertOnExtremeSize && allowed && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
+        if (cfg.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             return AlertPriority.SIZE;
         }
 
