@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-import cc.turtl.chiselmon.Chiselmon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A simple event bus for internal mod communication.
@@ -30,6 +31,7 @@ import cc.turtl.chiselmon.Chiselmon;
  * }</pre>
  */
 public final class EventBus {
+    private static final Logger LOGGER = LogManager.getLogger("chiselmon");
     private static final Map<Class<? extends ChiselmonEvent>, List<Consumer<? extends ChiselmonEvent>>> LISTENERS = new ConcurrentHashMap<>();
 
     private EventBus() {
@@ -44,7 +46,7 @@ public final class EventBus {
      */
     public static <T extends ChiselmonEvent> void subscribe(Class<T> eventType, Consumer<T> listener) {
         LISTENERS.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
-        Chiselmon.getLogger().debug("EventBus: Subscribed to {}", eventType.getSimpleName());
+        LOGGER.debug("EventBus: Subscribed to {}", eventType.getSimpleName());
     }
 
     /**
@@ -60,14 +62,14 @@ public final class EventBus {
             return;
         }
 
-        Chiselmon.getLogger().debug("EventBus: Publishing {} to {} listeners",
+        LOGGER.debug("EventBus: Publishing {} to {} listeners",
                 event.getClass().getSimpleName(), listeners.size());
 
         for (Consumer<? extends ChiselmonEvent> listener : listeners) {
             try {
                 ((Consumer<T>) listener).accept(event);
             } catch (Exception e) {
-                Chiselmon.getLogger().error("EventBus: Error dispatching event {}: {}",
+                LOGGER.error("EventBus: Error dispatching event {}: {}",
                         event.getClass().getSimpleName(), e.getMessage());
             }
         }

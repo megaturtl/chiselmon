@@ -2,12 +2,13 @@ package cc.turtl.chiselmon.feature.spawnalert.condition;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
-import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.feature.spawnalert.AlertPriority;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 
@@ -32,6 +33,7 @@ import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
  * }</pre>
  */
 public final class AlertConditionRegistry {
+    private static final Logger LOGGER = LogManager.getLogger("chiselmon");
     private static final List<AlertCondition> CONDITIONS = new ArrayList<>();
 
     private AlertConditionRegistry() {
@@ -39,14 +41,14 @@ public final class AlertConditionRegistry {
 
     /**
      * Register a new alert condition.
-     * Conditions are sorted by their maximum possible priority (highest first)
-     * to enable early exit optimization.
+     * Conditions are evaluated in registration order, with all conditions
+     * being checked and the highest priority result being returned.
      *
      * @param condition the condition to register
      */
     public static void register(AlertCondition condition) {
         CONDITIONS.add(condition);
-        Chiselmon.getLogger().debug("AlertConditionRegistry: Registered {}", condition.getClass().getSimpleName());
+        LOGGER.debug("AlertConditionRegistry: Registered {}", condition.getClass().getSimpleName());
     }
 
     /**
