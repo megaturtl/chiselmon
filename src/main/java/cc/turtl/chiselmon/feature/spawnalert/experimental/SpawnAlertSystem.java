@@ -103,16 +103,17 @@ public final class SpawnAlertSystem {
             return AlertPriority.NONE;
         }
 
-        if (cfg.alertOnShiny && PokemonPredicates.IS_SHINY.test(pokemon)) {
+        boolean allowed = isAllowedAgainstBlacklist(pokemon, cfg);
+
+        if (cfg.alertOnShiny && allowed && PokemonPredicates.IS_SHINY.test(pokemon)) {
             return AlertPriority.SHINY;
         }
 
-        if (cfg.alertOnExtremeSize && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
+        if (cfg.alertOnExtremeSize && allowed && PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             return AlertPriority.SIZE;
         }
 
         boolean isLegendary = PokemonPredicates.IS_LEGENDARY.test(pokemon) || PokemonPredicates.IS_MYTHICAL.test(pokemon);
-        boolean allowed = isAllowedAgainstBlacklist(pokemon, cfg);
         if (cfg.alertOnLegendary && isLegendary && allowed) {
             return AlertPriority.LEGENDARY;
         }
