@@ -59,7 +59,7 @@ public final class PokemonPredicates {
 
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 
-    public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !pokemon.getRiding().getBehaviours().isEmpty();
+    public static final Predicate<Pokemon> IS_RIDEABLE = pokemon -> !(pokemon.getRiding().getBehaviours() == null);
 
     public static final Predicate<Pokemon> HAS_SELF_DAMAGING_MOVE = pokemon -> {
         Set<MoveTemplate> possibleMoves = PokemonCalcUtil.getPossibleMoves(pokemon, true);
