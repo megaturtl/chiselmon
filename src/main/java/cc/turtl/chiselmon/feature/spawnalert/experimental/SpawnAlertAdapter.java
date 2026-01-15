@@ -47,9 +47,6 @@ public final class SpawnAlertAdapter {
             return;
         }
         SpawnAlertConfig cfg = config.get();
-        if (cfg == null || !cfg.enabled) {
-            return;
-        }
         system.onEntitySpawn(new SpawnAlertSystem.EntitySpawned(entity.getUUID(), pokemonEntity), cfg);
     }
 
@@ -62,7 +59,7 @@ public final class SpawnAlertAdapter {
         while (muteKey.consumeClick()) {
             Component muted = ComponentUtil.colored(
                     ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN);
-            system.onMuteToggle(muted);
+            system.onMute(muted);
         }
 
         ClientBattle battle = CobblemonClient.INSTANCE.getBattle();

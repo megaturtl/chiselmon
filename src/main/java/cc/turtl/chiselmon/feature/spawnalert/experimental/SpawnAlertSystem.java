@@ -66,10 +66,13 @@ public final class SpawnAlertSystem {
     }
 
     public void onBattleStarted(UUID actorId) {
+        if (actorId == null) {
+            return;
+        }
         state.removeTarget(actorId);
     }
 
-    public void onMuteToggle(Component mutedMessage) {
+    public void onMute(Component mutedMessage) {
         state.setMutedAll(true);
         chat.send(mutedMessage);
     }
