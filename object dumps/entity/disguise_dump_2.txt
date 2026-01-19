@@ -1,0 +1,1428 @@
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] --- Dumping Targeted PokemonEntity Object ---
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isNoAi: true
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isAttackable: true
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isBusy: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isEffectiveAi: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isInvulnerable: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isPushable: true
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] isUncatchable: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] scoreboardName: c69dd74a-c03e-4657-973b-7634fa38b98a
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] hasImpulse: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] horizontalCollision: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] moveDist: 0.0
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] noCulling: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] walkDist: 0.0
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] tickCount: 284
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] timeOffs: 4859.033
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] getX: 262.18798828125
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] getY: 175.0
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] getZ: 1181.845458984375
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] getXRot: 5.625
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] attackable: true
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] canWalk: true
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] age: 1
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] aspects: [shiny, male, pumpkin-size-super]
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] displayName: Pumpkaboo
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] tickSpawned: 0
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] ticksLived: 284
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] titledName: Pumpkaboo
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] scoreboardName: c69dd74a-c03e-4657-973b-7634fa38b98a
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] - Chiselmon Predicates -
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] IS_OWNED: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] IS_BOSS: false
+[13:52:22] [Render thread/INFO]: [System] [CHAT] [13:52:22] IS_WILD: true
+[13:52:22] [Render thread/INFO]: Logging object details for targeted Pokemon...
+[13:52:22] [Render thread/INFO]: --- DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity ---
+[13:52:22] [Render thread/INFO]:   Companion: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity$Companion ---
+[13:52:22] [Render thread/INFO]:     (no declared fields)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity$Companion ---
+[13:52:22] [Render thread/INFO]:   removalObservable: <com.cobblemon.mod.common.api.reactive.SimpleObservable> (Type: SimpleObservable)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.reactive.SimpleObservable ---
+[13:52:22] [Render thread/INFO]:     subscriptions: <com.cobblemon.mod.common.api.PrioritizedList> (Type: PrioritizedList)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.PrioritizedList ---
+[13:52:22] [Render thread/INFO]:       priorityMap: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:       ordered: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.PrioritizedList ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.reactive.SimpleObservable ---
+[13:52:22] [Render thread/INFO]:   subscriptions: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:   schedulingTracker: <com.cobblemon.mod.common.api.scheduling.SchedulingTracker> (Type: SchedulingTracker)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.scheduling.SchedulingTracker ---
+[13:52:22] [Render thread/INFO]:     tasks: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.scheduling.SchedulingTracker ---
+[13:52:22] [Render thread/INFO]:   brainDynamic: <com.mojang.serialization.Dynamic> (Type: Dynamic)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.mojang.serialization.Dynamic ---
+[13:52:22] [Render thread/INFO]:     value: {memories:{}} (Type: Object)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.mojang.serialization.Dynamic ---
+[13:52:22] [Render thread/INFO]:   pokemon: <com.cobblemon.mod.common.pokemon.Pokemon> (Type: Pokemon)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.pokemon.Pokemon ---
+[13:52:22] [Render thread/INFO]:     Companion: <com.cobblemon.mod.common.pokemon.Pokemon$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.Pokemon$Companion ---
+[13:52:22] [Render thread/INFO]:       (no declared fields)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.Pokemon$Companion ---
+[13:52:22] [Render thread/INFO]:     uuid: e35c239b-f6bd-4886-8f13-a320c305d7a5 (Type: UUID)
+[13:52:22] [Render thread/INFO]:     species: <com.cobblemon.mod.common.pokemon.Species> (Type: Species)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.Species ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.Species$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.Species$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.Species$Companion ---
+[13:52:22] [Render thread/INFO]:       name: Pumpkaboo (Type: String)
+[13:52:22] [Render thread/INFO]:       nationalPokedexNumber: 710 (Type: int)
+[13:52:22] [Render thread/INFO]:       baseStats: {{SPECIAL_ATTACK=44, ATTACK=66, HP=49, SPEED=51, DEFENCE=70, SPECIAL_DEFENCE=55}} (Type: Map, size=6)
+[13:52:22] [Render thread/INFO]:       maleRatio: 0.5 (Type: float)
+[13:52:22] [Render thread/INFO]:       catchRate: 45 (Type: int)
+[13:52:22] [Render thread/INFO]:       baseScale: 0.8 (Type: float)
+[13:52:22] [Render thread/INFO]:       baseExperienceYield: 10 (Type: int)
+[13:52:22] [Render thread/INFO]:       baseFriendship: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:       evYield: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:       experienceGroup: <com.cobblemon.mod.common.api.pokemon.experience.MediumFast> (Type: ExperienceGroup)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.pokemon.experience.MediumFast ---
+[13:52:22] [Render thread/INFO]:         INSTANCE: <com.cobblemon.mod.common.api.pokemon.experience.MediumFast> (Type: MediumFast)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.experience.MediumFast (skipping details)
+[13:52:22] [Render thread/INFO]:         name: medium_fast (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.pokemon.experience.MediumFast ---
+[13:52:22] [Render thread/INFO]:       hitbox: <net.minecraft.class_4048> (Type: class_4048)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_4048 ---
+[13:52:22] [Render thread/INFO]:         comp_2185: 0.8 (Type: float)
+[13:52:22] [Render thread/INFO]:         comp_2186: 0.9 (Type: float)
+[13:52:22] [Render thread/INFO]:         comp_2187: 0.765 (Type: float)
+[13:52:22] [Render thread/INFO]:         comp_2188: <net.minecraft.class_9066> (Type: class_9066)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9066 (skipping details)
+[13:52:22] [Render thread/INFO]:         comp_2189: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_4048 ---
+[13:52:22] [Render thread/INFO]:       primaryType: <com.cobblemon.mod.common.api.types.ElementalType> (Type: ElementalType)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.types.ElementalType$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.types.ElementalType$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         name: Ghost (Type: String)
+[13:52:22] [Render thread/INFO]:         displayName: <net.minecraft.class_5250> (Type: class_5250)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5250 (skipping details)
+[13:52:22] [Render thread/INFO]:         hue: 10256631 (Type: int)
+[13:52:22] [Render thread/INFO]:         textureXMultiplier: 13 (Type: int)
+[13:52:22] [Render thread/INFO]:         resourceLocation: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2960 (skipping details)
+[13:52:22] [Render thread/INFO]:         showdownId: ghost (Type: String)
+[13:52:22] [Render thread/INFO]:         BY_STRING_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:       secondaryType: <com.cobblemon.mod.common.api.types.ElementalType> (Type: ElementalType)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.types.ElementalType$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.types.ElementalType$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         name: Grass (Type: String)
+[13:52:22] [Render thread/INFO]:         displayName: <net.minecraft.class_5250> (Type: class_5250)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5250 (skipping details)
+[13:52:22] [Render thread/INFO]:         hue: 6476111 (Type: int)
+[13:52:22] [Render thread/INFO]:         textureXMultiplier: 3 (Type: int)
+[13:52:22] [Render thread/INFO]:         resourceLocation: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2960 (skipping details)
+[13:52:22] [Render thread/INFO]:         showdownId: grass (Type: String)
+[13:52:22] [Render thread/INFO]:         BY_STRING_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:       abilities: <com.cobblemon.mod.common.api.abilities.AbilityPool> (Type: AbilityPool)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.abilities.AbilityPool ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.abilities.AbilityPool ---
+[13:52:22] [Render thread/INFO]:       shoulderMountable: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:       shoulderEffects: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       moves: <com.cobblemon.mod.common.api.pokemon.moves.Learnset> (Type: Learnset)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.pokemon.moves.Learnset ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         levelUpMoves: {{1=[com.cobblemon.mod.common.api.moves.MoveTemplate@7afb898c, com.cobblemon.mod.common.api.moves.MoveTemplate@741a2f52], 4=[com.cobblemon.mod.common.api.moves.MoveTemplate@9b22d31], 8=[com.cobblemon.mod.common.api.moves.MoveTemplate@3da61fd4], 12=[com.cobblemon.mod.common.api.moves.MoveTemplate@19d2a3e5], 16=[com.cobblemon.mod.common.api.moves.MoveTemplate@66b915f7], 20=[com.cobblemon.mod.common.api.moves.MoveTemplate@34c556e1], 24=[com.cobblemon.mod.common.api.moves.MoveTemplate@59d05cd2], 28=[com.cobblemon.mod.common.api.moves.MoveTemplate@58a1ddb8], 32=[com.cobblemon.mod.common.api.moves.MoveTemplate@7546b60d], 36=[com.cobblemon.mod.common.api.moves.MoveTemplate@206a1769], 40=[com.cobblemon.mod.common.api.moves.MoveTemplate@34d90611], 44=[com.cobblemon.mod.common.api.moves.MoveTemplate@38d1c403]}} (Type: Map, size=12)
+[13:52:22] [Render thread/INFO]:         eggMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         tutorMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         legacyMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         specialMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         tmMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         evolutionMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         formChangeMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         tmInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         eggInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         tutorInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         legacyInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         specialInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         formChangeInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         levelUpInterpreter: <com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter> (Type: Interpreter)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter (skipping details)
+[13:52:22] [Render thread/INFO]:         interpreters: [com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@314c31e5, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@633f8d0e, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@2baa7516, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@5b49ab2e, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@bda7abb, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@1492d133, com.cobblemon.mod.common.api.pokemon.moves.Learnset$Interpreter@6ce81472] (Type: Collection, size=7)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.pokemon.moves.Learnset ---
+[13:52:22] [Render thread/INFO]:       features: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       standingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       swimmingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       flyingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       behaviour: <com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour> (Type: PokemonBehaviour)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         resting: <com.cobblemon.mod.common.pokemon.ai.RestBehaviour> (Type: RestBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.RestBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         moving: <com.cobblemon.mod.common.pokemon.ai.MoveBehaviour> (Type: MoveBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.MoveBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         idle: <com.cobblemon.mod.common.pokemon.ai.IdleBehaviour> (Type: IdleBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.IdleBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         fireImmune: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:         dampensVibrations: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:         entityInteract: <com.cobblemon.mod.common.pokemon.ai.EntityBehaviour> (Type: EntityBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.EntityBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         lightningHit: <com.cobblemon.mod.common.pokemon.ai.ThunderstruckBehaviour> (Type: ThunderstruckBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.ThunderstruckBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         blockInteract: <com.cobblemon.mod.common.pokemon.ai.BlockBehavior> (Type: BlockBehavior)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.BlockBehavior (skipping details)
+[13:52:22] [Render thread/INFO]:         combat: <com.cobblemon.mod.common.pokemon.ai.CombatBehaviour> (Type: CombatBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.CombatBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         herd: <com.cobblemon.mod.common.pokemon.ai.HerdBehaviour> (Type: HerdBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.HerdBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         characteristicRainbow: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:         itemInteract: <com.cobblemon.mod.common.pokemon.ai.ItemBehavior> (Type: ItemBehavior)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.ItemBehavior (skipping details)
+[13:52:22] [Render thread/INFO]:         struct: <com.cobblemon.mod.common.api.molang.ObjectValue> (Type: ObjectValue)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.molang.ObjectValue (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour ---
+[13:52:22] [Render thread/INFO]:       pokedex: [cobblemon.species.pumpkaboo.desc] (Type: Collection, size=1)
+[13:52:22] [Render thread/INFO]:       drops: <com.cobblemon.mod.common.api.drop.DropTable> (Type: DropTable)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.drop.DropTable ---
+[13:52:22] [Render thread/INFO]:         entries: [com.cobblemon.mod.common.api.drop.ItemDropEntry@4816bc7b, com.cobblemon.mod.common.api.drop.ItemDropEntry@8a08daa, com.cobblemon.mod.common.api.drop.ItemDropEntry@58b2da6a] (Type: Collection, size=3)
+[13:52:22] [Render thread/INFO]:         amount: <kotlin.ranges.IntRange> (Type: IntRange)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] kotlin.ranges.IntRange (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.drop.DropTable ---
+[13:52:22] [Render thread/INFO]:       eggCycles: 120 (Type: int)
+[13:52:22] [Render thread/INFO]:       eggGroups: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       dynamaxBlocked: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:       implemented: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       baseAI: null (Type: List)
+[13:52:22] [Render thread/INFO]:       ai: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       height: 4.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       weight: 50.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       forms: [com.cobblemon.mod.common.pokemon.FormData@bff7b52b, com.cobblemon.mod.common.pokemon.FormData@fe348443, com.cobblemon.mod.common.pokemon.FormData@fdccaa77, com.cobblemon.mod.common.pokemon.FormData@fe385eb7] (Type: Collection, size=4)
+[13:52:22] [Render thread/INFO]:       riding: <com.cobblemon.mod.common.api.riding.RidingProperties> (Type: RidingProperties)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.riding.RidingProperties ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.riding.RidingProperties$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.riding.RidingProperties$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         seats: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         conditions: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         behaviours: null (Type: Map)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.riding.RidingProperties ---
+[13:52:22] [Render thread/INFO]:       standardForm$delegate: <kotlin.SynchronizedLazyImpl> (Type: Lazy)
+[13:52:22] [Render thread/INFO]:       --- DUMP: kotlin.SynchronizedLazyImpl ---
+[13:52:22] [Render thread/INFO]:         initializer: null (Type: Function0)
+[13:52:22] [Render thread/INFO]:         _value: com.cobblemon.mod.common.pokemon.FormData@bff7b52b (Type: Object)
+[13:52:22] [Render thread/INFO]:         lock: com.cobblemon.mod.common.pokemon.FormData@bff7b52b (Type: Object)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: kotlin.SynchronizedLazyImpl ---
+[13:52:22] [Render thread/INFO]:       labels: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       evolutions: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       preEvolution: null (Type: PreEvolution)
+[13:52:22] [Render thread/INFO]:       resourceIdentifier: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: pumpkaboo (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       battleTheme: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: battle.pvw.default (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       lightingData: <com.cobblemon.mod.common.pokemon.lighthing.LightingData> (Type: LightingData)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.lighthing.LightingData ---
+[13:52:22] [Render thread/INFO]:         lightLevel: 9 (Type: int)
+[13:52:22] [Render thread/INFO]:         liquidGlowMode: BOTH (Type: LiquidGlowMode)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.lighthing.LightingData ---
+[13:52:22] [Render thread/INFO]:       struct: <com.cobblemon.mod.common.api.molang.ObjectValue> (Type: QueryStruct)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:         obj: pumpkaboo (Type: Object)
+[13:52:22] [Render thread/INFO]:         stringify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590> (Type: Function1)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590 (skipping details)
+[13:52:22] [Render thread/INFO]:         doublify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8> (Type: Function1)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:       VANILLA_DEFAULT_EYE_HEIGHT: 0.85 (Type: float)
+[13:52:22] [Render thread/INFO]:       BY_IDENTIFIER_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: String[comapFlatMapped][comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.Species ---
+[13:52:22] [Render thread/INFO]:     form: <com.cobblemon.mod.common.pokemon.FormData> (Type: FormData)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.FormData ---
+[13:52:22] [Render thread/INFO]:       _baseStats: {{SPECIAL_ATTACK=44, ATTACK=66, HP=59, DEFENCE=70, SPECIAL_DEFENCE=55, SPEED=41}} (Type: Map, size=6)
+[13:52:22] [Render thread/INFO]:       _maleRatio: 0.5 (Type: Float)
+[13:52:22] [Render thread/INFO]:       _baseScale: 1.4 (Type: Float)
+[13:52:22] [Render thread/INFO]:       _hitbox: null (Type: class_4048)
+[13:52:22] [Render thread/INFO]:       _catchRate: null (Type: Integer)
+[13:52:22] [Render thread/INFO]:       _experienceGroup: null (Type: ExperienceGroup)
+[13:52:22] [Render thread/INFO]:       _baseExperienceYield: null (Type: Integer)
+[13:52:22] [Render thread/INFO]:       _baseFriendship: null (Type: Integer)
+[13:52:22] [Render thread/INFO]:       _evYield: null (Type: Map)
+[13:52:22] [Render thread/INFO]:       _primaryType: <com.cobblemon.mod.common.api.types.ElementalType> (Type: ElementalType)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.types.ElementalType (already visited)
+[13:52:22] [Render thread/INFO]:       _secondaryType: <com.cobblemon.mod.common.api.types.ElementalType> (Type: ElementalType)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.types.ElementalType (already visited)
+[13:52:22] [Render thread/INFO]:       _shoulderMountable: null (Type: Boolean)
+[13:52:22] [Render thread/INFO]:       _shoulderEffects: null (Type: List)
+[13:52:22] [Render thread/INFO]:       _moves: null (Type: Learnset)
+[13:52:22] [Render thread/INFO]:       _evolutions: null (Type: Set)
+[13:52:22] [Render thread/INFO]:       _abilities: null (Type: AbilityPool)
+[13:52:22] [Render thread/INFO]:       _drops: null (Type: DropTable)
+[13:52:22] [Render thread/INFO]:       _pokedex: [cobblemon.species.pumpkaboo-super.desc] (Type: Collection, size=1)
+[13:52:22] [Render thread/INFO]:       _preEvolution: null (Type: PreEvolution)
+[13:52:22] [Render thread/INFO]:       standingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       swimmingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       flyingEyeHeight: null (Type: Float)
+[13:52:22] [Render thread/INFO]:       _labels: null (Type: Set)
+[13:52:22] [Render thread/INFO]:       _dynamaxBlocked: null (Type: Boolean)
+[13:52:22] [Render thread/INFO]:       _eggGroups: null (Type: Set)
+[13:52:22] [Render thread/INFO]:       _height: 8.0 (Type: Float)
+[13:52:22] [Render thread/INFO]:       _weight: 150.0 (Type: Float)
+[13:52:22] [Render thread/INFO]:       _riding: null (Type: RidingProperties)
+[13:52:22] [Render thread/INFO]:       _baseAI: null (Type: List)
+[13:52:22] [Render thread/INFO]:       _ai: null (Type: List)
+[13:52:22] [Render thread/INFO]:       requiredMove: null (Type: String)
+[13:52:22] [Render thread/INFO]:       requiredItem: null (Type: String)
+[13:52:22] [Render thread/INFO]:       requiredItems: null (Type: List)
+[13:52:22] [Render thread/INFO]:       gigantamaxMove: null (Type: MoveTemplate)
+[13:52:22] [Render thread/INFO]:       _battleTheme: null (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       _lightingData: null (Type: LightingData)
+[13:52:22] [Render thread/INFO]:       name: Super (Type: String)
+[13:52:22] [Render thread/INFO]:       aspects: [pumpkin-size-super] (Type: Collection, size=1)
+[13:52:22] [Render thread/INFO]:       behaviour: <com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour> (Type: FormPokemonBehaviour)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour ---
+[13:52:22] [Render thread/INFO]:         parent: <com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour> (Type: PokemonBehaviour)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour (skipping details)
+[13:52:22] [Render thread/INFO]:         _resting: null (Type: RestBehaviour)
+[13:52:22] [Render thread/INFO]:         _moving: null (Type: MoveBehaviour)
+[13:52:22] [Render thread/INFO]:         _idle: null (Type: IdleBehaviour)
+[13:52:22] [Render thread/INFO]:         _fireImmune: null (Type: Boolean)
+[13:52:22] [Render thread/INFO]:         _dampensVibrations: null (Type: Boolean)
+[13:52:22] [Render thread/INFO]:         _entityInteract: null (Type: EntityBehaviour)
+[13:52:22] [Render thread/INFO]:         _blockInteract: null (Type: BlockBehavior)
+[13:52:22] [Render thread/INFO]:         _lightningHit: null (Type: ThunderstruckBehaviour)
+[13:52:22] [Render thread/INFO]:         _combat: null (Type: CombatBehaviour)
+[13:52:22] [Render thread/INFO]:         _itemInteract: null (Type: ItemBehavior)
+[13:52:22] [Render thread/INFO]:         _herd: null (Type: HerdBehaviour)
+[13:52:22] [Render thread/INFO]:         _characteristicRainbow: null (Type: Boolean)
+[13:52:22] [Render thread/INFO]:         struct: <com.cobblemon.mod.common.api.molang.ObjectValue> (Type: ObjectValue)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.molang.ObjectValue (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour ---
+[13:52:22] [Render thread/INFO]:       species: <com.cobblemon.mod.common.pokemon.Species> (Type: Species)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.pokemon.Species (already visited)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.FormData ---
+[13:52:22] [Render thread/INFO]:     ivs: <com.cobblemon.mod.common.pokemon.IVs> (Type: IVs)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.IVs ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.IVs$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.IVs$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.IVs$Companion ---
+[13:52:22] [Render thread/INFO]:       acceptableRange: <kotlin.ranges.IntRange> (Type: IntRange)
+[13:52:22] [Render thread/INFO]:       --- DUMP: kotlin.ranges.IntRange ---
+[13:52:22] [Render thread/INFO]:         Companion: <kotlin.ranges.IntRange$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] kotlin.ranges.IntRange$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         EMPTY: <kotlin.ranges.IntRange> (Type: IntRange)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] kotlin.ranges.IntRange (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: kotlin.ranges.IntRange ---
+[13:52:22] [Render thread/INFO]:       defaultValue: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:       hyperTrainedIVs: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:       MAX_VALUE: 31 (Type: int)
+[13:52:22] [Render thread/INFO]:       MAX_TOTAL: 186 (Type: int)
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:         codec: <com.mojang.serialization.codecs.RecordCodecBuilder$2> (Type: MapCodec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.codecs.RecordCodecBuilder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:       STREAM_CODEC: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:         field_48587: net.minecraft.class_9135$$Lambda/0x0000021b813738b0@63f482b0 (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48588: net.minecraft.class_9135$$Lambda/0x0000021b81373af0@2197e223 (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48589: <net.minecraft.class_9135$5> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9135$5 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.IVs ---
+[13:52:22] [Render thread/INFO]:     evs: <com.cobblemon.mod.common.pokemon.EVs> (Type: EVs)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.EVs ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.EVs$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.EVs$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.EVs$Companion ---
+[13:52:22] [Render thread/INFO]:       acceptableRange: <kotlin.ranges.IntRange> (Type: IntRange)
+[13:52:22] [Render thread/INFO]:       --- DUMP: kotlin.ranges.IntRange ---
+[13:52:22] [Render thread/INFO]:         Companion: <kotlin.ranges.IntRange$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] kotlin.ranges.IntRange$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         EMPTY: <kotlin.ranges.IntRange> (Type: IntRange)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] kotlin.ranges.IntRange (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: kotlin.ranges.IntRange ---
+[13:52:22] [Render thread/INFO]:       defaultValue: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:       MAX_STAT_VALUE: 252 (Type: int)
+[13:52:22] [Render thread/INFO]:       MAX_TOTAL_VALUE: 510 (Type: int)
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: UnboundedMapCodec[String[comapFlatMapped][comapFlatMapped][comapFlatMapped] -> Int[flatXmapped]][comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       STREAM_CODEC: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:         field_48587: net.minecraft.class_9135$$Lambda/0x0000021b813738b0@29f1226b (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48588: net.minecraft.class_9135$$Lambda/0x0000021b81373af0@2500bd3e (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48589: <net.minecraft.class_9135$5> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9135$5 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.EVs ---
+[13:52:22] [Render thread/INFO]:     characteristic: <com.cobblemon.mod.common.pokemon.Characteristic> (Type: Characteristic)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.Characteristic ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.Characteristic$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.Characteristic$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.Characteristic$Companion ---
+[13:52:22] [Render thread/INFO]:       relevantStat: <com.cobblemon.mod.common.api.pokemon.stats.Stats> (Type: Stat)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.pokemon.stats.Stats ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.pokemon.stats.Stats$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokemon.stats.Stats$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         identifier: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2960 (skipping details)
+[13:52:22] [Render thread/INFO]:         displayName: <net.minecraft.class_5250> (Type: class_2561)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5250 (skipping details)
+[13:52:22] [Render thread/INFO]:         type: PERMANENT (Type: Type)
+[13:52:22] [Render thread/INFO]:         showdownId: atk (Type: String)
+[13:52:22] [Render thread/INFO]:         ALL: [HP, ATTACK, DEFENCE, SPECIAL_ATTACK, SPECIAL_DEFENCE, SPEED, EVASION, ACCURACY] (Type: Collection, size=8)
+[13:52:22] [Render thread/INFO]:         PERMANENT: [HP, ATTACK, DEFENCE, SPECIAL_ATTACK, SPECIAL_DEFENCE, SPEED] (Type: Collection, size=6)
+[13:52:22] [Render thread/INFO]:         BATTLE_ONLY: [EVASION, ACCURACY] (Type: Collection, size=2)
+[13:52:22] [Render thread/INFO]:         HP: HP (Type: Stats)
+[13:52:22] [Render thread/INFO]:         ATTACK: ATTACK (Type: Stats)
+[13:52:22] [Render thread/INFO]:         DEFENCE: DEFENCE (Type: Stats)
+[13:52:22] [Render thread/INFO]:         SPECIAL_ATTACK: SPECIAL_ATTACK (Type: Stats)
+[13:52:22] [Render thread/INFO]:         SPECIAL_DEFENCE: SPECIAL_DEFENCE (Type: Stats)
+[13:52:22] [Render thread/INFO]:         SPEED: SPEED (Type: Stats)
+[13:52:22] [Render thread/INFO]:         EVASION: EVASION (Type: Stats)
+[13:52:22] [Render thread/INFO]:         ACCURACY: ACCURACY (Type: Stats)
+[13:52:22] [Render thread/INFO]:         $VALUES: [HP, ATTACK, DEFENCE, SPECIAL_ATTACK, SPECIAL_DEFENCE, SPEED, EVASION, ACCURACY] (Type: Stats[])
+[13:52:22] [Render thread/INFO]:         $ENTRIES: [HP, ATTACK, DEFENCE, SPECIAL_ATTACK, SPECIAL_DEFENCE, SPEED, EVASION, ACCURACY] (Type: Collection, size=8)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.pokemon.stats.Stats ---
+[13:52:22] [Render thread/INFO]:       mod: 4 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.Characteristic ---
+[13:52:22] [Render thread/INFO]:     nickname: null (Type: class_5250)
+[13:52:22] [Render thread/INFO]:     level: 28 (Type: int)
+[13:52:22] [Render thread/INFO]:     currentHealth: 77 (Type: int)
+[13:52:22] [Render thread/INFO]:     gender: MALE (Type: Gender)
+[13:52:22] [Render thread/INFO]:     status: null (Type: PersistentStatusContainer)
+[13:52:22] [Render thread/INFO]:     experience: 21952 (Type: int)
+[13:52:22] [Render thread/INFO]:     friendship: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:     currentFullness: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:     rideStamina: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     interactionCooldowns: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:     state: <com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState> (Type: PokemonState)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState$Companion ---
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:         codec: <com.mojang.serialization.MapCodec$2> (Type: MapCodec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.MapCodec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState ---
+[13:52:22] [Render thread/INFO]:     teraType: <com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType> (Type: TeraType)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType ---
+[13:52:22] [Render thread/INFO]:       type: <com.cobblemon.mod.common.api.types.ElementalType> (Type: ElementalType)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.types.ElementalType$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.types.ElementalType$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         name: Ground (Type: String)
+[13:52:22] [Render thread/INFO]:         displayName: <net.minecraft.class_5250> (Type: class_5250)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5250 (skipping details)
+[13:52:22] [Render thread/INFO]:         hue: 16032851 (Type: int)
+[13:52:22] [Render thread/INFO]:         textureXMultiplier: 8 (Type: int)
+[13:52:22] [Render thread/INFO]:         resourceLocation: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2960 (skipping details)
+[13:52:22] [Render thread/INFO]:         showdownId: ground (Type: String)
+[13:52:22] [Render thread/INFO]:         BY_STRING_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.types.ElementalType ---
+[13:52:22] [Render thread/INFO]:       legalAsStatic: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       name: Ground (Type: String)
+[13:52:22] [Render thread/INFO]:       id: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: ground (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       displayName: <net.minecraft.class_5250> (Type: class_2561)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_5250 ---
+[13:52:22] [Render thread/INFO]:         field_39005: <net.minecraft.class_2588> (Type: class_7417)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2588 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39006: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         field_39007: <net.minecraft.class_2583> (Type: class_2583)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2583 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39008: <net.minecraft.class_5481$$Lambda/0x0000021b81378860> (Type: class_5481)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5481$$Lambda/0x0000021b81378860 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39009: null (Type: class_2477)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_5250 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType ---
+[13:52:22] [Render thread/INFO]:     dmaxLevel: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:     gmaxFactor: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:     shiny: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     tradeable: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     nature: <com.cobblemon.mod.common.pokemon.Nature> (Type: Nature)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.Nature ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokemon.Nature$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.Nature$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.Nature$Companion ---
+[13:52:22] [Render thread/INFO]:       name: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: hardy (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       displayName: cobblemon.nature.hardy (Type: String)
+[13:52:22] [Render thread/INFO]:       increasedStat: null (Type: Stat)
+[13:52:22] [Render thread/INFO]:       decreasedStat: null (Type: Stat)
+[13:52:22] [Render thread/INFO]:       favouriteFlavour: null (Type: Flavour)
+[13:52:22] [Render thread/INFO]:       dislikedFlavour: null (Type: Flavour)
+[13:52:22] [Render thread/INFO]:       BY_IDENTIFIER_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: String[comapFlatMapped][comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.Nature ---
+[13:52:22] [Render thread/INFO]:     mintedNature: null (Type: Nature)
+[13:52:22] [Render thread/INFO]:     moveSet: <com.cobblemon.mod.common.api.moves.MoveSet> (Type: MoveSet)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.moves.MoveSet ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.api.moves.MoveSet$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.moves.MoveSet$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.moves.MoveSet$Companion ---
+[13:52:22] [Render thread/INFO]:       changeFunction: <com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd270> (Type: Function1)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd270 ---
+[13:52:22] [Render thread/INFO]:         arg$1: <com.cobblemon.mod.common.pokemon.Pokemon> (Type: Pokemon)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.Pokemon (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd270 ---
+[13:52:22] [Render thread/INFO]:       emit: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       moves: [null, null, null, null] (Type: Move[])
+[13:52:22] [Render thread/INFO]:       MOVE_COUNT: 4 (Type: int)
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$2> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: ListCodec[RecordCodec[UnitDecoder[com.cobblemon.mod.common.api.moves.Move$$Lambda/0x0000021b834794d8@5776b852] * Field[MoveName: String[comapFlatMapped]] * Field[MovePP: Int[flatXmapped]] * Field[RaisedPPStages: Int[flatXmapped]]]][xmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.moves.MoveSet ---
+[13:52:22] [Render thread/INFO]:     faintedTimer: -1 (Type: int)
+[13:52:22] [Render thread/INFO]:     healTimer: 60 (Type: int)
+[13:52:22] [Render thread/INFO]:     tetheringId: null (Type: UUID)
+[13:52:22] [Render thread/INFO]:     originalTrainerType: NONE (Type: OriginalTrainerType)
+[13:52:22] [Render thread/INFO]:     originalTrainer: null (Type: String)
+[13:52:22] [Render thread/INFO]:     originalTrainerName: null (Type: String)
+[13:52:22] [Render thread/INFO]:     benchedMoves: <com.cobblemon.mod.common.api.moves.BenchedMoves> (Type: BenchedMoves)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.moves.BenchedMoves ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.api.moves.BenchedMoves$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.moves.BenchedMoves$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.moves.BenchedMoves$Companion ---
+[13:52:22] [Render thread/INFO]:       changeFunction: <com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd490> (Type: Function1)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd490 ---
+[13:52:22] [Render thread/INFO]:         arg$1: <com.cobblemon.mod.common.pokemon.Pokemon> (Type: Pokemon)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokemon.Pokemon (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokemon.Pokemon$$Lambda/0x0000021b834bd490 ---
+[13:52:22] [Render thread/INFO]:       emit: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       benchedMoves: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$2> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: ListCodec[RecordCodec[UnitDecoder[com.cobblemon.mod.common.api.moves.BenchedMove$$Lambda/0x0000021b8347ba40@469678cb] * Field[MoveName: String[comapFlatMapped]] * Field[RaisedPPStages: Int[flatXmapped]]]][xmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.moves.BenchedMoves ---
+[13:52:22] [Render thread/INFO]:     ability: <com.cobblemon.mod.common.api.abilities.Ability> (Type: Ability)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.abilities.Ability ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.api.abilities.Ability$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.abilities.Ability$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.abilities.Ability$Companion ---
+[13:52:22] [Render thread/INFO]:       template: <com.cobblemon.mod.common.api.abilities.AbilityTemplate> (Type: AbilityTemplate)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.abilities.AbilityTemplate ---
+[13:52:22] [Render thread/INFO]:         Companion: <com.cobblemon.mod.common.api.abilities.AbilityTemplate$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.abilities.AbilityTemplate$Companion (skipping details)
+[13:52:22] [Render thread/INFO]:         name: dummy (Type: String)
+[13:52:22] [Render thread/INFO]:         builder: <com.cobblemon.mod.common.api.abilities.AbilityTemplate$$Lambda/0x0000021b8227fb80> (Type: Function3)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.abilities.AbilityTemplate$$Lambda/0x0000021b8227fb80 (skipping details)
+[13:52:22] [Render thread/INFO]:         displayName: cobblemon.ability.dummy (Type: String)
+[13:52:22] [Render thread/INFO]:         description: cobblemon.ability.dummy.desc (Type: String)
+[13:52:22] [Render thread/INFO]:         CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.abilities.AbilityTemplate ---
+[13:52:22] [Render thread/INFO]:       forced: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:       index: -1 (Type: int)
+[13:52:22] [Render thread/INFO]:       priority: LOWEST (Type: Priority)
+[13:52:22] [Render thread/INFO]:       CODEC: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:         codec: <com.mojang.serialization.codecs.RecordCodecBuilder$2> (Type: MapCodec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.codecs.RecordCodecBuilder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.abilities.Ability ---
+[13:52:22] [Render thread/INFO]:     scaleModifier: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     caughtBall: <com.cobblemon.mod.common.pokeball.PokeBall> (Type: PokeBall)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokeball.PokeBall ---
+[13:52:22] [Render thread/INFO]:       Companion: <com.cobblemon.mod.common.pokeball.PokeBall$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.pokeball.PokeBall$Companion ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.pokeball.PokeBall$Companion ---
+[13:52:22] [Render thread/INFO]:       name: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: poke_ball (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       catchRateModifier: <com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier> (Type: CatchRateModifier)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier ---
+[13:52:22] [Render thread/INFO]:         multiplier: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:         condition: <com.cobblemon.mod.common.api.pokeball.PokeBalls$$Lambda/0x0000021b81e5bea8> (Type: Function2)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.api.pokeball.PokeBalls$$Lambda/0x0000021b81e5bea8 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier ---
+[13:52:22] [Render thread/INFO]:       effects: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       waterDragValue: 0.8 (Type: float)
+[13:52:22] [Render thread/INFO]:       model2d: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: poke_ball (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       model3d: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: item/poke_ball_model (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       throwPower: 1.25 (Type: float)
+[13:52:22] [Render thread/INFO]:       ancient: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:       struct: <com.bedrockk.molang.runtime.struct.QueryStruct> (Type: QueryStruct)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.bedrockk.molang.runtime.struct.QueryStruct ---
+[13:52:22] [Render thread/INFO]:         functions: {{is_ancient=com.cobblemon.mod.common.pokeball.PokeBall$$Lambda/0x0000021b81e5e7d0@59a94f82, name=com.cobblemon.mod.common.pokeball.PokeBall$$Lambda/0x0000021b81e5e110@42a11647, water_drag_value=com.cobblemon.mod.common.pokeball.PokeBall$$Lambda/0x0000021b81e5e350@10730696, throw_power=com.cobblemon.mod.common.pokeball.PokeBall$$Lambda/0x0000021b81e5e590@1e10d7ac}} (Type: Map, size=4)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.bedrockk.molang.runtime.struct.QueryStruct ---
+[13:52:22] [Render thread/INFO]:       item: <com.cobblemon.mod.common.item.PokeBallItem> (Type: PokeBallItem)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.item.PokeBallItem ---
+[13:52:22] [Render thread/INFO]:         pokeBall: <com.cobblemon.mod.common.pokeball.PokeBall> (Type: PokeBall)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.cobblemon.mod.common.pokeball.PokeBall (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.item.PokeBallItem ---
+[13:52:22] [Render thread/INFO]:       BY_IDENTIFIER_CODEC: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: String[comapFlatMapped][comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokeball.PokeBall ---
+[13:52:22] [Render thread/INFO]:     features: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     cosmeticItem: <net.minecraft.class_1799> (Type: class_1799)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_1799 ---
+[13:52:22] [Render thread/INFO]:       field_47312: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$2> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: String[comapFlatMapped][comapFlatMapped][mapResult WithLifecycle[net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05 net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05]][flatComapMapped][flatXmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_24671: <com.mojang.serialization.Codec$RecursiveCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$RecursiveCodec ---
+[13:52:22] [Render thread/INFO]:         name: net.minecraft.class_1799$$Lambda/0x0000021b81748648@1c19c305 (Type: String)
+[13:52:22] [Render thread/INFO]:         wrapped: Suppliers.memoize(<supplier that returned RecordCodec[UnitDecoder[net.minecraft.class_1799$$Lambda/0x0000021b8338b5a0@690daed8] * Field[id: String[comapFlatMapped][comapFlatMapped][mapResult WithLifecycle[net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05 net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05]][flatComapMapped][flatXmapped]] * Field[count: Int[flatXmapped]][mapResult OrElse[1]] * OptionalFieldCodec[components: DispatchedMapCodec[keyCodec=String[flatXmapped], valueCodecFunction=net.minecraft.class_9326$$Lambda/0x0000021b81656be0@6707ab9][xmapped][xmapped]][xmapped]][xmapped]>) (Type: Supplier)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$RecursiveCodec ---
+[13:52:22] [Render thread/INFO]:       field_49747: <com.mojang.serialization.Codec$RecursiveCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$RecursiveCodec ---
+[13:52:22] [Render thread/INFO]:         name: net.minecraft.class_1799$$Lambda/0x0000021b81748648@6afcb427 (Type: String)
+[13:52:22] [Render thread/INFO]:         wrapped: Suppliers.memoize(<supplier that returned RecordCodec[UnitDecoder[net.minecraft.class_1799$$Lambda/0x0000021b835be390@f5a290] * Field[id: String[comapFlatMapped][comapFlatMapped][mapResult WithLifecycle[net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05 net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05]][flatComapMapped][flatXmapped]] * OptionalFieldCodec[components: DispatchedMapCodec[keyCodec=String[flatXmapped], valueCodecFunction=net.minecraft.class_9326$$Lambda/0x0000021b81656be0@6707ab9][xmapped][xmapped]][xmapped]][xmapped]>) (Type: Supplier)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$RecursiveCodec ---
+[13:52:22] [Render thread/INFO]:       field_51397: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$2> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: RecursiveCodec[net.minecraft.class_1799$$Lambda/0x0000021b81748648@1c19c305][flatXmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_51398: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$2> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: RecursiveCodec[net.minecraft.class_1799$$Lambda/0x0000021b81748648@6afcb427][flatXmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_49266: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$2> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: net.minecraft.class_5699$7@51665dbd[xmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_49267: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$2> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$2 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: String[comapFlatMapped][comapFlatMapped][mapResult WithLifecycle[net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05 net.minecraft.class_2378$$Lambda/0x0000021b8164b1f8@2c4e5c05]][flatComapMapped][flatXmapped][xmapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_49268: <net.minecraft.class_1799$1> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_1799$1 ---
+[13:52:22] [Render thread/INFO]:         field_48351: <net.minecraft.class_9135$16> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9135$16 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_1799$1 ---
+[13:52:22] [Render thread/INFO]:       field_48349: <net.minecraft.class_1799$2> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_1799$2 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_1799$2 ---
+[13:52:22] [Render thread/INFO]:       field_49269: <net.minecraft.class_9135$11> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$11 ---
+[13:52:22] [Render thread/INFO]:         field_49682: 2147483647 (Type: int)
+[13:52:22] [Render thread/INFO]:         field_49685: net.minecraft.class_1799$$Lambda/0x0000021b8174ab20@3cf8b890 (Type: IntFunction)
+[13:52:22] [Render thread/INFO]:         field_51471: <net.minecraft.class_1799$1> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_1799$1 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$11 ---
+[13:52:22] [Render thread/INFO]:       field_48350: <net.minecraft.class_9135$11> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$11 ---
+[13:52:22] [Render thread/INFO]:         field_49682: 2147483647 (Type: int)
+[13:52:22] [Render thread/INFO]:         field_49685: net.minecraft.class_1799$$Lambda/0x0000021b8174af58@c0b416 (Type: IntFunction)
+[13:52:22] [Render thread/INFO]:         field_51471: <net.minecraft.class_1799$2> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_1799$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$11 ---
+[13:52:22] [Render thread/INFO]:       field_8033: <org.apache.logging.slf4j.Log4jLogger> (Type: Logger)
+[13:52:22] [Render thread/INFO]:       --- DUMP: org.apache.logging.slf4j.Log4jLogger ---
+[13:52:22] [Render thread/INFO]:         FQCN: org.apache.logging.slf4j.Log4jLogger (Type: String)
+[13:52:22] [Render thread/INFO]:         serialVersionUID: 7869000638091304316 (Type: long)
+[13:52:22] [Render thread/INFO]:         logger: <org.apache.logging.log4j.core.Logger> (Type: ExtendedLogger)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] org.apache.logging.log4j.core.Logger (skipping details)
+[13:52:22] [Render thread/INFO]:         name: net.minecraft.class_1799 (Type: String)
+[13:52:22] [Render thread/INFO]:         markerFactory: <org.apache.logging.slf4j.Log4jMarkerFactory> (Type: Log4jMarkerFactory)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] org.apache.logging.slf4j.Log4jMarkerFactory (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: org.apache.logging.slf4j.Log4jLogger ---
+[13:52:22] [Render thread/INFO]:       field_8037: <net.minecraft.class_1799> (Type: class_1799)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_1799 (already visited)
+[13:52:22] [Render thread/INFO]:       field_40211: <net.minecraft.class_5250> (Type: class_2561)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_5250 ---
+[13:52:22] [Render thread/INFO]:         field_39005: <net.minecraft.class_2588> (Type: class_7417)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2588 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39006: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:         field_39007: <net.minecraft.class_2583> (Type: class_2583)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_2583 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39008: <net.minecraft.class_5481$$Lambda/0x0000021b81378860> (Type: class_5481)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5481$$Lambda/0x0000021b81378860 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_39009: null (Type: class_2477)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_5250 ---
+[13:52:22] [Render thread/INFO]:       field_8031: 1 (Type: int)
+[13:52:22] [Render thread/INFO]:       field_8030: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:       field_8038: null (Type: class_1792)
+[13:52:22] [Render thread/INFO]:       field_49270: <net.minecraft.class_9335> (Type: class_9335)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9335 ---
+[13:52:22] [Render thread/INFO]:         field_49654: <net.minecraft.class_9323$1> (Type: class_9323)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9323$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_49655: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:         field_49656: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:         subscriber: null (Type: ChangeSubscriber)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9335 ---
+[13:52:22] [Render thread/INFO]:       field_24093: null (Type: class_1297)
+[13:52:22] [Render thread/INFO]:       subscriber: null (Type: ChangeSubscriber)
+[13:52:22] [Render thread/INFO]:       subscriberData: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:       owo$derivedMap: null (Type: DerivedComponentMap)
+[13:52:22] [Render thread/INFO]:       COLLECTIVE$PROCESSED_STACK: java.lang.ThreadLocal@2d270710 (Type: ThreadLocal)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_1799 ---
+[13:52:22] [Render thread/INFO]:     activeMark: null (Type: Mark)
+[13:52:22] [Render thread/INFO]:     marks: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     potentialMarks: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     markings: [0, 0, 0, 0, 0, 0] (Type: Collection, size=6)
+[13:52:22] [Render thread/INFO]:     forcedAspects: [shiny, male, pumpkin-size-super] (Type: Collection, size=3)
+[13:52:22] [Render thread/INFO]:     aspects: [shiny, male, pumpkin-size-super] (Type: Collection, size=3)
+[13:52:22] [Render thread/INFO]:     isClient: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     storeCoordinates: <com.cobblemon.mod.common.api.reactive.SettableObservable> (Type: SettableObservable)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.reactive.SettableObservable ---
+[13:52:22] [Render thread/INFO]:       value: null (Type: Object)
+[13:52:22] [Render thread/INFO]:       subscriptions: <com.cobblemon.mod.common.api.PrioritizedList> (Type: PrioritizedList)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.PrioritizedList ---
+[13:52:22] [Render thread/INFO]:         priorityMap: {{NORMAL=[com.cobblemon.mod.common.api.reactive.ObservableSubscription@17c6aa32, com.cobblemon.mod.common.api.reactive.ObservableSubscription@460cd7d9]}} (Type: Map, size=1)
+[13:52:22] [Render thread/INFO]:         ordered: [com.cobblemon.mod.common.api.reactive.ObservableSubscription@17c6aa32, com.cobblemon.mod.common.api.reactive.ObservableSubscription@460cd7d9] (Type: Collection, size=2)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.PrioritizedList ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.reactive.SettableObservable ---
+[13:52:22] [Render thread/INFO]:     rideBoosts: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:     evolutionProxy: <com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy> (Type: EvolutionProxy)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy ---
+[13:52:22] [Render thread/INFO]:       pokemon: <com.cobblemon.mod.common.pokemon.Pokemon> (Type: Pokemon)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.pokemon.Pokemon (already visited)
+[13:52:22] [Render thread/INFO]:       clientController: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       serverController: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy ---
+[13:52:22] [Render thread/INFO]:     customProperties: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     persistentData: <net.minecraft.class_2487> (Type: class_2487)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2487 ---
+[13:52:22] [Render thread/INFO]:       field_25128: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: passthrough[comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_41718: 48 (Type: int)
+[13:52:22] [Render thread/INFO]:       field_41719: 32 (Type: int)
+[13:52:22] [Render thread/INFO]:       field_21029: <net.minecraft.class_2487$1> (Type: class_4614)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2487$1 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2487$1 ---
+[13:52:22] [Render thread/INFO]:       field_11515: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2487 ---
+[13:52:22] [Render thread/INFO]:     heldItem: <net.minecraft.class_1799> (Type: class_1799)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_1799 (already visited)
+[13:52:22] [Render thread/INFO]:     heldItemVisible: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     canDropHeldItem: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:     metabolismCycle: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:     lastFlowerFed: <net.minecraft.class_1799> (Type: class_1799)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_1799 (already visited)
+[13:52:22] [Render thread/INFO]:     struct: <com.cobblemon.mod.common.api.molang.ObjectValue> (Type: QueryStruct)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:       obj: com.cobblemon.mod.common.pokemon.Pokemon@59f71f84 (Type: Object)
+[13:52:22] [Render thread/INFO]:       stringify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590> (Type: Function1)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590 ---
+[13:52:22] [Render thread/INFO]:       doublify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8> (Type: Function1)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:     LEVEL_UP_FRIENDSHIP_CALCULATOR: <com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator$Companion$$Lambda/0x0000021b834750e0> (Type: FriendshipMutationCalculator)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator$Companion$$Lambda/0x0000021b834750e0 ---
+[13:52:22] [Render thread/INFO]:       (no declared fields)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator$Companion$$Lambda/0x0000021b834750e0 ---
+[13:52:22] [Render thread/INFO]:     SHEDINJA: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$1 ---
+[13:52:22] [Render thread/INFO]:         val$lifecycle: <com.mojang.serialization.Lifecycle$1> (Type: Lifecycle)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Lifecycle$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         this$0: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$2 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$1 ---
+[13:52:22] [Render thread/INFO]:       field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:         field_48587: net.minecraft.class_2960$$Lambda/0x0000021b81378000@678efb3d (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48588: net.minecraft.class_2960$$Lambda/0x0000021b81378238@29c3613d (Type: Function)
+[13:52:22] [Render thread/INFO]:         field_48589: <net.minecraft.class_9135$4> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9135$4 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9139$8 ---
+[13:52:22] [Render thread/INFO]:       field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.brigadier.exceptions.SimpleCommandExceptionType ---
+[13:52:22] [Render thread/INFO]:         message: <net.minecraft.class_5250> (Type: Message)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_5250 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.brigadier.exceptions.SimpleCommandExceptionType ---
+[13:52:22] [Render thread/INFO]:       field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:       field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:       field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:       field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:       field_13355: shedinja (Type: String)
+[13:52:22] [Render thread/INFO]:       field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:     ROOT_CODEC: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:       codec: <com.mojang.serialization.codecs.RecordCodecBuilder$2> (Type: MapCodec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.codecs.RecordCodecBuilder$2 ---
+[13:52:22] [Render thread/INFO]:         val$builder: <com.mojang.serialization.codecs.RecordCodecBuilder> (Type: RecordCodecBuilder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.codecs.RecordCodecBuilder (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.codecs.RecordCodecBuilder$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:     CODEC: <com.cobblemon.mod.common.datafixer.CobblemonSchemas$CobblemonDataFixerCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.datafixer.CobblemonSchemas$CobblemonDataFixerCodec ---
+[13:52:22] [Render thread/INFO]:       baseCodec: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.mojang.serialization.MapCodec$MapCodecCodec (already visited)
+[13:52:22] [Render thread/INFO]:       typeReference: <net.minecraft.class_1208$1> (Type: TypeReference)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_1208$1 ---
+[13:52:22] [Render thread/INFO]:         field_51348: cobblemon:pokemon (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_1208$1 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.datafixer.CobblemonSchemas$CobblemonDataFixerCodec ---
+[13:52:22] [Render thread/INFO]:     CLIENT_CODEC: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:       codec: <com.mojang.serialization.codecs.RecordCodecBuilder$2> (Type: MapCodec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.codecs.RecordCodecBuilder$2 ---
+[13:52:22] [Render thread/INFO]:         val$builder: <com.mojang.serialization.codecs.RecordCodecBuilder> (Type: RecordCodecBuilder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.codecs.RecordCodecBuilder (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.codecs.RecordCodecBuilder$2 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.mojang.serialization.MapCodec$MapCodecCodec ---
+[13:52:22] [Render thread/INFO]:     S2C_CODEC: <net.minecraft.class_9135$6> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_9135$6 ---
+[13:52:22] [Render thread/INFO]:       field_49696: <net.minecraft.class_9135$5> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$5 ---
+[13:52:22] [Render thread/INFO]:         field_48565: net.minecraft.class_9135$$Lambda/0x0000021b813726b0@1439ec6e (Type: Supplier)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$5 ---
+[13:52:22] [Render thread/INFO]:       field_48989: <com.mojang.serialization.MapCodec$MapCodecCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.mojang.serialization.MapCodec$MapCodecCodec (already visited)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_9135$6 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.pokemon.Pokemon ---
+[13:52:22] [Render thread/INFO]:   despawner: <com.cobblemon.mod.common.entity.pokemon.CobblemonAgingDespawner> (Type: Despawner)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.entity.pokemon.CobblemonAgingDespawner ---
+[13:52:22] [Render thread/INFO]:     getAgeTicks: <com.cobblemon.mod.common.api.spawning.BestSpawner$$Lambda/0x0000021b8200c6a0> (Type: Function1)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.spawning.BestSpawner$$Lambda/0x0000021b8200c6a0 ---
+[13:52:22] [Render thread/INFO]:       (no declared fields)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.spawning.BestSpawner$$Lambda/0x0000021b8200c6a0 ---
+[13:52:22] [Render thread/INFO]:     nearToFar: 64.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     youngToOld: 3000 (Type: int)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.entity.pokemon.CobblemonAgingDespawner ---
+[13:52:22] [Render thread/INFO]:   killer: null (Type: class_3222)
+[13:52:22] [Render thread/INFO]:   evolutionEntity: null (Type: GenericBedrockEntity)
+[13:52:22] [Render thread/INFO]:   ticksLived: 284 (Type: int)
+[13:52:22] [Render thread/INFO]:   busyLocks: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:   lastLightningBoltUUID: null (Type: UUID)
+[13:52:22] [Render thread/INFO]:   drops: null (Type: DropTable)
+[13:52:22] [Render thread/INFO]:   tethering: null (Type: Tethering)
+[13:52:22] [Render thread/INFO]:   queuedToDespawn: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:   enablePoseTypeRecalculation: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:   ridingAnimationData: <com.cobblemon.mod.common.api.riding.util.RidingAnimationData> (Type: RidingAnimationData)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.riding.util.RidingAnimationData ---
+[13:52:22] [Render thread/INFO]:     ride: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity> (Type: PokemonEntity)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.entity.pokemon.PokemonEntity (already visited)
+[13:52:22] [Render thread/INFO]:     prevOrientation: <org.joml.Matrix3f> (Type: Matrix3f)
+[13:52:22] [Render thread/INFO]:     --- DUMP: org.joml.Matrix3f ---
+[13:52:22] [Render thread/INFO]:       serialVersionUID: 1 (Type: long)
+[13:52:22] [Render thread/INFO]:       m00: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m01: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m02: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m10: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m11: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m12: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m20: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m21: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:       m22: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: org.joml.Matrix3f ---
+[13:52:22] [Render thread/INFO]:     prevRot: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_243 ---
+[13:52:22] [Render thread/INFO]:       field_38277: <com.mojang.serialization.Codec$2> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       --- DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:         val$decoder: <com.mojang.serialization.Decoder$1> (Type: Decoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Decoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$encoder: <com.mojang.serialization.Encoder$1> (Type: Encoder)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Encoder$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         val$name: ListCodec[Double][comapFlatMapped] (Type: String)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: com.mojang.serialization.Codec$2 ---
+[13:52:22] [Render thread/INFO]:       field_1353: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       field_1352: 0.0 (Type: double)
+[13:52:22] [Render thread/INFO]:       field_1351: 0.0 (Type: double)
+[13:52:22] [Render thread/INFO]:       field_1350: 0.0 (Type: double)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_243 ---
+[13:52:22] [Render thread/INFO]:     velocitySpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:     rotSpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:     rotDeltaSpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:     localVelocitySpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:     driverInputSpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:     diveSpring: <com.cobblemon.mod.common.api.riding.util.Vec3Spring> (Type: Vec3Spring)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:       value: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       velocity: <net.minecraft.class_243> (Type: class_243)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_243 (already visited)
+[13:52:22] [Render thread/INFO]:       history: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:       lookBackSize: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.riding.util.Vec3Spring ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.riding.util.RidingAnimationData ---
+[13:52:22] [Render thread/INFO]:   rideSoundManager: <com.cobblemon.mod.common.api.riding.sound.RideSoundManager> (Type: RideSoundManager)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.riding.sound.RideSoundManager ---
+[13:52:22] [Render thread/INFO]:     ride: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity> (Type: PokemonEntity)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.entity.pokemon.PokemonEntity (already visited)
+[13:52:22] [Render thread/INFO]:     activeSounds: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:     rideActive: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:     currKey: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:       field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.mojang.serialization.Codec$1 (already visited)
+[13:52:22] [Render thread/INFO]:       field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       [CYCLE] net.minecraft.class_9139$8 (already visited)
+[13:52:22] [Render thread/INFO]:       field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (already visited)
+[13:52:22] [Render thread/INFO]:       field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:       field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:       field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:       field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:       field_13355: no_key (Type: String)
+[13:52:22] [Render thread/INFO]:       field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.riding.sound.RideSoundManager ---
+[13:52:22] [Render thread/INFO]:   rideStatOverrides: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:   ridingController: null (Type: RidingController)
+[13:52:22] [Render thread/INFO]:   previousRidingState: null (Type: RidingBehaviourState)
+[13:52:22] [Render thread/INFO]:   runtime$delegate: <kotlin.SynchronizedLazyImpl> (Type: Lazy)
+[13:52:22] [Render thread/INFO]:   --- DUMP: kotlin.SynchronizedLazyImpl ---
+[13:52:22] [Render thread/INFO]:     initializer: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity$$Lambda/0x0000021b835eb788> (Type: Function0)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity$$Lambda/0x0000021b835eb788 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity> (Type: PokemonEntity)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.entity.pokemon.PokemonEntity (already visited)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity$$Lambda/0x0000021b835eb788 ---
+[13:52:22] [Render thread/INFO]:     _value: kotlin.UNINITIALIZED_VALUE@4a30319e (Type: Object)
+[13:52:22] [Render thread/INFO]:     lock: Lazy value not initialized yet. (Type: Object)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: kotlin.SynchronizedLazyImpl ---
+[13:52:22] [Render thread/INFO]:   countsTowardsSpawnCap: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:   spawnCause: null (Type: SpawnCause)
+[13:52:22] [Render thread/INFO]:   delegate: <com.cobblemon.mod.common.client.entity.PokemonClientDelegate> (Type: PokemonSideDelegate)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.client.entity.PokemonClientDelegate ---
+[13:52:22] [Render thread/INFO]:     Companion: <com.cobblemon.mod.common.client.entity.PokemonClientDelegate$Companion> (Type: Companion)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.client.entity.PokemonClientDelegate$Companion ---
+[13:52:22] [Render thread/INFO]:       (no declared fields)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.client.entity.PokemonClientDelegate$Companion ---
+[13:52:22] [Render thread/INFO]:     currentEntity: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity> (Type: PokemonEntity)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.entity.pokemon.PokemonEntity (already visited)
+[13:52:22] [Render thread/INFO]:     phaseTarget: null (Type: class_1297)
+[13:52:22] [Render thread/INFO]:     entityScaleModifier: 1.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     beamStartTime: 1768791128587 (Type: long)
+[13:52:22] [Render thread/INFO]:     ballStartTime: 1768791128587 (Type: long)
+[13:52:22] [Render thread/INFO]:     lastShinyParticle: 1768791140241 (Type: long)
+[13:52:22] [Render thread/INFO]:     shined: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     ballDone: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:     ballOffset: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     ballRotOffset: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:     sendOutPosition: null (Type: class_243)
+[13:52:22] [Render thread/INFO]:     sendOutOffset: null (Type: class_243)
+[13:52:22] [Render thread/INFO]:     playedSendOutSound: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:     playedThrowingSound: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:     scaleAnimTask: null (Type: ScheduledTask)
+[13:52:22] [Render thread/INFO]:     cryAnimation: null (Type: ActiveAnimation)
+[13:52:22] [Render thread/INFO]:     BEAM_SHRINK_TIME: 0.4 (Type: float)
+[13:52:22] [Render thread/INFO]:     BEAM_EXTEND_TIME: 0.2 (Type: float)
+[13:52:22] [Render thread/INFO]:     POKEBALL_AIR_TIME: 0.5 (Type: float)
+[13:52:22] [Render thread/INFO]:     SHINY_PARTICLE_COOLDOWN: 3.5 (Type: float)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.client.entity.PokemonClientDelegate ---
+[13:52:22] [Render thread/INFO]:   effects: <com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker> (Type: EffectTracker)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker ---
+[13:52:22] [Render thread/INFO]:     entity: <com.cobblemon.mod.common.entity.pokemon.PokemonEntity> (Type: PokemonEntity)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.entity.pokemon.PokemonEntity (already visited)
+[13:52:22] [Render thread/INFO]:     progress: null (Type: CompletableFuture)
+[13:52:22] [Render thread/INFO]:     mockEffect: null (Type: MocKEffect)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker ---
+[13:52:22] [Render thread/INFO]:   behavioursAreCustom: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:   behaviours: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:   registeredVariables: [] (Type: Collection, size=0)
+[13:52:22] [Render thread/INFO]:   config: <com.bedrockk.molang.runtime.struct.VariableStruct> (Type: VariableStruct)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.bedrockk.molang.runtime.struct.VariableStruct ---
+[13:52:22] [Render thread/INFO]:     map: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.bedrockk.molang.runtime.struct.VariableStruct ---
+[13:52:22] [Render thread/INFO]:   data: <com.bedrockk.molang.runtime.struct.VariableStruct> (Type: VariableStruct)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.bedrockk.molang.runtime.struct.VariableStruct ---
+[13:52:22] [Render thread/INFO]:     map: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.bedrockk.molang.runtime.struct.VariableStruct ---
+[13:52:22] [Render thread/INFO]:   callbacks: {{}} (Type: Map, size=0)
+[13:52:22] [Render thread/INFO]:   struct: <com.cobblemon.mod.common.api.molang.ObjectValue> (Type: ObjectValue)
+[13:52:22] [Render thread/INFO]:   --- DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:     obj: PokemonEntity['Pumpkaboo'/904948, l='ClientLevel', x=262.19, y=175.00, z=1181.85] (Type: Object)
+[13:52:22] [Render thread/INFO]:     stringify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590> (Type: Function1)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b82801590 (already visited)
+[13:52:22] [Render thread/INFO]:     doublify: <com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8> (Type: Function1)
+[13:52:22] [Render thread/INFO]:     [CYCLE] com.cobblemon.mod.common.api.molang.ObjectValue$$Lambda/0x0000021b828017a8 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: com.cobblemon.mod.common.api.molang.ObjectValue ---
+[13:52:22] [Render thread/INFO]:   flyDistO: 0.0 (Type: float)
+[13:52:22] [Render thread/INFO]:   isPokemonWalking: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:   isPokemonFlying: false (Type: boolean)
+[13:52:22] [Render thread/INFO]:   tickSpawned: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:   occupiedSeats: [] (Type: class_1297[])
+[13:52:22] [Render thread/INFO]:   jumpInputStrength: 0 (Type: int)
+[13:52:22] [Render thread/INFO]:   SPECIES: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 19 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$4> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$4 ---
+[13:52:22] [Render thread/INFO]:         field_48988: 32767 (Type: int)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$4 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   NICKNAME: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 20 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$6> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$6 ---
+[13:52:22] [Render thread/INFO]:         field_49696: <net.minecraft.class_9135$5> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9135$5 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48989: <com.mojang.serialization.Codec$RecursiveCodec> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$RecursiveCodec (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$6 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   NICKNAME_VISIBLE: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 21 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$1> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$1 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$1 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   MARK: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 22 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   SHOULD_RENDER_NAME: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 23 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   MOVING: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 24 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   BEHAVIOUR_FLAGS: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 25 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$12> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$12 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$12 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   PHASING_TARGET_ID: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 26 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$25> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$25 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$25 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   PLATFORM_TYPE: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 27 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <com.cobblemon.mod.common.api.net.serializers.PlatformTypeDataSerializer> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.net.serializers.PlatformTypeDataSerializer ---
+[13:52:22] [Render thread/INFO]:       INSTANCE: <com.cobblemon.mod.common.api.net.serializers.PlatformTypeDataSerializer> (Type: PlatformTypeDataSerializer)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.net.serializers.PlatformTypeDataSerializer (already visited)
+[13:52:22] [Render thread/INFO]:       ID: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: platform_type (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.net.serializers.PlatformTypeDataSerializer ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   BEAM_MODE: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 28 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   BATTLE_ID: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 29 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$10> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$10 ---
+[13:52:22] [Render thread/INFO]:         field_49697: <net.minecraft.class_4844$1> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_4844$1 (skipping details)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$10 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   ASPECTS: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 30 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer ---
+[13:52:22] [Render thread/INFO]:       INSTANCE: <com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer> (Type: StringSetDataSerializer)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer (already visited)
+[13:52:22] [Render thread/INFO]:       ID: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: string_set (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   DYING_EFFECTS_STARTED: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 31 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   POSE_TYPE: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 32 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer ---
+[13:52:22] [Render thread/INFO]:       INSTANCE: <com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer> (Type: PoseTypeDataSerializer)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer (already visited)
+[13:52:22] [Render thread/INFO]:       ID: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: pose_type (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   LABEL_LEVEL: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 33 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   HIDE_LABEL: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 34 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   UNBATTLEABLE: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 35 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   COUNTS_TOWARDS_SPAWN_CAP: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 36 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   SPAWN_DIRECTION: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 37 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:       arg$1: <net.minecraft.class_9135$27> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_9135$27 ---
+[13:52:22] [Render thread/INFO]:         (no declared fields)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_9135$27 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2941$$Lambda/0x0000021b81988f78 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   FRIENDSHIP: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 38 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   FREEZE_FRAME: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 39 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   CAUGHT_BALL: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 40 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   EVOLUTION_STARTED: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 41 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   SHOWN_HELD_ITEM: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 42 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2943$1> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: net.minecraft.class_2943$1 ---
+[13:52:22] [Render thread/INFO]:       (no declared fields)
+[13:52:22] [Render thread/INFO]:     --- END DUMP: net.minecraft.class_2943$1 ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   RIDE_BOOSTS: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 43 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <com.cobblemon.mod.common.api.net.serializers.RideBoostsDataSerializer> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     --- DUMP: com.cobblemon.mod.common.api.net.serializers.RideBoostsDataSerializer ---
+[13:52:22] [Render thread/INFO]:       INSTANCE: <com.cobblemon.mod.common.api.net.serializers.RideBoostsDataSerializer> (Type: RideBoostsDataSerializer)
+[13:52:22] [Render thread/INFO]:       [CYCLE] com.cobblemon.mod.common.api.net.serializers.RideBoostsDataSerializer (already visited)
+[13:52:22] [Render thread/INFO]:       ID: <net.minecraft.class_2960> (Type: class_2960)
+[13:52:22] [Render thread/INFO]:       --- DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:         field_25139: <com.mojang.serialization.Codec$1> (Type: Codec)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.serialization.Codec$1 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_48267: <net.minecraft.class_9139$8> (Type: class_9139)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] net.minecraft.class_9139$8 (skipping details)
+[13:52:22] [Render thread/INFO]:         field_13354: <com.mojang.brigadier.exceptions.SimpleCommandExceptionType> (Type: SimpleCommandExceptionType)
+[13:52:22] [Render thread/INFO]:         [DEPTH LIMIT] com.mojang.brigadier.exceptions.SimpleCommandExceptionType (skipping details)
+[13:52:22] [Render thread/INFO]:         field_33380: : (Type: char)
+[13:52:22] [Render thread/INFO]:         field_33381: minecraft (Type: String)
+[13:52:22] [Render thread/INFO]:         field_33382: realms (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13353: cobblemon (Type: String)
+[13:52:22] [Render thread/INFO]:         field_13355: ride_boosts (Type: String)
+[13:52:22] [Render thread/INFO]:         field_52202: true (Type: boolean)
+[13:52:22] [Render thread/INFO]:       --- END DUMP: net.minecraft.class_2960 ---
+[13:52:22] [Render thread/INFO]:     --- END DUMP: com.cobblemon.mod.common.api.net.serializers.RideBoostsDataSerializer ---
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   RIDE_STAMINA: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 44 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   SCALE_MODIFIER: <net.minecraft.class_2940> (Type: class_2940)
+[13:52:22] [Render thread/INFO]:   --- DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:     comp_2327: 45 (Type: int)
+[13:52:22] [Render thread/INFO]:     comp_2328: <net.minecraft.class_2941$$Lambda/0x0000021b81988f78> (Type: class_2941)
+[13:52:22] [Render thread/INFO]:     [CYCLE] net.minecraft.class_2941$$Lambda/0x0000021b81988f78 (already visited)
+[13:52:22] [Render thread/INFO]:   --- END DUMP: net.minecraft.class_2940 ---
+[13:52:22] [Render thread/INFO]:   BATTLE_LOCK: battle (Type: String)
+[13:52:22] [Render thread/INFO]:   EVOLUTION_LOCK: evolving (Type: String)
+[13:52:22] [Render thread/INFO]:   FALL_DAMAGE_MULT_FLYINGTYPE: 0.5 (Type: float)
+[13:52:22] [Render thread/INFO]:   FALL_DAMAGE_MULT_MOVEMENT_FLY: 0.2 (Type: float)
+[13:52:22] [Render thread/INFO]: --- END DUMP: com.cobblemon.mod.common.entity.pokemon.PokemonEntity ---

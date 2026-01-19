@@ -64,6 +64,7 @@ public class PokemonProvider implements IEntityComponentProvider {
         Player player = accessor.getPlayer();
 
         ItemStack mainHandItem = player.getMainHandItem();
+        ItemStack offHandItem = player.getOffhandItem();
 
         tooltip.clear();
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
@@ -76,7 +77,8 @@ public class PokemonProvider implements IEntityComponentProvider {
 
         if (config.get(POKEMON_ENTITY_EFFECTIVE_TYPING_ID)) {
             MutableComponent effectiveTypeLabel = ComponentUtil.modTranslatable("ui.label.effective_types");
-            tooltip.add(ComponentUtil.labelledValue(effectiveTypeLabel, PokemonFormatUtil.effectiveTypesAgainst(pokemon)));
+            tooltip.add(
+                    ComponentUtil.labelledValue(effectiveTypeLabel, PokemonFormatUtil.effectiveTypesAgainst(pokemon)));
         }
 
         if (config.get(POKEMON_ENTITY_FORM_ID)) {
@@ -98,9 +100,12 @@ public class PokemonProvider implements IEntityComponentProvider {
             MutableComponent catchRateLabel = ComponentUtil.modTranslatable("ui.label.catch_rate");
             tooltip.add(ComponentUtil.labelledValue(catchRateLabel, PokemonFormatUtil.catchRate(simpleSpecies)));
 
-            if (mainHandItem.getItem() instanceof PokeBallItem pokeBallItem) {
+            if (mainHandItem.getItem() instanceof PokeBallItem mainHandPokeball) {
                 tooltip.append(ComponentUtil.labelledValue(" ",
-                        PokemonFormatUtil.catchChance(pokemonEntity, pokeBallItem.getPokeBall())));
+                        PokemonFormatUtil.catchChance(pokemonEntity, mainHandPokeball.getPokeBall())));
+            } else if (offHandItem.getItem() instanceof PokeBallItem offHandPokeball) {
+                tooltip.append(ComponentUtil.labelledValue(" ",
+                        PokemonFormatUtil.catchChance(pokemonEntity, offHandPokeball.getPokeBall())));
             }
         }
 

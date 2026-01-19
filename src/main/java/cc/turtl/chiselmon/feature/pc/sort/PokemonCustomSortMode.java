@@ -62,8 +62,6 @@ public enum PokemonCustomSortMode {
         return reversed ? comparator.reversed() : comparator;
     }
 
-    /* ---- UI metadata ---- */
-
     public String getId() {
         return id;
     }

@@ -191,12 +191,17 @@ public final class PokemonFormatUtil {
 
         String sizeString = String.format("%.2f", pokemon.getScaleModifier());
 
-        return Component.empty()
-                .append(genderIcon(pokemon.getGender()))
-                .append(colored(" " + pokemon.getSpecies().getName(), ColorUtil.WHITE))
-                .append(colored(" Lv. ", ColorUtil.LIGHT_GRAY))
-                .append(colored(String.valueOf(pokemon.getLevel()), ColorUtil.LIGHT_GRAY))
-                .append(colored(" (" + sizeString + ")", ColorUtil.TEAL));
+        MutableComponent nameComponent = Component.empty();
+        nameComponent.append(genderIcon(pokemon.getGender()));
+        nameComponent.append(colored(" " + pokemon.getSpecies().getName(), ColorUtil.WHITE));
+        nameComponent.append(colored(" Lv. " + pokemon.getLevel(), ColorUtil.LIGHT_GRAY));
+        nameComponent.append(colored(" (" + sizeString + ")", ColorUtil.TEAL));
+
+        if (pokemon.getShiny()) {
+            nameComponent.append(colored(" ★", ColorUtil.GOLD));
+        }
+
+        return nameComponent;
     }
 
     public static Component catchRate(SimpleSpecies species) {

@@ -38,11 +38,11 @@ public class SpawnAlertCommand {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
             AlertManager manager = SpawnAlertFeature.getInstance().getAlertManager();
 
-            if (manager.isTargetMuted(uuid)) {
+            if (!manager.getLoaded(uuid).muted) {
                 CommandUtils.sendWarning(source, "Pokemon already muted!");
             }
 
-            manager.muteTarget(uuid);
+            manager.muteLoaded(uuid);
             CommandUtils.sendSuccess(source, "Pokemon muted.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred!");
@@ -54,7 +54,7 @@ public class SpawnAlertCommand {
     private static int executeMuteAll(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         try {
-            SpawnAlertFeature.getInstance().getAlertManager().muteAllTargets();
+            SpawnAlertFeature.getInstance().getAlertManager().muteAll();
             CommandUtils.sendSuccess(source, "All active alerts muted.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred!");
@@ -66,7 +66,7 @@ public class SpawnAlertCommand {
     private static int executeUnmuteAll(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         try {
-            SpawnAlertFeature.getInstance().getAlertManager().unmuteAllTargets();
+            SpawnAlertFeature.getInstance().getAlertManager().unmuteAll();
             CommandUtils.sendSuccess(source, "All alerts unmuted.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred!");
@@ -74,5 +74,4 @@ public class SpawnAlertCommand {
         }
         return 1;
     }
-
 }
