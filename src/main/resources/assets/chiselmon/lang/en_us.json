@@ -26,7 +26,7 @@
         "text.autoconfig.chiselmon.option.eggPreview.enabled": "Enable Egg Preview",
         "text.autoconfig.chiselmon.option.eggPreview.enabled.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
         "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync": "(EXPERIMENTAL) Attempt Hatch Sync",
-        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically. WARNING: Can cause PC desync with lag (very rarely might move where things are in your boxes)",
 
         "text.autoconfig.chiselmon.option.pc.tooltip": "PC Tooltip Settings",
             "text.autoconfig.chiselmon.option.pc.tooltip.showTooltips": "Show PC Tooltips",
@@ -80,7 +80,7 @@
         "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby.",
 
         "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies": "Suppress Plushies",
-        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Will not fire for level 1 pokemon to exclude plushies from alerts.",
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Attempt to exclude plushies from alerts. WARNING: Some regular level 1 spawns will not be logged if this is on.",
 
         "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage": "Show Form in Messages",
         "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage.@Tooltip": "Adds the pokemon's form to alert messages.",
