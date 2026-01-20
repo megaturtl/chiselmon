@@ -5,6 +5,7 @@ import static cc.turtl.chiselmon.util.TextUtil.modResource;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
@@ -32,6 +33,8 @@ public class PokemonProvider implements IEntityComponentProvider {
     public static final String POKEMON_ENTITY_PARENT_PATH = "pokemon_entity";
     public static final ResourceLocation POKEMON_ENTITY_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH);
+    public static final ResourceLocation POKEMON_ENTITY_POKEDEX_STATUS_ID = modResource(
+            POKEMON_ENTITY_PARENT_PATH + ".pokedex_status");
     public static final ResourceLocation POKEMON_ENTITY_TYPING_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".typing");
     public static final ResourceLocation POKEMON_ENTITY_EFFECTIVE_TYPING_ID = modResource(
@@ -60,7 +63,8 @@ public class PokemonProvider implements IEntityComponentProvider {
 
         PokemonEntity pokemonEntity = (PokemonEntity) accessor.getEntity();
         Pokemon pokemon = pokemonEntity.getPokemon();
-        SimpleSpecies simpleSpecies = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
+        Species species = pokemon.getSpecies();
+        SimpleSpecies simpleSpecies = SimpleSpeciesRegistry.getByName(species.getName());
         Player player = accessor.getPlayer();
 
         ItemStack mainHandItem = player.getMainHandItem();
@@ -69,6 +73,11 @@ public class PokemonProvider implements IEntityComponentProvider {
         tooltip.clear();
         tooltip.add(PokemonFormatUtil.detailedPokemonName(pokemon));
         tooltip.add(new HealthElement(pokemonEntity.getMaxHealth(), pokemonEntity.getHealth()));
+
+        if (config.get(POKEMON_ENTITY_POKEDEX_STATUS_ID)) {
+            MutableComponent pokedexStatusLabel = ComponentUtil.modTranslatable("ui.label.pokedex_status");
+            tooltip.add(ComponentUtil.labelledValue(pokedexStatusLabel, PokemonFormatUtil.dexStatus(species)));
+        }
 
         if (config.get(POKEMON_ENTITY_TYPING_ID)) {
             MutableComponent typeLabel = ComponentUtil.modTranslatable("ui.label.type");

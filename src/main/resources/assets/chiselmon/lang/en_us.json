@@ -58,6 +58,8 @@
             "text.autoconfig.chiselmon.option.pc.icons.shiny.@Tooltip": "Shows a shiny icon next to shiny pokemon.",
             "text.autoconfig.chiselmon.option.pc.icons.extremeSize": "Show Extreme Size Icons",
             "text.autoconfig.chiselmon.option.pc.icons.extremeSize.@Tooltip": "Shows a mushroom icon next to extreme sized pokemon.",
+            "text.autoconfig.chiselmon.option.pc.icons.marked": "Show Marked Icons",
+            "text.autoconfig.chiselmon.option.pc.icons.marked.@Tooltip": "Shows a trophy icon next to marked pokemon.",
             "text.autoconfig.chiselmon.option.pc.icons.rideable": "Show Rideable Icons",
             "text.autoconfig.chiselmon.option.pc.icons.rideable.@Tooltip": "Shows a saddle icon next to rideable pokemon.",
     
@@ -149,6 +151,7 @@
     "config.jade.plugin_chiselmon.pokemon_entity.ev_yield": "EV Yield",
     "config.jade.plugin_chiselmon.pokemon_entity.catch_rate": "Catch Rate & Catch Chance",
     "config.jade.plugin_chiselmon.pokemon_entity.self_damage_warning": "Self-Damaging Move Warning",
+    "config.jade.plugin_chiselmon.pokemon_entity.pokedex_status": "Pokedex Status",
 
     "config.jade.plugin_chiselmon.pokesnack_block": "Poke Snack Block",
     "config.jade.plugin_chiselmon.pokesnack_block.bites_remaining": "Bites Remaining",
@@ -180,6 +183,8 @@
     "chiselmon.ui.label.egg_groups": "Egg Groups: ",
     "chiselmon.ui.label.ev_yield": "EV Yield: ",
     "chiselmon.ui.label.catch_rate": "Catch Rate: ",
+    "chiselmon.ui.label.pokedex_status": "Pokedex Status: ",
+    
 
     "chiselmon.spawnalert.message.shiny": " (Shiny)",
     "chiselmon.spawnalert.message.legendary": " (Legendary)",

@@ -19,6 +19,7 @@ public class ChiselmonJadePlugin implements IWailaPlugin {
         // POKEMON ENTITY
         registration.registerEntityComponent(PokemonProvider.INSTANCE, PokemonEntity.class);
 
+        registration.addConfig(POKEMON_ENTITY_POKEDEX_STATUS_ID, false);
         registration.addConfig(POKEMON_ENTITY_TYPING_ID, true);
         registration.addConfig(POKEMON_ENTITY_EFFECTIVE_TYPING_ID, true);
         registration.addConfig(POKEMON_ENTITY_FORM_ID, true);
@@ -27,6 +28,7 @@ public class ChiselmonJadePlugin implements IWailaPlugin {
         registration.addConfig(POKEMON_ENTITY_CATCH_RATE_ID, true);
         registration.addConfig(POKEMON_ENTITY_WARNING_ID, true);
 
+        registration.markAsClientFeature(POKEMON_ENTITY_POKEDEX_STATUS_ID);
         registration.markAsClientFeature(POKEMON_ENTITY_TYPING_ID);
         registration.markAsClientFeature(POKEMON_ENTITY_EFFECTIVE_TYPING_ID);
         registration.markAsClientFeature(POKEMON_ENTITY_FORM_ID);

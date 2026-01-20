@@ -10,15 +10,19 @@ import java.util.Set;
 
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.riding.RidingStyle;
 import com.cobblemon.mod.common.api.riding.behaviour.RidingBehaviourSettings;
+import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexManager;
 import com.cobblemon.mod.common.api.types.ElementalType;
+import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
@@ -30,6 +34,7 @@ import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public final class PokemonFormatUtil {
     private PokemonFormatUtil() {
@@ -268,6 +273,19 @@ public final class PokemonFormatUtil {
                         return UNKNOWN;
                     }
                 });
+    }
+
+    public static Component dexStatus(Species species) {
+        ClientPokedexManager playerDexData = CobblemonClient.INSTANCE.getClientPokedexData();
+        ResourceLocation speciesId = species.getResourceIdentifier();
+        PokedexEntryProgress knowledge = playerDexData.getHighestKnowledgeForSpecies(speciesId);
+
+        return switch (knowledge) {
+                case PokedexEntryProgress.CAUGHT -> colored("Caught", ColorUtil.GREEN);
+                case PokedexEntryProgress.ENCOUNTERED -> colored("Encountered", ColorUtil.WHITE);
+                case PokedexEntryProgress.NONE -> colored("Unknown", ColorUtil.DARK_GRAY);
+                default -> UNKNOWN;
+            };
     }
 
     private static List<Component> createRideStyleComponents(Map<RidingStyle, RidingBehaviourSettings> behaviours) {

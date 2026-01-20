@@ -57,9 +57,10 @@ public class AlertManager {
                 continue;
             }
 
-            // clean up any non wild pokemon/plushies
+            // clean up any non wild pokemon/plushies (shinies bypass the level 1 filter)
             if (!PokemonEntityPredicates.IS_WILD.test(entity)
-                    || (config.suppressPlushies && entity.getPokemon().getLevel() == 1)) {
+                    || (config.suppressPlushies && entity.getPokemon().getLevel() == 1
+                            && !entity.getPokemon().getShiny())) {
                 setGlow(entity, null);
                 iterator.remove();
                 continue;
