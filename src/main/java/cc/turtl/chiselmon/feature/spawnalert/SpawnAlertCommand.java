@@ -38,11 +38,7 @@ public class SpawnAlertCommand {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
             AlertManager manager = SpawnAlertFeature.getInstance().getAlertManager();
 
-            if (!manager.getLoaded(uuid).muted) {
-                CommandUtils.sendWarning(source, "Pokemon already muted!");
-            }
-
-            manager.muteLoaded(uuid);
+            manager.mute(uuid);
             CommandUtils.sendSuccess(source, "Pokemon muted.");
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred!");

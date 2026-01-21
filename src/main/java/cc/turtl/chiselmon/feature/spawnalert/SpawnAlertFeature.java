@@ -1,12 +1,7 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import java.util.UUID;
-
 import org.lwjgl.glfw.GLFW;
 
-import com.cobblemon.mod.common.client.CobblemonClient;
-import com.cobblemon.mod.common.client.battle.ClientBattle;
-import com.cobblemon.mod.common.client.battle.ClientBattleActor;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
@@ -27,7 +22,6 @@ public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
     private AlertManager alertManager;
     private KeyMapping muteAlertsKey;
-    private ClientBattle lastBattle = null;
 
     private SpawnAlertFeature() {
         super("Spawn Alert");
@@ -49,10 +43,10 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
         alertManager = new AlertManager(getConfig().spawnAlert);
 
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
         ClientEntityEvents.ENTITY_UNLOAD.register(this::onEntityUnload);
         ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnect);
+        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
     }
 
     private void registerKeybinds() {
@@ -73,42 +67,25 @@ public final class SpawnAlertFeature extends AbstractFeature {
                                 ComponentUtil.modTranslatable("spawnalert.mute.success"), ColorUtil.GREEN));
             }
 
-            // Track new battles starting
-            ClientBattle currentBattle = CobblemonClient.INSTANCE.getBattle();
-            if (currentBattle != null && currentBattle != lastBattle) {
-                onBattleStarted(currentBattle);
-                lastBattle = currentBattle;
-            } else if (currentBattle == null) {
-                lastBattle = null;
-            }
-
             // Run the alert manager
             alertManager.tick();
         }
     }
 
-    private void onBattleStarted(ClientBattle battle) {
-        ClientBattleActor wildActor = battle.getWildActor();
-        if (wildActor != null) {
-            UUID uuid = wildActor.getUuid();
-            alertManager.muteLoadedByActorId(uuid);
-        }
-    }
-
     private void onEntityLoad(Entity entity, ClientLevel level) {
-        if (canRun() && entity instanceof PokemonEntity pe) {
-            alertManager.onEntityLoad(pe);
+        if (entity instanceof PokemonEntity pe) {
+            alertManager.getLoaded().put(pe.getUUID(), pe);
         }
     }
 
     private void onEntityUnload(Entity entity, ClientLevel level) {
         if (entity instanceof PokemonEntity pe) {
-            alertManager.onEntityUnload(pe);
+            alertManager.getLoaded().remove(pe.getUUID());
         }
     }
 
     private void onDisconnect(ClientPacketListener handler, Minecraft client) {
-            alertManager.clearLoaded();
+            alertManager.getLoaded().clear();
     }
 
     public AlertManager getAlertManager() {
