@@ -1,20 +1,13 @@
 Bugs:
-- Pc bookmark button renders after the glow which looks weird
-- make egg show in front of portrait
 - forms aren't being synched to the dummyegg pokemon
-- sometimes the catch rate shows 0.0% which shouldn't be true (this was catching event rapidash with a love ball)
 
 High priority:
 - make the quicksort key bindable
 - fix morecobblemontweaks not being able to multiselect egg dummies
 - when sorting by name/dex number, use egg hatched % as the comparator before level
 - render berry of an ev berry cake on the item
-- fix boss predicate (boss in displayname e.g. boss banette) displayName: Â§4Â§lBoss Banette titledName: Â§4Â§lBoss Banette
 - mode that highlights mons that you have rendered for more than 30 secs (for kill platting)
 - fully grown cobblemon crop markers
-- add an exclamation mark/waypoint option to spawnalert (or bold on minimap?)
-- add mark icon (ribbon)
-- add if it's in pokedex to jade
 
 Nice to have:
 - auto pause logger when exit minecart
