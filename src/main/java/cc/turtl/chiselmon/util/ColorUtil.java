@@ -60,4 +60,34 @@ public class ColorUtil {
 
         return blendColor(colors[percentageSegment], colors[percentageSegment + 1], percentageLocalRatio);
     }
+
+    public static char getClosestMcColor(int rgb) {
+        int[][] colors = {
+                { 0, 0, 0 }, { 0, 0, 170 }, { 0, 170, 0 }, { 0, 170, 170 },
+                { 170, 0, 0 }, { 170, 0, 170 }, { 255, 170, 0 }, { 170, 170, 170 },
+                { 85, 85, 85 }, { 85, 85, 255 }, { 85, 255, 85 }, { 85, 255, 255 },
+                { 255, 85, 85 }, { 255, 85, 255 }, { 255, 255, 85 }, { 255, 255, 255 }
+        };
+
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+
+        int closestIndex = 0;
+        int minDist = Integer.MAX_VALUE;
+
+        for (int i = 0; i < colors.length; i++) {
+            int dr = r - colors[i][0];
+            int dg = g - colors[i][1];
+            int db = b - colors[i][2];
+            int dist = dr * dr + dg * dg + db * db;
+
+            if (dist < minDist) {
+                minDist = dist;
+                closestIndex = i;
+            }
+        }
+
+        return "0123456789abcdef".charAt(closestIndex);
+    }
 }

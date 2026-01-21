@@ -10,8 +10,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import cc.turtl.chiselmon.api.entity.ClientGlowEntity;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
+import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.Component;
 
 public class AlertManager {
     private final Map<UUID, LoadedPokemonWrapper> activePokemon = new LinkedHashMap<>();
@@ -76,8 +78,9 @@ public class AlertManager {
                 wrapper.chatMessageSent = true;
             }
 
-            // set the glow based on alert type
+            // set the glow and name highlight based on alert type
             setGlow(entity, highestAlertType);
+            setNameHighlight(entity, highestAlertType);
 
             // keep track of the highest priority alert type so far
             if (!wrapper.muted && highestAlertType.shouldPlaySound(config)) {
@@ -99,6 +102,19 @@ public class AlertManager {
             } else {
                 glowable.chiselmon$setClientGlowing(false);
             }
+        }
+    }
+
+    private void setNameHighlight(PokemonEntity entity, AlertType type) {
+        if (type != null && type != AlertType.NONE) {
+            int rgb = type.getHighlightColor(config);
+            char mcColorChar = ColorUtil.getClosestMcColor(rgb);
+            String speciesName = entity.getPokemon().getSpecies().getName();
+            String formattedName = "§" + mcColorChar + "§l" + speciesName;
+
+            entity.getPokemon().setNickname(Component.literal(formattedName));
+        } else {
+            entity.getPokemon().setNickname(null);
         }
     }
 
@@ -129,6 +145,7 @@ public class AlertManager {
     public void removeLoaded(PokemonEntity entity) {
         activePokemon.remove(entity.getUUID());
         setGlow(entity, null);
+        setNameHighlight(entity, null);
     }
 
     public void clearLoaded() {
