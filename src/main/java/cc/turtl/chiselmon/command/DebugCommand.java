@@ -155,9 +155,13 @@ public class DebugCommand {
                 return 1;
 
             } else {
-                CommandUtils.sendError(source, "Targeted entity is a "
+                CommandUtils.sendWarning(source, "Targeted entity is a "
                         + lookingAtEntity.getClass().getSimpleName() + ", not a Pokemon.");
-                return 0;
+
+                LOGGER.info("Logging object details for targeted entity...");
+                ObjectDumper.logObjectFields(LOGGER, lookingAtEntity);
+                CommandUtils.sendWarning(source, "Full object dump sent to console/log.");
+                return 1;
             }
 
         } catch (Exception e) {

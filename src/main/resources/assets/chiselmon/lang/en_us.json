@@ -26,7 +26,7 @@
         "text.autoconfig.chiselmon.option.eggPreview.enabled": "Enable Egg Preview",
         "text.autoconfig.chiselmon.option.eggPreview.enabled.@Tooltip": "Shows extra information about pokemon eggs in the PC.",
         "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync": "(EXPERIMENTAL) Attempt Hatch Sync",
-        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically",
+        "text.autoconfig.chiselmon.option.eggPreview.attemptHatchSync.@Tooltip": "Swaps eggs to and from the PC to attempt to update hatch progress automatically. WARNING: Can cause PC desync with lag (very rarely might move where things are in your boxes)",
 
         "text.autoconfig.chiselmon.option.pc.tooltip": "PC Tooltip Settings",
             "text.autoconfig.chiselmon.option.pc.tooltip.showTooltips": "Show PC Tooltips",
@@ -58,6 +58,8 @@
             "text.autoconfig.chiselmon.option.pc.icons.shiny.@Tooltip": "Shows a shiny icon next to shiny pokemon.",
             "text.autoconfig.chiselmon.option.pc.icons.extremeSize": "Show Extreme Size Icons",
             "text.autoconfig.chiselmon.option.pc.icons.extremeSize.@Tooltip": "Shows a mushroom icon next to extreme sized pokemon.",
+            "text.autoconfig.chiselmon.option.pc.icons.marked": "Show Marked Icons",
+            "text.autoconfig.chiselmon.option.pc.icons.marked.@Tooltip": "Shows a trophy icon next to marked pokemon.",
             "text.autoconfig.chiselmon.option.pc.icons.rideable": "Show Rideable Icons",
             "text.autoconfig.chiselmon.option.pc.icons.rideable.@Tooltip": "Shows a saddle icon next to rideable pokemon.",
     
@@ -78,51 +80,57 @@
     "text.autoconfig.chiselmon.category.spawnAlert": "Spawn Alert Settings",
         "text.autoconfig.chiselmon.option.spawnAlert.enabled": "Enable Spawn Alerts",
         "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny": "Alert on Shiny",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnShiny.@Tooltip": "Triggers an alert when a Shiny pokemon spawns nearby.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnLegendary": "Alert on Legendary",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnLegendary.@Tooltip": "Triggers an alert when a Legendary pokemon spawns nearby.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnUltraBeast": "Alert on Ultra Beast",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnUltraBeast.@Tooltip": "Triggers an alert when an Ultra Beast spawns nearby.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnParadox": "Alert on Paradox",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnParadox.@Tooltip": "Triggers an alert when a Paradox pokemon spawns nearby.",
-
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnExtremeSize": "Alert on Extreme Size",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnExtremeSize.@Tooltip": "Triggers an alert when an extreme sized pokemon spawns nearby.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList": "Alert on Whitelisted",
-        "text.autoconfig.chiselmon.option.spawnAlert.alertOnCustomList.@Tooltip": "Triggers an alert for any pokemon named in your custom whitelist.",
 
         "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies": "Suppress Plushies",
-        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Will not fire for level 1 pokemon to exclude plushies from alerts.",
+        "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Attempt to exclude plushies from alerts. WARNING: Some regular level 1 spawns will not be logged if this is on.",
 
-        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage": "Send Chat Message",
-        "text.autoconfig.chiselmon.option.spawnAlert.sendChatMessage.@Tooltip": "Sends a chat message when an alert is triggered.",
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage": "Show Form in Messages",
+        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage.@Tooltip": "Adds the pokemon's form to alert messages.",
 
-        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage": "Shown Form in Message",
-        "text.autoconfig.chiselmon.option.spawnAlert.showFormInMessage.@Tooltip": "Adds the pokemon's form to the alert message.",
-
-        "text.autoconfig.chiselmon.option.spawnAlert.playSound": "Play Sound",
-        "text.autoconfig.chiselmon.option.spawnAlert.playSound.@Tooltip": "Plays a repeating sound when an alert is triggered.",
-
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity": "Highlight Pokemon",
-        "text.autoconfig.chiselmon.option.spawnAlert.highlightEntity.@Tooltip": "Adds the glow effect to alerted pokemon when an alert is triggered.",
+        "text.autoconfig.chiselmon.option.spawnAlert.masterVolume": "Master Volume",
+        "text.autoconfig.chiselmon.option.spawnAlert.masterVolume.@Tooltip": "Volume control for all alert sounds.",
         
-        "text.autoconfig.chiselmon.option.spawnAlert.soundVolume": "Sound Volume",
-        "text.autoconfig.chiselmon.option.spawnAlert.soundVolume.@Tooltip": "Adjusts the volume of the alert notification sound.",
-        
-        "text.autoconfig.chiselmon.option.spawnAlert.soundDelay": "Sound Delay (Ticks)",
-        "text.autoconfig.chiselmon.option.spawnAlert.soundDelay.@Tooltip": "How quickly the alert sound should repeat.",
 
-        "text.autoconfig.chiselmon.option.spawnAlert.whitelist": "Pokemon Whitelist",
-        "text.autoconfig.chiselmon.option.spawnAlert.whitelist.@Tooltip": "Track custom pokemon species as defined here.",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary": "Legendary Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.@Tooltip": "Alerts for nearby legendary/mythical/UB spawns.",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.enabled": "Enable Legendary Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.sendChatMessage": "Send Chat Messages",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.playSound": "Play Repeating Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.volume": "Sound Volume",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.highlightEntity": "Highlight Spawns",
+        "text.autoconfig.chiselmon.option.spawnAlert.legendary.highlightColor": "Highlight Colour",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny": "Shiny Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.@Tooltip": "Alerts for nearby shiny spawns.",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.enabled": "Enable Shiny Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.sendChatMessage": "Send Chat Messages",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.playSound": "Play Repeating Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.volume": "Sound Volume",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.highlightEntity": "Highlight Spawns",
+        "text.autoconfig.chiselmon.option.spawnAlert.shiny.highlightColor": "Highlight Colour",
+
+        "text.autoconfig.chiselmon.option.spawnAlert.size": "Size Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.@Tooltip": "Alerts for nearby tiny/large spawns (as defined in the threshold config).",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.enabled": "Enable Size Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.sendChatMessage": "Send Chat Messages",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.playSound": "Play Repeating Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.volume": "Sound Volume",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.highlightEntity": "Highlight Spawns",
+        "text.autoconfig.chiselmon.option.spawnAlert.size.highlightColor": "Highlight Colour",
+        
+        "text.autoconfig.chiselmon.option.spawnAlert.list": "Custom Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.@Tooltip": "Alerts for whitelisted pokemon spawns.",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.enabled": "Enable Custom Alerts",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.sendChatMessage": "Send Chat Messages",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.playSound": "Play Repeating Sound",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.volume": "Sound Volume",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.highlightEntity": "Highlight Spawns",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.highlightColor": "Highlight Colour",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.whitelist": "Pokemon Whitelist",
+        "text.autoconfig.chiselmon.option.spawnAlert.list.whitelist.@Tooltip": "A list of custom pokemon to recieve alerts for.",
 
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist": "Pokemon Blacklist",
-        "text.autoconfig.chiselmon.option.spawnAlert.blacklist.@Tooltip": "Suppress alerts from pokemon defined here. Shinies and size variations will still alert.",
+        "text.autoconfig.chiselmon.option.spawnAlert.blacklist.@Tooltip": "Choose pokemon to not recieve alerts for. Shinies and size variations will bypass this list.",
 
     "text.autoconfig.chiselmon.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.chiselmon.option.spawnLogger.enabled": "Enable Spawn Logger",
@@ -143,6 +151,7 @@
     "config.jade.plugin_chiselmon.pokemon_entity.ev_yield": "EV Yield",
     "config.jade.plugin_chiselmon.pokemon_entity.catch_rate": "Catch Rate & Catch Chance",
     "config.jade.plugin_chiselmon.pokemon_entity.self_damage_warning": "Self-Damaging Move Warning",
+    "config.jade.plugin_chiselmon.pokemon_entity.pokedex_status": "Pokedex Status",
 
     "config.jade.plugin_chiselmon.pokesnack_block": "Poke Snack Block",
     "config.jade.plugin_chiselmon.pokesnack_block.bites_remaining": "Bites Remaining",
@@ -174,12 +183,11 @@
     "chiselmon.ui.label.egg_groups": "Egg Groups: ",
     "chiselmon.ui.label.ev_yield": "EV Yield: ",
     "chiselmon.ui.label.catch_rate": "Catch Rate: ",
+    "chiselmon.ui.label.pokedex_status": "Pokedex Status: ",
+    
 
     "chiselmon.spawnalert.message.shiny": " (Shiny)",
     "chiselmon.spawnalert.message.legendary": " (Legendary)",
-    "chiselmon.spawnalert.message.mythical": " (Mythical)",
-    "chiselmon.spawnalert.message.ultra_beast": " (Ultra Beast)",
-    "chiselmon.spawnalert.message.paradox": " (Paradox)",
     "chiselmon.spawnalert.message.spawned_nearby": " spawned nearby! ",
 
     "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",

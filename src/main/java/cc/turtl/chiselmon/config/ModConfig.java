@@ -18,8 +18,6 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     public boolean modDisabled = false;
-    @ConfigEntry.Gui.Tooltip
-    public boolean debugMode = false;
 
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("pc")
@@ -47,6 +45,9 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("spawnLogger")
     public SpawnLoggerConfig spawnLogger = new SpawnLoggerConfig();
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean debugMode = false;
 
     // Hidden data stores!! Cannot be directly accessed in the config menu by the
     // player

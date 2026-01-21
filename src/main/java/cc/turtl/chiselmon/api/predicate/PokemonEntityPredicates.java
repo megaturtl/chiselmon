@@ -10,10 +10,15 @@ public final class PokemonEntityPredicates {
 
     public static final Predicate<PokemonEntity> IS_OWNED = entity -> entity.getOwnerUUID() != null;
 
+    // some pokedisguises have this tag
+    public static final Predicate<PokemonEntity> IS_NO_AI = entity -> entity.isNoAi();
+
     // Raid or normal boss, usually pokemon can't reach 2x scale
     public static final Predicate<PokemonEntity> IS_BOSS = entity -> {
         return (entity.getPokemon().getScaleModifier() >= 2);
     };
 
-    public static final Predicate<PokemonEntity> IS_WILD = (IS_OWNED.or(IS_BOSS)).negate();
+    public static final Predicate<PokemonEntity> FROM_POKESNACK = entity -> entity.getAspects().contains("poke_snack_crumbed");
+
+    public static final Predicate<PokemonEntity> IS_WILD = FROM_POKESNACK.or((IS_OWNED.or(IS_BOSS).or(IS_NO_AI)).negate());
 }

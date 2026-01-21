@@ -7,21 +7,27 @@ Client-side quality-of-life improvements for Cobblemon. Lightweight, configurabl
 2. Drop the jar file into your mods folder and launch the game.
 
 ## Key features
-All features are configurable or can be disabled via Cloth Config.
+All features are configurable or can be disabled via the config.
 
 - PC
   - Sort boxes by Pokemon size or IV total (uses hypertrained IVs).
   - Quick-sort a box with middle-click (sorting mode configurable).
-  - Small icons for quick recognition:
+  - Small icons on each pc slot for quick recognition:
     - Gold cap = high max IVs
     - Green mushroom = extreme size
     - Ability patch = hidden ability
     - Saddle = rideable
     - Sparkle = shiny
-  - Tooltips on hover, use Shift for detailed properties.
+  - Tooltips on hover, use shift for more detailed info.
   - 6 new wallpapers (some with dark variants). Hold Ctrl to apply a selected wallpaper to every box.
   - Bookmark up to 5 boxes.
   - Extra egg info before hatching.
+  - Alert system for legendaries, shinies, size variations, or custom whitelisted pokemon that spawn around you. Press 'M' (configurable in controls) to mute all active alerts.
+  - Spawnlogger system to track spawns around you and export to CSV.
+    - /chisel log start
+    - /chisel log stop
+    - /chisel log pause
+    - /chisel log resume
 
 - Fishing
   - Show current bait type and quantity while holding a pokerod.

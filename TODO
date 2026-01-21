@@ -7,10 +7,17 @@ Bugs:
 High priority:
 - make the quicksort key bindable
 - fix morecobblemontweaks not being able to multiselect egg dummies
+- when sorting by name/dex number, use egg hatched % as the comparator before level
+- render berry of an ev berry cake on the item
+- fix boss predicate (boss in displayname e.g. boss banette) displayName: Â§4Â§lBoss Banette titledName: Â§4Â§lBoss Banette
+- mode that highlights mons that you have rendered for more than 30 secs (for kill platting)
+- fully grown cobblemon crop markers
+- add an exclamation mark/waypoint option to spawnalert (or bold on minimap?)
+- add mark icon (ribbon)
+- add if it's in pokedex to jade
 
 Nice to have:
 - auto pause logger when exit minecart
-- glow correspond to priority bucket?
 - show loaded pokemon count in the surrounding chunks, and eligible for despawn count?
 - make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
@@ -22,7 +29,12 @@ One day:
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Add a jade tooltip if a block is pokemon spawnable
+- add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 
 - BELOW ARE IN MORECOBBLETWEAKS
 - Command/ ui button etc to switch 2 boxes
 - Move all button that moves all mons to current box (and moves the first 6 to your party if possible)
+
+Current known limitations:
+- Quick and timer balls don't know the current turn (quick assumes turn 1)
+- Egg preview uses default form

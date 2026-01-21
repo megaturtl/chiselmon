@@ -65,6 +65,9 @@ public class PcConfig implements ConfigData {
         public boolean extremeSize = true;
 
         @ConfigEntry.Gui.Tooltip
+        public boolean marked = true;
+
+        @ConfigEntry.Gui.Tooltip
         public boolean rideable = false;
     }
 }

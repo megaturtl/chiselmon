@@ -33,7 +33,7 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_ULTRABEAST = hasLabel("ultra_beast");
     public static final Predicate<Pokemon> IS_PARADOX = hasLabel("paradox");
 
-    public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST).or(IS_PARADOX);
+    public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST);
 
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = pokemon -> {
         if (PokemonCalcUtil.countUniqueAbilities(pokemon) <= 1) {

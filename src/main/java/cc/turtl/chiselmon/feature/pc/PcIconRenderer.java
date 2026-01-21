@@ -19,6 +19,7 @@ public class PcIconRenderer {
     private static final ResourceLocation HIGH_IVS_ICON = modResource("textures/gui/pc/bottle_cap_icon.png");
     private static final ResourceLocation SIZE_ICON = modResource("textures/gui/pc/size_shroom_icon.png");
     private static final ResourceLocation SHINY_ICON = modResource("textures/gui/pc/shiny_sparkle_icon.png");
+    private static final ResourceLocation MARKED_ICON = modResource("textures/gui/pc/trophy_icon.png");
     private static final ResourceLocation RIDEABLE_ICON = modResource("textures/gui/pc/saddle_icon.png");
 
     private static final int ICON_SIZE = 9; // Source texture size
@@ -51,6 +52,7 @@ public class PcIconRenderer {
             new IconConfig(c -> c.highIvs, PokemonPredicates.HAS_HIGH_IVS, HIGH_IVS_ICON),
             new IconConfig(c -> c.extremeSize, PokemonPredicates.IS_EXTREME_SIZE, SIZE_ICON),
             new IconConfig(c -> c.shiny, PokemonPredicates.IS_SHINY, SHINY_ICON),
+            new IconConfig(c -> c.marked, PokemonPredicates.IS_MARKED, MARKED_ICON),
             new IconConfig(c -> c.rideable, PokemonPredicates.IS_RIDEABLE, RIDEABLE_ICON)
     };
 

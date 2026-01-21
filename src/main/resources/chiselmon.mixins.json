@@ -3,8 +3,8 @@
     "package": "cc.turtl.chiselmon.mixin",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "accessor.EntityAccessor",
         "GuiMixin",
+        "EntityMixin",
         "pc.StorageSlotMixin",
         "pc.sort.PCGUIMixin",
         "pc.tab.PCGUIMixin",
