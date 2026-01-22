@@ -7,8 +7,8 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.api.comparator.PokemonComparators;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -41,10 +41,15 @@ public final class PcSorter {
             return false;
         }
 
-        Comparator<Pokemon> comparator = PokemonComparators.EGG_DUMMY_COMPARATOR
+        Comparator<Pokemon> comparator = Comparator
+                // 1. Split Eggs from Non-Eggs (Eggs last)
+                .comparing((Pokemon p) -> (p instanceof NeoDaycareEggDummy))
+                // 2. Sort both groups by the specified SortType
                 .thenComparing(sortType.comparator(reversed))
+                // 3. Sort by level
                 .thenComparing(Pokemon::getLevel)
-                .thenComparing(Pokemon::getUuid);
+                // 4. Sort by hatch percentage (only relevant for eggs)
+                .thenComparingDouble(p -> p instanceof NeoDaycareEggDummy e ? e.getHatchCompletion() : 0.0);
 
         List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, comparator);
         applySortedOrder(boxNumber, currentBox, sortedPokemon);

@@ -16,8 +16,9 @@ public class SpawnAlertCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal("alert")
                 .executes(SpawnAlertCommand::executeHelp)
-                .then(literal("mute").then(argument("uuid", StringArgumentType.string())
-                        .executes(SpawnAlertCommand::executeMute)))
+                .then(literal("mute")
+                        .then(argument("uuid", StringArgumentType.string())
+                                .executes(SpawnAlertCommand::executeMute)))
                 .then(literal("muteall")
                         .executes(SpawnAlertCommand::executeMuteAll))
                 .then(literal("unmuteall")
@@ -26,52 +27,38 @@ public class SpawnAlertCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
+        String modid = Chiselmon.MODID;
+
         CommandUtils.sendHeader(source, "Spawn Alert Commands");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " alert mute <UUID>");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " alert unmuteall");
+        CommandUtils.sendUsage(source, "/" + modid + " alert mute <UUID>");
+        CommandUtils.sendUsage(source, "/" + modid + " alert muteall");
+        CommandUtils.sendUsage(source, "/" + modid + " alert unmuteall");
         return 1;
     }
 
     private static int executeMute(CommandContext<FabricClientCommandSource> context) {
-        FabricClientCommandSource source = context.getSource();
-        try {
+        return CommandUtils.executeWithErrorHandling(context, source -> {
             UUID uuid = UUID.fromString(StringArgumentType.getString(context, "uuid"));
-            AlertManager manager = SpawnAlertFeature.getInstance().getAlertManager();
-
-            if (!manager.getLoaded(uuid).muted) {
-                CommandUtils.sendWarning(source, "Pokemon already muted!");
-            }
-
-            manager.muteLoaded(uuid);
+            getManager().mute(uuid);
             CommandUtils.sendSuccess(source, "Pokemon muted.");
-        } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred!");
-            Chiselmon.getLogger().error("Error executing 'alert mute' command:", e);
-        }
-        return 1;
+        });
     }
 
     private static int executeMuteAll(CommandContext<FabricClientCommandSource> context) {
-        FabricClientCommandSource source = context.getSource();
-        try {
-            SpawnAlertFeature.getInstance().getAlertManager().muteAll();
+        return CommandUtils.executeWithErrorHandling(context, source -> {
+            getManager().muteAll();
             CommandUtils.sendSuccess(source, "All active alerts muted.");
-        } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred!");
-            Chiselmon.getLogger().error("Error executing 'alert muteall' command:", e);
-        }
-        return 1;
+        });
     }
 
     private static int executeUnmuteAll(CommandContext<FabricClientCommandSource> context) {
-        FabricClientCommandSource source = context.getSource();
-        try {
-            SpawnAlertFeature.getInstance().getAlertManager().unmuteAll();
+        return CommandUtils.executeWithErrorHandling(context, source -> {
+            getManager().unmuteAll();
             CommandUtils.sendSuccess(source, "All alerts unmuted.");
-        } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred!");
-            Chiselmon.getLogger().error("Error executing 'alert unmuteall' command:", e);
-        }
-        return 1;
+        });
+    }
+
+    private static AlertManager getManager() {
+        return SpawnAlertFeature.getInstance().getAlertManager();
     }
 }
