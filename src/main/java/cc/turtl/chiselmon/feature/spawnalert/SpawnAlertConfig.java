@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cc.turtl.chiselmon.util.ColorUtil;
@@ -29,142 +28,67 @@ public class SpawnAlertConfig implements ConfigData {
     public int masterVolume = 100;
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public LegendaryAlertConfig legendary = new LegendaryAlertConfig();
+    public AlertConfig legendary = new AlertConfig(true, true, ColorUtil.MAGENTA);
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public ShinyAlertConfig shiny = new ShinyAlertConfig();
+    public AlertConfig shiny = new AlertConfig(true, true, ColorUtil.GOLD);
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public SizeAlertConfig size = new SizeAlertConfig();
+    public AlertConfig size = new AlertConfig(true, false, ColorUtil.TEAL);
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public ListAlertConfig list = new ListAlertConfig();
+    public AlertConfig list = new AlertConfig(true, false, ColorUtil.WHITE);
 
     @ConfigEntry.Gui.Tooltip
-    public List<String> blacklist = new ArrayList<>(Arrays.asList());
+    public List<String> whitelist = new ArrayList<>();
+    @ConfigEntry.Gui.Tooltip
+    public List<String> blacklist = new ArrayList<>();
 
     @ConfigEntry.Gui.Tooltip
     public boolean despawnTrackEnabled = false;
 
     @Override
     public void validatePostLoad() throws ValidationException {
-        if (masterVolume > MAX_VOLUME) {
-            masterVolume = 100;
-        }
-        if (masterVolume < MIN_VOLUME) {
-            masterVolume = 0;
-        }
+        masterVolume = clampVolume(masterVolume);
     }
 
-    // legendary/ub/mythical
-    public class LegendaryAlertConfig implements ConfigData {
+    private static int clampVolume(int volume) {
+        if (volume > MAX_VOLUME) return 100;
+        if (volume < MIN_VOLUME) return 0;
+        return volume;
+    }
+    public static class AlertConfig implements ConfigData {
 
-        public boolean enabled = true;
-
+        @ConfigEntry.Gui.TransitiveObject
+        public boolean enabled;
+        @ConfigEntry.Gui.TransitiveObject
+        public boolean playSound;
+        @ConfigEntry.Gui.TransitiveObject
         public boolean sendChatMessage = true;
+        @ConfigEntry.Gui.TransitiveObject
+        public boolean highlightEntity = true;
 
-        public boolean playSound = true;
-
+        @ConfigEntry.Gui.TransitiveObject
         @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
         public int volume = 100;
 
-        public boolean highlightEntity = false;
-
+        @ConfigEntry.Gui.TransitiveObject
         @ConfigEntry.ColorPicker
-        public int highlightColor = ColorUtil.MAGENTA;
+        public int highlightColor;
 
-        @Override
-        public void validatePostLoad() throws ValidationException {
-            if (volume > MAX_VOLUME) {
-                volume = 100;
-            }
-            if (volume < MIN_VOLUME) {
-                volume = 0;
-            }
+        public AlertConfig() {
+            this(true, false, ColorUtil.WHITE);
         }
-    }
 
-    public class ShinyAlertConfig implements ConfigData {
-
-        public boolean enabled = true;
-
-        public boolean sendChatMessage = true;
-
-        public boolean playSound = true;
-
-        @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
-        public int volume = 100;
-
-        public boolean highlightEntity = false;
-
-        @ConfigEntry.ColorPicker
-        public int highlightColor = ColorUtil.GOLD;
-
-        @Override
-        public void validatePostLoad() throws ValidationException {
-            if (volume > MAX_VOLUME) {
-                volume = 100;
-            }
-            if (volume < MIN_VOLUME) {
-                volume = 0;
-            }
+        public AlertConfig(boolean enabled, boolean playSound, int highlightColor) {
+            this.enabled = enabled;
+            this.playSound = playSound;
+            this.highlightColor = highlightColor;
         }
-    }
-
-    public class SizeAlertConfig implements ConfigData {
-
-        public boolean enabled = false;
-
-        public boolean sendChatMessage = true;
-
-        public boolean playSound = true;
-
-        @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
-        public int volume = 100;
-
-        public boolean highlightEntity = false;
-
-        @ConfigEntry.ColorPicker
-        public int highlightColor = ColorUtil.TEAL;
 
         @Override
         public void validatePostLoad() throws ValidationException {
-            if (volume > MAX_VOLUME) {
-                volume = 100;
-            }
-            if (volume < MIN_VOLUME) {
-                volume = 0;
-            }
-        }
-    }
-
-    public class ListAlertConfig implements ConfigData {
-
-        public boolean enabled = true;
-
-        public boolean sendChatMessage = true;
-
-        public boolean playSound = true;
-
-        @ConfigEntry.BoundedDiscrete(min = MIN_VOLUME, max = MAX_VOLUME)
-        public int volume = 100;
-
-        public boolean highlightEntity = false;
-
-        @ConfigEntry.ColorPicker
-        public int highlightColor = ColorUtil.WHITE;
-
-        @ConfigEntry.Gui.Tooltip
-        public List<String> whitelist = new ArrayList<>(Arrays.asList());
-
-        @Override
-        public void validatePostLoad() throws ValidationException {
-            if (volume > MAX_VOLUME) {
-                volume = 100;
-            }
-            if (volume < MIN_VOLUME) {
-                volume = 0;
-            }
+            volume = clampVolume(volume);
         }
     }
 }

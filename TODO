@@ -19,5 +19,6 @@ One day:
 
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1)
+- Quick and timer balls don't know the current turn (both assume turn 1)
 - Egg preview uses default form
 - SpawnAlert has trouble distinguishing wild pokemon from  and some pokedisguises

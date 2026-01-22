@@ -79,7 +79,7 @@
 
     "text.autoconfig.chiselmon.category.spawnAlert": "Spawn Alert Settings",
         "text.autoconfig.chiselmon.option.spawnAlert.enabled": "Enable Spawn Alerts",
-        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby.",
+        "text.autoconfig.chiselmon.option.spawnAlert.enabled.@Tooltip": "Get notified when specific pokemon spawn nearby. WARNING: EntityCulling may impact the reliability of this feature!",
 
         "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies": "Suppress Plushies",
         "text.autoconfig.chiselmon.option.spawnAlert.suppressPlushies.@Tooltip": "Attempt to exclude plushies from alerts. WARNING: Some regular level 1 spawns will not be logged if this is on.",
@@ -126,11 +126,13 @@
         "text.autoconfig.chiselmon.option.spawnAlert.list.volume": "Sound Volume",
         "text.autoconfig.chiselmon.option.spawnAlert.list.highlightEntity": "Highlight Spawns",
         "text.autoconfig.chiselmon.option.spawnAlert.list.highlightColor": "Highlight Colour",
-        "text.autoconfig.chiselmon.option.spawnAlert.list.whitelist": "Pokemon Whitelist",
-        "text.autoconfig.chiselmon.option.spawnAlert.list.whitelist.@Tooltip": "A list of custom pokemon to recieve alerts for.",
 
+        "text.autoconfig.chiselmon.option.spawnAlert.whitelist": "Pokemon Whitelist",
+        "text.autoconfig.chiselmon.option.spawnAlert.whitelist.@Tooltip": "A list of custom pokemon to recieve alerts for.",
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist": "Pokemon Blacklist",
         "text.autoconfig.chiselmon.option.spawnAlert.blacklist.@Tooltip": "Choose pokemon to not recieve alerts for. Shinies and size variations will bypass this list.",
+        "text.autoconfig.chiselmon.option.spawnAlert.despawnTrackEnabled": "Enable Despawn Glow",
+        "text.autoconfig.chiselmon.option.spawnAlert.despawnTrackEnabled.@Tooltip": "Pokemon will glow green, and turn red once able to despawn.",
 
     "text.autoconfig.chiselmon.category.spawnLogger": "Spawn Logger Settings",
         "text.autoconfig.chiselmon.option.spawnLogger.enabled": "Enable Spawn Logger",
