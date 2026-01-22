@@ -2,8 +2,7 @@ package cc.turtl.chiselmon.feature.spawnalert;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
+import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
@@ -14,9 +13,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.world.entity.Entity;
 
 public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
@@ -43,10 +39,12 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
         alertManager = new AlertManager(getConfig().spawnAlert);
 
-        ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
-        ClientEntityEvents.ENTITY_UNLOAD.register(this::onEntityUnload);
-        ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnect);
+        ClientEntityEvents.ENTITY_LOAD.register(alertManager::onEntityLoad);
+        ClientEntityEvents.ENTITY_UNLOAD.register(alertManager::onEntityUnload);
+        ClientPlayConnectionEvents.DISCONNECT.register(alertManager::onDisconnect);
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
+
+        Chiselmon.services().config().addListener(alertManager::onConfigSave);
     }
 
     private void registerKeybinds() {
@@ -70,22 +68,6 @@ public final class SpawnAlertFeature extends AbstractFeature {
             // Run the alert manager
             alertManager.tick();
         }
-    }
-
-    private void onEntityLoad(Entity entity, ClientLevel level) {
-        if (entity instanceof PokemonEntity pe) {
-            alertManager.getLoaded().put(pe.getUUID(), pe);
-        }
-    }
-
-    private void onEntityUnload(Entity entity, ClientLevel level) {
-        if (entity instanceof PokemonEntity pe) {
-            alertManager.getLoaded().remove(pe.getUUID());
-        }
-    }
-
-    private void onDisconnect(ClientPacketListener handler, Minecraft client) {
-            alertManager.getLoaded().clear();
     }
 
     public AlertManager getAlertManager() {

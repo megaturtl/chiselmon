@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.feature.spawnalert;
+package cc.turtl.chiselmon.feature.spawnalert.response.handler;
 
 import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
@@ -8,6 +8,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.feature.spawnalert.AlertLevel;
+import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
+import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringUtils;
@@ -17,14 +20,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
-public class AlertMessage {
-    public static void sendChatAlert(PokemonEntity pe, boolean showForm) {
+public class AlertChatHandler {
+    public static void handle(AlertResponse response, SpawnAlertConfig config) {
+        if (response.chatLevel() == null || response.chatLevel() == AlertLevel.NONE || !response.chatLevel().shouldChat(config)) {
+            return;
+        }
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) {
             return;
         }
 
-        Component message = buildAlertMessage(pe, showForm);
+        Component message = buildAlertMessage(response.pe(), config.showFormInMessage);
         client.player.sendSystemMessage(message);
     }
 

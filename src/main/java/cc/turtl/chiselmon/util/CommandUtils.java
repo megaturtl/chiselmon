@@ -2,6 +2,8 @@ package cc.turtl.chiselmon.util;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.brigadier.context.CommandContext;
+
 import cc.turtl.chiselmon.Chiselmon;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
@@ -19,6 +21,24 @@ public class CommandUtils {
         if (player != null) {
             player.connection.sendCommand(command.startsWith("/") ? command.substring(1) : command);
         }
+    }
+
+    public static int executeWithErrorHandling(
+            CommandContext<FabricClientCommandSource> context,
+            CommandExecutor executor) {
+        FabricClientCommandSource source = context.getSource();
+        try {
+            executor.execute(source);
+            return 1;
+        } catch (Exception e) {
+            CommandUtils.sendError(source, "An unexpected error occurred.");
+            Chiselmon.getLogger().error("Error executing '" + context.getInput() + "' :", e);
+            return 0;
+        }
+    }
+    @FunctionalInterface
+    public interface CommandExecutor {
+        void execute(FabricClientCommandSource source) throws Exception;
     }
 
     /**
