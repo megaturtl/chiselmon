@@ -19,12 +19,22 @@ public class ClientPCMixin {
     @Inject(method = "get(Lcom/cobblemon/mod/common/api/storage/pc/PCPosition;)Lcom/cobblemon/mod/common/pokemon/Pokemon;", at = @At("RETURN"), cancellable = true, remap = false)
     // Intercepts getting the pokemon and replaces with a dummy if it's an egg
     private void onGetPokemon(PCPosition position, CallbackInfoReturnable<Pokemon> cir) {
-        if (Chiselmon.isDisabled()) return;
+        if (Chiselmon.isDisabled())
+            return;
         Pokemon pokemon = cir.getReturnValue();
         // Only create dummy if we're not already returning a dummy
         if (NeoDaycareEggDummy.isEgg(pokemon)) {
             Pokemon processed = NeoDaycareEggCache.getDummyOrOriginal(pokemon);
             cir.setReturnValue(processed);
+        }
+    }
+
+    @Inject(method = "getPosition(Lcom/cobblemon/mod/common/pokemon/Pokemon;)Lcom/cobblemon/mod/common/api/storage/pc/PCPosition;", at = @At("HEAD"), cancellable = true, remap = false)
+    // If a dummy is passed to this method, return the original pokemon
+    // so that backend packet stuff still works
+    private void onGetPosition(Pokemon pokemon, CallbackInfoReturnable<PCPosition> cir) {
+        if (pokemon instanceof NeoDaycareEggDummy dummy) {
+            cir.setReturnValue(((ClientPC) (Object) this).getPosition(dummy.getOriginalEggPokemon()));
         }
     }
 }
