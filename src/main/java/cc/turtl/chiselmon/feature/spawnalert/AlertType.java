@@ -1,5 +1,12 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -96,4 +103,31 @@ public enum AlertType {
             default -> ColorUtil.WHITE;
         };
     }
+
+    public static AlertType getWinningAlertType(SpawnAlertConfig config, PokemonEntity pe) {
+        Pokemon pokemon = pe.getPokemon();
+
+        Set<AlertType> validAlertTypes = new HashSet<>();
+
+        if (PokemonPredicates.IS_SHINY.test(pokemon)) {
+            validAlertTypes.add(AlertType.SHINY);
+        }
+        if (PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
+            validAlertTypes.add(AlertType.SIZE);
+        }
+        if (!PokemonPredicates.isInCustomList(config.blacklist).test(pokemon)) {
+            if (PokemonPredicates.IS_SPECIAL.test(pokemon)) {
+                validAlertTypes.add(AlertType.LEGENDARY);
+            }
+            if (PokemonPredicates.isInCustomList(config.list.whitelist).test(pokemon)) {
+                validAlertTypes.add(AlertType.LIST);
+            }
+        }
+
+        return validAlertTypes.stream()
+                .filter(t -> t.isEnabled(config))
+                .max((p1, p2) -> Integer.compare(p1.getWeight(config), p2.getWeight(config)))
+                .orElse(AlertType.NONE);
+    }
+
 }

@@ -3,9 +3,11 @@ package cc.turtl.chiselmon.feature.spawnalert;
 import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
 
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringUtils;
@@ -16,25 +18,25 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 public class AlertMessage {
-    public static void sendChatAlert(LoadedPokemonWrapper alerting, boolean showForm) {
+    public static void sendChatAlert(PokemonEntity pe, boolean showForm) {
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) {
             return;
         }
 
-        Component message = buildAlertMessage(alerting, showForm);
+        Component message = buildAlertMessage(pe, showForm);
         client.player.sendSystemMessage(message);
     }
 
-    private static Component buildAlertMessage(LoadedPokemonWrapper alerting, boolean showForm) {
-        Pokemon pokemon = alerting.entity.getPokemon();
+    private static Component buildAlertMessage(PokemonEntity pe, boolean showForm) {
+        Pokemon pokemon = pe.getPokemon();
         String speciesName = pokemon.getSpecies().getName();
 
         MutableComponent message = colored("⚠ ", ColorUtil.CORAL)
                 .withStyle(style -> style
                         .withClickEvent(
                                 new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                        "/" + ChiselmonConstants.MODID + " alert mute " + alerting.entity.getUUID().toString()))
+                                        "/" + ChiselmonConstants.MODID + " alert mute " + pe.getUUID().toString()))
                         .withHoverEvent(
                                 new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         ComponentUtil.modTranslatable("spawnalert.mute.tooltip"))));
@@ -49,19 +51,19 @@ public class AlertMessage {
             }
         }
 
-        if (alerting.alertTypes.contains(AlertType.SHINY)) {
+        if (PokemonPredicates.IS_SHINY.test(pokemon)) {
             message.append(colored(modTranslatable("spawnalert.message.shiny"), ColorUtil.GOLD));
         }
-        if (alerting.alertTypes.contains(AlertType.LEGENDARY)) {
+        if (PokemonPredicates.IS_SPECIAL.test(pokemon)) {
             message.append(colored(modTranslatable("spawnalert.message.legendary"), ColorUtil.MAGENTA));
         }
-        if (alerting.alertTypes.contains(AlertType.SIZE)) {
+        if (PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             message.append(
                     colored(" (" + StringUtils.formatDecimal(pokemon.getScaleModifier()) + ")", ColorUtil.TEAL));
         }
 
         message.append(colored(modTranslatable("spawnalert.message.spawned_nearby"), ColorUtil.CORAL));
-        message.append(colored("(" + alerting.entity.getOnPos().toShortString() + ")", ColorUtil.AQUA));
+        message.append(colored("(" + pe.getOnPos().toShortString() + ")", ColorUtil.AQUA));
 
         return message;
     }

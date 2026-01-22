@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,74 +15,63 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 
 public class AlertManager {
-    private final Map<UUID, LoadedPokemonWrapper> activePokemon = new LinkedHashMap<>();
-    private final Set<UUID> mutedUuids = new HashSet<>(); // persistant muted cache
+    private final HashMap<UUID, PokemonEntity> loaded = new HashMap<>();
+    private final Set<UUID> mutedUuids = new HashSet<>(); // persistent muted cache
+    private final Set<UUID> sentMessageUuids = new HashSet<>();
     private final SpawnAlertConfig config;
 
     private int soundDelayRemaining = 20;
     private final int SOUND_DELAY_TICKS = 20;
-    private final int SYNC_DELAY_TICKS = 5; // wait before firing the message (in case of sync lag)
+    private final int SYNC_DELAY_TICKS = 3; // wait before firing the message (in case of sync lag)
 
     public AlertManager(SpawnAlertConfig config) {
         this.config = config;
     }
 
-    public void onEntityLoad(PokemonEntity entity) {
-        LoadedPokemonWrapper wrapper = new LoadedPokemonWrapper(entity);
-        if (mutedUuids.contains(entity.getUUID())) {
-            wrapper.muted = true;
-        }
-        activePokemon.put(entity.getUUID(), wrapper);
-    }
-
-    public void onEntityUnload(PokemonEntity entity) {
-        activePokemon.remove(entity.getUUID());
-    }
-
     public void tick() {
-        if (Minecraft.getInstance().level == null)
-            return;
-
-        long currentGameTime = Minecraft.getInstance().level.getGameTime();
         AlertType globalHighestAlertType = AlertType.NONE;
 
-        var iterator = activePokemon.entrySet().iterator();
-        while (iterator.hasNext()) {
-            var entry = iterator.next();
-            LoadedPokemonWrapper wrapper = entry.getValue();
-            PokemonEntity entity = wrapper.entity;
-
-            // wait until the entity is at least 5 ticks old to ensure data is synced
-            long tick_age = currentGameTime - wrapper.loadedGameTime;
-            if (tick_age < SYNC_DELAY_TICKS) {
+        for (PokemonEntity pe : loaded.values()) {
+            // wait until the entity is at least a few ticks old to ensure data is synced
+            if (pe.getTicksLived() < SYNC_DELAY_TICKS) {
                 continue;
             }
 
             // clean up any non wild pokemon/plushies (shinies bypass the level 1 filter)
-            if (!PokemonEntityPredicates.IS_WILD.test(entity)
-                    || (config.suppressPlushies && entity.getPokemon().getLevel() == 1
-                            && !entity.getPokemon().getShiny())) {
-                setGlow(entity, null);
-                iterator.remove();
+            if (!PokemonEntityPredicates.IS_WILD.test(pe)
+                    || (config.suppressPlushies && pe.getPokemon().getLevel() == 1
+                            && !pe.getPokemon().getShiny())) {
+                // remove glow and highlight
+                removeEffects(pe);
                 continue;
             }
 
-            AlertType highestAlertType = wrapper.getWinningAlertType(config);
-
-            // send chat message if not done already
-            if (!wrapper.chatMessageSent && !wrapper.muted) {
-                if (highestAlertType.shouldSendChatMessage(config)) {
-                    AlertMessage.sendChatAlert(wrapper, config.showFormInMessage);
-                }
-                wrapper.chatMessageSent = true;
-            }
+            AlertType highestAlertType = AlertType.getWinningAlertType(config, pe);
 
             // set the glow and name highlight based on alert type
-            setGlow(entity, highestAlertType);
-            setNameHighlight(entity, highestAlertType);
+            setGlow(pe, highestAlertType);
+            setNameHighlight(pe, highestAlertType);
 
-            // keep track of the highest priority alert type so far
-            if (!wrapper.muted && highestAlertType.shouldPlaySound(config)) {
+            // highlight red if eligible to despawn
+            if (config.despawnTrackEnabled && highestAlertType != AlertType.LEGENDARY && highestAlertType != AlertType.SHINY) {
+                DespawnTrack.despawnHighlight(pe);
+            }
+
+            // if in battle or being caught, mute
+            if (!pe.getBusyLocks().isEmpty()) {
+                mutedUuids.add(pe.getUUID());
+            }
+
+            // send chat message if not done already
+            if (!sentMessageUuids.contains(pe.getUUID()) && highestAlertType.shouldSendChatMessage(config)) {
+                AlertMessage.sendChatAlert(pe, config.showFormInMessage);
+                sentMessageUuids.add(pe.getUUID());
+            }
+
+            boolean muted = mutedUuids.contains(pe.getUUID());
+
+            // keep track of the highest priority alert type to play sound for so far
+            if (!muted && highestAlertType.shouldPlaySound(config)) {
                 if (globalHighestAlertType == AlertType.NONE
                         || highestAlertType.getWeight(config) > globalHighestAlertType.getWeight(config)) {
                     globalHighestAlertType = highestAlertType;
@@ -92,6 +80,11 @@ public class AlertManager {
         }
 
         handleSound(globalHighestAlertType);
+    }
+
+    private void removeEffects(PokemonEntity pe) {
+        setGlow(pe, null);
+        setNameHighlight(pe, null);
     }
 
     private void setGlow(PokemonEntity entity, AlertType type) {
@@ -138,51 +131,21 @@ public class AlertManager {
         mc.getSoundManager().play(SimpleSoundInstance.forUI(type.getSound(), type.getPitch(), volume));
     }
 
-    public LoadedPokemonWrapper getLoaded(UUID uuid) {
-        return activePokemon.get(uuid);
-    }
-
-    public void removeLoaded(PokemonEntity entity) {
-        activePokemon.remove(entity.getUUID());
-        setGlow(entity, null);
-        setNameHighlight(entity, null);
-    }
-
-    public void clearLoaded() {
-        mutedUuids.clear();
-        activePokemon.clear();
-    }
-
-    public void muteLoaded(UUID uuid) {
+    public void mute(UUID uuid) {
         mutedUuids.add(uuid);
-        LoadedPokemonWrapper target = activePokemon.get(uuid);
-        if (target != null) {
-            target.muted = true;
-        }
-    }
-
-    public void muteLoadedByActorId(UUID actorId) {
-
-        Map.Entry<UUID, LoadedPokemonWrapper> targetEntry = activePokemon.entrySet().stream()
-                .filter(entry -> entry.getValue().entity.getPokemon().getUuid().equals(actorId))
-                .findFirst()
-                .orElse(null);
-
-        if (targetEntry != null) {
-            mutedUuids.add(targetEntry.getKey());
-            targetEntry.getValue().muted = true;
-        }
     }
 
     public void unmuteAll() {
         mutedUuids.clear();
-        activePokemon.values().forEach(t -> t.muted = false);
     }
 
     public void muteAll() {
-        activePokemon.forEach((uuid, pokemon) -> {
-            mutedUuids.add(uuid);
-            pokemon.muted = true;
-        });
+
+        // every uuid that has sent a message becomes muted
+        mutedUuids.addAll(sentMessageUuids);
+    }
+
+    public HashMap<UUID, PokemonEntity> getLoaded() {
+        return loaded;
     }
 }

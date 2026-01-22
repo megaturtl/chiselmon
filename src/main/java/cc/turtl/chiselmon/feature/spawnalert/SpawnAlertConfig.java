@@ -43,6 +43,9 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public List<String> blacklist = new ArrayList<>(Arrays.asList());
 
+    @ConfigEntry.Gui.Tooltip
+    public boolean despawnTrackEnabled = false;
+
     @Override
     public void validatePostLoad() throws ValidationException {
         if (masterVolume > MAX_VOLUME) {
