@@ -40,10 +40,12 @@ public class ChiselmonJadePlugin implements IWailaPlugin {
         // POKESNACK BLOCK
         registration.registerBlockComponent(PokeSnackProvider.INSTANCE, PokeSnackBlock.class);
 
+        registration.addConfig(POKESNACK_BLOCK_RANDOM_TICKS, false);
         registration.addConfig(POKESNACK_BLOCK_BITES_ID, true);
         registration.addConfig(POKESNACK_BLOCK_INGREDIENTS_ID, true);
         registration.addConfig(POKESNACK_BLOCK_EFFECTS_ID, true);
 
+        registration.markAsClientFeature(POKESNACK_BLOCK_RANDOM_TICKS);
         registration.markAsClientFeature(POKESNACK_BLOCK_BITES_ID);
         registration.markAsClientFeature(POKESNACK_BLOCK_INGREDIENTS_ID);
         registration.markAsClientFeature(POKESNACK_BLOCK_EFFECTS_ID);

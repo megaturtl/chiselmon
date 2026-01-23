@@ -33,6 +33,8 @@ public class PokeSnackProvider implements IBlockComponentProvider {
     public static final PokeSnackProvider INSTANCE = new PokeSnackProvider();
 
     public static final String POKESNACK_BLOCK_PARENT_PATH = "pokesnack_block";
+    public static final ResourceLocation POKESNACK_BLOCK_RANDOM_TICKS = modResource(
+            POKESNACK_BLOCK_PARENT_PATH + ".random_ticks");
     public static final ResourceLocation POKESNACK_BLOCK_ID = modResource(
             POKESNACK_BLOCK_PARENT_PATH);
     public static final ResourceLocation POKESNACK_BLOCK_BITES_ID = modResource(
@@ -56,6 +58,17 @@ public class PokeSnackProvider implements IBlockComponentProvider {
         IElementHelper helper = IElementHelper.get();
         BlockState state = accessor.getBlockState();
         PokeSnackBlockEntity entity = (PokeSnackBlockEntity) accessor.getBlockEntity();
+
+        if (config.get(POKESNACK_BLOCK_RANDOM_TICKS)) {
+            float ticksToNext = entity.getRandomTicksUntilNextSpawn();
+            float ticksBetween = entity.getRandomTicksBetweenSpawns();
+
+            String randomTickString = (int) ticksToNext + " / " + (int) ticksBetween;
+
+            MutableComponent randomTicksLabel = ComponentUtil
+                    .modTranslatable("ui.label.pokesnack_block.random_ticks");
+            tooltip.add(ComponentUtil.labelledValue(randomTicksLabel, randomTickString));
+        }
 
         if (config.get(POKESNACK_BLOCK_BITES_ID)) {
             int bites = state.getValue(PokeSnackBlock.Companion.getBITES());

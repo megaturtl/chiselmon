@@ -156,6 +156,7 @@
     "config.jade.plugin_chiselmon.pokemon_entity.pokedex_status": "Pokedex Status",
 
     "config.jade.plugin_chiselmon.pokesnack_block": "Poke Snack Block",
+    "config.jade.plugin_chiselmon.pokesnack_block.random_ticks": "Random Ticks Until Next Spawn",
     "config.jade.plugin_chiselmon.pokesnack_block.bites_remaining": "Bites Remaining",
     "config.jade.plugin_chiselmon.pokesnack_block.ingredients": "Ingredients",
     "config.jade.plugin_chiselmon.pokesnack_block.effects": "Bait Effects",
@@ -170,6 +171,7 @@
 
     "chiselmon.pc.tab_button.tooltip": "Jump to %s (pg. %d)",
 
+    "chiselmon.ui.label.pokesnack_block.random_ticks": "Random Ticks Until Spawn: ",
     "chiselmon.ui.label.pokesnack_block.bites_remaining": "Bites Remaining: ",
     "chiselmon.ui.label.pokesnack_block.no_ingredients": "No Ingredients!",
 

@@ -14,11 +14,9 @@ One day:
 - improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
-- Add a jade tooltip if a block is pokemon spawnable
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 
 Current known limitations:
-- Quick and timer balls don't know the current turn (both assume turn 1)
 - Quick and timer balls don't know the current turn (both assume turn 1)
 - Egg preview uses default form
 - SpawnAlert has trouble distinguishing wild pokemon from  and some pokedisguises

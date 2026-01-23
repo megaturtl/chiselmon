@@ -24,11 +24,21 @@ public class AlertGlowHandler {
         } else if (level != AlertLevel.NONE && level.shouldGlow(config)) {
             color = level.getColor(config);
         } else {
+            // If shouldn't glow, remove
+            removeEffects(pe);
             return;
         }
 
         addGlow(pe, color);
         highlightNickname(pe, color);
+    }
+
+    public static void removeEffects(PokemonEntity pe) {
+        if (!(pe instanceof ClientGlowEntity glowable)) {
+            return;
+        }
+        glowable.chiselmon$setClientGlowing(false);
+        pe.getPokemon().setNickname(null);
     }
 
     public static void addGlow(PokemonEntity pe, int color) {
