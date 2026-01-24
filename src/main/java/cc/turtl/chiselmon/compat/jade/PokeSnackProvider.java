@@ -63,7 +63,7 @@ public class PokeSnackProvider implements IBlockComponentProvider {
             float ticksToNext = entity.getRandomTicksUntilNextSpawn();
             float ticksBetween = entity.getRandomTicksBetweenSpawns();
 
-            String randomTickString = (int) ticksToNext + " / " + (int) ticksBetween;
+            String randomTickString = (int) ticksToNext + "/" + (int) ticksBetween;
 
             MutableComponent randomTicksLabel = ComponentUtil
                     .modTranslatable("ui.label.pokesnack_block.random_ticks");

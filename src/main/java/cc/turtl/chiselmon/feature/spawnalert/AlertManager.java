@@ -82,12 +82,14 @@ public class AlertManager {
             boolean muted = mutedUuids.contains(uuid);
             AlertResponse response = AlertResponse.calculate(config, pe, muted);
 
-            // if there is no entity or it was skipped in the response, do nothing
+            // if there is no entity or it was skipped in the response (not wild), do nothing but remove glow effects
             if (response.pe() == null) {
+                AlertGlowHandler.removeEffects(pe);
                 continue;
             }
 
-            if (!messageSentUuids.contains(uuid)) {
+            // send the message when 1 tick old to hopefully prevent disguises not having the noai tag yet?
+            if (!messageSentUuids.contains(uuid) && pe.getTicksLived() > 0) {
                 if (!muted) {
                     AlertChatHandler.handle(response, config);
                 }

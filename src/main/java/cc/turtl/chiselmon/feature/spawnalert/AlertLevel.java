@@ -33,8 +33,13 @@ public enum AlertLevel {
     }
 
     public boolean isEnabled(SpawnAlertConfig config) {
-        AlertConfig ac = getConfig(config);
-        return ac != null && ac.enabled;
+        return switch (this) {
+            case NONE -> false;
+            default -> {
+                AlertConfig ac = getConfig(config);
+                yield ac != null && ac.enabled;
+            }
+        };
     }
 
     public boolean shouldChat(SpawnAlertConfig config) {

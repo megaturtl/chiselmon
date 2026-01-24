@@ -10,7 +10,7 @@ import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 
 public class AlertGlowHandler {
-    private static final int DESPAWN_TICKS = 600; // min ticks to become despawnable (still needs to be confirmed)
+    private static final int DESPAWN_TICKS = 600; // min ticks to become despawnable
 
     public static void handle(AlertResponse response, SpawnAlertConfig config) {
         PokemonEntity pe = response.pe();
@@ -18,8 +18,8 @@ public class AlertGlowHandler {
 
         int color;
 
-        // despawn track color takes priority when enabled
-        if (config.despawnTrackEnabled) {
+        // despawn track color takes priority when enabled (unless leg or shiny)
+        if (config.despawnTrackEnabled && level != AlertLevel.LEGENDARY && level != AlertLevel.SHINY) {
             color = (pe.getTicksLived() >= DESPAWN_TICKS) ? ColorUtil.RED : ColorUtil.LIME;
         } else if (level != AlertLevel.NONE && level.shouldGlow(config)) {
             color = level.getColor(config);
