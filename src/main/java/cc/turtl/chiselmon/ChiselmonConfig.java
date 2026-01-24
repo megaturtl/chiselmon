@@ -8,6 +8,7 @@ import cc.turtl.chiselmon.feature.eggpreview.EggPreviewConfig;
 import cc.turtl.chiselmon.feature.pc.PcConfig;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerConfig;
+import cc.turtl.chiselmon.service.WorldDataService.WorldDataStore;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
