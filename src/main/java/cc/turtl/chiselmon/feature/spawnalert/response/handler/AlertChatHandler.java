@@ -13,7 +13,6 @@ import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
-import cc.turtl.chiselmon.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -65,7 +64,7 @@ public class AlertChatHandler {
         }
         if (PokemonPredicates.IS_EXTREME_SIZE.test(pokemon)) {
             message.append(
-                    colored(" (" + StringUtils.formatDecimal(pokemon.getScaleModifier()) + ")", ColorUtil.TEAL));
+                    colored(" (" + String.format("%.2f", pokemon.getScaleModifier()) + ")", ColorUtil.TEAL));
         }
 
         message.append(colored(modTranslatable("spawnalert.message.spawned_nearby"), ColorUtil.CORAL));

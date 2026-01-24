@@ -12,7 +12,7 @@ import cc.turtl.chiselmon.config.ModConfig;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentUtil;
-import cc.turtl.chiselmon.util.StringUtils;
+import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -96,7 +96,7 @@ public class StorageWidgetMixin {
                 int cycles = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName()).eggCycles;
                 tooltip.add(ComponentUtil.labelledValue(eggCyclesLabel,
                         dummy.getCyclesCompleted() + "/" + cycles + " ("
-                                + StringUtils.formatPercentage(dummy.getHatchCompletion()) + ")"));
+                                + StringFormats.formatPercentage(dummy.getHatchCompletion()) + ")"));
             }
         }
 

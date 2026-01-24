@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import cc.turtl.chiselmon.api.comparator.PokemonComparators;
 import net.minecraft.resources.ResourceLocation;
 
-import static cc.turtl.chiselmon.util.TextUtil.modResource;
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 import java.util.Comparator;
 

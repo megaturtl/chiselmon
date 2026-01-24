@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import static cc.turtl.chiselmon.util.TextUtil.modResource;
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 import java.util.List;
 

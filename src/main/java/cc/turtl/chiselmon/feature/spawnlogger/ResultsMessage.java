@@ -7,7 +7,7 @@ import java.util.List;
 
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
-import cc.turtl.chiselmon.util.StringUtils;
+import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -51,12 +51,12 @@ public class ResultsMessage {
     private static void appendSessionStats(MutableComponent message, long durationMs, int totalSpawns,
             double spawnsPerMinute) {
         message.append(colored(
-                ComponentUtil.modTranslatable("spawnlogger.report.elapsed", StringUtils.formatDurationMs(durationMs)),
+                ComponentUtil.modTranslatable("spawnlogger.report.elapsed", StringFormats.formatDurationMs(durationMs)),
                 ColorUtil.WHITE));
         message.append(colored(ComponentUtil.modTranslatable("spawnlogger.report.total_spawns", totalSpawns),
                 ColorUtil.WHITE));
         message.append(colored(ComponentUtil.modTranslatable("spawnlogger.report.spawns_per_min",
-                StringUtils.formatDecimal(spawnsPerMinute)), ColorUtil.WHITE));
+                String.format("%.2f", spawnsPerMinute)), ColorUtil.WHITE));
     }
 
     private static void appendSpecialEncounters(MutableComponent message, Collection<LoggedPokemon> logs) {
@@ -84,7 +84,7 @@ public class ResultsMessage {
         if (pokemon.isExtremeSize()) {
             // Since size is just a number in parens, we can keep it dynamic or add a lang
             // key if you want "Size: X"
-            message.append(colored(" (" + StringUtils.formatDecimal(pokemon.scaleModifier()) + ")", ColorUtil.TEAL));
+            message.append(colored(" (" + String.format("%.2f", (pokemon.scaleModifier())) + ")", ColorUtil.TEAL));
         }
     }
 

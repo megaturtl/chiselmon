@@ -3,10 +3,12 @@ package cc.turtl.chiselmon.util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.resources.ResourceLocation;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 
 import java.util.Collection;
@@ -19,7 +21,7 @@ public class ComponentUtil {
 
     public static final Component UNKNOWN = colored("???", ColorUtil.DARK_GRAY);
 
-    static MutableComponent modTranslatable(String key) {
+    public static MutableComponent modTranslatable(String key) {
         String fullKey = ChiselmonConstants.MODID + "." + key;
         return MutableComponent.create(new TranslatableContents(fullKey, null, TranslatableContents.NO_ARGS));
     }
@@ -27,6 +29,10 @@ public class ComponentUtil {
     public static MutableComponent modTranslatable(String key, Object... args) {
         String fullKey = ChiselmonConstants.MODID + "." + key;
         return MutableComponent.create(new TranslatableContents(fullKey, null, args));
+    }
+
+    public static final ResourceLocation modResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(Chiselmon.MODID, path);
     }
 
     public static MutableComponent colored(String text, int color) {

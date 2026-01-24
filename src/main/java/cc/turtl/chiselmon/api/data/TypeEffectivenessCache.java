@@ -6,8 +6,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import cc.turtl.chiselmon.util.TypeUtil;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -91,7 +89,7 @@ public final class TypeEffectivenessCache {
         if (attacker == null || defenders == null)
             return 1.0f;
 
-        Set<ElementalType> defenderSet = TypeUtil.iterableToSet(defenders);
+        Set<ElementalType> defenderSet = iterableToSet(defenders);
         if (defenderSet.isEmpty())
             return 1.0f;
 
@@ -102,7 +100,7 @@ public final class TypeEffectivenessCache {
         if (defenders == null)
             return Map.of();
 
-        Set<ElementalType> defenderSet = TypeUtil.iterableToSet(defenders);
+        Set<ElementalType> defenderSet = iterableToSet(defenders);
         if (defenderSet.isEmpty())
             return Map.of();
 
@@ -116,5 +114,16 @@ public final class TypeEffectivenessCache {
                 .sorted((e1, e2) -> Float.compare(e2.getValue(), e1.getValue()))
                 .map(Map.Entry::getKey)
                 .toList();
+    }
+
+    private static Set<ElementalType> iterableToSet(Iterable<ElementalType> iterable) {
+        if (iterable instanceof Set)
+            return (Set<ElementalType>) iterable;
+        if (iterable instanceof Collection)
+            return Set.copyOf((Collection<ElementalType>) iterable);
+
+        Set<ElementalType> set = new HashSet<>();
+        iterable.forEach(set::add);
+        return Collections.unmodifiableSet(set);
     }
 }

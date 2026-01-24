@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import static cc.turtl.chiselmon.util.TextUtil.modResource;
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.item.PokeBallItem;

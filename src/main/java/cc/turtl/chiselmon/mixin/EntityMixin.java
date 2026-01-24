@@ -8,10 +8,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import cc.turtl.chiselmon.api.entity.ClientGlowEntity;
+import cc.turtl.chiselmon.mixin.interfaces.IClientGlowEntity;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ClientGlowEntity {
+public abstract class EntityMixin implements IClientGlowEntity {
 
     @Unique
     private Integer clientGlowColor = null;

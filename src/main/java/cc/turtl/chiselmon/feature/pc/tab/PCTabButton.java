@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.tab;
 
-import static cc.turtl.chiselmon.util.TextUtil.modResource;
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 import org.jetbrains.annotations.NotNull;
 

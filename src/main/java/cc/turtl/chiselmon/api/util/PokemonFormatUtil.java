@@ -4,9 +4,11 @@ import static cc.turtl.chiselmon.util.ComponentUtil.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
@@ -31,7 +33,7 @@ import cc.turtl.chiselmon.api.data.TypeEffectivenessCache;
 import cc.turtl.chiselmon.api.predicate.MovePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.StringUtils;
+import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -88,7 +90,11 @@ public final class PokemonFormatUtil {
                     String key = groupName.toLowerCase();
                     int color = EGG_GROUP_COLORS.getOrDefault(key, ColorUtil.WHITE);
 
-                    String displayName = StringUtils.formatDisplayName(groupName);
+                    String displayName = Arrays.stream(groupName.split("_"))
+                            .filter(part -> !part.isEmpty())
+                            .map(part -> Character.toUpperCase(part.charAt(0)) + part.substring(1))
+                            .collect(Collectors.joining(" "));
+                    ;
 
                     return colored(displayName, color);
                 });
@@ -115,7 +121,7 @@ public final class PokemonFormatUtil {
         return Component.empty()
                 .append(statsComponent)
                 .append(" (")
-                .append(colored(StringUtils.formatPercentage(totalPercent), totalRGB))
+                .append(colored(StringFormats.formatPercentage(totalPercent), totalRGB))
                 .append(")");
     }
 
@@ -220,7 +226,7 @@ public final class PokemonFormatUtil {
         float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
         int rgb = ColorUtil.getRatioGradientColor(catchChance / 1.0f);
 
-        Component catchChanceComponent = colored(StringUtils.formatPercentage(catchChance), rgb);
+        Component catchChanceComponent = colored(StringFormats.formatPercentage(catchChance), rgb);
 
         return Component.empty()
                 .append(colored("(", ColorUtil.LIGHT_GRAY))
@@ -265,7 +271,7 @@ public final class PokemonFormatUtil {
 
                         MutableComponent nameComponent = Component.translatable(translationKey);
                         nameComponent
-                                .append(Component.literal(" (" + StringUtils.formatPercentage(mark.getChance()) + ")"));
+                                .append(Component.literal(" (" + StringFormats.formatPercentage(mark.getChance()) + ")"));
 
                         return colored(nameComponent, Integer.parseInt(mark.getTitleColour(), 16));
                     } catch (Exception e) {
@@ -281,11 +287,11 @@ public final class PokemonFormatUtil {
         PokedexEntryProgress knowledge = playerDexData.getHighestKnowledgeForSpecies(speciesId);
 
         return switch (knowledge) {
-                case PokedexEntryProgress.CAUGHT -> colored("Caught", ColorUtil.GREEN);
-                case PokedexEntryProgress.ENCOUNTERED -> colored("Encountered", ColorUtil.WHITE);
-                case PokedexEntryProgress.NONE -> colored("Unknown", ColorUtil.DARK_GRAY);
-                default -> UNKNOWN;
-            };
+            case PokedexEntryProgress.CAUGHT -> colored("Caught", ColorUtil.GREEN);
+            case PokedexEntryProgress.ENCOUNTERED -> colored("Encountered", ColorUtil.WHITE);
+            case PokedexEntryProgress.NONE -> colored("Unknown", ColorUtil.DARK_GRAY);
+            default -> UNKNOWN;
+        };
     }
 
     private static List<Component> createRideStyleComponents(Map<RidingStyle, RidingBehaviourSettings> behaviours) {
@@ -302,7 +308,7 @@ public final class PokemonFormatUtil {
             String key = settings.getKey().toLanguageKey();
             String label = key.substring(key.lastIndexOf("/") + 1);
 
-            components.add(colored(StringUtils.formatTitleCase(label), color));
+            components.add(colored(StringFormats.formatTitleCase(label), color));
         });
         return components;
     }

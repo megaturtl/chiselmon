@@ -9,7 +9,7 @@ import cc.turtl.chiselmon.config.PcConfig.PcIconConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-import static cc.turtl.chiselmon.util.TextUtil.modResource;
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

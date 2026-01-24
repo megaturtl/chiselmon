@@ -1,6 +1,6 @@
-package cc.turtl.chiselmon.api.entity;
+package cc.turtl.chiselmon.mixin.interfaces;
 
-public interface ClientGlowEntity {
+public interface IClientGlowEntity {
     void chiselmon$setClientGlowColor(Integer color);
 
     void chiselmon$setClientGlowing(boolean glowing);
