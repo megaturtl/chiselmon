@@ -6,7 +6,7 @@ High priority:
 
 Nice to have:
 - auto pause spawnlogger when exit minecart
-- show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget.
+- show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget. currently loaded, eligible for despawn, average lifetime, etc. then also number of cakes, cake bites remaining, cakes who only need 1 more randomtick.
 - make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
 
@@ -15,6 +15,7 @@ One day:
 - Add a set all before/after key in wallpapers
 - If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
+- keep track of the tickslived when entity unloads so i can add it to the number if we see that entity again (need to prevent mem leaks tho)
 
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1)
