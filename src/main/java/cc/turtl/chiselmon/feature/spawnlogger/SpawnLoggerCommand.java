@@ -4,6 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
@@ -41,9 +42,9 @@ public class SpawnLoggerCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandUtils.sendHeader(source, "Spawn Logger Commands");
-        CommandUtils.sendUsageWithDescription(source, "/" + Chiselmon.MODID + " log start <minutes>",
+        CommandUtils.sendUsageWithDescription(source, "/" + ChiselmonConstants.MODID + " log start <minutes>",
                 "Starts a Spawn Logger session.");
-        CommandUtils.sendUsageWithDescription(source, "/" + Chiselmon.MODID + " log pause",
+        CommandUtils.sendUsageWithDescription(source, "/" + ChiselmonConstants.MODID + " log pause",
                 "Pauses/resumes the current session.");
         return 1;
     }

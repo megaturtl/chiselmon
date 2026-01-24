@@ -7,7 +7,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
-import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
@@ -27,7 +27,7 @@ public class SpawnAlertCommand {
 
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        String modid = Chiselmon.MODID;
+        String modid = ChiselmonConstants.MODID;
 
         CommandUtils.sendHeader(source, "Spawn Alert Commands");
         CommandUtils.sendUsage(source, "/" + modid + " alert mute <UUID>");

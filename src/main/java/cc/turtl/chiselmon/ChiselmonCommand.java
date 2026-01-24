@@ -1,11 +1,11 @@
-package cc.turtl.chiselmon.command;
+package cc.turtl.chiselmon;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 
-import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.command.DebugCommand;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertCommand;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerCommand;
 import cc.turtl.chiselmon.util.CommandUtils;
@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;
 
 public class ChiselmonCommand {
-    
+
     public static void register() {
         ClientCommandRegistrationCallback.EVENT.register(ChiselmonCommand::registerCommand);
     }
@@ -23,9 +23,8 @@ public class ChiselmonCommand {
             CommandDispatcher<FabricClientCommandSource> dispatcher,
             CommandBuildContext registryAccess) {
 
-        var baseCommand = literal(Chiselmon.MODID)
-                .executes(ChiselmonCommand::executeHelp)
-                .then(InfoCommand.register())
+        var baseCommand = literal(ChiselmonConstants.MODID).executes(ChiselmonCommand::executeHelp)
+                .then(literal("info")).executes(ChiselmonCommand::executeInfo)
                 .then(DebugCommand.register())
                 .then(SpawnAlertCommand.register())
                 .then(SpawnLoggerCommand.register());
@@ -38,11 +37,19 @@ public class ChiselmonCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandUtils.sendHeader(source, "Commands");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " info");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " debug");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " alert");
-        CommandUtils.sendUsage(source, "/" + Chiselmon.MODID + " log");
+        CommandUtils.sendUsage(source, "/" + ChiselmonConstants.MODID + " info");
+        CommandUtils.sendUsage(source, "/" + ChiselmonConstants.MODID + " debug");
+        CommandUtils.sendUsage(source, "/" + ChiselmonConstants.MODID + " alert");
+        CommandUtils.sendUsage(source, "/" + ChiselmonConstants.MODID + " log");
 
+        return 1;
+    }
+
+    private static int executeInfo(CommandContext<FabricClientCommandSource> context) {
+        FabricClientCommandSource source = context.getSource();
+        CommandUtils.sendHeader(source, ChiselmonConstants.MODNAME + " Info");
+        CommandUtils.sendLabeled(source, "Version", ChiselmonConstants.VERSION);
+        CommandUtils.sendLabeled(source, "Author", "megaturtl");
         return 1;
     }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
 import cc.turtl.chiselmon.feature.spawnalert.response.handler.AlertChatHandler;
 import cc.turtl.chiselmon.feature.spawnalert.response.handler.AlertGlowHandler;
@@ -64,7 +64,7 @@ public class AlertManager {
         mutedUuids.clear();
     }
 
-    public void onConfigSave(ModConfig config) {
+    public void onConfigSave(ChiselmonConfig config) {
         // reprocess in case highlights need to be updated etc.
     }
 

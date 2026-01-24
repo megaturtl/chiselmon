@@ -5,13 +5,14 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
 public class CommandUtils {
 
-    private static final String PREFIX = "[" + Chiselmon.MODID + "] ";
+    private static final String PREFIX = "[" + ChiselmonConstants.MODID + "] ";
 
     private CommandUtils() {
     }

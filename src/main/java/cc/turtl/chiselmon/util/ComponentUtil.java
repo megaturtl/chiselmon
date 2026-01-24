@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class ComponentUtil {
     }
 
     public static final ResourceLocation modResource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Chiselmon.MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(ChiselmonConstants.MODID, path);
     }
 
     public static MutableComponent colored(String text, int color) {

@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.sort.PcSortUIHandler;
 import cc.turtl.chiselmon.feature.pc.sort.PcSorter;
 import net.minecraft.client.gui.screens.Screen;
@@ -88,7 +88,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
             CallbackInfoReturnable<Boolean> cir) {
         if (Chiselmon.isDisabled())
             return;
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         if (!config.pc.quickSortEnabled) {
             return;
         }
@@ -101,7 +101,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     }
 
     @Unique
-    private void chiselmon$executeQuickSort(ModConfig config) {
+    private void chiselmon$executeQuickSort(ChiselmonConfig config) {
 
         if (this.storageWidget == null)
             return;

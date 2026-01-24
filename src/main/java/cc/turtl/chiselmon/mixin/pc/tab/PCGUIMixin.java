@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.tab.PCBookmarkButton;
 import cc.turtl.chiselmon.feature.pc.tab.PCHomeButton;
 import cc.turtl.chiselmon.feature.pc.tab.PCTab;
@@ -71,7 +71,7 @@ public abstract class PCGUIMixin extends Screen {
     private void chiselmon$addTabElements(CallbackInfo ci) {
         if (Chiselmon.isDisabled())
             return;
-        ModConfig config = configService.get();
+        ChiselmonConfig config = configService.get();
         if (!config.pc.bookmarksEnabled) {
             return;
         }
@@ -118,7 +118,7 @@ public abstract class PCGUIMixin extends Screen {
             CallbackInfo ci) {
         if (Chiselmon.isDisabled())
             return;
-        ModConfig config = configService.get();
+        ChiselmonConfig config = configService.get();
         if (!config.pc.bookmarksEnabled || this.chiselmon$bookmarkButton == null) {
             return;
         }

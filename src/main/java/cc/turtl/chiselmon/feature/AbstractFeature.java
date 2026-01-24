@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 
 public abstract class AbstractFeature {
     protected final String featureName;
@@ -37,7 +37,7 @@ public abstract class AbstractFeature {
      */
     protected abstract boolean isFeatureEnabled();
 
-    protected ModConfig getConfig() {
+    protected ChiselmonConfig getConfig() {
         return Chiselmon.services().config().get();
     }
 }

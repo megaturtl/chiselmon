@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.eggpreview.EggPreviewRenderer;
 import cc.turtl.chiselmon.feature.pc.PcIconRenderer;
@@ -29,7 +29,7 @@ public abstract class StorageSlotMixin {
         if (Chiselmon.isDisabled()) {
             return;
         }
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         Pokemon pokemon = getPokemon();
 
         if (config.eggPreview.enabled && pokemon instanceof NeoDaycareEggDummy) {

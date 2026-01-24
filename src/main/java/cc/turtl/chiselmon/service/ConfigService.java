@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import org.apache.logging.log4j.Logger;
 
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -14,17 +14,17 @@ import net.minecraft.world.InteractionResult;
 
 public class ConfigService {
     private final Logger logger;
-    private final ConfigHolder<ModConfig> holder;
-    private final List<Consumer<ModConfig>> listeners = new ArrayList<>();
+    private final ConfigHolder<ChiselmonConfig> holder;
+    private final List<Consumer<ChiselmonConfig>> listeners = new ArrayList<>();
 
     public ConfigService(Logger logger) {
         this.logger = logger;
-        this.holder = AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+        this.holder = AutoConfig.register(ChiselmonConfig.class, GsonConfigSerializer::new);
         this.holder.registerSaveListener(this::onSave);
         notifyListeners(this.holder.getConfig());
     }
 
-    public ModConfig get() {
+    public ChiselmonConfig get() {
         return holder.getConfig();
     }
 
@@ -38,23 +38,23 @@ public class ConfigService {
         logger.info("Configuration reloaded.");
     }
 
-    public void addListener(Consumer<ModConfig> listener) {
+    public void addListener(Consumer<ChiselmonConfig> listener) {
         listeners.add(listener);
         listener.accept(get());
     }
 
-    public ConfigHolder<ModConfig> holder() {
+    public ConfigHolder<ChiselmonConfig> holder() {
         return holder;
     }
 
-    private InteractionResult onSave(ConfigHolder<ModConfig> manager, ModConfig data) {
+    private InteractionResult onSave(ConfigHolder<ChiselmonConfig> manager, ChiselmonConfig data) {
         notifyListeners(data);
         logger.debug("Configuration saved successfully.");
         return InteractionResult.SUCCESS;
     }
 
-    private void notifyListeners(ModConfig data) {
-        for (Consumer<ModConfig> listener : listeners) {
+    private void notifyListeners(ChiselmonConfig data) {
+        for (Consumer<ChiselmonConfig> listener : listeners) {
             listener.accept(data);
         }
     }

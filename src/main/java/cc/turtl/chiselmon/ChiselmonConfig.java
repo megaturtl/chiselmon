@@ -1,20 +1,19 @@
-package cc.turtl.chiselmon.config;
+package cc.turtl.chiselmon;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.WorldDataStore;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerConfig;
 import cc.turtl.chiselmon.feature.eggpreview.EggPreviewConfig;
+import cc.turtl.chiselmon.feature.pc.PcConfig;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-@Config(name = Chiselmon.MODID)
-public class ModConfig implements ConfigData {
+@Config(name = ChiselmonConstants.MODID)
+public class ChiselmonConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     public boolean modDisabled = false;
@@ -59,4 +58,15 @@ public class ModConfig implements ConfigData {
     public void validatePostLoad() {
         checkSpawnTracker.validatePostLoad();
     }
+
+    public class ThresholdConfig implements ConfigData {
+    @ConfigEntry.Gui.Tooltip
+    public float extremeSmall = 0.4F;
+
+    @ConfigEntry.Gui.Tooltip
+    public float extremeLarge = 1.6F;
+
+    @ConfigEntry.Gui.Tooltip
+    public int maxIvs = 5;
+}
 }

@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.CommandUtils;
@@ -20,7 +21,7 @@ import net.minecraft.world.entity.Entity;
 
 public final class SpawnLoggerFeature extends AbstractFeature {
     private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
-    public static final String EXPORT_COMMAND_PATH = "/" + Chiselmon.MODID + " log export";
+    public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
 
     private SpawnLoggerSession currentSession;
     private SpawnLoggerSession lastCompletedSession;

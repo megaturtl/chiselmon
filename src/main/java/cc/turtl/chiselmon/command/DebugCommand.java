@@ -15,6 +15,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
@@ -48,9 +49,9 @@ public class DebugCommand {
     private static int executeHelp(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
         CommandUtils.sendHeader(source, "Debug Commands");
-        CommandUtils.sendUsageWithDescription(source, "/" + Chiselmon.MODID + " debug dump <slot>",
+        CommandUtils.sendUsageWithDescription(source, "/" + ChiselmonConstants.MODID + " debug dump <slot>",
                 "Dumps info about provided slot.");
-        CommandUtils.sendUsageWithDescription(source, "/" + Chiselmon.MODID + " debug dump look",
+        CommandUtils.sendUsageWithDescription(source, "/" + ChiselmonConstants.MODID + " debug dump look",
                 "Dumps info about targeted pokemon entity.");
         return 1;
     }

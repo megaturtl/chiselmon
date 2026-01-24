@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
-import cc.turtl.chiselmon.command.ChiselmonCommand;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
 import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
@@ -20,9 +19,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class Chiselmon implements ClientModInitializer {
-    public static final String MODID = ChiselmonConstants.MODID;
-    public static final String VERSION = ChiselmonConstants.VERSION;
-
     private static Chiselmon INSTANCE;
     private volatile IChiselmonServices services;
     private Logger logger;
@@ -52,7 +48,7 @@ public class Chiselmon implements ClientModInitializer {
     }
 
     private void initializeServices() {
-        LoggerService loggerService = new LoggerService(MODID);
+        LoggerService loggerService = new LoggerService(ChiselmonConstants.MODID);
         ConfigService configService = new ConfigService(loggerService.get());
         configService.addListener(cfg -> loggerService.setDebugMode(cfg.debugMode));
         loggerService.setDebugMode(configService.get().debugMode);

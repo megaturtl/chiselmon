@@ -9,10 +9,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
-import cc.turtl.chiselmon.config.ModConfig;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 
 public final class PokemonPredicates {
@@ -43,17 +43,17 @@ public final class PokemonPredicates {
     };
 
     public static final Predicate<Pokemon> HAS_HIGH_IVS = pokemon -> {
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         return PokemonCalcUtil.countPerfectIVs(pokemon) >= config.threshold.maxIvs;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = pokemon -> {
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         return config != null && pokemon.getScaleModifier() <= config.threshold.extremeSmall;
     };
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = pokemon -> {
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         return config != null && pokemon.getScaleModifier() >= config.threshold.extremeLarge;
     };
 

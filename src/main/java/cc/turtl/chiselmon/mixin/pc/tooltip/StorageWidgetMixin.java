@@ -5,10 +5,10 @@ import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
-import cc.turtl.chiselmon.config.ModConfig;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentUtil;
@@ -36,7 +36,7 @@ public class StorageWidgetMixin {
             CallbackInfo ci) {
         if (Chiselmon.isDisabled())
             return;
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
 
         boolean isShiftHoverActive = config.pc.tooltip.showDetailedTooltipOnShift && Screen.hasShiftDown();
 

@@ -3,9 +3,9 @@ package cc.turtl.chiselmon.feature.pc;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import cc.turtl.chiselmon.config.ModConfig;
-import cc.turtl.chiselmon.config.PcConfig.PcIconConfig;
+import cc.turtl.chiselmon.feature.pc.PcConfig.PcIconConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -64,7 +64,7 @@ public class PcIconRenderer {
             return;
         }
 
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
         if (config == null) {
             return;
         }

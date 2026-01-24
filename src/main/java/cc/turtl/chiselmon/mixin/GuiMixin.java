@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.mixin;
 import com.cobblemon.mod.common.item.interactive.PokerodItem;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.hud.PokeRodBaitOverlay;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,7 +26,7 @@ public abstract class GuiMixin {
     @Inject(method = "renderSelectedItemName", at = @At("HEAD"), cancellable = true)
     private void hideSelectedItemNameForPokeRod(GuiGraphics guiGraphics, CallbackInfo ci) {
         if (Chiselmon.isDisabled()) return;
-        ModConfig config = Chiselmon.services().config().get();
+        ChiselmonConfig config = Chiselmon.services().config().get();
 
         if (config.showPokeRodBaitAboveHotbar
                 && lastToolHighlight.getItem() instanceof PokerodItem) {

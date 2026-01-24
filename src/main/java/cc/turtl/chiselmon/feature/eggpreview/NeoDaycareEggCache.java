@@ -5,7 +5,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ModConfig;
+import cc.turtl.chiselmon.ChiselmonConfig;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +27,7 @@ public class NeoDaycareEggCache {
         }
 
         try {
-            ModConfig config = Chiselmon.services().config().get();
+            ChiselmonConfig config = Chiselmon.services().config().get();
             if (config == null || Chiselmon.isDisabled() || !config.eggPreview.enabled) {
                 return pokemon;
             }

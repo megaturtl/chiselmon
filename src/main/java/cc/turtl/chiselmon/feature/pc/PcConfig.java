@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.config;
+package cc.turtl.chiselmon.feature.pc;
 
 import cc.turtl.chiselmon.feature.pc.sort.PokemonCustomSortMode;
 import me.shedaniel.autoconfig.ConfigData;
