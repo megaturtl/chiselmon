@@ -17,6 +17,10 @@ One day:
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 - keep track of the tickslived when entity unloads so i can add it to the number if we see that entity again (need to prevent mem leaks tho)
 
+Ideas:
+- should features be renamed modules
+- then test removing each module, and make sure the others still work without each other, we want core logic to live in utils or some kind of api thingy
+
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1)
 - Egg preview uses default form
