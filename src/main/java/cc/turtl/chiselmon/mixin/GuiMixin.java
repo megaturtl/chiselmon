@@ -1,10 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
-import com.cobblemon.mod.common.item.interactive.PokerodItem;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.hud.PokeRodBaitOverlay;
+import cc.turtl.chiselmon.module.feature.HudModule;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -28,10 +26,12 @@ public abstract class GuiMixin {
         if (Chiselmon.isDisabled()) return;
         ChiselmonConfig config = Chiselmon.services().config().get();
 
-        if (config.showPokeRodBaitAboveHotbar
-                && lastToolHighlight.getItem() instanceof PokerodItem) {
-            PokeRodBaitOverlay.renderPokeRodOverlay(guiGraphics);
-            ci.cancel();
+        if (config.showPokeRodBaitAboveHotbar) {
+            HudModule module = Chiselmon.modules().getModule(HudModule.class);
+            if (module != null && module.shouldRenderPokeRodOverlay(lastToolHighlight)) {
+                module.renderPokeRodOverlay(guiGraphics);
+                ci.cancel();
+            }
         }
     }
 }

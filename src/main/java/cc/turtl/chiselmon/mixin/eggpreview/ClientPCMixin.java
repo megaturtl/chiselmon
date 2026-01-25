@@ -10,8 +10,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.module.feature.EggPreviewModule;
 
 @Mixin(ClientPC.class)
 public class ClientPCMixin {
@@ -19,13 +18,13 @@ public class ClientPCMixin {
     @Inject(method = "get(Lcom/cobblemon/mod/common/api/storage/pc/PCPosition;)Lcom/cobblemon/mod/common/pokemon/Pokemon;", at = @At("RETURN"), cancellable = true, remap = false)
     // Intercepts getting the pokemon and replaces with a dummy if it's an egg
     private void onGetPokemon(PCPosition position, CallbackInfoReturnable<Pokemon> cir) {
-        if (Chiselmon.isDisabled())
+        EggPreviewModule module = Chiselmon.modules().getModule(EggPreviewModule.class);
+        if (module == null) {
             return;
-        Pokemon pokemon = cir.getReturnValue();
-        // Only create dummy if we're not already returning a dummy
-        if (NeoDaycareEggDummy.isEgg(pokemon)) {
-            Pokemon processed = NeoDaycareEggCache.getDummyOrOriginal(pokemon);
-            cir.setReturnValue(processed);
+        }
+        Pokemon updated = module.onGetPokemon(cir.getReturnValue());
+        if (updated != cir.getReturnValue()) {
+            cir.setReturnValue(updated);
         }
     }
 
@@ -33,8 +32,13 @@ public class ClientPCMixin {
     // If a dummy is passed to this method, return the original pokemon
     // so that backend packet stuff still works
     private void onGetPosition(Pokemon pokemon, CallbackInfoReturnable<PCPosition> cir) {
-        if (pokemon instanceof NeoDaycareEggDummy dummy) {
-            cir.setReturnValue(((ClientPC) (Object) this).getPosition(dummy.getOriginalEggPokemon()));
+        EggPreviewModule module = Chiselmon.modules().getModule(EggPreviewModule.class);
+        if (module == null) {
+            return;
+        }
+        PCPosition position = module.onGetPosition((ClientPC) (Object) this, pokemon);
+        if (position != null) {
+            cir.setReturnValue(position);
         }
     }
 }

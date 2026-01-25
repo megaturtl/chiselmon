@@ -62,6 +62,10 @@ public class EggPreviewManager {
         }
     }
 
+    public static void onGuiInit(PCGUI pcGUI) {
+        refreshPartyEggs(pcGUI);
+    }
+
     private static Pokemon findFirstValidAnchor(ClientPC pc) {
         for (ClientBox box : pc.getBoxes()) {
             for (Pokemon pokemon : box.getSlots()) {

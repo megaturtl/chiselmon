@@ -8,6 +8,7 @@ import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.module.ModuleRegistry;
 import cc.turtl.chiselmon.module.feature.CheckSpawnTrackerModule;
 import cc.turtl.chiselmon.module.feature.EggPreviewModule;
+import cc.turtl.chiselmon.module.feature.HudModule;
 import cc.turtl.chiselmon.module.feature.SpawnAlertModule;
 import cc.turtl.chiselmon.module.feature.SpawnLoggerModule;
 import cc.turtl.chiselmon.service.ConfigService;
@@ -45,6 +46,7 @@ public class Chiselmon implements ClientModInitializer {
         moduleRegistry.register(new CheckSpawnTrackerModule());
         moduleRegistry.register(new SpawnLoggerModule());
         moduleRegistry.register(new EggPreviewModule());
+        moduleRegistry.register(new HudModule());
         moduleRegistry.initializeModules();
         logger.debug("Modules registered.");
     }

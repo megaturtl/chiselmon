@@ -15,17 +15,10 @@ public class PokeRodBaitOverlay {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 
-        if (player == null)
+        if (player == null || !shouldRender(player.getMainHandItem()))
             return;
 
-        // Get the currently held item
         ItemStack heldItem = player.getMainHandItem();
-
-        // Check if it's a Poke Rod
-        if (!(heldItem.getItem() instanceof PokerodItem))
-            return;
-
-        // Get the bait stack from the rod
         ItemStack baitStack = PokerodItem.Companion.getBaitStackOnRod(heldItem);
 
         // If there's no bait, optionally show "No Bait" or return
@@ -110,5 +103,9 @@ public class PokeRodBaitOverlay {
         // Render the text after the icon
         int textX = startX + iconSize + spacing;
         guiGraphics.drawString(font, displayText, textX, y, color, true);
+    }
+
+    public static boolean shouldRender(ItemStack itemStack) {
+        return itemStack != null && itemStack.getItem() instanceof PokerodItem;
     }
 }
