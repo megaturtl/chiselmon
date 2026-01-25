@@ -6,8 +6,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.command.DebugCommand;
-import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertCommand;
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerCommand;
+import cc.turtl.chiselmon.module.ChiselmonModule;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -25,9 +24,11 @@ public class ChiselmonCommand {
 
         var baseCommand = literal(ChiselmonConstants.MODID).executes(ChiselmonCommand::executeHelp)
                 .then(literal("info")).executes(ChiselmonCommand::executeInfo)
-                .then(DebugCommand.register())
-                .then(SpawnAlertCommand.register())
-                .then(SpawnLoggerCommand.register());
+                .then(DebugCommand.register());
+
+        for (ChiselmonModule module : Chiselmon.modules().modules()) {
+            module.registerCommands(baseCommand);
+        }
 
         dispatcher.register(baseCommand);
         dispatcher.register(literal("chisel").redirect(baseCommand.build()));

@@ -5,11 +5,15 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
-import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
 import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
+import cc.turtl.chiselmon.module.ModuleRegistry;
+import cc.turtl.chiselmon.module.feature.CheckSpawnTrackerModule;
+import cc.turtl.chiselmon.module.feature.EggPreviewModule;
+import cc.turtl.chiselmon.module.feature.SpawnAlertModule;
+import cc.turtl.chiselmon.module.feature.SpawnLoggerModule;
 import cc.turtl.chiselmon.service.ConfigService;
 import cc.turtl.chiselmon.service.DefaultChiselmonServices;
 import cc.turtl.chiselmon.service.IChiselmonServices;
@@ -22,13 +26,14 @@ public class Chiselmon implements ClientModInitializer {
     private static Chiselmon INSTANCE;
     private volatile IChiselmonServices services;
     private Logger logger;
+    private ModuleRegistry moduleRegistry;
 
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
         initializeServices();
         registerCommands();
-        registerFeatures();
+        registerModules();
         registerListeners();
         logger.info("{} {} initialized.", ChiselmonConstants.MODNAME, ChiselmonConstants.VERSION);
     }
@@ -38,13 +43,14 @@ public class Chiselmon implements ClientModInitializer {
         logger.debug("Commands registered.");
     }
 
-    private void registerFeatures() {
-        final List<AbstractFeature> features = List.of(
-                SpawnAlertFeature.getInstance(),
-                CheckSpawnTrackerFeature.getInstance(),
-                SpawnLoggerFeature.getInstance(),
-                EggPreviewFeature.getInstance());
-        features.forEach(AbstractFeature::initialize);
+    private void registerModules() {
+        moduleRegistry = new ModuleRegistry();
+        moduleRegistry.register(new SpawnAlertModule(SpawnAlertFeature.getInstance()));
+        moduleRegistry.register(new CheckSpawnTrackerModule(CheckSpawnTrackerFeature.getInstance()));
+        moduleRegistry.register(new SpawnLoggerModule(SpawnLoggerFeature.getInstance()));
+        moduleRegistry.register(new EggPreviewModule(EggPreviewFeature.getInstance()));
+        moduleRegistry.initializeModules();
+        logger.debug("Modules registered.");
     }
 
     private void initializeServices() {
@@ -97,5 +103,13 @@ public class Chiselmon implements ClientModInitializer {
 
     public static boolean isDisabled() {
         return services().config().get().modDisabled;
+    }
+
+    public static ModuleRegistry modules() {
+        if (getInstance().moduleRegistry == null) {
+            throw new IllegalStateException(
+                    ChiselmonConstants.MODNAME + " modules are not initialized yet; access them after client initialization.");
+        }
+        return getInstance().moduleRegistry;
     }
 }
