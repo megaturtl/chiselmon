@@ -81,6 +81,7 @@ public class SpawnLoggerModule implements ChiselmonModule {
                 Path exportPath = CsvExporter.exportSession(currentSession);
                 Chiselmon.getLogger().info("Auto-saved spawn logger session on game close: " + exportPath.getFileName());
 
+                // Mark as last completed session for potential re-export
                 lastCompletedSession = currentSession;
                 currentSession = null;
             } catch (Exception e) {

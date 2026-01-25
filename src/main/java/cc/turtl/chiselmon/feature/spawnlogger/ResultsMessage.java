@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
 import static cc.turtl.chiselmon.util.ComponentUtil.colored;
+import static cc.turtl.chiselmon.module.feature.SpawnLoggerModule.EXPORT_COMMAND_PATH;
 
 import java.util.Collection;
 import java.util.List;
@@ -95,8 +96,7 @@ public class ResultsMessage {
                         .withColor(ColorUtil.GREEN)
                         .withBold(true)
                         .withClickEvent(
-                                new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                        cc.turtl.chiselmon.module.feature.SpawnLoggerModule.EXPORT_COMMAND_PATH))
+                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, EXPORT_COMMAND_PATH))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 colored(ComponentUtil.modTranslatable("spawnlogger.report.export_hover"),
                                         ColorUtil.YELLOW))));
