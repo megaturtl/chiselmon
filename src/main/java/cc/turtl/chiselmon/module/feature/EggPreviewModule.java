@@ -2,9 +2,9 @@ package cc.turtl.chiselmon.module.feature;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.eggpreview.EggPreviewManager;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.module.feature.eggpreview.EggPreviewManager;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggCache;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;

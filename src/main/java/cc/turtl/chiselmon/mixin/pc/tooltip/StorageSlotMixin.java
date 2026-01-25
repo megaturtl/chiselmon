@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
+import cc.turtl.chiselmon.module.feature.pc.StorageSlotTooltipState;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;

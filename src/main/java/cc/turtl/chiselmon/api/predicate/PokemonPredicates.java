@@ -13,7 +13,7 @@ import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggDummy;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {

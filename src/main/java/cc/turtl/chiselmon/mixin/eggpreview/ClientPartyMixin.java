@@ -10,8 +10,8 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggCache;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggDummy;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {

@@ -8,8 +8,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.sort.PcSortUIHandler;
-import cc.turtl.chiselmon.feature.pc.sort.PcSorter;
+import cc.turtl.chiselmon.module.feature.pc.sort.PcSortUIHandler;
+import cc.turtl.chiselmon.module.feature.pc.sort.PcSorter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 

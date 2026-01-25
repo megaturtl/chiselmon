@@ -6,12 +6,12 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.tab.PCBookmarkButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCHomeButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCTab;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabManager;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabStore;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCBookmarkButton;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCHomeButton;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCTab;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCTabButton;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCTabManager;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCTabStore;
 import cc.turtl.chiselmon.service.ConfigService;
 import cc.turtl.chiselmon.service.IChiselmonServices;
 import net.minecraft.client.gui.GuiGraphics;

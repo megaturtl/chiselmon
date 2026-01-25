@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.feature.spawnalert.AlertManager;
+import cc.turtl.chiselmon.module.feature.spawnalert.AlertManager;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;

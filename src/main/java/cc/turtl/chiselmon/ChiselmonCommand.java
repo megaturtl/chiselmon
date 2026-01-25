@@ -7,8 +7,8 @@ import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.command.DebugCommand;
 import cc.turtl.chiselmon.util.CommandUtils;
-import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertCommand;
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerCommand;
+import cc.turtl.chiselmon.module.feature.spawnalert.SpawnAlertCommand;
+import cc.turtl.chiselmon.module.feature.spawnlogger.SpawnLoggerCommand;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;

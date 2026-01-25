@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnEntry;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnResponseParser;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnEntry;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnResponseParser;
 
 public class SpawnResponseParserTest {
 

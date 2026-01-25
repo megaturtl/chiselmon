@@ -5,9 +5,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
-import cc.turtl.chiselmon.feature.eggpreview.EggPreviewRenderer;
-import cc.turtl.chiselmon.feature.pc.PcIconRenderer;
+import cc.turtl.chiselmon.module.feature.eggpreview.NeoDaycareEggDummy;
+import cc.turtl.chiselmon.module.feature.eggpreview.EggPreviewRenderer;
+import cc.turtl.chiselmon.module.feature.pc.PcIconRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.spongepowered.asm.mixin.Mixin;

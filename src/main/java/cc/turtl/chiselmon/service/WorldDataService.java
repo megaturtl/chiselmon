@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import cc.turtl.chiselmon.feature.pc.tab.PCTabStore;
+import cc.turtl.chiselmon.module.feature.pc.tab.PCTabStore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.world.level.storage.WorldData;

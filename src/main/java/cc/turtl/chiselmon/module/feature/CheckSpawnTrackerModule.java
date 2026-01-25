@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnEntry;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnResponseCapture;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnResponseParser;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerConfig;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnEntry;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnResponseCapture;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnResponseParser;
+import cc.turtl.chiselmon.module.feature.checkspawntracker.CheckSpawnTrackerConfig;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
