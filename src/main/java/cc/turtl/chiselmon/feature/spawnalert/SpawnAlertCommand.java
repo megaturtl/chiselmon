@@ -61,14 +61,10 @@ public class SpawnAlertCommand {
     }
 
     private static AlertManager getManager() {
-        return getFeature().getAlertManager();
-    }
-
-    private static SpawnAlertFeature getFeature() {
         SpawnAlertModule module = Chiselmon.modules().getModule(SpawnAlertModule.class);
         if (module == null) {
             throw new IllegalStateException("Spawn alert module is not registered");
         }
-        return module.feature();
+        return module.getAlertManager();
     }
 }

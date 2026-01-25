@@ -95,7 +95,8 @@ public class ResultsMessage {
                         .withColor(ColorUtil.GREEN)
                         .withBold(true)
                         .withClickEvent(
-                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, SpawnLoggerFeature.EXPORT_COMMAND_PATH))
+                                new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                                        cc.turtl.chiselmon.module.feature.SpawnLoggerModule.EXPORT_COMMAND_PATH))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 colored(ComponentUtil.modTranslatable("spawnlogger.report.export_hover"),
                                         ColorUtil.YELLOW))));

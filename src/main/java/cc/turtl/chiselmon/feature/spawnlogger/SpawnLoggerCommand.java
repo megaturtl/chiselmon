@@ -52,7 +52,7 @@ public class SpawnLoggerCommand {
 
     private static int executeStart(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerFeature spawnLogger = getFeature();
+        SpawnLoggerModule spawnLogger = getModule();
 
         if (spawnLogger.getSession() != null) {
             CommandUtils.sendWarning(source, "Spawn Logger already running!");
@@ -73,7 +73,7 @@ public class SpawnLoggerCommand {
 
     private static int executePause(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerSession session = getFeature().getSession();
+        SpawnLoggerSession session = getModule().getSession();
 
         if (session == null) {
             CommandUtils.sendWarning(source, "No Spawn Logger currently running!");
@@ -99,7 +99,7 @@ public class SpawnLoggerCommand {
 
     private static int executeResume(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerSession session = getFeature().getSession();
+        SpawnLoggerSession session = getModule().getSession();
 
         if (session == null) {
             CommandUtils.sendWarning(source, "No Spawn Logger currently running!");
@@ -125,7 +125,7 @@ public class SpawnLoggerCommand {
 
     private static int executeStop(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerFeature spawnLogger = getFeature();
+        SpawnLoggerModule spawnLogger = getModule();
 
         if (spawnLogger.getSession() == null) {
             CommandUtils.sendWarning(source, "No Spawn Logger currently running!");
@@ -145,7 +145,7 @@ public class SpawnLoggerCommand {
 
     private static int executeExport(CommandContext<FabricClientCommandSource> context) {
         FabricClientCommandSource source = context.getSource();
-        SpawnLoggerFeature spawnLogger = getFeature();
+        SpawnLoggerModule spawnLogger = getModule();
         SpawnLoggerSession lastSession = spawnLogger.getLastCompletedSession();
 
         if (lastSession == null) {
@@ -165,11 +165,11 @@ public class SpawnLoggerCommand {
         return 1;
     }
 
-    private static SpawnLoggerFeature getFeature() {
+    private static SpawnLoggerModule getModule() {
         SpawnLoggerModule module = Chiselmon.modules().getModule(SpawnLoggerModule.class);
         if (module == null) {
             throw new IllegalStateException("Spawn logger module is not registered");
         }
-        return module.feature();
+        return module;
     }
 }
