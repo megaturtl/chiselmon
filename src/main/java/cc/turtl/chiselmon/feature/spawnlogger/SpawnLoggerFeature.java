@@ -6,8 +6,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
-import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -19,28 +19,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.world.entity.Entity;
 
-public final class SpawnLoggerFeature extends AbstractFeature {
-    private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
+public final class SpawnLoggerFeature {
     public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
 
     private SpawnLoggerSession currentSession;
     private SpawnLoggerSession lastCompletedSession;
 
-    private SpawnLoggerFeature() {
-        super("SpawnLogger");
+    public SpawnLoggerFeature() {
     }
 
-    public static SpawnLoggerFeature getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    protected boolean isFeatureEnabled() {
-        return getConfig().spawnLogger.enabled;
-    }
-
-    @Override
-    protected void init() {
+    public void initialize() {
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
         ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnect);
@@ -119,5 +107,13 @@ public final class SpawnLoggerFeature extends AbstractFeature {
 
     public SpawnLoggerSession getLastCompletedSession() {
         return lastCompletedSession;
+    }
+
+    private boolean canRun() {
+        return !Chiselmon.isDisabled() && getConfig().spawnLogger.enabled;
+    }
+
+    private ChiselmonConfig getConfig() {
+        return Chiselmon.services().config().get();
     }
 }

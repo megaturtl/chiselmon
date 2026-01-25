@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.feature.AbstractFeature;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -19,8 +19,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
 
-public final class CheckSpawnTrackerFeature extends AbstractFeature {
-    public static final CheckSpawnTrackerFeature INSTANCE = new CheckSpawnTrackerFeature();
+public final class CheckSpawnTrackerFeature {
 
     private static final int MAX_DISPLAY_ENTRIES = 3;
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("0.##");
@@ -29,22 +28,11 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
     private List<CheckSpawnEntry> visibleEntries = List.of();
     private int ticksSinceLastPoll = 0;
 
-    private CheckSpawnTrackerFeature() {
-        super("CheckSpawnTracker");
+    public CheckSpawnTrackerFeature() {
         this.capture = new CheckSpawnResponseCapture(this::updateEntries);
     }
 
-    public static CheckSpawnTrackerFeature getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    protected boolean isFeatureEnabled() {
-        return getConfig().checkSpawnTracker.enabled;
-    }
-
-    @Override
-    protected void init() {
+    public void initialize() {
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
         HudRenderCallback.EVENT.register(this::onHudRender);
 
@@ -156,5 +144,13 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
         if (percentage < 5F)
             return ColorUtil.YELLOW;
         return ColorUtil.GREEN;
+    }
+
+    private boolean canRun() {
+        return !Chiselmon.isDisabled() && getConfig().checkSpawnTracker.enabled;
+    }
+
+    private ChiselmonConfig getConfig() {
+        return Chiselmon.services().config().get();
     }
 }

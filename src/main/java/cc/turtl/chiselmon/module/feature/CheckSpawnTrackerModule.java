@@ -4,10 +4,10 @@ import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 
 public class CheckSpawnTrackerModule implements ChiselmonModule {
-    private final CheckSpawnTrackerFeature feature;
+    private final CheckSpawnTrackerFeature feature = new CheckSpawnTrackerFeature();
 
-    public CheckSpawnTrackerModule(CheckSpawnTrackerFeature feature) {
-        this.feature = feature;
+    public CheckSpawnTrackerFeature feature() {
+        return feature;
     }
 
     @Override

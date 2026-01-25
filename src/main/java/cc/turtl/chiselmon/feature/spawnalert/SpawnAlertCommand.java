@@ -59,6 +59,21 @@ public class SpawnAlertCommand {
     }
 
     private static AlertManager getManager() {
-        return SpawnAlertFeature.getInstance().getAlertManager();
+        return SpawnAlertModuleHolder.get().getAlertManager();
+    }
+
+    private static final class SpawnAlertModuleHolder {
+        private static final SpawnAlertFeature MODULE_FEATURE =
+                ((cc.turtl.chiselmon.module.feature.SpawnAlertModule) cc.turtl.chiselmon.Chiselmon.modules()
+                        .modules()
+                        .stream()
+                        .filter(module -> module.id().equals("spawn-alert"))
+                        .findFirst()
+                        .orElseThrow())
+                        .feature();
+
+        private static SpawnAlertFeature get() {
+            return MODULE_FEATURE;
+        }
     }
 }

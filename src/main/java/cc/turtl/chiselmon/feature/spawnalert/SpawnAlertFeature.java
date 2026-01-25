@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.feature.spawnalert;
 import org.lwjgl.glfw.GLFW;
 
 import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
@@ -14,26 +14,11 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 
-public final class SpawnAlertFeature extends AbstractFeature {
-    private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
+public final class SpawnAlertFeature {
     private AlertManager alertManager;
     private KeyMapping muteAlertsKey;
 
-    private SpawnAlertFeature() {
-        super("Spawn Alert");
-    }
-
-    public static SpawnAlertFeature getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    protected boolean isFeatureEnabled() {
-        return getConfig().spawnAlert.enabled;
-    }
-
-    @Override
-    protected void init() {
+    public void initialize() {
 
         registerKeybinds();
 
@@ -72,5 +57,13 @@ public final class SpawnAlertFeature extends AbstractFeature {
 
     public AlertManager getAlertManager() {
         return alertManager;
+    }
+
+    private boolean canRun() {
+        return !Chiselmon.isDisabled() && getConfig().spawnAlert.enabled;
+    }
+
+    private ChiselmonConfig getConfig() {
+        return Chiselmon.services().config().get();
     }
 }

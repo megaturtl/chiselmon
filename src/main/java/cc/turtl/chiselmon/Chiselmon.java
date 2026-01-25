@@ -5,10 +5,6 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
-import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
-import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature;
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
 import cc.turtl.chiselmon.module.ModuleRegistry;
 import cc.turtl.chiselmon.module.feature.CheckSpawnTrackerModule;
 import cc.turtl.chiselmon.module.feature.EggPreviewModule;
@@ -32,8 +28,8 @@ public class Chiselmon implements ClientModInitializer {
     public void onInitializeClient() {
         INSTANCE = this;
         initializeServices();
-        registerCommands();
         registerModules();
+        registerCommands();
         registerListeners();
         logger.info("{} {} initialized.", ChiselmonConstants.MODNAME, ChiselmonConstants.VERSION);
     }
@@ -44,11 +40,11 @@ public class Chiselmon implements ClientModInitializer {
     }
 
     private void registerModules() {
-        moduleRegistry = new ModuleRegistry();
-        moduleRegistry.register(new SpawnAlertModule(SpawnAlertFeature.getInstance()));
-        moduleRegistry.register(new CheckSpawnTrackerModule(CheckSpawnTrackerFeature.getInstance()));
-        moduleRegistry.register(new SpawnLoggerModule(SpawnLoggerFeature.getInstance()));
-        moduleRegistry.register(new EggPreviewModule(EggPreviewFeature.getInstance()));
+        moduleRegistry = new ModuleRegistry(logger);
+        moduleRegistry.register(new SpawnAlertModule());
+        moduleRegistry.register(new CheckSpawnTrackerModule());
+        moduleRegistry.register(new SpawnLoggerModule());
+        moduleRegistry.register(new EggPreviewModule());
         moduleRegistry.initializeModules();
         logger.debug("Modules registered.");
     }

@@ -4,10 +4,10 @@ import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 
 public class EggPreviewModule implements ChiselmonModule {
-    private final EggPreviewFeature feature;
+    private final EggPreviewFeature feature = new EggPreviewFeature();
 
-    public EggPreviewModule(EggPreviewFeature feature) {
-        this.feature = feature;
+    public EggPreviewFeature feature() {
+        return feature;
     }
 
     @Override

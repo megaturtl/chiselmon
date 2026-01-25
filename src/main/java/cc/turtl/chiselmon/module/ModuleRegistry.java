@@ -5,8 +5,21 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
+
+import cc.turtl.chiselmon.Chiselmon;
+
 public final class ModuleRegistry {
     private final Map<String, ChiselmonModule> modules = new LinkedHashMap<>();
+    private final Logger logger;
+
+    public ModuleRegistry() {
+        this(Chiselmon.getLogger());
+    }
+
+    public ModuleRegistry(Logger logger) {
+        this.logger = logger;
+    }
 
     public void register(ChiselmonModule module) {
         if (module == null) {
@@ -20,12 +33,14 @@ public final class ModuleRegistry {
             throw new IllegalArgumentException("Module already registered: " + id);
         }
         modules.put(id, module);
+        logger.debug("Registered module [{}]", id);
     }
 
     public void initializeModules() {
         for (ChiselmonModule module : modules.values()) {
             module.initialize();
         }
+        logger.debug("Initialized {} modules.", modules.size());
     }
 
     public boolean isLoaded(String id) {

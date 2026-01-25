@@ -1,17 +1,13 @@
 package cc.turtl.chiselmon.module.feature;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerCommand;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
 import cc.turtl.chiselmon.module.ChiselmonModule;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class SpawnLoggerModule implements ChiselmonModule {
-    private final SpawnLoggerFeature feature;
+    private final SpawnLoggerFeature feature = new SpawnLoggerFeature();
 
-    public SpawnLoggerModule(SpawnLoggerFeature feature) {
-        this.feature = feature;
+    public SpawnLoggerFeature feature() {
+        return feature;
     }
 
     @Override
@@ -22,10 +18,5 @@ public class SpawnLoggerModule implements ChiselmonModule {
     @Override
     public void initialize() {
         feature.initialize();
-    }
-
-    @Override
-    public void registerCommands(LiteralArgumentBuilder<FabricClientCommandSource> root) {
-        root.then(SpawnLoggerCommand.register());
     }
 }
