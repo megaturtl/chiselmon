@@ -26,6 +26,7 @@ import net.minecraft.world.entity.Entity;
 
 public class SpawnLoggerModule implements ChiselmonModule {
     public static final String ID = "spawn-logger";
+    // Export command lives in the module now that the feature wrapper is removed.
     public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
 
     private SpawnLoggerSession currentSession;
