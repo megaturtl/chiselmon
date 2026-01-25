@@ -3,7 +3,6 @@ package cc.turtl.chiselmon.feature.spawnlogger;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
-import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.module.feature.SpawnLoggerModule;
