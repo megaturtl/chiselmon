@@ -5,6 +5,7 @@ import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.module.feature.SpawnLoggerModule;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -166,7 +167,7 @@ public class SpawnLoggerCommand {
     }
 
     private static SpawnLoggerFeature getFeature() {
-        SpawnLoggerModule module = cc.turtl.chiselmon.Chiselmon.modules().getModule(SpawnLoggerModule.class);
+        SpawnLoggerModule module = Chiselmon.modules().getModule(SpawnLoggerModule.class);
         if (module == null) {
             throw new IllegalStateException("Spawn logger module is not registered");
         }
