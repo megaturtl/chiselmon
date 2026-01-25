@@ -89,8 +89,8 @@ public class SpawnLoggerCommand {
             session.pause();
             CommandUtils.sendSuccess(source, "Spawn Logger paused.");
         } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred during 'log resume' command!");
-            Chiselmon.getLogger().error("Error executing 'log resume' command:", e);
+            CommandUtils.sendError(source, "An unexpected error occurred during 'log pause' command!");
+            Chiselmon.getLogger().error("Error executing 'log pause' command:", e);
             return 0;
         }
 
@@ -115,8 +115,8 @@ public class SpawnLoggerCommand {
             session.resume();
             CommandUtils.sendSuccess(source, "Spawn Logger resumed.");
         } catch (Exception e) {
-            CommandUtils.sendError(source, "An unexpected error occurred during 'log pause' command!");
-            Chiselmon.getLogger().error("Error executing 'log pause' command:", e);
+            CommandUtils.sendError(source, "An unexpected error occurred during 'log resume' command!");
+            Chiselmon.getLogger().error("Error executing 'log resume' command:", e);
             return 0;
         }
 
