@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import cc.turtl.chiselmon.Chiselmon;
 
-class CheckSpawnResponseCapture {
+public class CheckSpawnResponseCapture {
     private static final long CAPTURE_TIMEOUT_MS = 1500L;
 
     private final Consumer<List<String>> completionCallback;
@@ -20,11 +20,11 @@ class CheckSpawnResponseCapture {
 
     private static Logger LOGGER = Chiselmon.getLogger();
 
-    CheckSpawnResponseCapture(Consumer<List<String>> completionCallback) {
+    public CheckSpawnResponseCapture(Consumer<List<String>> completionCallback) {
         this.completionCallback = completionCallback;
     }
 
-    boolean begin() {
+    public boolean begin() {
         if (active) {
             return false;
         }
@@ -35,7 +35,7 @@ class CheckSpawnResponseCapture {
         return true;
     }
 
-    void cancel() {
+    public void cancel() {
         if (!active) {
             return;
         }
@@ -45,11 +45,11 @@ class CheckSpawnResponseCapture {
         completionCallback.accept(Collections.emptyList());
     }
 
-    boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
-    void tick() {
+    public void tick() {
         if (!active) {
             return;
         }
@@ -59,7 +59,7 @@ class CheckSpawnResponseCapture {
         }
     }
 
-    boolean tryCapture(String message) {
+    public boolean tryCapture(String message) {
         if (!active) {
             return false;
         }
