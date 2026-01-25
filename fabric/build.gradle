@@ -1,54 +1,41 @@
 plugins {
-    id 'fabric-loom'
-    id 'org.jetbrains.kotlin.jvm'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 base {
     archivesName = "${rootProject.archives_base_name}-fabric"
 }
 
-loom {
-    mods {
-        "${rootProject.mod_id}" {
-            sourceSet sourceSets.main
-            sourceSet project(":common").sourceSets.main
-        }
-    }
-
-    runs {
-        client {
-            client()
-            name = "Fabric Client"
-            ideConfigGenerated = true
-            runDir = "run"
-        }
-        server {
-            server()
-            name = "Fabric Server"
-            ideConfigGenerated = true
-            runDir = "run-server"
-        }
+repositories {
+    maven {
+        name = "Terraformers (Mod Menu)"
+        url = "https://maven.terraformersmc.com/"
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-    
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.21:${rootProject.parchment_version}@zip")
-    })
-
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    
-    // Cobblemon
-    modImplementation "com.cobblemon:fabric:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
-    
-    // Cloth Config
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_fabric_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     
     // Mod Menu
     modImplementation "maven.modrinth:modmenu:${rootProject.mod_menu_version}"
@@ -61,7 +48,8 @@ dependencies {
     modLocalRuntime "net.fabricmc:fabric-language-kotlin:${rootProject.fabric_kotlin_version}"
 
     // Common module
-    implementation project(":common")
+    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.1"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.1"
@@ -86,4 +74,13 @@ processResources {
             "cobblemon_version": rootProject.cobblemon_version
         )
     }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
 }

@@ -15,7 +15,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"cc.turtl.chiselmon.Chiselmon"
+			"cc.turtl.chiselmon.ChiselmonFabric"
 		],
 		"modmenu": [
 			"cc.turtl.chiselmon.compat.ModMenuIntegration"

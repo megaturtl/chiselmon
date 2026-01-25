@@ -3,9 +3,10 @@ package cc.turtl.chiselmon.feature.eggpreview;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 
 import cc.turtl.chiselmon.feature.AbstractFeature;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 
-public class EggPreviewFeature extends AbstractFeature {
+public final class EggPreviewFeature extends AbstractFeature {
     private static final EggPreviewFeature INSTANCE = new EggPreviewFeature();
 
     private EggPreviewFeature() {
@@ -23,10 +24,10 @@ public class EggPreviewFeature extends AbstractFeature {
 
     @Override
     protected void init() {
-        // Event registration is platform-specific and handled in fabric/neoforge modules
+        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
     }
 
-    public void onClientTickEnd(Minecraft client) {
+    private void onClientTickEnd(Minecraft client) {
         if (canRun()) {
             if (!getConfig().eggPreview.attemptHatchSync || client.player == null
                     || !(client.screen instanceof PCGUI pcGUI))

@@ -1,15 +1,24 @@
 plugins {
     id 'java'
-    id 'fabric-loom' version '1.13.6' apply false
+    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'org.jetbrains.kotlin.jvm' version '2.2.21' apply false
+}
+
+architectury {
+    minecraft = minecraft_version
+}
+
+allprojects {
+    group = maven_group
+    version = mod_version
 }
 
 // Configure all subprojects
 subprojects {
-    apply plugin: 'java'
-
-    group = rootProject.maven_group
-    version = rootProject.mod_version
+    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
 
     repositories {
         mavenCentral()
@@ -27,6 +36,20 @@ subprojects {
                 includeGroup "maven.modrinth"
             }
         }
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings(loom.layered {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-1.21:${rootProject.parchment_version}@zip")
+        })
+        
+        // Cobblemon
+        modImplementation("com.cobblemon:mod:${rootProject.cobblemon_version}")
+        
+        // Cloth Config
+        modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
     }
 
     tasks.withType(JavaCompile).configureEach {

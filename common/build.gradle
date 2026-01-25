@@ -2,14 +2,17 @@ plugins {
     id 'java-library'
 }
 
+architectury {
+    common rootProject.enabled_platforms.split(',')
+}
+
 base {
     archivesName = "${rootProject.archives_base_name}-common"
 }
 
 dependencies {
-    // Minecraft dependencies for compilation only
-    // Common module doesn't contain loader-specific code
-    compileOnly "com.mojang:brigadier:1.0.18"
+    // Fabric Loader is required for Architectury API on the common module
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 }
 
 // Common module is not meant to be published as a mod

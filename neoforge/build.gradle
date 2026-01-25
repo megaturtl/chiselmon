@@ -1,35 +1,44 @@
 plugins {
-    id 'net.neoforged.gradle.userdev' version "${neogradle_version}"
-    id "org.jetbrains.kotlin.jvm" version "${kotlin_version}"
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 base {
     archivesName = "${rootProject.archives_base_name}-neoforge"
 }
 
-runs {
-    client {
-        systemProperty 'forge.logging.console.level', 'debug'
-    }
-    server {
-        systemProperty 'forge.logging.console.level', 'debug'
+repositories {
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/releases'
     }
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${rootProject.neoforge_version}"
-    
-    // Parchment mappings
-    implementation "org.parchmentmc.data:parchment-1.21:${rootProject.parchment_version}@zip"
-    
-    // Cobblemon
-    implementation "com.cobblemon:neoforge:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
-    
-    // Cloth Config
-    implementation "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_neoforge_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
     
     // Common module
-    implementation project(path: ":common")
+    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -48,4 +57,13 @@ tasks.withType(ProcessResources).configureEach {
     filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
 }
