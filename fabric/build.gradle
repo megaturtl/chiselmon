@@ -1,0 +1,89 @@
+plugins {
+    id 'fabric-loom'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+base {
+    archivesName = "${rootProject.archives_base_name}-fabric"
+}
+
+loom {
+    mods {
+        "${rootProject.mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet project(":common").sourceSets.main
+        }
+    }
+
+    runs {
+        client {
+            client()
+            name = "Fabric Client"
+            ideConfigGenerated = true
+            runDir = "run"
+        }
+        server {
+            server()
+            name = "Fabric Server"
+            ideConfigGenerated = true
+            runDir = "run-server"
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-1.21:${rootProject.parchment_version}@zip")
+    })
+
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    
+    // Cobblemon
+    modImplementation "com.cobblemon:fabric:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
+    
+    // Cloth Config
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_fabric_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    
+    // Mod Menu
+    modImplementation "maven.modrinth:modmenu:${rootProject.mod_menu_version}"
+    
+    // Jade
+    modImplementation "maven.modrinth:jade:${rootProject.jade_version}+fabric"
+    
+    // Runtime only
+    modLocalRuntime "maven.modrinth:sodium:mc1.21.1-0.6.13-fabric"
+    modLocalRuntime "net.fabricmc:fabric-language-kotlin:${rootProject.fabric_kotlin_version}"
+
+    // Common module
+    implementation project(":common")
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.1"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.10.1"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mod_id", rootProject.mod_id
+    inputs.property "mod_name", rootProject.mod_name
+    inputs.property "mod_author", rootProject.mod_author
+
+    filesMatching("fabric.mod.json") {
+        expand(
+            "version": project.version,
+            "mod_id": rootProject.mod_id,
+            "mod_name": rootProject.mod_name,
+            "mod_author": rootProject.mod_author,
+            "minecraft_version": rootProject.minecraft_version,
+            "fabric_loader_version": rootProject.fabric_loader_version,
+            "fabric_api_version": rootProject.fabric_api_version,
+            "cobblemon_version": rootProject.cobblemon_version
+        )
+    }
+}

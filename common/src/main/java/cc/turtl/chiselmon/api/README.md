@@ -1,0 +1,1 @@
+This package is meant for reusable classes and methods, less so highly specific code.
