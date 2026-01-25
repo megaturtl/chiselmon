@@ -13,7 +13,7 @@ public final class ModuleRegistry {
             throw new IllegalArgumentException("Module cannot be null");
         }
         String id = module.id();
-        if (id == null || id.isEmpty()) {
+        if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");
         }
         if (modules.containsKey(id)) {
@@ -29,6 +29,9 @@ public final class ModuleRegistry {
     }
 
     public boolean isLoaded(String id) {
+        if (id == null || id.isBlank()) {
+            return false;
+        }
         return modules.containsKey(id);
     }
 
