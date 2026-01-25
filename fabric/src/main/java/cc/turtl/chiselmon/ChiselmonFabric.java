@@ -2,10 +2,10 @@ package cc.turtl.chiselmon;
 
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.feature.AbstractFeature;
-import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature;
-import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeature;
-import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature;
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
+import cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeatureFabric;
+import cc.turtl.chiselmon.feature.eggpreview.EggPreviewFeatureFabric;
+import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeatureFabric;
+import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeatureFabric;
 import cc.turtl.chiselmon.service.ConfigService;
 import cc.turtl.chiselmon.service.DefaultChiselmonServices;
 import cc.turtl.chiselmon.service.IChiselmonServices;
@@ -43,10 +43,10 @@ public class ChiselmonFabric implements ClientModInitializer {
 
     private void registerFeatures() {
         final List<AbstractFeature> features = List.of(
-                SpawnAlertFeature.getInstance(),
-                CheckSpawnTrackerFeature.getInstance(),
-                SpawnLoggerFeature.getInstance(),
-                EggPreviewFeature.getInstance());
+                SpawnAlertFeatureFabric.getInstance(),
+                CheckSpawnTrackerFeatureFabric.getInstance(),
+                SpawnLoggerFeatureFabric.getInstance(),
+                EggPreviewFeatureFabric.getInstance());
         features.forEach(AbstractFeature::initialize);
     }
 

@@ -6,14 +6,14 @@ import cc.turtl.chiselmon.feature.AbstractFeature;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 
-public final class EggPreviewFeature extends AbstractFeature {
-    private static final EggPreviewFeature INSTANCE = new EggPreviewFeature();
+public final class EggPreviewFeatureFabric extends AbstractFeature {
+    private static final EggPreviewFeatureFabric INSTANCE = new EggPreviewFeatureFabric();
 
-    private EggPreviewFeature() {
+    private EggPreviewFeatureFabric() {
         super("Egg Preview");
     }
 
-    public static EggPreviewFeature getInstance() {
+    public static EggPreviewFeatureFabric getInstance() {
         return INSTANCE;
     }
 

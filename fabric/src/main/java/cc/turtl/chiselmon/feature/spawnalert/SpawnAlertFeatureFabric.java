@@ -11,15 +11,15 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 
-public final class SpawnAlertFeature extends cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature {
-    private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();
+public final class SpawnAlertFeatureFabric extends cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature {
+    private static final SpawnAlertFeatureFabric INSTANCE = new SpawnAlertFeatureFabric();
     private KeyMapping muteAlertsKey;
 
-    private SpawnAlertFeature() {
+    private SpawnAlertFeatureFabric() {
         super();
     }
 
-    public static SpawnAlertFeature getInstance() {
+    public static SpawnAlertFeatureFabric getInstance() {
         return INSTANCE;
     }
 

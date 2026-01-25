@@ -4,14 +4,14 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
-public final class CheckSpawnTrackerFeature extends cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature {
-    public static final CheckSpawnTrackerFeature INSTANCE = new CheckSpawnTrackerFeature();
+public final class CheckSpawnTrackerFeatureFabric extends cc.turtl.chiselmon.feature.checkspawntracker.CheckSpawnTrackerFeature {
+    public static final CheckSpawnTrackerFeatureFabric INSTANCE = new CheckSpawnTrackerFeatureFabric();
 
-    private CheckSpawnTrackerFeature() {
+    private CheckSpawnTrackerFeatureFabric() {
         super();
     }
 
-    public static CheckSpawnTrackerFeature getInstance() {
+    public static CheckSpawnTrackerFeatureFabric getInstance() {
         return INSTANCE;
     }
 

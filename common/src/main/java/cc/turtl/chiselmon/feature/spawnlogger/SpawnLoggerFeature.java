@@ -98,7 +98,8 @@ public class SpawnLoggerFeature extends AbstractFeature {
         ResultsMessage.sendResultsMessage(currentSession);
 
         if (getConfig().spawnLogger.autoSaveCsv) {
-            CommandUtils.executeClientCommand(EXPORT_COMMAND_PATH);
+            // TODO: Platform-specific command execution
+            // CommandUtils.executeClientCommand(EXPORT_COMMAND_PATH);
         }
         currentSession = null;
     }

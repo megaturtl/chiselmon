@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 public class EggPreviewFeature extends AbstractFeature {
     private static final EggPreviewFeature INSTANCE = new EggPreviewFeature();
 
-    private EggPreviewFeature() {
+    protected EggPreviewFeature() {
         super("Egg Preview");
     }
 
