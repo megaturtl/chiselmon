@@ -165,17 +165,24 @@ public class SpawnLoggerCommand {
     }
 
     private static final class SpawnLoggerModuleHolder {
-        private static final SpawnLoggerFeature MODULE_FEATURE =
-                ((cc.turtl.chiselmon.module.feature.SpawnLoggerModule) cc.turtl.chiselmon.Chiselmon.modules()
-                        .modules()
-                        .stream()
-                        .filter(module -> module.id().equals("spawn-logger"))
-                        .findFirst()
-                        .orElseThrow())
-                        .feature();
+        private static volatile SpawnLoggerFeature moduleFeature;
 
         private static SpawnLoggerFeature get() {
-            return MODULE_FEATURE;
+            SpawnLoggerFeature cached = moduleFeature;
+            if (cached != null) {
+                return cached;
+            }
+            synchronized (SpawnLoggerModuleHolder.class) {
+                if (moduleFeature == null) {
+                    cc.turtl.chiselmon.module.feature.SpawnLoggerModule module = cc.turtl.chiselmon.Chiselmon.modules()
+                            .getModule(cc.turtl.chiselmon.module.feature.SpawnLoggerModule.class);
+                    if (module == null) {
+                        throw new IllegalStateException("Spawn logger module is not registered");
+                    }
+                    moduleFeature = module.feature();
+                }
+                return moduleFeature;
+            }
         }
     }
 }

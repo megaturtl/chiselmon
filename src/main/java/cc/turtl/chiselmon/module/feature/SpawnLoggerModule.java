@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 
 public class SpawnLoggerModule implements ChiselmonModule {
+    public static final String ID = "spawn-logger";
     private final SpawnLoggerFeature feature = new SpawnLoggerFeature();
 
     public SpawnLoggerFeature feature() {
@@ -12,7 +13,7 @@ public class SpawnLoggerModule implements ChiselmonModule {
 
     @Override
     public String id() {
-        return "spawn-logger";
+        return ID;
     }
 
     @Override

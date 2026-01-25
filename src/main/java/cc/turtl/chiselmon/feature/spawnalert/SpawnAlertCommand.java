@@ -63,17 +63,24 @@ public class SpawnAlertCommand {
     }
 
     private static final class SpawnAlertModuleHolder {
-        private static final SpawnAlertFeature MODULE_FEATURE =
-                ((cc.turtl.chiselmon.module.feature.SpawnAlertModule) cc.turtl.chiselmon.Chiselmon.modules()
-                        .modules()
-                        .stream()
-                        .filter(module -> module.id().equals("spawn-alert"))
-                        .findFirst()
-                        .orElseThrow())
-                        .feature();
+        private static volatile SpawnAlertFeature moduleFeature;
 
         private static SpawnAlertFeature get() {
-            return MODULE_FEATURE;
+            SpawnAlertFeature cached = moduleFeature;
+            if (cached != null) {
+                return cached;
+            }
+            synchronized (SpawnAlertModuleHolder.class) {
+                if (moduleFeature == null) {
+                    cc.turtl.chiselmon.module.feature.SpawnAlertModule module = cc.turtl.chiselmon.Chiselmon.modules()
+                            .getModule(cc.turtl.chiselmon.module.feature.SpawnAlertModule.class);
+                    if (module == null) {
+                        throw new IllegalStateException("Spawn alert module is not registered");
+                    }
+                    moduleFeature = module.feature();
+                }
+                return moduleFeature;
+            }
         }
     }
 }

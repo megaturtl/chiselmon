@@ -53,4 +53,13 @@ public final class ModuleRegistry {
     public Collection<ChiselmonModule> modules() {
         return Collections.unmodifiableCollection(modules.values());
     }
+
+    public <T extends ChiselmonModule> T getModule(Class<T> type) {
+        for (ChiselmonModule module : modules.values()) {
+            if (type.isInstance(module)) {
+                return type.cast(module);
+            }
+        }
+        return null;
+    }
 }

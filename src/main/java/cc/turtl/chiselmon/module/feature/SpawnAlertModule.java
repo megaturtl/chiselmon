@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertFeature;
 import cc.turtl.chiselmon.module.ChiselmonModule;
 
 public class SpawnAlertModule implements ChiselmonModule {
+    public static final String ID = "spawn-alert";
     private final SpawnAlertFeature feature = new SpawnAlertFeature();
 
     public SpawnAlertFeature feature() {
@@ -12,7 +13,7 @@ public class SpawnAlertModule implements ChiselmonModule {
 
     @Override
     public String id() {
-        return "spawn-alert";
+        return ID;
     }
 
     @Override
