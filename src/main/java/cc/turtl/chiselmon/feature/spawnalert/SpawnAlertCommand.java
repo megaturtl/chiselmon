@@ -60,28 +60,14 @@ public class SpawnAlertCommand {
     }
 
     private static AlertManager getManager() {
-        return SpawnAlertModuleHolder.get().getAlertManager();
+        return getFeature().getAlertManager();
     }
 
-    private static final class SpawnAlertModuleHolder {
-        private static volatile SpawnAlertFeature moduleFeature;
-
-        private static SpawnAlertFeature get() {
-            SpawnAlertFeature cached = moduleFeature;
-            if (cached != null) {
-                return cached;
-            }
-            synchronized (SpawnAlertModuleHolder.class) {
-                if (moduleFeature == null) {
-                    SpawnAlertModule module = cc.turtl.chiselmon.Chiselmon.modules()
-                            .getModule(SpawnAlertModule.class);
-                    if (module == null) {
-                        throw new IllegalStateException("Spawn alert module is not registered");
-                    }
-                    moduleFeature = module.feature();
-                }
-                return moduleFeature;
-            }
+    private static SpawnAlertFeature getFeature() {
+        SpawnAlertModule module = cc.turtl.chiselmon.Chiselmon.modules().getModule(SpawnAlertModule.class);
+        if (module == null) {
+            throw new IllegalStateException("Spawn alert module is not registered");
         }
+        return module.feature();
     }
 }
