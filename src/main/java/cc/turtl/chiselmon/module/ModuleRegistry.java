@@ -13,6 +13,9 @@ public final class ModuleRegistry {
             throw new IllegalArgumentException("Module cannot be null");
         }
         String id = module.id();
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("Module ID cannot be null or empty");
+        }
         if (modules.containsKey(id)) {
             throw new IllegalArgumentException("Module already registered: " + id);
         }
