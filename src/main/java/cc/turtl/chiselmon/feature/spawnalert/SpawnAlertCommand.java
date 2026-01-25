@@ -8,6 +8,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.module.feature.SpawnAlertModule;
 import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
@@ -72,8 +73,8 @@ public class SpawnAlertCommand {
             }
             synchronized (SpawnAlertModuleHolder.class) {
                 if (moduleFeature == null) {
-                    cc.turtl.chiselmon.module.feature.SpawnAlertModule module = cc.turtl.chiselmon.Chiselmon.modules()
-                            .getModule(cc.turtl.chiselmon.module.feature.SpawnAlertModule.class);
+                    SpawnAlertModule module = cc.turtl.chiselmon.Chiselmon.modules()
+                            .getModule(SpawnAlertModule.class);
                     if (module == null) {
                         throw new IllegalStateException("Spawn alert module is not registered");
                     }
