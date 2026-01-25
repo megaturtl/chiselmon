@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.feature.hud.spawntracker;
+package cc.turtl.chiselmon.module.feature.checkspawntracker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

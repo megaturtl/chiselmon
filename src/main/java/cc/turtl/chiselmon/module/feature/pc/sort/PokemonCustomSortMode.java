@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.module.feature.pc.sort;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.api.comparator.PokemonComparators;
+import cc.turtl.chiselmon.module.feature.pc.PokemonComparators;
 import net.minecraft.resources.ResourceLocation;
 
 import static cc.turtl.chiselmon.util.ComponentUtil.modResource;

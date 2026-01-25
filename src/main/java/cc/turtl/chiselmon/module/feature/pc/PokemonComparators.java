@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.api.comparator;
+package cc.turtl.chiselmon.module.feature.pc;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
