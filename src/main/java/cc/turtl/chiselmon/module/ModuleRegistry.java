@@ -10,9 +10,13 @@ public final class ModuleRegistry {
 
     public void register(ChiselmonModule module) {
         if (module == null) {
-            return;
+            throw new IllegalArgumentException("Module cannot be null");
         }
-        modules.put(module.id(), module);
+        String id = module.id();
+        if (modules.containsKey(id)) {
+            throw new IllegalArgumentException("Module already registered: " + id);
+        }
+        modules.put(id, module);
     }
 
     public void initializeModules() {
