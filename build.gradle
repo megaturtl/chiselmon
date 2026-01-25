@@ -44,12 +44,6 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-1.21:${rootProject.parchment_version}@zip")
         })
-        
-        // Cobblemon
-        modImplementation("com.cobblemon:mod:${rootProject.cobblemon_version}")
-        
-        // Cloth Config
-        modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
     }
 
     tasks.withType(JavaCompile).configureEach {

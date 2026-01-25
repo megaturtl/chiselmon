@@ -8,25 +8,18 @@ import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.feature.AbstractFeature;
-import cc.turtl.chiselmon.util.CommandUtils;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.world.entity.Entity;
 
-public final class SpawnLoggerFeature extends AbstractFeature {
+public class SpawnLoggerFeature extends AbstractFeature {
     private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
     public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
 
-    private SpawnLoggerSession currentSession;
-    private SpawnLoggerSession lastCompletedSession;
+    protected SpawnLoggerSession currentSession;
+    protected SpawnLoggerSession lastCompletedSession;
 
-    private SpawnLoggerFeature() {
+    protected SpawnLoggerFeature() {
         super("SpawnLogger");
     }
 
@@ -41,14 +34,10 @@ public final class SpawnLoggerFeature extends AbstractFeature {
 
     @Override
     protected void init() {
-        ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
-        ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnect);
-        ClientPlayConnectionEvents.JOIN.register(this::onJoin);
-        ClientLifecycleEvents.CLIENT_STOPPING.register(this::onClientStopping);
+        // Platform-specific event registration is done in subclass
     }
 
-    private void onEntityLoad(Entity entity, ClientLevel level) {
+    public void onEntityLoad(Entity entity, ClientLevel level) {
         if (!canRun() || currentSession == null || currentSession.isPaused()) {
             return;
         }
@@ -58,27 +47,27 @@ public final class SpawnLoggerFeature extends AbstractFeature {
         }
     }
 
-    private void onClientTick(Minecraft client) {
+    public void onClientTick(Minecraft client) {
         if (canRun() && currentSession != null && getConfig().spawnLogger.showActionBarStatus) {
             ActionBarStatus.updateActionBar(currentSession);
         }
     }
 
-    private void onDisconnect(ClientPacketListener listener, Minecraft client) {
+    public void onDisconnect() {
         if (currentSession != null && !currentSession.isPaused()) {
             currentSession.pause();
             Chiselmon.getLogger().info("Spawn Logger automatically paused due to disconnect");
         }
     }
 
-    private void onJoin(ClientPacketListener listener, PacketSender sender, Minecraft client) {
+    public void onJoin() {
         if (currentSession != null && currentSession.isPaused()) {
             currentSession.resume();
             Chiselmon.getLogger().info("Spawn Logger automatically resumed due to reconnect");
         }
     }
 
-    private void onClientStopping(Minecraft client) {
+    public void onClientStopping(Minecraft client) {
         if (currentSession != null && getConfig().spawnLogger.autoSaveCsv) {
             try {
                 Path exportPath = CsvExporter.exportSession(currentSession);
@@ -92,6 +81,7 @@ public final class SpawnLoggerFeature extends AbstractFeature {
             }
         }
     }
+
 
     public void startSession() {
         if (currentSession == null) {

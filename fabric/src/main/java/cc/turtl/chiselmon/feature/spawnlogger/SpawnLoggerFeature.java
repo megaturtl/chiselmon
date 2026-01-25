@@ -1,33 +1,18 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import java.nio.file.Path;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
-import cc.turtl.chiselmon.feature.AbstractFeature;
-import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.world.entity.Entity;
 
-public final class SpawnLoggerFeature extends AbstractFeature {
+public final class SpawnLoggerFeature extends cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature {
     private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
-    public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
-
-    private SpawnLoggerSession currentSession;
-    private SpawnLoggerSession lastCompletedSession;
 
     private SpawnLoggerFeature() {
-        super("SpawnLogger");
+        super();
     }
 
     public static SpawnLoggerFeature getInstance() {
@@ -35,63 +20,24 @@ public final class SpawnLoggerFeature extends AbstractFeature {
     }
 
     @Override
-    protected boolean isFeatureEnabled() {
-        return getConfig().spawnLogger.enabled;
-    }
-
-    @Override
     protected void init() {
+        super.init();
+        
         ClientEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
-        ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnect);
-        ClientPlayConnectionEvents.JOIN.register(this::onJoin);
+        ClientPlayConnectionEvents.DISCONNECT.register(this::onDisconnectFabric);
+        ClientPlayConnectionEvents.JOIN.register(this::onJoinFabric);
         ClientLifecycleEvents.CLIENT_STOPPING.register(this::onClientStopping);
     }
-
-    private void onEntityLoad(Entity entity, ClientLevel level) {
-        if (!canRun() || currentSession == null || currentSession.isPaused()) {
-            return;
-        }
-
-        if (entity instanceof PokemonEntity pokemonEntity && PokemonEntityPredicates.IS_WILD.test(pokemonEntity)) {
-            currentSession.log(entity.getUUID(), pokemonEntity);
-        }
+    
+    private void onDisconnectFabric(ClientPacketListener listener, Minecraft client) {
+        onDisconnect();
     }
-
-    private void onClientTick(Minecraft client) {
-        if (canRun() && currentSession != null && getConfig().spawnLogger.showActionBarStatus) {
-            ActionBarStatus.updateActionBar(currentSession);
-        }
+    
+    private void onJoinFabric(ClientPacketListener listener, PacketSender sender, Minecraft client) {
+        onJoin();
     }
-
-    private void onDisconnect(ClientPacketListener listener, Minecraft client) {
-        if (currentSession != null && !currentSession.isPaused()) {
-            currentSession.pause();
-            Chiselmon.getLogger().info("Spawn Logger automatically paused due to disconnect");
-        }
-    }
-
-    private void onJoin(ClientPacketListener listener, PacketSender sender, Minecraft client) {
-        if (currentSession != null && currentSession.isPaused()) {
-            currentSession.resume();
-            Chiselmon.getLogger().info("Spawn Logger automatically resumed due to reconnect");
-        }
-    }
-
-    private void onClientStopping(Minecraft client) {
-        if (currentSession != null && getConfig().spawnLogger.autoSaveCsv) {
-            try {
-                Path exportPath = CsvExporter.exportSession(currentSession);
-                Chiselmon.getLogger().info("Auto-saved spawn logger session on game close: " + exportPath.getFileName());
-
-                // Mark as last completed session for potential re-export
-                lastCompletedSession = currentSession;
-                currentSession = null;
-            } catch (Exception e) {
-                Chiselmon.getLogger().error("Failed to auto-save spawn log session on game close", e);
-            }
-        }
-    }
+}
 
     public void startSession() {
         if (currentSession == null) {

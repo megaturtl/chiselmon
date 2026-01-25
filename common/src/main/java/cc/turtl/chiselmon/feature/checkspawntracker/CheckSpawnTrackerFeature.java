@@ -10,26 +10,23 @@ import java.util.stream.Collectors;
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
 
-public final class CheckSpawnTrackerFeature extends AbstractFeature {
+public class CheckSpawnTrackerFeature extends AbstractFeature {
     public static final CheckSpawnTrackerFeature INSTANCE = new CheckSpawnTrackerFeature();
 
     private static final int MAX_DISPLAY_ENTRIES = 3;
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("0.##");
 
-    private final CheckSpawnResponseCapture capture;
-    private List<CheckSpawnEntry> visibleEntries = List.of();
-    private int ticksSinceLastPoll = 0;
+    protected final CheckSpawnResponseCapture capture;
+    protected List<CheckSpawnEntry> visibleEntries = List.of();
+    protected int ticksSinceLastPoll = 0;
 
-    private CheckSpawnTrackerFeature() {
+    protected CheckSpawnTrackerFeature() {
         super("CheckSpawnTracker");
         this.capture = new CheckSpawnResponseCapture(this::updateEntries);
     }
@@ -45,17 +42,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
 
     @Override
     protected void init() {
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
-        HudRenderCallback.EVENT.register(this::onHudRender);
-
-        ClientReceiveMessageEvents.ALLOW_GAME.register((message, overlay) -> {
-            if (!canRun() || overlay) {
-                return true;
-            }
-            boolean captured = this.captureChat(message);
-            // if we capture the checkspawn message, don't show it to the user
-            return !captured;
-        });
+        // Platform-specific event registration is done in subclass
     }
 
     public boolean captureChat(Component component) {
@@ -65,7 +52,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
         return capture.tryCapture(component.getString());
     }
 
-    private void onClientTick(Minecraft client) {
+    public void onClientTick(Minecraft client) {
         capture.tick();
 
         if (shouldSkipTick(client) || capture.isActive()) {
@@ -106,7 +93,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
         }
     }
 
-    private void onHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+    public void onHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         if (!canRun() || visibleEntries.isEmpty()) {
             return;
         }
@@ -129,7 +116,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
         }
     }
 
-    private void updateEntries(List<String> lines) {
+    protected void updateEntries(List<String> lines) {
         CheckSpawnTrackerConfig config = getConfig().checkSpawnTracker;
         List<CheckSpawnEntry> parsed = CheckSpawnResponseParser.parse(lines);
 
