@@ -5,7 +5,6 @@ import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 import java.util.Collection;
 import java.util.List;
 
-import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringFormats;
