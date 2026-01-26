@@ -69,6 +69,12 @@ public class ColorUtil {
                 {255, 85, 85}, {255, 85, 255}, {255, 255, 85}, {255, 255, 255}
         };
 
+        int closestIndex = getClosestIndex(rgb, colors);
+
+        return "0123456789abcdef".charAt(closestIndex);
+    }
+
+    private static int getClosestIndex(int rgb, int[][] colors) {
         int r = (rgb >> 16) & 0xFF;
         int g = (rgb >> 8) & 0xFF;
         int b = rgb & 0xFF;
@@ -87,7 +93,6 @@ public class ColorUtil {
                 closestIndex = i;
             }
         }
-
-        return "0123456789abcdef".charAt(closestIndex);
+        return closestIndex;
     }
 }

@@ -140,7 +140,7 @@ public final class CheckSpawnTrackerFeature extends AbstractFeature {
 
             parsed = parsed.stream()
                     .filter(entry -> trackedLower.contains(entry.name().toLowerCase(Locale.ROOT)))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         visibleEntries = parsed.stream()

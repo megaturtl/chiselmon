@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.world.level.storage.WorldData;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -31,11 +30,10 @@ public class WorldDataService {
             return "MP:" + server.ip;
         }
 
-        WorldData world = minecraft.getSingleplayerServer().getWorldData();
-        if (world != null) {
+        if (minecraft.getSingleplayerServer() != null) {
+            WorldData world = minecraft.getSingleplayerServer().getWorldData();
             return "SP:" + world.getLevelName();
         }
-
         return "FALLBACK";
     }
 
@@ -52,11 +50,7 @@ public class WorldDataService {
         return worldDataMap.computeIfAbsent(worldId, x -> new WorldDataStore());
     }
 
-    public Map<String, WorldDataStore> backingStore() {
-        return Collections.unmodifiableMap(worldDataMap);
-    }
-
-    public class WorldDataStore {
+    public static class WorldDataStore {
         private final PCTabStore pcTabStore;
 
         public WorldDataStore() {

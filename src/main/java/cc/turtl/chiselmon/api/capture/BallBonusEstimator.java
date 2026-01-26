@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.SleepStatus;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -88,7 +87,7 @@ public class BallBonusEstimator {
      * object.
      */
     public static float calculateBallBonus(PokeBall ball, PokemonEntity targetEntity,
-                                           LocalPlayer player, List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus) {
+                                           List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus) {
 
         CaptureContext context = new CaptureContext(
                 targetEntity,
@@ -257,7 +256,7 @@ public class BallBonusEstimator {
         int turn = battle.getTurn();
 
         float baseMultiplier = 1F * turn * (1229F / 4096F);
-        return (1F + baseMultiplier) > 4.0F ? 4.0F : (1F + baseMultiplier);
+        return Math.min((1F + baseMultiplier), 4.0F);
     }
 
     // Quick Ball: 5x on turn 1

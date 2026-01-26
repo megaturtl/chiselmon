@@ -42,10 +42,6 @@ public class ConfigService {
         listener.accept(get());
     }
 
-    public ConfigHolder<ChiselmonConfig> holder() {
-        return holder;
-    }
-
     private InteractionResult onSave(ConfigHolder<ChiselmonConfig> manager, ChiselmonConfig data) {
         notifyListeners(data);
         logger.debug("Configuration saved successfully.");

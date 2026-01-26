@@ -37,13 +37,7 @@ public class NeoDaycareEggDummy extends Pokemon {
         }
         try {
             var species = pokemon.getSpecies();
-            if (species == null) {
-                return false;
-            }
             var identifier = species.getResourceIdentifier();
-            if (identifier == null) {
-                return false;
-            }
             return EGG_SPECIES.equals(identifier.toString());
         } catch (Exception e) {
             Chiselmon.getLogger().error("Error checking if pokemon is egg", e);
@@ -57,7 +51,7 @@ public class NeoDaycareEggDummy extends Pokemon {
         }
         try {
             var aspects = pokemon.getForcedAspects();
-            return aspects != null && aspects.contains(DUMMY_ASPECT);
+            return aspects.contains(DUMMY_ASPECT);
         } catch (Exception e) {
             return false;
         }
@@ -144,10 +138,6 @@ public class NeoDaycareEggDummy extends Pokemon {
         }
 
         CompoundTag tag = pokemon.getPersistentData();
-
-        if (tag == null) {
-            return;
-        }
 
         this.cycle = tag.contains("Cycle") ? tag.getInt("Cycle") : 40;
         this.speciesCycles = tag.contains("SpeciesCycles") ? tag.getInt("SpeciesCycles") : 40;

@@ -16,10 +16,10 @@ public class PcConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean bookmarksEnabled = true;
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public PcTooltipConfig tooltip = new PcTooltipConfig();
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public PcIconConfig icons = new PcIconConfig();
 
     public static class PcTooltipConfig implements ConfigData {

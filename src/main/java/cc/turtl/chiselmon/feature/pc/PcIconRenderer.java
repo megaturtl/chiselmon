@@ -73,8 +73,6 @@ public class PcIconRenderer {
 
         int sourceU = 0;
         int sourceV = 0;
-        int sourceWidth = ICON_SIZE;
-        int sourceHeight = ICON_SIZE;
 
         context.pose().pushPose();
         context.pose().translate(0.0, 0.0, Z_INDEX_MAX);
@@ -87,8 +85,8 @@ public class PcIconRenderer {
                 targetSize, // Target Height (5)
                 sourceU,
                 sourceV,
-                sourceWidth,
-                sourceHeight,
+                ICON_SIZE,
+                ICON_SIZE,
                 ICON_SIZE, // Full Texture Width (9)
                 ICON_SIZE // Full Texture Height (9)
         );

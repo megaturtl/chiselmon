@@ -31,7 +31,6 @@ public enum PokemonCustomSortMode {
             PokemonComparators.POKEDEX_COMPARATOR,
             false);
 
-    private final String id;
     private final String displayName;
     private final Comparator<Pokemon> comparator;
     private final boolean showInUI;
@@ -46,7 +45,6 @@ public enum PokemonCustomSortMode {
             String displayName,
             Comparator<Pokemon> comparator,
             boolean showInUI) {
-        this.id = id;
         this.displayName = displayName;
         this.comparator = comparator;
         this.showInUI = showInUI;
@@ -59,10 +57,6 @@ public enum PokemonCustomSortMode {
 
     public Comparator<Pokemon> comparator(boolean reversed) {
         return reversed ? comparator.reversed() : comparator;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public boolean showInUI() {
@@ -90,7 +84,4 @@ public enum PokemonCustomSortMode {
         return displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

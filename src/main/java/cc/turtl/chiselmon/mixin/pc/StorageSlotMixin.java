@@ -19,9 +19,6 @@ public abstract class StorageSlotMixin {
     @Shadow
     public abstract Pokemon getPokemon();
 
-    @Shadow(remap = false)
-    public abstract boolean isHovered(int mouseX, int mouseY);
-
     @Inject(method = "renderSlot", at = @At("RETURN"), remap = false)
     private void chiselmon$renderCustomElements(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
         if (Chiselmon.isDisabled()) {

@@ -151,8 +151,6 @@ public class DebugCommand {
                 CommandUtils.sendLabeled(source, "IS_WILD", PokemonEntityPredicates.IS_WILD.test(pokemonEntity));
                 LOGGER.info("Logging object details for targeted Pokemon...");
                 ObjectDumper.logObjectFields(LOGGER, pokemonEntity);
-                CommandUtils.sendWarning(source, "Full object dump sent to console/log.");
-                return 1;
 
             } else {
                 CommandUtils.sendWarning(source, "Targeted entity is a "
@@ -160,9 +158,9 @@ public class DebugCommand {
 
                 LOGGER.info("Logging object details for targeted entity...");
                 ObjectDumper.logObjectFields(LOGGER, lookingAtEntity);
-                CommandUtils.sendWarning(source, "Full object dump sent to console/log.");
-                return 1;
             }
+            CommandUtils.sendWarning(source, "Full object dump sent to console/log.");
+            return 1;
 
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred during look dump command!");

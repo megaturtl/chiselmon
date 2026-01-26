@@ -11,34 +11,19 @@ public class PCTabStore {
     public PCTabStore() {
     }
 
-    public PCTabStore(int boxNumber) {
-        addTab(boxNumber);
-    }
-
     public List<PCTab> getTabs() {
         return Collections.unmodifiableList(tabs);
     }
 
-    public PCTab getTab(int boxNumber) {
-        return tabs.stream()
-                .filter(tab -> tab.boxNumber == boxNumber)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public boolean addTab(int boxNumber) {
+    public void addTab(int boxNumber) {
         if (this.isFull() || hasBoxNumber(boxNumber)) {
-            return false;
+            return;
         }
-        return tabs.add(new PCTab(boxNumber));
+        tabs.add(new PCTab(boxNumber));
     }
 
-    public void clear() {
-        tabs.clear();
-    }
-
-    public boolean removeTab(int boxNumber) {
-        return tabs.removeIf(tab -> tab.boxNumber == boxNumber);
+    public void removeTab(int boxNumber) {
+        tabs.removeIf(tab -> tab.boxNumber == boxNumber);
     }
 
     public boolean isFull() {

@@ -28,7 +28,7 @@ public class PokemonCalcUtil {
                 .count();
     }
 
-    public static final int countPerfectIVs(Pokemon pokemon) {
+    public static int countPerfectIVs(Pokemon pokemon) {
         IVs ivs = pokemon.getIvs();
         long perfectCount = Stats.Companion.getPERMANENT().stream()
                 // Map each Stat object to its effective IV value

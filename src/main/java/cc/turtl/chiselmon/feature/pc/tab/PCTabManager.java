@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PCTabManager {
     public static final int HORIZONTAL_SPACING = 2;
@@ -33,18 +34,12 @@ public class PCTabManager {
                 continue;
             }
 
-            Button.OnPress onPress = (button) -> {
-                storageWidget.setBox(targetBoxNumber);
-            };
+            Button.OnPress onPress = (button) -> storageWidget.setBox(targetBoxNumber);
 
             Component boxNameString = clientBoxes.get(targetBoxNumber).getName();
 
             MutableComponent boxName = Component.empty();
-            if (boxNameString == null)
-                boxName.append(Component.translatable("cobblemon.ui.pc.box.title", targetBoxNumber + 1));
-            else {
-                boxName.append(boxNameString);
-            }
+            boxName.append(Objects.requireNonNullElseGet(boxNameString, () -> Component.translatable("cobblemon.ui.pc.box.title", targetBoxNumber + 1)));
             boxName.setStyle(boxName.getStyle().withFont(CobblemonResources.INSTANCE.getDEFAULT_LARGE()))
                     .withStyle(ChatFormatting.BOLD);
 

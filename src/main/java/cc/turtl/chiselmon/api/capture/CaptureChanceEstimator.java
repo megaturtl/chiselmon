@@ -39,7 +39,6 @@ public class CaptureChanceEstimator {
      *
      * @param targetEntity The Pokemon Entity being targeted.
      * @param ball         The PokeBall being used.
-     * @param playerParty  The list of Pokemon in the player's party.
      * @return A float (0.0F - 1.0F) representing the total capture probability.
      */
     public static float estimateCaptureProbability(
@@ -71,7 +70,7 @@ public class CaptureChanceEstimator {
                 .orElse(null);
 
         // Ball Multiplier (B)
-        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, thrower, throwerActiveBattlePokemon,
+        float B = BallBonusEstimator.calculateBallBonus(ball, targetEntity, throwerActiveBattlePokemon,
                 targetStatus);
 
         // --- 1. Master Ball Check ---
@@ -139,6 +138,13 @@ public class CaptureChanceEstimator {
 
         // --- 5. Critical Capture Chance (P_crit) ---
         // Pokedex Progress Multiplier (M_p) - Placeholder for client-side
+        float P_capture_total = getPCaptureTotal(modifiedCatchRate);
+
+        // Ensure the probability is clamped between 0.0 and 1.0
+        return min(1.0F, max(0.0F, P_capture_total));
+    }
+
+    private static float getPCaptureTotal(float modifiedCatchRate) {
         float M_p = 1.0F;
 
         // Crit Chance calculation: min(A * M_p / 12, 255) / 256.0F
@@ -151,6 +157,10 @@ public class CaptureChanceEstimator {
         float A = min(255.0F, max(1.0F, modifiedCatchRate));
 
         // Shake probability term
+        return getPCaptureTotal(A, critChance);
+    }
+
+    private static float getPCaptureTotal(float A, float critChance) {
         double exponentTerm = Math.pow(255.0F / A, 0.1875);
         int shakeProbabilityThreshold = (int) floor(65536.0F / exponentTerm);
         float P_shake = (float) shakeProbabilityThreshold / 65536.0F;
@@ -159,13 +169,9 @@ public class CaptureChanceEstimator {
         // P_capture = (P_shake^4 * (1 - P_crit)) + (P_crit * P_shake)
 
         float P_capture_normal = P_shake * P_shake * P_shake * P_shake; // P_shake ^ 4 (4 successful shakes)
-        float P_capture_crit = P_shake; // 1 shake needed for critical capture
 
         // Total Capture Probability
-        float P_capture_total = (P_capture_normal * (1.0F - critChance)) + (P_capture_crit * critChance);
-
-        // Ensure the probability is clamped between 0.0 and 1.0
-        return min(1.0F, max(0.0F, P_capture_total));
+        return (P_capture_normal * (1.0F - critChance)) + (P_shake * critChance);
     }
 
     // ----------------------------------------------------------------------

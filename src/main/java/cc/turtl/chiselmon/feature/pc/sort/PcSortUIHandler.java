@@ -2,7 +2,6 @@ package cc.turtl.chiselmon.feature.pc.sort;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
-import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,7 +14,6 @@ public class PcSortUIHandler {
     }
 
     public static void initializeSortButtons(
-            PCGUI screen,
             ClientPC pc,
             StorageWidget storage,
             ButtonAdder adder,
@@ -53,9 +51,9 @@ public class PcSortUIHandler {
                             sortType,
                             Screen.hasShiftDown()));
 
-            customSortBtn.visible = adder.isDisplayingOptions();
-            adder.addRenderableWidget(customSortBtn);
-            adder.getOptionButtons().add(customSortBtn);
+            customSortBtn.visible = adder.chiselmon$isDisplayingOptions();
+            adder.chiselmon$addRenderableWidget(customSortBtn);
+            adder.chiselmon$getOptionButtons().add(customSortBtn);
 
             btnX += 12;
         }
@@ -63,10 +61,10 @@ public class PcSortUIHandler {
 
     // Helper interface to allow the handler to add buttons to the PCGUI
     public interface ButtonAdder {
-        void addRenderableWidget(IconButton button);
+        void chiselmon$addRenderableWidget(IconButton button);
 
-        boolean isDisplayingOptions();
+        boolean chiselmon$isDisplayingOptions();
 
-        List<IconButton> getOptionButtons();
+        List<IconButton> chiselmon$getOptionButtons();
     }
 }

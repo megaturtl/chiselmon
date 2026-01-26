@@ -1,13 +1,14 @@
 package cc.turtl.chiselmon.api.predicate;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import net.minecraft.world.entity.Mob;
 
 import java.util.function.Predicate;
 
 public final class PokemonEntityPredicates {
     public static final Predicate<PokemonEntity> IS_OWNED = entity -> entity.getOwnerUUID() != null;
     // some pokedisguises have this tag
-    public static final Predicate<PokemonEntity> IS_NO_AI = entity -> entity.isNoAi();
+    public static final Predicate<PokemonEntity> IS_NO_AI = Mob::isNoAi;
     // Raid or normal boss, usually pokemon can't reach 2x scale
     public static final Predicate<PokemonEntity> IS_BOSS = entity -> {
         return (entity.getPokemon().getScaleModifier() >= 2);

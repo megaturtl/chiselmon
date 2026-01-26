@@ -13,27 +13,27 @@ import java.util.*;
 
 public final class PcSorter {
 
-    public static boolean sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortMode sortType,
-                                    boolean reversed) {
+    public static void sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortMode sortType,
+                                 boolean reversed) {
         if (clientPC == null || boxNumber < 0) {
-            return false;
+            return;
         }
 
         List<ClientBox> boxes = clientPC.getBoxes();
         if (boxNumber >= boxes.size())
-            return false;
+            return;
         ClientBox currentBox = boxes.get(boxNumber);
         if (currentBox == null) {
-            return false;
+            return;
         }
 
         List<Pokemon> pokemonList = currentBox.getSlots().stream()
-                .filter(pokemon -> pokemon != null)
+                .filter(Objects::nonNull)
                 .map(NeoDaycareEggCache::getDummyOrOriginal)
                 .toList();
 
         if (pokemonList.isEmpty()) {
-            return false;
+            return;
         }
 
         Comparator<Pokemon> comparator = Comparator
@@ -49,7 +49,6 @@ public final class PcSorter {
         List<Pokemon> sortedPokemon = sortPokemonList(pokemonList, comparator);
         applySortedOrder(boxNumber, currentBox, sortedPokemon);
 
-        return true;
     }
 
     private static List<Pokemon> sortPokemonList(

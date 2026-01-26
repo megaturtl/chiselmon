@@ -13,8 +13,7 @@ public class LoggerService {
     }
 
     public Logger get() {
-        Logger logger = LogManager.getLogger(name);
-        return logger;
+        return LogManager.getLogger(name);
     }
 
     public void setDebugMode(boolean enabled) {

@@ -34,7 +34,6 @@ public abstract class WallpaperEntryMixin {
     @Final
     private ResourceLocation wallpaper;
     @Shadow
-    @Final
     private ResourceLocation altWallpaper;
     @Shadow
     private boolean isNew;

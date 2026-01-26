@@ -51,7 +51,7 @@ public class SimpleSpeciesRegistry {
                                             loadingMap.put(species.name.toLowerCase(Locale.ROOT).intern(), species);
                                         }
                                     } catch (Exception e) {
-                                        Chiselmon.getLogger().error("Error loading " + path.getFileName(), e);
+                                        Chiselmon.getLogger().error("Error loading {}", path.getFileName(), e);
                                     }
                                 });
                     } catch (Exception e) {

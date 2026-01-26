@@ -8,7 +8,6 @@ import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
@@ -33,13 +32,12 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     public static int BASE_HEIGHT;
     @Shadow
     @Final
-    public ClientPC pc;
-    @Shadow(remap = false)
-    public Pokemon previewPokemon;
+    private ClientPC pc;
     @Shadow(remap = false)
     private StorageWidget storageWidget;
     @Shadow
     private boolean displayOptions;
+    @Final
     @Shadow
     private List<IconButton> optionButtons;
 
@@ -48,17 +46,17 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     }
 
     @Override
-    public void addRenderableWidget(IconButton button) {
+    public void chiselmon$addRenderableWidget(IconButton button) {
         super.addRenderableWidget(button);
     }
 
     @Override
-    public boolean isDisplayingOptions() {
+    public boolean chiselmon$isDisplayingOptions() {
         return this.displayOptions;
     }
 
     @Override
-    public List<IconButton> getOptionButtons() {
+    public List<IconButton> chiselmon$getOptionButtons() {
         return this.optionButtons;
     }
 
@@ -69,7 +67,6 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
             return;
 
         PcSortUIHandler.initializeSortButtons(
-                (PCGUI) (Object) this,
                 this.pc,
                 this.storageWidget,
                 this,

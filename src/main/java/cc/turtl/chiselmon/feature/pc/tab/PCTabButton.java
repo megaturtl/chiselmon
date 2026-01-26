@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,16 +25,13 @@ public class PCTabButton extends Button {
 
     private static final int HOVERED_Y_OFFSET = BUTTON_HEIGHT;
 
-    private final int forBox;
-
     private final Tooltip tooltip;
 
     public PCTabButton(int x, int y, int forBox, Component boxName, OnPress onPress) {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, boxName, onPress, DEFAULT_NARRATION);
-        this.forBox = forBox;
         this.tooltip = Tooltip
                 .create(ComponentUtil.modTranslatable("pc.tab_button.tooltip", this.getMessage(),
-                        (this.forBox + 1)));
+                        (forBox + 1)));
     }
 
     @Override
@@ -69,9 +65,5 @@ public class PCTabButton extends Button {
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
         soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
-    }
-
-    public int getBox() {
-        return this.forBox;
     }
 }

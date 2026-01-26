@@ -27,16 +27,16 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public int masterVolume = 100;
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public AlertConfig legendary = new AlertConfig(true, true, ColorUtil.MAGENTA);
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public AlertConfig shiny = new AlertConfig(true, true, ColorUtil.GOLD);
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public AlertConfig size = new AlertConfig(true, false, ColorUtil.TEAL);
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     public AlertConfig list = new AlertConfig(true, false, ColorUtil.WHITE);
 
     @ConfigEntry.Gui.Tooltip
@@ -54,7 +54,7 @@ public class SpawnAlertConfig implements ConfigData {
     }
 
     @Override
-    public void validatePostLoad() throws ValidationException {
+    public void validatePostLoad() {
         masterVolume = clampVolume(masterVolume);
     }
 
@@ -77,10 +77,6 @@ public class SpawnAlertConfig implements ConfigData {
         @ConfigEntry.ColorPicker
         public int highlightColor;
 
-        public AlertConfig() {
-            this(true, false, ColorUtil.WHITE);
-        }
-
         public AlertConfig(boolean enabled, boolean playSound, int highlightColor) {
             this.enabled = enabled;
             this.playSound = playSound;
@@ -88,7 +84,7 @@ public class SpawnAlertConfig implements ConfigData {
         }
 
         @Override
-        public void validatePostLoad() throws ValidationException {
+        public void validatePostLoad() {
             volume = clampVolume(volume);
         }
     }

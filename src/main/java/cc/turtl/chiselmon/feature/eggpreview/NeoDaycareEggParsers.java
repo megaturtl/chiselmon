@@ -49,7 +49,7 @@ public class NeoDaycareEggParsers {
         }
 
         String speciesIdentifier = hatchlingTag.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER);
-        if (speciesIdentifier == null || speciesIdentifier.isEmpty()) {
+        if (speciesIdentifier.isEmpty()) {
             throw new IllegalStateException("Species identifier is missing");
         }
 
@@ -77,17 +77,12 @@ public class NeoDaycareEggParsers {
         }
 
         String formId = hatchlingTag.getString("FormId");
-        if (formId == null || formId.isEmpty()) {
+        if (formId.isEmpty()) {
             return null;
         }
 
         try {
-            FormData form = species.getFormByShowdownId(formId);
-            if (form == null) {
-                Chiselmon.getLogger().warn("Form '{}' not found for species '{}', using default",
-                        formId, species.getName());
-            }
-            return form;
+            return species.getFormByShowdownId(formId);
         } catch (Exception e) {
             Chiselmon.getLogger().warn("Error parsing form '{}' for species '{}'",
                     formId, species.getName(), e);
@@ -104,7 +99,7 @@ public class NeoDaycareEggParsers {
         }
 
         String genderStr = hatchlingTag.getString(DataKeys.POKEMON_GENDER);
-        if (genderStr == null || genderStr.isEmpty()) {
+        if (genderStr.isEmpty()) {
             return Gender.MALE;
         }
 
@@ -125,7 +120,7 @@ public class NeoDaycareEggParsers {
         }
 
         String natureStr = hatchlingTag.getString(DataKeys.POKEMON_NATURE);
-        if (natureStr == null || natureStr.isEmpty()) {
+        if (natureStr.isEmpty()) {
             return Natures.HARDY;
         }
 
@@ -154,7 +149,7 @@ public class NeoDaycareEggParsers {
         }
 
         String ballStr = hatchlingTag.getString(DataKeys.POKEMON_CAUGHT_BALL);
-        if (ballStr == null || ballStr.isEmpty()) {
+        if (ballStr.isEmpty()) {
             return defaultBall;
         }
 
@@ -232,7 +227,7 @@ public class NeoDaycareEggParsers {
 
         try {
             CompoundTag ivsTag = tag.getCompound(DataKeys.POKEMON_IVS);
-            if (ivsTag == null || ivsTag.isEmpty()) {
+            if (ivsTag.isEmpty()) {
                 return null;
             }
 
@@ -263,19 +258,16 @@ public class NeoDaycareEggParsers {
 
         try {
             CompoundTag abilityTag = tag.getCompound(DataKeys.POKEMON_ABILITY);
-            if (abilityTag == null || abilityTag.isEmpty()) {
+            if (abilityTag.isEmpty()) {
                 return null;
             }
 
             String abilityName = abilityTag.getString(DataKeys.POKEMON_ABILITY_NAME);
-            if (abilityName == null || abilityName.isEmpty()) {
+            if (abilityName.isEmpty()) {
                 return null;
             }
 
             AbilityTemplate template = Abilities.getOrDummy(abilityName);
-            if (template == null) {
-                return null;
-            }
 
             return template.create(abilityTag);
         } catch (Exception e) {
@@ -296,19 +288,16 @@ public class NeoDaycareEggParsers {
 
         try {
             net.minecraft.nbt.ListTag featuresListTag = tag.getList("Features", 10); // 10 = CompoundTag
-            if (featuresListTag == null) {
-                return features;
-            }
 
             for (int i = 0; i < featuresListTag.size(); i++) {
                 try {
                     CompoundTag featureTag = featuresListTag.getCompound(i);
-                    if (featureTag == null || featureTag.isEmpty()) {
+                    if (featureTag.isEmpty()) {
                         continue;
                     }
 
                     String featureId = featureTag.getString("cobblemon:feature_id");
-                    if (featureId == null || featureId.isEmpty()) {
+                    if (featureId.isEmpty()) {
                         continue;
                     }
 

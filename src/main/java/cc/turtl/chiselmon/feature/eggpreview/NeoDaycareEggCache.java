@@ -64,17 +64,4 @@ public class NeoDaycareEggCache {
         }
     }
 
-    public static void clearCache() {
-        EGGS_CACHE.invalidateAll();
-    }
-
-    public static void removeCached(UUID pokemonUuid) {
-        if (pokemonUuid != null) {
-            EGGS_CACHE.invalidate(pokemonUuid);
-        }
-    }
-
-    public static long getCacheSize() {
-        return EGGS_CACHE.size();
-    }
 }

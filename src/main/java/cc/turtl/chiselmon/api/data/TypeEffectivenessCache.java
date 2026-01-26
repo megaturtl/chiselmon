@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +37,7 @@ public final class TypeEffectivenessCache {
             .expireAfterAccess(60, TimeUnit.MINUTES)
             .build(new CacheLoader<>() {
                 @Override
-                public Map<ElementalType, Float> load(Set<ElementalType> defenders) {
+                public @NotNull Map<ElementalType, Float> load(@NotNull Set<ElementalType> defenders) {
                     Map<ElementalType, Float> map = new HashMap<>();
                     for (ElementalType attacker : ElementalTypes.all()) {
                         map.put(attacker, compute(attacker, defenders));
@@ -81,17 +82,6 @@ public final class TypeEffectivenessCache {
                 multiplier *= CHART[atkIdx][defIdx];
         }
         return multiplier;
-    }
-
-    public static float calculateEffectiveness(ElementalType attacker, Iterable<ElementalType> defenders) {
-        if (attacker == null || defenders == null)
-            return 1.0f;
-
-        Set<ElementalType> defenderSet = iterableToSet(defenders);
-        if (defenderSet.isEmpty())
-            return 1.0f;
-
-        return CACHE.getUnchecked(defenderSet).getOrDefault(attacker, 1.0f);
     }
 
     public static Map<ElementalType, Float> getAll(Iterable<ElementalType> defenders) {

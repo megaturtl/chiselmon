@@ -188,7 +188,7 @@ public final class PokemonFormatUtil {
     }
 
     public static Component detailedPokemonName(Pokemon pokemon) {
-        if (pokemon == null || pokemon.getSpecies() == null) {
+        if (pokemon == null) {
             return UNKNOWN;
         }
 
@@ -282,7 +282,6 @@ public final class PokemonFormatUtil {
             case PokedexEntryProgress.CAUGHT -> colored("Caught", ColorUtil.GREEN);
             case PokedexEntryProgress.ENCOUNTERED -> colored("Encountered", ColorUtil.WHITE);
             case PokedexEntryProgress.NONE -> colored("Unknown", ColorUtil.DARK_GRAY);
-            default -> UNKNOWN;
         };
     }
 
@@ -309,11 +308,9 @@ public final class PokemonFormatUtil {
         return switch (internalKey.toLowerCase()) {
             case "hp" -> "HP";
             case "attack" -> "Atk";
-            case "defense" -> "Def";
-            case "defence" -> "Def";
+            case "defense", "defence" -> "Def";
             case "special_attack" -> "SpA";
-            case "special_defense" -> "SpD";
-            case "special_defence" -> "SpD";
+            case "special_defense", "special_defence" -> "SpD";
             case "speed" -> "Spe";
             default -> internalKey;
         };

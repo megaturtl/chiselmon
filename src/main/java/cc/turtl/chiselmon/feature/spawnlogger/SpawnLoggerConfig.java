@@ -15,6 +15,6 @@ public class SpawnLoggerConfig implements ConfigData {
     public boolean autoSaveCsv = false;
 
     @Override
-    public void validatePostLoad() throws ValidationException {
+    public void validatePostLoad() {
     }
 }

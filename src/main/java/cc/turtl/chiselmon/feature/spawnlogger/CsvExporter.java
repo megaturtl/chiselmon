@@ -34,7 +34,7 @@ public class CsvExporter {
             }
         }
 
-        Chiselmon.getLogger().info("Exported spawn log to: " + filePath);
+        Chiselmon.getLogger().info("Exported spawn log to: {}", filePath);
         return filePath;
     }
 

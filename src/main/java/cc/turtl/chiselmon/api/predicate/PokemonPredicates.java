@@ -50,8 +50,8 @@ public final class PokemonPredicates {
         return !possibleSelfDamagingMoves.isEmpty();
     };
     public static final Predicate<Pokemon> IS_MARKED = pokemon -> !pokemon.getMarks().isEmpty();
-    public static final Predicate<Pokemon> IS_NEODAYCARE_EGG = pokemon -> NeoDaycareEggDummy.isEgg(pokemon);
-    public static final Predicate<Pokemon> IS_NEODAYCARE_DUMMY = pokemon -> NeoDaycareEggDummy.isDummy(pokemon);
+    public static final Predicate<Pokemon> IS_NEODAYCARE_EGG = NeoDaycareEggDummy::isEgg;
+    public static final Predicate<Pokemon> IS_NEODAYCARE_DUMMY = NeoDaycareEggDummy::isDummy;
 
     private PokemonPredicates() {
     }
@@ -60,17 +60,6 @@ public final class PokemonPredicates {
         return pokemon -> {
             SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());
             return species != null && species.labels.contains(label);
-        };
-    }
-
-    public static Predicate<Pokemon> isInCustomList(List<String> customList) {
-        return pokemon -> {
-            if (customList == null || customList.isEmpty()) {
-                return false;
-            }
-            String speciesName = pokemon.getSpecies().getName();
-            return customList.stream()
-                    .anyMatch(name -> name.equalsIgnoreCase(speciesName));
         };
     }
 }

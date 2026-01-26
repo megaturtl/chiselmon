@@ -41,11 +41,6 @@ public class EggPreviewManager {
         Pokemon anchorPokemon = findFirstValidAnchor(pc);
         PCPosition anchorPos = pc.getPosition(anchorPokemon);
 
-        if (anchorPokemon == null) {
-            Chiselmon.getLogger().warn("Aborting egg swap refresh: No valid pokemon found for anchor.");
-            return;
-        }
-
         UUID anchorUuid = anchorPokemon.getUuid();
         Chiselmon.getLogger().debug("Refreshing {} eggs using anchor {}", eggsInParty.size(), anchorUuid);
 

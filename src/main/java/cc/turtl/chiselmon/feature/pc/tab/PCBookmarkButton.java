@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -71,7 +70,4 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
         this.toggled = toggled;
     }
 
-    public void toggle() {
-        this.toggled = !this.toggled;
-    }
 }

@@ -7,7 +7,6 @@ import cc.turtl.chiselmon.service.ConfigService;
 import cc.turtl.chiselmon.service.IChiselmonServices;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
-import com.cobblemon.mod.common.client.storage.ClientPC;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -34,17 +33,15 @@ public abstract class PCGUIMixin extends Screen {
     public static int BASE_HEIGHT;
     @Unique
     private final List<PCTabButton> chiselmon$tabButtons = new ArrayList<>();
+    @Unique
     private final IChiselmonServices services = Chiselmon.services();
+    @Unique
     private final ConfigService configService = services.config();
-    @Shadow
-    @Final
-    public ClientPC pc;
     @Shadow(remap = false)
     private StorageWidget storageWidget;
     @Unique
     private PCBookmarkButton chiselmon$bookmarkButton;
-    @Unique
-    private PCHomeButton chiselmon$homeButton;
+
     protected PCGUIMixin(Component title) {
         super(title);
     }
@@ -90,14 +87,11 @@ public abstract class PCGUIMixin extends Screen {
         this.chiselmon$bookmarkButton = bookmarkButton;
         this.addRenderableWidget(bookmarkButton);
 
-        Button.OnPress homeToggle = (button) -> {
-            storageWidget.setBox(0);
-        };
+        Button.OnPress homeToggle = (button) -> storageWidget.setBox(0);
 
         int homeX = guiLeft + 90;
         int homeY = guiTop + 12;
         PCHomeButton homeButton = new PCHomeButton(homeX, homeY, homeToggle);
-        this.chiselmon$homeButton = homeButton;
         this.addRenderableWidget(homeButton);
     }
 
