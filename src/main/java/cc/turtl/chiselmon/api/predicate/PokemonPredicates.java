@@ -1,19 +1,18 @@
 package cc.turtl.chiselmon.api.predicate;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import com.cobblemon.mod.common.api.moves.MoveTemplate;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.util.PokemonCalcUtil;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import com.cobblemon.mod.common.api.moves.MoveTemplate;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
+
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public final class PokemonPredicates {
     private PokemonPredicates() {

@@ -1,11 +1,5 @@
 package cc.turtl.chiselmon.feature.spawnalert.response.handler;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.colored;
-import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.spawnalert.AlertLevel;
@@ -13,11 +7,16 @@ import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.colored;
+import static cc.turtl.chiselmon.util.ComponentUtil.modTranslatable;
 
 public class AlertChatHandler {
     public static void handle(AlertResponse response, SpawnAlertConfig config) {

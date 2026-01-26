@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.feature.hud;
 
-import com.cobblemon.mod.common.item.interactive.PokerodItem;
-
 import cc.turtl.chiselmon.util.ColorUtil;
+import com.cobblemon.mod.common.item.interactive.PokerodItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

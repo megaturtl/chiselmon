@@ -1,14 +1,12 @@
 package cc.turtl.chiselmon.util;
 
-import org.jetbrains.annotations.Nullable;
-
-import com.mojang.brigadier.context.CommandContext;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
+import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import org.jetbrains.annotations.Nullable;
 
 public class CommandUtils {
 

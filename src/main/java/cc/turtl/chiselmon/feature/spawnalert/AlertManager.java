@@ -1,23 +1,18 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
 import cc.turtl.chiselmon.feature.spawnalert.response.handler.AlertChatHandler;
 import cc.turtl.chiselmon.feature.spawnalert.response.handler.AlertGlowHandler;
 import cc.turtl.chiselmon.feature.spawnalert.response.handler.AlertSoundHandler;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.world.entity.Entity;
+
+import java.util.*;
 
 public class AlertManager {
     private static final int SOUND_DELAY_TICKS = 20;

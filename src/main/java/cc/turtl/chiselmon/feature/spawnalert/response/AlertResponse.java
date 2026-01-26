@@ -1,15 +1,14 @@
 package cc.turtl.chiselmon.feature.spawnalert.response;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.spawnalert.AlertLevel;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public record AlertResponse(
         PokemonEntity pe,

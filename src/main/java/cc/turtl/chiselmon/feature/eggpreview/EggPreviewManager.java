@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
-import java.util.List;
-import java.util.UUID;
-
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import com.cobblemon.mod.common.api.storage.party.PartyPosition;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
@@ -12,8 +11,8 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.net.messages.server.storage.SwapPCPartyPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import java.util.List;
+import java.util.UUID;
 
 public class EggPreviewManager {
     private static int tickCounter = 0;

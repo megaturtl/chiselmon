@@ -1,15 +1,14 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import static cc.turtl.chiselmon.compat.jade.PokeSnackProvider.*;
-import static cc.turtl.chiselmon.compat.jade.PokemonProvider.*;
-
+import cc.turtl.chiselmon.ChiselmonConstants;
 import com.cobblemon.mod.common.block.PokeSnackBlock;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
-import cc.turtl.chiselmon.ChiselmonConstants;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
+
+import static cc.turtl.chiselmon.compat.jade.PokeSnackProvider.*;
+import static cc.turtl.chiselmon.compat.jade.PokemonProvider.*;
 
 @WailaPlugin(ChiselmonConstants.MODID)
 public class ChiselmonJadePlugin implements IWailaPlugin {

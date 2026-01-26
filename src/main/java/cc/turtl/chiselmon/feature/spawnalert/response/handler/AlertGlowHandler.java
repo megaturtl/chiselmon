@@ -1,12 +1,11 @@
 package cc.turtl.chiselmon.feature.spawnalert.response.handler;
 
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
+import cc.turtl.chiselmon.api.duck.GlowableEntityDuck;
 import cc.turtl.chiselmon.feature.spawnalert.AlertLevel;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
-import cc.turtl.chiselmon.api.duck.GlowableEntityDuck;
 import cc.turtl.chiselmon.util.ColorUtil;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.network.chat.Component;
 
 public class AlertGlowHandler {

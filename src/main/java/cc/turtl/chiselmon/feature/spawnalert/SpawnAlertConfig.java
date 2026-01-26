@@ -1,11 +1,11 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cc.turtl.chiselmon.util.ColorUtil;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnAlertConfig implements ConfigData {
 

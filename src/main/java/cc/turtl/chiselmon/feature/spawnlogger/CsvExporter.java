@@ -1,5 +1,8 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
+import cc.turtl.chiselmon.Chiselmon;
+import net.minecraft.client.Minecraft;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,9 +10,6 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-
-import cc.turtl.chiselmon.Chiselmon;
-import net.minecraft.client.Minecraft;
 
 public class CsvExporter {
     

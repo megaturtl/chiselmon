@@ -1,18 +1,16 @@
 package cc.turtl.chiselmon.mixin.pc.sort;
 
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
+import cc.turtl.chiselmon.feature.pc.sort.PcSortUIHandler;
+import cc.turtl.chiselmon.feature.pc.sort.PcSorter;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.sort.PcSortUIHandler;
-import cc.turtl.chiselmon.feature.pc.sort.PcSorter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

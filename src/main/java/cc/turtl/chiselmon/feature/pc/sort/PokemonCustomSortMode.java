@@ -1,13 +1,12 @@
 package cc.turtl.chiselmon.feature.pc.sort;
 
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.api.comparator.PokemonComparators;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.resources.ResourceLocation;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
 import java.util.Comparator;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public enum PokemonCustomSortMode {
 

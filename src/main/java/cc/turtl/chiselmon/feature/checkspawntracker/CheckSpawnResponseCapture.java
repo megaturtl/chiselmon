@@ -1,14 +1,13 @@
 package cc.turtl.chiselmon.feature.checkspawntracker;
 
+import cc.turtl.chiselmon.Chiselmon;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
-
-import org.apache.logging.log4j.Logger;
-
-import cc.turtl.chiselmon.Chiselmon;
 
 class CheckSpawnResponseCapture {
     private static final long CAPTURE_TIMEOUT_MS = 1500L;

@@ -1,9 +1,7 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
-import java.util.List;
-
+import cc.turtl.chiselmon.util.ColorUtil;
+import cc.turtl.chiselmon.util.ComponentUtil;
 import com.cobblemon.mod.common.CobblemonItemComponents;
 import com.cobblemon.mod.common.CobblemonItems;
 import com.cobblemon.mod.common.block.PokeSnackBlock;
@@ -11,9 +9,6 @@ import com.cobblemon.mod.common.block.entity.PokeSnackBlockEntity;
 import com.cobblemon.mod.common.client.tooltips.SeasoningTooltipHelperKt;
 import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
-
-import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.ComponentUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,6 +20,10 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
+
+import java.util.List;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PokeSnackProvider implements IBlockComponentProvider {
     private PokeSnackProvider() {

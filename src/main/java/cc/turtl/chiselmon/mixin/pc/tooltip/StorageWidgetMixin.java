@@ -1,9 +1,5 @@
 package cc.turtl.chiselmon.mixin.pc.tooltip;
 
-import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
-import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
@@ -13,19 +9,21 @@ import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringFormats;
+import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
+import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // needs to run after morecobblemontweaks multiselect mixin
 @Mixin(value = StorageWidget.class, priority = 2000)

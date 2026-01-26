@@ -1,14 +1,12 @@
 package cc.turtl.chiselmon.mixin;
 
-import com.cobblemon.mod.common.item.interactive.PokerodItem;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.hud.PokeRodBaitOverlay;
+import com.cobblemon.mod.common.item.interactive.PokerodItem;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.api.data;
 
-import com.google.gson.Gson;
-
 import cc.turtl.chiselmon.Chiselmon;
+import com.google.gson.Gson;
 import net.fabricmc.loader.api.FabricLoader;
+
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;

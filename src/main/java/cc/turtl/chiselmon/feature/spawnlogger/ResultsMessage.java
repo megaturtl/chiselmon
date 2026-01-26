@@ -1,19 +1,15 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.colored;
-
-import java.util.Collection;
-import java.util.List;
-
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.*;
+
+import java.util.Collection;
+import java.util.List;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 
 public class ResultsMessage {
 

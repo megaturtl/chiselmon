@@ -1,17 +1,15 @@
 package cc.turtl.chiselmon.mixin.pc.tooltip;
 
-import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.feature.pc.StorageSlotTooltipState;
+import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
-
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(StorageSlot.class)
 public abstract class StorageSlotMixin {

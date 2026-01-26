@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.api.data;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

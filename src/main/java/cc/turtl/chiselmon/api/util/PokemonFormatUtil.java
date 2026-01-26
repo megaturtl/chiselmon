@@ -1,15 +1,13 @@
 package cc.turtl.chiselmon.api.util;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.*;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.TypeEffectivenessCache;
+import cc.turtl.chiselmon.api.predicate.MovePredicates;
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.util.ColorUtil;
+import cc.turtl.chiselmon.util.StringFormats;
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
@@ -25,18 +23,15 @@ import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.capture.CaptureChanceEstimator;
-import cc.turtl.chiselmon.api.data.SimpleSpecies;
-import cc.turtl.chiselmon.api.data.TypeEffectivenessCache;
-import cc.turtl.chiselmon.api.predicate.MovePredicates;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import cc.turtl.chiselmon.util.ColorUtil;
-import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.*;
 
 public final class PokemonFormatUtil {
     private PokemonFormatUtil() {

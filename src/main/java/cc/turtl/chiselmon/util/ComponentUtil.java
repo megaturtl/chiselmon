@@ -1,14 +1,12 @@
 package cc.turtl.chiselmon.util;
 
+import cc.turtl.chiselmon.ChiselmonConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import cc.turtl.chiselmon.ChiselmonConstants;
 
 import java.util.Collection;
 import java.util.function.Function;

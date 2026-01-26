@@ -1,12 +1,11 @@
 package cc.turtl.chiselmon.mixin.pc.wallpaper;
 
+import cc.turtl.chiselmon.Chiselmon;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.WallpapersScrollingWidget;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBoxWallpaperPacket;
 import com.mojang.blaze3d.vertex.PoseStack;
-
-import cc.turtl.chiselmon.Chiselmon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

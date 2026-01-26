@@ -1,17 +1,16 @@
 package cc.turtl.chiselmon;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
-
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.context.CommandContext;
-
 import cc.turtl.chiselmon.command.DebugCommand;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertCommand;
 import cc.turtl.chiselmon.feature.spawnlogger.SpawnLoggerCommand;
 import cc.turtl.chiselmon.util.CommandUtils;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.CommandBuildContext;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class ChiselmonCommand {
 

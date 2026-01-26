@@ -1,23 +1,23 @@
 package cc.turtl.chiselmon.feature.checkspawntracker;
 
-import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.chat.Component;
+
+import java.text.DecimalFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class CheckSpawnTrackerFeature extends AbstractFeature {
     public static final CheckSpawnTrackerFeature INSTANCE = new CheckSpawnTrackerFeature();

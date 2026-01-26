@@ -1,10 +1,5 @@
 package cc.turtl.chiselmon.api.util;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.cobblemon.mod.common.api.abilities.AbilityPool;
 import com.cobblemon.mod.common.api.abilities.PotentialAbility;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
@@ -12,6 +7,11 @@ import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PokemonCalcUtil {
 

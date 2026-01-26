@@ -1,18 +1,17 @@
 package cc.turtl.chiselmon.api.capture;
 
-import com.cobblemon.mod.common.pokeball.PokeBall;
+import cc.turtl.chiselmon.api.data.SimpleSpecies;
+import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon;
 import com.cobblemon.mod.common.client.battle.ClientBattle;
 import com.cobblemon.mod.common.client.battle.ClientBattleActor;
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
-
-import cc.turtl.chiselmon.api.data.SimpleSpecies;
-import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 

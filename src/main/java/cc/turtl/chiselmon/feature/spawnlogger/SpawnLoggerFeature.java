@@ -1,14 +1,11 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import java.nio.file.Path;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.feature.AbstractFeature;
 import cc.turtl.chiselmon.util.CommandUtils;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -18,6 +15,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.world.entity.Entity;
+
+import java.nio.file.Path;
 
 public final class SpawnLoggerFeature extends AbstractFeature {
     private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();

@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.api.predicate;
 
+import com.cobblemon.mod.common.api.moves.MoveTemplate;
+
 import java.util.Set;
 import java.util.function.Predicate;
-
-import com.cobblemon.mod.common.api.moves.MoveTemplate;
 
 public class MovePredicates {
 

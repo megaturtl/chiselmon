@@ -1,15 +1,16 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
-
-import java.util.UUID;
+import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.util.CommandUtils;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-
-import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.util.CommandUtils;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+
+import java.util.UUID;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class SpawnAlertCommand {
 

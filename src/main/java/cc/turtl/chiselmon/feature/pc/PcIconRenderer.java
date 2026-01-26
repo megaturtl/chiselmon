@@ -1,18 +1,17 @@
 package cc.turtl.chiselmon.feature.pc;
 
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConfig;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.pc.PcConfig.PcIconConfig;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PcIconRenderer {
     private static final ResourceLocation HIDDEN_ABILITY_ICON = modResource("textures/gui/pc/ability_patch_icon.png");

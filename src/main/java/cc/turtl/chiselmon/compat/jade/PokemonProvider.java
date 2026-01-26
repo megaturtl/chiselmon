@@ -1,18 +1,15 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.item.PokeBallItem;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.Species;
-
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
 import cc.turtl.chiselmon.api.data.SimpleSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.util.PokemonFormatUtil;
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.item.PokeBallItem;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +20,8 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.impl.ui.HealthElement;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PokemonProvider implements IEntityComponentProvider {
     private PokemonProvider() {

@@ -1,19 +1,5 @@
 package cc.turtl.chiselmon.command;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
-
-import org.apache.logging.log4j.Logger;
-
-import com.cobblemon.mod.common.client.CobblemonClient;
-import com.cobblemon.mod.common.client.storage.ClientParty;
-import com.cobblemon.mod.common.client.storage.ClientStorageManager;
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.data.SimpleSpecies;
@@ -23,9 +9,22 @@ import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.CommandUtils;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.ObjectDumper;
+import com.cobblemon.mod.common.client.CobblemonClient;
+import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.cobblemon.mod.common.client.storage.ClientStorageManager;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
+import org.apache.logging.log4j.Logger;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class DebugCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {

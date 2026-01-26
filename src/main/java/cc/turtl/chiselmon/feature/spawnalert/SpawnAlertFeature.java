@@ -1,7 +1,5 @@
 package cc.turtl.chiselmon.feature.spawnalert;
 
-import org.lwjgl.glfw.GLFW;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.feature.AbstractFeature;
@@ -13,6 +11,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.glfw.GLFW;
 
 public final class SpawnAlertFeature extends AbstractFeature {
     private static final SpawnAlertFeature INSTANCE = new SpawnAlertFeature();

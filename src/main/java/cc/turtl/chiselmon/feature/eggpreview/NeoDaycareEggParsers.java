@@ -1,11 +1,10 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cc.turtl.chiselmon.Chiselmon;
 import com.cobblemon.mod.common.api.abilities.Abilities;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
+import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
 import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
@@ -13,20 +12,16 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureProvider;
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures;
 import com.cobblemon.mod.common.pokeball.PokeBall;
-import com.cobblemon.mod.common.api.moves.MoveSet;
-import com.cobblemon.mod.common.pokemon.FormData;
-import com.cobblemon.mod.common.pokemon.Gender;
-import com.cobblemon.mod.common.pokemon.IVs;
-import com.cobblemon.mod.common.pokemon.Nature;
-import com.cobblemon.mod.common.pokemon.Species;
+import com.cobblemon.mod.common.pokemon.*;
 import com.cobblemon.mod.common.util.DataKeys;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
-import cc.turtl.chiselmon.Chiselmon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NeoDaycareEggParsers {
 

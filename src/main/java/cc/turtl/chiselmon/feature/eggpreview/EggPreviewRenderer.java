@@ -1,17 +1,14 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
+import cc.turtl.chiselmon.util.ColorUtil;
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState;
 import com.cobblemon.mod.common.entity.PoseType;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
-
-import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
-
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
-
 import org.joml.Vector3f;
 
 public final class EggPreviewRenderer {

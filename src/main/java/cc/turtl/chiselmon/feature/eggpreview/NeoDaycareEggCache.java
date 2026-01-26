@@ -1,11 +1,10 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.ChiselmonConfig;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;

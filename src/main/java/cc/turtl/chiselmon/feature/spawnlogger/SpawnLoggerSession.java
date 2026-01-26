@@ -1,15 +1,14 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 
 public class SpawnLoggerSession {
     private long accumulatedTimeMs = 0;

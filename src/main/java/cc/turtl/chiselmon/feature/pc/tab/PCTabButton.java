@@ -1,14 +1,9 @@
 package cc.turtl.chiselmon.feature.pc.tab;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
-import org.jetbrains.annotations.NotNull;
-
-import com.cobblemon.mod.common.CobblemonSounds;
-
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.TextRenderUtil;
+import com.cobblemon.mod.common.CobblemonSounds;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -17,6 +12,9 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PCTabButton extends Button {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_tab.png");

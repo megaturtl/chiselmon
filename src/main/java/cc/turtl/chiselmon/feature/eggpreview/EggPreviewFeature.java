@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
-import com.cobblemon.mod.common.client.gui.pc.PCGUI;
-
 import cc.turtl.chiselmon.feature.AbstractFeature;
+import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 

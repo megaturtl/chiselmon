@@ -1,16 +1,15 @@
 package cc.turtl.chiselmon.feature.pc.tab;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientBox;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PCTabManager {
     public static final int HORIZONTAL_SPACING = 2;

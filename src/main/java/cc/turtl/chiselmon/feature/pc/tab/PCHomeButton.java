@@ -1,13 +1,8 @@
 package cc.turtl.chiselmon.feature.pc.tab;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
-
-import org.jetbrains.annotations.NotNull;
-
+import cc.turtl.chiselmon.util.ComponentUtil;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
-
-import cc.turtl.chiselmon.util.ComponentUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -16,6 +11,9 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PCHomeButton extends Button implements CobblemonRenderable {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_home.png");

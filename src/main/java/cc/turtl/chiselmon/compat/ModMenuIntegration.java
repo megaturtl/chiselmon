@@ -1,9 +1,8 @@
 package cc.turtl.chiselmon.compat;
 
+import cc.turtl.chiselmon.ChiselmonConfig;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-
-import cc.turtl.chiselmon.ChiselmonConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 
 public class ModMenuIntegration implements ModMenuApi {

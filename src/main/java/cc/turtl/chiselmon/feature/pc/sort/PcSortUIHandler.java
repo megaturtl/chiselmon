@@ -5,7 +5,6 @@ import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-
 import net.minecraft.client.gui.screens.Screen;
 
 import java.util.List;

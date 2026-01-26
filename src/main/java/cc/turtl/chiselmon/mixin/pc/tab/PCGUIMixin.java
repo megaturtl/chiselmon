@@ -1,24 +1,17 @@
 package cc.turtl.chiselmon.mixin.pc.tab;
 
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConfig;
+import cc.turtl.chiselmon.feature.pc.tab.*;
+import cc.turtl.chiselmon.service.ConfigService;
+import cc.turtl.chiselmon.service.IChiselmonServices;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.tab.PCBookmarkButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCHomeButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCTab;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabButton;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabManager;
-import cc.turtl.chiselmon.feature.pc.tab.PCTabStore;
-import cc.turtl.chiselmon.service.ConfigService;
-import cc.turtl.chiselmon.service.IChiselmonServices;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

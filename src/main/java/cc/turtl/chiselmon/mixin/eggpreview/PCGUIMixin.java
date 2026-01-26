@@ -1,11 +1,9 @@
 package cc.turtl.chiselmon.mixin.eggpreview;
 
-import com.cobblemon.mod.common.client.gui.pc.PCGUI;
-
 import cc.turtl.chiselmon.feature.eggpreview.EggPreviewManager;
+import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

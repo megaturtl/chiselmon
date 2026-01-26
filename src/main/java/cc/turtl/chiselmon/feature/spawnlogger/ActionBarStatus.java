@@ -1,13 +1,13 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import static cc.turtl.chiselmon.util.ComponentUtil.colored;
-
 import cc.turtl.chiselmon.util.ColorUtil;
 import cc.turtl.chiselmon.util.ComponentUtil;
 import cc.turtl.chiselmon.util.StringFormats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+
+import static cc.turtl.chiselmon.util.ComponentUtil.colored;
 
 public class ActionBarStatus {
 

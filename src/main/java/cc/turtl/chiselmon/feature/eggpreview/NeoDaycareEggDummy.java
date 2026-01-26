@@ -1,15 +1,14 @@
 package cc.turtl.chiselmon.feature.eggpreview;
 
-import java.util.Set;
-
+import cc.turtl.chiselmon.Chiselmon;
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-
-import cc.turtl.chiselmon.Chiselmon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+
+import java.util.Set;
 
 public class NeoDaycareEggDummy extends Pokemon {
     private static final String EGG_SPECIES = "neodaycare:egg_species";

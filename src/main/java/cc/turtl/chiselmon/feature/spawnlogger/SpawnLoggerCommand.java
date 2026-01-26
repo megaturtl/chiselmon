@@ -1,16 +1,15 @@
 package cc.turtl.chiselmon.feature.spawnlogger;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.util.CommandUtils;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
-
 import java.nio.file.Path;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class SpawnLoggerCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> register() {

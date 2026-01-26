@@ -1,29 +1,27 @@
 package cc.turtl.chiselmon.api.capture;
 
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
-import com.cobblemon.mod.common.pokeball.PokeBall;
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
+import com.cobblemon.mod.common.api.pokemon.stats.Stats;
+import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexManager;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.battles.BattleRegistry;
-import com.cobblemon.mod.common.api.pokemon.stats.Stats;
-import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexManager;
-import com.cobblemon.mod.common.pokemon.Gender;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
-import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
-
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokeball.PokeBall;
+import com.cobblemon.mod.common.pokemon.Gender;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
+import com.cobblemon.mod.common.pokemon.status.statuses.persistent.SleepStatus;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
 import java.util.List;
