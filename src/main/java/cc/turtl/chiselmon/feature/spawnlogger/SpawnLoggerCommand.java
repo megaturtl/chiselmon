@@ -19,7 +19,7 @@ public class SpawnLoggerCommand {
 
         var pauseBranch = literal("pause")
                 .executes(SpawnLoggerCommand::executePause);
-        
+
         var resumeBranch = literal("resume")
                 .executes(SpawnLoggerCommand::executeResume);
 

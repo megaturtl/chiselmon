@@ -24,11 +24,7 @@ import snownee.jade.impl.ui.HealthElement;
 import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PokemonProvider implements IEntityComponentProvider {
-    private PokemonProvider() {
-    }
-
     public static final PokemonProvider INSTANCE = new PokemonProvider();
-
     public static final String POKEMON_ENTITY_PARENT_PATH = "pokemon_entity";
     public static final ResourceLocation POKEMON_ENTITY_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH);
@@ -48,6 +44,8 @@ public class PokemonProvider implements IEntityComponentProvider {
             POKEMON_ENTITY_PARENT_PATH + ".catch_rate");
     public static final ResourceLocation POKEMON_ENTITY_WARNING_ID = modResource(
             POKEMON_ENTITY_PARENT_PATH + ".self_damage_warning");
+    private PokemonProvider() {
+    }
 
     @Override
     public ResourceLocation getUid() {
@@ -56,11 +54,10 @@ public class PokemonProvider implements IEntityComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        if (!(accessor.getEntity() instanceof PokemonEntity)) {
+        if (!(accessor.getEntity() instanceof PokemonEntity pokemonEntity)) {
             return;
         }
 
-        PokemonEntity pokemonEntity = (PokemonEntity) accessor.getEntity();
         Pokemon pokemon = pokemonEntity.getPokemon();
         Species species = pokemon.getSpecies();
         SimpleSpecies simpleSpecies = SimpleSpeciesRegistry.getByName(species.getName());

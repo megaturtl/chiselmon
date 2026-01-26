@@ -35,10 +35,6 @@ public class CommandUtils {
             return 0;
         }
     }
-    @FunctionalInterface
-    public interface CommandExecutor {
-        void execute(FabricClientCommandSource source) throws Exception;
-    }
 
     /**
      * Sends a generic colored message
@@ -103,6 +99,11 @@ public class CommandUtils {
      */
     public static void sendLabeled(FabricClientCommandSource source, String label, @Nullable Object value) {
         source.sendFeedback(ComponentUtil.labelledValue(label + ": ", value));
+    }
+
+    @FunctionalInterface
+    public interface CommandExecutor {
+        void execute(FabricClientCommandSource source) throws Exception;
     }
 
 }

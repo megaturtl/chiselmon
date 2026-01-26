@@ -47,16 +47,17 @@ public class SpawnAlertConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean despawnTrackEnabled = false;
 
-    @Override
-    public void validatePostLoad() throws ValidationException {
-        masterVolume = clampVolume(masterVolume);
-    }
-
     private static int clampVolume(int volume) {
         if (volume > MAX_VOLUME) return 100;
         if (volume < MIN_VOLUME) return 0;
         return volume;
     }
+
+    @Override
+    public void validatePostLoad() throws ValidationException {
+        masterVolume = clampVolume(masterVolume);
+    }
+
     public static class AlertConfig implements ConfigData {
 
         @ConfigEntry.Gui.TransitiveObject

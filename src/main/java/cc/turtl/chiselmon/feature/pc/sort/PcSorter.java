@@ -14,7 +14,7 @@ import java.util.*;
 public final class PcSorter {
 
     public static boolean sortPCBox(ClientPC clientPC, int boxNumber, PokemonCustomSortMode sortType,
-            boolean reversed) {
+                                    boolean reversed) {
         if (clientPC == null || boxNumber < 0) {
             return false;
         }

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class EggPreviewManager {
-    private static int tickCounter = 0;
     private static final int REFRESH_INTERVAL = 100; // every 5 seconds
+    private static int tickCounter = 0;
 
     public static void tick(PCGUI pcGUI) {
         tickCounter++;

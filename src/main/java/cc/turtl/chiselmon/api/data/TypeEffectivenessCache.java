@@ -10,31 +10,40 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public final class TypeEffectivenessCache {
-    private TypeEffectivenessCache() {
-    }
-
     private static final float[][] CHART = {
-            /* Normal */ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f, 1 },
-            /* Fire */ { 1, 0.5f, 0.5f, 2, 1, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1, 2, 1 },
-            /* Water */ { 1, 2, 0.5f, 0.5f, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1, 1 },
-            /* Grass */ { 1, 0.5f, 2, 0.5f, 1, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1, 0.5f, 1, 0.5f, 1 },
-            /* Electric */ { 1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1, 1, 1 },
-            /* Ice */ { 1, 0.5f, 0.5f, 2, 1, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1 },
-            /* Fighting */ { 2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1, 2, 2, 0.5f },
-            /* Poison */ { 1, 1, 1, 2, 1, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1, 1, 0, 2 },
-            /* Ground */ { 1, 2, 1, 0.5f, 2, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2, 1 },
-            /* Flying */ { 1, 1, 1, 2, 0.5f, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 0.5f, 1 },
-            /* Psychic */ { 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f, 1 },
-            /* Bug */ { 1, 0.5f, 1, 2, 1, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1, 2, 0.5f, 0.5f },
-            /* Rock */ { 1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f, 1 },
-            /* Ghost */ { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 1 },
-            /* Dragon */ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5f, 0 },
-            /* Dark */ { 1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 0.5f },
-            /* Steel */ { 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5f, 2 },
-            /* Fairy */ { 1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f, 1 }
+            /* Normal */ {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f, 1},
+            /* Fire */ {1, 0.5f, 0.5f, 2, 1, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1, 2, 1},
+            /* Water */ {1, 2, 0.5f, 0.5f, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1, 1},
+            /* Grass */ {1, 0.5f, 2, 0.5f, 1, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1, 0.5f, 1, 0.5f, 1},
+            /* Electric */ {1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1, 1, 1},
+            /* Ice */ {1, 0.5f, 0.5f, 2, 1, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1},
+            /* Fighting */ {2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1, 2, 2, 0.5f},
+            /* Poison */ {1, 1, 1, 2, 1, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1, 1, 0, 2},
+            /* Ground */ {1, 2, 1, 0.5f, 2, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2, 1},
+            /* Flying */ {1, 1, 1, 2, 0.5f, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 0.5f, 1},
+            /* Psychic */ {1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f, 1},
+            /* Bug */ {1, 0.5f, 1, 2, 1, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1, 2, 0.5f, 0.5f},
+            /* Rock */ {1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f, 1},
+            /* Ghost */ {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 1},
+            /* Dragon */ {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5f, 0},
+            /* Dark */ {1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 0.5f},
+            /* Steel */ {1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5f, 2},
+            /* Fairy */ {1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f, 1}
     };
-
     private static final Map<ElementalType, Integer> TYPE_TO_INDEX = new IdentityHashMap<>();
+    private static final LoadingCache<Set<ElementalType>, Map<ElementalType, Float>> CACHE = CacheBuilder.newBuilder()
+            .maximumSize(256)
+            .expireAfterAccess(60, TimeUnit.MINUTES)
+            .build(new CacheLoader<>() {
+                @Override
+                public Map<ElementalType, Float> load(Set<ElementalType> defenders) {
+                    Map<ElementalType, Float> map = new HashMap<>();
+                    for (ElementalType attacker : ElementalTypes.all()) {
+                        map.put(attacker, compute(attacker, defenders));
+                    }
+                    return map;
+                }
+            });
 
     static {
         TYPE_TO_INDEX.put(ElementalTypes.NORMAL, 0);
@@ -57,19 +66,8 @@ public final class TypeEffectivenessCache {
         TYPE_TO_INDEX.put(ElementalTypes.FAIRY, 17);
     }
 
-    private static final LoadingCache<Set<ElementalType>, Map<ElementalType, Float>> CACHE = CacheBuilder.newBuilder()
-            .maximumSize(256)
-            .expireAfterAccess(60, TimeUnit.MINUTES)
-            .build(new CacheLoader<>() {
-                @Override
-                public Map<ElementalType, Float> load(Set<ElementalType> defenders) {
-                    Map<ElementalType, Float> map = new HashMap<>();
-                    for (ElementalType attacker : ElementalTypes.all()) {
-                        map.put(attacker, compute(attacker, defenders));
-                    }
-                    return map;
-                }
-            });
+    private TypeEffectivenessCache() {
+    }
 
     private static float compute(ElementalType attacker, Iterable<ElementalType> defenders) {
         Integer atkIdx = TYPE_TO_INDEX.get(attacker);

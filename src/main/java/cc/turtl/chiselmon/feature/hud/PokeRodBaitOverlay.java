@@ -71,7 +71,7 @@ public class PokeRodBaitOverlay {
     }
 
     private static void renderBaitTextWithIcon(GuiGraphics guiGraphics, Minecraft minecraft, String baitName, int count,
-            int color, ItemStack baitStack) {
+                                               int color, ItemStack baitStack) {
         Font font = minecraft.font;
 
         // Format the text

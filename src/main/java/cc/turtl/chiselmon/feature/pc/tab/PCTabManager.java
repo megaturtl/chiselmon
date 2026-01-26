@@ -15,8 +15,8 @@ public class PCTabManager {
     public static final int HORIZONTAL_SPACING = 2;
 
     public static List<PCTabButton> createTabButtons(StorageWidget storageWidget, List<PCTab> tabs,
-            int startX,
-            int startY) {
+                                                     int startX,
+                                                     int startY) {
         List<PCTabButton> buttons = new ArrayList<>();
 
         if (tabs.isEmpty())

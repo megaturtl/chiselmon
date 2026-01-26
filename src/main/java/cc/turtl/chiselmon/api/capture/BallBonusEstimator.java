@@ -88,7 +88,7 @@ public class BallBonusEstimator {
      * object.
      */
     public static float calculateBallBonus(PokeBall ball, PokemonEntity targetEntity,
-            LocalPlayer player, List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus) {
+                                           LocalPlayer player, List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus) {
 
         CaptureContext context = new CaptureContext(
                 targetEntity,
@@ -291,22 +291,8 @@ public class BallBonusEstimator {
     }
 
     // --- Context Object ---
-    private static class CaptureContext {
-        final PokemonEntity targetEntity;
-        final Pokemon pokemon;
-        final List<ClientBattlePokemon> playerActiveBattlePokemon;
-        final PersistentStatus targetStatus;
-        final Level level;
-        final BlockPos pos;
-
-        CaptureContext(PokemonEntity t, Pokemon p, List<ClientBattlePokemon> playerActiveBattlePokemon,
-                PersistentStatus targetStatus, Level l, BlockPos pos) {
-            this.targetEntity = t;
-            this.pokemon = p;
-            this.playerActiveBattlePokemon = playerActiveBattlePokemon;
-            this.targetStatus = targetStatus;
-            this.level = l;
-            this.pos = pos;
-        }
+        private record CaptureContext(PokemonEntity targetEntity, Pokemon pokemon,
+                                      List<ClientBattlePokemon> playerActiveBattlePokemon, PersistentStatus targetStatus,
+                                      Level level, BlockPos pos) {
     }
 }

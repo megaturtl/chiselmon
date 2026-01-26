@@ -49,7 +49,7 @@ public class ColorUtil {
     }
 
     public static int getRatioGradientColor(double ratio) {
-        return getRatioGradientColor(ratio, new int[] { RED, YELLOW, GREEN });
+        return getRatioGradientColor(ratio, new int[]{RED, YELLOW, GREEN});
     }
 
     public static int getRatioGradientColor(double ratio, int[] colors) {
@@ -63,10 +63,10 @@ public class ColorUtil {
 
     public static char getClosestMcColor(int rgb) {
         int[][] colors = {
-                { 0, 0, 0 }, { 0, 0, 170 }, { 0, 170, 0 }, { 0, 170, 170 },
-                { 170, 0, 0 }, { 170, 0, 170 }, { 255, 170, 0 }, { 170, 170, 170 },
-                { 85, 85, 85 }, { 85, 85, 255 }, { 85, 255, 85 }, { 85, 255, 255 },
-                { 255, 85, 85 }, { 255, 85, 255 }, { 255, 255, 85 }, { 255, 255, 255 }
+                {0, 0, 0}, {0, 0, 170}, {0, 170, 0}, {0, 170, 170},
+                {170, 0, 0}, {170, 0, 170}, {255, 170, 0}, {170, 170, 170},
+                {85, 85, 85}, {85, 85, 255}, {85, 255, 85}, {85, 255, 255},
+                {255, 85, 85}, {255, 85, 255}, {255, 255, 85}, {255, 255, 255}
         };
 
         int r = (rgb >> 16) & 0xFF;

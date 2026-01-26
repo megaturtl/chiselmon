@@ -11,15 +11,6 @@ import java.util.List;
 
 public class PcSortUIHandler {
 
-    // Helper interface to allow the handler to add buttons to the PCGUI
-    public interface ButtonAdder {
-        void addRenderableWidget(IconButton button);
-
-        boolean isDisplayingOptions();
-
-        List<IconButton> getOptionButtons();
-    }
-
     private PcSortUIHandler() {
     }
 
@@ -68,5 +59,14 @@ public class PcSortUIHandler {
 
             btnX += 12;
         }
+    }
+
+    // Helper interface to allow the handler to add buttons to the PCGUI
+    public interface ButtonAdder {
+        void addRenderableWidget(IconButton button);
+
+        boolean isDisplayingOptions();
+
+        List<IconButton> getOptionButtons();
     }
 }

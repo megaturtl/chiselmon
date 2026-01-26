@@ -11,9 +11,8 @@ import net.minecraft.network.chat.Component;
 import java.util.Set;
 
 public class NeoDaycareEggDummy extends Pokemon {
-    private static final String EGG_SPECIES = "neodaycare:egg_species";
     public static final String DUMMY_ASPECT = "neoDaycareEggDummy";
-
+    private static final String EGG_SPECIES = "neodaycare:egg_species";
     private final Pokemon originalEggPokemon;
     private int cycle;
     private int speciesCycles;
@@ -30,6 +29,48 @@ public class NeoDaycareEggDummy extends Pokemon {
         String eggString = persistentTag.getString("Egg");
         CompoundTag hatchlingTag = NeoDaycareEggParsers.parseEggTag(eggString);
         loadFromHatchlingData(hatchlingTag);
+    }
+
+    public static boolean isEgg(Pokemon pokemon) {
+        if (pokemon == null) {
+            return false;
+        }
+        try {
+            var species = pokemon.getSpecies();
+            if (species == null) {
+                return false;
+            }
+            var identifier = species.getResourceIdentifier();
+            if (identifier == null) {
+                return false;
+            }
+            return EGG_SPECIES.equals(identifier.toString());
+        } catch (Exception e) {
+            Chiselmon.getLogger().error("Error checking if pokemon is egg", e);
+            return false;
+        }
+    }
+
+    public static boolean isDummy(Pokemon pokemon) {
+        if (pokemon == null) {
+            return false;
+        }
+        try {
+            var aspects = pokemon.getForcedAspects();
+            return aspects != null && aspects.contains(DUMMY_ASPECT);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static NeoDaycareEggDummy createEggFrom(Pokemon pokemon) {
+        if (pokemon == null) {
+            throw new IllegalArgumentException("Pokemon cannot be null");
+        }
+        if (!isEgg(pokemon)) {
+            throw new IllegalArgumentException("Pokemon is not a NeoDaycare egg");
+        }
+        return new NeoDaycareEggDummy(pokemon);
     }
 
     private void loadFromHatchlingData(CompoundTag hatchlingTag) {
@@ -123,47 +164,5 @@ public class NeoDaycareEggDummy extends Pokemon {
 
     public Pokemon getOriginalEggPokemon() {
         return originalEggPokemon;
-    }
-
-    public static boolean isEgg(Pokemon pokemon) {
-        if (pokemon == null) {
-            return false;
-        }
-        try {
-            var species = pokemon.getSpecies();
-            if (species == null) {
-                return false;
-            }
-            var identifier = species.getResourceIdentifier();
-            if (identifier == null) {
-                return false;
-            }
-            return EGG_SPECIES.equals(identifier.toString());
-        } catch (Exception e) {
-            Chiselmon.getLogger().error("Error checking if pokemon is egg", e);
-            return false;
-        }
-    }
-
-    public static boolean isDummy(Pokemon pokemon) {
-        if (pokemon == null) {
-            return false;
-        }
-        try {
-            var aspects = pokemon.getForcedAspects();
-            return aspects != null && aspects.contains(DUMMY_ASPECT);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static NeoDaycareEggDummy createEggFrom(Pokemon pokemon) {
-        if (pokemon == null) {
-            throw new IllegalArgumentException("Pokemon cannot be null");
-        }
-        if (!isEgg(pokemon)) {
-            throw new IllegalArgumentException("Pokemon is not a NeoDaycare egg");
-        }
-        return new NeoDaycareEggDummy(pokemon);
     }
 }

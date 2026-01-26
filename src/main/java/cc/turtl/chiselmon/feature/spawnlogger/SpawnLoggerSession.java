@@ -11,11 +11,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SpawnLoggerSession {
+    private final Map<UUID, LoggedPokemon> loggedPokemon = new LinkedHashMap<>();
     private long accumulatedTimeMs = 0;
     private long lastStartTime;
     private boolean paused = false;
-
-    private final Map<UUID, LoggedPokemon> loggedPokemon = new LinkedHashMap<>();
 
     public SpawnLoggerSession() {
         this.lastStartTime = System.currentTimeMillis();

@@ -18,6 +18,9 @@ public class ComponentUtil {
 
     public static final Component UNKNOWN = colored("???", ColorUtil.DARK_GRAY);
 
+    private ComponentUtil() {
+    }
+
     public static MutableComponent modTranslatable(String key) {
         String fullKey = ChiselmonConstants.MODID + "." + key;
         return MutableComponent.create(new TranslatableContents(fullKey, null, TranslatableContents.NO_ARGS));
@@ -94,8 +97,8 @@ public class ComponentUtil {
         Component valueComponent = (value == null)
                 ? UNKNOWN
                 : (value instanceof Component c)
-                        ? c
-                        : colored(value.toString(), ColorUtil.WHITE);
+                ? c
+                : colored(value.toString(), ColorUtil.WHITE);
 
         return labelComponent.append(valueComponent);
     }
@@ -106,12 +109,9 @@ public class ComponentUtil {
         Component valueComponent = (value == null)
                 ? UNKNOWN
                 : (value instanceof Component c)
-                        ? c
-                        : colored(value.toString(), ColorUtil.WHITE);
+                ? c
+                : colored(value.toString(), ColorUtil.WHITE);
 
         return labelComponent.append(valueComponent);
-    }
-
-    private ComponentUtil() {
     }
 }

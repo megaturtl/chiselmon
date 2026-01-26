@@ -11,13 +11,11 @@ import java.util.function.Consumer;
 
 class CheckSpawnResponseCapture {
     private static final long CAPTURE_TIMEOUT_MS = 1500L;
-
+    private static final Logger LOGGER = Chiselmon.getLogger();
     private final Consumer<List<String>> completionCallback;
     private final List<String> bufferedLines = new ArrayList<>();
     private boolean active;
     private long deadlineMs;
-
-    private static Logger LOGGER = Chiselmon.getLogger();
 
     CheckSpawnResponseCapture(Consumer<List<String>> completionCallback) {
         this.completionCallback = completionCallback;

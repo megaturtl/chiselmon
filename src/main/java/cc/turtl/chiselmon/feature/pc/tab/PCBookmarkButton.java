@@ -19,9 +19,8 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_bookmark.png");
 
     private static final int TEXTURE_WIDTH = 15;
-    private static final int TEXTURE_HEIGHT = 30;
-
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
+    private static final int TEXTURE_HEIGHT = 30;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
     private static final Tooltip TOOLTIP_ON = Tooltip.create(ComponentUtil.modTranslatable("pc.bookmark_button.tooltip.remove"));
@@ -61,18 +60,18 @@ public class PCBookmarkButton extends Button implements CobblemonRenderable {
 
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
-        soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
     }
 
     public boolean isToggled() {
         return this.toggled;
     }
 
-    public void toggle() {
-        this.toggled = !this.toggled;
-    }
-
     public void setToggled(boolean toggled) {
         this.toggled = toggled;
+    }
+
+    public void toggle() {
+        this.toggled = !this.toggled;
     }
 }

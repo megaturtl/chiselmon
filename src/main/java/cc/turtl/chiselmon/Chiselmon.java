@@ -18,6 +18,29 @@ public class Chiselmon implements ClientModInitializer {
     private volatile IChiselmonServices services;
     private Logger logger;
 
+    public static Chiselmon getInstance() {
+        if (INSTANCE == null) {
+            throw new IllegalStateException(ChiselmonConstants.MODNAME + " has not been initialized yet!");
+        }
+        return INSTANCE;
+    }
+
+    public static Logger getLogger() {
+        return services().logger().get();
+    }
+
+    public static IChiselmonServices services() {
+        if (getInstance().services == null) {
+            throw new IllegalStateException(
+                    ChiselmonConstants.MODNAME + " services are not initialized yet; access them after client initialization.");
+        }
+        return getInstance().services;
+    }
+
+    public static boolean isDisabled() {
+        return services().config().get().modDisabled;
+    }
+
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
@@ -69,28 +92,5 @@ public class Chiselmon implements ClientModInitializer {
 
     public void saveConfig() {
         services.config().save();
-    }
-
-    public static Chiselmon getInstance() {
-        if (INSTANCE == null) {
-            throw new IllegalStateException(ChiselmonConstants.MODNAME + " has not been initialized yet!");
-        }
-        return INSTANCE;
-    }
-
-    public static Logger getLogger() {
-        return services().logger().get();
-    }
-
-    public static IChiselmonServices services() {
-        if (getInstance().services == null) {
-            throw new IllegalStateException(
-                    ChiselmonConstants.MODNAME + " services are not initialized yet; access them after client initialization.");
-        }
-        return getInstance().services;
-    }
-
-    public static boolean isDisabled() {
-        return services().config().get().modDisabled;
     }
 }

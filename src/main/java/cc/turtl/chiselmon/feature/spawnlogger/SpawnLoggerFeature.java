@@ -19,9 +19,8 @@ import net.minecraft.world.entity.Entity;
 import java.nio.file.Path;
 
 public final class SpawnLoggerFeature extends AbstractFeature {
-    private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
     public static final String EXPORT_COMMAND_PATH = "/" + ChiselmonConstants.MODID + " log export";
-
+    private static final SpawnLoggerFeature INSTANCE = new SpawnLoggerFeature();
     private SpawnLoggerSession currentSession;
     private SpawnLoggerSession lastCompletedSession;
 

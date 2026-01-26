@@ -45,7 +45,7 @@ public class ResultsMessage {
     }
 
     private static void appendSessionStats(MutableComponent message, long durationMs, int totalSpawns,
-            double spawnsPerMinute) {
+                                           double spawnsPerMinute) {
         message.append(colored(
                 ComponentUtil.modTranslatable("spawnlogger.report.elapsed", StringFormats.formatDurationMs(durationMs)),
                 ColorUtil.WHITE));

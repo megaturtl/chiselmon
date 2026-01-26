@@ -26,33 +26,28 @@ import java.util.List;
 @Mixin(PCGUI.class)
 public abstract class PCGUIMixin extends Screen {
 
-    protected PCGUIMixin(Component title) {
-        super(title);
-    }
-
-    @Shadow
-    @Final
-    public ClientPC pc;
-    @Shadow(remap = false)
-    private StorageWidget storageWidget;
     @Shadow(remap = false)
     @Final
     public static int BASE_WIDTH;
     @Shadow(remap = false)
     @Final
     public static int BASE_HEIGHT;
-
-    @Unique
-    private PCBookmarkButton chiselmon$bookmarkButton;
-
-    @Unique
-    private PCHomeButton chiselmon$homeButton;
-
     @Unique
     private final List<PCTabButton> chiselmon$tabButtons = new ArrayList<>();
-
     private final IChiselmonServices services = Chiselmon.services();
     private final ConfigService configService = services.config();
+    @Shadow
+    @Final
+    public ClientPC pc;
+    @Shadow(remap = false)
+    private StorageWidget storageWidget;
+    @Unique
+    private PCBookmarkButton chiselmon$bookmarkButton;
+    @Unique
+    private PCHomeButton chiselmon$homeButton;
+    protected PCGUIMixin(Component title) {
+        super(title);
+    }
 
     @Unique
     private PCTabStore chiselmon$getTabStore() {
@@ -108,7 +103,7 @@ public abstract class PCGUIMixin extends Screen {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void chiselmon$updateBookmarkButtonState(GuiGraphics context, int mouseX, int mouseY, float delta,
-            CallbackInfo ci) {
+                                                     CallbackInfo ci) {
         if (Chiselmon.isDisabled())
             return;
         ChiselmonConfig config = configService.get();

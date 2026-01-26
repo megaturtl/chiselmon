@@ -26,11 +26,7 @@ import java.util.List;
 import static cc.turtl.chiselmon.util.ComponentUtil.modResource;
 
 public class PokeSnackProvider implements IBlockComponentProvider {
-    private PokeSnackProvider() {
-    }
-
     public static final PokeSnackProvider INSTANCE = new PokeSnackProvider();
-
     public static final String POKESNACK_BLOCK_PARENT_PATH = "pokesnack_block";
     public static final ResourceLocation POKESNACK_BLOCK_RANDOM_TICKS = modResource(
             POKESNACK_BLOCK_PARENT_PATH + ".random_ticks");
@@ -42,6 +38,8 @@ public class PokeSnackProvider implements IBlockComponentProvider {
             POKESNACK_BLOCK_PARENT_PATH + ".ingredients");
     public static final ResourceLocation POKESNACK_BLOCK_EFFECTS_ID = modResource(
             POKESNACK_BLOCK_PARENT_PATH + ".effects");
+    private PokeSnackProvider() {
+    }
 
     @Override
     public ResourceLocation getUid() {

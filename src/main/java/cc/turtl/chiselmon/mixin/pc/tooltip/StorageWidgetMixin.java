@@ -31,7 +31,7 @@ public class StorageWidgetMixin {
 
     @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
     private void chiselmon$renderStorageTooltips(GuiGraphics context, int mouseX, int mouseY, float delta,
-            CallbackInfo ci) {
+                                                 CallbackInfo ci) {
         if (Chiselmon.isDisabled())
             return;
         ChiselmonConfig config = Chiselmon.services().config().get();

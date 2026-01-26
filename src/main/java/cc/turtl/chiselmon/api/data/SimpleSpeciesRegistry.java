@@ -16,11 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 public class SimpleSpeciesRegistry {
-    private static Map<String, SimpleSpecies> FULL_DATA = new HashMap<>();
     private static final Gson CLEAN_GSON = new Gson();
-
     // AtomicBoolean prevents multiple threads from starting the load process at the same time
     private static final AtomicBoolean isLoading = new AtomicBoolean(false);
+    private static Map<String, SimpleSpecies> FULL_DATA = new HashMap<>();
     // Volatile so all cores see the "true" value of the boolean immediately
     private static volatile boolean loaded = false;
 

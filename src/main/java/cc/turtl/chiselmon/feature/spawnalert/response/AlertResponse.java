@@ -24,12 +24,6 @@ public record AlertResponse(
         return new AlertResponse(null, AlertLevel.NONE, AlertLevel.NONE, AlertLevel.NONE);
     }
 
-    public boolean isEmpty() {
-        return glowLevel == AlertLevel.NONE &&
-                chatLevel == AlertLevel.NONE &&
-                soundLevel == AlertLevel.NONE;
-    }
-
     public static AlertResponse calculate(SpawnAlertConfig config, PokemonEntity pe, boolean muted) {
         Pokemon pokemon = pe.getPokemon();
         String name = pokemon.getSpecies().getName();
@@ -81,5 +75,11 @@ public record AlertResponse(
         }
 
         return new AlertResponse(pe, bestGlow, bestChat, bestSound);
+    }
+
+    public boolean isEmpty() {
+        return glowLevel == AlertLevel.NONE &&
+                chatLevel == AlertLevel.NONE &&
+                soundLevel == AlertLevel.NONE;
     }
 }

@@ -19,9 +19,8 @@ public class PCHomeButton extends Button implements CobblemonRenderable {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_home.png");
 
     private static final int TEXTURE_WIDTH = 15;
-    private static final int TEXTURE_HEIGHT = 30;
-
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
+    private static final int TEXTURE_HEIGHT = 30;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
     private static final Tooltip TOOLTIP = Tooltip.create(ComponentUtil.modTranslatable("pc.home_button.tooltip"));
@@ -51,6 +50,6 @@ public class PCHomeButton extends Button implements CobblemonRenderable {
 
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
-        soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
     }
 }

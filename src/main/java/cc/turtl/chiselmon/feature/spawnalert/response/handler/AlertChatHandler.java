@@ -40,7 +40,7 @@ public class AlertChatHandler {
                 .withStyle(style -> style
                         .withClickEvent(
                                 new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                        "/" + ChiselmonConstants.MODID + " alert mute " + pe.getUUID().toString()))
+                                        "/" + ChiselmonConstants.MODID + " alert mute " + pe.getUUID()))
                         .withHoverEvent(
                                 new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         ComponentUtil.modTranslatable("spawnalert.mute.tooltip"))));

@@ -23,6 +23,22 @@ public class WorldDataService {
         this.worldIdentifierSupplier = worldIdentifierSupplier;
     }
 
+    public static String getWorldIdentifier() {
+        Minecraft minecraft = Minecraft.getInstance();
+        ServerData server = minecraft.getCurrentServer();
+
+        if (server != null) {
+            return "MP:" + server.ip;
+        }
+
+        WorldData world = minecraft.getSingleplayerServer().getWorldData();
+        if (world != null) {
+            return "SP:" + world.getLevelName();
+        }
+
+        return "FALLBACK";
+    }
+
     public WorldDataStore current() {
         String worldId;
         try {
@@ -40,24 +56,8 @@ public class WorldDataService {
         return Collections.unmodifiableMap(worldDataMap);
     }
 
-    public static String getWorldIdentifier() {
-        Minecraft minecraft = Minecraft.getInstance();
-        ServerData server = minecraft.getCurrentServer();
-
-        if (server != null) {
-            return "MP:" + server.ip;
-        }
-
-        WorldData world = minecraft.getSingleplayerServer().getWorldData();
-        if (world != null) {
-            return "SP:" + world.getLevelName();
-        }
-
-        return "FALLBACK";
-    }
-
     public class WorldDataStore {
-        private PCTabStore pcTabStore;
+        private final PCTabStore pcTabStore;
 
         public WorldDataStore() {
             this.pcTabStore = new PCTabStore();

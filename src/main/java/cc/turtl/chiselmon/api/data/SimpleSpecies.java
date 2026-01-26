@@ -24,6 +24,19 @@ public class SimpleSpecies {
     // Transient tells GSON to ignore this field when reading the JSON file
     private transient List<String> formattedEggGroups = null;
 
+    public static String formatEggGroupName(String internalName) {
+        String[] parts = internalName.split("_");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                sb.append(Character.toUpperCase(part.charAt(0)))
+                        .append(part.substring(1))
+                        .append(" ");
+            }
+        }
+        return sb.toString().trim();
+    }
+
     // Using string interning to save ram. Multiple species will share the same
     // string instances for things like "hp", "Fairy", etc. that are repeated a lot
     public void optimize() {
@@ -65,18 +78,5 @@ public class SimpleSpecies {
 
     public List<String> getFormattedEggGroups() {
         return formattedEggGroups;
-    }
-
-    public static String formatEggGroupName(String internalName) {
-        String[] parts = internalName.split("_");
-        StringBuilder sb = new StringBuilder();
-        for (String part : parts) {
-            if (!part.isEmpty()) {
-                sb.append(Character.toUpperCase(part.charAt(0)))
-                        .append(part.substring(1))
-                        .append(" ");
-            }
-        }
-        return sb.toString().trim();
     }
 }

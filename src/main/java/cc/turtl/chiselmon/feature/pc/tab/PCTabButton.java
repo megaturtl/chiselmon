@@ -20,9 +20,8 @@ public class PCTabButton extends Button {
     private static final ResourceLocation SPRITE = modResource("textures/gui/pc/pc_button_tab.png");
 
     private static final int TEXTURE_WIDTH = 35;
-    private static final int TEXTURE_HEIGHT = 20;
-
     public static final int BUTTON_WIDTH = TEXTURE_WIDTH;
+    private static final int TEXTURE_HEIGHT = 20;
     public static final int BUTTON_HEIGHT = (int) (TEXTURE_HEIGHT / 2.0F);
 
     private static final int HOVERED_Y_OFFSET = BUTTON_HEIGHT;
@@ -69,7 +68,7 @@ public class PCTabButton extends Button {
 
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
-        soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
     }
 
     public int getBox() {

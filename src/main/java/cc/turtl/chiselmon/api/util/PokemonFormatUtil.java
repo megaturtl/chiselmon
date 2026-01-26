@@ -34,29 +34,13 @@ import java.util.stream.Collectors;
 import static cc.turtl.chiselmon.util.ComponentUtil.*;
 
 public final class PokemonFormatUtil {
-    private PokemonFormatUtil() {
-    }
-
     private static final Component SLASH_SEPERATOR = separator("/");
     private static final Component SLASH_SPACE_SEPERATOR = separator(" / ");
     private static final Component COMMA_SEPARATOR = separator(", ");
-
     private static final Component GENDER_UNKNOWN = colored("?", ColorUtil.DARK_GRAY);
     private static final Component MALE = colored("♂", ColorUtil.BLUE);
     private static final Component FEMALE = colored("♀", ColorUtil.PINK);
     private static final Component GENDERLESS = colored("●", ColorUtil.LIGHT_GRAY);
-
-    public static Component genderIcon(Gender gender) {
-        if (gender == null)
-            return GENDER_UNKNOWN;
-
-        return switch (gender) {
-            case MALE -> MALE;
-            case FEMALE -> FEMALE;
-            case GENDERLESS -> GENDERLESS;
-        };
-    }
-
     private static final Map<String, Integer> EGG_GROUP_COLORS = Map.ofEntries(
             Map.entry("monster", 0x97724C),
             Map.entry("water_1", 0x6BD1F9),
@@ -74,6 +58,20 @@ public final class PokemonFormatUtil {
             Map.entry("dragon", 0x5E57BF),
             Map.entry("undiscovered", ColorUtil.DARK_GRAY));
 
+    private PokemonFormatUtil() {
+    }
+
+    public static Component genderIcon(Gender gender) {
+        if (gender == null)
+            return GENDER_UNKNOWN;
+
+        return switch (gender) {
+            case MALE -> MALE;
+            case FEMALE -> FEMALE;
+            case GENDERLESS -> GENDERLESS;
+        };
+    }
+
     public static Component eggGroups(SimpleSpecies species) {
         if (species == null || species.eggGroups.isEmpty())
             return UNKNOWN;
@@ -89,7 +87,6 @@ public final class PokemonFormatUtil {
                             .filter(part -> !part.isEmpty())
                             .map(part -> Character.toUpperCase(part.charAt(0)) + part.substring(1))
                             .collect(Collectors.joining(" "));
-                    ;
 
                     return colored(displayName, color);
                 });
@@ -219,7 +216,7 @@ public final class PokemonFormatUtil {
 
     public static Component catchChance(PokemonEntity pokemonEntity, PokeBall ball) {
         float catchChance = CaptureChanceEstimator.estimateCaptureProbability(pokemonEntity, ball);
-        int rgb = ColorUtil.getRatioGradientColor(catchChance / 1.0f);
+        int rgb = ColorUtil.getRatioGradientColor(catchChance);
 
         Component catchChanceComponent = colored(StringFormats.formatPercentage(catchChance), rgb);
 

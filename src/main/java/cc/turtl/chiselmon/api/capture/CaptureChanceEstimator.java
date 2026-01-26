@@ -36,7 +36,7 @@ public class CaptureChanceEstimator {
     /**
      * Calculates the estimated probability of a successful capture (P_capture).
      * * @param thrower The player (used for party info).
-     * 
+     *
      * @param targetEntity The Pokemon Entity being targeted.
      * @param ball         The PokeBall being used.
      * @param playerParty  The list of Pokemon in the player's party.
@@ -82,8 +82,8 @@ public class CaptureChanceEstimator {
 
         // --- 2. Input Parameters ---
         // Max HP and Current HP (H, h)
-        float H = (float) targetEntity.getMaxHealth();
-        float h = (float) targetEntity.getHealth();
+        float H = targetEntity.getMaxHealth();
+        float h = targetEntity.getHealth();
 
         // Base Catch Rate (C)
         SimpleSpecies species = SimpleSpeciesRegistry.getByName(pokemon.getSpecies().getName());

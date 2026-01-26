@@ -45,7 +45,7 @@ public class PokemonCalcUtil {
      * Calculates the probable moveset of a wild Pokemon based on Cobblemon's server initialization logic.
      * This is safe to run on the client as it only uses synchronized Pokemon data (level and form).
      *
-     * @param pokemon The Pokemon object.
+     * @param pokemon      The Pokemon object.
      * @param preferLatest If true, selects the 4 most recently learned moves. If false, returns all possible level-up moves.
      * @return A Set of MoveTemplate objects representing the selected moves.
      */

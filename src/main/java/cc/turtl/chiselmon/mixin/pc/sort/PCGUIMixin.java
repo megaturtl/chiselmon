@@ -25,11 +25,6 @@ import java.util.List;
 @Mixin(PCGUI.class)
 public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.ButtonAdder {
 
-    @Shadow
-    @Final
-    public ClientPC pc;
-    @Shadow(remap = false)
-    private StorageWidget storageWidget;
     @Shadow(remap = false)
     @Final
     public static int BASE_WIDTH;
@@ -37,12 +32,16 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     @Final
     public static int BASE_HEIGHT;
     @Shadow
+    @Final
+    public ClientPC pc;
+    @Shadow(remap = false)
+    public Pokemon previewPokemon;
+    @Shadow(remap = false)
+    private StorageWidget storageWidget;
+    @Shadow
     private boolean displayOptions;
     @Shadow
     private List<IconButton> optionButtons;
-
-    @Shadow(remap = false)
-    public Pokemon previewPokemon;
 
     protected PCGUIMixin(Component title) {
         super(title);
@@ -83,7 +82,7 @@ public abstract class PCGUIMixin extends Screen implements PcSortUIHandler.Butto
     // Intercept key presses to handle quick sort keybind
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void chiselmon$handleQuickSortMouseClick(double mouseX, double mouseY, int button,
-            CallbackInfoReturnable<Boolean> cir) {
+                                                     CallbackInfoReturnable<Boolean> cir) {
         if (Chiselmon.isDisabled())
             return;
         ChiselmonConfig config = Chiselmon.services().config().get();

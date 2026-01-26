@@ -27,25 +27,6 @@ public class PcIconRenderer {
     private static final int START_Y = 6;
     private static final int ICONS_PER_COLUMN = 3;
     private static final int COLUMN_X_OFFSET = 18;
-
-    private static class IconConfig {
-        final Function<PcIconConfig, Boolean> configGetter;
-        final Predicate<Pokemon> predicate;
-        final ResourceLocation icon;
-
-        IconConfig(Function<PcIconConfig, Boolean> configGetter,
-                Predicate<Pokemon> predicate,
-                ResourceLocation icon) {
-            this.configGetter = configGetter;
-            this.predicate = predicate;
-            this.icon = icon;
-        }
-
-        boolean shouldRender(PcIconConfig iconConfig, Pokemon pokemon) {
-            return configGetter.apply(iconConfig) && predicate.test(pokemon);
-        }
-    }
-
     private static final IconConfig[] ICON_CONFIGS = {
             new IconConfig(c -> c.hiddenAbility, PokemonPredicates.HAS_HIDDEN_ABILITY, HIDDEN_ABILITY_ICON),
             new IconConfig(c -> c.highIvs, PokemonPredicates.HAS_HIGH_IVS, HIGH_IVS_ICON),
@@ -114,4 +95,12 @@ public class PcIconRenderer {
 
         context.pose().popPose();
     }
+
+    private record IconConfig(Function<PcIconConfig, Boolean> configGetter, Predicate<Pokemon> predicate,
+                              ResourceLocation icon) {
+
+        boolean shouldRender(PcIconConfig iconConfig, Pokemon pokemon) {
+                return configGetter.apply(iconConfig) && predicate.test(pokemon);
+            }
+        }
 }
