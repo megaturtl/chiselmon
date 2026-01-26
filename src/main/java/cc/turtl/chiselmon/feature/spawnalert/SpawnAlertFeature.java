@@ -42,8 +42,6 @@ public final class SpawnAlertFeature extends AbstractFeature {
         ClientEntityEvents.ENTITY_UNLOAD.register(alertManager::onEntityUnload);
         ClientPlayConnectionEvents.DISCONNECT.register(alertManager::onDisconnect);
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTickEnd);
-
-        Chiselmon.services().config().addListener(alertManager::onConfigSave);
     }
 
     private void registerKeybinds() {
