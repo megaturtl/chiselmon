@@ -31,7 +31,7 @@ public class ComponentUtil {
         return MutableComponent.create(new TranslatableContents(fullKey, null, args));
     }
 
-    public static final ResourceLocation modResource(String path) {
+    public static ResourceLocation modResource(String path) {
         return ResourceLocation.fromNamespaceAndPath(ChiselmonConstants.MODID, path);
     }
 

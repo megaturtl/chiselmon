@@ -31,7 +31,7 @@ public class CommandUtils {
             return 1;
         } catch (Exception e) {
             CommandUtils.sendError(source, "An unexpected error occurred.");
-            Chiselmon.getLogger().error("Error executing '" + context.getInput() + "' :", e);
+            Chiselmon.getLogger().error("Error executing '{}' :", context.getInput(), e);
             return 0;
         }
     }
@@ -103,7 +103,7 @@ public class CommandUtils {
 
     @FunctionalInterface
     public interface CommandExecutor {
-        void execute(FabricClientCommandSource source) throws Exception;
+        void execute(FabricClientCommandSource source);
     }
 
 }

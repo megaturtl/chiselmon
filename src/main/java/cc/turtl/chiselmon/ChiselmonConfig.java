@@ -34,7 +34,7 @@ public class ChiselmonConfig implements ConfigData {
     @ConfigEntry.Category("hud")
     public boolean showPokeRodBaitAboveHotbar = true;
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    @ConfigEntry.Gui.CollapsibleObject()
     @ConfigEntry.Category("hud")
     public CheckSpawnTrackerConfig checkSpawnTracker = new CheckSpawnTrackerConfig();
 
@@ -60,7 +60,7 @@ public class ChiselmonConfig implements ConfigData {
         checkSpawnTracker.validatePostLoad();
     }
 
-    public class ThresholdConfig implements ConfigData {
+    public static class ThresholdConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public float extremeSmall = 0.4F;
 

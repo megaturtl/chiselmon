@@ -59,10 +59,6 @@ public class AlertManager {
         mutedUuids.clear();
     }
 
-    public void onConfigSave(ChiselmonConfig config) {
-        // reprocess in case highlights need to be updated etc.
-    }
-
     public void tick() {
         AlertLevel highestSoundLevel = AlertLevel.NONE;
 
