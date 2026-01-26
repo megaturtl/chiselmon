@@ -1,5 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.sort;
 
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
+import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;
 import com.cobblemon.mod.common.client.storage.ClientPC;
@@ -7,14 +9,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPack
 import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
-import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
-
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public final class PcSorter {
 

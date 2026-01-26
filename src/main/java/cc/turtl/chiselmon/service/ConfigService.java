@@ -1,16 +1,15 @@
 package cc.turtl.chiselmon.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.apache.logging.log4j.Logger;
-
 import cc.turtl.chiselmon.ChiselmonConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.world.InteractionResult;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class ConfigService {
     private final Logger logger;

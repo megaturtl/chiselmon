@@ -1,17 +1,15 @@
 package cc.turtl.chiselmon.mixin.eggpreview;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.At;
-
-import com.cobblemon.mod.common.api.storage.party.PartyPosition;
-import com.cobblemon.mod.common.client.storage.ClientParty;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggCache;
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import com.cobblemon.mod.common.api.storage.party.PartyPosition;
+import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientParty.class)
 public class ClientPartyMixin {

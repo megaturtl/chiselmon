@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.api.predicate;
 
-import java.util.function.Predicate;
-
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+
+import java.util.function.Predicate;
 
 public final class PokemonEntityPredicates {
     private PokemonEntityPredicates() {

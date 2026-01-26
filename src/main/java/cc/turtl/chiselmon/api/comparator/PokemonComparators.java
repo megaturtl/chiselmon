@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.api.comparator;
 
-import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import cc.turtl.chiselmon.feature.eggpreview.NeoDaycareEggDummy;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.Comparator;
 

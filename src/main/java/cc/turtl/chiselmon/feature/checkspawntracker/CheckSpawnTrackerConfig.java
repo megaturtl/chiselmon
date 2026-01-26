@@ -1,11 +1,11 @@
 package cc.turtl.chiselmon.feature.checkspawntracker;
 
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 public class CheckSpawnTrackerConfig implements ConfigData {
 
