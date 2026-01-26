@@ -5,7 +5,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import cc.turtl.chiselmon.feature.spawnalert.AlertLevel;
 import cc.turtl.chiselmon.feature.spawnalert.SpawnAlertConfig;
 import cc.turtl.chiselmon.feature.spawnalert.response.AlertResponse;
-import cc.turtl.chiselmon.mixin.interfaces.IClientGlowEntity;
+import cc.turtl.chiselmon.api.duck.GlowableEntityDuck;
 import cc.turtl.chiselmon.util.ColorUtil;
 import net.minecraft.network.chat.Component;
 
@@ -34,7 +34,7 @@ public class AlertGlowHandler {
     }
 
     public static void removeEffects(PokemonEntity pe) {
-        if (!(pe instanceof IClientGlowEntity glowable)) {
+        if (!(pe instanceof GlowableEntityDuck glowable)) {
             return;
         }
         glowable.chiselmon$setClientGlowing(false);
@@ -42,7 +42,7 @@ public class AlertGlowHandler {
     }
 
     public static void addGlow(PokemonEntity pe, int color) {
-        if (!(pe instanceof IClientGlowEntity glowable)) {
+        if (!(pe instanceof GlowableEntityDuck glowable)) {
             return;
         }
         glowable.chiselmon$setClientGlowColor(color);
