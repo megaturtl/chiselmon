@@ -29,9 +29,11 @@
     "minecraft": "~1.21.1",
     "java": ">=21",
     "architectury": ">=13.0.8",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "cobblemon": ">=1.7.0"
   },
   "suggests": {
-    "another-mod": "*"
+    "cloth-config": ">=15.0.140",
+    "jade": ">=15.10.2"
   }
 }

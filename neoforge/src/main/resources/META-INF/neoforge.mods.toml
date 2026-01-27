@@ -11,7 +11,7 @@ authors = "megaturtl"
 description = '''
 Smooth out your Cobblemon experience!
 '''
-#logoFile = ""
+logoFile="assets/chiselmon/icon.png"
 
 [[dependencies.chiselmon]]
 modId = "neoforge"
@@ -32,6 +32,27 @@ modId = "architectury"
 type = "required"
 versionRange = "[13.0.8,)"
 ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "cobblemon"
+type = "required"
+versionRange = "[1.7.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "cloth-config"
+type = "required"
+versionRange = "[15.0.140,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "jade"
+type = "optional"
+versionRange = "[15.10.2,)"
+ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
