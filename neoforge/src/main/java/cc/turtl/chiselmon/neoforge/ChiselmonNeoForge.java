@@ -17,25 +17,15 @@ import net.neoforged.neoforge.common.NeoForge;
 @Mod(ChiselmonConstants.MOD_ID)
 public final class ChiselmonNeoForge {
     public ChiselmonNeoForge() {
-        // Run our common setup.
         Chiselmon.initClient();
-
-        // Register events to the common handler
-        NeoForge.EVENT_BUS.addListener(this::onClientTick);
-
         registerConfigScreen();
     }
 
-    private void onClientTick(ClientTickEvent.Post event) {
-        var mc = Minecraft.getInstance();
-        ClientTickHandler.handle(mc.level == null);
-    }
-
+    // Links the Cloth Config screen to the NeoForge mod menu
     private void registerConfigScreen() {
         ModList.get().getModContainerById(ChiselmonConstants.MOD_ID)
                 .ifPresent(c -> c.registerExtensionPoint(IConfigScreenFactory.class, this::createConfigScreen));
     }
-
     private Screen createConfigScreen(ModContainer container, Screen parent) {
         return AutoConfig.getConfigScreen(ChiselmonConfig.class, parent).get();
     }
