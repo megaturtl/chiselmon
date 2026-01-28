@@ -1,9 +1,11 @@
 package cc.turtl.chiselmon;
 
-public final class Chiselmon {
-    public static final String MOD_ID = "chiselmon";
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
-    public static void init() {
-        // Write common init code here.
+public final class Chiselmon {
+
+    public static void initClient() {
+        AutoConfig.register(ChiselmonConfig.class, GsonConfigSerializer::new);
     }
 }

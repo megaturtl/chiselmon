@@ -1,16 +1,20 @@
 package cc.turtl.chiselmon.fabric;
 
 import cc.turtl.chiselmon.Chiselmon;
-import net.fabricmc.api.ModInitializer;
+import cc.turtl.chiselmon.event.ClientTickHandler;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
-public final class ChiselmonFabric implements ModInitializer {
+public final class ChiselmonFabric implements ClientModInitializer {
     @Override
-    public void onInitialize() {
-        // This code runs as soon as Minecraft is in a mod-load-ready state.
-        // However, some things (like resources) may still be uninitialized.
-        // Proceed with mild caution.
+    public void onInitializeClient() {
+        // This entrypoint is suitable for setting up client-specific logic, such as rendering.
+        Chiselmon.initClient();
 
-        // Run our common setup.
-        Chiselmon.init();
+        // Register events to the common handler
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            // Bridge to common logic
+            ClientTickHandler.handle(client.level == null);
+        });
     }
 }

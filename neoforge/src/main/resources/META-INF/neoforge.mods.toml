@@ -42,7 +42,7 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chiselmon]]
-modId = "cloth-config"
+modId = "cloth_config"
 type = "required"
 versionRange = "[15.0.140,)"
 ordering = "NONE"
