@@ -1,69 +1,55 @@
 package cc.turtl.chiselmon;
 
+import cc.turtl.chiselmon.command.ChiselmonCommand;
+import cc.turtl.chiselmon.command.DebugCommand;
+import cc.turtl.chiselmon.command.InfoCommand;
 import cc.turtl.chiselmon.util.CommandUtils;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
-/**
- * Simple command registry for /chiselmon subcommands.
- */
 public class ChiselmonCommands {
+    private static final List<ChiselmonCommand> COMMANDS = List.of(
+            new InfoCommand(),
+            new DebugCommand()
+            // add new commands here
+    );
 
-    private static final List<Consumer<LiteralArgumentBuilder<CommandSourceStack>>> SUBCOMMANDS = new ArrayList<>();
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher,
+                                CommandBuildContext registry,
+                                Commands.CommandSelection selection) {
 
-    /**
-     * Register a subcommand under /chiselmon.
-     * <p>
-     * Example:
-     * ChiselmonCommands.addSub(root -> root
-     * .then(Commands.literal("hello")
-     * .executes(ctx -> {
-     * ctx.getSource().sendSuccess(() -> Component.literal("Hello!"), false);
-     * return 1;
-     * })
-     * )
-     * );
-     */
-    public static void addSub(Consumer<LiteralArgumentBuilder<CommandSourceStack>> subcommand) {
-        SUBCOMMANDS.add(subcommand);
+        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal(ChiselmonConstants.MOD_ID)
+                .executes(ChiselmonCommands::showHelp);
+
+        LiteralArgumentBuilder<CommandSourceStack> rootAlias = Commands.literal("ch")
+                .executes(ChiselmonCommands::showHelp);
+
+        // Attach all subcommands
+        COMMANDS.forEach(cmd -> root.then(cmd.build()));
+        COMMANDS.forEach(cmd -> rootAlias.then(cmd.build()));
+
+        // Register the main command and alias
+        dispatcher.register(root);
+        dispatcher.register(rootAlias);
     }
 
-    /**
-     * Registers the root command and its sub commands with the dispatcher.
-     * Call this usings the platform-specific command registration.
-     */
-    public static void registerRoot(CommandDispatcher<CommandSourceStack> dispatcher) {
+    private static int showHelp(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+        // Gets the alias used
+        String alias = context.getNodes().getFirst().getNode().getName();
 
-        // Define root command (executes an info command)
-        LiteralArgumentBuilder<CommandSourceStack> rootCommand = Commands.literal(ChiselmonConstants.MOD_ID)
-                .executes(ChiselmonCommands::executeInfo);
-
-        // Add subcommands to the root
-        for (Consumer<LiteralArgumentBuilder<CommandSourceStack>> subcommand : SUBCOMMANDS) {
-            subcommand.accept(rootCommand);
-        }
-
-        // Register root command
-        dispatcher.register(rootCommand);
-
-        // Register aliases
-        dispatcher.register(Commands.literal("ca").redirect(rootCommand.build()));
-        dispatcher.register(Commands.literal("ch").redirect(rootCommand.build()));
-        dispatcher.register(Commands.literal("chisel").redirect(rootCommand.build()));
-    }
-
-    private static int executeInfo(CommandContext<CommandSourceStack> ctx) {
-        CommandSourceStack source = ctx.getSource();
-        CommandUtils.sendHeader(source, ChiselmonConstants.MOD_NAME + " Info");
-        CommandUtils.sendLabeled(source, "Version", ChiselmonConstants.VERSION);
-        CommandUtils.sendLabeled(source, "Author", ChiselmonConstants.AUTHOR);
-        return 1;
+        CommandUtils.sendHeader(source, ChiselmonConstants.MOD_NAME + " Commands");
+        COMMANDS.forEach(cmd ->
+                CommandUtils.sendPrefixed(source, "/" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
+        );
+        return Command.SINGLE_SUCCESS;
     }
 }

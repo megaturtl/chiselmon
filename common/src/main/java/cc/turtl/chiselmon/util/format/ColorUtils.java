@@ -19,13 +19,13 @@ public final class ColorUtils {
     public static final int DARK_GRAY  = 0x555555;
 
     // --- Rainbow Palette ---
-    public static final int RED        = 0xF82553;
-    public static final int ORANGE     = 0xFB6640;
-    public static final int YELLOW     = 0xF8C421;
-    public static final int GREEN      = 0x49CC5C;
-    public static final int BLUE       = 0x2C7CE5;
-    public static final int PURPLE     = 0x7334E9;
-    public static final int PINK       = 0xE62CAB;
+    public static final int RED        = 0xE13538;
+    public static final int ORANGE     = 0xF9844A;
+    public static final int YELLOW     = 0xF9C74F;
+    public static final int GREEN      = 0x4DBA51;
+    public static final int BLUE       = 0x2D73B0;
+    public static final int PURPLE     = 0x6C44C3;
+    public static final int PINK       = 0xF46997;
 
     // --- Extended Palette ---
     public static final int CRIMSON    = 0xDC143C;

@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.util.format;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,7 @@ public final class ComponentUtils {
     public static final Component UNKNOWN = literal("???", ColorUtils.DARK_GRAY);
 
     public static final Component SPACE = Component.literal(" ");
+    public static final Component RESET = Component.literal("").withStyle(ChatFormatting.RESET);
 
     /**
      * Creates a translatable component prefixed with the mod ID.
@@ -69,6 +71,32 @@ public final class ComponentUtils {
                 if (it.hasNext()) result.append(literal(separator, ColorUtils.LIGHT_GRAY));
             }
         }
+        return result;
+    }
+
+    /**
+     * Creates a component where the text is colored with a multi-point gradient.
+     * * @param text   The string to color.
+     * @param colors The RGB color stops (0xRRGGBB).
+     * @return A MutableComponent containing the gradient text.
+     */
+    public static MutableComponent gradient(String text, int... colors) {
+        if (text == null || text.isEmpty()) return Component.empty();
+        if (colors.length == 0) return Component.literal(text);
+        if (colors.length == 1) return literal(text, colors[0]);
+
+        MutableComponent result = Component.empty();
+        int length = text.length();
+
+        for (int i = 0; i < length; i++) {
+            // Calculate ratio (0.0 to 1.0) based on character index
+            // If length is 1, ratio is 0.
+            float ratio = length > 1 ? (float) i / (length - 1) : 0.0f;
+
+            int color = ColorUtils.getGradient(ratio, colors);
+            result.append(Component.literal(String.valueOf(text.charAt(i))).withColor(color));
+        }
+
         return result;
     }
 }

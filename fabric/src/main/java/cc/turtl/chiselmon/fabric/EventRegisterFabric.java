@@ -12,8 +12,6 @@ public class EventRegisterFabric {
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickHandler::handle);
 
         // Register commands
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            ChiselmonCommands.registerRoot(dispatcher);
-        });
+        CommandRegistrationCallback.EVENT.register(ChiselmonCommands::register);
     }
 }
