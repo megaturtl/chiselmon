@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.fabric.services;
 
-import cc.turtl.chiselmon.services.IPathFinder;
+import cc.turtl.chiselmon.platform.IPathFinder;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;

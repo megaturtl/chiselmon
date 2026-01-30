@@ -1,0 +1,1 @@
+Duck interfaces outline new methods to add to existing classes using mixins.

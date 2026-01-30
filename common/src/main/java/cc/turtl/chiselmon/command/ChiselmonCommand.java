@@ -16,7 +16,7 @@ public interface ChiselmonCommand {
     String getDescription();
 
     /**
-     * Build and return your command structure.
+     * Build and return the command structure.
      * Use Commands.literal(getName()) and attach logic.
      */
     LiteralArgumentBuilder<CommandSourceStack> build();

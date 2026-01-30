@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.data.species;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.services.IPathFinder;
+import cc.turtl.chiselmon.platform.IPathFinder;
 import com.google.gson.Gson;
 import java.io.Reader;
 import java.nio.file.Files;

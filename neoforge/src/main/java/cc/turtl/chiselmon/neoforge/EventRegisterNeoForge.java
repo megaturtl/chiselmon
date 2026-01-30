@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.neoforge;
 
 import cc.turtl.chiselmon.ChiselmonCommands;
-import cc.turtl.chiselmon.event.ClientTickHandler;
-import com.cobblemon.mod.common.CobblemonCommands;
+import cc.turtl.chiselmon.event.ClientTickPostHandler;
 import net.minecraft.client.Minecraft;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,6 +21,6 @@ public class EventRegisterNeoForge {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post e) {
         var client = Minecraft.getInstance();
-        ClientTickHandler.handle(client);
+        ClientTickPostHandler.handle(client);
     }
 }

@@ -18,10 +18,10 @@
       "cc.turtl.chiselmon.fabric.ChiselmonFabric"
     ],
     "modmenu": [
-      "cc.turtl.chiselmon.fabric.ModMenuIntegration"
+      "cc.turtl.chiselmon.fabric.compat.ModMenuIntegration"
     ],
     "jade": [
-      "cc.turtl.chiselmon.jade.ChiselmonJadePlugin"
+      "cc.turtl.chiselmon.compat.jade.ChiselmonJadePlugin"
     ]
   },
   "mixins": [

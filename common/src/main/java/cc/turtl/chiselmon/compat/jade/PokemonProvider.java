@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.jade;
+package cc.turtl.chiselmon.compat.jade;
 
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;

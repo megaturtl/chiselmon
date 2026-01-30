@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.jade;
+package cc.turtl.chiselmon.compat.jade;
 
 import com.cobblemon.mod.common.CobblemonItemComponents;
 import com.cobblemon.mod.common.CobblemonItems;

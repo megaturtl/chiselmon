@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.neoforge.services;
 
-import cc.turtl.chiselmon.services.IPathFinder;
+import cc.turtl.chiselmon.platform.IPathFinder;
 import net.neoforged.fml.ModList;
 
 import java.nio.file.Path;
