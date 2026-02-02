@@ -68,7 +68,7 @@ public final class ComponentUtils {
             Component mapped = mapper.apply(it.next());
             if (mapped != null) {
                 result.append(mapped);
-                if (it.hasNext()) result.append(literal(separator, ColorUtils.LIGHT_GRAY));
+                if (it.hasNext()) result.append(literal(separator, ColorUtils.DARK_GRAY));
             }
         }
         return result;

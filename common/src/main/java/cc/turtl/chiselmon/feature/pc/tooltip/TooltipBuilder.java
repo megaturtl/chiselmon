@@ -7,9 +7,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.NotNull;
 
 public class TooltipBuilder {
-    public static Tooltip buildPCTooltip(Pokemon pokemon, boolean shiftDown) {
+    public static Tooltip buildAndSet(@NotNull Pokemon pokemon, boolean shiftDown) {
 
         PCConfig.PCTooltipConfig config = ChiselmonConstants.CONFIG.pc.tooltip;
 

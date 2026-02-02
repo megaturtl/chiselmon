@@ -1,5 +1,7 @@
 package cc.turtl.chiselmon.api.predicate;
 
+import cc.turtl.chiselmon.Chiselmon;
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
@@ -23,18 +25,15 @@ public final class PokemonPredicates {
             PokemonCalcs.countUniqueAbilities(p) > 1 && new HiddenAbilityProperty(true).matches(p);
     public static final Predicate<Pokemon> HAS_SELF_DAMAGING_MOVE = p ->
             PokemonCalcs.getPossibleMoves(p, true).stream().anyMatch(MoveTemplatePredicates.IS_SELF_DAMAGING);
-    public static final BiPredicate<Pokemon, Integer> HAS_HIGH_IVS = (p, threshold) ->
-            PokemonCalcs.countPerfectIVs(p) >= threshold;
-    public static final BiPredicate<Pokemon, Float> IS_SMALLER_THAN = (p, scale) ->
-            p.getScaleModifier() <= scale;
-    public static final BiPredicate<Pokemon, Float> IS_LARGER_THAN = (p, scale) ->
-            p.getScaleModifier() >= scale;
+    public static final Predicate<Pokemon> HAS_HIGH_IVS = p ->
+            PokemonCalcs.countPerfectIVs(p) >= ChiselmonConstants.CONFIG.threshold.maxIvs;
+    public static final Predicate<Pokemon> IS_EXTREME_SMALL = p ->
+                p.getScaleModifier() <= ChiselmonConstants.CONFIG.threshold.extremeSmall;
+    public static final Predicate<Pokemon> IS_EXTREME_LARGE = p ->
+            p.getScaleModifier() <= ChiselmonConstants.CONFIG.threshold.extremeSmall;
+    public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 
     private PokemonPredicates() {
-    }
-
-    public static Predicate<Pokemon> isExtremeSize(float smallThreshold, float largeThreshold) {
-        return p -> IS_SMALLER_THAN.test(p, smallThreshold) || IS_LARGER_THAN.test(p, largeThreshold);
     }
 
     private static Predicate<Pokemon> hasLabel(String label) {

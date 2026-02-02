@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,8 +28,17 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Shadow
     public abstract Pokemon getPokemon();
 
-    @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
-    private void chiselmon$addTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    @Inject(method = "renderSlot", at = @At("TAIL"))
+    private void chiselmon$renderCustom(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        Pokemon pokemon = this.getPokemon();
+        if (pokemon != null) {
+            IconRenderer.renderIcons(context, pokemon, posX, posY);
+        }
+        chiselmon$setTooltip();
+    }
+
+    @Unique
+    private void chiselmon$setTooltip() {
 
         PCConfig.PCTooltipConfig config = ChiselmonConstants.CONFIG.pc.tooltip;
 
@@ -37,7 +48,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
         if (shouldAdd) {
             Pokemon pokemon = this.getPokemon();
             if (pokemon != null) {
-                this.setTooltip(TooltipBuilder.buildPCTooltip(pokemon, Screen.hasShiftDown()));
+                this.setTooltip(TooltipBuilder.buildAndSet(pokemon, Screen.hasShiftDown()));
             }
         } else {
             this.setTooltip(null);

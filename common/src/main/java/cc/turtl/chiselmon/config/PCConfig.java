@@ -12,7 +12,7 @@ public class PCConfig implements ConfigData {
     public PCTooltipConfig tooltip = new PCTooltipConfig();
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public PcIconConfig icons = new PcIconConfig();
+    public PcIconConfig icon = new PcIconConfig();
 
     public static class PCTooltipConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
@@ -34,15 +34,15 @@ public class PCConfig implements ConfigData {
 
     public static class PcIconConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
-        public boolean hiddenAbility = true;
+        public boolean hidden_ability = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean highIvs = true;
+        public boolean ivs = true;
         @ConfigEntry.Gui.Tooltip
         public boolean shiny = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean extremeSize = true;
+        public boolean size = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean marked = true;
+        public boolean mark = true;
         @ConfigEntry.Gui.Tooltip
         public boolean rideable = false;
     }

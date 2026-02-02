@@ -9,17 +9,17 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public record TooltipEntry(
+        String translationKey,
         Predicate<PCConfig.PCTooltipConfig> configCheck,
         Predicate<Pokemon> pokemonCheck,
-        String translationKey,
-        Function<Pokemon, Object> valueProvider
+        Function<Pokemon, Object> componentProvider
 ) {
     public boolean shouldDisplay(PCConfig.PCTooltipConfig config, Pokemon pokemon) {
         return configCheck.test(config) && pokemonCheck.test(pokemon);
     }
 
     public Component getComponent(Pokemon pokemon) {
-        Object value = valueProvider.apply(pokemon);
+        Object value = componentProvider.apply(pokemon);
         return ComponentUtils.labelled(
                 ComponentUtils.modTranslatable("ui.label." + translationKey),
                 value

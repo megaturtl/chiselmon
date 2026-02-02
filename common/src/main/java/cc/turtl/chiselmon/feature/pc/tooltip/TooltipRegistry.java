@@ -26,7 +26,7 @@ public class TooltipRegistry {
     }
 
     private static void add(String key, Predicate<PCConfig.PCTooltipConfig> cfg, Predicate<Pokemon> pkmn, Function<Pokemon, Object> val) {
-        ENTRIES.add(new TooltipEntry(cfg, pkmn, key, val));
+        ENTRIES.add(new TooltipEntry(key, cfg, pkmn, val));
     }
 
     public static List<TooltipEntry> getEntries() { return ENTRIES; }
