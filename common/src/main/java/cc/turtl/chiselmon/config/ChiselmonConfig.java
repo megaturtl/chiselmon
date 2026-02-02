@@ -26,6 +26,10 @@ public class ChiselmonConfig implements ConfigData {
         public int maxIvs = 5;
     }
 
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("pc")
+    public PCConfig pc = new PCConfig();
+
     // Storing basic info per level/server in the config for now (I am aware of the jankiness :sob:)
     @ConfigEntry.Gui.Excluded
     public Map<String, PersistentLevelData> levelDataMap = new ConcurrentHashMap<>();

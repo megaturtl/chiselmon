@@ -8,6 +8,7 @@ import cc.turtl.chiselmon.leveldata.LevelDataHelper;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 /**
@@ -41,21 +42,21 @@ public class BookmarkManager {
     /**
      * Create a BookmarkManager with widget lifecycle callbacks.
      *
-     * @param level The client level
+     * @param bookmarkStore The current stored bookmarks
      * @param storageWidget The PC storage widget
      * @param pc The client PC
      * @param addWidget Callback to add a widget to the screen
      * @param removeWidget Callback to remove a widget from the screen
      */
     public BookmarkManager(
-            ClientLevel level,
+            BookmarkStore bookmarkStore,
             StorageWidget storageWidget,
             ClientPC pc,
             Consumer<PCButton> addWidget,
             Consumer<PCButton> removeWidget) {
         this.storageWidget = storageWidget;
         this.pc = pc;
-        this.bookmarkStore = LevelDataHelper.getLevelData(level).bookmarkStore;
+        this.bookmarkStore = bookmarkStore;
         this.addWidget = addWidget;
         this.removeWidget = removeWidget;
     }

@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.leveldata.LevelDataHelper;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
@@ -10,6 +11,7 @@ import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 
 import org.spongepowered.asm.mixin.Final;
@@ -43,8 +45,11 @@ public abstract class MixinPCGUI extends Screen {
     private void chiselmon$initBookmarks(CallbackInfo ci) {
         if (ChiselmonConstants.CONFIG.modDisabled) return;
 
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) return;
+
         chiselmon$bookmarkManager = new BookmarkManager(
-                Minecraft.getInstance().level,
+                LevelDataHelper.getLevelData(level).bookmarkStore,
                 storageWidget,
                 pc,
                 this::addRenderableWidget,  // Method reference - clean!

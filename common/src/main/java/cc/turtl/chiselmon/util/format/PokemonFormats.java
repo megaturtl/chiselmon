@@ -94,7 +94,7 @@ public final class PokemonFormats {
         return join(superEffective, " / ", type -> type.getDisplayName().withColor(type.getHue()));
     }
 
-    public static Component ivSummary(Pokemon pokemon) {
+    public static Component ivsSummary(Pokemon pokemon) {
         if (pokemon == null) return UNKNOWN;
         IVs ivs = pokemon.getIvs();
 

@@ -5,7 +5,8 @@
   "minVersion": "0.8",
   "client": [
     "MixinEntity",
-    "MixinPCGUI"
+    "MixinPCGUI",
+    "MixinStorageSlot"
   ],
   "injectors": {
     "defaultRequire": 1
