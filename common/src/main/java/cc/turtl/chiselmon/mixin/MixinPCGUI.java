@@ -1,19 +1,18 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
+import cc.turtl.chiselmon.feature.pc.sort.SortManager;
 import cc.turtl.chiselmon.leveldata.LevelDataHelper;
+import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-
-import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,29 +20,42 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Clean mixin using callbacks for widget management.
- * No reflection, no instanceof checks - just simple delegation.
- */
+import java.util.List;
+
 @Mixin(PCGUI.class)
 public abstract class MixinPCGUI extends Screen {
 
+    @Shadow(remap = false)
+    @Final
+    public static int BASE_WIDTH;
+    @Shadow(remap = false)
+    @Final
+    public static int BASE_HEIGHT;
+    @Shadow
+    @Final
+    private ClientPC pc;
+    @Shadow(remap = false)
+    private StorageWidget storageWidget;
+    @Shadow
+    @Final
+    private List<IconButton> optionButtons;
+    @Shadow
+    private boolean displayOptions;
+    @Unique
+    private BookmarkManager chiselmon$bookmarkManager;
+    @Unique
+    private SortManager chiselmon$sortManager;
     protected MixinPCGUI(Component title) {
         super(title);
     }
 
-    @Shadow @Final
-    private ClientPC pc;
-    @Shadow(remap = false) private StorageWidget storageWidget;
-    @Shadow(remap = false) @Final public static int BASE_WIDTH;
-    @Shadow(remap = false) @Final public static int BASE_HEIGHT;
-
-    @Unique private BookmarkManager chiselmon$bookmarkManager;
-
     @Inject(method = "init", at = @At("TAIL"))
-    private void chiselmon$initBookmarks(CallbackInfo ci) {
+    private void chiselmon$initFeatures(CallbackInfo ci) {
         if (ChiselmonConstants.CONFIG.modDisabled) return;
+        int x = (width - BASE_WIDTH) / 2;
+        int y = (height - BASE_HEIGHT) / 2;
 
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) return;
@@ -52,14 +64,14 @@ public abstract class MixinPCGUI extends Screen {
                 LevelDataHelper.getLevelData(level).bookmarkStore,
                 storageWidget,
                 pc,
-                this::addRenderableWidget,  // Method reference - clean!
-                this::removeWidget           // Method reference - clean!
+                this::addRenderableWidget,
+                this::removeWidget
         );
 
-        chiselmon$bookmarkManager.initialize(
-                (width - BASE_WIDTH) / 2,
-                (height - BASE_HEIGHT) / 2
-        );
+        chiselmon$bookmarkManager.initialize(x, y);
+
+        chiselmon$sortManager = new SortManager(pc, storageWidget, displayOptions, optionButtons, this::addRenderableWidget);
+        chiselmon$sortManager.initialize(x, y);
     }
 
     @Inject(method = "render", at = @At("HEAD"))
@@ -74,6 +86,13 @@ public abstract class MixinPCGUI extends Screen {
         if (chiselmon$bookmarkManager != null) {
             chiselmon$bookmarkManager.cleanup();
             chiselmon$bookmarkManager = null;
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    private void chiselmon$handleClicks(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (chiselmon$sortManager != null) {
+            chiselmon$sortManager.handleMiddleClick(button);
         }
     }
 }

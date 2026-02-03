@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.config;
 
+import cc.turtl.chiselmon.feature.pc.sort.SortMode;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
@@ -7,6 +8,16 @@ public class PCConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     public boolean bookmarksEnabled = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean quickSortEnabled = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+    public SortMode quickSortMode = SortMode.POKEDEX_NUMBER;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean eggPreviewEnabled = true;
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
     public PCTooltipConfig tooltip = new PCTooltipConfig();

@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ public final class TypeEffectivenessCache {
             .expireAfterAccess(60, TimeUnit.MINUTES)
             .build(new CacheLoader<>() {
                 @Override
-                public TypeMatchups load(DefenderTypes defenders) {
+                public @NotNull TypeMatchups load(@NotNull DefenderTypes defenders) {
                     return computeAllMatchups(defenders);
                 }
             });

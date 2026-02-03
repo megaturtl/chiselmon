@@ -4,12 +4,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import cc.turtl.chiselmon.feature.pc.PCButton;
-import cc.turtl.chiselmon.leveldata.LevelDataHelper;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 
 /**
  * Manages PC bookmark UI with clean widget lifecycle management.
@@ -21,9 +17,9 @@ public class BookmarkManager {
     private final ClientPC pc;
     private final BookmarkStore bookmarkStore;
 
-    // Widget lifecycle callbacks - let the parent screen handle this
-    private final Consumer<PCButton> addWidget;
-    private final Consumer<PCButton> removeWidget;
+    // Widget callbacks - let the parent screen handle this
+    private final Consumer<PCButton> widgetAdder;
+    private final Consumer<PCButton> widgetRemover;
 
     // UI state
     private final List<PCButton> tabButtons = new ArrayList<>();
@@ -45,20 +41,20 @@ public class BookmarkManager {
      * @param bookmarkStore The current stored bookmarks
      * @param storageWidget The PC storage widget
      * @param pc The client PC
-     * @param addWidget Callback to add a widget to the screen
-     * @param removeWidget Callback to remove a widget from the screen
+     * @param widgetAdder Callback to add a widget to the screen
+     * @param widgetRemover Callback to remove a widget from the screen
      */
     public BookmarkManager(
             BookmarkStore bookmarkStore,
             StorageWidget storageWidget,
             ClientPC pc,
-            Consumer<PCButton> addWidget,
-            Consumer<PCButton> removeWidget) {
+            Consumer<PCButton> widgetAdder,
+            Consumer<PCButton> widgetRemover) {
         this.storageWidget = storageWidget;
         this.pc = pc;
         this.bookmarkStore = bookmarkStore;
-        this.addWidget = addWidget;
-        this.removeWidget = removeWidget;
+        this.widgetAdder = widgetAdder;
+        this.widgetRemover = widgetRemover;
     }
 
     /**
@@ -104,7 +100,7 @@ public class BookmarkManager {
                 bookmarkStore.has(storageWidget.getBox()),
                 btn -> handleBookmarkClick(guiLeft, guiTop));
 
-        addWidget.accept(bookmarkButton);
+        widgetAdder.accept(bookmarkButton);
     }
 
     private void createHomeButton(int guiLeft, int guiTop) {
@@ -115,12 +111,12 @@ public class BookmarkManager {
                 x, y,
                 btn -> storageWidget.setBox(0));
 
-        addWidget.accept(homeButton);
+        widgetAdder.accept(homeButton);
     }
 
     private void rebuildTabButtons(int guiLeft, int guiTop) {
         // Remove old tab buttons
-        tabButtons.forEach(removeWidget);
+        tabButtons.forEach(widgetRemover);
         tabButtons.clear();
 
         // Create new tab buttons
@@ -136,7 +132,7 @@ public class BookmarkManager {
 
         // Add to screen and track
         newButtons.forEach(btn -> {
-            addWidget.accept(btn);
+            widgetAdder.accept(btn);
             tabButtons.add(btn);
         });
     }
@@ -155,14 +151,14 @@ public class BookmarkManager {
 
     private void removeAllButtons() {
         if (bookmarkButton != null) {
-            removeWidget.accept(bookmarkButton);
+            widgetRemover.accept(bookmarkButton);
             bookmarkButton = null;
         }
         if (homeButton != null) {
-            removeWidget.accept(homeButton);
+            widgetRemover.accept(homeButton);
             homeButton = null;
         }
-        tabButtons.forEach(removeWidget);
+        tabButtons.forEach(widgetRemover);
         tabButtons.clear();
     }
 }

@@ -5,6 +5,7 @@ import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
@@ -32,6 +33,8 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = p ->
             p.getScaleModifier() <= ChiselmonConstants.CONFIG.threshold.extremeSmall;
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
+    public static final Predicate<Pokemon> IS_EGG = p -> p.getSpecies().getResourceIdentifier() == EggDummy.EGG_SPECIES_ID;
+    public static final Predicate<Pokemon> IS_DUMMY = p -> p.getForcedAspects().contains(EggDummy.DUMMY_ASPECT);
 
     private PokemonPredicates() {
     }

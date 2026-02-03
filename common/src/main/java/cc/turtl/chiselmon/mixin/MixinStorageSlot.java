@@ -2,6 +2,8 @@ package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
+import cc.turtl.chiselmon.feature.pc.eggpreview.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
@@ -32,8 +34,14 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     private void chiselmon$renderCustom(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
         Pokemon pokemon = this.getPokemon();
         if (pokemon != null) {
+
             IconRenderer.renderIcons(context, pokemon, posX, posY);
+
+            if (pokemon instanceof EggDummy) {
+                EggRenderer.renderStorageSlot(context, (EggDummy) pokemon, posX, posY);
+            }
         }
+
         chiselmon$setTooltip();
     }
 

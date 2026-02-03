@@ -18,7 +18,6 @@ One day:
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 
 Current known limitations:
-- Quick and timer balls don't know the current turn (both assume turn 1)
-- Quick and timer balls don't know the current turn (both assume turn 1)
+- Quick and timer balls don't know the current turn (both assume turn 1) FIXED!! I THINK!!
 - Egg preview uses default form
 - SpawnAlert has trouble distinguishing wild pokemon from  and some pokedisguises
