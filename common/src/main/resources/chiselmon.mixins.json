@@ -6,8 +6,9 @@
   "client": [
     "MixinEntity",
     "MixinPCGUI",
+    "MixinPokemon",
     "MixinStorageSlot",
-    "MixinPokemon"
+    "MixinWallpaperEntry"
   ],
   "injectors": {
     "defaultRequire": 1

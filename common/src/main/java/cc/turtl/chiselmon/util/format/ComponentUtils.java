@@ -14,13 +14,14 @@ import java.util.function.Function;
  * Provides basic chat component formatting utils.
  */
 public final class ComponentUtils {
-    private ComponentUtils() {}
-
-    /** Placeholder component for missing or null data. */
+    /**
+     * Placeholder component for missing or null data.
+     */
     public static final Component UNKNOWN = literal("???", ColorUtils.DARK_GRAY);
-
     public static final Component SPACE = Component.literal(" ");
     public static final Component RESET = Component.literal("").withStyle(ChatFormatting.RESET);
+    private ComponentUtils() {
+    }
 
     /**
      * Creates a translatable component prefixed with the mod ID.
@@ -36,7 +37,14 @@ public final class ComponentUtils {
      * <p>Example: {@code literal("Lvl 50", ColorUtil.GOLD)}</p>
      */
     public static MutableComponent literal(Object text, int color) {
-        return Component.literal(text.toString()).withColor(color);
+        return literal(text, color, false);
+    }
+
+    public static MutableComponent literal(Object text, int color, boolean bold) {
+        var base = Component.literal(text.toString()).withColor(color);
+        if (bold) {
+            return base.withStyle(ChatFormatting.BOLD);
+        } else return base;
     }
 
     /**
@@ -77,6 +85,7 @@ public final class ComponentUtils {
     /**
      * Creates a component where the text is colored with a multi-point gradient.
      * * @param text   The string to color.
+     *
      * @param colors The RGB color stops (0xRRGGBB).
      * @return A MutableComponent containing the gradient text.
      */
