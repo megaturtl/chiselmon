@@ -34,7 +34,7 @@ public final class PokemonPredicates {
             p.getScaleModifier() <= ChiselmonConstants.CONFIG.threshold.extremeSmall;
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
     public static final Predicate<Pokemon> IS_EGG = p -> p.getSpecies().getResourceIdentifier() == EggDummy.EGG_SPECIES_ID;
-    public static final Predicate<Pokemon> IS_DUMMY = p -> p.getForcedAspects().contains(EggDummy.DUMMY_ASPECT);
+    public static final Predicate<Pokemon> IS_EGG_DUMMY = p -> p.getForcedAspects().contains(EggDummy.DUMMY_ASPECT);
 
     private PokemonPredicates() {
     }

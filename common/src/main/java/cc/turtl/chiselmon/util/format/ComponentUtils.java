@@ -34,6 +34,10 @@ public final class ComponentUtils {
         return Component.translatable(ChiselmonConstants.MOD_ID + "." + key, args);
     }
 
+    public static MutableComponent createComponent(Object text) {
+        return createComponent(text, ColorUtils.WHITE);
+    }
+
     /**
      * Creates a component with a specific color.
      * <p>Example: {@code literal("Lvl 50", ColorUtil.GOLD)}</p>
@@ -43,15 +47,9 @@ public final class ComponentUtils {
     }
 
     public static MutableComponent createComponent(Object text, int color, boolean bold) {
-        return createComponent(text, color, bold, false);
-    }
-
-    public static MutableComponent createComponent(Object text, int color, boolean bold, boolean translatable) {
         String content = text == null ? "" : text.toString();
 
-        MutableComponent component = translatable
-                ? Component.translatable(content)
-                : Component.literal(content);
+        MutableComponent component = Component.literal(content);
 
         return component.withStyle(style -> {
             style = style.withColor(color).withBold(bold);

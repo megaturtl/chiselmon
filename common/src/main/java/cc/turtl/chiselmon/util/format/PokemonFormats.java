@@ -5,8 +5,10 @@ import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
+import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.MoveTemplatePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
@@ -205,6 +207,13 @@ public final class PokemonFormats {
                 return UNKNOWN;
             }
         });
+    }
+
+    public static Component hatchProgress(Pokemon pokemon) {
+        if (!(pokemon instanceof EggDummy eggDummy)) return UNKNOWN;
+
+        return createComponent(eggDummy.getCyclesCompleted() + "/" + eggDummy.getTotalCycles())
+        .append(createComponent(" (" + StringFormats.formatPercentage(eggDummy.getHatchCompletion()) + ")"));
     }
 
     public static Component dexStatus(Species species) {

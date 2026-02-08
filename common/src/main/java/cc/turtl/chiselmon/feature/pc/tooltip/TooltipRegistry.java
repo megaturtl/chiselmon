@@ -23,11 +23,14 @@ public class TooltipRegistry {
         // Register conditional entries
         add("ride_styles", cfg -> cfg.showRideStyles, PokemonPredicates.IS_RIDEABLE, PokemonFormats::rideStyles);
         add("marks", cfg -> cfg.showMarks, PokemonPredicates.IS_MARKED, PokemonFormats::marks);
+        add("hatch_progress", cfg -> cfg.showHatchProgress, PokemonPredicates.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
     }
 
-    private static void add(String key, Predicate<PCConfig.PCTooltipConfig> cfg, Predicate<Pokemon> pkmn, Function<Pokemon, Object> val) {
-        ENTRIES.add(new TooltipEntry(key, cfg, pkmn, val));
+    private static void add(String key, Predicate<PCConfig.PCTooltipConfig> configCheck, Predicate<Pokemon> pokemonCheck, Function<Pokemon, Object> val) {
+        ENTRIES.add(new TooltipEntry(key, configCheck, pokemonCheck, val));
     }
 
-    public static List<TooltipEntry> getEntries() { return ENTRIES; }
+    public static List<TooltipEntry> getEntries() {
+        return ENTRIES;
+    }
 }

@@ -65,4 +65,12 @@ public class EggDummy extends Pokemon {
         if (totalCycles <= 0) return 1.0f;
         return Math.max(0f, 1f - ((float) cyclesRemaining / totalCycles));
     }
+
+    public int getCyclesCompleted() {
+        return totalCycles - cyclesRemaining;
+    }
+
+    public int getTotalCycles() {
+        return totalCycles;
+    }
 }
