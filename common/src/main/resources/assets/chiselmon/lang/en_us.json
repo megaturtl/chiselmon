@@ -142,7 +142,7 @@
 
     "config.jade.plugin_chiselmon.pokemon_entity": "Pokemon Entity",
     "config.jade.plugin_chiselmon.pokemon_entity.typing": "Types",
-    "config.jade.plugin_chiselmon.pokemon_entity.effective_typing": "Super Effective Types",
+    "config.jade.plugin_chiselmon.pokemon_entity.weaknesses": "Weaknesses",
     "config.jade.plugin_chiselmon.pokemon_entity.form": "Form",
     "config.jade.plugin_chiselmon.pokemon_entity.egg_groups": "Egg Groups",
     "config.jade.plugin_chiselmon.pokemon_entity.ev_yield": "EV Yield",

@@ -24,7 +24,7 @@ public class ChiselmonJadePlugin implements IWailaPlugin {
         // Register and mark all config options
         configureOption(registration, PokemonProvider.POKEDEX_STATUS, false);
         configureOption(registration, PokemonProvider.TYPING, true);
-        configureOption(registration, PokemonProvider.EFFECTIVE_TYPING, true);
+        configureOption(registration, PokemonProvider.WEAKNESSES, true);
         configureOption(registration, PokemonProvider.FORM, true);
         configureOption(registration, PokemonProvider.EGG_GROUPS, false);
         configureOption(registration, PokemonProvider.EV_YIELD, false);

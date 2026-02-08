@@ -37,7 +37,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
     // Configuration IDs
     public static final ResourceLocation POKEDEX_STATUS = modResource("pokemon_entity.pokedex_status");
     public static final ResourceLocation TYPING = modResource("pokemon_entity.typing");
-    public static final ResourceLocation EFFECTIVE_TYPING = modResource("pokemon_entity.effective_typing");
+    public static final ResourceLocation WEAKNESSES = modResource("pokemon_entity.weaknesses");
     public static final ResourceLocation FORM = modResource("pokemon_entity.form");
     public static final ResourceLocation EGG_GROUPS = modResource("pokemon_entity.egg_groups");
     public static final ResourceLocation EV_YIELD = modResource("pokemon_entity.ev_yield");
@@ -84,9 +84,9 @@ public enum PokemonProvider implements IEntityComponentProvider {
                 "ui.label.type",
                 PokemonFormats.types(pokemon));
 
-        addIfEnabled(tooltip, config, EFFECTIVE_TYPING,
-                "ui.label.effective_types",
-                PokemonFormats.effectiveTypesAgainst(pokemon));
+        addIfEnabled(tooltip, config, WEAKNESSES,
+                "ui.label.weaknesses",
+                PokemonFormats.typingWeaknesses(pokemon));
 
         addIfEnabled(tooltip, config, FORM,
                 "ui.label.form",

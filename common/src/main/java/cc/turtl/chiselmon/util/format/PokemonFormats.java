@@ -2,7 +2,8 @@ package cc.turtl.chiselmon.util.format;
 
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
-import cc.turtl.chiselmon.api.data.type.TypeEffectivenessCache;
+import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
+import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.predicate.MoveTemplatePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
@@ -86,12 +87,20 @@ public final class PokemonFormats {
         return join(pokemon.getTypes(), " / ", type -> type.getDisplayName().withColor(type.getHue()));
     }
 
-    public static Component effectiveTypesAgainst(Pokemon pokemon) {
+    public static Component typingWeaknesses(Pokemon pokemon) {
         if (pokemon == null) return UNKNOWN;
-        List<ElementalType> superEffective = TypeEffectivenessCache.getSuperEffective(pokemon.getTypes());
-        if (superEffective.isEmpty()) return UNKNOWN;
 
-        return join(superEffective, " / ", type -> type.getDisplayName().withColor(type.getHue()));
+        TypingMatchups matchups = TypeCalcs.computeMatchups(pokemon.getTypes());
+
+        List<ElementalType> allWeaknesses = matchups.getAllWeak();
+        List<ElementalType> superWeaknesses = matchups.getSuperWeak();
+
+        if (allWeaknesses.isEmpty()) return UNKNOWN;
+
+        return join(allWeaknesses, " / ", type -> {
+            // Bold if super weak
+            return literal(type.getDisplayName(), type.getHue(), superWeaknesses.contains(type));
+        });
     }
 
     public static Component ivsSummary(Pokemon pokemon) {
@@ -203,7 +212,7 @@ public final class PokemonFormats {
         return switch (knowledge) {
             case CAUGHT -> literal("Caught", ColorUtils.GREEN);
             case ENCOUNTERED -> literal("Encountered", ColorUtils.WHITE);
-            default -> literal("Unknown", ColorUtils.DARK_GRAY);
+            default -> literal("Not Encountered", ColorUtils.RED);
         };
     }
 
