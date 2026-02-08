@@ -5,11 +5,11 @@ import cc.turtl.chiselmon.platform.IPathFinder;
 import cc.turtl.chiselmon.platform.PlatformHelper;
 import net.minecraft.client.Minecraft;
 
-public class ClientTickPostHandler {
+public class ClientTickEventHandlers {
     /**
      * This method runs every time a Client Tick Post event is fired (piped from each platforms event registry)
      */
-    public static void handle(Minecraft client) {
+    public static void handlePost(Minecraft client) {
 
         setupClientSpeciesRegistry(client);
     }

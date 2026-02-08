@@ -1,15 +1,26 @@
 package cc.turtl.chiselmon.fabric;
 
 import cc.turtl.chiselmon.ChiselmonCommands;
-import cc.turtl.chiselmon.event.ClientTickPostHandler;
+import cc.turtl.chiselmon.event.ClientTickEventHandlers;
+import cc.turtl.chiselmon.event.ConnectionEventHandlers;
+import cc.turtl.chiselmon.event.EntityEventHandlers;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 // Subscribes common handlers to platform-specific events
 public class EventRegisterFabric {
     public static void register() {
         // Bridge to common event handling logic
-        ClientTickEvents.END_CLIENT_TICK.register(ClientTickPostHandler::handle);
+        ClientTickEvents.END_CLIENT_TICK.register(ClientTickEventHandlers::handlePost);
+
+        ClientEntityEvents.ENTITY_LOAD.register(EntityEventHandlers::handleLoad);
+        ClientEntityEvents.ENTITY_UNLOAD.register(EntityEventHandlers::handleUnload);
+
+        ClientPlayConnectionEvents.JOIN.register((clientPacketListener, sender, minecraft) -> ConnectionEventHandlers.handleConnect());
+        ClientPlayConnectionEvents.DISCONNECT.register((clientPacketListener, minecraft) -> ConnectionEventHandlers.handleDisconnect());
 
         // Register commands
         CommandRegistrationCallback.EVENT.register(ChiselmonCommands::register);

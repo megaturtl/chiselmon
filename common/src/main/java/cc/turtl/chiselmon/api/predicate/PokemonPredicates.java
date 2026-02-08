@@ -9,6 +9,7 @@ import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -16,11 +17,7 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
     public static final Predicate<Pokemon> IS_RIDEABLE = p -> p.getRiding().getBehaviours() != null;
     public static final Predicate<Pokemon> IS_MARKED = p -> !p.getMarks().isEmpty();
-    public static final Predicate<Pokemon> IS_LEGENDARY = hasLabel("legendary");
-    public static final Predicate<Pokemon> IS_MYTHICAL = hasLabel("mythical");
-    public static final Predicate<Pokemon> IS_ULTRABEAST = hasLabel("ultra_beast");
-    public static final Predicate<Pokemon> IS_PARADOX = hasLabel("paradox");
-    public static final Predicate<Pokemon> IS_SPECIAL = IS_LEGENDARY.or(IS_MYTHICAL).or(IS_ULTRABEAST);
+    public static final Predicate<Pokemon> IS_LEGENDARY = hasAnyLabel(List.of("legendary", "mythical", "ultra_beast"));
     // Cobblemon treats Pokemon with a single ability as having HA so we need to check this first
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = p ->
             PokemonCalcs.countUniqueAbilities(p) > 1 && new HiddenAbilityProperty(true).matches(p);
@@ -39,10 +36,14 @@ public final class PokemonPredicates {
     private PokemonPredicates() {
     }
 
-    private static Predicate<Pokemon> hasLabel(String label) {
+    private static Predicate<Pokemon> hasAnyLabel(List<String> labels) {
         return p -> {
             ClientSpecies species = ClientSpeciesRegistry.get(p.getSpecies().getName());
-            return species != null && species.labels().contains(label);
+            if (species == null) return false;
+            for (String label : labels) {
+                if (species.labels().contains(label)) return true;
+            }
+            return false;
         };
     }
 }
