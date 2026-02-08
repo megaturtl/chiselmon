@@ -17,9 +17,11 @@ public final class ComponentUtils {
     /**
      * Placeholder component for missing or null data.
      */
-    public static final Component UNKNOWN = literal("???", ColorUtils.DARK_GRAY);
+    public static final Component UNKNOWN = createComponent("???", ColorUtils.DARK_GRAY);
+    public static final Component NONE = createComponent("None", ColorUtils.DARK_GRAY);
     public static final Component SPACE = Component.literal(" ");
     public static final Component RESET = Component.literal("").withStyle(ChatFormatting.RESET);
+
     private ComponentUtils() {
     }
 
@@ -33,18 +35,28 @@ public final class ComponentUtils {
     }
 
     /**
-     * Creates a literal component with a specific color.
+     * Creates a component with a specific color.
      * <p>Example: {@code literal("Lvl 50", ColorUtil.GOLD)}</p>
      */
-    public static MutableComponent literal(Object text, int color) {
-        return literal(text, color, false);
+    public static MutableComponent createComponent(Object text, int color) {
+        return createComponent(text, color, false);
     }
 
-    public static MutableComponent literal(Object text, int color, boolean bold) {
-        var base = Component.literal(text.toString()).withColor(color);
-        if (bold) {
-            return base.withStyle(ChatFormatting.BOLD);
-        } else return base;
+    public static MutableComponent createComponent(Object text, int color, boolean bold) {
+        return createComponent(text, color, bold, false);
+    }
+
+    public static MutableComponent createComponent(Object text, int color, boolean bold, boolean translatable) {
+        String content = text == null ? "" : text.toString();
+
+        MutableComponent component = translatable
+                ? Component.translatable(content)
+                : Component.literal(content);
+
+        return component.withStyle(style -> {
+            style = style.withColor(color).withBold(bold);
+            return style;
+        });
     }
 
     /**
@@ -57,9 +69,9 @@ public final class ComponentUtils {
         labelComp.withColor(ColorUtils.LIGHT_GRAY);
 
         Component valueComp = (value == null) ? UNKNOWN :
-                (value instanceof Component c ? c : literal(value.toString(), ColorUtils.WHITE));
+                (value instanceof Component c ? c : createComponent(value.toString(), ColorUtils.WHITE));
 
-        return labelComp.append(literal(": ", ColorUtils.LIGHT_GRAY)).append(valueComp);
+        return labelComp.append(createComponent(": ", ColorUtils.LIGHT_GRAY)).append(valueComp);
     }
 
     /**
@@ -76,7 +88,7 @@ public final class ComponentUtils {
             Component mapped = mapper.apply(it.next());
             if (mapped != null) {
                 result.append(mapped);
-                if (it.hasNext()) result.append(literal(separator, ColorUtils.DARK_GRAY));
+                if (it.hasNext()) result.append(createComponent(separator, ColorUtils.DARK_GRAY));
             }
         }
         return result;
@@ -92,7 +104,7 @@ public final class ComponentUtils {
     public static MutableComponent gradient(String text, int... colors) {
         if (text == null || text.isEmpty()) return Component.empty();
         if (colors.length == 0) return Component.literal(text);
-        if (colors.length == 1) return literal(text, colors[0]);
+        if (colors.length == 1) return createComponent(text, colors[0]);
 
         MutableComponent result = Component.empty();
         int length = text.length();

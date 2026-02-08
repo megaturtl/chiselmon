@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public final class WallpaperManager {
-    private static final Component HINT_COMPONENT = ComponentUtils.literal("APPLY ALL", ColorUtils.YELLOW, true);
+    private static final Component HINT_COMPONENT = ComponentUtils.createComponent("APPLY ALL", ColorUtils.YELLOW, true);
     private static final float HINT_SCALE = 0.70f;
 
     public static void renderBulkHint(GuiGraphics context, int left, int top, int width, int height) {

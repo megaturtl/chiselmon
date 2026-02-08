@@ -17,7 +17,7 @@ public class CommandUtils {
             .append(Component.literal("\uD83D\uDEE0 CH")
                     .withColor(ColorUtils.PINK)
                     .withStyle(ChatFormatting.BOLD))
-            .append(literal(" » ", ColorUtils.DARK_GRAY));
+            .append(createComponent(" » ", ColorUtils.DARK_GRAY));
 
     private CommandUtils() {
     }
@@ -36,7 +36,7 @@ public class CommandUtils {
      * Sends a colored string to the command source (no prefix).
      */
     public static void send(CommandSourceStack source, String message, int color) {
-        source.sendSuccess(() -> literal(message, color), false);
+        source.sendSuccess(() -> createComponent(message, color), false);
     }
 
     /**
@@ -47,7 +47,7 @@ public class CommandUtils {
     }
 
     public static void sendPrefixed(CommandSourceStack source, String message) {
-        send(source, PREFIX.copy().append(literal(message, ColorUtils.WHITE)));
+        send(source, PREFIX.copy().append(createComponent(message, ColorUtils.WHITE)));
     }
 
     public static void sendPrefixed(CommandSourceStack source, Component message) {
@@ -58,7 +58,7 @@ public class CommandUtils {
      * Sends a success message (green) to the command source.
      */
     public static void sendSuccess(CommandSourceStack source, String message) {
-        sendPrefixed(source, literal(message, ColorUtils.GREEN));
+        sendPrefixed(source, createComponent(message, ColorUtils.GREEN));
     }
 
     /**
@@ -66,7 +66,7 @@ public class CommandUtils {
      */
 
     public static void sendWarning(CommandSourceStack source, String message) {
-        sendPrefixed(source, literal(message, ColorUtils.YELLOW));
+        sendPrefixed(source, createComponent(message, ColorUtils.YELLOW));
     }
 
     /**
@@ -74,7 +74,7 @@ public class CommandUtils {
      */
     public static void sendError(CommandContext<CommandSourceStack> context, Exception e) {
         String input = context.getInput();
-        context.getSource().sendFailure(PREFIX.copy().append(literal("Error executing: " + input, ColorUtils.RED)));
+        context.getSource().sendFailure(PREFIX.copy().append(createComponent("Error executing: " + input, ColorUtils.RED)));
         ChiselmonConstants.LOGGER.error("Error executing command '{}': ", input, e);
     }
 
@@ -84,9 +84,9 @@ public class CommandUtils {
      *
      */
     public static void sendHeader(CommandSourceStack source, Component title) {
-        Component prefix = literal("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY);
-        Component suffix = literal("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY);
-        Component toolIcon = literal(" \uD83D\uDEE0 ", ColorUtils.PINK).withStyle(ChatFormatting.BOLD);
+        Component prefix = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY);
+        Component suffix = createComponent("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY);
+        Component toolIcon = createComponent(" \uD83D\uDEE0 ", ColorUtils.PINK).withStyle(ChatFormatting.BOLD);
 
         Component header = Component.empty()
                 .append(prefix)
@@ -99,7 +99,7 @@ public class CommandUtils {
     }
 
     public static void sendHeader(CommandSourceStack source, String title) {
-        sendHeader(source, literal(title, ColorUtils.WHITE));
+        sendHeader(source, createComponent(title, ColorUtils.WHITE));
     }
 
     /**
