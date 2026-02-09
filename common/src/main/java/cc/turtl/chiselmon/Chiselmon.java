@@ -9,5 +9,7 @@ public final class Chiselmon {
         ChiselmonRegistries.init();
         AutoConfig.register(ChiselmonConfig.class, GsonConfigSerializer::new);
         ChiselmonSystems.init();
+        // Sync groups now that systems are initialized
+        ChiselmonConstants.CONFIG.alert.syncGroupsFromRegistry();
     }
 }

@@ -31,16 +31,27 @@ public class AlertConfig implements ConfigData {
         // Clamp master volume
         this.masterVolume = Math.max(0, Math.min(100, this.masterVolume));
 
-        // Sync with registry - add missing groups
-        for (PokemonGroup group : ChiselmonSystems.pokemonGroups().getRegistry().getSorted()) {
-            if (groups.stream().noneMatch(entry -> entry.groupId.equals(group.id()))) {
-                groups.add(new GroupAlertEntry(group.id()));
-            }
-        }
+        // Sync with registry - add missing groups (only if system is initialized)
+        syncGroupsFromRegistry();
 
         // Validate each group config
         for (GroupAlertEntry entry : groups) {
             entry.validatePostLoad();
+        }
+    }
+
+    /**
+     * Syncs the groups list with the registry, adding any missing groups.
+     * Safe to call even if the group system isn't initialized yet.
+     */
+    public void syncGroupsFromRegistry() {
+        if (ChiselmonSystems.pokemonGroups() == null) {
+            return;
+        }
+        for (PokemonGroup group : ChiselmonSystems.pokemonGroups().getRegistry().getSorted()) {
+            if (groups.stream().noneMatch(entry -> entry.groupId.equals(group.id()))) {
+                groups.add(new GroupAlertEntry(group.id()));
+            }
         }
     }
 
