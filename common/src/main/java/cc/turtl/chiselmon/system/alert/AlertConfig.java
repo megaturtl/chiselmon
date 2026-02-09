@@ -1,8 +1,6 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.ChiselmonSystems;
-import cc.turtl.chiselmon.system.group.PokemonGroup;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +26,13 @@ public class AlertConfig implements ConfigData {
     public List<String> blacklist = new ArrayList<>();
 
     @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-    public List<GroupAlertEntry> groups = new ArrayList<>();
+    public GroupAlertConfig legendaries = new GroupAlertConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    public GroupAlertConfig shinies = new GroupAlertConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
+    public GroupAlertConfig extreme_sizes = new GroupAlertConfig();
 
     @Override
     public void validatePostLoad() {
@@ -36,71 +40,30 @@ public class AlertConfig implements ConfigData {
         // Clamp master volume
         this.masterVolume = Math.max(0, Math.min(100, this.masterVolume));
 
-        // Sync with registry - add missing groups (only if system is initialized)
-        syncGroupsFromRegistry();
-
         // Validate each group config
-        for (GroupAlertEntry entry : groups) {
-            entry.validatePostLoad();
-        }
-        LOGGER.info("[AlertConfig] validatePostLoad() finished, groups count: {}", groups.size());
+        legendaries.validatePostLoad();
+        shinies.validatePostLoad();
+        extreme_sizes.validatePostLoad();
+        LOGGER.info("[AlertConfig] validatePostLoad() finished");
     }
 
     /**
-     * Syncs the groups list with the registry, adding any missing groups.
-     * Safe to call even if the group system isn't initialized yet.
+     * Gets the alert config for a specific group ID.
      */
-    public void syncGroupsFromRegistry() {
-        LOGGER.info("[AlertConfig] syncGroupsFromRegistry() called");
-        if (ChiselmonSystems.pokemonGroups() == null) {
-            LOGGER.warn("[AlertConfig] pokemonGroups() is null, skipping sync");
-            return;
-        }
-        List<PokemonGroup> registeredGroups = ChiselmonSystems.pokemonGroups().getRegistry().getSorted();
-        LOGGER.info("[AlertConfig] Registry has {} groups", registeredGroups.size());
-        for (PokemonGroup group : registeredGroups) {
-            LOGGER.info("[AlertConfig] Checking group: {}", group.id());
-            if (groups.stream().noneMatch(entry -> entry.groupId.equals(group.id()))) {
-                LOGGER.info("[AlertConfig] Adding missing group: {}", group.id());
-                groups.add(new GroupAlertEntry(group.id()));
-            }
-        }
-        LOGGER.info("[AlertConfig] syncGroupsFromRegistry() finished, groups count: {}", groups.size());
-    }
-
     public GroupAlertConfig getForGroup(String id) {
-        return groups.stream()
-                .filter(entry -> entry.groupId.equals(id))
-                .findFirst()
-                .map(entry -> entry.config)
-                .orElseGet(GroupAlertConfig::new);
-    }
-
-    public static class GroupAlertEntry implements ConfigData {
-
-        @ConfigEntry.Gui.Tooltip
-        public String groupId = "";
-
-        @ConfigEntry.Gui.CollapsibleObject
-        public GroupAlertConfig config = new GroupAlertConfig();
-
-        public GroupAlertEntry() {}
-
-        public GroupAlertEntry(String groupId) {
-            this.groupId = groupId;
-        }
-
-        @Override
-        public void validatePostLoad() {
-            config.validatePostLoad();
-        }
+        return switch (id) {
+            case "legendaries" -> legendaries;
+            case "shinies" -> shinies;
+            case "extreme_sizes" -> extreme_sizes;
+            default -> new GroupAlertConfig();
+        };
     }
 
     public static class GroupAlertConfig implements ConfigData {
 
-        public boolean enabled = false;
+        public boolean enabled = true;
 
-        public boolean playSound = false;
+        public boolean playSound = true;
 
         public boolean sendChatMessage = true;
 
