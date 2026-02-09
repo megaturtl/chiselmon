@@ -4,7 +4,6 @@ import cc.turtl.chiselmon.ChiselmonConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class LevelDataHelper {
 

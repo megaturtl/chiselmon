@@ -19,8 +19,8 @@ public abstract class MixinEntity implements DuckGlowableEntity {
     protected abstract void setSharedFlag(int flag, boolean value);
 
     @Override
-    public void chiselmon$setClientGlowColor(Integer color) {
-        this.chiselmon$clientGlowColor = color;
+    public void chiselmon$setClientGlowColor(Integer rgb) {
+        this.chiselmon$clientGlowColor = rgb;
     }
 
     @Override

@@ -1,0 +1,44 @@
+package cc.turtl.chiselmon.system.group;
+
+import java.util.*;
+
+public class PokemonGroupRegistry {
+    private final Map<String, PokemonGroup> groups = new HashMap<>();
+
+    public PokemonGroupRegistry() {
+        this.reset();
+    }
+
+    public void register(PokemonGroup group) {
+        groups.put(group.id(), group);
+    }
+
+    public void unregister(String id) {
+        groups.remove(id);
+    }
+
+    /**
+     * Resets registry to only include hardcoded defaults.
+     */
+    public void reset() {
+        groups.clear();
+        List.of(
+                DefaultPokemonGroups.SHINIES,
+                DefaultPokemonGroups.LEGENDARIES,
+                DefaultPokemonGroups.EXTREME_SIZES
+        ).forEach(this::register);
+    }
+
+    public Optional<PokemonGroup> get(String id) {
+        return Optional.ofNullable(groups.get(id));
+    }
+
+    /**
+     * Returns all groups sorted by priority (Highest first).
+     */
+    public List<PokemonGroup> getSorted() {
+        List<PokemonGroup> list = new ArrayList<>(groups.values());
+        list.sort(Comparator.comparing(PokemonGroup::priority));
+        return list;
+    }
+}

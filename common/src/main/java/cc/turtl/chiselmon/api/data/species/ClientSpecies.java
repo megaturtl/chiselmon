@@ -6,6 +6,9 @@ import java.util.Set;
 
 /**
  * A lightweight, immutable representation of Pokemon species data for client-side use.
+ *
+ * <p>All collections are automatically made unmodifiable and strings are interned
+ * for memory efficiency upon construction.
  */
 public record ClientSpecies(
         int pokedexNumber,
@@ -19,25 +22,12 @@ public record ClientSpecies(
         Map<String, Integer> evYield
 ) {
 
-        public boolean isLegendary() {
-                return labels.contains("legendary");
-        }
-
-        /**
-         * Optimization method to ensure lists/sets are unmodifiable
-         * and strings are interned to save memory.
-         */
-        public ClientSpecies optimize() {
-                return new ClientSpecies(
-                        pokedexNumber,
-                        name.toLowerCase().intern(),
-                        catchRate,
-                        List.copyOf(eggGroups),
-                        Set.copyOf(labels),
-                        List.copyOf(aspects),
-                        eggCycles,
-                        Map.copyOf(baseStats),
-                        Map.copyOf(evYield)
-                );
-        }
+    public ClientSpecies {
+        name = name != null ? name.toLowerCase().intern() : null;
+        eggGroups = eggGroups != null ? List.copyOf(eggGroups) : List.of();
+        labels = labels != null ? Set.copyOf(labels) : Set.of();
+        aspects = aspects != null ? List.copyOf(aspects) : List.of();
+        baseStats = baseStats != null ? Map.copyOf(baseStats) : Map.of();
+        evYield = evYield != null ? Map.copyOf(evYield) : Map.of();
+    }
 }

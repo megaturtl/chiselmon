@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.duck;
 
 public interface DuckGlowableEntity {
-    void chiselmon$setClientGlowColor(Integer color);
+    void chiselmon$setClientGlowColor(Integer rgb);
 
     void chiselmon$setClientGlowing(boolean glowing);
 

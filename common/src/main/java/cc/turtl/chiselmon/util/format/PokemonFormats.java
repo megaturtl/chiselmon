@@ -5,7 +5,6 @@ import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
-import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.MoveTemplatePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;

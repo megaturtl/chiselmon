@@ -1,9 +1,7 @@
 package cc.turtl.chiselmon.neoforge;
 
 import cc.turtl.chiselmon.ChiselmonCommands;
-import cc.turtl.chiselmon.event.ClientTickEventHandlers;
-import cc.turtl.chiselmon.event.ConnectionEventHandlers;
-import cc.turtl.chiselmon.event.EntityEventHandlers;
+import cc.turtl.chiselmon.platform.PlatformEventHandlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,30 +25,30 @@ public class EventRegisterNeoForge {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post e) {
         var client = Minecraft.getInstance();
-        ClientTickEventHandlers.handlePost(client);
+        PlatformEventHandlers.handleClientPostTick(client);
     }
 
     @SubscribeEvent
     public static void onEntityLoad(EntityJoinLevelEvent e) {
         if (e.getLevel() instanceof ClientLevel level) {
-            EntityEventHandlers.handleLoad(e.getEntity(), level);
+            PlatformEventHandlers.handleEntityLoad(e.getEntity(), level);
         }
     }
 
     @SubscribeEvent
     public static void onEntityUnload(EntityLeaveLevelEvent e) {
         if (e.getLevel() instanceof ClientLevel level) {
-            EntityEventHandlers.handleUnload(e.getEntity(), level);
+            PlatformEventHandlers.handleEntityUnload(e.getEntity(), level);
         }
     }
 
     @SubscribeEvent
     public static void onConnect(ClientPlayerNetworkEvent.LoggingIn e) {
-        ConnectionEventHandlers.handleConnect();
+        PlatformEventHandlers.handleLevelConnect();
     }
 
     @SubscribeEvent
     public static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
-        ConnectionEventHandlers.handleDisconnect();
+        PlatformEventHandlers.handleLevelDisconnect();
     }
 }

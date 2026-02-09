@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.compat.jade;
 
+import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
-import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
@@ -22,7 +22,6 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.impl.ui.HealthElement;
 
-import java.awt.*;
 import java.util.Optional;
 
 import static cc.turtl.chiselmon.util.MiscUtil.modResource;
@@ -59,7 +58,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
 
         Pokemon pokemon = pokemonEntity.getPokemon();
         Species species = pokemon.getSpecies();
-        ClientSpecies clientSpecies = ClientSpeciesRegistry.get(species.getName());
+        ClientSpecies clientSpecies = ChiselmonRegistries.species().get(species.getName());
 
         tooltip.clear();
         addBasicInfo(tooltip, pokemon, pokemonEntity);
@@ -107,7 +106,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
             return;
         }
 
-        ClientSpecies clientSpecies = ClientSpeciesRegistry.get(entity.getPokemon().getSpecies().getName());
+        ClientSpecies clientSpecies = ChiselmonRegistries.species().get(entity.getPokemon().getSpecies().getName());
         MutableComponent catchRateLabel = ComponentUtils.modTranslatable("ui.label.catch_rate");
         tooltip.add(ComponentUtils.labelled(catchRateLabel, PokemonFormats.catchRate(clientSpecies)));
 

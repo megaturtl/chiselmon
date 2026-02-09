@@ -1,16 +1,14 @@
 package cc.turtl.chiselmon.api.predicate;
 
-import cc.turtl.chiselmon.Chiselmon;
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
-import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 
 import java.util.List;
-import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public final class PokemonPredicates {
@@ -18,6 +16,7 @@ public final class PokemonPredicates {
     public static final Predicate<Pokemon> IS_RIDEABLE = p -> p.getRiding().getBehaviours() != null;
     public static final Predicate<Pokemon> IS_MARKED = p -> !p.getMarks().isEmpty();
     public static final Predicate<Pokemon> IS_LEGENDARY = hasAnyLabel(List.of("legendary", "mythical", "ultra_beast"));
+    public static final Predicate<Pokemon> IS_ULTRABEAST = hasAnyLabel(List.of("ultra_beast"));
     // Cobblemon treats Pokemon with a single ability as having HA so we need to check this first
     public static final Predicate<Pokemon> HAS_HIDDEN_ABILITY = p ->
             PokemonCalcs.countUniqueAbilities(p) > 1 && new HiddenAbilityProperty(true).matches(p);
@@ -38,7 +37,7 @@ public final class PokemonPredicates {
 
     private static Predicate<Pokemon> hasAnyLabel(List<String> labels) {
         return p -> {
-            ClientSpecies species = ClientSpeciesRegistry.get(p.getSpecies().getName());
+            ClientSpecies species = ChiselmonRegistries.species().get(p.getSpecies().getName());
             if (species == null) return false;
             for (String label : labels) {
                 if (species.labels().contains(label)) return true;

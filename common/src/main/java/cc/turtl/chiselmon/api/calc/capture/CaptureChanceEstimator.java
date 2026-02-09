@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
+import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
-import cc.turtl.chiselmon.api.data.species.ClientSpeciesRegistry;
 import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -80,7 +80,7 @@ public class CaptureChanceEstimator {
     }
 
     private static float getCatchRate(Pokemon pokemon) {
-        ClientSpecies species = ClientSpeciesRegistry.get(pokemon.getSpecies().getName());
+        ClientSpecies species = ChiselmonRegistries.species().get(pokemon.getSpecies().getName());
         return species != null ? species.catchRate() : 0f;
     }
 
