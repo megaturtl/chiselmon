@@ -27,7 +27,8 @@ public class GroupAlertWidget extends AbstractWidget {
     private Button enabledButton;
     private Button soundButton;
     private Button previewButton;
-    private int expandedHeight = 80;
+    // Height: header (24) + 4 rows * 16px each + padding (8) = 96px
+    private static final int EXPANDED_HEIGHT = 96;
 
     public GroupAlertWidget(int x, int y, int width, int height, GroupAlertOption option, Font font) {
         super(x, y, width, height, Component.literal(option.getDisplayName()));
@@ -95,7 +96,7 @@ public class GroupAlertWidget extends AbstractWidget {
     }
 
     private int getCurrentHeight() {
-        return expanded ? expandedHeight : height;
+        return expanded ? EXPANDED_HEIGHT : height;
     }
 
     @Override
