@@ -33,7 +33,8 @@
     "java": ">=21",
     "architectury": ">=13.0.8",
     "fabric-api": "*",
-    "cobblemon": ">=1.7.0"
+    "cobblemon": ">=1.7.0",
+    "yet_another_config_lib_v3": ">=3.6.1"
   },
   "suggests": {
     "cloth_config": ">=15.0.140",

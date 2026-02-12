@@ -8,7 +8,12 @@ import java.util.Optional;
 
 public class PathFinderFabric implements IPathFinder {
     @Override
-    public Optional<Path> getPath(String modId, String path) {
+    public Optional<Path> getModPath(String modId, String path) {
         return FabricLoader.getInstance().getModContainer(modId).flatMap(container -> container.findPath(path));
+    }
+
+    @Override
+    public Path getConfigDir() {
+        return FabricLoader.getInstance().getConfigDir();
     }
 }

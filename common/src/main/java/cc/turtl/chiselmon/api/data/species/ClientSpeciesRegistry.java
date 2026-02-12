@@ -47,7 +47,7 @@ public final class ClientSpeciesRegistry {
             var tempMap = new ConcurrentHashMap<String, ClientSpecies>(1024);
             var pathFinder = PlatformHelper.getPathFinder();
 
-            pathFinder.getPath("cobblemon", "data/cobblemon/species").ifPresentOrElse(root -> {
+            pathFinder.getModPath("cobblemon", "data/cobblemon/species").ifPresentOrElse(root -> {
                 try (Stream<Path> walk = Files.walk(root)) {
                     walk.parallel()
                             .filter(p -> p.toString().endsWith(".json"))

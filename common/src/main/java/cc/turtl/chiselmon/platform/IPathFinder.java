@@ -5,5 +5,6 @@ import java.util.Optional;
 
 public interface IPathFinder {
 
-    Optional<Path> getPath(String modId, String path);
+    Optional<Path> getModPath(String modId, String path);
+    Path getConfigDir();
 }
