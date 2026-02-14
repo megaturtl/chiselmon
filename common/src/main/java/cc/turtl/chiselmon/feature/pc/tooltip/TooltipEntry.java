@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
-import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.api.OLDPCConfig;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
@@ -10,11 +10,11 @@ import java.util.function.Predicate;
 
 public record TooltipEntry(
         String translationKey,
-        Predicate<PCConfig.PCTooltipConfig> configCheck,
+        Predicate<OLDPCConfig.PCTooltipConfig> configCheck,
         Predicate<Pokemon> pokemonCheck,
         Function<Pokemon, Object> componentProvider
 ) {
-    public boolean shouldDisplay(PCConfig.PCTooltipConfig config, Pokemon pokemon) {
+    public boolean shouldDisplay(OLDPCConfig.PCTooltipConfig config, Pokemon pokemon) {
         return configCheck.test(config) && pokemonCheck.test(pokemon);
     }
 

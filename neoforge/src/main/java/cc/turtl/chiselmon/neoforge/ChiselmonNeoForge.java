@@ -1,10 +1,8 @@
 package cc.turtl.chiselmon.neoforge;
 
 import cc.turtl.chiselmon.Chiselmon;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.config.ChiselmonConfigScreen;
-import me.shedaniel.autoconfig.AutoConfig;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
 import net.minecraft.client.gui.screens.Screen;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -24,6 +22,6 @@ public final class ChiselmonNeoForge {
                 .ifPresent(c -> c.registerExtensionPoint(IConfigScreenFactory.class, this::createConfigScreen));
     }
     private Screen createConfigScreen(ModContainer container, Screen parent) {
-        return ChiselmonConfigScreen.createScreen(parent);
+        return ChiselmonConfig.createScreen(parent);
     }
 }

@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.icon;
 
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.api.OLDPCConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.resources.ResourceLocation;
 
@@ -23,7 +23,7 @@ public class IconRegistry {
         add("rideable", cfg -> cfg.rideable, PokemonPredicates.IS_RIDEABLE);
     }
 
-    private static void add(String path, Predicate<PCConfig.PcIconConfig> cfg, Predicate<Pokemon> pkmn) {
+    private static void add(String path, Predicate<OLDPCConfig.PcIconConfig> cfg, Predicate<Pokemon> pkmn) {
         ResourceLocation resource = modResource("textures/gui/pc/icon/icon_" + path + ".png");
         ENTRIES.add(new IconEntry(resource, cfg, pkmn));
     }

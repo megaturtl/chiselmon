@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.icon;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.api.OLDPCConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ public class IconRenderer {
 
     public static void renderIcons(GuiGraphics context, @NotNull Pokemon pokemon, int x, int y) {
 
-        PCConfig.PcIconConfig config = ChiselmonConstants.CONFIG.pc.icon;
+        OLDPCConfig.PcIconConfig config = ChiselmonConstants.CONFIG.pc.icon;
 
         List<IconEntry> entries = IconRegistry.getEntries();
 

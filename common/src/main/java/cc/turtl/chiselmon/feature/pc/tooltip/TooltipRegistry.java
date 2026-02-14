@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.api.OLDPCConfig;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -26,7 +26,7 @@ public class TooltipRegistry {
         add("hatch_progress", cfg -> cfg.showHatchProgress, PokemonPredicates.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
     }
 
-    private static void add(String key, Predicate<PCConfig.PCTooltipConfig> configCheck, Predicate<Pokemon> pokemonCheck, Function<Pokemon, Object> val) {
+    private static void add(String key, Predicate<OLDPCConfig.PCTooltipConfig> configCheck, Predicate<Pokemon> pokemonCheck, Function<Pokemon, Object> val) {
         ENTRIES.add(new TooltipEntry(key, configCheck, pokemonCheck, val));
     }
 

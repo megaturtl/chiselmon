@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.config.PCConfig;
+import cc.turtl.chiselmon.api.OLDPCConfig;
 import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
 import cc.turtl.chiselmon.feature.pc.eggpreview.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
@@ -48,7 +48,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Unique
     private void chiselmon$setTooltip() {
 
-        PCConfig.PCTooltipConfig config = ChiselmonConstants.CONFIG.pc.tooltip;
+        OLDPCConfig.PCTooltipConfig config = ChiselmonConstants.CONFIG.pc.tooltip;
 
         boolean shouldAdd = this.isHovered() && (config.showOnHover ||
                 (config.extendOnShift && Screen.hasShiftDown()));

@@ -1,10 +1,10 @@
-package cc.turtl.chiselmon.config;
+package cc.turtl.chiselmon.api;
 
 import cc.turtl.chiselmon.feature.pc.sort.SortMode;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-public class PCConfig implements ConfigData {
+public class OLDPCConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     public boolean bookmarksEnabled = true;

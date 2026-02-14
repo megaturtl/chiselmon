@@ -1,9 +1,7 @@
 package cc.turtl.chiselmon;
 
 
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.leveldata.LevelDataHelper;
-import cc.turtl.chiselmon.leveldata.PersistentLevelData;
+import cc.turtl.chiselmon.api.OLDChiselmonConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +15,6 @@ public class ChiselmonConstants {
 
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static final ConfigHolder<ChiselmonConfig> CONFIG_HOLDER = AutoConfig.getConfigHolder(ChiselmonConfig.class);
-    public static final ChiselmonConfig CONFIG = CONFIG_HOLDER.getConfig();
+    public static final ConfigHolder<OLDChiselmonConfig> CONFIG_HOLDER = AutoConfig.getConfigHolder(OLDChiselmonConfig.class);
+    public static final OLDChiselmonConfig CONFIG = CONFIG_HOLDER.getConfig();
 }
