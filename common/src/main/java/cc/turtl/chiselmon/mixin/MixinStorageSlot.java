@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.OLDPCConfig;
-import cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy;
-import cc.turtl.chiselmon.feature.pc.eggpreview.EggRenderer;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
+import cc.turtl.chiselmon.feature.pc.eggspy.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
@@ -31,35 +31,40 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     public abstract Pokemon getPokemon();
 
     @Inject(method = "renderSlot", at = @At("TAIL"))
-    private void chiselmon$renderCustom(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
-        Pokemon pokemon = this.getPokemon();
-        if (pokemon != null) {
+    private void chiselmon$renderEntryPoint(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+        ChiselmonConfig config = ChiselmonConfig.get();
+        if (config.general.modDisabled) return;
 
-            IconRenderer.renderIcons(context, pokemon, posX, posY);
+        Pokemon pokemon = getPokemon();
 
-            if (pokemon instanceof EggDummy) {
-                EggRenderer.renderStorageSlot(context, (EggDummy) pokemon, posX, posY);
-            }
+        if (config.pc.icon.enabled && pokemon != null) {
+            IconRenderer.renderIcons(context, config.pc.icon, pokemon, posX, posY);
         }
 
-        chiselmon$setTooltip();
+        if (config.pc.eggSpy.enabled && pokemon instanceof EggDummy) {
+            EggRenderer.renderStorageSlot(context, (EggDummy) pokemon, posX, posY);
+        }
+
+        if (config.pc.tooltip.enabled) {
+            chiselmon$updateTooltip(pokemon, config.pc.tooltip);
+        }
     }
 
     @Unique
-    private void chiselmon$setTooltip() {
+    private void chiselmon$updateTooltip(Pokemon pokemon, PCConfig.TooltipConfig config) {
+        if (!isHovered()) {
+            setTooltip(null);
+            return;
+        }
 
-        OLDPCConfig.PCTooltipConfig config = ChiselmonConstants.CONFIG.pc.tooltip;
+        boolean isShiftDown = Screen.hasShiftDown();
+        boolean shouldShowTooltip = config.showOnHover ||
+                (config.extendOnShift && isShiftDown);
 
-        boolean shouldAdd = this.isHovered() && (config.showOnHover ||
-                (config.extendOnShift && Screen.hasShiftDown()));
-
-        if (shouldAdd) {
-            Pokemon pokemon = this.getPokemon();
-            if (pokemon != null) {
-                this.setTooltip(TooltipBuilder.buildAndSet(pokemon, Screen.hasShiftDown()));
-            }
+        if (shouldShowTooltip && pokemon != null) {
+            setTooltip(TooltipBuilder.build(pokemon, config, isShiftDown));
         } else {
-            this.setTooltip(null);
+            setTooltip(null);
         }
     }
 }

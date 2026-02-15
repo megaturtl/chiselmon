@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
-import cc.turtl.chiselmon.leveldata.LevelDataHelper;
+import cc.turtl.chiselmon.worlddata.WorldDataManager;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -47,13 +47,16 @@ public abstract class MixinPCGUI extends Screen {
     private BookmarkManager chiselmon$bookmarkManager;
     @Unique
     private SortManager chiselmon$sortManager;
+
     protected MixinPCGUI(Component title) {
         super(title);
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void chiselmon$initFeatures(CallbackInfo ci) {
-        if (ChiselmonConstants.CONFIG.modDisabled) return;
+    private void chiselmon$initEntryPoint(CallbackInfo ci) {
+        ChiselmonConfig config = ChiselmonConfig.get();
+        if (config.general.modDisabled) return;
+
         int x = (width - BASE_WIDTH) / 2;
         int y = (height - BASE_HEIGHT) / 2;
 
@@ -61,7 +64,7 @@ public abstract class MixinPCGUI extends Screen {
         if (level == null) return;
 
         chiselmon$bookmarkManager = new BookmarkManager(
-                LevelDataHelper.getLevelData(level).bookmarkStore,
+                WorldDataManager.get().bookmarkStore,
                 storageWidget,
                 pc,
                 this::addRenderableWidget,
@@ -81,18 +84,28 @@ public abstract class MixinPCGUI extends Screen {
         }
     }
 
-    @Inject(method = "closeNormally", at = @At("HEAD"))
-    private void chiselmon$cleanupBookmarks(CallbackInfo ci) {
+    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    private void chiselmon$handleMiddleClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (button != 2) return;
+        if (chiselmon$sortManager == null) return;
+
+        ChiselmonConfig config = ChiselmonConfig.get();
+        if (!config.pc.quickSort.enabled) return;
+
+        chiselmon$sortManager.executeQuickSort(config.pc.quickSort.mode, Screen.hasShiftDown());
+    }
+
+    @Override
+    public void removed() {
         if (chiselmon$bookmarkManager != null) {
             chiselmon$bookmarkManager.cleanup();
             chiselmon$bookmarkManager = null;
         }
-    }
 
-    @Inject(method = "mouseClicked", at = @At("HEAD"))
-    private void chiselmon$handleClicks(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (chiselmon$sortManager != null) {
-            chiselmon$sortManager.handleMiddleClick(button);
-        }
+        chiselmon$sortManager = null;
+
+        WorldDataManager.save();
+
+        super.removed();
     }
 }

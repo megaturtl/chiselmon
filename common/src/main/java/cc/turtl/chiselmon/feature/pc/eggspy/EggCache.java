@@ -1,9 +1,6 @@
-package cc.turtl.chiselmon.feature.pc.eggpreview;
+package cc.turtl.chiselmon.feature.pc.eggspy;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import com.cobblemon.mod.common.config.CobblemonConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -17,8 +14,11 @@ public class EggCache {
             .expireAfterAccess(10, TimeUnit.MINUTES)
             .build();
 
+    /**
+     * Returns back the original pokemon, or its egg preview if possible.
+     * This function assumes the mod and eggspy feature is enabled, check this before calling!
+     */
     public static Pokemon getPreview(Pokemon pokemon) {
-        if (!ChiselmonConstants.CONFIG.pc.eggPreviewEnabled) return pokemon;
         if (pokemon instanceof EggDummy) return pokemon;
         if (!((DuckPreviewPokemon) pokemon).chiselmon$isEgg()) return pokemon;
 

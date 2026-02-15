@@ -87,10 +87,6 @@ public class BookmarkManager {
         removeAllButtons();
     }
 
-    // ========================================
-    // Private implementation
-    // ========================================
-
     private void createBookmarkButton(int guiLeft, int guiTop) {
         int x = guiLeft + BOOKMARK_BUTTON_OFFSET_X;
         int y = guiTop + BOOKMARK_BUTTON_OFFSET_Y;

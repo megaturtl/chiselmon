@@ -2,11 +2,10 @@ package cc.turtl.chiselmon.feature.pc.sort;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSortMode;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
-import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-import cc.turtl.chiselmon.ChiselmonConstants;
 import net.minecraft.client.gui.screens.Screen;
+
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -51,11 +50,8 @@ public class SortManager {
         }
     }
 
-    public void handleMiddleClick(int button) {
-        if (button == 2 && ChiselmonConstants.CONFIG.pc.quickSortEnabled) {
-            this.storage.resetSelected();
-            Sorter.sortPCBox(this.pc, this.storage.getBox(),
-                    ChiselmonConstants.CONFIG.pc.quickSortMode, Screen.hasShiftDown());
-        }
+    public void executeQuickSort(SortMode mode, boolean reversed) {
+        storage.resetSelected();
+        Sorter.sortPCBox(pc, storage.getBox(), mode, reversed);
     }
 }

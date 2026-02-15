@@ -1,25 +1,23 @@
 package cc.turtl.chiselmon.feature.pc.icon;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.OLDPCConfig;
+import cc.turtl.chiselmon.config.category.PCConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class IconRenderer {
+public final class IconRenderer {
     // sizes in pixels
     private static final int SRC_SIZE = 9;
     private static final int DEST_SIZE = 5;
     private static final int MAX_ROWS = 3;
     private static final float RENDER_Z = 100.0f;
     private static final int COLUMN_SPACE = 18;
+    private IconRenderer() {
+    }
 
-    public static void renderIcons(GuiGraphics context, @NotNull Pokemon pokemon, int x, int y) {
-
-        OLDPCConfig.PcIconConfig config = ChiselmonConstants.CONFIG.pc.icon;
-
+    public static void renderIcons(GuiGraphics context, PCConfig.IconConfig config, @NotNull Pokemon pokemon, int x, int y) {
         List<IconEntry> entries = IconRegistry.getEntries();
 
         if (entries.isEmpty()) return;

@@ -8,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
@@ -50,5 +51,10 @@ public class EventRegisterNeoForge {
     @SubscribeEvent
     public static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
         PlatformEventHandlers.handleLevelDisconnect();
+    }
+
+    @SubscribeEvent
+    public static void onGameStopping(GameShuttingDownEvent e) {
+        PlatformEventHandlers.handleGameStopping();
     }
 }

@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.fabric;
 import cc.turtl.chiselmon.ChiselmonCommands;
 import cc.turtl.chiselmon.platform.PlatformEventHandlers;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -16,8 +17,12 @@ public class EventRegisterFabric {
         ClientEntityEvents.ENTITY_LOAD.register(PlatformEventHandlers::handleEntityLoad);
         ClientEntityEvents.ENTITY_UNLOAD.register(PlatformEventHandlers::handleEntityUnload);
 
-        ClientPlayConnectionEvents.JOIN.register((clientPacketListener, sender, minecraft) -> PlatformEventHandlers.handleLevelConnect());
-        ClientPlayConnectionEvents.DISCONNECT.register((clientPacketListener, minecraft) -> PlatformEventHandlers.handleLevelDisconnect());
+        ClientPlayConnectionEvents.JOIN.register((clientPacketListener, sender, minecraft)
+                -> PlatformEventHandlers.handleLevelConnect());
+        ClientPlayConnectionEvents.DISCONNECT.register((clientPacketListener, minecraft)
+                -> PlatformEventHandlers.handleLevelDisconnect());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(e
+                -> PlatformEventHandlers.handleGameStopping());
 
         // Register commands
         CommandRegistrationCallback.EVENT.register(ChiselmonCommands::register);

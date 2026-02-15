@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.compat.jade;
 import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
@@ -52,9 +53,8 @@ public enum PokemonProvider implements IEntityComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        if (!(accessor.getEntity() instanceof PokemonEntity pokemonEntity)) {
-            return;
-        }
+        if (ChiselmonConfig.get().general.modDisabled) return;
+        if (!(accessor.getEntity() instanceof PokemonEntity pokemonEntity)) return;
 
         Pokemon pokemon = pokemonEntity.getPokemon();
         Species species = pokemon.getSpecies();

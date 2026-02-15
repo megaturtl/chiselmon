@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.compat.jade;
 
+import cc.turtl.chiselmon.config.ChiselmonConfig;
 import com.cobblemon.mod.common.CobblemonItemComponents;
 import com.cobblemon.mod.common.CobblemonItems;
 import com.cobblemon.mod.common.block.PokeSnackBlock;
@@ -47,6 +48,7 @@ public enum PokeSnackProvider implements IBlockComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+        if (ChiselmonConfig.get().general.modDisabled) return;
         if (!(accessor.getBlock() instanceof PokeSnackBlock)) {
             return;
         }

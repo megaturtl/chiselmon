@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.api.event;
 import cc.turtl.chiselmon.api.Priority;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -15,7 +16,7 @@ public class Observable<T> {
 
     public void subscribe(Priority priority, Consumer<T> action) {
         handlers.add(new Handler<>(priority, action));
-        handlers.sort((a, b) -> a.priority.compareTo(b.priority));
+        handlers.sort(Comparator.comparing(a -> a.priority));
     }
 
     public void emit(T value) {

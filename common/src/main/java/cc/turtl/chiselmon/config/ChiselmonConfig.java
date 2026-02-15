@@ -1,7 +1,8 @@
 package cc.turtl.chiselmon.config;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.config.category.GeneralCategory;
+import cc.turtl.chiselmon.config.category.GeneralConfig;
+import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.platform.PlatformHelper;
 import cc.turtl.chiselmon.util.MiscUtil;
 import com.google.gson.GsonBuilder;
@@ -16,21 +17,22 @@ import java.nio.file.Path;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class ChiselmonConfig {
-    private static final Path PATH = PlatformHelper.getPathFinder().getConfigDir().resolve(ChiselmonConstants.MOD_ID + ".json5");
-    private static final ConfigClassHandler<ChiselmonConfig> HANDLER = ConfigClassHandler.createBuilder(ChiselmonConfig.class)
-            .id(MiscUtil.modResource("config"))
-            .serializer(config -> GsonConfigSerializerBuilder.create(config)
-                    .setPath(PATH)
-                    .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
-                    .setJson5(true)
-                    .build())
-            .build();
+    private static final ConfigClassHandler<ChiselmonConfig> HANDLER =
+            ConfigClassHandler.createBuilder(ChiselmonConfig.class)
+                    .id(MiscUtil.modResource("config"))
+                    .serializer(config -> GsonConfigSerializerBuilder.create(config)
+                            .setPath(ChiselmonConstants.CONFIG_PATH.resolve("config.json"))
+                            .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
+                            .build())
+                    .build();
 
-    // CONFIG FIELD CATEGORIES
     @SerialEntry
-    public GeneralCategory general = new GeneralCategory();
+    public final GeneralConfig general = new GeneralConfig();
 
-    public static ChiselmonConfig getInstance() {
+    @SerialEntry
+    public final PCConfig pc = new PCConfig();
+
+    public static ChiselmonConfig get() {
         return HANDLER.instance();
     }
 
@@ -43,14 +45,12 @@ public class ChiselmonConfig {
     }
 
     public static Screen createScreen(Screen parent) {
-        ChiselmonConfig config = HANDLER.instance();
-
         return YetAnotherConfigLib.createBuilder()
                 .title(modTranslatable("config.title"))
-                .category(config.general.build())
+                .category(get().general.buildCategory())
+                .category(get().pc.buildCategory())
                 .save(ChiselmonConfig::save)
                 .build()
                 .generateScreen(parent);
     }
-
 }

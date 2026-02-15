@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.system.group;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.Priority;
+import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 
 public final class DefaultPokemonGroups {
@@ -27,7 +27,7 @@ public final class DefaultPokemonGroups {
             .name("Extreme Size Pokemon")
             .rgb(ColorUtils.TEAL)
             .priority(Priority.NORMAL)
-            .sizeRange(ChiselmonConstants.CONFIG.threshold.extremeSmall, ChiselmonConstants.CONFIG.threshold.extremeLarge)
+            .addCondition(PokemonPredicates.IS_EXTREME_SIZE)
             .build();
 
     private DefaultPokemonGroups() {

@@ -1,7 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.feature.pc.eggpreview.EggCache;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.feature.pc.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.pokemon.*;
 import net.minecraft.network.chat.Component;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static cc.turtl.chiselmon.feature.pc.eggpreview.EggDummy.EGG_SPECIES_ID;
+import static cc.turtl.chiselmon.feature.pc.eggspy.EggDummy.EGG_SPECIES_ID;
 
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon {
@@ -31,14 +32,16 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
     @Unique
     @Override
     public Pokemon chiselmon$getPreview() {
+        ChiselmonConfig config = ChiselmonConfig.get();
         Pokemon self = (Pokemon) (Object) this;
-        return EggCache.getPreview(self);
+        if (config.general.modDisabled || !config.pc.eggSpy.enabled) return self;
+        else return EggCache.getPreview(self);
     }
 
     // Redirect getters used by UIs
     @Inject(method = "getSpecies", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectSpecies(CallbackInfoReturnable<Species> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getSpecies());
         }
@@ -46,7 +49,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getNickname", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectNickname(CallbackInfoReturnable<MutableComponent> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             MutableComponent redirectName = Component.literal("(EGG) ").append(preview.getNickname());
             cir.setReturnValue(redirectName);
@@ -55,7 +58,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getGender", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectGender(CallbackInfoReturnable<Gender> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getGender());
         }
@@ -63,7 +66,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getNature", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectNature(CallbackInfoReturnable<Nature> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getNature());
         }
@@ -71,7 +74,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getAbility", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectAbility(CallbackInfoReturnable<Ability> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getAbility());
         }
@@ -79,7 +82,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getIvs", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectIvs(CallbackInfoReturnable<IVs> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getIvs());
         }
@@ -87,7 +90,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "getScaleModifier", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectScaleModifier(CallbackInfoReturnable<Float> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(preview.getScaleModifier());
         }
@@ -95,7 +98,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Inject(method = "asRenderablePokemon", at = @At("HEAD"), cancellable = true)
     private void chiselmon$redirectRenderablePokemon(CallbackInfoReturnable<RenderablePokemon> cir) {
-        Pokemon preview = this.chiselmon$getPreview();
+        Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
             cir.setReturnValue(new RenderablePokemon(preview.getSpecies(), preview.getAspects(), ItemStack.EMPTY));
         }

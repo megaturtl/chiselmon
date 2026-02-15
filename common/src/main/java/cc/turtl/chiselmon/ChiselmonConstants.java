@@ -2,10 +2,13 @@ package cc.turtl.chiselmon;
 
 
 import cc.turtl.chiselmon.api.OLDChiselmonConfig;
+import cc.turtl.chiselmon.platform.PlatformHelper;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.nio.file.Path;
 
 public class ChiselmonConstants {
     public static final String MOD_ID = "chiselmon";
@@ -13,8 +16,11 @@ public class ChiselmonConstants {
     public static final String VERSION = "1.1.0-alpha";
     public static final String AUTHOR = "megaturtl";
 
+    /**
+     * The path to the '.minecraft/config/chiselmon' folder
+     */
+    public static final Path CONFIG_PATH = PlatformHelper.getPathFinder().getConfigDir().resolve(MOD_ID);
+
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static final ConfigHolder<OLDChiselmonConfig> CONFIG_HOLDER = AutoConfig.getConfigHolder(OLDChiselmonConfig.class);
-    public static final OLDChiselmonConfig CONFIG = CONFIG_HOLDER.getConfig();
 }

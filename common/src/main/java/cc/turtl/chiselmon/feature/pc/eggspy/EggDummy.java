@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.feature.pc.eggpreview;
+package cc.turtl.chiselmon.feature.pc.eggspy;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import com.cobblemon.mod.common.pokemon.Pokemon;

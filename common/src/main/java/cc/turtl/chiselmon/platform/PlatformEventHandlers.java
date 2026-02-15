@@ -36,4 +36,9 @@ public class PlatformEventHandlers {
         LevelDisconnectedEvent event = new LevelDisconnectedEvent();
         ChiselmonEvents.LEVEL_DISCONNECTED.emit(event);
     }
+
+    public static void handleGameStopping() {
+        GameStoppingEvent event = new GameStoppingEvent();
+        ChiselmonEvents.GAME_STOPPING.emit(event);
+    }
 }
