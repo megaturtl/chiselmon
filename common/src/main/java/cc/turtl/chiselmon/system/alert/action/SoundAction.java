@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.system.alert.action;
 
+import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,13 @@ public class SoundAction implements AlertAction {
     public void execute(AlertContext ctx) {
         if (!ctx.shouldSound()) return;
 
-        SoundEvent sound = AlertSounds.PLING.getSound();
+        // Get the filter's alert settings to retrieve the chosen sound
+        AlertsConfig.FilterAlertSettings settings = ctx.config().filterAlerts
+                .computeIfAbsent(ctx.filter().id(), id -> new AlertsConfig.FilterAlertSettings());
+        
+        // Use the configured alert sound, or default to PLING if null
+        AlertSounds alertSound = settings.alertSound != null ? settings.alertSound : AlertSounds.PLING;
+        SoundEvent sound = alertSound.getSound();
 
         if (sound != null) {
             Minecraft.getInstance().getSoundManager().play(

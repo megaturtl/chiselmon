@@ -17,9 +17,8 @@ public class FilterRegistry {
 
         Map<String, FilterDefinition> definitions = ChiselmonConfig.get().filter.filters;
 
-        definitions.values().stream()
-                .filter(def -> def.enabled)
-                .forEach(FilterRegistry::register);
+        // Load all filters regardless of enabled status
+        definitions.values().forEach(FilterRegistry::register);
     }
 
     /**

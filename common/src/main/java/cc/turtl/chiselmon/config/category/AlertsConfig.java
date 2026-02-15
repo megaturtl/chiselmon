@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.config.category.filter.DefaultFilters;
 import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
+import cc.turtl.chiselmon.system.alert.AlertSounds;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -63,25 +64,23 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         // Add a separate group for each filter's alert settings
         for (FilterDefinition filter : ChiselmonConfig.get().filter.filters.values()) {
-            if (filter.enabled) {
-                FilterAlertSettings settings = filterAlerts.computeIfAbsent(
-                        filter.id,
-                        id -> new FilterAlertSettings()
-                );
-                
-                builder.group(buildFilterAlertGroup(filter, settings));
-            }
+            FilterAlertSettings settings = filterAlerts.computeIfAbsent(
+                    filter.id,
+                    id -> new FilterAlertSettings()
+            );
+            
+            builder.group(buildFilterAlertGroup(filter, settings));
         }
 
         return builder.build();
     }
 
     private OptionGroup buildFilterAlertGroup(FilterDefinition filter, FilterAlertSettings settings) {
-        // For default filters, use translation. For custom filters, use literal name
+        // For default filters, use translation. For custom filters, use display name
         boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(filter.id);
         Component filterName = isDefaultFilter 
                 ? modTranslatable("config.filters." + filter.id)
-                : Component.literal(filter.id.replace("_", " "));
+                : Component.literal(filter.displayName);
         
         return OptionGroup.createBuilder()
                 .name(filterName)
@@ -100,6 +99,12 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         "config.alerts.play_sound",
                         () -> settings.playSound,
                         v -> settings.playSound = v
+                ))
+                .option(OptionFactory.enumDropdown(
+                        "config.alerts.alert_sound",
+                        () -> settings.alertSound,
+                        v -> settings.alertSound = v,
+                        AlertSounds.class
                 ))
                 .option(OptionFactory.intSlider(
                         "config.alerts.volume",
@@ -125,6 +130,9 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         @SerialEntry
         public boolean playSound = true;
+
+        @SerialEntry
+        public AlertSounds alertSound = AlertSounds.PLING;
 
         @SerialEntry
         public int volume = 100;

@@ -58,7 +58,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                             FilterDefinition newFilter = new FilterDefinition(
                                     newId,
-                                    "Custom Filter",
+                                    "New Filter",
                                     Color.WHITE,
                                     Priority.NORMAL,
                                     true,
@@ -67,9 +67,11 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             filters.put(newId, newFilter);
                             FilterRegistry.loadFromConfig();
                             ChiselmonConfig.save();
+                            // Stay on the filters category instead of going back to main screen
                             screen.onClose();
                             Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-                            mc.setScreen(ChiselmonConfig.createScreen(parent));
+                            Screen newScreen = ChiselmonConfig.createScreen(parent);
+                            mc.setScreen(newScreen);
                         })
                         .build())
                 .build());
@@ -81,21 +83,23 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
         Component filterName = isDefaultFilter
                 ? modTranslatable("config.filters." + def.id)
-                : Component.literal(def.id.replace("_", " "));
+                : Component.literal(def.displayName);
 
         var groupBuilder = OptionGroup.createBuilder()
                 .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.filters.group.description")));
 
-        // Enabled toggle
-        groupBuilder.option(OptionFactory.toggleOnOff(
-                "config.filters.enabled",
-                () -> def.enabled,
-                v -> {
-                    def.enabled = v;
-                    FilterRegistry.loadFromConfig();
-                }
-        ));
+        // Display name field (only for custom filters)
+        if (!isDefaultFilter) {
+            groupBuilder.option(OptionFactory.textField(
+                    "config.filters.display_name",
+                    () -> def.displayName,
+                    v -> {
+                        def.displayName = v;
+                        FilterRegistry.loadFromConfig();
+                    }
+            ));
+        }
 
         // Color picker
         groupBuilder.option(OptionFactory.colorPicker(
@@ -142,7 +146,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
         Component filterName = isDefaultFilter
                 ? modTranslatable("config.filters." + def.id + ".tags")
-                : Component.literal(def.id.replace("_", " ") + " Tags");
+                : Component.literal(def.displayName + " Tags");
 
         return ListOption.<String>createBuilder()
                 .name(filterName)
