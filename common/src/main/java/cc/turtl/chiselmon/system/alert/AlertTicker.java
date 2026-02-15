@@ -2,6 +2,8 @@ package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.system.alert.action.AlertAction;
 import cc.turtl.chiselmon.system.alert.action.GlowAction;
 import cc.turtl.chiselmon.system.alert.action.MessageAction;
@@ -17,19 +19,18 @@ public class AlertTicker {
     private final List<AlertAction> continuousActions;
     private final AlertAction soundAction;
     private final PokemonAlertSystem alerter;
-    private final AlertConfig config;
     private final Set<UUID> actionedUuids = new HashSet<>();
     private int soundDelayRemaining = 0;
 
-    public AlertTicker (PokemonAlertSystem alerter, AlertConfig config) {
+    public AlertTicker (PokemonAlertSystem alerter) {
         this.alerter = alerter;
-        this.config = config;
         this.oneTimeActions = List.of(new MessageAction());
         this.continuousActions = List.of(new GlowAction());
         this.soundAction = new SoundAction();
     }
 
     public void tick() {
+        AlertsConfig config = ChiselmonConfig.get().alerts;
         if (!config.masterEnabled) return;
 
         // Track the "best" group match for the sound this tick

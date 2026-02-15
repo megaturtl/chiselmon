@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
+import cc.turtl.chiselmon.config.category.AlertsConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -8,38 +9,43 @@ public record AlertContext(
         PokemonEntity entity,
         RuntimeFilter filter,
         boolean isMuted,
-        AlertConfig config
+        AlertsConfig config
 ) {
     public Pokemon pokemon() {
         return entity.getPokemon();
     }
 
-
-    public boolean isBlacklisted() {
-        return config.blacklist.contains(pokemon().getSpecies().getName());
+    private AlertsConfig.FilterAlertSettings getFilterSettings() {
+        return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertsConfig.FilterAlertSettings());
     }
 
     public boolean shouldAlert() {
-        return config.masterEnabled && !isBlacklisted();
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return config.masterEnabled && settings.enabled;
     }
 
     public boolean shouldSound() {
-        return shouldAlert() && !isMuted;
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return shouldAlert() && !isMuted && settings.playSound;
     }
 
     public boolean shouldMessage() {
-        return shouldAlert() && !isMuted;
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return shouldAlert() && !isMuted && settings.sendChatMessage;
     }
 
     public boolean shouldHighlight() {
-        return shouldAlert();
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return shouldAlert() && settings.highlightEntity;
     }
 
     public float getEffectiveVolume() {
-        return (config.masterVolume / 100f) * 100 / 100f;
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return (config.masterVolume / 100f) * (settings.volume / 100f);
     }
 
     public float getEffectivePitch() {
-        return (1 / 100f);
+        // Fixed: was (1 / 100f) = 0.01, now returns normal pitch
+        return 1.0f;
     }
 }

@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.config.OptionFactory;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import net.minecraft.client.gui.screens.Screen;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
@@ -15,7 +16,7 @@ public class GeneralConfig implements ConfigCategoryBuilder {
     public boolean modDisabled = false;
 
     @Override
-    public ConfigCategory buildCategory() {
+    public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
                 .name(modTranslatable("config.category.general"))
                 .option(OptionFactory.toggleOnOff(

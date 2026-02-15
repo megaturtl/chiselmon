@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.config;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.config.category.filter.CustomFilterConfig;
 import cc.turtl.chiselmon.config.category.GeneralConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
@@ -33,6 +34,9 @@ public class ChiselmonConfig {
     @SerialEntry
     public final CustomFilterConfig filter = new CustomFilterConfig();
 
+    @SerialEntry
+    public final AlertsConfig alerts = new AlertsConfig();
+
     public static ChiselmonConfig get() {
         return HANDLER.instance();
     }
@@ -49,9 +53,10 @@ public class ChiselmonConfig {
     public static Screen createScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
                 .title(modTranslatable("config.title"))
-                .category(get().general.buildCategory())
-                .category(get().pc.buildCategory())
-                .category(get().filter.buildCategory())
+                .category(get().general.buildCategory(parent))
+                .category(get().pc.buildCategory(parent))
+                .category(get().filter.buildCategory(parent))
+                .category(get().alerts.buildCategory(parent))
                 .save(ChiselmonConfig::save)
                 .build()
                 .generateScreen(parent);
