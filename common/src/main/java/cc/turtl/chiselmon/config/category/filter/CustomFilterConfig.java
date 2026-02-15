@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 import static java.util.stream.Collectors.toSet;

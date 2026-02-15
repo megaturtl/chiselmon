@@ -45,6 +45,7 @@ public record AlertContext(
     }
 
     public float getEffectivePitch() {
+        // Fixed: was (1 / 100f) = 0.01, now returns normal pitch
         return 1.0f;
     }
 }
