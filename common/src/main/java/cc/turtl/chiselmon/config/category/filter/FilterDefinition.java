@@ -17,6 +17,9 @@ public class FilterDefinition {
     public String id;
 
     @SerialEntry
+    public String displayName;
+
+    @SerialEntry
     public Color color;
 
     @SerialEntry
@@ -28,12 +31,9 @@ public class FilterDefinition {
     @SerialEntry
     public List<String> tags; // e.g., ["shiny", "type:fire", "species:pikachu", "size:0.1-0.5"]
 
-    public FilterDefinition() {
-        this.tags = new ArrayList<>();
-    }
-
     public FilterDefinition(String id, String displayName, Color color, Priority priority, boolean enabled, List<String> tags) {
         this.id = id;
+        this.displayName = displayName;
         this.color = color;
         this.priority = priority;
         this.enabled = enabled;

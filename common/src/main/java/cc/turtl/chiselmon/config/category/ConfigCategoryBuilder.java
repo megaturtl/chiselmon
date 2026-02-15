@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.config.category;
 
 import dev.isxander.yacl3.api.ConfigCategory;
+import net.minecraft.client.gui.screens.Screen;
 
 /**
  * Marker interface for config categories.
@@ -10,5 +11,5 @@ public interface ConfigCategoryBuilder {
     /**
      * Builds the YACL ConfigCategory instance for this category.
      */
-    ConfigCategory buildCategory();
+    ConfigCategory buildCategory(Screen parent);
 }

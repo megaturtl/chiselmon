@@ -6,6 +6,7 @@ import cc.turtl.chiselmon.config.category.filter.DefaultFilters;
 import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.util.LinkedHashMap;
@@ -35,7 +36,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
             .collect(toSet());
 
     @Override
-    public ConfigCategory buildCategory() {
+    public ConfigCategory buildCategory(Screen parent) {
         var builder = ConfigCategory.createBuilder()
                 .name(modTranslatable("config.category.alerts"));
 

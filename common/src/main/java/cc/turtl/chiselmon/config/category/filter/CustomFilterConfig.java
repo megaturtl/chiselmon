@@ -8,6 +8,8 @@ import cc.turtl.chiselmon.config.category.ConfigCategoryBuilder;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.awt.*;
@@ -36,13 +38,14 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     }
 
     @Override
-    public ConfigCategory buildCategory() {
+    public ConfigCategory buildCategory(Screen parent) {
         var builder = ConfigCategory.createBuilder()
                 .name(modTranslatable("config.category.filters"));
 
         // Build UI for each filter with delete button
         for (FilterDefinition def : filters.values()) {
-            builder.group(buildGroupOptions(def));
+            builder.group(buildGroupOptions(parent, def));
+            builder.group(buildTagsListGroup(def)); // Add tags as separate group
         }
 
         // Add a button to create new filters
@@ -52,7 +55,6 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                         .name(modTranslatable("config.filters.add_new"))
                         .description(OptionDescription.of(modTranslatable("config.filters.add_new.description")))
                         .action((screen, opt) -> {
-                            // Create a new filter with a unique ID
                             String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                             FilterDefinition newFilter = new FilterDefinition(
                                     newId,
@@ -65,9 +67,9 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             filters.put(newId, newFilter);
                             FilterRegistry.loadFromConfig();
                             ChiselmonConfig.save();
-                            // Rebuild and re-open the screen
-                            screen.client.setScreen(ChiselmonConfig.createScreen(screen.parent));
-                            return true;
+                            screen.onClose();
+                            Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+                            mc.setScreen(ChiselmonConfig.createScreen(parent));
                         })
                         .build())
                 .build());
@@ -75,13 +77,12 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         return builder.build();
     }
 
-    private OptionGroup buildGroupOptions(FilterDefinition def) {
-        // For default filters, use translation. For custom filters, use literal name
+    private OptionGroup buildGroupOptions(Screen parent, FilterDefinition def) {
         boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
-        Component filterName = isDefaultFilter 
+        Component filterName = isDefaultFilter
                 ? modTranslatable("config.filters." + def.id)
                 : Component.literal(def.id.replace("_", " "));
-        
+
         var groupBuilder = OptionGroup.createBuilder()
                 .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.filters.group.description")));
@@ -117,9 +118,34 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 Priority.class
         ));
 
-        // List option for tags with add/remove functionality
-        groupBuilder.option(ListOption.<String>createBuilder()
-                .name(modTranslatable("config.filters.tags"))
+        // Delete button (except for default filters)
+        if (!DEFAULT_FILTER_IDS.contains(def.id)) {
+            groupBuilder.option(ButtonOption.createBuilder()
+                    .name(modTranslatable("config.filters.delete"))
+                    .description(OptionDescription.of(modTranslatable("config.filters.delete.description")))
+                    .action((screen, opt) -> {
+                        filters.remove(def.id);
+                        FilterRegistry.loadFromConfig();
+                        ChiselmonConfig.save();
+                        screen.onClose();
+                        Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+                        mc.setScreen(ChiselmonConfig.createScreen(parent));
+                    })
+                    .build());
+        }
+
+        return groupBuilder.build();
+    }
+
+    // New method: Add tags as a separate ListOption group
+    private ListOption<String> buildTagsListGroup(FilterDefinition def) {
+        boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
+        Component filterName = isDefaultFilter
+                ? modTranslatable("config.filters." + def.id + ".tags")
+                : Component.literal(def.id.replace("_", " ") + " Tags");
+
+        return ListOption.<String>createBuilder()
+                .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.filters.tags.description")))
                 .binding(
                         new ArrayList<>(def.tags),
@@ -131,24 +157,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 )
                 .controller(StringControllerBuilder::create)
                 .initial("")
-                .build());
-
-        // Delete button (except for default filters)
-        if (!DEFAULT_FILTER_IDS.contains(def.id)) {
-            groupBuilder.option(ButtonOption.createBuilder()
-                    .name(modTranslatable("config.filters.delete"))
-                    .description(OptionDescription.of(modTranslatable("config.filters.delete.description")))
-                    .action((screen, opt) -> {
-                        filters.remove(def.id);
-                        FilterRegistry.loadFromConfig();
-                        ChiselmonConfig.save();
-                        // Rebuild and re-open the screen
-                        screen.client.setScreen(ChiselmonConfig.createScreen(screen.parent));
-                        return true;
-                    })
-                    .build());
-        }
-
-        return groupBuilder.build();
+                .collapsed(true) // Optionally collapse by default
+                .build();
     }
 }

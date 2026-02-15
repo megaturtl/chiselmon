@@ -1,10 +1,7 @@
 package cc.turtl.chiselmon;
 
 
-import cc.turtl.chiselmon.api.OLDChiselmonConfig;
 import cc.turtl.chiselmon.platform.PlatformHelper;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

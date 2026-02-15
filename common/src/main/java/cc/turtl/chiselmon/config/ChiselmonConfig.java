@@ -53,10 +53,10 @@ public class ChiselmonConfig {
     public static Screen createScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
                 .title(modTranslatable("config.title"))
-                .category(get().general.buildCategory())
-                .category(get().pc.buildCategory())
-                .category(get().filter.buildCategory())
-                .category(get().alerts.buildCategory())
+                .category(get().general.buildCategory(parent))
+                .category(get().pc.buildCategory(parent))
+                .category(get().filter.buildCategory(parent))
+                .category(get().alerts.buildCategory(parent))
                 .save(ChiselmonConfig::save)
                 .build()
                 .generateScreen(parent);
