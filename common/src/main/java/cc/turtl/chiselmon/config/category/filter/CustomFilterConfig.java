@@ -71,8 +71,14 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     }
 
     private OptionGroup buildGroupOptions(FilterDefinition def) {
+        // For default filters, use translation. For custom filters, use literal name
+        boolean isDefaultFilter = DefaultFilters.all().stream().anyMatch(d -> d.id.equals(def.id));
+        Component filterName = isDefaultFilter 
+                ? modTranslatable("config.filters." + def.id)
+                : Component.literal(def.id.replace("_", " "));
+        
         var groupBuilder = OptionGroup.createBuilder()
-                .name(Component.literal(def.id.replace("_", " ")))
+                .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.filters.group.description")));
 
         // Enabled toggle

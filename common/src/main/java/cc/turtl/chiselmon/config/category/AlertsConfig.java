@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
+import cc.turtl.chiselmon.config.category.filter.DefaultFilters;
 import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
@@ -68,8 +69,14 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     }
 
     private OptionGroup buildFilterAlertGroup(FilterDefinition filter, FilterAlertSettings settings) {
+        // For default filters, use translation. For custom filters, use literal name
+        boolean isDefaultFilter = DefaultFilters.all().stream().anyMatch(d -> d.id.equals(filter.id));
+        Component filterName = isDefaultFilter 
+                ? modTranslatable("config.filters." + filter.id)
+                : Component.literal(filter.id.replace("_", " "));
+        
         return OptionGroup.createBuilder()
-                .name(Component.literal(filter.id.replace("_", " ")))
+                .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.alerts.group.filter_alerts.description")))
                 .option(OptionFactory.toggleOnOff(
                         "config.alerts.enabled",
