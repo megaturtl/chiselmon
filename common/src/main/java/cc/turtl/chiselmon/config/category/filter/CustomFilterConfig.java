@@ -21,10 +21,12 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     @SerialEntry
     public Map<String, FilterDefinition> filters = new LinkedHashMap<>();
 
-    // Initialize with defaults on first load
-    public CustomFilterConfig() {
+    /**
+     * Ensures default filters are present. Called after config load.
+     */
+    public void ensureDefaults() {
         for (FilterDefinition def : DefaultFilters.all()) {
-            filters.put(def.id, def);
+            filters.putIfAbsent(def.id, def);
         }
     }
 
