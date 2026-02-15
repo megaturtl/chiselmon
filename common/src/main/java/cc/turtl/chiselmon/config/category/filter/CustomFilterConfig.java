@@ -69,9 +69,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             ChiselmonConfig.save();
                             // Stay on the filters category instead of going back to main screen
                             screen.onClose();
-                            Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-                            Screen newScreen = ChiselmonConfig.createScreen(parent);
-                            mc.setScreen(newScreen);
+                            Minecraft.getInstance().setScreen(ChiselmonConfig.createScreen(parent));
                         })
                         .build())
                 .build());
