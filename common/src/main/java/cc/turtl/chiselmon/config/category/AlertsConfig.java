@@ -10,8 +10,10 @@ import net.minecraft.network.chat.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
+import static java.util.stream.Collectors.toSet;
 
 public class AlertsConfig implements ConfigCategoryBuilder {
 
@@ -30,7 +32,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     // Cache of default filter IDs for O(1) lookup
     private static final Set<String> DEFAULT_FILTER_IDS = DefaultFilters.all().stream()
             .map(f -> f.id)
-            .collect(java.util.stream.Collectors.toSet());
+            .collect(toSet());
 
     @Override
     public ConfigCategory buildCategory() {

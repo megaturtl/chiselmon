@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.List;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
+import static java.util.stream.Collectors.toSet;
 
 public class CustomFilterConfig implements ConfigCategoryBuilder {
 
@@ -24,7 +25,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     // Cache of default filter IDs for O(1) lookup
     private static final Set<String> DEFAULT_FILTER_IDS = DefaultFilters.all().stream()
             .map(f -> f.id)
-            .collect(java.util.stream.Collectors.toSet());
+            .collect(toSet());
 
     /**
      * Ensures default filters are present. Called after config load.
