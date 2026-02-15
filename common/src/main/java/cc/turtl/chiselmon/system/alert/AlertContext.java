@@ -1,12 +1,12 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.system.group.PokemonGroup;
+import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 public record AlertContext(
         PokemonEntity entity,
-        PokemonGroup group,
+        RuntimeFilter filter,
         boolean isMuted,
         AlertConfig config
 ) {
@@ -14,35 +14,32 @@ public record AlertContext(
         return entity.getPokemon();
     }
 
-    public AlertConfig.GroupAlertConfig groupConfig() {
-        return config.getForGroup(group.id());
-    }
 
     public boolean isBlacklisted() {
         return config.blacklist.contains(pokemon().getSpecies().getName());
     }
 
     public boolean shouldAlert() {
-        return config.masterEnabled && groupConfig().enabled && !isBlacklisted();
+        return config.masterEnabled && !isBlacklisted();
     }
 
     public boolean shouldSound() {
-        return shouldAlert() && !isMuted && groupConfig().playSound;
+        return shouldAlert() && !isMuted;
     }
 
     public boolean shouldMessage() {
-        return shouldAlert() && !isMuted && groupConfig().sendChatMessage;
+        return shouldAlert() && !isMuted;
     }
 
     public boolean shouldHighlight() {
-        return shouldAlert() && groupConfig().highlightEntity;
+        return shouldAlert();
     }
 
     public float getEffectiveVolume() {
-        return (config.masterVolume / 100f) * (groupConfig().volume / 100f);
+        return (config.masterVolume / 100f) * 100 / 100f;
     }
 
     public float getEffectivePitch() {
-        return (groupConfig().pitch / 100f);
+        return (1 / 100f);
     }
 }

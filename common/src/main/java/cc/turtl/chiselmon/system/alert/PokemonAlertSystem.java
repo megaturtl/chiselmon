@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.OLDChiselmonConfig;
 import cc.turtl.chiselmon.api.Priority;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;

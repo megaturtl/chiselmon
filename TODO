@@ -8,6 +8,7 @@ High priority:
 - despawn glow should be overrided by everything
 
 Nice to have:
+- quick evolve or smth
 - auto pause spawnlogger when exit minecart
 - show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget.
 - make all text translatable (lang file)

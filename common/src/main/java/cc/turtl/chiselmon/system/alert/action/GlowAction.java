@@ -34,7 +34,7 @@ public class GlowAction implements AlertAction {
         if (!ctx.shouldHighlight()) {
             removeGlow(ctx.entity());
         } else {
-            int color = ctx.group().rgb();
+            int color = ctx.filter().color().getRGB();
             addGlow(ctx.entity(), color);
             highlightNickname(ctx.entity(), color);
         }

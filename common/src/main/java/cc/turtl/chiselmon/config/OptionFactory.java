@@ -4,6 +4,7 @@ import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.*;
 
+import java.awt.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -90,6 +91,18 @@ public class OptionFactory {
                 .description(OptionDescription.of(modTranslatable(translationKey + ".description")))
                 .binding(getter.get(), getter, setter)
                 .controller(StringControllerBuilder::create)
+                .build();
+    }
+
+    /**
+     * Creates a string text field option.
+     */
+    public static Option<Color> colorPicker(String translationKey, Supplier<Color> getter, Consumer<Color> setter) {
+        return Option.<Color>createBuilder()
+                .name(modTranslatable(translationKey))
+                .description(OptionDescription.of(modTranslatable(translationKey + ".description")))
+                .binding(getter.get(), getter, setter)
+                .controller(ColorControllerBuilder::create)
                 .build();
     }
 }

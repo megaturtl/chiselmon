@@ -1,11 +1,11 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.ChiselmonSystems;
+import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
+import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.system.alert.action.AlertAction;
 import cc.turtl.chiselmon.system.alert.action.GlowAction;
 import cc.turtl.chiselmon.system.alert.action.MessageAction;
 import cc.turtl.chiselmon.system.alert.action.SoundAction;
-import cc.turtl.chiselmon.system.group.PokemonGroup;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import java.util.*;
@@ -39,12 +39,12 @@ public class AlertTicker {
             UUID uuid = pe.getUUID();
             if (!pe.getBusyLocks().isEmpty()) alerter.mute(uuid);
 
-            // Find the highest priority group for this Pokemon
-            Optional<PokemonGroup> group = ChiselmonSystems.pokemonGroups().match(pe.getPokemon()).highestGroup();
-            if (group.isEmpty()) continue;
+            // Find the highest priority filter for this Pokemon
+            FilterMatchResult result = FilterMatcher.match(pe.getPokemon());
+            if (result.primaryMatch().isEmpty()) continue;
 
             // Create the Context
-            AlertContext ctx = new AlertContext(pe, group.get(), alerter.isMuted(uuid), config);
+            AlertContext ctx = new AlertContext(pe, result.primaryMatch().get(), alerter.isMuted(uuid), config);
 
             continuousActions.forEach(action -> action.execute(ctx));
 
@@ -55,7 +55,7 @@ public class AlertTicker {
 
             // Only play sound if not muted and it's higher priority than the current "best"
             if (ctx.shouldSound()) {
-                if (bestSoundContext == null || ctx.group().priority().isHigherThan(bestSoundContext.group().priority())) {
+                if (bestSoundContext == null || ctx.filter().priority().isHigherThan(bestSoundContext.filter().priority())) {
                     bestSoundContext = ctx;
                 }
             }

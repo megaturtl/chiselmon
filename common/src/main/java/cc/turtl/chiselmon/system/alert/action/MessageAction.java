@@ -36,7 +36,7 @@ public class MessageAction implements AlertAction {
             }
         }
         // Group
-        message.append(createComponent(" [" + ctx.group().name() + "] ", ctx.group().rgb()));
+        message.append(createComponent(" [" + ctx.filter().id() + "] ", ctx.filter().color().getRGB()));
         // Suffix
         message.append(modTranslatable("spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL)));
         // Coords
