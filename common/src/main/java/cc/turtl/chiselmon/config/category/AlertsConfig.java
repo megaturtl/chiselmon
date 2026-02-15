@@ -26,6 +26,11 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
     @SerialEntry(comment = "Per-filter alert settings")
     public Map<String, FilterAlertSettings> filterAlerts = new LinkedHashMap<>();
+    
+    // Cache of default filter IDs for O(1) lookup
+    private static final Set<String> DEFAULT_FILTER_IDS = DefaultFilters.all().stream()
+            .map(f -> f.id)
+            .collect(java.util.stream.Collectors.toSet());
 
     @Override
     public ConfigCategory buildCategory() {
@@ -70,7 +75,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
     private OptionGroup buildFilterAlertGroup(FilterDefinition filter, FilterAlertSettings settings) {
         // For default filters, use translation. For custom filters, use literal name
-        boolean isDefaultFilter = DefaultFilters.all().stream().anyMatch(d -> d.id.equals(filter.id));
+        boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(filter.id);
         Component filterName = isDefaultFilter 
                 ? modTranslatable("config.filters." + filter.id)
                 : Component.literal(filter.id.replace("_", " "));

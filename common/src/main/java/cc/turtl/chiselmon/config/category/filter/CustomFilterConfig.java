@@ -20,6 +20,11 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
 
     @SerialEntry
     public Map<String, FilterDefinition> filters = new LinkedHashMap<>();
+    
+    // Cache of default filter IDs for O(1) lookup
+    private static final Set<String> DEFAULT_FILTER_IDS = DefaultFilters.all().stream()
+            .map(f -> f.id)
+            .collect(java.util.stream.Collectors.toSet());
 
     /**
      * Ensures default filters are present. Called after config load.
@@ -48,7 +53,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                         .description(OptionDescription.of(modTranslatable("config.filters.add_new.description")))
                         .action((screen, opt) -> {
                             // Create a new filter with a unique ID
-                            String newId = "custom_filter_" + System.currentTimeMillis();
+                            String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                             FilterDefinition newFilter = new FilterDefinition(
                                     newId,
                                     "Custom Filter",
@@ -72,7 +77,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
 
     private OptionGroup buildGroupOptions(FilterDefinition def) {
         // For default filters, use translation. For custom filters, use literal name
-        boolean isDefaultFilter = DefaultFilters.all().stream().anyMatch(d -> d.id.equals(def.id));
+        boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
         Component filterName = isDefaultFilter 
                 ? modTranslatable("config.filters." + def.id)
                 : Component.literal(def.id.replace("_", " "));
@@ -129,7 +134,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 .build());
 
         // Delete button (except for default filters)
-        if (!DefaultFilters.all().stream().anyMatch(d -> d.id.equals(def.id))) {
+        if (!DEFAULT_FILTER_IDS.contains(def.id)) {
             groupBuilder.option(ButtonOption.createBuilder()
                     .name(modTranslatable("config.filters.delete"))
                     .description(OptionDescription.of(modTranslatable("config.filters.delete.description")))

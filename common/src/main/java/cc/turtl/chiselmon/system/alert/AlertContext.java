@@ -16,7 +16,7 @@ public record AlertContext(
     }
 
     private AlertsConfig.FilterAlertSettings getFilterSettings() {
-        return config.filterAlerts.getOrDefault(filter.id(), new AlertsConfig.FilterAlertSettings());
+        return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertsConfig.FilterAlertSettings());
     }
 
     public boolean shouldAlert() {
