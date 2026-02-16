@@ -7,8 +7,11 @@ import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -106,6 +109,19 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         v -> settings.alertSound = v,
                         AlertSounds.class
                 ))
+                .option(ButtonOption.createBuilder()
+                        .name(modTranslatable("config.alerts.preview_sound"))
+                        .description(OptionDescription.of(modTranslatable("config.alerts.preview_sound.description")))
+                        .action((screen, opt) -> {
+                            // Play the currently selected sound
+                            SoundEvent sound = settings.alertSound.getSound();
+                            if (sound != null) {
+                                Minecraft.getInstance().getSoundManager().play(
+                                        SimpleSoundInstance.forUI(sound, 1.0f, settings.volume / 100f)
+                                );
+                            }
+                        })
+                        .build())
                 .option(OptionFactory.intSlider(
                         "config.alerts.volume",
                         () -> settings.volume,

@@ -45,7 +45,10 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         // Build UI for each filter with delete button
         for (FilterDefinition def : filters.values()) {
             builder.group(buildGroupOptions(parent, def));
-            builder.group(buildTagsListGroup(def)); // Add tags as separate group
+            // Only show tags for custom filters (not default filters)
+            if (!DEFAULT_FILTER_IDS.contains(def.id)) {
+                builder.group(buildTagsListGroup(def));
+            }
         }
 
         // Add a button to create new filters
@@ -67,9 +70,9 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             filters.put(newId, newFilter);
                             FilterRegistry.loadFromConfig();
                             ChiselmonConfig.save();
-                            // Stay on the filters category instead of going back to main screen
+                            // Stay on the filters category (index 2)
                             screen.onClose();
-                            Minecraft.getInstance().setScreen(ChiselmonConfig.createScreen(parent));
+                            Minecraft.getInstance().setScreen(ChiselmonConfig.createScreenAtCategory(parent, 2));
                         })
                         .build())
                 .build());
@@ -129,9 +132,9 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                         filters.remove(def.id);
                         FilterRegistry.loadFromConfig();
                         ChiselmonConfig.save();
+                        // Stay on the filters category (index 2)
                         screen.onClose();
-                        Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-                        mc.setScreen(ChiselmonConfig.createScreen(parent));
+                        Minecraft.getInstance().setScreen(ChiselmonConfig.createScreenAtCategory(parent, 2));
                     })
                     .build());
         }
@@ -141,10 +144,11 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
 
     // New method: Add tags as a separate ListOption group
     private ListOption<String> buildTagsListGroup(FilterDefinition def) {
-        boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(def.id);
-        Component filterName = isDefaultFilter
-                ? modTranslatable("config.filters." + def.id + ".tags")
-                : Component.literal(def.displayName + " Tags");
+        // Custom filters show "DisplayName Tags" where "Tags" is translatable
+        Component filterName = Component.translatable(
+                "config.filters.tags_title",
+                def.displayName
+        );
 
         return ListOption.<String>createBuilder()
                 .name(filterName)
