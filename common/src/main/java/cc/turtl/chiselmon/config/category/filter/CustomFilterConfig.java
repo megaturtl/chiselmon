@@ -57,6 +57,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 .option(ButtonOption.createBuilder()
                         .name(modTranslatable("config.filters.add_new"))
                         .description(OptionDescription.of(modTranslatable("config.filters.add_new.description")))
+                        .text(modTranslatable("config.filters.add_new.button"))
                         .action((screen, opt) -> {
                             String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                             FilterDefinition newFilter = new FilterDefinition(
@@ -128,6 +129,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
             groupBuilder.option(ButtonOption.createBuilder()
                     .name(modTranslatable("config.filters.delete"))
                     .description(OptionDescription.of(modTranslatable("config.filters.delete.description")))
+                    .text(modTranslatable("config.filters.delete.button"))
                     .action((screen, opt) -> {
                         filters.remove(def.id);
                         FilterRegistry.loadFromConfig();

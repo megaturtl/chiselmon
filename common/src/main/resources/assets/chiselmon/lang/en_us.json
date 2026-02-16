@@ -271,6 +271,7 @@
     "chiselmon.config.filters.manage": "Manage Filters",
     "chiselmon.config.filters.add_new": "Add New Filter",
     "chiselmon.config.filters.add_new.description": "Create a new custom filter",
+    "chiselmon.config.filters.add_new.button": "+ Create Filter",
     "chiselmon.config.filters.group.description": "Configure this filter's settings",
     "chiselmon.config.filters.display_name": "Display Name",
     "chiselmon.config.filters.display_name.description": "Name shown in the UI for this filter",
@@ -285,6 +286,7 @@
     "chiselmon.config.filters.tags.description": "Condition tags: 'shiny', 'legendary', 'ha', 'marked', 'high_ivs', 'extreme_size', 'rideable', 'type:X', 'species:Y', 'gender:male/female', 'size:min-max'",
     "chiselmon.config.filters.delete": "Delete Filter",
     "chiselmon.config.filters.delete.description": "Remove this custom filter",
+    "chiselmon.config.filters.delete.button": "✕ Delete",
 
     "chiselmon.config.filters.legendaries": "Legendary Pokemon",
     "chiselmon.config.filters.shinies": "Shiny Pokemon",
@@ -309,6 +311,7 @@
     "chiselmon.config.alerts.alert_sound.description": "Choose the sound to play for this alert",
     "chiselmon.config.alerts.preview_sound": "Preview Sound",
     "chiselmon.config.alerts.preview_sound.description": "Click to hear the selected sound",
+    "chiselmon.config.alerts.preview_sound.button": "▶ Play",
     "chiselmon.config.alerts.volume": "Volume",
     "chiselmon.config.alerts.volume.description": "Volume for this alert",
     "chiselmon.config.alerts.highlight_entity": "Highlight Entity",

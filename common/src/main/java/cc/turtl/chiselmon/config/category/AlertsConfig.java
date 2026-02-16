@@ -112,6 +112,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                 .option(ButtonOption.createBuilder()
                         .name(modTranslatable("config.alerts.preview_sound"))
                         .description(OptionDescription.of(modTranslatable("config.alerts.preview_sound.description")))
+                        .text(modTranslatable("config.alerts.preview_sound.button"))
                         .action((screen, opt) -> {
                             // Play the currently selected sound
                             SoundEvent sound = settings.alertSound.getSound();
