@@ -85,6 +85,21 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                 ? modTranslatable("config.filters." + filter.id)
                 : Component.literal(filter.displayName);
         
+        // Create options and store references to read pending values
+        Option<AlertSounds> soundOption = OptionFactory.enumDropdown(
+                "config.alerts.alert_sound",
+                () -> settings.alertSound,
+                v -> settings.alertSound = v,
+                AlertSounds.class
+        );
+        
+        Option<Integer> volumeOption = OptionFactory.intSlider(
+                "config.alerts.volume",
+                () -> settings.volume,
+                v -> settings.volume = v,
+                0, 100, 1
+        );
+        
         return OptionGroup.createBuilder()
                 .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.alerts.group.filter_alerts.description")))
@@ -103,32 +118,25 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         () -> settings.playSound,
                         v -> settings.playSound = v
                 ))
-                .option(OptionFactory.enumDropdown(
-                        "config.alerts.alert_sound",
-                        () -> settings.alertSound,
-                        v -> settings.alertSound = v,
-                        AlertSounds.class
-                ))
+                .option(soundOption)
                 .option(ButtonOption.createBuilder()
                         .name(modTranslatable("config.alerts.preview_sound"))
                         .description(OptionDescription.of(modTranslatable("config.alerts.preview_sound.description")))
                         .text(modTranslatable("config.alerts.preview_sound.button"))
                         .action((screen, opt) -> {
-                            // Play the currently selected sound
-                            SoundEvent sound = settings.alertSound.getSound();
+                            // Play the currently selected sound from UI (pending value)
+                            AlertSounds currentSound = soundOption.pendingValue();
+                            int currentVolume = volumeOption.pendingValue();
+                            
+                            SoundEvent sound = currentSound.getSound();
                             if (sound != null) {
                                 Minecraft.getInstance().getSoundManager().play(
-                                        SimpleSoundInstance.forUI(sound, 1.0f, settings.volume / 100f)
+                                        SimpleSoundInstance.forUI(sound, 1.0f, currentVolume / 100f)
                                 );
                             }
                         })
                         .build())
-                .option(OptionFactory.intSlider(
-                        "config.alerts.volume",
-                        () -> settings.volume,
-                        v -> settings.volume = v,
-                        0, 100, 1
-                ))
+                .option(volumeOption)
                 .option(OptionFactory.toggleTick(
                         "config.alerts.highlight_entity",
                         () -> settings.highlightEntity,
