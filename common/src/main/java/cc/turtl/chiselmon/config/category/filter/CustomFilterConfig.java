@@ -54,6 +54,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         // Add a button to create new filters
         builder.group(OptionGroup.createBuilder()
                 .name(modTranslatable("config.filters.manage"))
+                .collapsed(false)  // Keep expanded for easy access
                 .option(ButtonOption.createBuilder()
                         .name(modTranslatable("config.filters.add_new"))
                         .description(OptionDescription.of(modTranslatable("config.filters.add_new.description")))
@@ -89,7 +90,8 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
 
         var groupBuilder = OptionGroup.createBuilder()
                 .name(filterName)
-                .description(OptionDescription.of(modTranslatable("config.filters.group.description")));
+                .description(OptionDescription.of(modTranslatable("config.filters.group.description")))
+                .collapsed(true);  // Collapse by default to reduce visual clutter
 
         // Display name field (only for custom filters)
         if (!isDefaultFilter) {
@@ -147,6 +149,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     // New method: Add tags as a separate ListOption group
     private ListOption<String> buildTagsListGroup(FilterDefinition def) {
         // Custom filters show "DisplayName Tags" where "Tags" is translatable
+        // Format: config.filters.tags_title = "%s Tags" where %s = filter display name
         Component filterName = Component.translatable(
                 "config.filters.tags_title",
                 def.displayName
