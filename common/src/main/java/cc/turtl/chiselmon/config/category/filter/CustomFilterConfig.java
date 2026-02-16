@@ -28,11 +28,23 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
     public Map<String, FilterDefinition> filters = new LinkedHashMap<>();
 
     /**
-     * Ensures default filters are present. Called after config load.
+     * Ensures default filters are present and up-to-date. Called after config load.
+     * This will update existing default filters to ensure they have correct displayName and settings.
      */
     public void ensureDefaults() {
-        for (FilterDefinition filter : DefaultFilters.all()) {
-            filters.putIfAbsent(filter.id, filter);
+        for (FilterDefinition defaultFilter : DefaultFilters.all()) {
+            FilterDefinition existing = filters.get(defaultFilter.id);
+            if (existing != null) {
+                // Update existing default filter to ensure it has correct displayName and other properties
+                existing.displayName = defaultFilter.displayName;
+                existing.color = defaultFilter.color;
+                existing.priority = defaultFilter.priority;
+                existing.enabled = defaultFilter.enabled;
+                existing.tags = new ArrayList<>(defaultFilter.tags);
+            } else {
+                // Add new default filter
+                filters.put(defaultFilter.id, defaultFilter);
+            }
         }
     }
 
@@ -92,7 +104,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                     () -> filter.displayName,
                     v -> {
                         filter.displayName = v;
-                        ChiselmonConfig.save();
+                        ChiselmonConfig.saveAndReloadScreen(parent);
                     }
             ));
         }
@@ -103,7 +115,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 () -> filter.color,
                 v -> {
                     filter.color = v;
-                    ChiselmonConfig.save();
+                    ChiselmonConfig.saveAndReloadScreen(parent);
                 }
         ));
 
