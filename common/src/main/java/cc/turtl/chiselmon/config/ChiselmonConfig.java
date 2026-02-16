@@ -1,22 +1,19 @@
 package cc.turtl.chiselmon.config;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.filter.FilterRegistry;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.config.category.filter.CustomFilterConfig;
 import cc.turtl.chiselmon.config.category.GeneralConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.util.MiscUtil;
 import com.google.gson.GsonBuilder;
-import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
-import dev.isxander.yacl3.gui.YACLScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
-import org.jetbrains.annotations.Nullable;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
@@ -50,10 +47,14 @@ public class ChiselmonConfig {
         HANDLER.load();
         get().filter.ensureDefaults();
         HANDLER.save();
+        // Load filters into registry after config is loaded
+        FilterRegistry.loadFromConfig();
     }
 
     public static void save() {
         HANDLER.save();
+        // Reload filters into registry after config is saved
+        FilterRegistry.loadFromConfig();
     }
 
     public static Screen createScreen(Screen parent) {
@@ -69,21 +70,13 @@ public class ChiselmonConfig {
         return config.generateScreen(parent);
     }
 
-    public static Screen createScreenAtCategory(Screen parent, int tabIndex) {
-        YACLScreen screen = (YACLScreen) createScreen(parent);
-        screen.tabNavigationBar.selectTab(tabIndex, false);
-
-        return screen;
-    }
-
+    /**
+     * Saves config and recreates the screen to reflect changes.
+     * This is a workaround since YACL doesn't support in-place refresh.
+     */
     public static void saveAndReloadScreen(Screen parent) {
         ChiselmonConfig.save();
-
-        if (Minecraft.getInstance().screen instanceof YACLScreen screen) {
-            int tabIndex = screen.getTabOrderGroup();
-            Screen newScreen = ChiselmonConfig.createScreenAtCategory(parent, tabIndex);
-            screen.onClose();
-            Minecraft.getInstance().setScreen(newScreen);
-        }
+        Screen newScreen = ChiselmonConfig.createScreen(parent);
+        Minecraft.getInstance().setScreen(newScreen);
     }
 }

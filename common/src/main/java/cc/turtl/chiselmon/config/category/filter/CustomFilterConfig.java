@@ -57,15 +57,15 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                             new ArrayList<>()
                     );
                     filters.put(newId, newFilter);
-                    FilterRegistry.loadFromConfig();
                     ChiselmonConfig.saveAndReloadScreen(parent);
                 })
                 .build());
 
-        // Build UI for each default filter
+        // Build UI for each filter
         for (FilterDefinition filter : filters.values()) {
             builder.group(buildGroupOptions(parent, filter));
 
+            // Only show tags for custom filters (not default filters)
             if (!DEFAULT_FILTER_IDS.contains(filter.id)) {
                 builder.group(buildTagsListGroup(filter));
             }
@@ -76,6 +76,8 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
 
     private OptionGroup buildGroupOptions(Screen parent, FilterDefinition filter) {
         boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(filter.id);
+        
+        // Use displayName directly for both default and custom filters
         MutableComponent filterName = ComponentUtils.createComponent(filter.displayName, filter.color.getRGB());
 
         var groupBuilder = OptionGroup.createBuilder()
@@ -90,8 +92,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                     () -> filter.displayName,
                     v -> {
                         filter.displayName = v;
-                        ChiselmonConfig.saveAndReloadScreen(parent);
-                        FilterRegistry.loadFromConfig();
+                        ChiselmonConfig.save();
                     }
             ));
         }
@@ -102,8 +103,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 () -> filter.color,
                 v -> {
                     filter.color = v;
-                    ChiselmonConfig.saveAndReloadScreen(parent);
-                    FilterRegistry.loadFromConfig();
+                    ChiselmonConfig.save();
                 }
         ));
 
@@ -113,7 +113,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                 () -> filter.priority,
                 v -> {
                     filter.priority = v;
-                    FilterRegistry.loadFromConfig();
+                    ChiselmonConfig.save();
                 },
                 Priority.class
         ));
@@ -127,7 +127,6 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                     .action((screen, opt) -> {
                         filters.remove(filter.id);
                         ChiselmonConfig.saveAndReloadScreen(parent);
-                        FilterRegistry.loadFromConfig();
                     })
                     .build());
         }
@@ -152,7 +151,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                         () -> new ArrayList<>(filter.tags),
                         val -> {
                             filter.tags = new ArrayList<>(val);
-                            FilterRegistry.loadFromConfig();
+                            ChiselmonConfig.save();
                         }
                 )
                 .controller(StringControllerBuilder::create)
