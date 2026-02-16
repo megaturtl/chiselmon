@@ -2,7 +2,9 @@ package cc.turtl.chiselmon.config;
 
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
+import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.*;
+import net.minecraft.network.chat.Component;
 
 import java.awt.*;
 import java.util.function.Consumer;
@@ -69,10 +71,10 @@ public class OptionFactory {
     }
 
     /**
-     * Creates an enum dropdown option.
+     * Creates an enum cycler option.
      */
-    public static <T extends Enum<T>> Option<T> enumDropdown(String translationKey, Supplier<T> getter, Consumer<T> setter,
-                                                             Class<T> enumClass) {
+    public static <T extends Enum<T>> Option<T> enumCycler(String translationKey, Supplier<T> getter, Consumer<T> setter,
+                                                           Class<T> enumClass) {
         return Option.<T>createBuilder()
                 .name(modTranslatable(translationKey))
                 .description(OptionDescription.of(modTranslatable(translationKey + ".description")))

@@ -9,7 +9,6 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 public final class Chiselmon {
     public static void initClient() {
         ChiselmonConfig.load();
-        ChiselmonConfig.get().filter.ensureDefaults();
         FilterRegistry.loadFromConfig();
         WorldDataManager.init();
         ChiselmonRegistries.init();

@@ -47,7 +47,7 @@ public class PCConfig implements ConfigCategoryBuilder {
                             () -> enabled,
                             v -> enabled = v
                     ))
-                    .option(OptionFactory.enumDropdown(
+                    .option(OptionFactory.enumCycler(
                             "config.pc.quick_sort.mode",
                             () -> mode,
                             v -> mode = v,

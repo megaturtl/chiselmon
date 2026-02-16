@@ -15,9 +15,9 @@ public class CommandUtils {
 
     public static final Component PREFIX = Component.empty()
             .append(Component.literal("\uD83D\uDEE0 CH")
-                    .withColor(ColorUtils.PINK)
+                    .withColor(ColorUtils.PINK.getRGB())
                     .withStyle(ChatFormatting.BOLD))
-            .append(createComponent(" » ", ColorUtils.DARK_GRAY));
+            .append(createComponent(" » ", ColorUtils.DARK_GRAY.getRGB()));
 
     private CommandUtils() {
     }
@@ -47,7 +47,7 @@ public class CommandUtils {
     }
 
     public static void sendPrefixed(CommandSourceStack source, String message) {
-        send(source, PREFIX.copy().append(createComponent(message, ColorUtils.WHITE)));
+        send(source, PREFIX.copy().append(createComponent(message, ColorUtils.WHITE.getRGB())));
     }
 
     public static void sendPrefixed(CommandSourceStack source, Component message) {
@@ -58,7 +58,7 @@ public class CommandUtils {
      * Sends a success message (green) to the command source.
      */
     public static void sendSuccess(CommandSourceStack source, String message) {
-        sendPrefixed(source, createComponent(message, ColorUtils.GREEN));
+        sendPrefixed(source, createComponent(message, ColorUtils.GREEN.getRGB()));
     }
 
     /**
@@ -66,7 +66,7 @@ public class CommandUtils {
      */
 
     public static void sendWarning(CommandSourceStack source, String message) {
-        sendPrefixed(source, createComponent(message, ColorUtils.YELLOW));
+        sendPrefixed(source, createComponent(message, ColorUtils.YELLOW.getRGB()));
     }
 
     /**
@@ -74,7 +74,7 @@ public class CommandUtils {
      */
     public static void sendError(CommandContext<CommandSourceStack> context, Exception e) {
         String input = context.getInput();
-        context.getSource().sendFailure(PREFIX.copy().append(createComponent("Error executing: " + input, ColorUtils.RED)));
+        context.getSource().sendFailure(PREFIX.copy().append(createComponent("Error executing: " + input, ColorUtils.RED.getRGB())));
         ChiselmonConstants.LOGGER.error("Error executing command '{}': ", input, e);
     }
 
@@ -84,9 +84,9 @@ public class CommandUtils {
      *
      */
     public static void sendHeader(CommandSourceStack source, Component title) {
-        Component prefix = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY);
-        Component suffix = createComponent("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY);
-        Component toolIcon = createComponent(" \uD83D\uDEE0 ", ColorUtils.PINK).withStyle(ChatFormatting.BOLD);
+        Component prefix = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY.getRGB());
+        Component suffix = createComponent("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY.getRGB());
+        Component toolIcon = createComponent(" \uD83D\uDEE0 ", ColorUtils.PINK.getRGB()).withStyle(ChatFormatting.BOLD);
 
         Component header = Component.empty()
                 .append(prefix)
@@ -99,7 +99,7 @@ public class CommandUtils {
     }
 
     public static void sendHeader(CommandSourceStack source, String title) {
-        sendHeader(source, createComponent(title, ColorUtils.WHITE));
+        sendHeader(source, createComponent(title, ColorUtils.WHITE.getRGB()));
     }
 
     /**

@@ -17,8 +17,8 @@ public final class ComponentUtils {
     /**
      * Placeholder component for missing or null data.
      */
-    public static final Component UNKNOWN = createComponent("???", ColorUtils.DARK_GRAY);
-    public static final Component NONE = createComponent("None", ColorUtils.DARK_GRAY);
+    public static final Component UNKNOWN = createComponent("???", ColorUtils.DARK_GRAY.getRGB());
+    public static final Component NONE = createComponent("None", ColorUtils.DARK_GRAY.getRGB());
     public static final Component SPACE = Component.literal(" ");
     public static final Component RESET = Component.literal("").withStyle(ChatFormatting.RESET);
 
@@ -35,7 +35,7 @@ public final class ComponentUtils {
     }
 
     public static MutableComponent createComponent(Object text) {
-        return createComponent(text, ColorUtils.WHITE);
+        return createComponent(text, ColorUtils.WHITE.getRGB());
     }
 
     /**
@@ -64,12 +64,12 @@ public final class ComponentUtils {
     public static Component labelled(@NotNull Object label, @Nullable Object value) {
         MutableComponent labelComp = (label instanceof Component c ? c.copy() : Component.literal(label.toString()));
         // If we pass a component label, it gets overridden with gray for label consistency
-        labelComp.withColor(ColorUtils.LIGHT_GRAY);
+        labelComp.withColor(ColorUtils.LIGHT_GRAY.getRGB());
 
         Component valueComp = (value == null) ? UNKNOWN :
-                (value instanceof Component c ? c : createComponent(value.toString(), ColorUtils.WHITE));
+                (value instanceof Component c ? c : createComponent(value.toString(), ColorUtils.WHITE.getRGB()));
 
-        return labelComp.append(createComponent(": ", ColorUtils.LIGHT_GRAY)).append(valueComp);
+        return labelComp.append(createComponent(": ", ColorUtils.LIGHT_GRAY.getRGB())).append(valueComp);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class ComponentUtils {
             Component mapped = mapper.apply(it.next());
             if (mapped != null) {
                 result.append(mapped);
-                if (it.hasNext()) result.append(createComponent(separator, ColorUtils.DARK_GRAY));
+                if (it.hasNext()) result.append(createComponent(separator, ColorUtils.DARK_GRAY.getRGB()));
             }
         }
         return result;

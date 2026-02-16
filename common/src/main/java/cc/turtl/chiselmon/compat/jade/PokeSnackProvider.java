@@ -90,7 +90,7 @@ public enum PokeSnackProvider implements IBlockComponentProvider {
 
     private void addNoIngredientsWarning(ITooltip tooltip) {
         MutableComponent warning = ComponentUtils.modTranslatable("ui.label.pokesnack_block.no_ingredients");
-        tooltip.add(warning.withColor(ColorUtils.RED));
+        tooltip.add(warning.withColor(ColorUtils.RED.getRGB()));
     }
 
     private void addIngredientIcons(ITooltip tooltip, IngredientComponent ingredients) {

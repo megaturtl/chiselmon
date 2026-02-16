@@ -62,7 +62,7 @@ public class BookmarkButtons {
                 BookmarkConstants.TAB_TEXTURE_HEIGHT,
                 onPress)
                 .text(boxName)
-                .textStyle(ColorUtils.WHITE, BookmarkConstants.TAB_TEXT_MARGIN)
+                .textStyle(ColorUtils.WHITE.getRGB(), BookmarkConstants.TAB_TEXT_MARGIN)
                 .tooltip(tooltip)
                 .build();
     }

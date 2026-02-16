@@ -1,8 +1,8 @@
-package cc.turtl.chiselmon.config.category.filter;
+package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.chiselmon.api.Priority;
+import cc.turtl.chiselmon.util.format.ColorUtils;
 
-import java.awt.*;
 import java.util.List;
 
 public class DefaultFilters {
@@ -11,7 +11,7 @@ public class DefaultFilters {
         return new FilterDefinition(
                 "legendaries",
                 "Legendary Pokemon",
-                Color.MAGENTA,
+                ColorUtils.MAGENTA,
                 Priority.HIGHEST,
                 true,
                 List.of("legendary")
@@ -22,7 +22,7 @@ public class DefaultFilters {
         return new FilterDefinition(
                 "shinies",
                 "Shiny Pokemon",
-                Color.ORANGE,
+                ColorUtils.GOLD,
                 Priority.HIGH,
                 true,
                 List.of("shiny")
@@ -33,7 +33,7 @@ public class DefaultFilters {
         return new FilterDefinition(
                 "extreme_sizes",
                 "Extreme Size Pokemon",
-                Color.CYAN,
+                ColorUtils.TEAL,
                 Priority.NORMAL,
                 true,
                 List.of("extreme_size")
