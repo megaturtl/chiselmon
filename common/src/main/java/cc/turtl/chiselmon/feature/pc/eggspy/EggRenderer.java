@@ -26,8 +26,8 @@ public final class EggRenderer {
     private static final int BAR_HEIGHT = 2;
     private static final int BAR_WIDTH = 25;
     private static final int BAR_Y_OFFSET = 23;
-    private static final int BAR_BG_COLOR = ColorUtils.argb(ColorUtils.DARK_GRAY, 1f);
-    private static final int BAR_FILL_COLOR = ColorUtils.argb(ColorUtils.GREEN, 1f);
+    private static final int BAR_BG_COLOR = ColorUtils.argb(ColorUtils.DARK_GRAY.getRGB(), 1f);
+    private static final int BAR_FILL_COLOR = ColorUtils.argb(ColorUtils.GREEN.getRGB(), 1f);
 
     private EggRenderer() {
     }

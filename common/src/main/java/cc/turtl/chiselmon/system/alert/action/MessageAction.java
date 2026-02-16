@@ -20,27 +20,27 @@ public class MessageAction implements AlertAction {
         String speciesName = pokemon.getSpecies().getName();
 
         // Alert Emoji + Mute Click Event
-        MutableComponent message = createComponent("⚠ ", ColorUtils.CORAL)
+        MutableComponent message = createComponent("⚠ ", ColorUtils.CORAL.getRGB())
                 .withStyle(style -> style
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                                 "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 modTranslatable("spawnalert.mute.tooltip"))));
         // Species Name
-        message.append(createComponent(speciesName, ColorUtils.CORAL));
+        message.append(createComponent(speciesName, ColorUtils.CORAL.getRGB()));
         // Optional Form
         if (ctx.config().showFormInMessage) {
             String formName = pokemon.getForm().getName();
             if (!formName.trim().equalsIgnoreCase("normal")) {
-                message.append(createComponent("-" + formName, ColorUtils.CORAL));
+                message.append(createComponent("-" + formName, ColorUtils.CORAL.getRGB()));
             }
         }
         // Group
-        message.append(createComponent(" [" + ctx.filter().id() + "] ", ctx.filter().color().getRGB()));
+        message.append(createComponent(" [" + ctx.filter().id() + "] ", ctx.filter().rgb()));
         // Suffix
-        message.append(modTranslatable("spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL)));
+        message.append(modTranslatable("spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL.getRGB())));
         // Coords
-        message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA));
+        message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA.getRGB()));
 
         return message;
     }

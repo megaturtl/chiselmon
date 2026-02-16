@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.config.category.filter;
+package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.chiselmon.api.Priority;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;

@@ -12,13 +12,13 @@ import java.util.function.Predicate;
  * Represents a named group of conditions specifying pokemon.
  *
  * @param id        Unique identifier for this filter (e.g., "legendaries", "custom_tiny_shinies")
- * @param color       Color used for text and glow effects involving the group.
+ * @param rgb       RGB hex color used for text and glow effects involving the group.
  * @param priority  Alert priority for this filter
  * @param condition Predicate that determines if a Pokemon passes this filter
  */
 public record RuntimeFilter(
         String id,
-        Color color,
+        int rgb,
         Priority priority,
         Predicate<Pokemon> condition
 ) {
@@ -27,6 +27,6 @@ public record RuntimeFilter(
     }
 
     public Component displayName() {
-        return ComponentUtils.createComponent(id(), color.getRGB());
+        return ComponentUtils.createComponent(id(), rgb());
     }
 }

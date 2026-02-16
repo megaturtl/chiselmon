@@ -123,7 +123,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
         }
 
         if (PokemonPredicates.HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
-            tooltip.add(Component.literal("⚠ ").withColor(ColorUtils.RED));
+            tooltip.add(Component.literal("⚠ ").withColor(ColorUtils.RED.getRGB()));
             tooltip.append(PokemonFormats.selfDamagingMoves(pokemon));
         }
     }

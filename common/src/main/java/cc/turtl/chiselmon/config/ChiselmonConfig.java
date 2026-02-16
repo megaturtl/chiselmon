@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.config;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.FilterRegistry;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
-import cc.turtl.chiselmon.config.category.filter.CustomFilterConfig;
+import cc.turtl.chiselmon.config.category.FilterConfig;
 import cc.turtl.chiselmon.config.category.GeneralConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.util.MiscUtil;
@@ -12,6 +12,7 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import dev.isxander.yacl3.gui.YACLScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -34,7 +35,7 @@ public class ChiselmonConfig {
     public final PCConfig pc = new PCConfig();
 
     @SerialEntry
-    public final CustomFilterConfig filter = new CustomFilterConfig();
+    public final FilterConfig filter = new FilterConfig();
 
     @SerialEntry
     public final AlertsConfig alerts = new AlertsConfig();
@@ -72,11 +73,22 @@ public class ChiselmonConfig {
 
     /**
      * Saves config and recreates the screen to reflect changes.
+     * Takes a tab index to switch back to that tab after reload.
      * This is a workaround since YACL doesn't support in-place refresh.
      */
-    public static void saveAndReloadScreen(Screen parent) {
+    public static void saveAndReloadScreen(Screen parent, int tabIndex) {
         ChiselmonConfig.save();
-        Screen newScreen = ChiselmonConfig.createScreen(parent);
+        YACLScreen newScreen = (YACLScreen) ChiselmonConfig.createScreen(parent);
         Minecraft.getInstance().setScreen(newScreen);
+        switchTab(newScreen, tabIndex);
+    }
+
+    private static void switchTab(YACLScreen screen, int tabIndex) {
+        if (screen.tabNavigationBar != null) {
+            // Ensure index is within bounds of the tabs list
+            if (tabIndex >= 0 && tabIndex < screen.tabNavigationBar.getTabs().size()) {
+                screen.tabNavigationBar.selectTab(tabIndex, false);
+            }
+        }
     }
 }

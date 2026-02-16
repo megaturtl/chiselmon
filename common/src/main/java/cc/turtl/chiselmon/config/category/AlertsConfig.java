@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
-import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
+import cc.turtl.chiselmon.api.filter.FilterDefinition;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;

@@ -156,7 +156,7 @@ public class PCButton extends Button implements CobblemonRenderable {
 
         // Optional parameters with defaults
         private Component text = null;
-        private int textColor = ColorUtils.WHITE;
+        private int textColor = ColorUtils.WHITE.getRGB();
         private int textMargin = 5;
         private Tooltip activeTooltip = null;
         private Tooltip inactiveTooltip = null;

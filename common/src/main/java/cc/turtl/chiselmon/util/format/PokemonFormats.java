@@ -37,9 +37,9 @@ public final class PokemonFormats {
     private PokemonFormats() {}
 
     // --- Icons & Constants ---
-    private static final Component ICON_MALE = createComponent("♂", ColorUtils.BLUE);
-    private static final Component ICON_FEMALE = createComponent("♀", ColorUtils.PINK);
-    private static final Component ICON_GENDERLESS = createComponent("●", ColorUtils.LIGHT_GRAY);
+    private static final Component ICON_MALE = createComponent("♂", ColorUtils.BLUE.getRGB());
+    private static final Component ICON_FEMALE = createComponent("♀", ColorUtils.PINK.getRGB());
+    private static final Component ICON_GENDERLESS = createComponent("●", ColorUtils.LIGHT_GRAY.getRGB());
 
     private static final Map<String, Integer> EGG_GROUP_COLORS = Map.ofEntries(
             Map.entry("monster", 0x97724C), Map.entry("water_1", 0x6BD1F9),
@@ -54,7 +54,7 @@ public final class PokemonFormats {
     // --- Identification ---
 
     public static Component genderIcon(Gender gender) {
-        if (gender == null) return createComponent("?", ColorUtils.DARK_GRAY);
+        if (gender == null) return createComponent("?", ColorUtils.DARK_GRAY.getRGB());
         return switch (gender) {
             case MALE -> ICON_MALE;
             case FEMALE -> ICON_FEMALE;
@@ -67,18 +67,18 @@ public final class PokemonFormats {
 
         MutableComponent base = Component.empty()
                 .append(genderIcon(pokemon.getGender()))
-                .append(" ").append(createComponent(pokemon.getSpecies().getName(), ColorUtils.WHITE))
-                .append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY));
+                .append(" ").append(createComponent(pokemon.getSpecies().getName(), ColorUtils.WHITE.getRGB()))
+                .append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY.getRGB()));
 
-        if (pokemon.getShiny()) base.append(createComponent(" ★", ColorUtils.GOLD));
+        if (pokemon.getShiny()) base.append(createComponent(" ★", ColorUtils.GOLD.getRGB()));
 
         String size = String.format("%.2f", pokemon.getScaleModifier());
-        return base.append(createComponent(" (" + size + ")", ColorUtils.TEAL));
+        return base.append(createComponent(" (" + size + ")", ColorUtils.TEAL.getRGB()));
     }
 
     public static Component form(Pokemon pokemon) {
         if (pokemon == null) return UNKNOWN;
-        return createComponent(pokemon.getForm().getName(), ColorUtils.WHITE);
+        return createComponent(pokemon.getForm().getName(), ColorUtils.WHITE.getRGB());
     }
 
     // --- Combat & Stats ---
@@ -114,11 +114,11 @@ public final class PokemonFormats {
         Component stats = join(Stats.Companion.getPERMANENT(), "/", stat -> {
             int val = ivs.getEffectiveBattleIV(stat);
             float ratio = (float) val / IVs.MAX_VALUE;
-            return createComponent(val, ColorUtils.getGradient(ratio, ColorUtils.RED, ColorUtils.YELLOW, ColorUtils.GREEN));
+            return createComponent(val, ColorUtils.getGradient(ratio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB()));
         });
 
         float totalRatio = (float) ivs.getEffectiveBattleTotal() / IVs.MAX_TOTAL;
-        int totalColor = ColorUtils.getGradient(totalRatio, ColorUtils.RED, ColorUtils.YELLOW, ColorUtils.GREEN);
+        int totalColor = ColorUtils.getGradient(totalRatio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty().append(stats).append(" ")
                 .append(createComponent("(" + StringFormats.formatPercentage(totalRatio) + ")", totalColor));
@@ -130,7 +130,7 @@ public final class PokemonFormats {
                 .toList();
 
         if (moves.isEmpty()) return UNKNOWN;
-        return join(moves, ", ", move -> move.getDisplayName().withColor(ColorUtils.RED));
+        return join(moves, ", ", move -> move.getDisplayName().withColor(ColorUtils.RED.getRGB()));
     }
 
     // --- Breeding & Species ---
@@ -138,7 +138,7 @@ public final class PokemonFormats {
     public static Component eggGroups(ClientSpecies species) {
         if (species == null || species.eggGroups().isEmpty()) return UNKNOWN;
         return join(species.eggGroups(), " / ", group -> {
-            int color = EGG_GROUP_COLORS.getOrDefault(group.toLowerCase(), ColorUtils.WHITE);
+            int color = EGG_GROUP_COLORS.getOrDefault(group.toLowerCase(), ColorUtils.WHITE.getRGB());
             return createComponent(StringFormats.formatSnakeCase(group), color);
         });
     }
@@ -151,26 +151,26 @@ public final class PokemonFormats {
                 .toList();
 
         return join(yields, ", ", entry -> Component.empty()
-                .append(createComponent(entry.getValue(), ColorUtils.WHITE))
+                .append(createComponent(entry.getValue(), ColorUtils.WHITE.getRGB()))
                 .append(" ")
-                .append(createComponent(getStatDisplayName(entry.getKey()), ColorUtils.WHITE)));
+                .append(createComponent(getStatDisplayName(entry.getKey()), ColorUtils.WHITE.getRGB())));
     }
 
     // --- Capture ---
 
     public static Component catchRate(ClientSpecies species) {
-        return (species == null) ? UNKNOWN : createComponent(species.catchRate(), ColorUtils.WHITE);
+        return (species == null) ? UNKNOWN : createComponent(species.catchRate(), ColorUtils.WHITE.getRGB());
     }
 
     public static Component catchChance(PokemonEntity entity, PokeBall ball) {
         var estimator = new CaptureChanceEstimator();
         float chance = estimator.estimateCaptureProbability(entity, ball);
-        int color = ColorUtils.getGradient(chance, ColorUtils.RED, ColorUtils.YELLOW, ColorUtils.GREEN);
+        int color = ColorUtils.getGradient(chance, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty()
-                .append(createComponent("(", ColorUtils.LIGHT_GRAY))
+                .append(createComponent("(", ColorUtils.LIGHT_GRAY.getRGB()))
                 .append(createComponent(StringFormats.formatPercentage(chance), color))
-                .append(createComponent(")", ColorUtils.LIGHT_GRAY));
+                .append(createComponent(")", ColorUtils.LIGHT_GRAY.getRGB()));
     }
 
     // --- Misc ---
@@ -182,9 +182,9 @@ public final class PokemonFormats {
 
         return join(behaviours.keySet(), ", ", style -> {
             int color = switch (style) {
-                case LAND -> ColorUtils.GREEN;
-                case LIQUID -> ColorUtils.AQUA;
-                case AIR -> ColorUtils.LAVENDER;
+                case LAND -> ColorUtils.GREEN.getRGB();
+                case LIQUID -> ColorUtils.AQUA.getRGB();
+                case AIR -> ColorUtils.LAVENDER.getRGB();
             };
             return createComponent(StringFormats.capitalize(style.name()), color);
         });
@@ -201,7 +201,7 @@ public final class PokemonFormats {
                 int color = Integer.parseInt(mark.getTitleColour(), 16);
 
                 return createComponent(Component.translatable(key).getString(), color)
-                        .append(createComponent(" (" + StringFormats.formatPercentage(mark.getChance()) + ")", ColorUtils.DARK_GRAY));
+                        .append(createComponent(" (" + StringFormats.formatPercentage(mark.getChance()) + ")", ColorUtils.DARK_GRAY.getRGB()));
             } catch (Exception e) {
                 return UNKNOWN;
             }
@@ -221,9 +221,9 @@ public final class PokemonFormats {
         PokedexEntryProgress knowledge = playerDexData.getHighestKnowledgeForSpecies(speciesId);
 
         return switch (knowledge) {
-            case CAUGHT -> createComponent("Caught", ColorUtils.GREEN);
-            case ENCOUNTERED -> createComponent("Encountered", ColorUtils.WHITE);
-            default -> createComponent("Not Encountered", ColorUtils.RED);
+            case CAUGHT -> createComponent("Caught", ColorUtils.GREEN.getRGB());
+            case ENCOUNTERED -> createComponent("Encountered", ColorUtils.WHITE.getRGB());
+            default -> createComponent("Not Encountered", ColorUtils.RED.getRGB());
         };
     }
 

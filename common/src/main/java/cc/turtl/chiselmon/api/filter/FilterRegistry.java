@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import java.util.*;
 import java.util.function.Predicate;
@@ -44,7 +43,7 @@ public class FilterRegistry {
 
         RuntimeFilter filter = new RuntimeFilter(
                 def.id,
-                def.color,
+                def.color.getRGB(),
                 def.priority,
                 condition
         );

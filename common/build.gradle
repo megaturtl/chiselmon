@@ -15,7 +15,6 @@ dependencies {
 
     modImplementation "com.cobblemon:mod:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
 
-    modImplementation("me.shedaniel.cloth:cloth-config:${cloth_config_version}")
     modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
 
     modImplementation("maven.modrinth:jade:${rootProject.jade_version}+neoforge")
