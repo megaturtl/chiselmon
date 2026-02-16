@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.config.category.filter;
 
 import cc.turtl.chiselmon.api.Priority;
-import cc.turtl.chiselmon.api.filter.FilterRegistry;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.config.category.ConfigCategoryBuilder;
@@ -33,18 +32,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
      */
     public void ensureDefaults() {
         for (FilterDefinition defaultFilter : DefaultFilters.all()) {
-            FilterDefinition existing = filters.get(defaultFilter.id);
-            if (existing != null) {
-                // Update existing default filter to ensure it has correct displayName and other properties
-                existing.displayName = defaultFilter.displayName;
-                existing.color = defaultFilter.color;
-                existing.priority = defaultFilter.priority;
-                existing.enabled = defaultFilter.enabled;
-                existing.tags = new ArrayList<>(defaultFilter.tags);
-            } else {
-                // Add new default filter
                 filters.put(defaultFilter.id, defaultFilter);
-            }
         }
     }
 

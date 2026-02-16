@@ -26,11 +26,7 @@ public class FilterTagParser {
         return switch (tag) {
             case "shiny" -> PokemonPredicates.IS_SHINY;
             case "legendary" -> PokemonPredicates.IS_LEGENDARY;
-            case "hidden_ability", "ha" -> PokemonPredicates.HAS_HIDDEN_ABILITY;
-            case "marked" -> PokemonPredicates.IS_MARKED;
-            case "high_ivs" -> PokemonPredicates.HAS_HIGH_IVS;
             case "extreme_size" -> PokemonPredicates.IS_EXTREME_SIZE;
-            case "rideable" -> PokemonPredicates.IS_RIDEABLE;
             default -> parseComplexTag(tag);
         };
     }
