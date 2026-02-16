@@ -65,6 +65,12 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                 ))
                 .build());
 
+        // Add a visual separator
+        builder.group(OptionGroup.createBuilder()
+                .name(Component.empty())
+                .option(LabelOption.create(Component.translatable("config.alerts.section.per_filter")))
+                .build());
+
         // Add a separate group for each filter's alert settings
         for (FilterDefinition filter : ChiselmonConfig.get().filter.filters.values()) {
             FilterAlertSettings settings = filterAlerts.computeIfAbsent(

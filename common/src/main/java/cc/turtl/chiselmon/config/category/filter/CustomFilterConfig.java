@@ -42,16 +42,7 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
         var builder = ConfigCategory.createBuilder()
                 .name(modTranslatable("config.category.filters"));
 
-        // Build UI for each filter with delete button
-        for (FilterDefinition def : filters.values()) {
-            builder.group(buildGroupOptions(parent, def));
-            // Only show tags for custom filters (not default filters)
-            if (!DEFAULT_FILTER_IDS.contains(def.id)) {
-                builder.group(buildTagsListGroup(def));
-            }
-        }
-
-        // Add a button to create new filters
+        // Add "Create New Filter" button at the top for easy access
         builder.group(OptionGroup.createBuilder()
                 .name(modTranslatable("config.filters.manage"))
                 .collapsed(false)  // Keep expanded for easy access
@@ -78,6 +69,21 @@ public class CustomFilterConfig implements ConfigCategoryBuilder {
                         })
                         .build())
                 .build());
+
+        // Add a visual separator using a label
+        builder.group(OptionGroup.createBuilder()
+                .name(Component.empty())
+                .option(LabelOption.create(Component.translatable("config.filters.section.configured")))
+                .build());
+
+        // Build UI for each filter with delete button
+        for (FilterDefinition def : filters.values()) {
+            builder.group(buildGroupOptions(parent, def));
+            // Only show tags for custom filters (not default filters)
+            if (!DEFAULT_FILTER_IDS.contains(def.id)) {
+                builder.group(buildTagsListGroup(def));
+            }
+        }
 
         return builder.build();
     }
