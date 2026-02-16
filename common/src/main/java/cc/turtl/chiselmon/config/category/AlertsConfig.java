@@ -2,23 +2,21 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
-import cc.turtl.chiselmon.config.category.filter.DefaultFilters;
 import cc.turtl.chiselmon.config.category.filter.FilterDefinition;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
+import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
-import static java.util.stream.Collectors.toSet;
 
 public class AlertsConfig implements ConfigCategoryBuilder {
 
@@ -33,21 +31,13 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
     @SerialEntry(comment = "Per-filter alert settings")
     public Map<String, FilterAlertSettings> filterAlerts = new LinkedHashMap<>();
-    
-    // Cache of default filter IDs for O(1) lookup
-    private static final Set<String> DEFAULT_FILTER_IDS = DefaultFilters.all().stream()
-            .map(f -> f.id)
-            .collect(toSet());
 
     @Override
     public ConfigCategory buildCategory(Screen parent) {
         var builder = ConfigCategory.createBuilder()
                 .name(modTranslatable("config.category.alerts"));
 
-        // Master settings group
-        builder.group(OptionGroup.createBuilder()
-                .name(modTranslatable("config.alerts.master_settings"))
-                .option(OptionFactory.toggleOnOff(
+        builder.option(OptionFactory.toggleOnOff(
                         "config.alerts.master_enabled",
                         () -> masterEnabled,
                         v -> masterEnabled = v
@@ -62,14 +52,9 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         "config.alerts.show_form_in_message",
                         () -> showFormInMessage,
                         v -> showFormInMessage = v
-                ))
-                .build());
+                ));
 
-        // Add a visual separator
-        builder.group(OptionGroup.createBuilder()
-                .name(Component.empty())
-                .option(LabelOption.create(Component.translatable("config.alerts.section.per_filter")))
-                .build());
+        builder.option(LabelOption.create(modTranslatable("config.alerts.filters")));
 
         // Add a separate group for each filter's alert settings
         for (FilterDefinition filter : ChiselmonConfig.get().filter.filters.values()) {
@@ -77,7 +62,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                     filter.id,
                     id -> new FilterAlertSettings()
             );
-            
+
             builder.group(buildFilterAlertGroup(filter, settings));
         }
 
@@ -85,27 +70,23 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     }
 
     private OptionGroup buildFilterAlertGroup(FilterDefinition filter, FilterAlertSettings settings) {
-        // For default filters, use translation. For custom filters, use display name
-        boolean isDefaultFilter = DEFAULT_FILTER_IDS.contains(filter.id);
-        Component filterName = isDefaultFilter 
-                ? modTranslatable("config.filters." + filter.id)
-                : Component.literal(filter.displayName);
-        
+        MutableComponent filterName = ComponentUtils.createComponent(filter.displayName, filter.color.getRGB());
+
         // Create options and store references to read pending values
-        Option<AlertSounds> soundOption = OptionFactory.enumDropdown(
+        Option<AlertSounds> soundOption = OptionFactory.enumCycler(
                 "config.alerts.alert_sound",
                 () -> settings.alertSound,
                 v -> settings.alertSound = v,
                 AlertSounds.class
         );
-        
+
         Option<Integer> volumeOption = OptionFactory.intSlider(
                 "config.alerts.volume",
                 () -> settings.volume,
                 v -> settings.volume = v,
                 0, 100, 1
         );
-        
+
         return OptionGroup.createBuilder()
                 .name(filterName)
                 .description(OptionDescription.of(modTranslatable("config.alerts.group.filter_alerts.description")))
@@ -133,7 +114,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                             // Play the currently selected sound from UI (pending value)
                             AlertSounds currentSound = soundOption.pendingValue();
                             int currentVolume = volumeOption.pendingValue();
-                            
+
                             SoundEvent sound = currentSound.getSound();
                             if (sound != null) {
                                 Minecraft.getInstance().getSoundManager().play(

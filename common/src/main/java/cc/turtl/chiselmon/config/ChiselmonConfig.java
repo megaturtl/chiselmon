@@ -7,11 +7,16 @@ import cc.turtl.chiselmon.config.category.GeneralConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.util.MiscUtil;
 import com.google.gson.GsonBuilder;
+import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import dev.isxander.yacl3.gui.YACLScreen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
+import org.jetbrains.annotations.Nullable;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
@@ -43,7 +48,8 @@ public class ChiselmonConfig {
 
     public static void load() {
         HANDLER.load();
-
+        get().filter.ensureDefaults();
+        HANDLER.save();
     }
 
     public static void save() {
@@ -51,23 +57,6 @@ public class ChiselmonConfig {
     }
 
     public static Screen createScreen(Screen parent) {
-        return createScreenAtCategory(parent, null);
-    }
-
-    /**
-     * Creates a config screen, optionally navigating to a specific category index.
-     * 
-     * Note: YACL 3.x does not currently provide a public API to set the active category
-     * on screen generation. This method creates the screen with the specified category
-     * index parameter, but the screen will open at the default (first) category.
-     * This is a limitation of the YACL library, not this implementation.
-     * 
-     * @param parent The parent screen
-     * @param categoryIndex The desired category to show (0=general, 1=pc, 2=filters, 3=alerts), 
-     *                      currently not supported by YACL API
-     * @return The generated config screen
-     */
-    public static Screen createScreenAtCategory(Screen parent, Integer categoryIndex) {
         var builder = YetAnotherConfigLib.createBuilder()
                 .title(modTranslatable("config.title"))
                 .category(get().general.buildCategory(parent))
@@ -75,8 +64,26 @@ public class ChiselmonConfig {
                 .category(get().filter.buildCategory(parent))
                 .category(get().alerts.buildCategory(parent))
                 .save(ChiselmonConfig::save);
-        
+
         var config = builder.build();
         return config.generateScreen(parent);
+    }
+
+    public static Screen createScreenAtCategory(Screen parent, int tabIndex) {
+        YACLScreen screen = (YACLScreen) createScreen(parent);
+        screen.tabNavigationBar.selectTab(tabIndex, false);
+
+        return screen;
+    }
+
+    public static void saveAndReloadScreen(Screen parent) {
+        ChiselmonConfig.save();
+
+        if (Minecraft.getInstance().screen instanceof YACLScreen screen) {
+            int tabIndex = screen.getTabOrderGroup();
+            Screen newScreen = ChiselmonConfig.createScreenAtCategory(parent, tabIndex);
+            screen.onClose();
+            Minecraft.getInstance().setScreen(newScreen);
+        }
     }
 }

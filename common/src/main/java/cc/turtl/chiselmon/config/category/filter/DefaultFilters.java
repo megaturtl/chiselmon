@@ -10,7 +10,7 @@ public class DefaultFilters {
     public static FilterDefinition legendaries() {
         return new FilterDefinition(
                 "legendaries",
-                "Legendary Pokemon",
+                "Default: Legendary Pokemon",
                 Color.MAGENTA,
                 Priority.HIGHEST,
                 true,
@@ -21,7 +21,7 @@ public class DefaultFilters {
     public static FilterDefinition shinies() {
         return new FilterDefinition(
                 "shinies",
-                "Shiny Pokemon",
+                "Default: Shiny Pokemon",
                 Color.ORANGE,
                 Priority.HIGH,
                 true,
@@ -32,7 +32,7 @@ public class DefaultFilters {
     public static FilterDefinition extremeSizes() {
         return new FilterDefinition(
                 "extreme_sizes",
-                "Extreme Size Pokemon",
+                "Default: Extreme Size Pokemon",
                 Color.CYAN,
                 Priority.NORMAL,
                 true,
