@@ -32,10 +32,10 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class QuickSortConfig implements ConfigGroupBuilder {
-        @SerialEntry(comment = "Enable quick-sort on middle-click")
+        @SerialEntry
         public boolean enabled = false;
 
-        @SerialEntry(comment = "Sorting method to use")
+        @SerialEntry
         public SortMode mode = SortMode.POKEDEX_NUMBER;
 
         @Override
@@ -83,34 +83,34 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class TooltipConfig implements ConfigGroupBuilder {
-        @SerialEntry(comment = "Show extra details of pokemon when hovered")
+        @SerialEntry
         public boolean enabled = true;
 
-        @SerialEntry(comment = "Show a one-line tooltip when hovering over a pokemon")
+        @SerialEntry
         public boolean showOnHover = false;
 
-        @SerialEntry(comment = "Show a multi-line tooltip when holding shift")
+        @SerialEntry
         public boolean extendOnShift = true;
 
-        @SerialEntry(comment = "Display IVs")
+        @SerialEntry
         public boolean ivs = true;
 
-        @SerialEntry(comment = "Display original trainer username")
+        @SerialEntry
         public boolean originalTrainer = true;
 
-        @SerialEntry(comment = "Display pokemon form")
+        @SerialEntry
         public boolean form = true;
 
-        @SerialEntry(comment = "Display friendship level")
+        @SerialEntry
         public boolean friendship = false;
 
-        @SerialEntry(comment = "Display available ride styles")
+        @SerialEntry
         public boolean rideStyles = true;
 
-        @SerialEntry(comment = "Display pokemon marks")
+        @SerialEntry
         public boolean marks = true;
 
-        @SerialEntry(comment = "Display egg hatch progress")
+        @SerialEntry
         public boolean hatchProgress = false;
 
         @Override
@@ -172,25 +172,25 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class IconConfig implements ConfigGroupBuilder {
-        @SerialEntry(comment = "Identify special pokemon at a glance with icons")
+        @SerialEntry
         public boolean enabled = true;
 
-        @SerialEntry(comment = "Show an ability patch icon for hidden ability pokemon")
+        @SerialEntry
         public boolean hiddenAbility = true;
 
-        @SerialEntry(comment = "Show a gold bottle cap icon for pokemon with high IVs (defined in thresholds)")
+        @SerialEntry
         public boolean ivs = true;
 
-        @SerialEntry(comment = "Show a pink sparkle icon for shiny pokemon")
+        @SerialEntry
         public boolean shiny = true;
 
-        @SerialEntry(comment = "Show a green mushroom icon for extreme size pokemon (defined in thresholds)")
+        @SerialEntry
         public boolean size = true;
 
-        @SerialEntry(comment = "Show a purple trophy icon for marked pokemon")
+        @SerialEntry
         public boolean mark = true;
 
-        @SerialEntry(comment = "Show a brown saddle icon for rideable pokemon")
+        @SerialEntry
         public boolean rideable = false;
 
         @Override

@@ -20,16 +20,16 @@ import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class AlertsConfig implements ConfigCategoryBuilder {
 
-    @SerialEntry(comment = "Master switch for all pokemon alerts")
+    @SerialEntry
     public boolean masterEnabled = true;
 
-    @SerialEntry(comment = "Volume control for all alert sounds (0-100)")
+    @SerialEntry
     public int masterVolume = 100;
 
-    @SerialEntry(comment = "Show pokemon form in alert messages")
+    @SerialEntry
     public boolean showFormInMessage = true;
 
-    @SerialEntry(comment = "Per-filter alert settings")
+    @SerialEntry
     public Map<String, FilterAlertSettings> filterAlerts = new LinkedHashMap<>();
 
     @Override

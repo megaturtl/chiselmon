@@ -10,10 +10,12 @@ import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class GeneralConfig implements ConfigCategoryBuilder {
 
-    @SerialEntry(comment = "Custom thresholds for defining pokemon features")
-    public final ThresholdsGroup thresholds = new ThresholdsGroup();
-    @SerialEntry(comment = "Disable the entire mod")
+    @SerialEntry
     public boolean modDisabled = false;
+
+    @SerialEntry
+    public final ThresholdsGroup thresholds = new ThresholdsGroup();
+
 
     @Override
     public ConfigCategory buildCategory(Screen parent) {
@@ -33,11 +35,11 @@ public class GeneralConfig implements ConfigCategoryBuilder {
         private static final float LARGE_MIN = 1.1F, LARGE_MAX = 1.9F, LARGE_STEP = 0.1F;
         private static final int IVS_MIN = 3, IVS_MAX = 6, IVS_STEP = 1;
 
-        @SerialEntry(comment = "Minimum size threshold for 'extremely small' pokemon")
+        @SerialEntry
         public float extremeSmall = 0.3F;
-        @SerialEntry(comment = "Minimum size threshold for 'extremely large' pokemon")
+        @SerialEntry
         public float extremeLarge = 1.7F;
-        @SerialEntry(comment = "Number of max IVs required to be considered high IVs")
+        @SerialEntry
         public int maxIvs = 5;
 
         @Override
