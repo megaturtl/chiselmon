@@ -2,11 +2,13 @@ package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.api.Priority;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.system.tracker.PokemonTrackerSystem;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class PokemonAlertSystem {
     private final PokemonTrackerSystem tracker;

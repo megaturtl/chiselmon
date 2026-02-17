@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.api.data.species;
+package cc.turtl.chiselmon.api.species;
 
 import java.util.List;
 import java.util.Map;

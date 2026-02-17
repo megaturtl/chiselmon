@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon;
 
-import cc.turtl.chiselmon.system.tracker.PokemonTrackerSystem;
 import cc.turtl.chiselmon.system.alert.PokemonAlertSystem;
+import cc.turtl.chiselmon.system.tracker.PokemonTrackerSystem;
 
 /**
  * Central access point for all features/systems.
@@ -10,7 +10,8 @@ public final class ChiselmonSystems {
     private static PokemonTrackerSystem pokemonTrackerSystem;
     private static PokemonAlertSystem pokemonAlertSystem;
 
-    private ChiselmonSystems() {}
+    private ChiselmonSystems() {
+    }
 
     static void init() {
         pokemonTrackerSystem = new PokemonTrackerSystem();

@@ -11,11 +11,9 @@ import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 public class GeneralConfig implements ConfigCategoryBuilder {
 
     @SerialEntry
-    public boolean modDisabled = false;
-
-    @SerialEntry
     public final ThresholdsGroup thresholds = new ThresholdsGroup();
-
+    @SerialEntry
+    public boolean modDisabled = false;
 
     @Override
     public ConfigCategory buildCategory(Screen parent) {

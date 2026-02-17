@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
-import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.Level;

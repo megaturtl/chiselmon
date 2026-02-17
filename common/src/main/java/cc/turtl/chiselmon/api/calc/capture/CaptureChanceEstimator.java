@@ -1,12 +1,11 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
-import cc.turtl.chiselmon.ChiselmonRegistries;
-import cc.turtl.chiselmon.api.data.species.ClientSpecies;
-import com.cobblemon.mod.common.pokeball.PokeBall;
+import cc.turtl.chiselmon.api.species.ClientSpecies;
+import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*;
 import net.minecraft.client.Minecraft;
@@ -34,11 +33,37 @@ public class CaptureChanceEstimator {
         this.battleContextExtractor = battleContextExtractor;
     }
 
+    private static float getCatchRate(Pokemon pokemon) {
+        ClientSpecies species = ClientSpeciesRegistry.get(pokemon.getSpecies().getName());
+        return species != null ? species.catchRate() : 0f;
+    }
+
+    private static float calculateStatusMultiplier(PersistentStatus status) {
+        final float SLEEP_FROZEN = 2.5F;
+        final float OTHER_STATUS = 1.5F;
+        final float NO_STATUS = 1.0F;
+
+        if (status == null) {
+            return NO_STATUS;
+        }
+
+        if (status instanceof SleepStatus || status instanceof FrozenStatus) {
+            return SLEEP_FROZEN;
+        }
+
+        if (status instanceof ParalysisStatus || status instanceof BurnStatus ||
+                status instanceof PoisonStatus || status instanceof PoisonBadlyStatus) {
+            return OTHER_STATUS;
+        }
+
+        return NO_STATUS;
+    }
+
     /**
      * Calculates the estimated probability of a successful capture.
      *
      * @param targetEntity The Pokemon Entity being targeted
-     * @param ball The PokeBall being used
+     * @param ball         The PokeBall being used
      * @return A float (0.0F - 1.0F) representing the capture probability
      */
     public float estimateCaptureProbability(PokemonEntity targetEntity, PokeBall ball) {
@@ -63,8 +88,8 @@ public class CaptureChanceEstimator {
 
         // Build capture parameters
         var params = CaptureParams.builder()
-                .maxHp((float) targetEntity.getMaxHealth())
-                .currentHp((float) targetEntity.getHealth())
+                .maxHp(targetEntity.getMaxHealth())
+                .currentHp(targetEntity.getHealth())
                 .catchRate(getCatchRate(pokemon))
                 .targetLevel(pokemon.getLevel())
                 .statusMultiplier(calculateStatusMultiplier(battleContext.targetStatus()))
@@ -79,11 +104,6 @@ public class CaptureChanceEstimator {
         return formulaCalculator.calculate(params, difficultyModifier);
     }
 
-    private static float getCatchRate(Pokemon pokemon) {
-        ClientSpecies species = ChiselmonRegistries.species().get(pokemon.getSpecies().getName());
-        return species != null ? species.catchRate() : 0f;
-    }
-
     private float calculateLevelBonus(int level) {
         final int BONUS_LEVEL_THRESHOLD = 13;
 
@@ -91,27 +111,6 @@ public class CaptureChanceEstimator {
             return Math.max((36.0F - (2.0F * level)) / 10.0F, 1.0F);
         }
         return 1.0F;
-    }
-
-    private static float calculateStatusMultiplier(PersistentStatus status) {
-        final float SLEEP_FROZEN = 2.5F;
-        final float OTHER_STATUS = 1.5F;
-        final float NO_STATUS = 1.0F;
-
-        if (status == null) {
-            return NO_STATUS;
-        }
-
-        if (status instanceof SleepStatus || status instanceof FrozenStatus) {
-            return SLEEP_FROZEN;
-        }
-
-        if (status instanceof ParalysisStatus || status instanceof BurnStatus ||
-                status instanceof PoisonStatus || status instanceof PoisonBadlyStatus) {
-            return OTHER_STATUS;
-        }
-
-        return NO_STATUS;
     }
 
     private float calculateDifficultyModifier(List<Pokemon> playerParty, int targetLevel) {

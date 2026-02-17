@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.wallpaper.WallpaperManager;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
@@ -18,12 +17,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WallpapersScrollingWidget.WallpaperEntry.class, remap = false)
 public abstract class MixinWallpaperEntry {
 
-    @Shadow(aliases = "this$0") @Final
+    @Shadow(aliases = "this$0")
+    @Final
     private WallpapersScrollingWidget outer;
-    @Shadow @Final private ResourceLocation wallpaper;
+    @Shadow
+    @Final
+    private ResourceLocation wallpaper;
     @Shadow
     private ResourceLocation altWallpaper;
-    @Shadow private boolean isNew;
+    @Shadow
+    private boolean isNew;
 
     @Inject(method = "render", at = @At("RETURN"))
     private void chiselmon$renderBulkHint(GuiGraphics context, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovering, float partialTick, CallbackInfo ci) {

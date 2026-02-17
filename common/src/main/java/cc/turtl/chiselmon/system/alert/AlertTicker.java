@@ -10,7 +10,10 @@ import cc.turtl.chiselmon.system.alert.action.MessageAction;
 import cc.turtl.chiselmon.system.alert.action.SoundAction;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class AlertTicker {
     private static final int SOUND_DELAY_TICKS = 20;
@@ -22,7 +25,7 @@ public class AlertTicker {
     private final Set<UUID> actionedUuids = new HashSet<>();
     private int soundDelayRemaining = 0;
 
-    public AlertTicker (PokemonAlertSystem alerter) {
+    public AlertTicker(PokemonAlertSystem alerter) {
         this.alerter = alerter;
         this.oneTimeActions = List.of(new MessageAction());
         this.continuousActions = List.of(new GlowAction());

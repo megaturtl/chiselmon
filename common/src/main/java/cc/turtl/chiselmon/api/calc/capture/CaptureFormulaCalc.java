@@ -11,7 +11,7 @@ public class CaptureFormulaCalc {
     /**
      * Calculates the total capture probability.
      *
-     * @param params The capture parameters
+     * @param params             The capture parameters
      * @param difficultyModifier Additional difficulty modifier (typically level-based)
      * @return Probability between 0.0 and 1.0
      */

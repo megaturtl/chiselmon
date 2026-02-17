@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.system.alert;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 

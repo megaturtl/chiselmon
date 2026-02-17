@@ -1,9 +1,10 @@
-package cc.turtl.chiselmon.api.data.species;
+package cc.turtl.chiselmon.api.species;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.platform.PlatformHelper;
 import com.google.gson.Gson;
+
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,33 +16,25 @@ import java.util.stream.Stream;
 public final class ClientSpeciesRegistry {
     private static final Gson GSON = new Gson();
 
-    private Map<String, ClientSpecies> speciesMap = Map.of();
-    private boolean loaded = false;
-    private boolean loading = false;
+    private static Map<String, ClientSpecies> speciesMap = Map.of();
+    private static boolean loaded = false;
+    private static boolean loading = false;
 
-    public ClientSpeciesRegistry() {
-        registerEventListeners();
-    }
-
-    private void registerEventListeners() {
+    public static void init() {
         ChiselmonEvents.CLIENT_POST_TICK.subscribe(e -> {
-            // Only attempt load if in-world and not already working
             if (e.minecraft().level != null && !loaded && !loading) {
-                this.loadAsync();
+                loadAsync();
             }
         });
 
         ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(e -> {
-            this.speciesMap = Map.of();
-            this.loaded = false;
+            speciesMap = Map.of();
+            loaded = false;
         });
     }
 
-    /**
-     * Discovers and parses species files async using the provided path finder.
-     */
-    private void loadAsync() {
-        this.loading = true;
+    private static void loadAsync() {
+        loading = true;
         CompletableFuture.runAsync(() -> {
             long startTime = System.currentTimeMillis();
             var tempMap = new ConcurrentHashMap<String, ClientSpecies>(1024);
@@ -53,32 +46,33 @@ public final class ClientSpeciesRegistry {
                             .filter(p -> p.toString().endsWith(".json"))
                             .forEach(p -> parse(p, tempMap));
 
-                    this.speciesMap = Map.copyOf(tempMap);
-                    this.loaded = true;
+                    speciesMap = Map.copyOf(tempMap);
+                    loaded = true;
                     ChiselmonConstants.LOGGER.info("Indexed {} species in {}ms.", speciesMap.size(), System.currentTimeMillis() - startTime);
                 } catch (Exception e) {
                     ChiselmonConstants.LOGGER.error("Failed indexing species: ", e);
                 }
             }, () -> ChiselmonConstants.LOGGER.error("Cobblemon species path not found!"));
 
-            this.loading = false;
+            loading = false;
         });
     }
 
-    private void parse(Path path, Map<String, ClientSpecies> map) {
+    private static void parse(Path path, Map<String, ClientSpecies> map) {
         try (Reader reader = Files.newBufferedReader(path)) {
             ClientSpecies species = GSON.fromJson(reader, ClientSpecies.class);
             if (species != null && species.name() != null) {
                 map.put(species.name(), species);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
-    public ClientSpecies get(String name) {
+    public static ClientSpecies get(String name) {
         return name == null ? null : speciesMap.get(name.toLowerCase());
     }
 
-    public boolean isLoaded() {
+    public static boolean isLoaded() {
         return loaded;
     }
 }

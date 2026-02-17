@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
  * Does not contain any Minecraft-specific logic.
  */
 public final class StringFormats {
-    private StringFormats() {}
+    private StringFormats() {
+    }
 
     /**
      * Converts a fraction to a percentage string.
+     *
      * @param fraction 0.5 -> "50.00%"
      */
     public static String formatPercentage(double fraction) {

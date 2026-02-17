@@ -4,9 +4,9 @@ import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
-import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.predicate.MoveTemplatePredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.api.species.ClientSpecies;
 import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
@@ -34,13 +34,10 @@ import static cc.turtl.chiselmon.util.format.ComponentUtils.*;
  * High-level formatter for turning Pokemon data into styled Components.
  */
 public final class PokemonFormats {
-    private PokemonFormats() {}
-
     // --- Icons & Constants ---
     private static final Component ICON_MALE = createComponent("♂", ColorUtils.BLUE.getRGB());
     private static final Component ICON_FEMALE = createComponent("♀", ColorUtils.PINK.getRGB());
     private static final Component ICON_GENDERLESS = createComponent("●", ColorUtils.LIGHT_GRAY.getRGB());
-
     private static final Map<String, Integer> EGG_GROUP_COLORS = Map.ofEntries(
             Map.entry("monster", 0x97724C), Map.entry("water_1", 0x6BD1F9),
             Map.entry("bug", 0xAAC22A), Map.entry("flying", 0x90AFF1),
@@ -50,6 +47,9 @@ public final class PokemonFormats {
             Map.entry("amorphous", 0x9F82CC), Map.entry("water_2", 0x4B94ED),
             Map.entry("ditto", 0xB6AAD5), Map.entry("dragon", 0x5E57BF)
     );
+
+    private PokemonFormats() {
+    }
 
     // --- Identification ---
 
@@ -212,7 +212,7 @@ public final class PokemonFormats {
         if (!(pokemon instanceof EggDummy eggDummy)) return UNKNOWN;
 
         return createComponent(eggDummy.getCyclesCompleted() + "/" + eggDummy.getTotalCycles())
-        .append(createComponent(" (" + StringFormats.formatPercentage(eggDummy.getHatchCompletion()) + ")"));
+                .append(createComponent(" (" + StringFormats.formatPercentage(eggDummy.getHatchCompletion()) + ")"));
     }
 
     public static Component dexStatus(Species species) {

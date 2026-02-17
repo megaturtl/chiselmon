@@ -9,7 +9,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 
-import static cc.turtl.chiselmon.util.format.ComponentUtils.*;
+import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
+import static cc.turtl.chiselmon.util.format.ComponentUtils.labelled;
 
 public class CommandUtils {
 

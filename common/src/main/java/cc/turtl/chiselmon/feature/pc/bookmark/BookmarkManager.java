@@ -1,11 +1,13 @@
 package cc.turtl.chiselmon.feature.pc.bookmark;
 
-import java.util.*;
-import java.util.function.Consumer;
-
 import cc.turtl.chiselmon.feature.pc.PCButton;
+import cc.turtl.chiselmon.feature.pc.PCUserData;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Manages PC bookmark UI with clean widget lifecycle management.
@@ -13,19 +15,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC;
  */
 public class BookmarkManager {
 
-    private final StorageWidget storageWidget;
-    private final ClientPC pc;
-    private final BookmarkStore bookmarkStore;
-
-    // Widget callbacks - let the parent screen handle this
-    private final Consumer<PCButton> widgetAdder;
-    private final Consumer<PCButton> widgetRemover;
-
-    // UI state
-    private final List<PCButton> tabButtons = new ArrayList<>();
-    private PCButton bookmarkButton;
-    private PCButton homeButton;
-
+    public static final int TAB_HORIZONTAL_SPACING = 2;
     // Layout constants
     private static final int BOOKMARK_BUTTON_OFFSET_X = 239;
     private static final int BOOKMARK_BUTTON_OFFSET_Y = 12;
@@ -33,19 +23,28 @@ public class BookmarkManager {
     private static final int HOME_BUTTON_OFFSET_Y = 12;
     private static final int TAB_START_OFFSET_X = 80;
     private static final int TAB_START_OFFSET_Y = -5;
-    public static final int TAB_HORIZONTAL_SPACING = 2;
+    private final StorageWidget storageWidget;
+    private final ClientPC pc;
+    private final PCUserData.Bookmarks bookmarkStore;
+    // Widget callbacks - let the parent screen handle this
+    private final Consumer<PCButton> widgetAdder;
+    private final Consumer<PCButton> widgetRemover;
+    // UI state
+    private final List<PCButton> tabButtons = new ArrayList<>();
+    private PCButton bookmarkButton;
+    private PCButton homeButton;
 
     /**
      * Create a BookmarkManager with widget lifecycle callbacks.
      *
      * @param bookmarkStore The current stored bookmarks
      * @param storageWidget The PC storage widget
-     * @param pc The client PC
-     * @param widgetAdder Callback to add a widget to the screen
+     * @param pc            The client PC
+     * @param widgetAdder   Callback to add a widget to the screen
      * @param widgetRemover Callback to remove a widget from the screen
      */
     public BookmarkManager(
-            BookmarkStore bookmarkStore,
+            PCUserData.Bookmarks bookmarkStore,
             StorageWidget storageWidget,
             ClientPC pc,
             Consumer<PCButton> widgetAdder,
@@ -120,7 +119,7 @@ public class BookmarkManager {
         int startY = guiTop + TAB_START_OFFSET_Y;
 
         List<PCButton> newButtons = BookmarkButtons.createTabButtons(
-                bookmarkStore.getList(),
+                bookmarkStore.get(),
                 pc.getBoxes(),
                 startX,
                 startY,

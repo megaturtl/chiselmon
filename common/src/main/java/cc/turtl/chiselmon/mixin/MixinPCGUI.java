@@ -1,9 +1,10 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
-import cc.turtl.chiselmon.worlddata.WorldDataManager;
+import cc.turtl.chiselmon.userdata.UserDataRegistry;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -64,7 +65,7 @@ public abstract class MixinPCGUI extends Screen {
         if (level == null) return;
 
         chiselmon$bookmarkManager = new BookmarkManager(
-                WorldDataManager.get().bookmarkStore,
+                UserDataRegistry.get(PCUserData.class).bookmarks,
                 storageWidget,
                 pc,
                 this::addRenderableWidget,
@@ -104,7 +105,7 @@ public abstract class MixinPCGUI extends Screen {
 
         chiselmon$sortManager = null;
 
-        WorldDataManager.save();
+        UserDataRegistry.save(PCUserData.class);
 
         super.removed();
     }

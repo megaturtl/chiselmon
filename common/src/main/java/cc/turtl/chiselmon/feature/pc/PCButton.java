@@ -2,12 +2,8 @@ package cc.turtl.chiselmon.feature.pc;
 
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.render.TextRenderUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -16,6 +12,7 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Generic PC button with configurable sprite, tooltip, and optional text rendering.
@@ -95,7 +92,7 @@ public class PCButton extends Button implements CobblemonRenderable {
 
     @Override
     public void playDownSound(@NotNull SoundManager soundManager) {
-        soundManager.play((SoundInstance) SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F));
     }
 
     private int calculateTextureYOffset() {
@@ -165,12 +162,12 @@ public class PCButton extends Button implements CobblemonRenderable {
         /**
          * Create a button builder.
          *
-         * @param x X position
-         * @param y Y position
-         * @param sprite Texture location
-         * @param textureWidth Full texture width
+         * @param x             X position
+         * @param y             Y position
+         * @param sprite        Texture location
+         * @param textureWidth  Full texture width
          * @param textureHeight Full texture height (should be 2x button height for hover states)
-         * @param onPress Click handler
+         * @param onPress       Click handler
          */
         public Builder(int x, int y, ResourceLocation sprite, int textureWidth, int textureHeight, OnPress onPress) {
             this.x = x;

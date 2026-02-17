@@ -5,4 +5,5 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 public record PokemonLoadedEvent(
         PokemonEntity entity,
         boolean isWild
-) {}
+) {
+}

@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
-import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
 import com.cobblemon.mod.common.api.types.ElementalType;
@@ -29,7 +29,7 @@ class SafariBallStrategy implements BallStrategy {
 class FastBallStrategy implements BallStrategy {
     @Override
     public float calculate(CaptureContext ctx) {
-        return ChiselmonRegistries.species().get(ctx.pokemon().getSpecies().getName()).baseStats().get("speed") >= 100 ? 4.0F : 1.0F;
+        return ClientSpeciesRegistry.get(ctx.pokemon().getSpecies().getName()).baseStats().get("speed") >= 100 ? 4.0F : 1.0F;
     }
 }
 

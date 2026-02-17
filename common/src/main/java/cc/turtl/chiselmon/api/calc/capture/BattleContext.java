@@ -8,4 +8,5 @@ import java.util.List;
 public record BattleContext(
         List<ClientBattlePokemon> playerActivePokemon,
         PersistentStatus targetStatus
-) {}
+) {
+}

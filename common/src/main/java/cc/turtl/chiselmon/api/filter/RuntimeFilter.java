@@ -5,7 +5,6 @@ import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
 
-import java.awt.*;
 import java.util.function.Predicate;
 
 /**

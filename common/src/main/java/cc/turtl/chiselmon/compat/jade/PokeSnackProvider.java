@@ -1,6 +1,8 @@
 package cc.turtl.chiselmon.compat.jade;
 
 import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.util.format.ColorUtils;
+import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.CobblemonItemComponents;
 import com.cobblemon.mod.common.CobblemonItems;
 import com.cobblemon.mod.common.block.PokeSnackBlock;
@@ -8,9 +10,6 @@ import com.cobblemon.mod.common.block.entity.PokeSnackBlockEntity;
 import com.cobblemon.mod.common.client.tooltips.SeasoningTooltipHelperKt;
 import com.cobblemon.mod.common.item.components.BaitEffectsComponent;
 import com.cobblemon.mod.common.item.components.IngredientComponent;
-
-import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

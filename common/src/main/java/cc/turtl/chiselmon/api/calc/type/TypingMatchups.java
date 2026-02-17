@@ -2,7 +2,8 @@ package cc.turtl.chiselmon.api.calc.type;
 
 import com.cobblemon.mod.common.api.types.ElementalType;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Maps every attacking type to its damage multiplier against a typing.

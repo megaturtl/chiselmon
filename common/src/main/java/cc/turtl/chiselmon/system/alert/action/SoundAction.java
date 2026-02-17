@@ -15,7 +15,7 @@ public class SoundAction implements AlertAction {
         // Get the filter's alert settings to retrieve the chosen sound
         AlertsConfig.FilterAlertSettings settings = ctx.config().filterAlerts
                 .computeIfAbsent(ctx.filter().id(), id -> new AlertsConfig.FilterAlertSettings());
-        
+
         // Use the configured alert sound, or default to PLING if null
         AlertSounds alertSound = settings.alertSound != null ? settings.alertSound : AlertSounds.PLING;
         SoundEvent sound = alertSound.getSound();

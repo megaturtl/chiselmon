@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.api.predicate;
 
-import cc.turtl.chiselmon.ChiselmonRegistries;
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
-import cc.turtl.chiselmon.api.data.species.ClientSpecies;
+import cc.turtl.chiselmon.api.species.ClientSpecies;
+import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -46,7 +46,7 @@ public final class PokemonPredicates {
 
     private static Predicate<Pokemon> hasAnyLabel(List<String> labels) {
         return p -> {
-            ClientSpecies species = ChiselmonRegistries.species().get(p.getSpecies().getName());
+            ClientSpecies species = ClientSpeciesRegistry.get(p.getSpecies().getName());
             if (species == null) return false;
             for (String label : labels) {
                 if (species.labels().contains(label)) return true;

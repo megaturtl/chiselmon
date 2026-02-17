@@ -1,17 +1,19 @@
 package cc.turtl.chiselmon.feature.pc.bookmark;
 
-import java.util.*;
-
 import cc.turtl.chiselmon.feature.pc.PCButton;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.storage.ClientBox;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Factory methods for creating bookmark-related buttons.

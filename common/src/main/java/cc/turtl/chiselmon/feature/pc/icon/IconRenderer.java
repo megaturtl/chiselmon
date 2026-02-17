@@ -14,6 +14,7 @@ public final class IconRenderer {
     private static final int MAX_ROWS = 3;
     private static final float RENDER_Z = 100.0f;
     private static final int COLUMN_SPACE = 18;
+
     private IconRenderer() {
     }
 

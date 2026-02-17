@@ -1,15 +1,15 @@
 package cc.turtl.chiselmon.util;
 
+import org.apache.logging.log4j.Logger;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import org.apache.logging.log4j.Logger;
-
 /**
  * Smart Pokemon/Entity dumper for debugging.
- *
+ * <p>
  * CONFIGURATION:
  * - Adjust SKIP_FIELDS to hide noisy fields
  * - Adjust SKIP_OBJECTS to stop recursion into infrastructure
@@ -22,13 +22,19 @@ public class ObjectDumper {
     // CONFIGURATION - Adjust these as needed
     // ============================================
 
-    /** How many items to show from arrays/collections before truncating */
+    /**
+     * How many items to show from arrays/collections before truncating
+     */
     private static final int MAX_COLLECTION_ITEMS = 15;
 
-    /** Maximum recursion depth for nested objects */
+    /**
+     * Maximum recursion depth for nested objects
+     */
     private static final int MAX_DEPTH = 3;
 
-    /** Maximum string length before truncation */
+    /**
+     * Maximum string length before truncation
+     */
     private static final int MAX_STRING_LENGTH = 500;
 
     /**
@@ -161,8 +167,7 @@ public class ObjectDumper {
             if (cls.isEnum()) {
                 return value.toString();
             }
-            if (value instanceof String) {
-                String s = (String) value;
+            if (value instanceof String s) {
                 return s.length() > MAX_STRING_LENGTH
                         ? s.substring(0, MAX_STRING_LENGTH - 3) + "..."
                         : s;

@@ -18,6 +18,5 @@ public class ChiselmonConstants {
      */
     public static final Path CONFIG_PATH = PlatformHelper.getPathFinder().getConfigDir().resolve(MOD_ID);
 
-
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 }

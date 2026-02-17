@@ -16,4 +16,5 @@ public record CaptureContext(
         PersistentStatus targetStatus,
         Level level,
         BlockPos pos
-) {}
+) {
+}

@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import cc.turtl.chiselmon.ChiselmonRegistries;
-import cc.turtl.chiselmon.api.data.species.ClientSpecies;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.api.species.ClientSpecies;
+import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
@@ -58,7 +58,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
 
         Pokemon pokemon = pokemonEntity.getPokemon();
         Species species = pokemon.getSpecies();
-        ClientSpecies clientSpecies = ChiselmonRegistries.species().get(species.getName());
+        ClientSpecies clientSpecies = ClientSpeciesRegistry.get(species.getName());
 
         tooltip.clear();
         addBasicInfo(tooltip, pokemon, pokemonEntity);
@@ -106,7 +106,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
             return;
         }
 
-        ClientSpecies clientSpecies = ChiselmonRegistries.species().get(entity.getPokemon().getSpecies().getName());
+        ClientSpecies clientSpecies = ClientSpeciesRegistry.get(entity.getPokemon().getSpecies().getName());
         MutableComponent catchRateLabel = ComponentUtils.modTranslatable("ui.label.catch_rate");
         tooltip.add(ComponentUtils.labelled(catchRateLabel, PokemonFormats.catchRate(clientSpecies)));
 

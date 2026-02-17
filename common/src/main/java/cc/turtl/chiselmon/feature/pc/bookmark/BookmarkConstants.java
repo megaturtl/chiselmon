@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.feature.pc.bookmark;
 
-import static cc.turtl.chiselmon.util.MiscUtil.modResource;
-
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
+
+import static cc.turtl.chiselmon.util.MiscUtil.modResource;
 
 /**
  * Configuration constants for PC Bookmark Buttons.

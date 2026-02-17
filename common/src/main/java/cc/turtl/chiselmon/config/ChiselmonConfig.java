@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.config;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.filter.FilterRegistry;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.config.category.FilterConfig;
 import cc.turtl.chiselmon.config.category.GeneralConfig;
@@ -35,10 +34,10 @@ public class ChiselmonConfig {
     public final PCConfig pc = new PCConfig();
 
     @SerialEntry
-    public final FilterConfig filter = new FilterConfig();
-
-    @SerialEntry
     public final AlertsConfig alerts = new AlertsConfig();
+
+    // Not serialized, this is purely a UI builder now
+    public final FilterConfig filter = new FilterConfig();
 
     public static ChiselmonConfig get() {
         return HANDLER.instance();
@@ -46,16 +45,11 @@ public class ChiselmonConfig {
 
     public static void load() {
         HANDLER.load();
-        get().filter.ensureDefaults();
         HANDLER.save();
-        // Load filters into registry after config is loaded
-        FilterRegistry.loadFromConfig();
     }
 
     public static void save() {
         HANDLER.save();
-        // Reload filters into registry after config is saved
-        FilterRegistry.loadFromConfig();
     }
 
     public static Screen createScreen(Screen parent) {
