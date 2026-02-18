@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.api.filter.FilterDefinition;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
-import cc.turtl.chiselmon.userdata.UserDataRegistry;
+import cc.turtl.chiselmon.data.UserDataRegistry;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;

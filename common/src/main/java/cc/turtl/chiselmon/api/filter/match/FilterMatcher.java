@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.api.filter.match;
 import cc.turtl.chiselmon.api.filter.FilterTagParser;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
-import cc.turtl.chiselmon.userdata.UserDataRegistry;
+import cc.turtl.chiselmon.data.UserDataRegistry;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.Comparator;
@@ -21,9 +21,8 @@ public class FilterMatcher {
                 .filter(f -> f.condition().test(pokemon))
                 .toList();
 
-        Optional<RuntimeFilter> primary = matches.isEmpty()
-                ? Optional.empty()
-                : Optional.of(matches.getFirst());
+        Optional<RuntimeFilter> primary = matches.stream()
+                .max(Comparator.comparing(RuntimeFilter::priority));
 
         return new FilterMatchResult(pokemon, primary, matches);
     }
@@ -49,9 +48,9 @@ public class FilterMatcher {
                             .reduce(Predicate::and)
                             .orElse(p -> true);
 
-                    return new RuntimeFilter(def.id, def.rgb, def.priority, condition);
+                    return new RuntimeFilter(def.id, def.displayName, def.rgb, def.priority, condition);
                 })
-                .sorted(Comparator.comparing(f -> f.priority().ordinal()))
+                .sorted(Comparator.comparing(RuntimeFilter::priority).reversed())
                 .toList();
     }
 }

@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
-import cc.turtl.chiselmon.userdata.UserDataRegistry;
+import cc.turtl.chiselmon.data.UserDataRegistry;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;

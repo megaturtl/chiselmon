@@ -1,8 +1,6 @@
 package cc.turtl.chiselmon;
 
-import cc.turtl.chiselmon.command.ChiselmonCommand;
-import cc.turtl.chiselmon.command.DebugCommand;
-import cc.turtl.chiselmon.command.InfoCommand;
+import cc.turtl.chiselmon.command.*;
 import cc.turtl.chiselmon.util.CommandUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -17,8 +15,9 @@ import java.util.List;
 public class ChiselmonCommands {
     private static final List<ChiselmonCommand> COMMANDS = List.of(
             new InfoCommand(),
-            new DebugCommand()
-            // add new commands here
+            new DebugCommand(),
+            new TrackerCommand(),
+            new AlertCommand()
     );
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher,

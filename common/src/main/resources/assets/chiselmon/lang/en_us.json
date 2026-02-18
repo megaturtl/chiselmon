@@ -38,16 +38,14 @@
     "chiselmon.ui.label.marks": "Marks",
     "chiselmon.ui.label.hatch_progress": "Hatch Progress",
     "chiselmon.ui.label.type": "Types",
-    "chiselmon.ui.label.effective_types": "Weak to",
+    "chiselmon.ui.label.weaknesses": "Weak to",
     "chiselmon.ui.label.egg_groups": "Egg Groups",
     "chiselmon.ui.label.ev_yield": "EV Yield",
     "chiselmon.ui.label.catch_rate": "Catch Rate",
     "chiselmon.ui.label.pokedex_status": "Pokedex Status",
     
 
-    "chiselmon.spawnalert.message.shiny": " (Shiny)",
-    "chiselmon.spawnalert.message.legendary": " (Legendary)",
-    "chiselmon.spawnalert.message.spawned_nearby": " spawned nearby! ",
+    "chiselmon.spawnalert.message.spawned_nearby": "spawned nearby!",
 
     "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",
     "chiselmon.spawnalert.mute.success": "All active alerts muted.",

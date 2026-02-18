@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.userdata;
+package cc.turtl.chiselmon.data;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * Handles JSON serialization and deserialization for persistent data.
- */
 public class JsonSerializer {
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()

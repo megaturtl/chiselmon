@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.platform;
 
+import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.event.*;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -10,7 +11,7 @@ import net.minecraft.world.entity.Entity;
 public class PlatformEventHandlers {
     public static void handleEntityLoad(Entity entity, ClientLevel clientLevel) {
         if (entity instanceof PokemonEntity pe) {
-            PokemonLoadedEvent event = new PokemonLoadedEvent(pe, PokemonEntityPredicates.IS_WILD.test(pe));
+            PokemonLoadedEvent event = new PokemonLoadedEvent(pe, PokemonEncounter.from(pe), PokemonEntityPredicates.IS_WILD.test(pe));
             ChiselmonEvents.POKEMON_LOADED.emit(event);
         }
     }

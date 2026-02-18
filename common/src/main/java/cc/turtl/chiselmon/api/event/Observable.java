@@ -16,7 +16,7 @@ public class Observable<T> {
 
     public void subscribe(Priority priority, Consumer<T> action) {
         handlers.add(new Handler<>(priority, action));
-        handlers.sort(Comparator.comparing(a -> a.priority));
+        handlers.sort(Comparator.comparing((Handler<T> h) -> h.priority()).reversed());
     }
 
     public void emit(T value) {

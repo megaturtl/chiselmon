@@ -6,7 +6,7 @@ import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.config.custom.HoldToConfirmButton;
-import cc.turtl.chiselmon.userdata.UserDataRegistry;
+import cc.turtl.chiselmon.data.UserDataRegistry;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;

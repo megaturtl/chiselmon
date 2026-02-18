@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api;
 
 public enum Priority {
-    HIGHEST, HIGH, NORMAL, LOW, LOWEST;
+    LOWEST, LOW, NORMAL, HIGH, HIGHEST;
 
     public boolean isHigherThan(Priority other) {
         return this.ordinal() > other.ordinal();

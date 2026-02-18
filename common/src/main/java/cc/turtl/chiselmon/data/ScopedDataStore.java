@@ -1,5 +1,6 @@
-package cc.turtl.chiselmon.userdata;
+package cc.turtl.chiselmon.data;
 
+import cc.turtl.chiselmon.api.DataScope;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 

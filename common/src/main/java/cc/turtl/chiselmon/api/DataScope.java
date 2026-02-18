@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.userdata;
+package cc.turtl.chiselmon.api;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -48,7 +48,7 @@ public enum DataScope {
      * Gets a unique ID for the current world/server context.
      */
     @NotNull
-    protected static String getWorldId() {
+    public static String getWorldId() {
         Minecraft mc = Minecraft.getInstance();
 
         // Singleplayer - use world name

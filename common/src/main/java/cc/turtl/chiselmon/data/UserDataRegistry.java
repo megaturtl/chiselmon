@@ -1,6 +1,7 @@
-package cc.turtl.chiselmon.userdata;
+package cc.turtl.chiselmon.data;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.DataScope;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import org.jetbrains.annotations.NotNull;
 

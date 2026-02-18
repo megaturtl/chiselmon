@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.system.tracker;
+package cc.turtl.chiselmon.api;
 
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
@@ -8,9 +8,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 
 /**
- * Immutable snapshot of a Pokemon's state when first encountered.
+ * Immutable snapshot of a single pokemon's state when first encountered.
  */
 public record PokemonEncounter(
+        long encounteredAtMs,
         Species species,
         FormData form,
         int level,
@@ -23,8 +24,8 @@ public record PokemonEncounter(
         int blockY,
         int blockZ,
         String dimension,
-        String biome,
-        long discoveredAtMillis) {
+        String biome
+        ) {
 
     /**
      * Creates a PokemonEncounter snapshot from a live PokemonEntity.
@@ -36,6 +37,7 @@ public record PokemonEncounter(
         Pokemon pokemon = pe.getPokemon();
 
         return new PokemonEncounter(
+                System.currentTimeMillis(),
                 pokemon.getSpecies(),
                 pe.getForm(),
                 pokemon.getLevel(),
@@ -48,7 +50,6 @@ public record PokemonEncounter(
                 pe.getBlockY(),
                 pe.getBlockZ(),
                 pe.level().dimension().location().toString().intern(),
-                pe.level().getBiome(pe.blockPosition()).getRegisteredName().intern(),
-                System.currentTimeMillis());
+                pe.level().getBiome(pe.blockPosition()).getRegisteredName().intern());
     }
 }

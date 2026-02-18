@@ -1,1 +1,1 @@
-Tracks pokemon in the world, includes spawn logger and spawn alert features.
+Tracks pokemon in the world, mainly used for spawn logger and spawn alert features.

@@ -35,8 +35,10 @@ public class MessageAction implements AlertAction {
                 message.append(createComponent("-" + formName, ColorUtils.CORAL.getRGB()));
             }
         }
-        // Group
-        message.append(createComponent(" [" + ctx.filter().id() + "] ", ctx.filter().rgb()));
+        // The filter match this alert fired for
+        message.append(Component.literal(" ["));
+        message.append(ctx.filter().displayName());
+        message.append(Component.literal("] "));
         // Suffix
         message.append(modTranslatable("spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL.getRGB())));
         // Coords
