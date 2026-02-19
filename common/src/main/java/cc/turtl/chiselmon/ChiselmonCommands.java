@@ -20,7 +20,8 @@ public class ChiselmonCommands {
             new DebugCommand(),
             new TrackerCommand(),
             new AlertCommand(),
-            new ConfigCommand()
+            new ConfigCommand(),
+            new RecordCommand()
     );
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher,
@@ -41,9 +42,10 @@ public class ChiselmonCommands {
         COMMANDS.forEach(cmd -> rootAlias.then(cmd.build()));
         COMMANDS.forEach(cmd -> legacyRootAlias.then(cmd.build()));
 
-        // Register the main command and alias
+        // Register the main command and aliases
         dispatcher.register(root);
         dispatcher.register(rootAlias);
+        dispatcher.register(legacyRootAlias);
     }
 
     private static int showHelp(CommandContext<CommandSourceStack> context) {

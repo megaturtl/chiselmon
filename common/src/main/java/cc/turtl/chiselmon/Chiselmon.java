@@ -7,6 +7,7 @@ import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.api.DataScope;
 import cc.turtl.chiselmon.data.UserDataRegistry;
 import cc.turtl.chiselmon.system.alert.AlertManager;
+import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 
 public final class Chiselmon {
@@ -16,6 +17,7 @@ public final class Chiselmon {
 
         TrackerManager.getInstance().init();
         AlertManager.getInstance().init();
+        SpawnRecorderManager.getInstance().init();
     }
 
     private static void initRegistries() {

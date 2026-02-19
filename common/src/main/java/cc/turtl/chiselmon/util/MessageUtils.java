@@ -23,6 +23,10 @@ public class MessageUtils {
         player.sendSystemMessage(message);
     }
 
+    public static void send(@NotNull LocalPlayer player, String message) {
+        send(player, Component.literal(message));
+    }
+
     public static void sendPrefixed(@NotNull LocalPlayer player, Component message) {
         send(player, ChiselmonConstants.MESSAGE_PREFIX.copy().append(message));
     }
