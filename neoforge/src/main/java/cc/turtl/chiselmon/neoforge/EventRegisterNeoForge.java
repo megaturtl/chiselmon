@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.neoforge;
 
 import cc.turtl.chiselmon.ChiselmonCommands;
+import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.platform.PlatformEventHandlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -8,6 +9,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -21,6 +23,11 @@ public class EventRegisterNeoForge {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent e) {
         ChiselmonCommands.register(e.getDispatcher(), e.getBuildContext(), e.getCommandSelection());
+    }
+
+    @SubscribeEvent
+    static void registerKeybinds(RegisterKeyMappingsEvent event) {
+        ChiselmonKeybinds.ALL.forEach(event::register);
     }
 
     @SubscribeEvent

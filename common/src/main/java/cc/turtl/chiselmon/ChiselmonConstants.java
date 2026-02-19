@@ -2,10 +2,15 @@ package cc.turtl.chiselmon;
 
 
 import cc.turtl.chiselmon.platform.PlatformHelper;
+import cc.turtl.chiselmon.util.format.ColorUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
+
+import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
 
 public class ChiselmonConstants {
     public static final String MOD_ID = "chiselmon";
@@ -19,4 +24,12 @@ public class ChiselmonConstants {
     public static final Path CONFIG_PATH = PlatformHelper.getPathFinder().getConfigDir().resolve(MOD_ID);
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
+    public static final Component MESSAGE_PREFIX = Component.empty()
+            .append(Component.literal("\uD83D\uDEE0 ")
+                    .withColor(ColorUtils.PINK.getRGB())
+                    .withStyle(ChatFormatting.BOLD))
+            .append(Component.literal("CH")
+                    .withColor(ColorUtils.PINK.getRGB()))
+            .append(createComponent(" » ", ColorUtils.DARK_GRAY.getRGB()));
 }

@@ -17,14 +17,13 @@
     "config.jade.plugin_chiselmon.pokesnack_block.ingredients": "Ingredients",
     "config.jade.plugin_chiselmon.pokesnack_block.effects": "Bait Effects",
 
-    "key.categories.chiselmon": "Chiselmon",
-    "key.chiselmon.spawnalert.mutealerts": "Mute Active Spawn Alerts",
+    "key.chiselmon.categories.chiselmon": "Chiselmon",
+    "key.chiselmon.open_config": "Open Config",
+    "key.chiselmon.mute_alerts": "Mute Active Alert Sounds",
 
     "chiselmon.pc.bookmark_button.tooltip.add": "Add Bookmark",
     "chiselmon.pc.bookmark_button.tooltip.remove": "Remove Bookmark",
-
     "chiselmon.pc.home_button.tooltip": "Jump to Box 1",
-
     "chiselmon.pc.tab_button.tooltip": "Jump to %s (pg. %d)",
 
     "chiselmon.ui.label.pokesnack_block.bites_remaining": "Bites Remaining",
@@ -43,7 +42,6 @@
     "chiselmon.ui.label.ev_yield": "EV Yield",
     "chiselmon.ui.label.catch_rate": "Catch Rate",
     "chiselmon.ui.label.pokedex_status": "Pokedex Status",
-    
 
     "chiselmon.spawnalert.message.spawned_nearby": "spawned nearby!",
 
@@ -73,19 +71,23 @@
 
     "chiselmon.config.general.mod_disabled": "Disable Mod",
     "chiselmon.config.general.mod_disabled.description": "Completely disable all Chiselmon features",
+    "chiselmon.config.general.open_config_keybind": "Open Config Keybind",
+    "chiselmon.config.general.open_config_keybind.description": "Press to return to this config screen",
     "chiselmon.config.group.thresholds": "Thresholds",
     "chiselmon.config.general.extreme_small": "Extreme Small Threshold",
     "chiselmon.config.general.extreme_small.description": "Size at which pokemon are treated as extremely small",
     "chiselmon.config.general.extreme_large": "Extreme Large Threshold",
     "chiselmon.config.general.extreme_large.description": "Size at which pokemon are treated as extremely large",
-    "chiselmon.config.general.max_ivs": "Max IVs Required",
+    "chiselmon.config.general.max_ivs": "Max IVs Threshold",
     "chiselmon.config.general.max_ivs.description": "Number of max IVs required to be considered high IVs",
 
     "chiselmon.config.pc.group.quick_sort": "Quick Sort",
     "chiselmon.config.pc.quick_sort.enabled": "Enable Quick Sort",
-    "chiselmon.config.pc.quick_sort.enabled.description": "Sort the current PC box on middle-click",
+    "chiselmon.config.pc.quick_sort.enabled.description": "Sort the current PC box with a keybind",
     "chiselmon.config.pc.quick_sort.mode": "Sort Mode",
     "chiselmon.config.pc.quick_sort.mode.description": "Sorting method to use",
+    "chiselmon.config.pc.quick_sort.keybind": "Sort Keybind",
+    "chiselmon.config.pc.quick_sort.keybind.description": "Defaults to middle-click.",
     "chiselmon.config.pc.group.egg_spy": "Egg Spy",
     "chiselmon.config.pc.egg_spy.enabled": "Enable Egg Spy",
     "chiselmon.config.pc.egg_spy.enabled.description": "Show preview of what's inside eggs",
@@ -154,7 +156,7 @@
     "chiselmon.config.filters.tags.examples.gender": "◆ Specific gender: e.g. 'gender=female'",
     "chiselmon.config.filters.tags.examples.size": "◆ Specific sizes: e.g. 'min_size=1.5' or 'max_size=0.5'",
     "chiselmon.config.filters.tags.examples.usage": "You can combine any number of tags together and their conditions will be ANDed. i.e all criteria must be true. e.g. 'species=eevee, max_size=0.3' will only match tiny Eevees. 'species=ribombee, gender=female will only match female Ribombees.",
-    "chiselmon.config.filters.delete": "Delete %s",
+    "chiselmon.config.filters.delete": "Delete '%s'",
     "chiselmon.config.filters.delete.description": "Remove this custom filter",
     "chiselmon.config.filters.delete.button": "✕ Hold To Delete",
     "chiselmon.config.filters.delete.held": "✕ Deleting...",
@@ -168,6 +170,8 @@
     "chiselmon.config.alerts.master_enabled.description": "Master switch for all pokemon alerts",
     "chiselmon.config.alerts.master_volume": "Master Volume",
     "chiselmon.config.alerts.master_volume.description": "Volume control for all alert sounds",
+    "chiselmon.config.alerts.mute_keybind": "Mute Keybind",
+    "chiselmon.config.alerts.mute_keybind.description": "Press to indefinitely mute all active alert sounds.",
     "chiselmon.config.alerts.show_form_in_message": "Show Form in Messages",
     "chiselmon.config.alerts.show_form_in_message.description": "Include pokemon form in alert messages",
     "chiselmon.config.alerts.filters": "Customise Alert Types",

@@ -1,10 +1,12 @@
 package cc.turtl.chiselmon.command;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.util.CommandUtils;
+import cc.turtl.chiselmon.util.MessageUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -27,10 +29,12 @@ public class InfoCommand implements ChiselmonCommand {
     }
 
     private int execute(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        CommandUtils.sendHeader(source, ChiselmonConstants.MOD_NAME + " Info");
-        CommandUtils.sendLabeled(source, "Version", ChiselmonConstants.VERSION);
-        CommandUtils.sendLabeled(source, "Author", ChiselmonConstants.AUTHOR);
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+
+        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Info");
+        MessageUtils.sendLabeled(player, "Version", ChiselmonConstants.VERSION);
+        MessageUtils.sendLabeled(player, "Author", ChiselmonConstants.AUTHOR);
         return Command.SINGLE_SUCCESS;
     }
 }

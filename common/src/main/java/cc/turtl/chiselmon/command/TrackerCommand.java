@@ -3,11 +3,13 @@ package cc.turtl.chiselmon.command;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.system.tracker.TrackerSession;
-import cc.turtl.chiselmon.util.CommandUtils;
+import cc.turtl.chiselmon.util.MessageUtils;
 import cc.turtl.chiselmon.util.format.StringFormats;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -30,12 +32,15 @@ public class TrackerCommand implements ChiselmonCommand {
     }
 
     private int execute(CommandContext<CommandSourceStack> context) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+
         TrackerSession tracker = TrackerManager.getInstance().getTracker();
-        CommandSourceStack source = context.getSource();
-        CommandUtils.sendHeader(source, ChiselmonConstants.MOD_NAME + " Tracker");
-        CommandUtils.sendLabeled(source, "Loaded pokemon count", tracker.getCurrentlyLoaded().size());
-        CommandUtils.sendLabeled(source, "Unique encounters this session", tracker.getEncounterCount());
-        CommandUtils.sendLabeled(source, "Time elapsed this session", StringFormats.formatDurationMs(tracker.getMsElapsed()));
+
+        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Tracker");
+        MessageUtils.sendLabeled(player, "Loaded pokemon count", tracker.getCurrentlyLoaded().size());
+        MessageUtils.sendLabeled(player, "Unique encounters this session", tracker.getEncounterCount());
+        MessageUtils.sendLabeled(player, "Time elapsed this session", StringFormats.formatDurationMs(tracker.getMsElapsed()));
 
         return Command.SINGLE_SUCCESS;
     }

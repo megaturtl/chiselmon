@@ -1,6 +1,8 @@
 package cc.turtl.chiselmon.config;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.ChiselmonKeybinds;
+import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
 import cc.turtl.chiselmon.config.category.FilterConfig;
 import cc.turtl.chiselmon.config.category.GeneralConfig;
@@ -36,16 +38,22 @@ public class ChiselmonConfig {
     @SerialEntry
     public final AlertsConfig alerts = new AlertsConfig();
 
-    // Not serialized, this is purely a UI builder now
+    // Not serialized here, this is purely a UI builder now
     public final FilterConfig filter = new FilterConfig();
 
     public static ChiselmonConfig get() {
         return HANDLER.instance();
     }
 
-    public static void load() {
+    public static void init() {
         HANDLER.load();
-        HANDLER.save();
+
+        ChiselmonEvents.CLIENT_POST_TICK.subscribe(e -> {
+            while (ChiselmonKeybinds.OPEN_CONFIG.consumeClick()) {
+                Screen screen = ChiselmonConfig.createScreen(Minecraft.getInstance().screen);
+                Minecraft.getInstance().setScreen(screen);
+            }
+        });
     }
 
     public static void save() {

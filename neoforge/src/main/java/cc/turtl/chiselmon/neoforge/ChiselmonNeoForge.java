@@ -12,8 +12,8 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(ChiselmonConstants.MOD_ID)
 public final class ChiselmonNeoForge {
     public ChiselmonNeoForge() {
-        Chiselmon.initClient();
         registerConfigScreen();
+        Chiselmon.initClient();
     }
 
     // Links the Cloth Config screen to the NeoForge mod menu

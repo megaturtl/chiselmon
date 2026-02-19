@@ -10,8 +10,7 @@ public enum AlertSounds {
     CHIME("Note Block Chime", SoundEvents.NOTE_BLOCK_CHIME.value()),
     BIT("Note Block 8 Bit", SoundEvents.NOTE_BLOCK_BIT.value()),
     BELL("Bell", SoundEvents.BELL_BLOCK),
-    AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME),
-    NONE("None", null);
+    AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME);
 
     private final String displayName;
     private final SoundEvent sound;

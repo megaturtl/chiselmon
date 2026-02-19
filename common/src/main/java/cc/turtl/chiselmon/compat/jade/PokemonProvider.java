@@ -105,7 +105,6 @@ public enum PokemonProvider implements IEntityComponentProvider {
         if (!config.get(CATCH_RATE)) {
             return;
         }
-
         ClientSpecies clientSpecies = ClientSpeciesRegistry.get(entity.getPokemon().getSpecies().getName());
         MutableComponent catchRateLabel = ComponentUtils.modTranslatable("ui.label.catch_rate");
         tooltip.add(ComponentUtils.labelled(catchRateLabel, PokemonFormats.catchRate(clientSpecies)));

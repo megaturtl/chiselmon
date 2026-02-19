@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.Priority;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
-import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
@@ -13,7 +13,12 @@ import cc.turtl.chiselmon.system.alert.action.GlowAction;
 import cc.turtl.chiselmon.system.alert.action.MessageAction;
 import cc.turtl.chiselmon.system.alert.action.SoundAction;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
+import cc.turtl.chiselmon.util.MessageUtils;
+import cc.turtl.chiselmon.util.format.ColorUtils;
+import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 
 import java.util.*;
 
@@ -68,8 +73,15 @@ public class AlertManager {
 
     private void tick() {
         AlertsConfig config = ChiselmonConfig.get().alerts;
-        ChiselmonConstants.LOGGER.info("tick - active: {}, masterEnabled: {}, loaded: {}", active, config.masterEnabled, getLoadedPokemonEntities().size());
         if (!config.masterEnabled) return;
+
+        while (ChiselmonKeybinds.MUTE_ALERTS.consumeClick()) {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null) {
+                muteAll();
+                MessageUtils.sendSuccess(player, "All active alerts muted");
+            }
+        }
 
         // Track the "best" filter match for the sound this tick
         AlertContext bestSoundContext = null;
@@ -79,7 +91,6 @@ public class AlertManager {
             if (!pe.getBusyLocks().isEmpty()) mute(uuid);
 
             FilterMatchResult result = FilterMatcher.match(pe.getPokemon());
-            ChiselmonConstants.LOGGER.info("  {} -> match: {}, muted: {}", pe.getPokemon().getSpecies().getName(), result.primaryMatch().map(RuntimeFilter::id).orElse("none"), isMuted(uuid));
             if (result.primaryMatch().isEmpty()) continue;
 
             AlertContext ctx = new AlertContext(pe, result.primaryMatch().get(), isMuted(uuid), config);

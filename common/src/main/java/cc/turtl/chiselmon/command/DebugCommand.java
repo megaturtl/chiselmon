@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.command;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
-import cc.turtl.chiselmon.util.CommandUtils;
+import cc.turtl.chiselmon.util.MessageUtils;
 import cc.turtl.chiselmon.util.ObjectDumper;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -10,6 +10,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.Entity;
@@ -37,46 +38,52 @@ public class DebugCommand implements ChiselmonCommand {
     }
 
     private int showHelp(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+
         String root = context.getNodes().getFirst().getNode().getName();
 
-        CommandUtils.sendHeader(source, "Debug Commands");
-        CommandUtils.sendPrefixed(source, "/" + root + " debug test - Test command");
-        CommandUtils.sendPrefixed(source, "/" + root + " debug dumpentity - Dumps targeted entity info to console w/ summary in game");
+        MessageUtils.sendHeader(player, "Debug Commands");
+        MessageUtils.sendPrefixed(player, "/" + root + " debug test - Test command");
+        MessageUtils.sendPrefixed(player, "/" + root + " debug dumpentity - Dumps targeted entity info to console w/ summary in game");
         return Command.SINGLE_SUCCESS;
     }
 
     private int executeTest(CommandContext<CommandSourceStack> context) {
-        CommandUtils.sendSuccess(context.getSource(), "Test successful!");
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+
+        MessageUtils.sendSuccess(player, "Test successful!");
         return Command.SINGLE_SUCCESS;
     }
 
     private int executeDumpEntity(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
 
         try {
             Minecraft minecraft = Minecraft.getInstance();
             Entity target = minecraft.crosshairPickEntity;
 
             if (target == null) {
-                CommandUtils.sendWarning(source, "Not looking at an entity!");
+                MessageUtils.sendWarning(player, "Not looking at an entity!");
                 return Command.SINGLE_SUCCESS;
             }
 
             if (target instanceof PokemonEntity pe) {
-                CommandUtils.sendHeader(source, PokemonFormats.detailedName(pe.getPokemon()));
-                CommandUtils.sendLabeled(source, "NoAI", pe.isNoAi());
-                CommandUtils.sendLabeled(source, "Busy", pe.isBusy());
-                CommandUtils.sendLabeled(source, "Owned", PokemonEntityPredicates.IS_OWNED.test(pe));
-                CommandUtils.sendLabeled(source, "Wild", PokemonEntityPredicates.IS_WILD.test(pe));
+                MessageUtils.sendHeader(player, PokemonFormats.detailedName(pe.getPokemon()));
+                MessageUtils.sendLabeled(player, "NoAI", pe.isNoAi());
+                MessageUtils.sendLabeled(player, "Busy", pe.isBusy());
+                MessageUtils.sendLabeled(player, "Owned", PokemonEntityPredicates.IS_OWNED.test(pe));
+                MessageUtils.sendLabeled(player, "Wild", PokemonEntityPredicates.IS_WILD.test(pe));
             } else {
-                CommandUtils.sendWarning(source, "Entity is a " + target.getType().getDescription().getString());
+                MessageUtils.sendWarning(player, "Entity is a " + target.getType().getDescription().getString());
             }
             ObjectDumper.dump(ChiselmonConstants.LOGGER, target);
             return Command.SINGLE_SUCCESS;
 
         } catch (Exception e) {
-            CommandUtils.sendError(context, e);
+            MessageUtils.sendError(player, context, e);
             return 0;
         }
     }

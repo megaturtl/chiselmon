@@ -11,8 +11,7 @@ import cc.turtl.chiselmon.system.tracker.TrackerManager;
 
 public final class Chiselmon {
     public static void initClient() {
-        ChiselmonConfig.load();
-
+        ChiselmonConfig.init();
         initRegistries();
 
         TrackerManager.getInstance().init();

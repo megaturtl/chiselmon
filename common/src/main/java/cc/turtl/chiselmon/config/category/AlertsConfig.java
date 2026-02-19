@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.config.category;
 
+import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.filter.FilterDefinition;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.config.OptionFactory;
@@ -53,7 +54,10 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         "config.alerts.show_form_in_message",
                         () -> showFormInMessage,
                         v -> showFormInMessage = v
-                ));
+                ))
+                .option(OptionFactory.keyMappingPicker(
+                        "config.alerts.mute_keybind",
+                        ChiselmonKeybinds.MUTE_ALERTS));
 
         builder.option(LabelOption.create(modTranslatable("config.alerts.filters")));
 

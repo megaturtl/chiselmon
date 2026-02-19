@@ -3,7 +3,6 @@ Bugs:
 High priority:
 - make the quicksort key bindable
 - fully grown cobblemon crop markers
-- Custom profiles for alerts (eg. add x y z mon, all of this type)
 - uuid in logger
 - despawn glow should be overrided by everything
 

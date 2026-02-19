@@ -1,11 +1,13 @@
 package cc.turtl.chiselmon;
 
 import cc.turtl.chiselmon.command.*;
-import cc.turtl.chiselmon.util.CommandUtils;
+import cc.turtl.chiselmon.util.MessageUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -17,7 +19,8 @@ public class ChiselmonCommands {
             new InfoCommand(),
             new DebugCommand(),
             new TrackerCommand(),
-            new AlertCommand()
+            new AlertCommand(),
+            new ConfigCommand()
     );
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher,
@@ -40,13 +43,15 @@ public class ChiselmonCommands {
     }
 
     private static int showHelp(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+
         // Gets the alias used
         String alias = context.getNodes().getFirst().getNode().getName();
 
-        CommandUtils.sendHeader(source, ChiselmonConstants.MOD_NAME + " Commands");
+        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Commands");
         COMMANDS.forEach(cmd ->
-                CommandUtils.sendPrefixed(source, "/" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
+                MessageUtils.sendPrefixed(player, "/" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
         );
         return Command.SINGLE_SUCCESS;
     }

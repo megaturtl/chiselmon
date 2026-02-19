@@ -2,10 +2,12 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.feature.pc.sort.SortMode;
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
+import org.lwjgl.glfw.GLFW;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
@@ -38,6 +40,9 @@ public class PCConfig implements ConfigCategoryBuilder {
         @SerialEntry
         public SortMode mode = SortMode.POKEDEX_NUMBER;
 
+        @SerialEntry
+        public InputConstants.Key hotkey = InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
+
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
@@ -52,6 +57,11 @@ public class PCConfig implements ConfigCategoryBuilder {
                             () -> mode,
                             v -> mode = v,
                             SortMode.class
+                    ))
+                    .option(OptionFactory.hotkeyPicker(
+                            "config.pc.quick_sort.hotkey",
+                            () -> hotkey,
+                            v -> hotkey = v
                     ))
                     .build();
         }

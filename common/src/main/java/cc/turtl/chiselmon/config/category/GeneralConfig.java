@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.config.category;
 
+import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.config.OptionFactory;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.OptionGroup;
@@ -24,6 +25,9 @@ public class GeneralConfig implements ConfigCategoryBuilder {
                         () -> modDisabled,
                         v -> modDisabled = v
                 ))
+                .option(OptionFactory.keyMappingPicker(
+                        "config.general.open_config_keybind",
+                        ChiselmonKeybinds.OPEN_CONFIG))
                 .group(thresholds.buildGroup())
                 .build();
     }
