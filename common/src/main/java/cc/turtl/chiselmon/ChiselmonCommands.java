@@ -33,9 +33,13 @@ public class ChiselmonCommands {
         LiteralArgumentBuilder<CommandSourceStack> rootAlias = Commands.literal("ch")
                 .executes(ChiselmonCommands::showHelp);
 
+        LiteralArgumentBuilder<CommandSourceStack> legacyRootAlias = Commands.literal("ca")
+                .executes(ChiselmonCommands::showHelp);
+
         // Attach all subcommands
         COMMANDS.forEach(cmd -> root.then(cmd.build()));
         COMMANDS.forEach(cmd -> rootAlias.then(cmd.build()));
+        COMMANDS.forEach(cmd -> legacyRootAlias.then(cmd.build()));
 
         // Register the main command and alias
         dispatcher.register(root);
@@ -49,7 +53,6 @@ public class ChiselmonCommands {
         // Gets the alias used
         String alias = context.getNodes().getFirst().getNode().getName();
 
-        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Commands");
         COMMANDS.forEach(cmd ->
                 MessageUtils.sendPrefixed(player, "/" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
         );

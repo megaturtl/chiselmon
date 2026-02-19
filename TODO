@@ -3,7 +3,6 @@ Bugs:
 
 High priority:
 - fully grown cobblemon crop markers
-- uuid in logger
 - despawn glow should be overrided by everything
 - try to find an efficient way to track pokemon alive time even after they are unrendered (maybe save for 1-2 mins or something)
 so that when you're on a plat you can still see which are eligible to despawn if you cycle in and out of render

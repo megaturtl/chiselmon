@@ -6,12 +6,17 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+
+import java.util.UUID;
 
 /**
  * Immutable snapshot of a single pokemon's state when first encountered.
  */
 public record PokemonEncounter(
         long encounteredAtMs,
+        UUID uuid,
         Species species,
         FormData form,
         int level,
@@ -20,6 +25,9 @@ public record PokemonEncounter(
         boolean isLegendary,
         boolean isExtremeSize,
         boolean spawnedFromSnack,
+        int playerX,
+        int playerY,
+        int playerZ,
         int blockX,
         int blockY,
         int blockZ,
@@ -35,9 +43,11 @@ public record PokemonEncounter(
      */
     public static PokemonEncounter from(PokemonEntity pe) {
         Pokemon pokemon = pe.getPokemon();
+        LocalPlayer player = Minecraft.getInstance().player;
 
         return new PokemonEncounter(
                 System.currentTimeMillis(),
+                pe.getUUID(),
                 pokemon.getSpecies(),
                 pe.getForm(),
                 pokemon.getLevel(),
@@ -46,6 +56,9 @@ public record PokemonEncounter(
                 PokemonPredicates.IS_LEGENDARY.test(pokemon),
                 PokemonPredicates.IS_EXTREME_SIZE.test(pokemon),
                 PokemonEntityPredicates.FROM_POKESNACK.test(pe),
+                player != null ? player.getBlockX() : 1,
+                player != null ? player.getBlockX() : 1,
+                player != null ? player.getBlockX() : 1,
                 pe.getBlockX(),
                 pe.getBlockY(),
                 pe.getBlockZ(),

@@ -49,9 +49,10 @@ public class MessageUtils {
     }
 
     public static void sendHeader(@NotNull LocalPlayer player, Component title) {
-        Component bars = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY.getRGB());
+        Component start = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY.getRGB());
+        Component end = createComponent("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY.getRGB());
         Component icon = createComponent(" \uD83D\uDEE0 ", ColorUtils.PINK.getRGB()).withStyle(ChatFormatting.BOLD);
-        send(player, Component.empty().append(bars).append(icon).append(title).append(icon).append(bars));
+        send(player, Component.empty().append(start).append(icon).append(title).append(icon).append(end));
     }
 
     public static void sendLabeled(@NotNull LocalPlayer player, String label, Object value) {

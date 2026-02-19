@@ -16,7 +16,7 @@ public final class ColorUtils {
     public static final Color RED = new Color(0xE13538);
     public static final Color ORANGE = new Color(0xF9844A);
     public static final Color YELLOW = new Color(0xF9C74F);
-    public static final Color GREEN = new Color(0x4DBA51);
+    public static final Color GREEN = new Color(0x41D73B);
     public static final Color BLUE = new Color(0x2D73B0);
     public static final Color PURPLE = new Color(0x6C44C3);
     public static final Color PINK = new Color(0xF46997);
@@ -31,8 +31,6 @@ public final class ColorUtils {
     public static final Color AQUA = new Color(0x40E0D0);
     public static final Color LAVENDER = new Color(0xDEDEFC);
     public static final Color MINT = new Color(0x98FF98);
-    public static final Color PEACH = new Color(0xFFDAB9);
-    public static final Color NAVY = new Color(0x000080);
     public static final Color TEAL = new Color(0x008080);
     private static final int[] MC_PALETTE = {
             0x000000, 0x0000AA, 0x00AA00, 0x00AAAA, 0xAA0000, 0xAA00AA, 0xFFAA00, 0xAAAAAA,

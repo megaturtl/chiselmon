@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.util.format;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -43,10 +42,19 @@ public final class StringFormats {
     }
 
     /**
-     * Formats milliseconds into a readable mm:ss format.
+     * Formats milliseconds into a readable format.
      */
     public static String formatDurationMs(long milliseconds) {
-        return DurationFormatUtils.formatDuration(milliseconds, "mm:ss");
+        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds) % 60;
+
+        StringBuilder sb = new StringBuilder();
+        if (hours > 0) sb.append(hours).append("h ");
+        if (hours > 0 || minutes > 0) sb.append(minutes).append("m ");
+        sb.append(seconds).append("s");
+
+        return sb.toString();
     }
 
     /**

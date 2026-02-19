@@ -5,6 +5,7 @@ import cc.turtl.chiselmon.platform.PlatformHelper;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,10 +27,12 @@ public class ChiselmonConstants {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static final Component MESSAGE_PREFIX = Component.empty()
-            .append(Component.literal("\uD83D\uDEE0 ")
+            .append(createComponent("[", ColorUtils.DARK_GRAY.getRGB()))
+            .append(Component.literal("\uD83D\uDEE0")
                     .withColor(ColorUtils.PINK.getRGB())
                     .withStyle(ChatFormatting.BOLD))
-            .append(Component.literal("CH")
-                    .withColor(ColorUtils.PINK.getRGB()))
-            .append(createComponent(" » ", ColorUtils.DARK_GRAY.getRGB()));
+            .append(createComponent("] ", ColorUtils.DARK_GRAY.getRGB()))
+            .withStyle(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    createComponent("Chiselmon", ColorUtils.PINK.getRGB())))
+            );
 }
