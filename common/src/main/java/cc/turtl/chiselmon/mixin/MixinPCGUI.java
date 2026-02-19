@@ -1,6 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
+import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
@@ -83,17 +85,13 @@ public abstract class MixinPCGUI extends Screen {
         if (chiselmon$bookmarkManager != null) {
             chiselmon$bookmarkManager.update();
         }
-    }
 
-    @Inject(method = "mouseClicked", at = @At("HEAD"))
-    private void chiselmon$handleMiddleClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (button != 2) return;
-        if (chiselmon$sortManager == null) return;
-
-        ChiselmonConfig config = ChiselmonConfig.get();
-        if (!config.pc.quickSort.enabled) return;
-
-        chiselmon$sortManager.executeQuickSort(config.pc.quickSort.mode, Screen.hasShiftDown());
+        PCConfig.QuickSortConfig quickSort = ChiselmonConfig.get().pc.quickSort;
+        if (quickSort.enabled
+                && chiselmon$sortManager != null
+                && ChiselmonKeybinds.isDown(quickSort.hotkey)) {
+            chiselmon$sortManager.executeQuickSort(quickSort.mode, Screen.hasShiftDown());
+        }
     }
 
     @Override

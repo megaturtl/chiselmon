@@ -1,4 +1,5 @@
 Bugs:
+- fix ALL defaults in the config (i need to actually statically include them not just getter.get()
 
 High priority:
 - fully grown cobblemon crop markers
@@ -7,6 +8,7 @@ High priority:
 - try to find an efficient way to track pokemon alive time even after they are unrendered (maybe save for 1-2 mins or something)
 so that when you're on a plat you can still see which are eligible to despawn if you cycle in and out of render
 - maybe add pitch slider to alert sounds config
+- add screenshots to the config descriptions (like chesttracker)
 
 Nice to have:
 - quick evolve or smth
