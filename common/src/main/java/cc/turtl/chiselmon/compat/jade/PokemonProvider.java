@@ -76,27 +76,27 @@ public enum PokemonProvider implements IEntityComponentProvider {
                                      Pokemon pokemon, Species species, ClientSpecies clientSpecies) {
 
         addIfEnabled(tooltip, config, POKEDEX_STATUS,
-                "ui.label.pokedex_status",
+                "chiselmon.ui.label.pokedex_status",
                 PokemonFormats.dexStatus(species));
 
         addIfEnabled(tooltip, config, TYPING,
-                "ui.label.type",
+                "chiselmon.ui.label.type",
                 PokemonFormats.types(pokemon));
 
         addIfEnabled(tooltip, config, WEAKNESSES,
-                "ui.label.weaknesses",
+                "chiselmon.ui.label.weaknesses",
                 PokemonFormats.typingWeaknesses(pokemon));
 
         addIfEnabled(tooltip, config, FORM,
-                "ui.label.form",
+                "chiselmon.ui.label.form",
                 PokemonFormats.form(pokemon));
 
         addIfEnabled(tooltip, config, EGG_GROUPS,
-                "ui.label.egg_groups",
+                "chiselmon.ui.label.egg_groups",
                 PokemonFormats.eggGroups(clientSpecies));
 
         addIfEnabled(tooltip, config, EV_YIELD,
-                "ui.label.ev_yield",
+                "chiselmon.ui.label.ev_yield",
                 PokemonFormats.evYield(clientSpecies));
     }
 
@@ -106,7 +106,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
             return;
         }
         ClientSpecies clientSpecies = ClientSpeciesRegistry.get(entity.getPokemon().getSpecies().getName());
-        MutableComponent catchRateLabel = ComponentUtils.modTranslatable("ui.label.catch_rate");
+        MutableComponent catchRateLabel = Component.translatable("chiselmon.ui.label.catch_rate");
         tooltip.add(ComponentUtils.labelled(catchRateLabel, PokemonFormats.catchRate(clientSpecies)));
 
         // Add catch chance if holding a pokeball
@@ -130,7 +130,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
     private void addIfEnabled(ITooltip tooltip, IPluginConfig config,
                               ResourceLocation configKey, String labelKey, Component value) {
         if (config.get(configKey)) {
-            MutableComponent label = ComponentUtils.modTranslatable(labelKey);
+            MutableComponent label = Component.translatable(labelKey);
             tooltip.add(ComponentUtils.labelled(label, value));
         }
     }

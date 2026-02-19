@@ -12,13 +12,12 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class AlertsConfig implements ConfigCategoryBuilder {
 
@@ -37,29 +36,29 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     @Override
     public ConfigCategory buildCategory(Screen parent) {
         var builder = ConfigCategory.createBuilder()
-                .name(modTranslatable("config.category.alerts"));
+                .name(Component.translatable("chiselmon.config.category.alerts"));
 
         builder.option(OptionFactory.toggleOnOff(
-                        "config.alerts.master_enabled",
+                        "chiselmon.config.alerts.master_enabled",
                         () -> masterEnabled,
                         v -> masterEnabled = v
                 ))
                 .option(OptionFactory.intSlider(
-                        "config.alerts.master_volume",
+                        "chiselmon.config.alerts.master_volume",
                         () -> masterVolume,
                         v -> masterVolume = v,
                         0, 100, 1
                 ))
                 .option(OptionFactory.toggleTick(
-                        "config.alerts.show_form_in_message",
+                        "chiselmon.config.alerts.show_form_in_message",
                         () -> showFormInMessage,
                         v -> showFormInMessage = v
                 ))
                 .option(OptionFactory.keyMappingPicker(
-                        "config.alerts.mute_keybind",
+                        "chiselmon.config.alerts.mute_keybind",
                         ChiselmonKeybinds.MUTE_ALERTS));
 
-        builder.option(LabelOption.create(modTranslatable("config.alerts.filters")));
+        builder.option(LabelOption.create(Component.translatable("chiselmon.config.alerts.filters")));
 
         // Add a separate group for each filter's alert settings
         for (FilterDefinition filter : UserDataRegistry.get(FiltersUserData.class).getAll().values()) {
@@ -79,14 +78,14 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         // Create options and store references to read pending values
         Option<AlertSounds> soundOption = OptionFactory.enumCycler(
-                "config.alerts.alert_sound",
+                "chiselmon.config.alerts.alert_sound",
                 () -> settings.alertSound,
                 v -> settings.alertSound = v,
                 AlertSounds.class
         );
 
         Option<Integer> volumeOption = OptionFactory.intSlider(
-                "config.alerts.volume",
+                "chiselmon.config.alerts.volume",
                 () -> settings.volume,
                 v -> settings.volume = v,
                 0, 100, 1
@@ -94,27 +93,27 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         return OptionGroup.createBuilder()
                 .name(filterName)
-                .description(OptionDescription.of(modTranslatable("config.alerts.group.filter_alerts.description")))
+                .description(OptionDescription.of(Component.translatable("chiselmon.config.alerts.group.filter_alerts.description")))
                 .option(OptionFactory.toggleOnOff(
-                        "config.alerts.enabled",
+                        "chiselmon.config.alerts.enabled",
                         () -> settings.enabled,
                         v -> settings.enabled = v
                 ))
                 .option(OptionFactory.toggleTick(
-                        "config.alerts.send_chat_message",
+                        "chiselmon.config.alerts.send_chat_message",
                         () -> settings.sendChatMessage,
                         v -> settings.sendChatMessage = v
                 ))
                 .option(OptionFactory.toggleTick(
-                        "config.alerts.play_sound",
+                        "chiselmon.config.alerts.play_sound",
                         () -> settings.playSound,
                         v -> settings.playSound = v
                 ))
                 .option(soundOption)
                 .option(ButtonOption.createBuilder()
-                        .name(modTranslatable("config.alerts.preview_sound"))
-                        .description(OptionDescription.of(modTranslatable("config.alerts.preview_sound.description")))
-                        .text(modTranslatable("config.alerts.preview_sound.button"))
+                        .name(Component.translatable("chiselmon.config.alerts.preview_sound"))
+                        .description(OptionDescription.of(Component.translatable("chiselmon.config.alerts.preview_sound.description")))
+                        .text(Component.translatable("chiselmon.config.alerts.preview_sound.button"))
                         .action((screen, opt) -> {
                             // Play the currently selected sound from UI (pending value)
                             AlertSounds currentSound = soundOption.pendingValue();
@@ -130,7 +129,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         .build())
                 .option(volumeOption)
                 .option(OptionFactory.toggleTick(
-                        "config.alerts.highlight_entity",
+                        "chiselmon.config.alerts.highlight_entity",
                         () -> settings.highlightEntity,
                         v -> settings.highlightEntity = v
                 ))

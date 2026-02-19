@@ -55,7 +55,7 @@ public class BookmarkButtons {
      */
     public static PCButton createTabButton(int x, int y, int boxNumber, Component boxName, PCButton.OnPress onPress) {
         Tooltip tooltip = Tooltip.create(
-                ComponentUtils.modTranslatable("pc.tab_button.tooltip", boxName, boxNumber + 1));
+                Component.translatable("chiselmon.pc.tab_button.tooltip", boxName, boxNumber + 1));
 
         return new PCButton.Builder(
                 x, y,

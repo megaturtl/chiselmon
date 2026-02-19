@@ -16,8 +16,7 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import dev.isxander.yacl3.gui.YACLScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
+import net.minecraft.network.chat.Component;
 
 public class ChiselmonConfig {
     private static final ConfigClassHandler<ChiselmonConfig> HANDLER =
@@ -62,7 +61,7 @@ public class ChiselmonConfig {
 
     public static Screen createScreen(Screen parent) {
         var builder = YetAnotherConfigLib.createBuilder()
-                .title(modTranslatable("config.title"))
+                .title(Component.translatable("chiselmon.config.title"))
                 .category(get().general.buildCategory(parent))
                 .category(get().pc.buildCategory(parent))
                 .category(get().filter.buildCategory(parent))

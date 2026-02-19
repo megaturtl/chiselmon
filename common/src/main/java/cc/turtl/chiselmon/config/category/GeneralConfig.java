@@ -6,8 +6,7 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
-
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
+import net.minecraft.network.chat.Component;
 
 public class GeneralConfig implements ConfigCategoryBuilder {
 
@@ -19,14 +18,14 @@ public class GeneralConfig implements ConfigCategoryBuilder {
     @Override
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
-                .name(modTranslatable("config.category.general"))
+                .name(Component.translatable("chiselmon.config.category.general"))
                 .option(OptionFactory.toggleOnOff(
-                        "config.general.mod_disabled",
+                        "chiselmon.config.general.mod_disabled",
                         () -> modDisabled,
                         v -> modDisabled = v
                 ))
                 .option(OptionFactory.keyMappingPicker(
-                        "config.general.open_config_keybind",
+                        "chiselmon.config.general.open_config_keybind",
                         ChiselmonKeybinds.OPEN_CONFIG))
                 .group(thresholds.buildGroup())
                 .build();
@@ -47,21 +46,21 @@ public class GeneralConfig implements ConfigCategoryBuilder {
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(modTranslatable("config.group.thresholds"))
+                    .name(Component.translatable("chiselmon.config.group.thresholds"))
                     .option(OptionFactory.floatSlider(
-                            "config.general.extreme_small",
+                            "chiselmon.config.general.extreme_small",
                             () -> extremeSmall,
                             v -> extremeSmall = v,
                             SMALL_MIN, SMALL_MAX, SMALL_STEP
                     ))
                     .option(OptionFactory.floatSlider(
-                            "config.general.extreme_large",
+                            "chiselmon.config.general.extreme_large",
                             () -> extremeLarge,
                             v -> extremeLarge = v,
                             LARGE_MIN, LARGE_MAX, LARGE_STEP
                     ))
                     .option(OptionFactory.intSlider(
-                            "config.general.max_ivs",
+                            "chiselmon.config.general.max_ivs",
                             () -> maxIvs,
                             v -> maxIvs = v,
                             IVS_MIN, IVS_MAX, IVS_STEP

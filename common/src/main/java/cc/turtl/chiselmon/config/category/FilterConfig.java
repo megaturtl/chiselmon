@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
-
 /**
  * I am using the config for this just to provide an easy way for users to edit their own filters.
  * Filter definitions are serialized and managed by the UserDataRegistry.
@@ -34,12 +32,12 @@ public class FilterConfig implements ConfigCategoryBuilder {
         FiltersUserData filtersUserData = UserDataRegistry.get(FiltersUserData.class);
 
         var builder = ConfigCategory.createBuilder()
-                .name(modTranslatable("config.category.filters"));
+                .name(Component.translatable("chiselmon.config.category.filters"));
 
         builder.option(ButtonOption.createBuilder()
-                .name(modTranslatable("config.filters.create").withColor(ColorUtils.GREEN.getRGB()))
-                .description(OptionDescription.of(modTranslatable("config.filters.create.description")))
-                .text(modTranslatable("config.filters.create.button"))
+                .name(Component.translatable("chiselmon.config.filters.create").withColor(ColorUtils.GREEN.getRGB()))
+                .description(OptionDescription.of(Component.translatable("chiselmon.config.filters.create.description")))
+                .text(Component.translatable("chiselmon.config.filters.create.button"))
                 .action((screen, opt) -> {
                     String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                     filtersUserData.put(newId, new FilterDefinition(
@@ -68,11 +66,11 @@ public class FilterConfig implements ConfigCategoryBuilder {
 
         var groupBuilder = OptionGroup.createBuilder()
                 .name(filterName)
-                .description(OptionDescription.of(modTranslatable("config.filters.group.description")));
+                .description(OptionDescription.of(Component.translatable("chiselmon.config.filters.group.description")));
 
         if (!isDefault) {
             groupBuilder.option(OptionFactory.textField(
-                    "config.filters.display_name",
+                    "chiselmon.config.filters.display_name",
                     () -> filter.displayName,
                     v -> {
                         filter.displayName = v;
@@ -83,7 +81,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
         }
 
         groupBuilder.option(OptionFactory.colorPicker(
-                "config.filters.color",
+                "chiselmon.config.filters.color",
                 () -> new Color(filter.rgb),
                 v -> {
                     filter.rgb = v.getRGB();
@@ -93,7 +91,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
         ));
 
         groupBuilder.option(OptionFactory.enumCycler(
-                "config.filters.priority",
+                "chiselmon.config.filters.priority",
                 () -> filter.priority,
                 v -> {
                     filter.priority = v;
@@ -104,20 +102,20 @@ public class FilterConfig implements ConfigCategoryBuilder {
 
         if (!isDefault) {
             groupBuilder.option(Option.<String>createBuilder()
-                    .name(modTranslatable("config.filters.tags"))
+                    .name(Component.translatable("chiselmon.config.filters.tags"))
                     .description(OptionDescription.createBuilder()
-                            .text(modTranslatable("config.filters.tags.description"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.description"))
                             .text(Component.empty())
-                            .text(modTranslatable("config.filters.tags.examples.header")
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.header")
                                     .withStyle(style -> style.withUnderlined(true)))
-                            .text(modTranslatable("config.filters.tags.examples.shiny"))
-                            .text(modTranslatable("config.filters.tags.examples.legendary"))
-                            .text(modTranslatable("config.filters.tags.examples.species"))
-                            .text(modTranslatable("config.filters.tags.examples.type"))
-                            .text(modTranslatable("config.filters.tags.examples.gender"))
-                            .text(modTranslatable("config.filters.tags.examples.size"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.shiny"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.legendary"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.species"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.type"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.gender"))
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.size"))
                             .text(Component.empty())
-                            .text(modTranslatable("config.filters.tags.examples.usage")
+                            .text(Component.translatable("chiselmon.config.filters.tags.examples.usage")
                                     .withStyle(style -> style.withItalic(true)
                                             .withColor(ColorUtils.LIGHT_GRAY.getRGB())))
                             .build())
@@ -133,10 +131,10 @@ public class FilterConfig implements ConfigCategoryBuilder {
                     .build());
 
             groupBuilder.option(HoldToConfirmButton.builder()
-                    .name(modTranslatable("config.filters.delete", filter.displayName).withColor(ColorUtils.RED.getRGB()))
-                    .description(OptionDescription.of(modTranslatable("config.filters.delete.description")))
-                    .buttonText(modTranslatable("config.filters.delete.button"))
-                    .holdingText(modTranslatable("config.filters.delete.held"))
+                    .name(Component.translatable("chiselmon.config.filters.delete", filter.displayName).withColor(ColorUtils.RED.getRGB()))
+                    .description(OptionDescription.of(Component.translatable(("chiselmon.config.filters.delete.description"))))
+                    .buttonText(Component.translatable("chiselmon.config.filters.delete.button"))
+                    .holdingText(Component.translatable("chiselmon.config.filters.delete.held"))
                     .holdTimeTicks(30)
                     .action((screen, opt) -> {
                         filtersUserData.remove(filter.id);

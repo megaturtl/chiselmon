@@ -7,9 +7,8 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
-
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class PCConfig implements ConfigCategoryBuilder {
 
@@ -25,7 +24,7 @@ public class PCConfig implements ConfigCategoryBuilder {
     @Override
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
-                .name(modTranslatable("config.category.pc"))
+                .name(Component.translatable("chiselmon.config.category.pc"))
                 .group(quickSort.buildGroup())
                 .group(tooltip.buildGroup())
                 .group(icon.buildGroup())
@@ -46,20 +45,20 @@ public class PCConfig implements ConfigCategoryBuilder {
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(modTranslatable("config.pc.group.quick_sort"))
+                    .name(Component.translatable("chiselmon.config.pc.group.quick_sort"))
                     .option(OptionFactory.toggleOnOff(
-                            "config.pc.quick_sort.enabled",
+                            "chiselmon.config.pc.quick_sort.enabled",
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.enumCycler(
-                            "config.pc.quick_sort.mode",
+                            "chiselmon.config.pc.quick_sort.mode",
                             () -> mode,
                             v -> mode = v,
                             SortMode.class
                     ))
                     .option(OptionFactory.hotkeyPicker(
-                            "config.pc.quick_sort.hotkey",
+                            "chiselmon.config.pc.quick_sort.hotkey",
                             () -> hotkey,
                             v -> hotkey = v
                     ))
@@ -68,23 +67,23 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class EggSpyConfig implements ConfigGroupBuilder {
-        @SerialEntry(comment = "Show a preview of what's inside eggs")
+        @SerialEntry
         public boolean enabled = false;
 
-        @SerialEntry(comment = "EXPERIMENTAL: Attempt to auto sync hatch progress without manually putting in/out of PC")
+        @SerialEntry
         public boolean syncHatchProgress = false;
 
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(modTranslatable("config.pc.group.egg_spy"))
+                    .name(Component.translatable("chiselmon.config.pc.group.egg_spy"))
                     .option(OptionFactory.toggleOnOff(
-                            "config.pc.egg_spy.enabled",
+                            "chiselmon.config.pc.egg_spy.enabled",
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.sync_hatch_progress.enabled",
+                            "chiselmon.config.pc.sync_hatch_progress.enabled",
                             () -> syncHatchProgress,
                             v -> syncHatchProgress = v
                     ))
@@ -126,54 +125,54 @@ public class PCConfig implements ConfigCategoryBuilder {
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(modTranslatable("config.group.tooltip"))
+                    .name(Component.translatable("chiselmon.config.group.tooltip"))
                     .option(OptionFactory.toggleOnOff(
-                            "config.pc.tooltip.enabled",
+                            "chiselmon.config.pc.tooltip.enabled",
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.show_on_hover",
+                            "chiselmon.config.pc.tooltip.show_on_hover",
                             () -> showOnHover,
                             v -> showOnHover = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.extend_on_shift",
+                            "chiselmon.config.pc.tooltip.extend_on_shift",
                             () -> extendOnShift,
                             v -> extendOnShift = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.ivs",
+                            "chiselmon.config.pc.tooltip.ivs",
                             () -> ivs,
                             v -> ivs = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.original_trainer",
+                            "chiselmon.config.pc.tooltip.original_trainer",
                             () -> originalTrainer,
                             v -> originalTrainer = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.form",
+                            "chiselmon.config.pc.tooltip.form",
                             () -> form,
                             v -> form = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.friendship",
+                            "chiselmon.config.pc.tooltip.friendship",
                             () -> friendship,
                             v -> friendship = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.ride_styles",
+                            "chiselmon.config.pc.tooltip.ride_styles",
                             () -> rideStyles,
                             v -> rideStyles = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.marks",
+                            "chiselmon.config.pc.tooltip.marks",
                             () -> marks,
                             v -> marks = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.tooltip.hatch_progress",
+                            "chiselmon.config.pc.tooltip.hatch_progress",
                             () -> hatchProgress,
                             v -> hatchProgress = v
                     ))
@@ -206,39 +205,39 @@ public class PCConfig implements ConfigCategoryBuilder {
         @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(modTranslatable("config.group.icon"))
+                    .name(Component.translatable("chiselmon.config.group.icon"))
                     .option(OptionFactory.toggleOnOff(
-                            "config.pc.icon.enabled",
+                            "chiselmon.config.pc.icon.enabled",
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.hidden_ability",
+                            "chiselmon.config.pc.icon.hidden_ability",
                             () -> hiddenAbility,
                             v -> hiddenAbility = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.ivs",
+                            "chiselmon.config.pc.icon.ivs",
                             () -> ivs,
                             v -> ivs = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.shiny",
+                            "chiselmon.config.pc.icon.shiny",
                             () -> shiny,
                             v -> shiny = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.size",
+                            "chiselmon.config.pc.icon.size",
                             () -> size,
                             v -> size = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.mark",
+                            "chiselmon.config.pc.icon.mark",
                             () -> mark,
                             v -> mark = v
                     ))
                     .option(OptionFactory.toggleTick(
-                            "config.pc.icon.rideable",
+                            "chiselmon.config.pc.icon.rideable",
                             () -> rideable,
                             v -> rideable = v
                     ))

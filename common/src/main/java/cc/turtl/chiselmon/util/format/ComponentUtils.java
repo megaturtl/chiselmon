@@ -25,15 +25,6 @@ public final class ComponentUtils {
     private ComponentUtils() {
     }
 
-    /**
-     * Creates a translatable component prefixed with the mod ID.
-     * <p>Example: {@code translatable("msg.caught", "Pikachu")} maps to
-     * {@code "chiselmon.msg.caught": "Caught %s!"} in lang files.</p>
-     */
-    public static MutableComponent modTranslatable(String key, Object... args) {
-        return Component.translatable(ChiselmonConstants.MOD_ID + "." + key, args);
-    }
-
     public static MutableComponent createComponent(Object text) {
         return createComponent(text, ColorUtils.WHITE.getRGB());
     }

@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.feature.pc.bookmark;
 
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import static cc.turtl.chiselmon.util.MiscUtil.modResource;
@@ -16,16 +17,16 @@ public class BookmarkConstants {
     public static final int BOOKMARK_TEXTURE_WIDTH = 15;
     public static final int BOOKMARK_TEXTURE_HEIGHT = 30;
     public static final Tooltip BOOKMARK_ACTIVE_TOOLTIP =
-            Tooltip.create(ComponentUtils.modTranslatable("pc.bookmark_button.tooltip.remove"));
+            Tooltip.create(Component.translatable("chiselmon.pc.bookmark_button.tooltip.remove"));
     public static final Tooltip BOOKMARK_INACTIVE_TOOLTIP =
-            Tooltip.create(ComponentUtils.modTranslatable("pc.bookmark_button.tooltip.add"));
+            Tooltip.create(Component.translatable("chiselmon.pc.bookmark_button.tooltip.add"));
 
     // Home button
     public static final ResourceLocation HOME_SPRITE = modResource("textures/gui/pc/pc_button_home.png");
     public static final int HOME_TEXTURE_WIDTH = 15;
     public static final int HOME_TEXTURE_HEIGHT = 30;
     public static final Tooltip HOME_TOOLTIP =
-            Tooltip.create(ComponentUtils.modTranslatable("pc.home_button.tooltip"));
+            Tooltip.create(Component.translatable("chiselmon.pc.home_button.tooltip"));
 
     // Tab button
     public static final ResourceLocation TAB_SPRITE = modResource("textures/gui/pc/pc_button_tab.png");

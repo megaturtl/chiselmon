@@ -21,8 +21,7 @@ public record TooltipEntry(
     public Component getComponent(Pokemon pokemon) {
         Object value = componentProvider.apply(pokemon);
         return ComponentUtils.labelled(
-                ComponentUtils.modTranslatable("ui.label." + translationKey),
-                value
-        );
+                Component.translatable("chiselmon.ui.label." + translationKey),
+                value);
     }
 }

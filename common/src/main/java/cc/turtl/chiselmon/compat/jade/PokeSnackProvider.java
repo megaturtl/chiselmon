@@ -68,7 +68,7 @@ public enum PokeSnackProvider implements IBlockComponentProvider {
         int bites = state.getValue(PokeSnackBlock.Companion.getBITES());
         int remaining = MAX_BITES - bites;
 
-        MutableComponent label = ComponentUtils.modTranslatable("ui.label.pokesnack_block.bites_remaining");
+        MutableComponent label = Component.translatable("chiselmon.ui.label.pokesnack_block.bites_remaining");
         tooltip.add(ComponentUtils.labelled(label, remaining));
     }
 
@@ -88,7 +88,7 @@ public enum PokeSnackProvider implements IBlockComponentProvider {
     }
 
     private void addNoIngredientsWarning(ITooltip tooltip) {
-        MutableComponent warning = ComponentUtils.modTranslatable("ui.label.pokesnack_block.no_ingredients");
+        MutableComponent warning = Component.translatable("chiselmon.ui.label.pokesnack_block.no_ingredients");
         tooltip.add(warning.withColor(ColorUtils.RED.getRGB()));
     }
 

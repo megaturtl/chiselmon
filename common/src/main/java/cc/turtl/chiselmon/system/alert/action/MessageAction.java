@@ -11,7 +11,6 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
-import static cc.turtl.chiselmon.util.format.ComponentUtils.modTranslatable;
 
 public class MessageAction implements AlertAction {
 
@@ -25,7 +24,7 @@ public class MessageAction implements AlertAction {
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                                 "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                modTranslatable("spawnalert.mute.tooltip"))));
+                                Component.translatable("chiselmon.spawnalert.mute.tooltip"))));
         // Species Name
         message.append(createComponent(speciesName, ColorUtils.CORAL.getRGB()));
         // Optional Form
@@ -40,7 +39,7 @@ public class MessageAction implements AlertAction {
         message.append(ctx.filter().displayName());
         message.append(Component.literal("] "));
         // Suffix
-        message.append(modTranslatable("spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL.getRGB())));
+        message.append(Component.translatable("chiselmon.spawnalert.message.spawned_nearby").withStyle(s -> s.withColor(ColorUtils.CORAL.getRGB())));
         // Coords
         message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA.getRGB()));
 
