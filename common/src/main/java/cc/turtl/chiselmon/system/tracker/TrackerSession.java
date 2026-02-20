@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.system.tracker;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.event.PokemonLoadedEvent;
 import cc.turtl.chiselmon.api.event.PokemonUnloadedEvent;
+import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import java.util.HashMap;
@@ -18,16 +19,32 @@ public class TrackerSession {
         startTimeMs = System.currentTimeMillis();
     }
 
-    public void trackPokemon(PokemonLoadedEvent event) {
+    public void onPokemonLoad(PokemonLoadedEvent event) {
         if (!event.isWild()) return;
 
         PokemonEntity entity = event.entity();
-        encounters.put(entity.getUUID(), event.encounterSnapshot());
-        currentlyLoaded.put(entity.getUUID(), entity);
+        UUID uuid = entity.getUUID();
+
+        encounters.put(uuid, event.encounterSnapshot());
+        currentlyLoaded.put(uuid, entity);
     }
 
-    public void untrackPokemon(PokemonUnloadedEvent event) {
-        currentlyLoaded.remove(event.entity().getUUID());
+    public void onPokemonUnload(PokemonUnloadedEvent event) {
+        PokemonEntity entity = event.entity();
+
+        currentlyLoaded.remove(entity.getUUID());
+    }
+
+
+
+    public void tick() {
+        cleanUnloaded();
+
+        // reset these always, before despawn glow or alerts, so they always work from a blank slate.
+        for (PokemonEntity entity : currentlyLoaded.values()) {
+            PokemonEntityUtils.removeGlow(entity);
+            PokemonEntityUtils.resetNickname(entity);
+        }
     }
 
     /**
@@ -38,7 +55,6 @@ public class TrackerSession {
     }
 
     public Map<UUID, PokemonEntity> getCurrentlyLoaded() {
-        cleanUnloaded();
         return currentlyLoaded;
     }
 

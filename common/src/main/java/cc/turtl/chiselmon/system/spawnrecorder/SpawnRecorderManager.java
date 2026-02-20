@@ -18,27 +18,33 @@ public class SpawnRecorderManager {
 
     public void init() {
         // Auto-pause/resume around disconnects so elapsed time stays honest
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.NORMAL, e -> {
+        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.HIGH, e -> {
             if (activeSession != null && !activeSession.isPaused()) {
                 activeSession.pause();
                 ChiselmonConstants.LOGGER.info("SpawnRecorder auto-paused on disconnect");
             }
         });
-        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.NORMAL, e -> {
+
+        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.HIGH, e -> {
             if (activeSession != null && activeSession.isPaused()) {
                 activeSession.resume();
                 ChiselmonConstants.LOGGER.info("SpawnRecorder auto-resumed on reconnect");
             }
         });
 
-        // Feed species names into the active session when a wild pokemon loads
-        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.NORMAL, e -> {
+        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.HIGH, e -> {
             if (activeSession != null && e.isWild()) {
-                activeSession.onPokemonLoaded(e.entity().getPokemon().getSpecies().getName());
+                activeSession.onPokemonLoaded(e.entity());
             }
         });
 
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.NORMAL, e -> {
+        ChiselmonEvents.POKEMON_UNLOADED.subscribe(Priority.HIGH, e -> {
+            if (activeSession != null && e.isWild()) {
+                activeSession.onPokemonUnloaded(e.entity());
+            }
+        });
+
+        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.HIGH, e -> {
             if (activeSession != null) {
                 activeSession.tick();
             }

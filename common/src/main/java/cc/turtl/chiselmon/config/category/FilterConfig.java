@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.config.category;
 import cc.turtl.chiselmon.api.Priority;
 import cc.turtl.chiselmon.api.filter.FilterDefinition;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
+import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.config.custom.HoldToConfirmButton;
@@ -49,6 +50,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                             new ArrayList<>()
                     ));
                     UserDataRegistry.save(FiltersUserData.class);
+                    FilterMatcher.invalidateCache();
                     ChiselmonConfig.saveAndReloadScreen(parent, 2);
                 })
                 .build());
@@ -75,6 +77,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                     v -> {
                         filter.displayName = v;
                         UserDataRegistry.save(FiltersUserData.class);
+                        FilterMatcher.invalidateCache();
                         ChiselmonConfig.saveAndReloadScreen(parent, 2);
                     }
             ));
@@ -86,6 +89,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                 v -> {
                     filter.rgb = v.getRGB();
                     UserDataRegistry.save(FiltersUserData.class);
+                    FilterMatcher.invalidateCache();
                     ChiselmonConfig.saveAndReloadScreen(parent, 2);
                 }
         ));
@@ -96,6 +100,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                 v -> {
                     filter.priority = v;
                     UserDataRegistry.save(FiltersUserData.class);
+                    FilterMatcher.invalidateCache();
                 },
                 Priority.class
         ));
@@ -126,6 +131,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                                         .filter(s -> !s.isEmpty())
                                         .collect(Collectors.toList());
                                 UserDataRegistry.save(FiltersUserData.class);
+                                FilterMatcher.invalidateCache();
                             })
                     .controller(StringControllerBuilder::create)
                     .build());
@@ -139,6 +145,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                     .action((screen, opt) -> {
                         filtersUserData.remove(filter.id);
                         UserDataRegistry.save(FiltersUserData.class);
+                        FilterMatcher.invalidateCache();
                         ChiselmonConfig.saveAndReloadScreen(parent, 2);
                     })
                     .build());

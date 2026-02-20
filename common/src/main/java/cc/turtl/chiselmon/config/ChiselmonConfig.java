@@ -3,10 +3,7 @@ package cc.turtl.chiselmon.config;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
-import cc.turtl.chiselmon.config.category.AlertsConfig;
-import cc.turtl.chiselmon.config.category.FilterConfig;
-import cc.turtl.chiselmon.config.category.GeneralConfig;
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.config.category.*;
 import cc.turtl.chiselmon.util.MiscUtil;
 import com.google.gson.GsonBuilder;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
@@ -37,6 +34,9 @@ public class ChiselmonConfig {
     @SerialEntry
     public final AlertsConfig alerts = new AlertsConfig();
 
+    @SerialEntry
+    public final RecorderConfig recorder = new RecorderConfig();
+
     // Not serialized here, this is purely a UI builder now
     public final FilterConfig filter = new FilterConfig();
 
@@ -66,6 +66,7 @@ public class ChiselmonConfig {
                 .category(get().pc.buildCategory(parent))
                 .category(get().filter.buildCategory(parent))
                 .category(get().alerts.buildCategory(parent))
+                .category(get().recorder.buildCategory(parent))
                 .save(ChiselmonConfig::save);
 
         var config = builder.build();

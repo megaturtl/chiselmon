@@ -19,6 +19,10 @@ public class MessageUtils {
         player.connection.sendCommand(command.startsWith("/") ? command.substring(1) : command);
     }
 
+    public static void sendEmptyLine(@NotNull LocalPlayer player) {
+        send(player, Component.empty());
+    }
+
     public static void send(@NotNull LocalPlayer player, Component message) {
         player.sendSystemMessage(message);
     }
@@ -28,7 +32,7 @@ public class MessageUtils {
     }
 
     public static void sendPrefixed(@NotNull LocalPlayer player, Component message) {
-        send(player, ChiselmonConstants.MESSAGE_PREFIX.copy().append(message));
+        send(player, Component.empty().append(ChiselmonConstants.MESSAGE_PREFIX).append(message));
     }
 
     public static void sendPrefixed(@NotNull LocalPlayer player, String message) {

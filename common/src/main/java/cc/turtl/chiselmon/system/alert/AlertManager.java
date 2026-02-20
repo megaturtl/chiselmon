@@ -44,9 +44,10 @@ public class AlertManager {
     }
 
     public void init() {
-        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.HIGH, e -> onWorldJoin());
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.HIGH, e -> onWorldLeave());
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(e -> {
+        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.LOW, e -> onWorldJoin());
+        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.LOW, e -> onWorldLeave());
+        // this is low priority for the glow logic that might clash with despawn glow. i want alert to override despawn glow
+        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.LOW, e -> {
             if (active) tick();
         });
         ChiselmonConstants.LOGGER.info("AlertSystem initialized");

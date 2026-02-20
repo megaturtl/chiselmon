@@ -2,14 +2,16 @@ Bugs:
 - fix ALL defaults in the config (i need to actually statically include them not just getter.get()
 
 High priority:
-- fully grown cobblemon crop markers
-- despawn glow should be overrided by everything
-- try to find an efficient way to track pokemon alive time even after they are unrendered (maybe save for 1-2 mins or something)
-so that when you're on a plat you can still see which are eligible to despawn if you cycle in and out of render
-- maybe add pitch slider to alert sounds config
 - add screenshots to the config descriptions (like chesttracker)
 
+ALERTS
+- add dragon roar sound
+- add option to not be repeating, just one sound
+- add a nicer way to select tags for the ui
+- maybe add pitch slider to alert sounds config
+
 Nice to have:
+- fully grown cobblemon crop markers
 - quick evolve or smth
 - auto pause spawnlogger when exit minecart
 - show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget.

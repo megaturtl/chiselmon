@@ -191,6 +191,11 @@
     "chiselmon.config.alerts.volume": "Volume",
     "chiselmon.config.alerts.volume.description": "Volume for this alert",
     "chiselmon.config.alerts.highlight_entity": "Highlight Entity",
-    "chiselmon.config.alerts.highlight_entity.description": "Show glow effect on entity"
-    
+    "chiselmon.config.alerts.highlight_entity.description": "Show glow effect on entity",
+
+    "chiselmon.config.category.recorder": "Spawn Recorder",
+    "chiselmon.config.recorder.action_bar": "Enable Action Bar",
+    "chiselmon.config.recorder.action_bar.description": "Display information about the current Spawn Recorder session above your hotbar",
+    "chiselmon.config.recorder.despawn_glow": "Enable Despawn Glow",
+    "chiselmon.config.recorder.despawn_glow.description": "Highlights pokemon in red when they are old enough to start despawning"
 }

@@ -18,11 +18,11 @@ public class TrackerManager {
     public void init() {
         ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.HIGH, e -> onWorldJoin());
         ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.HIGH, e -> onWorldLeave());
-        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.HIGH, e -> {
-            if (activeSession != null) activeSession.trackPokemon(e);
+        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.HIGHEST, e -> {
+            if (activeSession != null) activeSession.onPokemonLoad(e);
         });
         ChiselmonEvents.POKEMON_UNLOADED.subscribe(Priority.HIGH, e -> {
-            if (activeSession != null) activeSession.untrackPokemon(e);
+            if (activeSession != null) activeSession.onPokemonUnload(e);
         });
         ChiselmonConstants.LOGGER.info("TrackerManager initialized");
     }
