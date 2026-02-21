@@ -26,7 +26,7 @@ public record AlertContext(
 
     public boolean shouldRepeatingSound() {
         AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && !isMuted && settings.playSound &&settings.repeatSound;
+        return shouldAlert() && !isMuted && settings.playSound && settings.repeatSound;
     }
 
     public boolean shouldSingleSound() {

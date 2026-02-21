@@ -8,15 +8,7 @@ import dev.isxander.yacl3.gui.AbstractWidget;
 import dev.isxander.yacl3.gui.YACLScreen;
 import net.minecraft.network.chat.Component;
 
-public class KeyController implements Controller<InputConstants.Key> {
-    private final Option<InputConstants.Key> option;
-
-    public KeyController(Option<InputConstants.Key> option) {
-        this.option = option;
-    }
-
-    @Override
-    public Option<InputConstants.Key> option() { return option; }
+public record KeyController(Option<InputConstants.Key> option) implements Controller<InputConstants.Key> {
 
     @Override
     public Component formatValue() {

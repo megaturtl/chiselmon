@@ -10,8 +10,6 @@ import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyWidget extends ControllerWidget<KeyController> {
-    private boolean listening = false;
-
     // Middle click and other mouse buttons are consumed before reaching
     // this widget, so we poll GLFW directly for these during render instead
     private static final int[] POLLED_BUTTONS = {
@@ -19,6 +17,7 @@ public class KeyWidget extends ControllerWidget<KeyController> {
             GLFW.GLFW_MOUSE_BUTTON_4,
             GLFW.GLFW_MOUSE_BUTTON_5,
     };
+    private boolean listening = false;
 
     public KeyWidget(KeyController controller, YACLScreen screen, Dimension<Integer> dim) {
         super(controller, screen, dim);
@@ -96,5 +95,7 @@ public class KeyWidget extends ControllerWidget<KeyController> {
     }
 
     @Override
-    public boolean canReset() { return true; }
+    public boolean canReset() {
+        return true;
+    }
 }

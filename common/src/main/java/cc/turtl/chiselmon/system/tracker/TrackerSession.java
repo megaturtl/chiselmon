@@ -3,36 +3,37 @@ package cc.turtl.chiselmon.system.tracker;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.event.PokemonLoadedEvent;
 import cc.turtl.chiselmon.api.event.PokemonUnloadedEvent;
+import cc.turtl.chiselmon.data.ChiselmonData;
+import cc.turtl.chiselmon.data.Scope;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class TrackerSession {
     private final long startTimeMs;
-    private final Map<UUID, PokemonEncounter> encounters = new HashMap<>();
     private final Map<UUID, PokemonEntity> currentlyLoaded = new HashMap<>();
+    private final Set<UUID> seenUuids = new HashSet<>();
+    private final EncounterDatabase db;
 
     public TrackerSession() {
-        startTimeMs = System.currentTimeMillis();
+        this.startTimeMs = System.currentTimeMillis();
+        this.db = ChiselmonData.ENCOUNTERS.get(Scope.currentWorld());
     }
 
     public void onPokemonLoad(PokemonLoadedEvent event) {
         if (!event.isWild()) return;
 
-        PokemonEntity entity = event.entity();
-        UUID uuid = entity.getUUID();
+        PokemonEncounter encounter = event.encounterSnapshot();
+        UUID uuid = event.entity().getUUID();
 
-        encounters.put(uuid, event.encounterSnapshot());
-        currentlyLoaded.put(uuid, entity);
+        currentlyLoaded.put(uuid, event.entity());
+        seenUuids.add(uuid);
+        db.record(encounter);
     }
 
     public void onPokemonUnload(PokemonUnloadedEvent event) {
-        PokemonEntity entity = event.entity();
-
-        currentlyLoaded.remove(entity.getUUID());
+        currentlyLoaded.remove(event.entity().getUUID());
     }
 
     public void tick() {
@@ -45,11 +46,12 @@ public class TrackerSession {
         }
     }
 
-    /**
-     * Cleans up any accidental stale references to unloaded pokemon
-     */
     private void cleanUnloaded() {
         currentlyLoaded.entrySet().removeIf(e -> e.getValue().isRemoved());
+    }
+
+    public EncounterDatabase getDb() {
+        return db;
     }
 
     public Map<UUID, PokemonEntity> getCurrentlyLoaded() {
@@ -61,6 +63,6 @@ public class TrackerSession {
     }
 
     public int getEncounterCount() {
-        return encounters.size();
+        return seenUuids.size();
     }
 }

@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.system.alert.action;
 
 import cc.turtl.chiselmon.system.alert.AlertContext;
-
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 
 public class GlowAction implements AlertAction {

@@ -4,7 +4,6 @@ import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.system.tracker.TrackerSession;
 import cc.turtl.chiselmon.util.MessageUtils;
-import cc.turtl.chiselmon.util.format.StringFormats;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -38,9 +37,8 @@ public class TrackerCommand implements ChiselmonCommand {
         TrackerSession tracker = TrackerManager.getInstance().getTracker();
 
         MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Tracker");
-        MessageUtils.sendLabeled(player, "Loaded pokemon count", tracker.getCurrentlyLoaded().size());
-        MessageUtils.sendLabeled(player, "Unique encounters this session", tracker.getEncounterCount());
-        MessageUtils.sendLabeled(player, "Time elapsed this session", StringFormats.formatDurationMs(tracker.getMsElapsed()));
+        MessageUtils.sendLabeled(player, "Currently loaded pokemon", tracker.getCurrentlyLoaded().size());
+        MessageUtils.sendLabeled(player, "Total encounters in database", tracker.getEncounterCount());
 
         return Command.SINGLE_SUCCESS;
     }

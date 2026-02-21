@@ -15,7 +15,8 @@ public enum AlertSounds {
     AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME),
     MACE("Mace Smash", SoundEvents.MACE_SMASH_AIR),
     DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL),
-    C("Mace Smash", CobblemonSounds.POKE_BALL_SHINY_SEND_OUT),;
+    C("Mace Smash", CobblemonSounds.POKE_BALL_SHINY_SEND_OUT),
+    ;
 
     private final String displayName;
     private final SoundEvent sound;

@@ -3,10 +3,10 @@ package cc.turtl.chiselmon.mixin;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
-import cc.turtl.chiselmon.feature.pc.PCUserData;
+import cc.turtl.chiselmon.data.ChiselmonData;
+import cc.turtl.chiselmon.data.Scope;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
-import cc.turtl.chiselmon.data.UserDataRegistry;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
@@ -67,7 +66,7 @@ public abstract class MixinPCGUI extends Screen {
         if (level == null) return;
 
         chiselmon$bookmarkManager = new BookmarkManager(
-                UserDataRegistry.get(PCUserData.class).bookmarks,
+                ChiselmonData.PC_SETTINGS.get(Scope.currentWorld()).bookmarks,
                 storageWidget,
                 pc,
                 this::addRenderableWidget,
@@ -103,7 +102,7 @@ public abstract class MixinPCGUI extends Screen {
 
         chiselmon$sortManager = null;
 
-        UserDataRegistry.save(PCUserData.class);
+        ChiselmonData.PC_SETTINGS.save(Scope.currentWorld());
 
         super.removed();
     }

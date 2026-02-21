@@ -13,6 +13,7 @@ public final class PokemonComparators {
             .nullsLast(Comparator.comparingInt(Pokemon::getLevel));
     public static final Comparator<Pokemon> POKEDEX_COMPARATOR = Comparator
             .nullsLast(Comparator.comparingInt(p -> p.getSpecies().getNationalPokedexNumber()));
+
     private PokemonComparators() {
     }
 }

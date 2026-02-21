@@ -28,12 +28,12 @@ public record PokemonEncounter(
         int playerX,
         int playerY,
         int playerZ,
-        int blockX,
-        int blockY,
-        int blockZ,
+        int pokemonX,
+        int pokemonY,
+        int pokemonZ,
         String dimension,
         String biome
-        ) {
+) {
 
     /**
      * Creates a PokemonEncounter snapshot from a live PokemonEntity.
@@ -57,8 +57,8 @@ public record PokemonEncounter(
                 PokemonPredicates.IS_EXTREME_SIZE.test(pokemon),
                 PokemonEntityPredicates.FROM_POKESNACK.test(pe),
                 player != null ? player.getBlockX() : 1,
-                player != null ? player.getBlockX() : 1,
-                player != null ? player.getBlockX() : 1,
+                player != null ? player.getBlockY() : 1,
+                player != null ? player.getBlockZ() : 1,
                 pe.getBlockX(),
                 pe.getBlockY(),
                 pe.getBlockZ(),

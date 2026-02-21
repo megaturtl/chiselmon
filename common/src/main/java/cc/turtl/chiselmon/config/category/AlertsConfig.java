@@ -2,10 +2,10 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.filter.FilterDefinition;
-import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.config.OptionFactory;
+import cc.turtl.chiselmon.data.ChiselmonData;
+import cc.turtl.chiselmon.data.Scope;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
-import cc.turtl.chiselmon.data.UserDataRegistry;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
@@ -61,7 +61,7 @@ public class AlertsConfig implements ConfigCategoryBuilder {
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alerts.filters")));
 
         // Add a separate group for each filter's alert settings
-        for (FilterDefinition filter : UserDataRegistry.get(FiltersUserData.class).getAll().values()) {
+        for (FilterDefinition filter : ChiselmonData.FILTERS.get(Scope.global()).getAll().values()) {
             FilterAlertSettings settings = filterAlerts.computeIfAbsent(
                     filter.id,
                     id -> new FilterAlertSettings()
