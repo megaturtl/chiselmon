@@ -129,6 +129,11 @@ public class AlertsConfig implements ConfigCategoryBuilder {
                         .build())
                 .option(volumeOption)
                 .option(OptionFactory.toggleTick(
+                        "chiselmon.config.alerts.repeat_sound",
+                        () -> settings.repeatSound,
+                        v -> settings.repeatSound = v
+                ))
+                .option(OptionFactory.toggleTick(
                         "chiselmon.config.alerts.highlight_entity",
                         () -> settings.highlightEntity,
                         v -> settings.highlightEntity = v
@@ -149,6 +154,9 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         @SerialEntry
         public AlertSounds alertSound = AlertSounds.PLING;
+
+        @SerialEntry
+        public boolean repeatSound = true;
 
         @SerialEntry
         public int volume = 100;

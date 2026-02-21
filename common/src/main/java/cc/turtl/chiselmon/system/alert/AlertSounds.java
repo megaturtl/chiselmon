@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.system.alert;
 
+import com.cobblemon.mod.common.CobblemonSounds;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 
@@ -10,7 +11,11 @@ public enum AlertSounds {
     CHIME("Note Block Chime", SoundEvents.NOTE_BLOCK_CHIME.value()),
     BIT("Note Block 8 Bit", SoundEvents.NOTE_BLOCK_BIT.value()),
     BELL("Bell", SoundEvents.BELL_BLOCK),
-    AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME);
+    FIREWORK("Firework Launch", SoundEvents.FIREWORK_ROCKET_LAUNCH),
+    AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME),
+    MACE("Mace Smash", SoundEvents.MACE_SMASH_AIR),
+    DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL),
+    C("Mace Smash", CobblemonSounds.POKE_BALL_SHINY_SEND_OUT),;
 
     private final String displayName;
     private final SoundEvent sound;

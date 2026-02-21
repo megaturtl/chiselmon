@@ -8,14 +8,9 @@ import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
-import cc.turtl.chiselmon.system.alert.action.AlertAction;
-import cc.turtl.chiselmon.system.alert.action.GlowAction;
-import cc.turtl.chiselmon.system.alert.action.MessageAction;
-import cc.turtl.chiselmon.system.alert.action.SoundAction;
+import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.util.MessageUtils;
-import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,9 +22,9 @@ public class AlertManager {
 
     private static final AlertManager INSTANCE = new AlertManager();
 
-    private final List<AlertAction> oneTimeActions = List.of(new MessageAction());
+    private final List<AlertAction> oneTimeActions = List.of(new MessageAction(), new SoundAction());
     private final List<AlertAction> continuousActions = List.of(new GlowAction());
-    private final AlertAction soundAction = new SoundAction();
+    private final SoundAction repeatingSoundAction = new SoundAction();
 
     private Set<UUID> mutedUuids;
     private Set<UUID> actionedUuids;
@@ -104,17 +99,18 @@ public class AlertManager {
             }
 
             // Update the best sound if the pokemon isn't muted and their filter ctx has a higher priority than the current best
-            if (ctx.shouldSound()) {
+            if (ctx.shouldRepeatingSound()) {
                 if (bestSoundContext == null || ctx.filter().priority().isHigherThan(bestSoundContext.filter().priority())) {
                     bestSoundContext = ctx;
                 }
             }
         }
 
+        // replay the sound action for repeating sound alerts
         if (soundDelayRemaining > 0) {
             soundDelayRemaining--;
         } else if (bestSoundContext != null) {
-            soundAction.execute(bestSoundContext);
+            repeatingSoundAction.executeRepeating(bestSoundContext);
             soundDelayRemaining = SOUND_DELAY_TICKS;
         }
     }

@@ -22,7 +22,7 @@ public final class ClientSpeciesRegistry {
 
     public static void init() {
         ChiselmonEvents.CLIENT_POST_TICK.subscribe(e -> {
-            if (e.minecraft().level != null && !loaded && !loading) {
+            if (e.mc().level != null && !loaded && !loading) {
                 loadAsync();
             }
         });

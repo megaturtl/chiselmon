@@ -35,8 +35,6 @@ public class TrackerSession {
         currentlyLoaded.remove(entity.getUUID());
     }
 
-
-
     public void tick() {
         cleanUnloaded();
 

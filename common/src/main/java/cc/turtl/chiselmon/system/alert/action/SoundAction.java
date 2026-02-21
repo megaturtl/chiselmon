@@ -10,8 +10,19 @@ import net.minecraft.sounds.SoundEvent;
 public class SoundAction implements AlertAction {
     @Override
     public void execute(AlertContext ctx) {
-        if (!ctx.shouldSound()) return;
+        if (ctx.shouldSingleSound()) {
+            playSound(ctx);
+        }
+    }
 
+    // so we can use the soundaction for repeating as well
+    public void executeRepeating(AlertContext ctx) {
+        if (ctx.shouldRepeatingSound()) {
+            playSound(ctx);
+        }
+    }
+
+    public void playSound(AlertContext ctx) {
         // Get the filter's alert settings to retrieve the chosen sound
         AlertsConfig.FilterAlertSettings settings = ctx.config().filterAlerts
                 .computeIfAbsent(ctx.filter().id(), id -> new AlertsConfig.FilterAlertSettings());

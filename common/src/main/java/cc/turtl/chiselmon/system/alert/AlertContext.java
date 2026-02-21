@@ -24,9 +24,14 @@ public record AlertContext(
         return config.masterEnabled && settings.enabled;
     }
 
-    public boolean shouldSound() {
+    public boolean shouldRepeatingSound() {
         AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && !isMuted && settings.playSound;
+        return shouldAlert() && !isMuted && settings.playSound &&settings.repeatSound;
+    }
+
+    public boolean shouldSingleSound() {
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return shouldAlert() && !isMuted && settings.playSound && !settings.repeatSound;
     }
 
     public boolean shouldMessage() {
