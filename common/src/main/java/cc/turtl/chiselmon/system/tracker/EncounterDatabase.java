@@ -2,19 +2,24 @@ package cc.turtl.chiselmon.system.tracker;
 
 import cc.turtl.chiselmon.api.PokemonEncounter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class EncounterDatabase {
-    private static final int FLUSH_THRESHOLD = 100;
+    private static final int FLUSH_THRESHOLD = 50;
 
     private final Connection conn;
+    private final Path dbPath;
     private final Map<UUID, PokemonEncounter> writeCache = new LinkedHashMap<>();
 
-    public EncounterDatabase(Connection conn) {
+    public EncounterDatabase(Connection conn, Path dbPath) {
         this.conn = conn;
+        this.dbPath = dbPath;
         try {
             conn.setAutoCommit(false);
             initSchema();
@@ -123,10 +128,31 @@ public class EncounterDatabase {
         }
     }
 
-    public int getTotalEncounters() throws SQLException {
+    public Path getDbPath() {
+        return dbPath;
+    }
+
+    public long getSizeOnDiskBytes() {
+        try {
+            Path dir = dbPath.getParent();
+            String base = dbPath.getFileName().toString().replaceAll("\\.db$", "");
+            return Files.list(dir)
+                    .filter(p -> p.getFileName().toString().startsWith(base))
+                    .mapToLong(p -> { try { return Files.size(p); } catch (IOException e) { return 0; } })
+                    .sum();
+        } catch (IOException e) {
+            return -1;
+        }
+    }
+
+    public int getSavedEncounters() throws SQLException {
         try (ResultSet rs = conn.createStatement().executeQuery("SELECT COUNT(*) FROM encounters")) {
             return rs.next() ? rs.getInt(1) : 0;
         }
+    }
+
+    public int getWriteCachedCount() {
+        return writeCache.size();
     }
 
     public int getShinyCount() throws SQLException {

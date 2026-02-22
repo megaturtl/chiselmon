@@ -18,7 +18,7 @@ public class ChiselmonCommands {
     private static final List<ChiselmonCommand> COMMANDS = List.of(
             new InfoCommand(),
             new DebugCommand(),
-            new TrackerCommand(),
+            new DatabaseCommand(),
             new AlertCommand(),
             new ConfigCommand(),
             new RecordCommand()

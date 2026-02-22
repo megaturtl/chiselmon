@@ -4,9 +4,11 @@ import cc.turtl.chiselmon.ChiselmonConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Client-side scope. Either Global or World.
@@ -95,11 +97,11 @@ public final class StorageScope {
     /**
      * String identifier for the current world/server.
      * e.g. "sp-My_World" or "mp-play.example.com"
-     * Null for global scope.
+     * GLOBAL for global scope.
      */
-    @Nullable
-    public String worldKey() {
-        return worldKey;
+    @NotNull
+    public String getWorldKey() {
+        return Objects.requireNonNullElse(worldKey, "GLOBAL");
     }
 
     // ── Internal ──────────────────────────────────────────────────────────────

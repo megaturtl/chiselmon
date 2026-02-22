@@ -1,5 +1,4 @@
 Bugs:
-- fix ALL defaults in the config (i need to actually statically include them not just getter.get()
 
 High priority:
 - add screenshots to the config descriptions (like chesttracker)
@@ -12,7 +11,6 @@ Nice to have:
 - fully grown cobblemon crop markers
 - quick evolve or smth
 - auto pause spawnlogger when exit minecart
-- show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget.
 - make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
 

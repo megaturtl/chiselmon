@@ -28,8 +28,10 @@ public class ConfigCommand implements ChiselmonCommand {
     }
 
     private int execute(CommandContext<CommandSourceStack> context) {
-        Screen screen = ChiselmonConfig.createScreen(Minecraft.getInstance().screen);
-        Minecraft.getInstance().setScreen(screen);
+        Minecraft.getInstance().execute(() -> {
+            Screen screen = ChiselmonConfig.createScreen(Minecraft.getInstance().screen);
+            Minecraft.getInstance().setScreen(screen);
+        });
         return Command.SINGLE_SUCCESS;
     }
 }

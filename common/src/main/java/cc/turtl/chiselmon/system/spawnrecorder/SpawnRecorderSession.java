@@ -17,58 +17,26 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class SpawnRecorderSession {
+    private static final int TICKS_PER_SECOND = 20;
     private static final int DESPAWN_MIN_TICKS = 600;
-    private static final int EXPIRY_MS = 5 * 60 * 1000; // remove tickdata after 5min
+    private static final int EXPIRY_TICKS = 5 * 60 * TICKS_PER_SECOND;
+
     private final TrackerSession tracker;
+
     // Species counts for spawns that occurred while this session was active and unpaused
     private final Map<String, Integer> speciesCounts = new HashMap<>();
-    private final long startTimeMs;
+    // Data for keeping track of the real tick age of a pokemon entity
     private final Map<UUID, TickData> tickAges = new HashMap<>();
-    private long accumulatedTimeMs = 0;
-    private long lastResumeTime;
+
+    private int sessionTicks = 0;
     private boolean paused = false;
 
     public SpawnRecorderSession(TrackerSession tracker) {
-        this.startTimeMs = System.currentTimeMillis();
         this.tracker = tracker;
-        this.lastResumeTime = System.currentTimeMillis();
-    }
-
-    private void setActionBarStatus() {
-        MutableComponent message = Component.empty()
-                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorUtils.PINK.getRGB()))
-                .append(Component.literal(String.valueOf(getDespawnEligibleCount())).withColor(ColorUtils.RED.getRGB()))
-                .append(Component.literal("/").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
-                .append(Component.literal(String.valueOf(getCurrentlyLoadedCount())).withColor(ColorUtils.GREEN.getRGB()))
-                .append(Component.literal(" | ").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
-                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorUtils.PINK.getRGB()))
-                .append(Component.literal(String.valueOf(getTotalRecordedCount())).withColor(ColorUtils.TEAL.getRGB()))
-                .append(Component.literal(" | ").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
-                .append(Component.literal(StringFormats.formatDurationMs(getElapsedMs())).withColor(ColorUtils.ORANGE.getRGB()));
-
-        if (isPaused()) {
-            message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorUtils.YELLOW.getRGB()));
-        }
-
-        Minecraft.getInstance().gui.setOverlayMessage(message, false);
-    }
-
-    public void onPokemonLoaded(PokemonEntity entity) {
-        if (paused) return;
-        if (tickAges.containsKey(entity.getUUID())) return; // don't double count
-        speciesCounts.merge(entity.getPokemon().getSpecies().getName(), 1, Integer::sum);
-        tickAges.computeIfAbsent(entity.getUUID(), k -> new TickData());
-    }
-
-    public void onPokemonUnloaded(PokemonEntity entity) {
-        TickData tickData = tickAges.get(entity.getUUID());
-        if (tickData != null) {
-            tickData.accumulatedTicks += entity.getTicksLived();
-            tickData.lastSeenMs = getElapsedMs();
-        }
     }
 
     public void tick() {
+        if (!paused) sessionTicks++;
         removeOldTickData();
 
         if (ChiselmonConfig.get().recorder.actionBar) {
@@ -85,42 +53,48 @@ public class SpawnRecorderSession {
     }
 
     private void removeOldTickData() {
-        // Remove UUIDs that haven't been seen lately
-        tickAges.entrySet().removeIf(e -> getElapsedMs() - e.getValue().lastSeenMs >= EXPIRY_MS);
+        // Remove UUIDs that haven't been seen lately and are no longer loaded
+        tickAges.entrySet().removeIf(e ->
+                !tracker.getCurrentlyLoaded().containsKey(e.getKey()) &&
+                        sessionTicks - e.getValue().sessionTicksAtLastSeen >= EXPIRY_TICKS
+        );
     }
 
-    public int getTicksLived(PokemonEntity entity) {
-        UUID uuid = entity.getUUID();
-        TickData tickData = tickAges.get(uuid);
-        int accumulated = (tickData != null) ? tickData.accumulatedTicks : 0;
-        return accumulated + entity.getTicksLived();
+    public void onPokemonLoaded(PokemonEntity entity) {
+        if (paused) return;
+        if (tickAges.containsKey(entity.getUUID())) return; // don't double count
+        speciesCounts.merge(entity.getPokemon().getSpecies().getName(), 1, Integer::sum);
+        tickAges.computeIfAbsent(entity.getUUID(), k -> new TickData());
+    }
+
+    public void onPokemonUnloaded(PokemonEntity entity) {
+        TickData tickData = tickAges.get(entity.getUUID());
+        if (tickData != null) {
+            tickData.accumulatedTicks += entity.getTicksLived();
+            tickData.sessionTicksAtLastSeen = sessionTicks;
+        }
     }
 
     public void pause() {
-        if (!paused) {
-            accumulatedTimeMs += System.currentTimeMillis() - lastResumeTime;
-            paused = true;
-        }
+        paused = true;
     }
 
     public void resume() {
-        if (paused) {
-            lastResumeTime = System.currentTimeMillis();
-            paused = false;
-        }
+        paused = false;
     }
 
     public boolean isPaused() {
         return paused;
     }
 
-    public long getStartTimeMs() {
-        return startTimeMs;
+    public int getTicksLived(PokemonEntity entity) {
+        TickData tickData = tickAges.get(entity.getUUID());
+        int accumulated = (tickData != null) ? tickData.accumulatedTicks : 0;
+        return accumulated + entity.getTicksLived();
     }
 
     public long getElapsedMs() {
-        long currentChunk = paused ? 0 : (System.currentTimeMillis() - lastResumeTime);
-        return accumulatedTimeMs + currentChunk;
+        return (sessionTicks * 1000L) / TICKS_PER_SECOND;
     }
 
     public float getSpawnsPerMinute() {
@@ -148,11 +122,31 @@ public class SpawnRecorderSession {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Data for keeping track of the real tick age of a pokemon entity
-     */
+    private void setActionBarStatus() {
+        int loadedCount = getCurrentlyLoadedCount();
+        int despawnCount = getDespawnEligibleCount();
+        int safeCount = loadedCount - despawnCount;
+
+        MutableComponent message = Component.empty()
+                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .append(Component.literal(String.valueOf(despawnCount)).withColor(ColorUtils.RED.getRGB()))
+                .append(Component.literal("/").withColor(ColorUtils.DARK_GRAY.getRGB()))
+                .append(Component.literal(String.valueOf(safeCount)).withColor(ColorUtils.GREEN.getRGB()))
+                .append(Component.literal(" | ").withColor(ColorUtils.DARK_GRAY.getRGB()))
+                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .append(Component.literal(String.valueOf(getTotalRecordedCount())).withColor(ColorUtils.AQUA.getRGB()))
+                .append(Component.literal(" | ").withColor(ColorUtils.DARK_GRAY.getRGB()))
+                .append(Component.literal(StringFormats.formatDurationMs(getElapsedMs())).withColor(ColorUtils.YELLOW.getRGB()));
+
+        if (isPaused()) {
+            message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorUtils.ORANGE.getRGB()));
+        }
+
+        Minecraft.getInstance().gui.setOverlayMessage(message, false);
+    }
+
     private static class TickData {
         int accumulatedTicks;
-        long lastSeenMs;
+        int sessionTicksAtLastSeen;
     }
 }
