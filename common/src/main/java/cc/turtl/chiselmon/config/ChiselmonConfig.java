@@ -4,8 +4,10 @@ import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.config.category.*;
+import cc.turtl.chiselmon.config.custom.KeyAdapter;
 import cc.turtl.chiselmon.util.MiscUtil;
 import com.google.gson.GsonBuilder;
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
@@ -21,7 +23,9 @@ public class ChiselmonConfig {
                     .id(MiscUtil.modResource("config"))
                     .serializer(config -> GsonConfigSerializerBuilder.create(config)
                             .setPath(ChiselmonConstants.CONFIG_PATH.resolve("config.json"))
-                            .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
+                            .appendGsonBuilder(builder -> builder
+                                    .setPrettyPrinting()
+                                    .registerTypeHierarchyAdapter(InputConstants.Key.class, new KeyAdapter()))
                             .build())
                     .build();
 

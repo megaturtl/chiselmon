@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.sort;
 
+import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;
@@ -16,11 +17,21 @@ public final class Sorter {
         ClientBox box = pc.getBoxes().get(boxIndex);
         if (box == null) return;
 
-        // 1. Prepare the state
-        List<Pokemon> allSlots = new ArrayList<>(box.getSlots()); // Exactly 30 slots
+        // Prepare the state
+        List<Pokemon> allSlots = new ArrayList<>(box.getSlots());
+
+        // Map each original pokemon to its preview for sorting purposes
+        Map<Pokemon, Pokemon> originalToPreview = new HashMap<>();
+        for (Pokemon p : allSlots) {
+            if (p != null) {
+                originalToPreview.put(p, ((DuckPreviewPokemon) p).chiselmon$getPreview());
+            }
+        }
+
+        // Sort originals, but compare using their previews
         List<Pokemon> sortedList = allSlots.stream()
                 .filter(Objects::nonNull)
-                .sorted(createComparator(mode, reversed))
+                .sorted(createComparator(mode, reversed, originalToPreview))
                 .toList();
 
         // Map current Pokemon to their current index for O(1) lookups
@@ -29,19 +40,17 @@ public final class Sorter {
             if (allSlots.get(i) != null) positions.put(allSlots.get(i), i);
         }
 
-        // 2. The Synchronization Loop
-        // We only care about placing the sorted Pokemon into the first N slots
         for (int targetIdx = 0; targetIdx < sortedList.size(); targetIdx++) {
             Pokemon targetPkm = sortedList.get(targetIdx);
             int currentIdx = positions.get(targetPkm);
 
             if (currentIdx == targetIdx) continue;
 
-            // Decide and Send Packet
+            // Send packets
             Pokemon displacedPkm = allSlots.get(targetIdx);
             sendPacket(boxIndex, targetPkm, currentIdx, displacedPkm, targetIdx);
 
-            // Update Local State (The "Virtual Swap")
+            // Update local state
             allSlots.set(currentIdx, displacedPkm);
             allSlots.set(targetIdx, targetPkm);
 
@@ -61,10 +70,27 @@ public final class Sorter {
         }
     }
 
-    private static Comparator<Pokemon> createComparator(SortMode mode, boolean reversed) {
-        return Comparator.comparing((Pokemon p) -> p instanceof EggDummy) // Eggs last
-                .thenComparing(p -> p, mode.comparator(reversed))
-                .thenComparing(Pokemon::getLevel)
-                .thenComparingDouble(p -> p instanceof EggDummy e ? e.getHatchCompletion() : 0.0);
+    private static Comparator<Pokemon> createComparator(SortMode mode, boolean reversed, Map<Pokemon, Pokemon> previews) {
+        Comparator<Pokemon> eggLast = Comparator.comparing(p -> getPreview(previews, p) instanceof EggDummy);
+
+        Comparator<Pokemon> nonEggOrder = Comparator.<Pokemon, Pokemon>comparing(
+                        p -> getPreview(previews, p), mode.comparator(reversed))
+                .thenComparingInt(p -> getPreview(previews, p).getLevel());
+
+        Comparator<Pokemon> eggOrder = Comparator.comparingDouble(
+                p -> getPreview(previews, p) instanceof EggDummy e ? e.getHatchCompletion() : 0.0);
+
+        return eggLast.thenComparing((a, b) -> {
+            boolean aIsEgg = getPreview(previews, a) instanceof EggDummy;
+            boolean bIsEgg = getPreview(previews, b) instanceof EggDummy;
+            if (aIsEgg && bIsEgg) return eggOrder.compare(a, b);
+            if (!aIsEgg && !bIsEgg) return nonEggOrder.compare(a, b);
+            return 0;
+        });
+    }
+
+    private static Pokemon getPreview(Map<Pokemon, Pokemon> previews, Pokemon p) {
+        Pokemon preview = previews.get(p);
+        return preview != null ? preview : p;
     }
 }

@@ -33,11 +33,14 @@ public final class EggRenderer {
     }
 
     public static void renderStorageSlot(GuiGraphics context, @NotNull EggDummy eggDummy, int posX, int posY) {
-        renderProgressBar(context, eggDummy.getHatchCompletion(), posX, posY);
-        renderEggModel(context, eggDummy, posX, posY);
+        renderProgressBarStorageSlot(context, eggDummy.getHatchCompletion(), posX, posY);
+        renderEggModelStorageSlot(context, eggDummy, posX, posY);
     }
 
-    private static void renderEggModel(GuiGraphics context, @NotNull EggDummy eggDummy, int posX, int posY) {
+    /**
+     * Renders a small model of the egg in the bottom right of the storage slot
+     */
+    private static void renderEggModelStorageSlot(GuiGraphics context, @NotNull EggDummy eggDummy, int posX, int posY) {
         context.pose().pushPose();
         context.pose().translate(posX + EGG_X_OFFSET, posY + EGG_Y_OFFSET, EGG_Z_OFFSET);
         context.pose().scale(EGG_SCALE, EGG_SCALE, 1F);
@@ -45,7 +48,7 @@ public final class EggRenderer {
         Quaternionf rotation = QuaternionUtilsKt.fromEulerXYZDegrees(new Quaternionf(), EGG_ROTATION);
 
         PokemonGuiUtilsKt.drawProfilePokemon(
-                eggDummy.getOriginalEgg().asRenderablePokemon(),
+                eggDummy.getOriginalRenderablePokemon(),
                 context.pose(),
                 rotation,
                 PoseType.PROFILE,
@@ -62,7 +65,7 @@ public final class EggRenderer {
         context.pose().popPose();
     }
 
-    private static void renderProgressBar(GuiGraphics context, float progress, int posX, int posY) {
+    private static void renderProgressBarStorageSlot(GuiGraphics context, float progress, int posX, int posY) {
         int xStart = posX;
         int yStart = posY + BAR_Y_OFFSET;
 

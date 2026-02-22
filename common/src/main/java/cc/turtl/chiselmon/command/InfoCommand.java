@@ -7,8 +7,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 
 public class InfoCommand implements ChiselmonCommand {
 
@@ -23,18 +21,19 @@ public class InfoCommand implements ChiselmonCommand {
     }
 
     @Override
-    public LiteralArgumentBuilder<CommandSourceStack> build() {
-        return Commands.literal(getName())
+    public <S> LiteralArgumentBuilder<S> build() {
+        return LiteralArgumentBuilder.<S>literal(getName())
                 .executes(this::execute);
     }
 
-    private int execute(CommandContext<CommandSourceStack> context) {
+    private <S> int execute(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
-        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Info");
-        MessageUtils.sendLabeled(player, "Version", ChiselmonConstants.VERSION);
-        MessageUtils.sendLabeled(player, "Author", ChiselmonConstants.AUTHOR);
+        MessageUtils.sendEmptyLine(player);
+        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_NAME + " Info");
+        MessageUtils.sendLabeled(player, "  Version", ChiselmonConstants.VERSION);
+        MessageUtils.sendLabeled(player, "  Author", ChiselmonConstants.AUTHOR);
         return Command.SINGLE_SUCCESS;
     }
 }

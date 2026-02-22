@@ -9,6 +9,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -21,8 +22,8 @@ import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 public class EventRegisterNeoForge {
 
     @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent e) {
-        ChiselmonCommands.register(e.getDispatcher(), e.getBuildContext(), e.getCommandSelection());
+    public static void onRegisterCommands(RegisterClientCommandsEvent e) {
+        ChiselmonCommands.register(e.getDispatcher());
     }
 
     @SubscribeEvent

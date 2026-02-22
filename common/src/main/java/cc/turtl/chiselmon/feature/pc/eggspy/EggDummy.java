@@ -1,15 +1,27 @@
 package cc.turtl.chiselmon.feature.pc.eggspy;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.RenderablePokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
+/**
+ * Representation of the pokemon a NeoDaycare egg will hatch into.
+ *<p>
+ * To most methods, will look like a regular pokemon object, only with
+ * a forced aspect "EggDummy" for recognition by Chiselmon methods.
+ */
 public class EggDummy extends Pokemon {
     public static final String DUMMY_ASPECT = "EggDummy";
     public static final ResourceLocation EGG_SPECIES_ID = ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species");
@@ -34,15 +46,15 @@ public class EggDummy extends Pokemon {
             if (Minecraft.getInstance().level == null) return Optional.empty();
             RegistryAccess registries = Minecraft.getInstance().level.registryAccess();
 
-            // 2. Pass the registries to the load method
-            // Note: The method signature is usually loadFromNBT(RegistryAccess, CompoundTag)
-            // in recent Cobblemon versions.
+            // Pass the registries to the load method
             dummy.loadFromNBT(registries, hatchlingNbt);
 
             // Sync identity and hatch progress
             dummy.setUuid(egg.getUuid());
             dummy.updateHatchProgress(egg);
-            dummy.getForcedAspects().add(DUMMY_ASPECT);
+            Set<String> aspects = new HashSet<>(dummy.getForcedAspects());
+            aspects.add(DUMMY_ASPECT);
+            dummy.setForcedAspects(aspects);
 
             return Optional.of(dummy);
         } catch (Exception e) {
@@ -72,5 +84,9 @@ public class EggDummy extends Pokemon {
 
     public int getTotalCycles() {
         return totalCycles;
+    }
+
+    public RenderablePokemon getOriginalRenderablePokemon() {
+        return ((DuckPreviewPokemon) originalEgg).chiselmon$getRawRenderablePokemon();
     }
 }

@@ -10,8 +10,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -30,37 +28,38 @@ public class RecordCommand implements ChiselmonCommand {
     }
 
     @Override
-    public LiteralArgumentBuilder<CommandSourceStack> build() {
-        return Commands.literal(getName())
+    public <S> LiteralArgumentBuilder<S> build() {
+        return LiteralArgumentBuilder.<S>literal(getName())
                 .executes(this::showHelp)
-                .then(Commands.literal("start")
+                .then(LiteralArgumentBuilder.<S>literal("start")
                         .executes(this::executeStart))
-                .then(Commands.literal("pause")
+                .then(LiteralArgumentBuilder.<S>literal("pause")
                         .executes(this::executePause))
-                .then(Commands.literal("resume")
+                .then(LiteralArgumentBuilder.<S>literal("resume")
                         .executes(this::executeResume))
-                .then(Commands.literal("stop")
+                .then(LiteralArgumentBuilder.<S>literal("stop")
                         .executes(this::executeStop))
-                .then(Commands.literal("summary")
+                .then(LiteralArgumentBuilder.<S>literal("summary")
                         .executes(this::executeSummary));
     }
 
-    private int showHelp(CommandContext<CommandSourceStack> context) {
+    private <S> int showHelp(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
         String root = context.getNodes().getFirst().getNode().getName();
 
-        MessageUtils.sendHeader(player, "Spawn Recorder Commands");
-        MessageUtils.sendPrefixed(player, "/" + root + " record start");
-        MessageUtils.sendPrefixed(player, "/" + root + " record pause");
-        MessageUtils.sendPrefixed(player, "/" + root + " record resume");
-        MessageUtils.sendPrefixed(player, "/" + root + " record stop");
-        MessageUtils.sendPrefixed(player, "/" + root + " record summary");
+        MessageUtils.sendEmptyLine(player);
+        MessageUtils.sendSuccess(player, "Spawn Recorder - Commands");
+        MessageUtils.sendPrefixed(player, "  /" + root + " record start");
+        MessageUtils.sendPrefixed(player, "  /" + root + " record pause");
+        MessageUtils.sendPrefixed(player, "  /" + root + " record resume");
+        MessageUtils.sendPrefixed(player, "  /" + root + " record stop");
+        MessageUtils.sendPrefixed(player, "  /" + root + " record summary");
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeStart(CommandContext<CommandSourceStack> context) {
+    private <S> int executeStart(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
         try {
@@ -76,7 +75,7 @@ public class RecordCommand implements ChiselmonCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executePause(CommandContext<CommandSourceStack> context) {
+    private <S> int executePause(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -92,7 +91,7 @@ public class RecordCommand implements ChiselmonCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeResume(CommandContext<CommandSourceStack> context) {
+    private <S> int executeResume(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -108,7 +107,7 @@ public class RecordCommand implements ChiselmonCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeStop(CommandContext<CommandSourceStack> context) {
+    private <S> int executeStop(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -123,7 +122,7 @@ public class RecordCommand implements ChiselmonCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeSummary(CommandContext<CommandSourceStack> context) {
+    private <S> int executeSummary(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 

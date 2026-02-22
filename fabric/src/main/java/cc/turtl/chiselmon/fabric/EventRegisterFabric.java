@@ -2,11 +2,11 @@ package cc.turtl.chiselmon.fabric;
 
 import cc.turtl.chiselmon.ChiselmonCommands;
 import cc.turtl.chiselmon.platform.PlatformEventHandlers;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 // Subscribes common handlers to platform-specific events
 public class EventRegisterFabric {
@@ -25,6 +25,6 @@ public class EventRegisterFabric {
                 -> PlatformEventHandlers.handleGameStopping());
 
         // Register commands
-        CommandRegistrationCallback.EVENT.register(ChiselmonCommands::register);
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, conntext) -> ChiselmonCommands.register(dispatcher));
     }
 }

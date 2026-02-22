@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.commands.CommandSourceStack;
 
 public interface ChiselmonCommand {
 
@@ -19,5 +18,5 @@ public interface ChiselmonCommand {
      * Build and return the command structure.
      * Use Commands.literal(getName()) and attach logic.
      */
-    LiteralArgumentBuilder<CommandSourceStack> build();
+    <S> LiteralArgumentBuilder<S> build();
 }

@@ -8,9 +8,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 
 import java.util.List;
 
@@ -24,39 +21,36 @@ public class ChiselmonCommands {
             new RecordCommand()
     );
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher,
-                                CommandBuildContext registry,
-                                Commands.CommandSelection selection) {
-
-        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal(ChiselmonConstants.MOD_ID)
+    public static <S> void register(CommandDispatcher<S> dispatcher) {
+        LiteralArgumentBuilder<S> root = LiteralArgumentBuilder.<S>literal(ChiselmonConstants.MOD_ID)
                 .executes(ChiselmonCommands::showHelp);
 
-        LiteralArgumentBuilder<CommandSourceStack> rootAlias = Commands.literal("ch")
+        LiteralArgumentBuilder<S> rootAlias = LiteralArgumentBuilder.<S>literal("ch")
                 .executes(ChiselmonCommands::showHelp);
 
-        LiteralArgumentBuilder<CommandSourceStack> legacyRootAlias = Commands.literal("ca")
+        LiteralArgumentBuilder<S> legacyRootAlias = LiteralArgumentBuilder.<S>literal("ca")
                 .executes(ChiselmonCommands::showHelp);
 
-        // Attach all subcommands
         COMMANDS.forEach(cmd -> root.then(cmd.build()));
         COMMANDS.forEach(cmd -> rootAlias.then(cmd.build()));
         COMMANDS.forEach(cmd -> legacyRootAlias.then(cmd.build()));
 
-        // Register the main command and aliases
         dispatcher.register(root);
         dispatcher.register(rootAlias);
         dispatcher.register(legacyRootAlias);
     }
 
-    private static int showHelp(CommandContext<CommandSourceStack> context) {
+    public static <S> int showHelp(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
         // Gets the alias used
         String alias = context.getNodes().getFirst().getNode().getName();
 
+        MessageUtils.sendEmptyLine(player);
+        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_NAME + " Commands");
         COMMANDS.forEach(cmd ->
-                MessageUtils.sendPrefixed(player, "/" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
+                MessageUtils.sendPrefixed(player, "  /" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
         );
         return Command.SINGLE_SUCCESS;
     }

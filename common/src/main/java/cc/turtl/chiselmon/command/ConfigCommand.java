@@ -6,8 +6,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 
 public class ConfigCommand implements ChiselmonCommand {
 
@@ -22,16 +20,14 @@ public class ConfigCommand implements ChiselmonCommand {
     }
 
     @Override
-    public LiteralArgumentBuilder<CommandSourceStack> build() {
-        return Commands.literal(getName())
+    public <S> LiteralArgumentBuilder<S> build() {
+        return LiteralArgumentBuilder.<S>literal(getName())
                 .executes(this::execute);
     }
 
-    private int execute(CommandContext<CommandSourceStack> context) {
-        Minecraft.getInstance().execute(() -> {
+    private <S> int execute(CommandContext<S> context) {
             Screen screen = ChiselmonConfig.createScreen(Minecraft.getInstance().screen);
             Minecraft.getInstance().setScreen(screen);
-        });
         return Command.SINGLE_SUCCESS;
     }
 }

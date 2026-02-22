@@ -48,20 +48,9 @@ public class MessageUtils {
         sendPrefixed(player, createComponent(message, ColorUtils.YELLOW.getRGB()));
     }
 
-    public static void sendError(@NotNull LocalPlayer player, CommandContext<CommandSourceStack> context, Exception e) {
+    public static <S> void sendError(@NotNull LocalPlayer player, CommandContext<S> context, Exception e) {
         sendPrefixed(player, createComponent("Error executing: " + context.getInput(), ColorUtils.RED.getRGB()));
         ChiselmonConstants.LOGGER.error("Error executing '{}': ", context, e);
-    }
-
-    public static void sendHeader(@NotNull LocalPlayer player, String title) {
-        sendHeader(player, createComponent(title, ColorUtils.WHITE.getRGB()));
-    }
-
-    public static void sendHeader(@NotNull LocalPlayer player, Component title) {
-        Component start = createComponent("▂ ▃ ▅ ▆ ▇", ColorUtils.DARK_GRAY.getRGB());
-        Component end = createComponent("▇ ▆ ▅ ▃ ▂", ColorUtils.DARK_GRAY.getRGB());
-        Component icon = createComponent(" \uD83D\uDEE0 ", ColorUtils.PINK.getRGB()).withStyle(ChatFormatting.BOLD);
-        send(player, Component.empty().append(start).append(icon).append(title).append(icon).append(end));
     }
 
     public static void sendLabeled(@NotNull LocalPlayer player, String label, Object value) {

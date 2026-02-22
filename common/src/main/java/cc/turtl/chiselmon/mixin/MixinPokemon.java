@@ -7,7 +7,9 @@ import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.pokemon.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -51,8 +53,21 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
     private void chiselmon$redirectNickname(CallbackInfoReturnable<MutableComponent> cir) {
         Pokemon preview = chiselmon$getPreview();
         if (preview != (Object) this) {
-            MutableComponent redirectName = Component.literal("(EGG) ").append(preview.getNickname());
-            cir.setReturnValue(redirectName);
+            MutableComponent name = preview.getNickname();
+            cir.setReturnValue(name != null
+                    ? Component.literal("(EGG) ").append(name)
+                    : Component.literal("(EGG) ").append(preview.getSpecies().getName()));
+        }
+    }
+
+    @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
+    private void chiselmon$redirectDisplayName(CallbackInfoReturnable<MutableComponent> cir) {
+        Pokemon preview = chiselmon$getPreview();
+        if (preview != (Object) this) {
+            MutableComponent name = preview.getNickname();
+            cir.setReturnValue(name != null
+                    ? Component.literal("(EGG) ").append(name)
+                    : Component.literal("(EGG) ").append(preview.getSpecies().getName()));
         }
     }
 
@@ -102,5 +117,12 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         if (preview != (Object) this) {
             cir.setReturnValue(new RenderablePokemon(preview.getSpecies(), preview.getAspects(), ItemStack.EMPTY));
         }
+    }
+
+    @Unique
+    @Override
+    public RenderablePokemon chiselmon$getRawRenderablePokemon() {
+        // Access species directly from shadow field, no redirect
+        return new RenderablePokemon(species, ((Pokemon)(Object)this).getAspects(), ItemStack.EMPTY);
     }
 }

@@ -11,8 +11,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -26,16 +24,16 @@ public class DatabaseCommand implements ChiselmonCommand {
 
     @Override
     public String getDescription() {
-        return "Display info about the Chiselmon Database for the current world.";
+        return "Manage the DB for the current world.";
     }
 
     @Override
-    public LiteralArgumentBuilder<CommandSourceStack> build() {
-        return Commands.literal(getName())
+    public <S> LiteralArgumentBuilder<S> build() {
+        return LiteralArgumentBuilder.<S>literal(getName())
                 .executes(this::execute);
     }
 
-    private int execute(CommandContext<CommandSourceStack> context) {
+    private <S> int execute(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -51,12 +49,13 @@ public class DatabaseCommand implements ChiselmonCommand {
             encounters = legendaries = shinies = "ERROR";
         }
 
-        MessageUtils.sendHeader(player, "Database Info for " + Objects.requireNonNull(StorageScope.currentWorld()).getWorldKey());
-        MessageUtils.sendLabeled(player, "Encounters in write cache", db.getWriteCachedCount());
-        MessageUtils.sendLabeled(player, "Encounters stored on disk", encounters);
-        MessageUtils.sendLabeled(player, "  Legendaries", legendaries);
-        MessageUtils.sendLabeled(player, "  Shinies", shinies);
-        MessageUtils.sendLabeled(player, "Database size on disk", StringFormats.formatBytes(db.getSizeOnDiskBytes()));
+        MessageUtils.sendEmptyLine(player);
+        MessageUtils.sendSuccess(player, "DB Info for " + Objects.requireNonNull(StorageScope.currentWorld()).getWorldKey());
+        MessageUtils.sendLabeled(player, "  Encounters in write cache", db.getWriteCachedCount());
+        MessageUtils.sendLabeled(player, "  Encounters stored on disk", encounters);
+        MessageUtils.sendLabeled(player, "    Legendaries", legendaries);
+        MessageUtils.sendLabeled(player, "    Shinies", shinies);
+        MessageUtils.sendLabeled(player, "  Database size on disk", StringFormats.formatBytes(db.getSizeOnDiskBytes()));
 
         return Command.SINGLE_SUCCESS;
     }

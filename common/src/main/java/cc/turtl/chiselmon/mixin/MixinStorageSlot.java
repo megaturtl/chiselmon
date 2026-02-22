@@ -1,7 +1,9 @@
 package cc.turtl.chiselmon.mixin;
 
+import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.feature.pc.eggspy.EggCache;
 import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
 import cc.turtl.chiselmon.feature.pc.eggspy.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
@@ -36,17 +38,19 @@ public abstract class MixinStorageSlot extends AbstractWidget {
         if (config.general.modDisabled) return;
 
         Pokemon pokemon = getPokemon();
+        // Use preview so we either pass the eggdummy or normal pokemon
+        Pokemon preview = ((DuckPreviewPokemon) pokemon).chiselmon$getPreview();
 
-        if (config.pc.icon.enabled && pokemon != null) {
-            IconRenderer.renderIcons(context, config.pc.icon, pokemon, posX, posY);
+        if (config.pc.icon.enabled && preview != null) {
+            IconRenderer.renderIcons(context, config.pc.icon, preview, posX, posY);
         }
 
-        if (config.pc.eggSpy.enabled && pokemon instanceof EggDummy) {
-            EggRenderer.renderStorageSlot(context, (EggDummy) pokemon, posX, posY);
+        if (config.pc.eggSpy.enabled && preview instanceof EggDummy eggDummy) {
+            EggRenderer.renderStorageSlot(context, eggDummy, posX, posY);
         }
 
         if (config.pc.tooltip.enabled) {
-            chiselmon$updateTooltip(pokemon, config.pc.tooltip);
+            chiselmon$updateTooltip(preview, config.pc.tooltip);
         }
     }
 

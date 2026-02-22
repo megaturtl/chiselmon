@@ -11,9 +11,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class DebugCommand implements ChiselmonCommand {
 
@@ -28,28 +31,29 @@ public class DebugCommand implements ChiselmonCommand {
     }
 
     @Override
-    public LiteralArgumentBuilder<CommandSourceStack> build() {
-        return Commands.literal(getName())
+    public <S> LiteralArgumentBuilder<S> build() {
+        return LiteralArgumentBuilder.<S>literal(getName())
                 .executes(this::showHelp)
-                .then(Commands.literal("test")
+                .then(LiteralArgumentBuilder.<S>literal("test")
                         .executes(this::executeTest))
-                .then(Commands.literal("dumpentity")
+                .then(LiteralArgumentBuilder.<S>literal("dumpentity")
                         .executes(this::executeDumpEntity));
     }
 
-    private int showHelp(CommandContext<CommandSourceStack> context) {
+    private <S> int showHelp(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
         String root = context.getNodes().getFirst().getNode().getName();
 
-        MessageUtils.sendHeader(player, "Debug Commands");
-        MessageUtils.sendPrefixed(player, "/" + root + " debug test - Test command");
-        MessageUtils.sendPrefixed(player, "/" + root + " debug dumpentity - Dumps targeted entity info to console w/ summary in game");
+        MessageUtils.sendEmptyLine(player);
+        MessageUtils.sendSuccess(player, "Debug Commands");
+        MessageUtils.sendPrefixed(player, "  /" + root + " debug test");
+        MessageUtils.sendPrefixed(player, "  /" + root + " debug dumpentity");
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeTest(CommandContext<CommandSourceStack> context) {
+    private <S> int executeTest(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -57,7 +61,7 @@ public class DebugCommand implements ChiselmonCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeDumpEntity(CommandContext<CommandSourceStack> context) {
+    private <S> int executeDumpEntity(CommandContext<S> context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return 0;
 
@@ -71,11 +75,24 @@ public class DebugCommand implements ChiselmonCommand {
             }
 
             if (target instanceof PokemonEntity pe) {
-                MessageUtils.sendHeader(player, PokemonFormats.detailedName(pe.getPokemon()));
-                MessageUtils.sendLabeled(player, "NoAI", pe.isNoAi());
-                MessageUtils.sendLabeled(player, "Busy", pe.isBusy());
-                MessageUtils.sendLabeled(player, "Owned", PokemonEntityPredicates.IS_OWNED.test(pe));
-                MessageUtils.sendLabeled(player, "Wild", PokemonEntityPredicates.IS_WILD.test(pe));
+                AttributeMap attrs = pe.getAttributes();
+                StringBuilder attrList = new StringBuilder();
+                for (Holder.Reference<Attribute> holder : BuiltInRegistries.ATTRIBUTE.holders().toList()) {
+                    if (attrs.hasAttribute(holder)) {
+                        attrList.append(holder.key().location().getPath())
+                                .append("=")
+                                .append(String.format("%.3f", attrs.getValue(holder)))
+                                .append(" ");
+                    }
+                }
+
+                MessageUtils.sendEmptyLine(player);
+                MessageUtils.sendPrefixed(player, PokemonFormats.detailedName(pe.getPokemon()));
+                MessageUtils.sendLabeled(player, "  Attributes", attrList.toString());
+                MessageUtils.sendLabeled(player, "  NoAI", pe.isNoAi());
+                MessageUtils.sendLabeled(player, "  Busy", pe.isBusy());
+                MessageUtils.sendLabeled(player, "  Owned", PokemonEntityPredicates.IS_OWNED.test(pe));
+                MessageUtils.sendLabeled(player, "  Wild", PokemonEntityPredicates.IS_WILD.test(pe));
             } else {
                 MessageUtils.sendWarning(player, "Entity is a " + target.getType().getDescription().getString());
             }
