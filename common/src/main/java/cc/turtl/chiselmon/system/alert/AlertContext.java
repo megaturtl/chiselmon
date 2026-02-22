@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -37,6 +38,18 @@ public record AlertContext(
     public boolean shouldMessage() {
         AlertsConfig.FilterAlertSettings settings = getFilterSettings();
         return shouldAlert() && !isMuted && settings.sendChatMessage;
+    }
+
+    public boolean shouldDiscord() {
+        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        return shouldAlert()
+                && !isMuted
+                && !ChiselmonConfig.get().general.discordWebhookURL.isBlank()
+                && settings.sendDiscordMessage;
+    }
+
+    public String discordWebhookUrl() {
+        return ChiselmonConfig.get().general.discordWebhookURL;
     }
 
     public boolean shouldHighlight() {

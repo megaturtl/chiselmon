@@ -13,8 +13,12 @@ public class GeneralConfig {
 
     @SerialEntry
     public final ThresholdsGroup thresholds = new ThresholdsGroup();
+
     @SerialEntry
     public boolean modDisabled = DEFAULT_MOD_DISABLED;
+
+    @SerialEntry
+    public String discordWebhookURL = "";
 
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
@@ -24,6 +28,12 @@ public class GeneralConfig {
                         DEFAULT_MOD_DISABLED,
                         () -> modDisabled,
                         v -> modDisabled = v
+                ))
+                .option(OptionFactory.textField(
+                        "chiselmon.config.general.discord_webhook_url",
+                        "",
+                        () -> discordWebhookURL,
+                        v -> discordWebhookURL = v
                 ))
                 .option(OptionFactory.keyMappingPicker(
                         "chiselmon.config.general.open_config_keybind",

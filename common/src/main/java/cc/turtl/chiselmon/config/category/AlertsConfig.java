@@ -121,6 +121,12 @@ public class AlertsConfig {
                         v -> settings.sendChatMessage = v
                 ))
                 .option(OptionFactory.toggleTick(
+                        "chiselmon.config.alerts.send_discord_message",
+                        FilterAlertSettings.DEFAULT_SEND_DISCORD_MESSAGE,
+                        () -> settings.sendDiscordMessage,
+                        v -> settings.sendDiscordMessage = v
+                ))
+                .option(OptionFactory.toggleTick(
                         "chiselmon.config.alerts.highlight_entity",
                         FilterAlertSettings.DEFAULT_HIGHLIGHT_ENTITY,
                         () -> settings.highlightEntity,
@@ -147,6 +153,7 @@ public class AlertsConfig {
     public static class FilterAlertSettings {
         public static final boolean DEFAULT_ENABLED = true;
         public static final boolean DEFAULT_SEND_CHAT_MESSAGE = true;
+        public static final boolean DEFAULT_SEND_DISCORD_MESSAGE = false;
         public static final boolean DEFAULT_PLAY_SOUND = true;
         public static final AlertSounds DEFAULT_ALERT_SOUND = AlertSounds.PLING;
         public static final boolean DEFAULT_REPEAT_SOUND = true;
@@ -155,6 +162,7 @@ public class AlertsConfig {
 
         @SerialEntry public boolean enabled = DEFAULT_ENABLED;
         @SerialEntry public boolean sendChatMessage = DEFAULT_SEND_CHAT_MESSAGE;
+        @SerialEntry public boolean sendDiscordMessage = DEFAULT_SEND_DISCORD_MESSAGE;
         @SerialEntry public boolean playSound = DEFAULT_PLAY_SOUND;
         @SerialEntry public AlertSounds alertSound = DEFAULT_ALERT_SOUND;
         @SerialEntry public boolean repeatSound = DEFAULT_REPEAT_SOUND;

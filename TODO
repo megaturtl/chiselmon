@@ -1,5 +1,7 @@
 Bugs:
 - some eggdummies are showing 0IVs
+- config command doesn't open the screen
+
 High priority:
 - add screenshots to the config descriptions (like chesttracker)
 - put things like the size in the alert noti message

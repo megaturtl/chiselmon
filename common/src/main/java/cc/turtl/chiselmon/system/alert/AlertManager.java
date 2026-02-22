@@ -8,10 +8,7 @@ import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
-import cc.turtl.chiselmon.system.alert.action.AlertAction;
-import cc.turtl.chiselmon.system.alert.action.GlowAction;
-import cc.turtl.chiselmon.system.alert.action.MessageAction;
-import cc.turtl.chiselmon.system.alert.action.SoundAction;
+import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.util.MessageUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -25,7 +22,7 @@ public class AlertManager {
 
     private static final AlertManager INSTANCE = new AlertManager();
 
-    private final List<AlertAction> oneTimeActions = List.of(new MessageAction(), new SoundAction());
+    private final List<AlertAction> oneTimeActions = List.of(new MessageAction(), new SoundAction(), new DiscordAction());
     private final List<AlertAction> continuousActions = List.of(new GlowAction());
     private final SoundAction repeatingSoundAction = new SoundAction();
 
