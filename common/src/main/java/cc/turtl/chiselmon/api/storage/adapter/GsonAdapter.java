@@ -1,7 +1,7 @@
-package cc.turtl.chiselmon.data.storage;
+package cc.turtl.chiselmon.api.storage.adapter;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  * FiltersUserData::withDefaults
  * );
  */
-public class GsonStorage<T> implements ScopeStorage<T> {
+public class GsonAdapter<T> implements StorageAdapter<T> {
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
@@ -33,25 +33,25 @@ public class GsonStorage<T> implements ScopeStorage<T> {
     private final Type type;
     private final Supplier<T> defaultFactory;
 
-    private GsonStorage(String filename, Type type, Supplier<T> defaultFactory) {
+    private GsonAdapter(String filename, Type type, Supplier<T> defaultFactory) {
         this.filename = filename;
         this.type = type;
         this.defaultFactory = defaultFactory;
     }
 
-    public static <T> GsonStorage<T> of(String filename, Class<T> type, Supplier<T> defaultFactory) {
-        return new GsonStorage<>(filename, type, defaultFactory);
+    public static <T> GsonAdapter<T> of(String filename, Class<T> type, Supplier<T> defaultFactory) {
+        return new GsonAdapter<>(filename, type, defaultFactory);
     }
 
     /**
      * Use this overload if you need a generic type token (e.g. TypeToken<List<Foo>>).
      */
-    public static <T> GsonStorage<T> of(String filename, Type type, Supplier<T> defaultFactory) {
-        return new GsonStorage<>(filename, type, defaultFactory);
+    public static <T> GsonAdapter<T> of(String filename, Type type, Supplier<T> defaultFactory) {
+        return new GsonAdapter<>(filename, type, defaultFactory);
     }
 
     @Override
-    public T load(Scope scope) {
+    public T load(StorageScope scope) {
         Path file = scope.dataFile(filename);
         if (!Files.exists(file)) return defaultFactory.get();
         try (Reader reader = Files.newBufferedReader(file)) {
@@ -64,7 +64,7 @@ public class GsonStorage<T> implements ScopeStorage<T> {
     }
 
     @Override
-    public void save(Scope scope, T data) {
+    public void save(StorageScope scope, T data) {
         Path file = scope.dataFile(filename);
         try {
             Files.createDirectories(file.getParent());

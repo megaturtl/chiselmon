@@ -36,9 +36,9 @@ public class TrackerCommand implements ChiselmonCommand {
 
         TrackerSession tracker = TrackerManager.getInstance().getTracker();
 
-        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Tracker");
-        MessageUtils.sendLabeled(player, "Currently loaded pokemon", tracker.getCurrentlyLoaded().size());
-        MessageUtils.sendLabeled(player, "Total encounters in database", tracker.getEncounterCount());
+        MessageUtils.sendHeader(player, ChiselmonConstants.MOD_NAME + " Wild Pokemon Tracker");
+        MessageUtils.sendLabeled(player, "Currently loaded", tracker.getCurrentlyLoaded().size());
+        MessageUtils.sendLabeled(player, "Encounters since join", tracker.getEncounterCount());
 
         return Command.SINGLE_SUCCESS;
     }

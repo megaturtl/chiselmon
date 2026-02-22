@@ -1,6 +1,6 @@
-package cc.turtl.chiselmon.data.storage;
+package cc.turtl.chiselmon.api.storage.adapter;
 
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import org.h2.jdbcx.JdbcDataSource;
 
 import java.nio.file.Files;
@@ -12,34 +12,34 @@ import java.util.function.Function;
 /**
  * H2-backed ScopeStorage. One embedded database file per scope.
  */
-public class SQLiteStorage<T> implements ScopeStorage<T> {
+public class H2Adapter<T> implements StorageAdapter<T> {
 
     private final String filename;
     private final Function<Connection, T> factory;
     private final Consumer<T> onSave;
     private final Consumer<T> onClose;
 
-    private SQLiteStorage(String filename, Function<Connection, T> factory, Consumer<T> onSave, Consumer<T> onClose) {
+    private H2Adapter(String filename, Function<Connection, T> factory, Consumer<T> onSave, Consumer<T> onClose) {
         this.filename = filename;
         this.factory = factory;
         this.onSave = onSave;
         this.onClose = onClose;
     }
 
-    public static <T> SQLiteStorage<T> of(String filename, Function<Connection, T> factory, Consumer<T> onSave, Consumer<T> onClose) {
-        return new SQLiteStorage<>(filename, factory, onSave, onClose);
+    public static <T> H2Adapter<T> of(String filename, Function<Connection, T> factory, Consumer<T> onSave, Consumer<T> onClose) {
+        return new H2Adapter<>(filename, factory, onSave, onClose);
     }
 
     /**
      * For DBs that write in real time save is a no-op, only close matters.
      */
-    public static <T> SQLiteStorage<T> of(String filename, Function<Connection, T> factory, Consumer<T> onClose) {
-        return new SQLiteStorage<>(filename, factory, t -> {
+    public static <T> H2Adapter<T> of(String filename, Function<Connection, T> factory, Consumer<T> onClose) {
+        return new H2Adapter<>(filename, factory, t -> {
         }, onClose);
     }
 
     @Override
-    public T load(Scope scope) {
+    public T load(StorageScope scope) {
         try {
             Path file = scope.dataFile(filename);
             Files.createDirectories(file.getParent());
@@ -56,12 +56,12 @@ public class SQLiteStorage<T> implements ScopeStorage<T> {
     }
 
     @Override
-    public void save(Scope scope, T data) {
+    public void save(StorageScope scope, T data) {
         onSave.accept(data);
     }
 
     @Override
-    public void close(Scope scope, T data) {
+    public void close(StorageScope scope, T data) {
         onClose.accept(data);
     }
 }

@@ -35,12 +35,16 @@ public class SpawnRecorderSession {
     }
 
     private void setActionBarStatus() {
-        MutableComponent message = Component.translatable("chiselmon.spawnrecorder.action_bar.title").withColor(ColorUtils.PINK.getRGB());
-        message.append(Component.literal(String.valueOf(getCurrentlyLoadedCount())).withColor(ColorUtils.AQUA.getRGB()));
-        message.append(Component.literal("/").withColor(ColorUtils.LIGHT_GRAY.getRGB()));
-        message.append(Component.literal(String.valueOf(getTotalRecordedCount())).withColor(ColorUtils.TEAL.getRGB()));
-        message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorUtils.AQUA.getRGB()));
-        message.append(Component.literal(StringFormats.formatDurationMs(getElapsedMs())).withColor(ColorUtils.GREEN.getRGB()));
+        MutableComponent message = Component.empty()
+                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorUtils.PINK.getRGB()))
+                .append(Component.literal(String.valueOf(getDespawnEligibleCount())).withColor(ColorUtils.RED.getRGB()))
+                .append(Component.literal("/").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .append(Component.literal(String.valueOf(getCurrentlyLoadedCount())).withColor(ColorUtils.GREEN.getRGB()))
+                .append(Component.literal(" | ").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorUtils.PINK.getRGB()))
+                .append(Component.literal(String.valueOf(getTotalRecordedCount())).withColor(ColorUtils.TEAL.getRGB()))
+                .append(Component.literal(" | ").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .append(Component.literal(StringFormats.formatDurationMs(getElapsedMs())).withColor(ColorUtils.ORANGE.getRGB()));
 
         if (isPaused()) {
             message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorUtils.YELLOW.getRGB()));
@@ -71,12 +75,12 @@ public class SpawnRecorderSession {
             setActionBarStatus();
         }
 
-        for (PokemonEntity entity : tracker.getCurrentlyLoaded().values()) {
-            if (ChiselmonConfig.get().recorder.despawnGlow) {
-                int rgb = ((getTicksLived(entity)) >= DESPAWN_MIN_TICKS) ? ColorUtils.RED.getRGB() : ColorUtils.LIME.getRGB();
+        if (ChiselmonConfig.get().recorder.despawnGlow) {
+            tracker.getCurrentlyLoaded().values().forEach(entity -> {
+                int rgb = getTicksLived(entity) >= DESPAWN_MIN_TICKS ? ColorUtils.RED.getRGB() : ColorUtils.LIME.getRGB();
                 PokemonEntityUtils.addGlow(entity, rgb);
                 PokemonEntityUtils.highlightNickname(entity, rgb);
-            }
+            });
         }
     }
 
@@ -125,6 +129,12 @@ public class SpawnRecorderSession {
 
     public int getCurrentlyLoadedCount() {
         return tracker.getCurrentlyLoaded().size();
+    }
+
+    public int getDespawnEligibleCount() {
+        return (int) tracker.getCurrentlyLoaded().values().stream()
+                .filter(entity -> getTicksLived(entity) >= DESPAWN_MIN_TICKS)
+                .count();
     }
 
     public int getTotalRecordedCount() {

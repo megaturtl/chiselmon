@@ -7,8 +7,8 @@ import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.config.custom.HoldToConfirmButton;
-import cc.turtl.chiselmon.data.ChiselmonData;
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.ChiselmonStorage;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;
@@ -17,9 +17,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,9 +30,14 @@ import java.util.stream.Collectors;
  */
 public class FilterConfig implements ConfigCategoryBuilder {
 
+    public static Color DEFAULT_COLOR = ColorUtils.WHITE;
+    public static Priority DEFAULT_PRIORITY = Priority.NORMAL;
+    public static String DEFAULT_DISPLAY_NAME = "New Custom Filter";
+    public static String DEFAULT_TAG_STRING = "shiny";
+
     @Override
     public ConfigCategory buildCategory(Screen parent) {
-        FiltersUserData filtersUserData = ChiselmonData.FILTERS.get(Scope.global());
+        FiltersUserData filtersUserData = ChiselmonStorage.FILTERS.get(StorageScope.global());
 
         var builder = ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.filters"));
@@ -44,13 +50,12 @@ public class FilterConfig implements ConfigCategoryBuilder {
                     String newId = "custom_" + UUID.randomUUID().toString().substring(0, 8);
                     filtersUserData.put(newId, new FilterDefinition(
                             newId,
-                            "New Custom Filter",
-                            ColorUtils.WHITE.getRGB(),
-                            Priority.NORMAL,
-                            true,
-                            new ArrayList<>()
+                            DEFAULT_DISPLAY_NAME,
+                            DEFAULT_COLOR.getRGB(),
+                            DEFAULT_PRIORITY,
+                            new ArrayList<>(List.of(DEFAULT_TAG_STRING))
                     ));
-                    ChiselmonData.FILTERS.save(Scope.global());
+                    ChiselmonStorage.FILTERS.save(StorageScope.global());
                     FilterMatcher.invalidateCache();
                     ChiselmonConfig.saveAndReloadScreen(parent, 2);
                 })
@@ -74,10 +79,11 @@ public class FilterConfig implements ConfigCategoryBuilder {
         if (!isDefault) {
             groupBuilder.option(OptionFactory.textField(
                     "chiselmon.config.filters.display_name",
+                    filter.displayName,
                     () -> filter.displayName,
                     v -> {
                         filter.displayName = v;
-                        ChiselmonData.FILTERS.save(Scope.global());
+                        ChiselmonStorage.FILTERS.save(StorageScope.global());
                         FilterMatcher.invalidateCache();
                         ChiselmonConfig.saveAndReloadScreen(parent, 2);
                     }
@@ -86,10 +92,11 @@ public class FilterConfig implements ConfigCategoryBuilder {
 
         groupBuilder.option(OptionFactory.colorPicker(
                 "chiselmon.config.filters.color",
+                new Color(filter.rgb),
                 () -> new Color(filter.rgb),
                 v -> {
                     filter.rgb = v.getRGB();
-                    ChiselmonData.FILTERS.save(Scope.global());
+                    ChiselmonStorage.FILTERS.save(StorageScope.global());
                     FilterMatcher.invalidateCache();
                     ChiselmonConfig.saveAndReloadScreen(parent, 2);
                 }
@@ -97,10 +104,11 @@ public class FilterConfig implements ConfigCategoryBuilder {
 
         groupBuilder.option(OptionFactory.enumCycler(
                 "chiselmon.config.filters.priority",
+                filter.priority,
                 () -> filter.priority,
                 v -> {
                     filter.priority = v;
-                    ChiselmonData.FILTERS.save(Scope.global());
+                    ChiselmonStorage.FILTERS.save(StorageScope.global());
                     FilterMatcher.invalidateCache();
                 },
                 Priority.class
@@ -125,13 +133,13 @@ public class FilterConfig implements ConfigCategoryBuilder {
                                     .withStyle(style -> style.withItalic(true)
                                             .withColor(ColorUtils.LIGHT_GRAY.getRGB())))
                             .build())
-                    .binding(String.join(", ", filter.tags), () -> String.join(", ", filter.tags),
+                    .binding(DEFAULT_TAG_STRING, () -> String.join(", ", filter.tags),
                             v -> {
                                 filter.tags = Arrays.stream(v.split(","))
                                         .map(String::trim)
                                         .filter(s -> !s.isEmpty())
                                         .collect(Collectors.toList());
-                                ChiselmonData.FILTERS.save(Scope.global());
+                                ChiselmonStorage.FILTERS.save(StorageScope.global());
                                 FilterMatcher.invalidateCache();
                             })
                     .controller(StringControllerBuilder::create)
@@ -145,7 +153,7 @@ public class FilterConfig implements ConfigCategoryBuilder {
                     .holdTimeTicks(30)
                     .action((screen, opt) -> {
                         filtersUserData.remove(filter.id);
-                        ChiselmonData.FILTERS.save(Scope.global());
+                        ChiselmonStorage.FILTERS.save(StorageScope.global());
                         FilterMatcher.invalidateCache();
                         ChiselmonConfig.saveAndReloadScreen(parent, 2);
                     })

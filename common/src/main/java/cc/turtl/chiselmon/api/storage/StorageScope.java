@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.data;
+package cc.turtl.chiselmon.api.storage;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import net.minecraft.client.Minecraft;
@@ -26,11 +26,11 @@ import java.nio.file.Path;
  * Path dir  = scope.dataDir();
  * Path file = scope.dataFile("mydata.json");
  */
-public final class Scope {
+public final class StorageScope {
 
     private final String worldKey; // null = global
 
-    private Scope(String worldKey) {
+    private StorageScope(String worldKey) {
         this.worldKey = worldKey;
     }
 
@@ -39,8 +39,8 @@ public final class Scope {
     /**
      * Always available. Data lives in config/chiselmon/
      */
-    public static Scope global() {
-        return new Scope(null);
+    public static StorageScope global() {
+        return new StorageScope(null);
     }
 
     /**
@@ -48,9 +48,9 @@ public final class Scope {
      * Returns null if the client is not currently in a world.
      */
     @Nullable
-    public static Scope currentWorld() {
+    public static StorageScope currentWorld() {
         String key = resolveWorldKey();
-        return key != null ? new Scope(key) : null;
+        return key != null ? new StorageScope(key) : null;
     }
 
     // ── Accessors ─────────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ public final class Scope {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Scope other)) return false;
+        if (!(o instanceof StorageScope other)) return false;
         return java.util.Objects.equals(worldKey, other.worldKey);
     }
 

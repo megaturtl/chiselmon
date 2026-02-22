@@ -3,13 +3,16 @@ package cc.turtl.chiselmon.system.tracker;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.event.PokemonLoadedEvent;
 import cc.turtl.chiselmon.api.event.PokemonUnloadedEvent;
-import cc.turtl.chiselmon.data.ChiselmonData;
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.ChiselmonStorage;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
 import java.util.*;
 
+/**
+ * Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database.
+ */
 public class TrackerSession {
     private final long startTimeMs;
     private final Map<UUID, PokemonEntity> currentlyLoaded = new HashMap<>();
@@ -18,7 +21,7 @@ public class TrackerSession {
 
     public TrackerSession() {
         this.startTimeMs = System.currentTimeMillis();
-        this.db = ChiselmonData.ENCOUNTERS.get(Scope.currentWorld());
+        this.db = ChiselmonStorage.ENCOUNTERS.get(StorageScope.currentWorld());
     }
 
     public void onPokemonLoad(PokemonLoadedEvent event) {

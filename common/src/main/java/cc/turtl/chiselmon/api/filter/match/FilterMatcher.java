@@ -2,8 +2,8 @@ package cc.turtl.chiselmon.api.filter.match;
 
 import cc.turtl.chiselmon.api.filter.FilterTagParser;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
-import cc.turtl.chiselmon.data.ChiselmonData;
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.ChiselmonStorage;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.Comparator;
@@ -40,8 +40,7 @@ public class FilterMatcher {
 
     // Compiles filter definitions into sorted runtime filters with their predicates.
     private static List<RuntimeFilter> createRuntimeFilters() {
-        return ChiselmonData.FILTERS.get(Scope.global()).getAll().values().stream()
-                .filter(def -> def.enabled)
+        return ChiselmonStorage.FILTERS.get(StorageScope.global()).getAll().values().stream()
                 .map(def -> {
                     Predicate<Pokemon> condition = def.tags.stream()
                             .map(FilterTagParser::parse)

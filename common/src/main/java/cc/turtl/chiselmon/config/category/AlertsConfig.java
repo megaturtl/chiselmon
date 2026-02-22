@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.config.category;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.filter.FilterDefinition;
 import cc.turtl.chiselmon.config.OptionFactory;
-import cc.turtl.chiselmon.data.ChiselmonData;
-import cc.turtl.chiselmon.data.Scope;
+import cc.turtl.chiselmon.ChiselmonStorage;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.system.alert.AlertSounds;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import dev.isxander.yacl3.api.*;
@@ -21,15 +21,16 @@ import java.util.Map;
 
 public class AlertsConfig implements ConfigCategoryBuilder {
 
-    @SerialEntry
-    public boolean masterEnabled = true;
+    public static final boolean DEFAULT_MASTER_ENABLED = true;
+    public static final int DEFAULT_MASTER_VOLUME = 100;
+    public static final boolean DEFAULT_SHOW_FORM_IN_MESSAGE = true;
 
     @SerialEntry
-    public int masterVolume = 100;
-
+    public boolean masterEnabled = DEFAULT_MASTER_ENABLED;
     @SerialEntry
-    public boolean showFormInMessage = true;
-
+    public int masterVolume = DEFAULT_MASTER_VOLUME;
+    @SerialEntry
+    public boolean showFormInMessage = DEFAULT_SHOW_FORM_IN_MESSAGE;
     @SerialEntry
     public Map<String, FilterAlertSettings> filterAlerts = new LinkedHashMap<>();
 
@@ -40,17 +41,20 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         builder.option(OptionFactory.toggleOnOff(
                         "chiselmon.config.alerts.master_enabled",
+                        DEFAULT_MASTER_ENABLED,
                         () -> masterEnabled,
                         v -> masterEnabled = v
                 ))
                 .option(OptionFactory.intSlider(
                         "chiselmon.config.alerts.master_volume",
+                        DEFAULT_MASTER_VOLUME,
                         () -> masterVolume,
                         v -> masterVolume = v,
                         0, 100, 1
                 ))
                 .option(OptionFactory.toggleTick(
                         "chiselmon.config.alerts.show_form_in_message",
+                        DEFAULT_SHOW_FORM_IN_MESSAGE,
                         () -> showFormInMessage,
                         v -> showFormInMessage = v
                 ))
@@ -60,13 +64,11 @@ public class AlertsConfig implements ConfigCategoryBuilder {
 
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alerts.filters")));
 
-        // Add a separate group for each filter's alert settings
-        for (FilterDefinition filter : ChiselmonData.FILTERS.get(Scope.global()).getAll().values()) {
+        for (FilterDefinition filter : ChiselmonStorage.FILTERS.get(StorageScope.global()).getAll().values()) {
             FilterAlertSettings settings = filterAlerts.computeIfAbsent(
                     filter.id,
                     id -> new FilterAlertSettings()
             );
-
             builder.group(buildFilterAlertGroup(filter, settings));
         }
 
@@ -76,92 +78,88 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     private OptionGroup buildFilterAlertGroup(FilterDefinition filter, FilterAlertSettings settings) {
         MutableComponent filterName = ComponentUtils.createComponent(filter.displayName, filter.rgb);
 
-        // Create options and store references to read pending values
+        Option<Integer> volumeOption = OptionFactory.intSlider(
+                "chiselmon.config.alerts.volume",
+                FilterAlertSettings.DEFAULT_VOLUME,
+                () -> settings.volume,
+                v -> settings.volume = v,
+                0, 100, 1
+        );
+
         Option<AlertSounds> soundOption = OptionFactory.enumCycler(
                 "chiselmon.config.alerts.alert_sound",
+                FilterAlertSettings.DEFAULT_ALERT_SOUND,
                 () -> settings.alertSound,
                 v -> settings.alertSound = v,
                 AlertSounds.class
         );
 
-        Option<Integer> volumeOption = OptionFactory.intSlider(
-                "chiselmon.config.alerts.volume",
-                () -> settings.volume,
-                v -> settings.volume = v,
-                0, 100, 1
-        );
+        soundOption.addEventListener((opt, event) -> {
+            if (event == OptionEventListener.Event.STATE_CHANGE) {
+                SoundEvent sound = opt.pendingValue().getSound();
+                if (sound != null) {
+                    float volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f);
+                    Minecraft.getInstance().getSoundManager().play(
+                            SimpleSoundInstance.forUI(sound, 1.0f, volume)
+                    );
+                }
+            }
+        });
 
         return OptionGroup.createBuilder()
                 .name(filterName)
                 .description(OptionDescription.of(Component.translatable("chiselmon.config.alerts.group.filter_alerts.description")))
                 .option(OptionFactory.toggleOnOff(
                         "chiselmon.config.alerts.enabled",
+                        FilterAlertSettings.DEFAULT_ENABLED,
                         () -> settings.enabled,
                         v -> settings.enabled = v
                 ))
                 .option(OptionFactory.toggleTick(
                         "chiselmon.config.alerts.send_chat_message",
+                        FilterAlertSettings.DEFAULT_SEND_CHAT_MESSAGE,
                         () -> settings.sendChatMessage,
                         v -> settings.sendChatMessage = v
                 ))
                 .option(OptionFactory.toggleTick(
-                        "chiselmon.config.alerts.play_sound",
-                        () -> settings.playSound,
-                        v -> settings.playSound = v
-                ))
-                .option(soundOption)
-                .option(ButtonOption.createBuilder()
-                        .name(Component.translatable("chiselmon.config.alerts.preview_sound"))
-                        .description(OptionDescription.of(Component.translatable("chiselmon.config.alerts.preview_sound.description")))
-                        .text(Component.translatable("chiselmon.config.alerts.preview_sound.button"))
-                        .action((screen, opt) -> {
-                            // Play the currently selected sound from UI (pending value)
-                            AlertSounds currentSound = soundOption.pendingValue();
-                            int currentVolume = volumeOption.pendingValue();
-
-                            SoundEvent sound = currentSound.getSound();
-                            if (sound != null) {
-                                Minecraft.getInstance().getSoundManager().play(
-                                        SimpleSoundInstance.forUI(sound, 1.0f, currentVolume / 100f)
-                                );
-                            }
-                        })
-                        .build())
-                .option(volumeOption)
-                .option(OptionFactory.toggleTick(
-                        "chiselmon.config.alerts.repeat_sound",
-                        () -> settings.repeatSound,
-                        v -> settings.repeatSound = v
-                ))
-                .option(OptionFactory.toggleTick(
                         "chiselmon.config.alerts.highlight_entity",
+                        FilterAlertSettings.DEFAULT_HIGHLIGHT_ENTITY,
                         () -> settings.highlightEntity,
                         v -> settings.highlightEntity = v
                 ))
+                .option(OptionFactory.toggleTick(
+                        "chiselmon.config.alerts.play_sound",
+                        FilterAlertSettings.DEFAULT_PLAY_SOUND,
+                        () -> settings.playSound,
+                        v -> settings.playSound = v
+                ))
+                .option(OptionFactory.toggleTick(
+                        "chiselmon.config.alerts.repeat_sound",
+                        FilterAlertSettings.DEFAULT_REPEAT_SOUND,
+                        () -> settings.repeatSound,
+                        v -> settings.repeatSound = v
+                ))
+                .option(soundOption)
+                .option(volumeOption)
                 .collapsed(true)
                 .build();
     }
 
     public static class FilterAlertSettings {
-        @SerialEntry
-        public boolean enabled = true;
+        public static final boolean DEFAULT_ENABLED = true;
+        public static final boolean DEFAULT_SEND_CHAT_MESSAGE = true;
+        public static final boolean DEFAULT_PLAY_SOUND = true;
+        public static final AlertSounds DEFAULT_ALERT_SOUND = AlertSounds.PLING;
+        public static final boolean DEFAULT_REPEAT_SOUND = true;
+        public static final int DEFAULT_VOLUME = 100;
+        public static final boolean DEFAULT_HIGHLIGHT_ENTITY = true;
 
-        @SerialEntry
-        public boolean sendChatMessage = true;
-
-        @SerialEntry
-        public boolean playSound = true;
-
-        @SerialEntry
-        public AlertSounds alertSound = AlertSounds.PLING;
-
-        @SerialEntry
-        public boolean repeatSound = true;
-
-        @SerialEntry
-        public int volume = 100;
-
-        @SerialEntry
-        public boolean highlightEntity = true;
+        @SerialEntry public boolean enabled = DEFAULT_ENABLED;
+        @SerialEntry public boolean sendChatMessage = DEFAULT_SEND_CHAT_MESSAGE;
+        @SerialEntry public boolean playSound = DEFAULT_PLAY_SOUND;
+        @SerialEntry public AlertSounds alertSound = DEFAULT_ALERT_SOUND;
+        @SerialEntry public boolean repeatSound = DEFAULT_REPEAT_SOUND;
+        @SerialEntry public int volume = DEFAULT_VOLUME;
+        @SerialEntry public boolean highlightEntity = DEFAULT_HIGHLIGHT_ENTITY;
     }
 }

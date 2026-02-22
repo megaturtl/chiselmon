@@ -12,11 +12,8 @@ public enum AlertSounds {
     BIT("Note Block 8 Bit", SoundEvents.NOTE_BLOCK_BIT.value()),
     BELL("Bell", SoundEvents.BELL_BLOCK),
     FIREWORK("Firework Launch", SoundEvents.FIREWORK_ROCKET_LAUNCH),
-    AMETHYST("Amethyst Shimmer", SoundEvents.AMETHYST_BLOCK_CHIME),
     MACE("Mace Smash", SoundEvents.MACE_SMASH_AIR),
-    DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL),
-    C("Mace Smash", CobblemonSounds.POKE_BALL_SHINY_SEND_OUT),
-    ;
+    DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL);
 
     private final String displayName;
     private final SoundEvent sound;

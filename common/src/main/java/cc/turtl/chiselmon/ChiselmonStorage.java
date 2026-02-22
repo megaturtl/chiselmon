@@ -1,26 +1,28 @@
-package cc.turtl.chiselmon.data;
+package cc.turtl.chiselmon;
 
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
-import cc.turtl.chiselmon.data.storage.GsonStorage;
-import cc.turtl.chiselmon.data.storage.SQLiteStorage;
+import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.api.storage.ScopedData;
+import cc.turtl.chiselmon.api.storage.adapter.GsonAdapter;
+import cc.turtl.chiselmon.api.storage.adapter.H2Adapter;
 import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 
 import java.util.List;
 
 /**
- * Central registry of all scoped data.
+ * Central registry of all scoped data storage.
  */
-public class ChiselmonData {
+public class ChiselmonStorage {
     public static final ScopedData<FiltersUserData> FILTERS = new ScopedData<>(
-            GsonStorage.of("filters.json", FiltersUserData.class, FiltersUserData::withDefaults)
+            GsonAdapter.of("filters.json", FiltersUserData.class, FiltersUserData::withDefaults)
     );
     public static final ScopedData<PCUserData> PC_SETTINGS = new ScopedData<>(
-            GsonStorage.of("pc.json", PCUserData.class, PCUserData::new)
+            GsonAdapter.of("pc.json", PCUserData.class, PCUserData::new)
     );
     public static final ScopedData<EncounterDatabase> ENCOUNTERS = new ScopedData<>(
-            SQLiteStorage.of("encounters.db", EncounterDatabase::new, EncounterDatabase::flush, EncounterDatabase::close)
+            H2Adapter.of("encounters", EncounterDatabase::new, EncounterDatabase::flush, EncounterDatabase::close)
     );
 
     private static final List<ScopedData<?>> ALL = List.of(FILTERS, PC_SETTINGS);
@@ -35,7 +37,7 @@ public class ChiselmonData {
 
         // Save + clear world-scoped data on world leave
         ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(e -> {
-            Scope world = Scope.currentWorld();
+            StorageScope world = StorageScope.currentWorld();
             if (world != null) {
                 for (ScopedData<?> data : ALL) {
                     data.saveAndClear(world);

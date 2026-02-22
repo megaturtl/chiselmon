@@ -26,33 +26,38 @@ public class EncounterDatabase {
     private void initSchema() throws SQLException {
         try (Statement s = conn.createStatement()) {
             s.executeUpdate("""
-                        CREATE TABLE IF NOT EXISTS encounters (
-                            uuid               UUID    PRIMARY KEY,
-                            species            VARCHAR(64)  NOT NULL,
-                            form               VARCHAR(64),
-                            level              INT     NOT NULL,
-                            scale_modifier     FLOAT   NOT NULL,
-                            is_shiny           BOOLEAN NOT NULL,
-                            is_legendary       BOOLEAN NOT NULL,
-                            is_extreme_size    BOOLEAN NOT NULL,
-                            from_snack         BOOLEAN NOT NULL,
-                            player_x           INT     NOT NULL,
-                            player_y           INT     NOT NULL,
-                            player_z           INT     NOT NULL,
-                            pokemon_x          INT     NOT NULL,
-                            pokemon_y          INT     NOT NULL,
-                            pokemon_z          INT     NOT NULL,
-                            dimension          VARCHAR(128) NOT NULL,
-                            biome              VARCHAR(128) NOT NULL,
-                            encountered_at_ms  BIGINT  NOT NULL,
-                            encountered_at     TIMESTAMP AS DATEADD('MILLISECOND', encountered_at_ms, TIMESTAMP '1970-01-01 00:00:00')
-                        )
-                    """);
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_species     ON encounters(species)");
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_timestamp   ON encounters(encountered_at_ms)");
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_shiny       ON encounters(is_shiny)");
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_legendary   ON encounters(is_legendary)");
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_dimension   ON encounters(dimension)");
+            CREATE TABLE IF NOT EXISTS encounters (
+                uuid               UUID         PRIMARY KEY,
+                species            VARCHAR(64)  NOT NULL,
+                form               VARCHAR(64),
+                level              INT          NOT NULL,
+                gender             VARCHAR(16)  NOT NULL,
+                scale_modifier     FLOAT        NOT NULL,
+                is_shiny           BOOLEAN      NOT NULL,
+                is_legendary       BOOLEAN      NOT NULL,
+                dimension          VARCHAR(128) NOT NULL,
+                biome              VARCHAR(128) NOT NULL,
+                world_time         BIGINT       NOT NULL,
+                is_raining         BOOLEAN      NOT NULL,
+                block_name         VARCHAR(128) NOT NULL,
+                from_snack         BOOLEAN      NOT NULL,
+                pokemon_x          INT          NOT NULL,
+                pokemon_y          INT          NOT NULL,
+                pokemon_z          INT          NOT NULL,
+                player_x           INT          NOT NULL,
+                player_y           INT          NOT NULL,
+                player_z           INT          NOT NULL,
+                encountered_ms  BIGINT       NOT NULL,
+                encountered_time     TIMESTAMP AS DATEADD('MILLISECOND', encountered_ms, TIMESTAMP '1970-01-01 00:00:00')
+            )
+        """);
+
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_species    ON encounters(species)");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_timestamp  ON encounters(encountered_ms)");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_shiny      ON encounters(is_shiny)");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_legendary  ON encounters(is_legendary)");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_dimension  ON encounters(dimension)");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_biome      ON encounters(biome)");
             conn.commit();
         }
     }
@@ -64,45 +69,49 @@ public class EncounterDatabase {
 
     public void flush() {
         if (writeCache.isEmpty()) return;
-        String sql = """
-                    MERGE INTO encounters
-                        (uuid, species, form, level, scale_modifier, is_shiny, is_legendary,
-                         is_extreme_size, from_snack, player_x, player_y, player_z,
-                         pokemon_x, pokemon_y, pokemon_z, dimension, biome, encountered_at_ms)
-                    KEY(uuid)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        String encounterSql = """
+        MERGE INTO encounters
+            (uuid, species, form, level, gender, scale_modifier, is_shiny, is_legendary,
+             dimension, biome, world_time, is_raining, block_name, from_snack,
+             pokemon_x, pokemon_y, pokemon_z, player_x, player_y, player_z, encountered_ms)
+        KEY(uuid)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """;
+
+        try (PreparedStatement eps = conn.prepareStatement(encounterSql)) {
             for (PokemonEncounter e : writeCache.values()) {
-                ps.setObject(1, e.uuid());
-                ps.setString(2, e.species().getName());
-                ps.setString(3, e.form().getName());
-                ps.setInt(4, e.level());
-                ps.setFloat(5, e.scaleModifier());
-                ps.setBoolean(6, e.isShiny());
-                ps.setBoolean(7, e.isLegendary());
-                ps.setBoolean(8, e.isExtremeSize());
-                ps.setBoolean(9, e.spawnedFromSnack());
-                ps.setInt(10, e.playerX());
-                ps.setInt(11, e.playerY());
-                ps.setInt(12, e.playerZ());
-                ps.setInt(13, e.pokemonX());
-                ps.setInt(14, e.pokemonY());
-                ps.setInt(15, e.pokemonZ());
-                ps.setString(16, e.dimension());
-                ps.setString(17, e.biome());
-                ps.setLong(18, e.encounteredAtMs());
-                ps.addBatch();
+                eps.setObject(1, e.uuid());
+                eps.setString(2, e.species().getName());
+                eps.setString(3, e.form().getName());
+                eps.setInt(4, e.level());
+                eps.setString(5, e.gender().name());
+                eps.setFloat(6, e.scale());
+                eps.setBoolean(7, e.isShiny());
+                eps.setBoolean(8, e.isLegendary());
+                eps.setString(9, e.dimension());
+                eps.setString(10, e.biome());
+                eps.setLong(11, e.dayTime());
+                eps.setBoolean(12, e.isRaining());
+                eps.setString(13, e.blockName());
+                eps.setBoolean(14, e.spawnedFromSnack());
+                eps.setInt(15, e.pokemonX());
+                eps.setInt(16, e.pokemonY());
+                eps.setInt(17, e.pokemonZ());
+                eps.setInt(18, e.playerX());
+                eps.setInt(19, e.playerY());
+                eps.setInt(20, e.playerZ());
+                eps.setLong(21, e.encounteredMs());
+                eps.addBatch();
             }
-            ps.executeBatch();
+
+            eps.executeBatch();
             conn.commit();
         } catch (SQLException ex) {
-            try {
-                conn.rollback();
-            } catch (SQLException ignored) {
-            }
+            try { conn.rollback(); } catch (SQLException ignored) {}
             throw new RuntimeException("Failed to flush encounters", ex);
         }
+
         writeCache.clear();
     }
 

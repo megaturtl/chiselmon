@@ -22,33 +22,30 @@ public class FilterDefinition {
 
     public Priority priority;
 
-    public boolean enabled;
-
     public List<String> tags; // e.g., ["shiny", "type:fire", "species:pikachu", "size:0.1-0.5"]
 
-    public FilterDefinition(String id, String displayName, int rgb, Priority priority, boolean enabled, List<String> tags) {
+    public FilterDefinition(String id, String displayName, int rgb, Priority priority, List<String> tags) {
         this.id = id;
         this.displayName = displayName;
         this.rgb = rgb;
         this.priority = priority;
-        this.enabled = enabled;
         this.tags = tags != null ? tags : new ArrayList<>();
     }
 
     public static class DefaultFilters {
         public static final FilterDefinition LEGENDARIES = new FilterDefinition(
                 "legendaries", "Legendary Pokemon",
-                ColorUtils.MAGENTA.getRGB(), Priority.HIGHEST, true,
+                ColorUtils.MAGENTA.getRGB(), Priority.HIGHEST,
                 List.of("legendary")
         );
         public static final FilterDefinition SHINIES = new FilterDefinition(
                 "shinies", "Shiny Pokemon",
-                ColorUtils.GOLD.getRGB(), Priority.HIGH, true,
+                ColorUtils.GOLD.getRGB(), Priority.HIGH,
                 List.of("shiny")
         );
         public static final FilterDefinition EXTREME_SIZES = new FilterDefinition(
                 "extreme_sizes", "Extreme Size Pokemon",
-                ColorUtils.TEAL.getRGB(), Priority.NORMAL, true,
+                ColorUtils.TEAL.getRGB(), Priority.NORMAL,
                 List.of("extreme_size")
         );
 
