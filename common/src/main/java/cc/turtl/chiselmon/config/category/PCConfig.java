@@ -33,14 +33,16 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class QuickSortConfig implements ConfigGroupBuilder {
-        @SerialEntry
-        public boolean enabled = false;
+        public static final boolean DEFAULT_ENABLED = false;
+        public static final SortMode DEFAULT_MODE = SortMode.POKEDEX_NUMBER;
+        public static final InputConstants.Key DEFAULT_HOTKEY = InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
 
         @SerialEntry
-        public SortMode mode = SortMode.POKEDEX_NUMBER;
-
+        public boolean enabled = DEFAULT_ENABLED;
         @SerialEntry
-        public InputConstants.Key hotkey = InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
+        public SortMode mode = DEFAULT_MODE;
+        @SerialEntry
+        public InputConstants.Key hotkey = DEFAULT_HOTKEY;
 
         @Override
         public OptionGroup buildGroup() {
@@ -48,17 +50,20 @@ public class PCConfig implements ConfigCategoryBuilder {
                     .name(Component.translatable("chiselmon.config.pc.group.quick_sort"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.quick_sort.enabled",
+                            DEFAULT_ENABLED,
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.enumCycler(
                             "chiselmon.config.pc.quick_sort.mode",
+                            DEFAULT_MODE,
                             () -> mode,
                             v -> mode = v,
                             SortMode.class
                     ))
                     .option(OptionFactory.hotkeyPicker(
                             "chiselmon.config.pc.quick_sort.hotkey",
+                            DEFAULT_HOTKEY,
                             () -> hotkey,
                             v -> hotkey = v
                     ))
@@ -67,11 +72,13 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class EggSpyConfig implements ConfigGroupBuilder {
-        @SerialEntry
-        public boolean enabled = false;
+        public static final boolean DEFAULT_ENABLED = false;
+        public static final boolean DEFAULT_SYNC_HATCH_PROGRESS = false;
 
         @SerialEntry
-        public boolean syncHatchProgress = false;
+        public boolean enabled = DEFAULT_ENABLED;
+        @SerialEntry
+        public boolean syncHatchProgress = DEFAULT_SYNC_HATCH_PROGRESS;
 
         @Override
         public OptionGroup buildGroup() {
@@ -79,11 +86,13 @@ public class PCConfig implements ConfigCategoryBuilder {
                     .name(Component.translatable("chiselmon.config.pc.group.egg_spy"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.egg_spy.enabled",
+                            DEFAULT_ENABLED,
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.sync_hatch_progress.enabled",
+                            DEFAULT_SYNC_HATCH_PROGRESS,
                             () -> syncHatchProgress,
                             v -> syncHatchProgress = v
                     ))
@@ -92,35 +101,27 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class TooltipConfig implements ConfigGroupBuilder {
-        @SerialEntry
-        public boolean enabled = true;
+        public static final boolean DEFAULT_ENABLED = true;
+        public static final boolean DEFAULT_SHOW_ON_HOVER = false;
+        public static final boolean DEFAULT_EXTEND_ON_SHIFT = true;
+        public static final boolean DEFAULT_IVS = true;
+        public static final boolean DEFAULT_ORIGINAL_TRAINER = true;
+        public static final boolean DEFAULT_FORM = true;
+        public static final boolean DEFAULT_FRIENDSHIP = false;
+        public static final boolean DEFAULT_RIDE_STYLES = true;
+        public static final boolean DEFAULT_MARKS = true;
+        public static final boolean DEFAULT_HATCH_PROGRESS = false;
 
-        @SerialEntry
-        public boolean showOnHover = false;
-
-        @SerialEntry
-        public boolean extendOnShift = true;
-
-        @SerialEntry
-        public boolean ivs = true;
-
-        @SerialEntry
-        public boolean originalTrainer = true;
-
-        @SerialEntry
-        public boolean form = true;
-
-        @SerialEntry
-        public boolean friendship = false;
-
-        @SerialEntry
-        public boolean rideStyles = true;
-
-        @SerialEntry
-        public boolean marks = true;
-
-        @SerialEntry
-        public boolean hatchProgress = false;
+        @SerialEntry public boolean enabled = DEFAULT_ENABLED;
+        @SerialEntry public boolean showOnHover = DEFAULT_SHOW_ON_HOVER;
+        @SerialEntry public boolean extendOnShift = DEFAULT_EXTEND_ON_SHIFT;
+        @SerialEntry public boolean ivs = DEFAULT_IVS;
+        @SerialEntry public boolean originalTrainer = DEFAULT_ORIGINAL_TRAINER;
+        @SerialEntry public boolean form = DEFAULT_FORM;
+        @SerialEntry public boolean friendship = DEFAULT_FRIENDSHIP;
+        @SerialEntry public boolean rideStyles = DEFAULT_RIDE_STYLES;
+        @SerialEntry public boolean marks = DEFAULT_MARKS;
+        @SerialEntry public boolean hatchProgress = DEFAULT_HATCH_PROGRESS;
 
         @Override
         public OptionGroup buildGroup() {
@@ -128,51 +129,61 @@ public class PCConfig implements ConfigCategoryBuilder {
                     .name(Component.translatable("chiselmon.config.group.tooltip"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.tooltip.enabled",
+                            DEFAULT_ENABLED,
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.show_on_hover",
+                            DEFAULT_SHOW_ON_HOVER,
                             () -> showOnHover,
                             v -> showOnHover = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.extend_on_shift",
+                            DEFAULT_EXTEND_ON_SHIFT,
                             () -> extendOnShift,
                             v -> extendOnShift = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.ivs",
+                            DEFAULT_IVS,
                             () -> ivs,
                             v -> ivs = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.original_trainer",
+                            DEFAULT_ORIGINAL_TRAINER,
                             () -> originalTrainer,
                             v -> originalTrainer = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.form",
+                            DEFAULT_FORM,
                             () -> form,
                             v -> form = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.friendship",
+                            DEFAULT_FRIENDSHIP,
                             () -> friendship,
                             v -> friendship = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.ride_styles",
+                            DEFAULT_RIDE_STYLES,
                             () -> rideStyles,
                             v -> rideStyles = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.marks",
+                            DEFAULT_MARKS,
                             () -> marks,
                             v -> marks = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.tooltip.hatch_progress",
+                            DEFAULT_HATCH_PROGRESS,
                             () -> hatchProgress,
                             v -> hatchProgress = v
                     ))
@@ -181,26 +192,21 @@ public class PCConfig implements ConfigCategoryBuilder {
     }
 
     public static class IconConfig implements ConfigGroupBuilder {
-        @SerialEntry
-        public boolean enabled = true;
+        public static final boolean DEFAULT_ENABLED = true;
+        public static final boolean DEFAULT_HIDDEN_ABILITY = true;
+        public static final boolean DEFAULT_IVS = true;
+        public static final boolean DEFAULT_SHINY = true;
+        public static final boolean DEFAULT_SIZE = true;
+        public static final boolean DEFAULT_MARK = true;
+        public static final boolean DEFAULT_RIDEABLE = false;
 
-        @SerialEntry
-        public boolean hiddenAbility = true;
-
-        @SerialEntry
-        public boolean ivs = true;
-
-        @SerialEntry
-        public boolean shiny = true;
-
-        @SerialEntry
-        public boolean size = true;
-
-        @SerialEntry
-        public boolean mark = true;
-
-        @SerialEntry
-        public boolean rideable = false;
+        @SerialEntry public boolean enabled = DEFAULT_ENABLED;
+        @SerialEntry public boolean hiddenAbility = DEFAULT_HIDDEN_ABILITY;
+        @SerialEntry public boolean ivs = DEFAULT_IVS;
+        @SerialEntry public boolean shiny = DEFAULT_SHINY;
+        @SerialEntry public boolean size = DEFAULT_SIZE;
+        @SerialEntry public boolean mark = DEFAULT_MARK;
+        @SerialEntry public boolean rideable = DEFAULT_RIDEABLE;
 
         @Override
         public OptionGroup buildGroup() {
@@ -208,36 +214,43 @@ public class PCConfig implements ConfigCategoryBuilder {
                     .name(Component.translatable("chiselmon.config.group.icon"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.icon.enabled",
+                            DEFAULT_ENABLED,
                             () -> enabled,
                             v -> enabled = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.hidden_ability",
+                            DEFAULT_HIDDEN_ABILITY,
                             () -> hiddenAbility,
                             v -> hiddenAbility = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.ivs",
+                            DEFAULT_IVS,
                             () -> ivs,
                             v -> ivs = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.shiny",
+                            DEFAULT_SHINY,
                             () -> shiny,
                             v -> shiny = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.size",
+                            DEFAULT_SIZE,
                             () -> size,
                             v -> size = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.mark",
+                            DEFAULT_MARK,
                             () -> mark,
                             v -> mark = v
                     ))
                     .option(OptionFactory.toggleTick(
                             "chiselmon.config.pc.icon.rideable",
+                            DEFAULT_RIDEABLE,
                             () -> rideable,
                             v -> rideable = v
                     ))

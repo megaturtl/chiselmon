@@ -24,6 +24,9 @@ public class TrackerManager {
         ChiselmonEvents.POKEMON_UNLOADED.subscribe(Priority.HIGH, e -> {
             if (activeSession != null) activeSession.onPokemonUnload(e);
         });
+        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.HIGHEST, e -> {
+            if (activeSession != null) activeSession.tick();
+        });
         ChiselmonConstants.LOGGER.info("TrackerManager initialized");
     }
 

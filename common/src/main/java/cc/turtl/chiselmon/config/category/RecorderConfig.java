@@ -8,12 +8,13 @@ import net.minecraft.network.chat.Component;
 
 public class RecorderConfig implements ConfigCategoryBuilder {
 
-    @SerialEntry
-    public boolean actionBar = true;
+    public static final boolean DEFAULT_ACTION_BAR = true;
+    public static final boolean DEFAULT_DESPAWN_GLOW = false;
 
     @SerialEntry
-    public boolean despawnGlow = false;
-
+    public boolean actionBar = DEFAULT_ACTION_BAR;
+    @SerialEntry
+    public boolean despawnGlow = DEFAULT_DESPAWN_GLOW;
 
     @Override
     public ConfigCategory buildCategory(Screen parent) {
@@ -21,11 +22,13 @@ public class RecorderConfig implements ConfigCategoryBuilder {
                 .name(Component.translatable("chiselmon.config.category.recorder"))
                 .option(OptionFactory.toggleOnOff(
                         "chiselmon.config.recorder.action_bar",
+                        DEFAULT_ACTION_BAR,
                         () -> actionBar,
                         v -> actionBar = v
                 ))
                 .option(OptionFactory.toggleOnOff(
                         "chiselmon.config.recorder.despawn_glow",
+                        DEFAULT_DESPAWN_GLOW,
                         () -> despawnGlow,
                         v -> despawnGlow = v
                 ))

@@ -48,20 +48,9 @@
     "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",
     "chiselmon.spawnalert.mute.success": "All active alerts muted.",
 
-    "chiselmon.spawnrecorder.action_bar.title": "Spawn Recorder: ",
-    "chiselmon.spawnrecorder.action_bar.spawns": " Spawns, ",
-    "chiselmon.spawnrecorder.action_bar.elapsed": " elapsed",
+    "chiselmon.spawnrecorder.action_bar.loaded": "Loaded: ",
+    "chiselmon.spawnrecorder.action_bar.spawns": "Spawns: ",
     "chiselmon.spawnrecorder.action_bar.paused": " [Paused]",
-
-    "chiselmon.spawnrecorder.report.header": "=== Spawn Recorder Report ===",
-    "chiselmon.spawnrecorder.report.elapsed": "\nTime Elapsed: %s",
-    "chiselmon.spawnrecorder.report.total_spawns": "\nTotal Spawns: %s",
-    "chiselmon.spawnrecorder.report.spawns_per_min": "\nSpawns/Min: %s",
-    "chiselmon.spawnrecorder.report.special_header": "\n\nSpecial Encounters:",
-    "chiselmon.spawnrecorder.report.pokemon_entry": "\n- Lvl. %s %s",
-    "chiselmon.spawnrecorder.report.shiny_label": " (Shiny)",
-    "chiselmon.spawnrecorder.report.export_button": "\n[Export to CSV]",
-    "chiselmon.spawnrecorder.report.export_hover": "Click to save this session as a CSV file",
 
     "chiselmon.config.title": "Chiselmon Config",
     "chiselmon.config.category.general": "General",
@@ -190,6 +179,8 @@
     "chiselmon.config.alerts.preview_sound.button": "▶ Play",
     "chiselmon.config.alerts.volume": "Volume",
     "chiselmon.config.alerts.volume.description": "Volume for this alert",
+    "chiselmon.config.alerts.repeat_sound": "Repeat Sound",
+    "chiselmon.config.alerts.repeat_sound.description": "Repeats this sound while alert is active. If false, the sound will only play once per pokemon spawn.",
     "chiselmon.config.alerts.highlight_entity": "Highlight Entity",
     "chiselmon.config.alerts.highlight_entity.description": "Show glow effect on entity",
 

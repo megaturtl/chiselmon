@@ -18,4 +18,6 @@ dependencies {
     modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
 
     modImplementation("maven.modrinth:jade:${rootProject.jade_version}+neoforge")
+
+    implementation("com.h2database:h2:2.4.240")
 }

@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.feature.pc.bookmark;
 
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

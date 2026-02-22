@@ -13,7 +13,8 @@ import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.labelled;
 
 public class MessageUtils {
-    private MessageUtils() {}
+    private MessageUtils() {
+    }
 
     public static void executeCommand(@NotNull LocalPlayer player, String command) {
         player.connection.sendCommand(command.startsWith("/") ? command.substring(1) : command);

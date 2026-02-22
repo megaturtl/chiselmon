@@ -2,7 +2,6 @@ package cc.turtl.chiselmon.feature.pc.bookmark;
 
 import cc.turtl.chiselmon.feature.pc.PCButton;
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.storage.ClientBox;
 import net.minecraft.ChatFormatting;

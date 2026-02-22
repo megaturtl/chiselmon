@@ -46,6 +46,8 @@ dependencies {
 
     modImplementation("maven.modrinth:jade:${rootProject.jade_version}+fabric")
 
+    implementation include("com.h2database:h2:2.4.240")
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

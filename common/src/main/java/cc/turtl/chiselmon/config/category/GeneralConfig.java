@@ -9,11 +9,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class GeneralConfig implements ConfigCategoryBuilder {
+    public static final boolean DEFAULT_MOD_DISABLED = false;
 
     @SerialEntry
     public final ThresholdsGroup thresholds = new ThresholdsGroup();
     @SerialEntry
-    public boolean modDisabled = false;
+    public boolean modDisabled = DEFAULT_MOD_DISABLED;
 
     @Override
     public ConfigCategory buildCategory(Screen parent) {
@@ -21,6 +22,7 @@ public class GeneralConfig implements ConfigCategoryBuilder {
                 .name(Component.translatable("chiselmon.config.category.general"))
                 .option(OptionFactory.toggleOnOff(
                         "chiselmon.config.general.mod_disabled",
+                        DEFAULT_MOD_DISABLED,
                         () -> modDisabled,
                         v -> modDisabled = v
                 ))
@@ -32,16 +34,18 @@ public class GeneralConfig implements ConfigCategoryBuilder {
     }
 
     public static class ThresholdsGroup implements ConfigGroupBuilder {
+        public static final float DEFAULT_EXTREME_SMALL = 0.3F;
+        public static final float DEFAULT_EXTREME_LARGE = 1.7F;
+        public static final int DEFAULT_MAX_IVS = 5;
         private static final float SMALL_MIN = 0.1F, SMALL_MAX = 0.9F, SMALL_STEP = 0.1F;
         private static final float LARGE_MIN = 1.1F, LARGE_MAX = 1.9F, LARGE_STEP = 0.1F;
         private static final int IVS_MIN = 3, IVS_MAX = 6, IVS_STEP = 1;
-
         @SerialEntry
-        public float extremeSmall = 0.3F;
+        public float extremeSmall = DEFAULT_EXTREME_SMALL;
         @SerialEntry
-        public float extremeLarge = 1.7F;
+        public float extremeLarge = DEFAULT_EXTREME_LARGE;
         @SerialEntry
-        public int maxIvs = 5;
+        public int maxIvs = DEFAULT_MAX_IVS;
 
         @Override
         public OptionGroup buildGroup() {
@@ -49,20 +53,20 @@ public class GeneralConfig implements ConfigCategoryBuilder {
                     .name(Component.translatable("chiselmon.config.group.thresholds"))
                     .option(OptionFactory.floatSlider(
                             "chiselmon.config.general.extreme_small",
-                            () -> extremeSmall,
-                            v -> extremeSmall = v,
+                            DEFAULT_EXTREME_SMALL,
+                            () -> extremeSmall, v -> extremeSmall = v,
                             SMALL_MIN, SMALL_MAX, SMALL_STEP
                     ))
                     .option(OptionFactory.floatSlider(
                             "chiselmon.config.general.extreme_large",
-                            () -> extremeLarge,
-                            v -> extremeLarge = v,
+                            DEFAULT_EXTREME_LARGE,
+                            () -> extremeLarge, v -> extremeLarge = v,
                             LARGE_MIN, LARGE_MAX, LARGE_STEP
                     ))
                     .option(OptionFactory.intSlider(
                             "chiselmon.config.general.max_ivs",
-                            () -> maxIvs,
-                            v -> maxIvs = v,
+                            DEFAULT_MAX_IVS,
+                            () -> maxIvs, v -> maxIvs = v,
                             IVS_MIN, IVS_MAX, IVS_STEP
                     ))
                     .build();
