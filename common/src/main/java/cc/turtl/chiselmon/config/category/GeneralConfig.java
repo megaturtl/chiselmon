@@ -8,7 +8,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class GeneralConfig implements ConfigCategoryBuilder {
+public class GeneralConfig {
     public static final boolean DEFAULT_MOD_DISABLED = false;
 
     @SerialEntry
@@ -16,7 +16,6 @@ public class GeneralConfig implements ConfigCategoryBuilder {
     @SerialEntry
     public boolean modDisabled = DEFAULT_MOD_DISABLED;
 
-    @Override
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.general"))
@@ -33,7 +32,7 @@ public class GeneralConfig implements ConfigCategoryBuilder {
                 .build();
     }
 
-    public static class ThresholdsGroup implements ConfigGroupBuilder {
+    public static class ThresholdsGroup {
         public static final float DEFAULT_EXTREME_SMALL = 0.3F;
         public static final float DEFAULT_EXTREME_LARGE = 1.7F;
         public static final int DEFAULT_MAX_IVS = 5;
@@ -47,7 +46,6 @@ public class GeneralConfig implements ConfigCategoryBuilder {
         @SerialEntry
         public int maxIvs = DEFAULT_MAX_IVS;
 
-        @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.group.thresholds"))

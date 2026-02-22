@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
-public class PCConfig implements ConfigCategoryBuilder {
+public class PCConfig {
 
     @SerialEntry
     public final QuickSortConfig quickSort = new QuickSortConfig();
@@ -21,7 +21,6 @@ public class PCConfig implements ConfigCategoryBuilder {
     @SerialEntry
     public final EggSpyConfig eggSpy = new EggSpyConfig();
 
-    @Override
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.pc"))
@@ -32,7 +31,7 @@ public class PCConfig implements ConfigCategoryBuilder {
                 .build();
     }
 
-    public static class QuickSortConfig implements ConfigGroupBuilder {
+    public static class QuickSortConfig {
         public static final boolean DEFAULT_ENABLED = false;
         public static final SortMode DEFAULT_MODE = SortMode.POKEDEX_NUMBER;
         public static final InputConstants.Key DEFAULT_HOTKEY = InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
@@ -44,7 +43,6 @@ public class PCConfig implements ConfigCategoryBuilder {
         @SerialEntry
         public InputConstants.Key hotkey = DEFAULT_HOTKEY;
 
-        @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.pc.group.quick_sort"))
@@ -71,7 +69,7 @@ public class PCConfig implements ConfigCategoryBuilder {
         }
     }
 
-    public static class EggSpyConfig implements ConfigGroupBuilder {
+    public static class EggSpyConfig {
         public static final boolean DEFAULT_ENABLED = false;
         public static final boolean DEFAULT_SYNC_HATCH_PROGRESS = false;
 
@@ -80,7 +78,6 @@ public class PCConfig implements ConfigCategoryBuilder {
         @SerialEntry
         public boolean syncHatchProgress = DEFAULT_SYNC_HATCH_PROGRESS;
 
-        @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.pc.group.egg_spy"))
@@ -100,7 +97,7 @@ public class PCConfig implements ConfigCategoryBuilder {
         }
     }
 
-    public static class TooltipConfig implements ConfigGroupBuilder {
+    public static class TooltipConfig {
         public static final boolean DEFAULT_ENABLED = true;
         public static final boolean DEFAULT_SHOW_ON_HOVER = false;
         public static final boolean DEFAULT_EXTEND_ON_SHIFT = true;
@@ -123,7 +120,6 @@ public class PCConfig implements ConfigCategoryBuilder {
         @SerialEntry public boolean marks = DEFAULT_MARKS;
         @SerialEntry public boolean hatchProgress = DEFAULT_HATCH_PROGRESS;
 
-        @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.group.tooltip"))
@@ -191,7 +187,7 @@ public class PCConfig implements ConfigCategoryBuilder {
         }
     }
 
-    public static class IconConfig implements ConfigGroupBuilder {
+    public static class IconConfig {
         public static final boolean DEFAULT_ENABLED = true;
         public static final boolean DEFAULT_HIDDEN_ABILITY = true;
         public static final boolean DEFAULT_IVS = true;
@@ -208,7 +204,6 @@ public class PCConfig implements ConfigCategoryBuilder {
         @SerialEntry public boolean mark = DEFAULT_MARK;
         @SerialEntry public boolean rideable = DEFAULT_RIDEABLE;
 
-        @Override
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.group.icon"))

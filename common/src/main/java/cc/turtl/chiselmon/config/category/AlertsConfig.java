@@ -19,7 +19,7 @@ import net.minecraft.sounds.SoundEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AlertsConfig implements ConfigCategoryBuilder {
+public class AlertsConfig {
 
     public static final boolean DEFAULT_MASTER_ENABLED = true;
     public static final int DEFAULT_MASTER_VOLUME = 100;
@@ -34,7 +34,6 @@ public class AlertsConfig implements ConfigCategoryBuilder {
     @SerialEntry
     public Map<String, FilterAlertSettings> filterAlerts = new LinkedHashMap<>();
 
-    @Override
     public ConfigCategory buildCategory(Screen parent) {
         var builder = ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.alerts"));

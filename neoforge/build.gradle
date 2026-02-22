@@ -42,15 +42,17 @@ dependencies {
         parchment("org.parchmentmc.data:${rootProject.parchment_version}")
     }
 
+    localRuntime("thedarkcolour:kotlinforforge-neoforge:${rootProject.kff_version}") {
+        exclude group: "net.neoforged.fancymodloader", module: "loader"
+    }
+
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    implementation("thedarkcolour:kotlinforforge-neoforge:${rootProject.kff_version}") {
-        exclude group: "net.neoforged.fancymodloader", module: "loader"
+    modImplementation("com.cobblemon:neoforge:${rootProject.cobblemon_version}+${rootProject.minecraft_version}") {
+        exclude group: "thedarkcolour", module: "kotlinforforge-neoforge"
     }
-
-    modImplementation "com.cobblemon:neoforge:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
 
     modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-neoforge")
 

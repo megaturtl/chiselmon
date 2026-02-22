@@ -6,7 +6,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class RecorderConfig implements ConfigCategoryBuilder {
+public class RecorderConfig {
 
     public static final boolean DEFAULT_ACTION_BAR = true;
     public static final boolean DEFAULT_DESPAWN_GLOW = false;
@@ -16,7 +16,6 @@ public class RecorderConfig implements ConfigCategoryBuilder {
     @SerialEntry
     public boolean despawnGlow = DEFAULT_DESPAWN_GLOW;
 
-    @Override
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.recorder"))

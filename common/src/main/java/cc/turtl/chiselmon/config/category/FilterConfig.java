@@ -28,14 +28,13 @@ import java.util.stream.Collectors;
  * I am using the config for this just to provide an easy way for users to edit their own filters.
  * Filter definitions are serialized and managed by the UserDataRegistry.
  */
-public class FilterConfig implements ConfigCategoryBuilder {
+public class FilterConfig {
 
     public static Color DEFAULT_COLOR = ColorUtils.WHITE;
     public static Priority DEFAULT_PRIORITY = Priority.NORMAL;
     public static String DEFAULT_DISPLAY_NAME = "New Custom Filter";
     public static String DEFAULT_TAG_STRING = "shiny";
 
-    @Override
     public ConfigCategory buildCategory(Screen parent) {
         FiltersUserData filtersUserData = ChiselmonStorage.FILTERS.get(StorageScope.global());
 
