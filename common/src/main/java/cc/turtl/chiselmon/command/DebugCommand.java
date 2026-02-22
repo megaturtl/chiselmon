@@ -75,20 +75,8 @@ public class DebugCommand implements ChiselmonCommand {
             }
 
             if (target instanceof PokemonEntity pe) {
-                AttributeMap attrs = pe.getAttributes();
-                StringBuilder attrList = new StringBuilder();
-                for (Holder.Reference<Attribute> holder : BuiltInRegistries.ATTRIBUTE.holders().toList()) {
-                    if (attrs.hasAttribute(holder)) {
-                        attrList.append(holder.key().location().getPath())
-                                .append("=")
-                                .append(String.format("%.3f", attrs.getValue(holder)))
-                                .append(" ");
-                    }
-                }
-
                 MessageUtils.sendEmptyLine(player);
                 MessageUtils.sendPrefixed(player, PokemonFormats.detailedName(pe.getPokemon()));
-                MessageUtils.sendLabeled(player, "  Attributes", attrList.toString());
                 MessageUtils.sendLabeled(player, "  NoAI", pe.isNoAi());
                 MessageUtils.sendLabeled(player, "  Busy", pe.isBusy());
                 MessageUtils.sendLabeled(player, "  Owned", PokemonEntityPredicates.IS_OWNED.test(pe));
