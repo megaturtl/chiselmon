@@ -163,9 +163,9 @@ public final class PokemonFormats {
                 .toList();
 
         return join(yields, ", ", entry -> Component.empty()
-                .append(createComponent(entry.getValue(), ColorUtils.WHITE.getRGB()))
+                .append(createComponent(entry.getValue(), getStatColor(entry.getKey())))
                 .append(" ")
-                .append(createComponent(getStatDisplayName(entry.getKey()), ColorUtils.WHITE.getRGB())));
+                .append(createComponent(getStatDisplayName(entry.getKey()), getStatColor(entry.getKey()))));
     }
 
     // --- Capture ---
@@ -248,6 +248,18 @@ public final class PokemonFormats {
             case "special_defense", "special_defence" -> "SpD";
             case "speed" -> "Spe";
             default -> StringFormats.capitalize(internalKey);
+        };
+    }
+
+    private static int getStatColor(String internalKey) {
+        return switch (internalKey.toLowerCase()) {
+            case "hp" -> ColorUtils.GREEN.getRGB();
+            case "attack" -> ColorUtils.RED.getRGB();
+            case "defense", "defence" -> ColorUtils.ORANGE.getRGB();
+            case "special_attack" -> ColorUtils.BLUE.getRGB();
+            case "special_defense", "special_defence" -> ColorUtils.YELLOW.getRGB();
+            case "speed" -> ColorUtils.PURPLE.getRGB();
+            default -> ColorUtils.WHITE.getRGB();
         };
     }
 }

@@ -18,12 +18,11 @@ import java.util.regex.Pattern;
 
 public class CheckSpawnInterceptor {
 
-    // Matches strings like "Sandy Shocks: 10.87%," (handles multi-word!!)
+    // Handles names like Mr. Mime, Wo-Chien, Flutter Mane
     private static final Pattern ENTRY_PATTERN = Pattern.compile(
-            "([A-Z][a-zA-Z]+(?:\\s[A-Z][a-zA-Z]+)*):\\s*([\\d.]+%)[,;]?"
+            "([A-Z][\\p{L}0-9\\s.\\-']+):\\s*([\\d.]+%)[,;]?"
     );
 
-    // How many subsequent messages to watch after /checkspawn is sent
     private static final int WATCH_WINDOW = 3;
     private static int messagesRemaining = 0;
 
@@ -50,7 +49,6 @@ public class CheckSpawnInterceptor {
         String raw = original.getString();
         Matcher matcher = ENTRY_PATTERN.matcher(raw);
 
-        // This isn't a checkspawn result - burn a watch slot and bail
         if (!matcher.find()) {
             messagesRemaining--;
             return null;
@@ -62,7 +60,6 @@ public class CheckSpawnInterceptor {
         int lastEnd = 0;
 
         while (matcher.find()) {
-            // Preserve any literal text between entries (commas, spaces, etc.)
             if (matcher.start() > lastEnd) {
                 result.append(Component.literal(raw.substring(lastEnd, matcher.start())));
             }
@@ -78,20 +75,22 @@ public class CheckSpawnInterceptor {
     }
 
     private static Component buildEntry(String speciesName, String percentage) {
-        ClientSpecies species = ClientSpeciesRegistry.get(speciesName.toLowerCase().replace(" ", "_"));
+        // Clean "Mr. Mime" or "Flutter Mane" into "mrmime" or "fluttermane"
+        String key = speciesName.toLowerCase().replaceAll("[^a-z0-9]", "");
+        ClientSpecies species = ClientSpeciesRegistry.get(key);
 
         MutableComponent hover = Component.empty()
-                .append(Component.literal(speciesName))
-                .append(Component.literal("\n"))
-                .append(ComponentUtils.labelled(
-                        Component.translatable("chiselmon.ui.label.ev_yield"),
-                        PokemonFormats.evYield(species)))
-                .append(Component.literal("\n"))
-                .append(ComponentUtils.labelled(
-                        Component.translatable("chiselmon.ui.label.egg_groups"),
-                        PokemonFormats.eggGroups(species)));
+                .append(Component.literal(speciesName + ": "))
+                .append(Component.literal(percentage).withColor(percentageColor(percentage))
+                        .append(Component.literal("\n"))
+                        .append(ComponentUtils.labelled(
+                                Component.translatable("chiselmon.ui.label.ev_yield"),
+                                PokemonFormats.evYield(species)))
+                        .append(Component.literal("\n"))
+                        .append(ComponentUtils.labelled(
+                                Component.translatable("chiselmon.ui.label.egg_groups"),
+                                PokemonFormats.eggGroups(species))));
 
-        // Name stays white, only the percentage is colored
         return Component.empty()
                 .append(Component.literal(speciesName + ": ")
                         .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))))
@@ -101,12 +100,11 @@ public class CheckSpawnInterceptor {
                                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))));
     }
 
-    // Mirrors Cobblemon's green/yellow/red coloring by percentage threshold
     private static int percentageColor(String percentage) {
         try {
             float value = Float.parseFloat(percentage.replace("%", ""));
             if (value >= 5f) return ColorUtils.GREEN.getRGB();
-            if (value >= 1f) return ColorUtils.YELLOW.getRGB();
+            if (value >= 0.5f) return ColorUtils.YELLOW.getRGB();
             return ColorUtils.RED.getRGB();
         } catch (NumberFormatException e) {
             return ColorUtils.WHITE.getRGB();
