@@ -7,9 +7,12 @@ import cc.turtl.chiselmon.config.category.AlertsConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 public record AlertContext(
         PokemonEntity entity,
-        RuntimeFilter filter,
+        List<RuntimeFilter> filters, // sorted by priority they matched for
         boolean isMuted,
         AlertsConfig config,
         PokemonEncounter encounter
@@ -18,53 +21,94 @@ public record AlertContext(
         return entity.getPokemon();
     }
 
-    private AlertsConfig.FilterAlertSettings getFilterSettings() {
+    private AlertsConfig.FilterAlertSettings getFilterSettings(RuntimeFilter filter) {
         return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertsConfig.FilterAlertSettings());
     }
 
+    /**
+     * Returns the first filter (in priority order) whose settings satisfy the predicate, or null.
+     */
+    private RuntimeFilter firstMatchingFilter(Predicate<AlertsConfig.FilterAlertSettings> predicate) {
+        for (RuntimeFilter filter : filters) {
+            if (predicate.test(getFilterSettings(filter))) {
+                return filter;
+            }
+        }
+        return null;
+    }
+
+    /** The first enabled filter — used for general priority comparisons. */
+    public RuntimeFilter alertFilter() {
+        return firstMatchingFilter(s -> s.enabled);
+    }
+
+    /** The filter that drives highlighting. */
+    public RuntimeFilter highlightFilter() {
+        return firstMatchingFilter(s -> s.enabled && s.highlightEntity);
+    }
+
+    /** The filter that drives chat messages. */
+    public RuntimeFilter messageFilter() {
+        return firstMatchingFilter(s -> s.enabled && s.sendChatMessage);
+    }
+
+    /** The filter that drives Discord messages. */
+    public RuntimeFilter discordFilter() {
+        return firstMatchingFilter(s -> s.enabled && s.sendDiscordMessage);
+    }
+
+    /** The filter that drives sound (single or repeating). */
+    public RuntimeFilter soundFilter() {
+        return firstMatchingFilter(s -> s.enabled && s.playSound);
+    }
+
+    // -------------------------------------------------------------------------
+    // Should-X guards
+    // -------------------------------------------------------------------------
+
     public boolean shouldAlert() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return config.masterEnabled && settings.enabled;
+        return config.masterEnabled && alertFilter() != null;
     }
 
     public boolean shouldRepeatingSound() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && !isMuted && settings.playSound && settings.repeatSound;
+        if (!shouldAlert() || isMuted) return false;
+        return firstMatchingFilter(s -> s.enabled && s.playSound && s.repeatSound) != null;
     }
 
     public boolean shouldSingleSound() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && !isMuted && settings.playSound && !settings.repeatSound;
+        if (!shouldAlert() || isMuted) return false;
+        return firstMatchingFilter(s -> s.enabled && s.playSound && !s.repeatSound) != null;
     }
 
     public boolean shouldMessage() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && !isMuted && settings.sendChatMessage;
+        return shouldAlert() && !isMuted && messageFilter() != null;
     }
 
     public boolean shouldDiscord() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert()
-                && !isMuted
-                && !ChiselmonConfig.get().general.discordWebhookURL.isBlank()
-                && settings.sendDiscordMessage;
+        if (!shouldAlert() || isMuted) return false;
+        if (ChiselmonConfig.get().general.discordWebhookURL.isBlank()) return false;
+        return discordFilter() != null;
+    }
+
+    public boolean shouldHighlight() {
+        return shouldAlert() && highlightFilter() != null;
     }
 
     public String discordWebhookUrl() {
         return ChiselmonConfig.get().general.discordWebhookURL;
     }
 
-    public boolean shouldHighlight() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
-        return shouldAlert() && settings.highlightEntity;
+    /**
+     * Settings for the winning sound filter. Returns a default instance if none matched
+     * (callers should guard with shouldSingleSound/shouldRepeatingSound first).
+     */
+    public AlertsConfig.FilterAlertSettings soundSettings() {
+        RuntimeFilter filter = soundFilter();
+        return filter != null ? getFilterSettings(filter) : new AlertsConfig.FilterAlertSettings();
     }
 
     public float getEffectiveVolume() {
-        AlertsConfig.FilterAlertSettings settings = getFilterSettings();
+        AlertsConfig.FilterAlertSettings settings = soundSettings();
         return (config.masterVolume / 100f) * (settings.volume / 100f);
-    }
-
-    public float getEffectivePitch() {
-        return 1.0f;
     }
 }

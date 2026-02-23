@@ -88,9 +88,9 @@ public class AlertManager {
             if (!pe.getBusyLocks().isEmpty()) mute(uuid);
 
             FilterMatchResult result = FilterMatcher.match(pe.getPokemon());
-            if (result.primaryMatch().isEmpty()) continue;
+            if (result.allMatches().isEmpty()) continue;
 
-            AlertContext ctx = new AlertContext(pe, result.primaryMatch().get(), isMuted(uuid), config, PokemonEncounter.from(pe));
+            AlertContext ctx = new AlertContext(pe, result.allMatches(), isMuted(uuid), config, PokemonEncounter.from(pe));
 
             continuousActions.forEach(action -> action.execute(ctx));
 
@@ -101,7 +101,7 @@ public class AlertManager {
 
             // Update the best sound if the pokemon isn't muted and their filter ctx has a higher priority than the current best
             if (ctx.shouldRepeatingSound()) {
-                if (bestSoundContext == null || ctx.filter().priority().isHigherThan(bestSoundContext.filter().priority())) {
+                if (bestSoundContext == null || ctx.soundFilter().priority().isHigherThan(bestSoundContext.soundFilter().priority())) {
                     bestSoundContext = ctx;
                 }
             }

@@ -7,7 +7,7 @@ public class GlowAction implements AlertAction {
     @Override
     public void execute(AlertContext ctx) {
         if (ctx.shouldHighlight()) {
-            int color = ctx.filter().rgb();
+            int color = ctx.highlightFilter().rgb();
             PokemonEntityUtils.addGlow(ctx.entity(), color);
             PokemonEntityUtils.highlightNickname(ctx.entity(), color);
         }

@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.api.filter.match;
 
-import cc.turtl.chiselmon.api.filter.FilterTagParser;
+import cc.turtl.chiselmon.api.filter.FilterConditionParser;
+import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.storage.StorageScope;
@@ -38,15 +39,18 @@ public class FilterMatcher {
         return CACHE;
     }
 
-    // Compiles filter definitions into sorted runtime filters with their predicates.
     private static List<RuntimeFilter> createRuntimeFilters() {
-        return ChiselmonStorage.FILTERS.get(StorageScope.global()).getAll().values().stream()
-                .map(def -> {
-                    Predicate<Pokemon> condition = def.tags.stream()
-                            .map(FilterTagParser::parse)
-                            .reduce(Predicate::and)
-                            .orElse(p -> true);
+        FiltersUserData data = ChiselmonStorage.FILTERS.get(StorageScope.global());
+        data.migrateAll();
 
+        return data.getAll().values().stream()
+                .map(def -> {
+                    Predicate<Pokemon> condition;
+                    try {
+                        condition = FilterConditionParser.parse(def.conditionString).toPredicate();
+                    } catch (Exception e) {
+                        condition = p -> false;
+                    }
                     return new RuntimeFilter(def.id, def.displayName, def.rgb, def.priority, condition);
                 })
                 .sorted(Comparator.comparing(RuntimeFilter::priority).reversed())

@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.system.alert.action;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
@@ -17,9 +18,10 @@ public class MessageAction implements AlertAction {
 
     private static Component buildAlertMessage(AlertContext ctx) {
         Pokemon pokemon = ctx.pokemon();
+        RuntimeFilter filter = ctx.messageFilter();
 
         // Alert Emoji + Mute Click Event
-        MutableComponent message = createComponent("⚠ ", ctx.filter().rgb())
+        MutableComponent message = createComponent("⚠ ", filter.rgb())
                 .withStyle(style -> style
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                                 "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
@@ -28,7 +30,7 @@ public class MessageAction implements AlertAction {
         // Pokemon Name (includes shiny and size)
         message.append(PokemonFormats.detailedName(pokemon, ctx.config().showFormInMessage));
         message.append(Component.literal(" matched filter ").withColor(ColorUtils.WHITE.getRGB()));
-        message.append(ctx.filter().displayName());
+        message.append(filter.displayName());
         // Coords
         message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA.getRGB()));
 

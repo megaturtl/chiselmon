@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Persistent storage for user-defined filter definitions.
- * Registered globally - this is the single source of truth for filters.
+ * Registered globally as the single source of truth for filters.
  */
 public class FiltersUserData {
     private final Map<String, FilterDefinition> filters = new LinkedHashMap<>();
@@ -19,6 +19,20 @@ public class FiltersUserData {
             data.filters.putIfAbsent(def.id, def);
         }
         return data;
+    }
+
+    /**
+     * Migrates any definitions still using the old {@code List<String> tags} format to
+     * {@code conditionString}, and backfills any built-in defaults added since the last save.
+     * Safe to call on every cache rebuild.
+     */
+    public void migrateAll() {
+        for (FilterDefinition def : filters.values()) {
+            def.migrateIfNeeded();
+        }
+        for (FilterDefinition def : FilterDefinition.DefaultFilters.all().values()) {
+            filters.putIfAbsent(def.id, def);
+        }
     }
 
     public Map<String, FilterDefinition> getAll() {

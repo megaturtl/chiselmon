@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.system.alert.action;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -43,9 +44,9 @@ public class DiscordAction implements AlertAction {
                 if (status >= 200 && status < 300) {
                     ChiselmonConstants.LOGGER.debug("Discord webhook response: {}", status);
                 } else {
-                String errorBody = new String(conn.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
-                ChiselmonConstants.LOGGER.warn("Discord webhook returned {}: {}", status, errorBody);
-            }
+                    String errorBody = new String(conn.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
+                    ChiselmonConstants.LOGGER.warn("Discord webhook returned {}: {}", status, errorBody);
+                }
                 conn.disconnect();
             } catch (Exception e) {
                 ChiselmonConstants.LOGGER.warn("Failed to send Discord notification", e);
@@ -56,9 +57,10 @@ public class DiscordAction implements AlertAction {
     private JsonObject buildDiscordEmbed(AlertContext ctx) {
         JsonObject embed = new JsonObject();
 
+        RuntimeFilter filter = ctx.discordFilter();
         String username = Minecraft.getInstance().getUser().getName();
         String pokemonName = ctx.pokemon().getSpecies().getName();
-        String filterName = ctx.filter().name();
+        String filterName = filter.name();
 
         // Author
         JsonObject author = new JsonObject();
@@ -67,7 +69,7 @@ public class DiscordAction implements AlertAction {
 
         // Title
         embed.addProperty("title", String.format("%s matched filter %s!", pokemonName, filterName));
-        embed.addProperty("color", ctx.filter().rgb() & 0xFFFFFF);
+        embed.addProperty("color", filter.rgb() & 0xFFFFFF);
 
         // Thumbnail image
         String spriteUrl = String.format(

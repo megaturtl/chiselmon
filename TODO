@@ -16,6 +16,8 @@ Nice to have:
 - total pc fullness % (and number of eggs)
 
 One day:
+- client side catchcombo tracking to derive my own data (ansun suggests shiny %)
+- pc living dex checklist
 - interactive heatmap generator with the db data. maybe you type a command and it hosts a local web server where you can move stuff around or smth.
 - improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
