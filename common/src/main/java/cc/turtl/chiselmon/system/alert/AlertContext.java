@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.system.alert;
 
+import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
 import cc.turtl.chiselmon.config.category.AlertsConfig;
@@ -10,7 +11,8 @@ public record AlertContext(
         PokemonEntity entity,
         RuntimeFilter filter,
         boolean isMuted,
-        AlertsConfig config
+        AlertsConfig config,
+        PokemonEncounter encounter
 ) {
     public Pokemon pokemon() {
         return entity.getPokemon();

@@ -10,12 +10,16 @@ import net.minecraft.network.chat.Component;
 
 public class GeneralConfig {
     public static final boolean DEFAULT_MOD_DISABLED = false;
+    public static final boolean DEFAULT_CHECKSPAWN_DETAIL = true;
 
     @SerialEntry
     public final ThresholdsGroup thresholds = new ThresholdsGroup();
 
     @SerialEntry
     public boolean modDisabled = DEFAULT_MOD_DISABLED;
+
+    @SerialEntry
+    public boolean checkSpawnDetail = DEFAULT_CHECKSPAWN_DETAIL;
 
     @SerialEntry
     public String discordWebhookURL = "";
@@ -28,6 +32,12 @@ public class GeneralConfig {
                         DEFAULT_MOD_DISABLED,
                         () -> modDisabled,
                         v -> modDisabled = v
+                ))
+                .option(OptionFactory.toggleOnOff(
+                        "chiselmon.config.general.checkspawn_detail",
+                        DEFAULT_CHECKSPAWN_DETAIL,
+                        () -> checkSpawnDetail,
+                        v -> checkSpawnDetail = v
                 ))
                 .option(OptionFactory.textField(
                         "chiselmon.config.general.discord_webhook_url",

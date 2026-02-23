@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
+import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.Priority;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
@@ -89,7 +90,7 @@ public class AlertManager {
             FilterMatchResult result = FilterMatcher.match(pe.getPokemon());
             if (result.primaryMatch().isEmpty()) continue;
 
-            AlertContext ctx = new AlertContext(pe, result.primaryMatch().get(), isMuted(uuid), config);
+            AlertContext ctx = new AlertContext(pe, result.primaryMatch().get(), isMuted(uuid), config, PokemonEncounter.from(pe));
 
             continuousActions.forEach(action -> action.execute(ctx));
 

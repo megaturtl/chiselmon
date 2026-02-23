@@ -62,18 +62,28 @@ public final class PokemonFormats {
         };
     }
 
-    public static Component detailedName(Pokemon pokemon) {
+    public static Component detailedName(Pokemon pokemon, boolean form) {
         if (pokemon == null) return UNKNOWN;
 
-        MutableComponent base = Component.empty()
+        MutableComponent nameComponent = Component.empty()
                 .append(genderIcon(pokemon.getGender()))
-                .append(" ").append(createComponent(pokemon.getSpecies().getName(), ColorUtils.WHITE.getRGB()))
-                .append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY.getRGB()));
+                .append(" ").append(createComponent(pokemon.getSpecies().getName(), ColorUtils.WHITE.getRGB()));
+                if (form) {
+                    String formName = pokemon.getForm().getName();
+                    if (!formName.trim().equalsIgnoreCase("normal")) {
+                        nameComponent.append(createComponent("-" + formName, ColorUtils.WHITE.getRGB()));
+                    }
+                }
+                nameComponent.append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY.getRGB()));
 
-        if (pokemon.getShiny()) base.append(createComponent(" ★", ColorUtils.GOLD.getRGB()));
+        if (pokemon.getShiny()) nameComponent.append(createComponent(" ★", ColorUtils.GOLD.getRGB()));
 
-        String size = String.format("%.2f", pokemon.getScaleModifier());
-        return base.append(createComponent(" (" + size + ")", ColorUtils.TEAL.getRGB()));
+        float size = pokemon.getScaleModifier();
+        if (size != 1.0f) {
+            String sizeStr = String.format("%.2f", size);
+            nameComponent.append(createComponent(" (" + sizeStr + ")", ColorUtils.TEAL.getRGB()));
+        }
+        return nameComponent;
     }
 
     public static Component form(Pokemon pokemon) {
@@ -121,7 +131,9 @@ public final class PokemonFormats {
         int totalColor = ColorUtils.getGradient(totalRatio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty().append(stats).append(" ")
-                .append(createComponent("(" + StringFormats.formatPercentage(totalRatio) + ")", totalColor));
+                .append(createComponent("(", ColorUtils.DARK_GRAY.getRGB()))
+                .append(createComponent(StringFormats.formatPercentage(totalRatio), totalColor))
+                .append(createComponent(")", ColorUtils.DARK_GRAY.getRGB()));
     }
 
     public static Component selfDamagingMoves(Pokemon pokemon) {

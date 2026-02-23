@@ -38,4 +38,8 @@ public class EggCache {
                 })
                 .orElse(pokemon);
     }
+
+    public static void invalidate(UUID uuid) {
+        EGGS_CACHE.invalidate(uuid);
+    }
 }

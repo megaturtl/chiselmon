@@ -1,10 +1,8 @@
 Bugs:
-- some eggdummies are showing 0IVs
-- config command doesn't open the screen
+- some eggdummies are showing 0IVs (when you put an egg in your party and back again) - hopefully fixed
 
 High priority:
 - add screenshots to the config descriptions (like chesttracker)
-- put things like the size in the alert noti message
 
 ALERTS
 - add a nicer way to select tags for the ui

@@ -62,6 +62,8 @@
     "chiselmon.config.general.mod_disabled.description": "Completely disable all Chiselmon features",
     "chiselmon.config.general.open_config_keybind": "Open Config Keybind",
     "chiselmon.config.general.open_config_keybind.description": "Press to return to this config screen",
+    "chiselmon.config.general.checkspawn_detail": "Overhaul /checkspawn",
+    "chiselmon.config.general.checkspawn_detail.description": "Adds extra hover info to pokemon species when using /checkspawn",
     "chiselmon.config.general.discord_webhook_url": "Discord Webhook URL",
     "chiselmon.config.general.discord_webhook_url.description": "Used for Discord Alerts. To get your URL, open Discord and go to your server's Settings > Integrations > Webhooks > New Webhook, then click 'Copy Webhook URL'",
     "chiselmon.config.group.thresholds": "Thresholds",

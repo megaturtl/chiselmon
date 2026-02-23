@@ -14,7 +14,7 @@ public final class TooltipBuilder {
 
     public static Tooltip build(@NotNull Pokemon pokemon, @NotNull PCConfig.TooltipConfig config, boolean shiftDown) {
 
-        MutableComponent content = PokemonFormats.detailedName(pokemon).copy();
+        MutableComponent content = PokemonFormats.detailedName(pokemon, false).copy();
 
         if (shiftDown) {
             for (TooltipEntry entry : TooltipRegistry.getEntries()) {

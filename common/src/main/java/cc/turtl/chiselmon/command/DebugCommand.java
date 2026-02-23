@@ -76,7 +76,7 @@ public class DebugCommand implements ChiselmonCommand {
 
             if (target instanceof PokemonEntity pe) {
                 MessageUtils.sendEmptyLine(player);
-                MessageUtils.sendPrefixed(player, PokemonFormats.detailedName(pe.getPokemon()));
+                MessageUtils.sendPrefixed(player, PokemonFormats.detailedName(pe.getPokemon(), false));
                 MessageUtils.sendLabeled(player, "  NoAI", pe.isNoAi());
                 MessageUtils.sendLabeled(player, "  Busy", pe.isBusy());
                 MessageUtils.sendLabeled(player, "  Owned", PokemonEntityPredicates.IS_OWNED.test(pe));

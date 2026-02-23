@@ -6,6 +6,7 @@ import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 
 public class PlatformEventHandlers {
@@ -41,5 +42,16 @@ public class PlatformEventHandlers {
     public static void handleGameStopping() {
         GameStoppingEvent event = new GameStoppingEvent();
         ChiselmonEvents.GAME_STOPPING.emit(event);
+    }
+
+    public static void handleCommandSent(String commandString) {
+        CommandSentEvent event = new CommandSentEvent(commandString);
+        ChiselmonEvents.COMMAND_SENT.emit(event);
+    }
+
+    public static Component handleGameMessageReceived(Component message) {
+        MessageReceivedEvent event = new MessageReceivedEvent(message);
+        ChiselmonEvents.MESSAGE_RECEIVED.emit(event);
+        return event.getMessage();
     }
 }

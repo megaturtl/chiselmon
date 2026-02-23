@@ -9,6 +9,7 @@
     "MixinPCGUI",
     "MixinPokemon",
     "MixinStorageSlot",
+    "MixinStorageWidget",
     "MixinWallpaperEntry",
     "accessor.KeyMappingAccessor"
   ],

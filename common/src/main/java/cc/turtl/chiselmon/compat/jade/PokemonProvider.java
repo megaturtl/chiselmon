@@ -68,7 +68,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
     }
 
     private void addBasicInfo(ITooltip tooltip, Pokemon pokemon, PokemonEntity entity) {
-        tooltip.add(PokemonFormats.detailedName(pokemon));
+        tooltip.add(PokemonFormats.detailedName(pokemon, false));
         tooltip.add(new HealthElement(entity.getMaxHealth(), entity.getHealth()));
     }
 

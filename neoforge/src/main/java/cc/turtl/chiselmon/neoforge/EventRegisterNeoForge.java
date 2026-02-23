@@ -3,16 +3,14 @@ package cc.turtl.chiselmon.neoforge;
 import cc.turtl.chiselmon.ChiselmonCommands;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.platform.PlatformEventHandlers;
+import dev.architectury.event.events.client.ClientSystemMessageEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 
@@ -64,5 +62,19 @@ public class EventRegisterNeoForge {
     @SubscribeEvent
     public static void onGameStopping(GameShuttingDownEvent e) {
         PlatformEventHandlers.handleGameStopping();
+    }
+
+    @SubscribeEvent
+    public static void onClientChat(ClientChatEvent e) {
+        if (e.getOriginalMessage().startsWith("/")) {
+            PlatformEventHandlers.handleCommandSent(e.getOriginalMessage().substring(1));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onSystemMessage(ClientChatReceivedEvent.System e) {
+        if (e.isOverlay()) return;
+        Component result = PlatformEventHandlers.handleGameMessageReceived(e.getMessage());
+        if (result != null) e.setMessage(result);
     }
 }

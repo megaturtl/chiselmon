@@ -26,8 +26,12 @@ public class ConfigCommand implements ChiselmonCommand {
     }
 
     private <S> int execute(CommandContext<S> context) {
-            Screen screen = ChiselmonConfig.createScreen(Minecraft.getInstance().screen);
-            Minecraft.getInstance().setScreen(screen);
+        Minecraft mc = Minecraft.getInstance();
+        // need to delay opening config or the screen gets overriden immediately by the chat screen closing
+        mc.tell(() -> {
+            Screen screen = ChiselmonConfig.createScreen(mc.screen);
+            mc.setScreen(screen);
+        });
         return Command.SINGLE_SUCCESS;
     }
 }
