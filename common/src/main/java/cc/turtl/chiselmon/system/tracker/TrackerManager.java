@@ -47,7 +47,7 @@ public class TrackerManager {
     /**
      * Returns the active tracker for the current world.
      *
-     * @throws IllegalStateException if called outside of an active world session
+     * @throws IllegalStateException if called outside an active world session
      */
     public TrackerSession getTracker() {
         if (activeSession == null) {

@@ -21,7 +21,7 @@ import static cc.turtl.chiselmon.feature.pc.eggspy.EggDummy.EGG_SPECIES_ID;
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon {
 
-    @Shadow
+    @Shadow(remap = false)
     private Species species;
 
     // Accessed directly to avoid triggering our own getSpecies() redirect
@@ -66,7 +66,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         chiselmon$pendingPreview = null;
     }
 
-    @Inject(method = "getSpecies", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getSpecies", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectSpecies(CallbackInfoReturnable<Species> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -76,7 +76,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getNickname", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getNickname", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectNickname(CallbackInfoReturnable<MutableComponent> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -89,12 +89,12 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectDisplayName(CallbackInfoReturnable<MutableComponent> cir) {
         chiselmon$redirectNickname(cir);
     }
 
-    @Inject(method = "getGender", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getGender", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectGender(CallbackInfoReturnable<Gender> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -104,7 +104,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getNature", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getNature", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectNature(CallbackInfoReturnable<Nature> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -114,7 +114,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getAbility", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getAbility", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectAbility(CallbackInfoReturnable<Ability> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -124,7 +124,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getIvs", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getIvs", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectIvs(CallbackInfoReturnable<IVs> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -134,7 +134,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getScaleModifier", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getScaleModifier", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectScaleModifier(CallbackInfoReturnable<Float> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -144,7 +144,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "asRenderablePokemon", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "asRenderablePokemon", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectRenderablePokemon(CallbackInfoReturnable<RenderablePokemon> cir) {
         if (chiselmon$startRedirect()) return;
         try {
@@ -157,7 +157,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         }
     }
 
-    @Inject(method = "getMoveSet", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getMoveSet", at = @At("HEAD"), cancellable = true, remap = false)
     private void chiselmon$redirectMoveSet(CallbackInfoReturnable<MoveSet> cir) {
         if (chiselmon$startRedirect()) return;
         try {

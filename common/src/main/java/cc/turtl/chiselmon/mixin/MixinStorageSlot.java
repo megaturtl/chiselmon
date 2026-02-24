@@ -29,7 +29,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
         super(x, y, width, height, message);
     }
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract Pokemon getPokemon();
 
     @Inject(method = "renderSlot", at = @At("TAIL"))

@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 architectury {
@@ -12,51 +12,38 @@ configurations {
         canBeResolved = true
         canBeConsumed = false
     }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
 
-    // Files in this configuration will be bundled into your mod using the Shadow plugin.
-    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
     shadowBundle {
         canBeResolved = true
         canBeConsumed = false
     }
+
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
 }
 
 dependencies {
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:${rootProject.parchment_version}")
-    }
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+    modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
+    modImplementation("com.terraformersmc:modmenu:${mod_menu_version}")
 
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    // Common platform specific deps
+    modImplementation("com.cobblemon:fabric:${cobblemon_version}+${minecraft_version}") { transitive = false }
+    modImplementation("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    implementation include("com.h2database:h2:${h2_version}")
 
-    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
-
-    modLocalRuntime "net.fabricmc:fabric-language-kotlin:$rootProject.fabric_kotlin_version"
-
-    modImplementation "com.cobblemon:fabric:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
-
-    modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
-
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-    modImplementation("maven.modrinth:jade:${rootProject.jade_version}+fabric")
-
-    implementation include("com.h2database:h2:2.4.240")
-
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowBundle(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
 }
 
 processResources {
-    inputs.property 'version', project.version
+    inputs.property "version", project.version
 
-    filesMatching('fabric.mod.json') {
-        expand version: project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
     }
 }
 
@@ -66,5 +53,6 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    getInputFile().set shadowJar.archiveFile
+    dependsOn shadowJar
 }

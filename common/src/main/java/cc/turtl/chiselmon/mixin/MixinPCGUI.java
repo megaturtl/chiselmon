@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.ChiselmonKeybinds;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.config.category.PCConfig;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
@@ -35,15 +35,15 @@ public abstract class MixinPCGUI extends Screen {
     @Shadow(remap = false)
     @Final
     public static int BASE_HEIGHT;
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private ClientPC pc;
     @Shadow(remap = false)
     private StorageWidget storageWidget;
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private List<IconButton> optionButtons;
-    @Shadow
+    @Shadow(remap = false)
     private boolean displayOptions;
     @Unique
     private BookmarkManager chiselmon$bookmarkManager;
@@ -54,7 +54,7 @@ public abstract class MixinPCGUI extends Screen {
         super(title);
     }
 
-    @Inject(method = "init", at = @At("TAIL"))
+    @Inject(method = "init", at = @At("TAIL"), remap = false)
     private void chiselmon$initEntryPoint(CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.get();
         if (config.general.modDisabled) return;

@@ -1,23 +1,14 @@
 architectury {
-    common rootProject.enabled_platforms.split(',')
+    common(enabled_platforms.split(","))
 }
 
 dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
-    // Do NOT use other classes from Fabric Loader.
+    // Architectury depends on Fabric Loader here to use Fabric @Environment annotations
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
 
-    mappings( loom.officialMojangMappings() )
+    modImplementation("com.cobblemon:mod:${cobblemon_version}+${minecraft_version}") { transitive = true }
+    modCompileOnly("dev.isxander:yet-another-config-lib:${yacl_version}-fabric") { transitive = false }
+    modCompileOnly("maven.modrinth:jade:${jade_version}+fabric") { transitive = false }
 
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-
-    modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
-
-    modImplementation "com.cobblemon:mod:${rootProject.cobblemon_version}+${rootProject.minecraft_version}"
-
-    modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
-
-    modImplementation("maven.modrinth:jade:${rootProject.jade_version}+neoforge")
-
-    implementation("com.h2database:h2:2.4.240")
+    implementation("com.h2database:h2:${h2_version}")
 }

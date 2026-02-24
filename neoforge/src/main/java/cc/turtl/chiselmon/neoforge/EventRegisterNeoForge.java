@@ -3,7 +3,6 @@ package cc.turtl.chiselmon.neoforge;
 import cc.turtl.chiselmon.ChiselmonCommands;
 import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.platform.PlatformEventHandlers;
-import dev.architectury.event.events.client.ClientSystemMessageEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
