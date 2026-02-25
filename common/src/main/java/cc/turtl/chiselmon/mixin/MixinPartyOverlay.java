@@ -24,7 +24,7 @@ public class MixinPartyOverlay {
         if (pokemon == null) return expRatio;
         Pokemon preview = ((DuckPreviewPokemon) pokemon).chiselmon$getPreview();
         if (preview instanceof EggDummy egg) {
-            return egg.getHatchCompletion();
+            return (float) egg.getHatchPercentage() / 100;
         }
         return expRatio;
     }

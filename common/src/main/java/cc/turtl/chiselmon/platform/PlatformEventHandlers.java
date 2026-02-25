@@ -11,7 +11,7 @@ import net.minecraft.world.entity.Entity;
 
 public class PlatformEventHandlers {
     public static void handleEntityLoad(Entity entity, ClientLevel clientLevel) {
-        if (entity instanceof PokemonEntity pe) {
+         if (entity instanceof PokemonEntity pe) {
             PokemonLoadedEvent event = new PokemonLoadedEvent(pe, PokemonEncounter.from(pe), PokemonEntityPredicates.IS_WILD.test(pe));
             ChiselmonEvents.POKEMON_LOADED.emit(event);
         }

@@ -78,7 +78,7 @@ public final class Sorter {
                 .thenComparingInt(p -> getPreview(previews, p).getLevel());
 
         Comparator<Pokemon> eggOrder = Comparator.comparingDouble(
-                p -> getPreview(previews, p) instanceof EggDummy e ? e.getHatchCompletion() : 0.0);
+                p -> getPreview(previews, p) instanceof EggDummy e ? e.getHatchPercentage() : 0);
 
         return eggLast.thenComparing((a, b) -> {
             boolean aIsEgg = getPreview(previews, a) instanceof EggDummy;

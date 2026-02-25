@@ -26,7 +26,6 @@ public class EggCache {
         EggDummy cached = EGGS_CACHE.getIfPresent(uuid);
 
         if (cached != null) {
-            cached.updateHatchProgress(pokemon);
             return cached;
         }
 

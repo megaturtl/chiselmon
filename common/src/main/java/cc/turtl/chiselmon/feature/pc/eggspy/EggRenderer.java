@@ -33,7 +33,7 @@ public final class EggRenderer {
     }
 
     public static void renderStorageSlot(GuiGraphics context, @NotNull EggDummy eggDummy, int posX, int posY) {
-        renderProgressBarStorageSlot(context, eggDummy.getHatchCompletion(), posX, posY);
+        renderProgressBarStorageSlot(context, eggDummy.getHatchPercentage(), posX, posY);
         renderEggModelStorageSlot(context, eggDummy, posX, posY);
     }
 
@@ -65,7 +65,7 @@ public final class EggRenderer {
         context.pose().popPose();
     }
 
-    private static void renderProgressBarStorageSlot(GuiGraphics context, float progress, int posX, int posY) {
+    private static void renderProgressBarStorageSlot(GuiGraphics context, int hatchPercentage, int posX, int posY) {
         int xStart = posX;
         int yStart = posY + BAR_Y_OFFSET;
 
@@ -73,7 +73,7 @@ public final class EggRenderer {
         context.fill(xStart, yStart, xStart + BAR_WIDTH, yStart + BAR_HEIGHT, BAR_BG_COLOR);
 
         // Progress fill
-        int fillWidth = (int) (BAR_WIDTH * Mth.clamp(progress, 0.0F, 1.0F));
+        int fillWidth = (int) (BAR_WIDTH * Mth.clamp(hatchPercentage, 0, 100));
         if (fillWidth > 0) {
             context.fill(xStart, yStart, xStart + fillWidth, yStart + BAR_HEIGHT, BAR_FILL_COLOR);
         }

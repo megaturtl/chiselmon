@@ -15,6 +15,11 @@ public final class PokemonEntityPredicates {
      * - Plushies are always level 1
      * - Plushies always have noai = true when freshly placed
      * - Plushies always have max_health = 20 when not freshly placed
+     *
+     * IDEAS:
+     * - if a pokemon entity is firstTick = false, its pokemon object should always have a nickname, plushies always null. also,
+     *  all plushies will be onGround = false on first tick, so we can check that too but not exclude all, just let past everything
+     *  with onGround = true
      */
     public static final Predicate<PokemonEntity> IS_WILD = entity -> {
         if (IS_OWNED.test(entity)) return false; // Highest priority. If pokemon is owned NEVER consider it wild.

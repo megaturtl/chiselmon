@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.feature.pc.eggspy;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
+import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 import com.cobblemon.mod.common.pokemon.Species;
@@ -25,10 +26,10 @@ import java.util.Set;
 public class EggDummy extends Pokemon {
     public static final String DUMMY_ASPECT = "EggDummy";
     public static final ResourceLocation EGG_SPECIES_ID = ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species");
+    public static final String HATCH_PERCENTAGE_FEATURE = "hatch_percentage";
 
     private final Pokemon originalEgg;
-    private int cyclesRemaining;
-    private int totalCycles;
+    private int totalSteps;
 
     public EggDummy(Pokemon originalEgg) {
         this.originalEgg = originalEgg;
@@ -43,6 +44,8 @@ public class EggDummy extends Pokemon {
             CompoundTag hatchlingNbt = TagParser.parseTag(eggData);
             EggDummy dummy = new EggDummy(egg);
 
+            dummy.totalSteps = hatchlingNbt.getInt("TotalSteps");
+
             if (Minecraft.getInstance().level == null) return Optional.empty();
             RegistryAccess registries = Minecraft.getInstance().level.registryAccess();
 
@@ -51,7 +54,6 @@ public class EggDummy extends Pokemon {
 
             // Sync identity and hatch progress
             dummy.setUuid(egg.getUuid());
-            dummy.updateHatchProgress(egg);
             Set<String> aspects = new HashSet<>(dummy.getForcedAspects());
             aspects.add(DUMMY_ASPECT);
             dummy.setForcedAspects(aspects);
@@ -67,23 +69,24 @@ public class EggDummy extends Pokemon {
         return originalEgg;
     }
 
-    public void updateHatchProgress(Pokemon egg) {
-        CompoundTag tag = egg.getPersistentData();
-        this.cyclesRemaining = tag.contains("Cycle") ? tag.getInt("Cycle") : 0;
-        this.totalCycles = tag.contains("SpeciesCycles") ? tag.getInt("SpeciesCycles") : 40;
+    /**
+     * Pulled from the original Egg Pokemon object's 'features' list.
+     * Returns 0 if no hatch percentage feature is found.
+     */
+    public int getHatchPercentage() {
+        IntSpeciesFeature hatchFeature = this.originalEgg.getFeature(HATCH_PERCENTAGE_FEATURE);
+        if (hatchFeature != null) {
+            return hatchFeature.getValue();
+        }
+        return 0;
     }
 
-    public float getHatchCompletion() {
-        if (totalCycles <= 0) return 1.0f;
-        return Math.max(0f, 1f - ((float) cyclesRemaining / totalCycles));
+    public int getTotalSteps() {
+        return totalSteps;
     }
 
-    public int getCyclesCompleted() {
-        return totalCycles - cyclesRemaining;
-    }
-
-    public int getTotalCycles() {
-        return totalCycles;
+    public int getStepsRemaining() {
+        return totalSteps - (totalSteps * getHatchPercentage() / 100);
     }
 
     public RenderablePokemon getOriginalRenderablePokemon() {

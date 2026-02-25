@@ -223,8 +223,10 @@ public final class PokemonFormats {
     public static Component hatchProgress(Pokemon pokemon) {
         if (!(pokemon instanceof EggDummy eggDummy)) return UNKNOWN;
 
-        return createComponent(eggDummy.getCyclesCompleted() + "/" + eggDummy.getTotalCycles())
-                .append(createComponent(" (" + StringFormats.formatPercentage(eggDummy.getHatchCompletion()) + ")"));
+        return createComponent(StringFormats.formatPercentage(eggDummy.getHatchPercentage()) + "%")
+                .append(createComponent(" ("))
+                .append(createComponent(eggDummy.getStepsRemaining()))
+                .append(createComponent(" steps)"));
     }
 
     public static Component dexStatus(Species species) {
