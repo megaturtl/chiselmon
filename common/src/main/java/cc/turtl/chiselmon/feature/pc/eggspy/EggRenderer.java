@@ -73,7 +73,7 @@ public final class EggRenderer {
         context.fill(xStart, yStart, xStart + BAR_WIDTH, yStart + BAR_HEIGHT, BAR_BG_COLOR);
 
         // Progress fill
-        int fillWidth = (int) (BAR_WIDTH * Mth.clamp(hatchPercentage, 0, 100));
+        int fillWidth = (BAR_WIDTH * Mth.clamp(hatchPercentage, 0, 100)) / 100;
         if (fillWidth > 0) {
             context.fill(xStart, yStart, xStart + fillWidth, yStart + BAR_HEIGHT, BAR_FILL_COLOR);
         }

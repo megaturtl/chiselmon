@@ -44,7 +44,7 @@ public class EggDummy extends Pokemon {
             CompoundTag hatchlingNbt = TagParser.parseTag(eggData);
             EggDummy dummy = new EggDummy(egg);
 
-            dummy.totalSteps = hatchlingNbt.getInt("TotalSteps");
+            dummy.totalSteps = egg.getPersistentData().getInt("TotalSteps");
 
             if (Minecraft.getInstance().level == null) return Optional.empty();
             RegistryAccess registries = Minecraft.getInstance().level.registryAccess();

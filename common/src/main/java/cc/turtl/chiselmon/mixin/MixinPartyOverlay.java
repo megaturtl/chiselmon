@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(PartyOverlay.class)
 public class MixinPartyOverlay {
 
+    // Force the egg hatch percentage into xp bar
     @ModifyVariable(
             method = "render",
             at = @At(value = "LOAD"),
@@ -21,11 +22,29 @@ public class MixinPartyOverlay {
             float expRatio,
             @Local(name = "pokemon") Pokemon pokemon) {
 
-        if (pokemon == null) return expRatio;
-        Pokemon preview = ((DuckPreviewPokemon) pokemon).chiselmon$getPreview();
+        if (!(pokemon instanceof DuckPreviewPokemon duckPokemon)) return expRatio;
+        Pokemon preview = duckPokemon.chiselmon$getPreview();
         if (preview instanceof EggDummy egg) {
             return (float) egg.getHatchPercentage() / 100;
         }
         return expRatio;
+    }
+
+    // Force the egg hatch percentage into health bar
+    @ModifyVariable(
+            method = "render",
+            at = @At(value = "LOAD"),
+            name = "hpRatio"
+    )
+    private float chiselmon$modifyHpRatio(
+            float hpRatio,
+            @Local(name = "pokemon") Pokemon pokemon) {
+
+        if (!(pokemon instanceof DuckPreviewPokemon duckPokemon)) return hpRatio;
+        Pokemon preview = duckPokemon.chiselmon$getPreview();
+        if (preview instanceof EggDummy egg) {
+            return (float) egg.getHatchPercentage() / 100;
+        }
+        return hpRatio;
     }
 }
