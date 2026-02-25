@@ -21,7 +21,7 @@ public class MessageAction implements AlertAction {
         RuntimeFilter filter = ctx.messageFilter();
 
         // Alert Emoji + Mute Click Event
-        MutableComponent message = createComponent("⚠ ", filter.rgb())
+        MutableComponent message = createComponent("⚠ ", ColorUtils.PINK.getRGB())
                 .withStyle(style -> style
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                                 "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
@@ -29,8 +29,10 @@ public class MessageAction implements AlertAction {
                                 Component.translatable("chiselmon.spawnalert.mute.tooltip"))));
         // Pokemon Name (includes shiny and size)
         message.append(PokemonFormats.detailedName(pokemon, ctx.config().showFormInMessage));
-        message.append(Component.literal(" matched filter ").withColor(ColorUtils.WHITE.getRGB()));
+        message.append(Component.literal(" [").withColor(ColorUtils.LIGHT_GRAY.getRGB()));
         message.append(filter.displayName());
+        message.append(Component.literal("] ").withColor(ColorUtils.LIGHT_GRAY.getRGB()));
+        message.append(Component.literal(" spawned nearby! ").withColor(ColorUtils.PINK.getRGB()));
         // Coords
         message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA.getRGB()));
 

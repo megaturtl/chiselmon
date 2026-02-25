@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Chiselmon"
 authors = "megaturtl"
 description = '''
-Smooth out your Cobblemon experience!
+"Sculpt your perfect Cobblemon experience with deeply customisable tweaks and QOL enhancements."
 '''
 logoFile="assets/chiselmon/icon.png"
 
