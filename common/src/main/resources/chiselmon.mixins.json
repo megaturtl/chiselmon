@@ -6,6 +6,7 @@
   "client": [
     "MixinClientParty",
     "MixinEntity",
+    "MixinMoveTile",
     "MixinPartyOverlay",
     "MixinPCGUI",
     "MixinPokemon",

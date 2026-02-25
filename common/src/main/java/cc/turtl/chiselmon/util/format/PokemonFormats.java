@@ -68,13 +68,13 @@ public final class PokemonFormats {
         MutableComponent nameComponent = Component.empty()
                 .append(genderIcon(pokemon.getGender()))
                 .append(" ").append(createComponent(pokemon.getSpecies().getName(), ColorUtils.WHITE.getRGB()));
-                if (form) {
-                    String formName = pokemon.getForm().getName();
-                    if (!formName.trim().equalsIgnoreCase("normal")) {
-                        nameComponent.append(createComponent("-" + formName, ColorUtils.WHITE.getRGB()));
-                    }
-                }
-                nameComponent.append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY.getRGB()));
+        if (form) {
+            String formName = pokemon.getForm().getName();
+            if (!formName.trim().equalsIgnoreCase("normal")) {
+                nameComponent.append(createComponent("-" + formName, ColorUtils.WHITE.getRGB()));
+            }
+        }
+        nameComponent.append(" ").append(createComponent("Lv. " + pokemon.getLevel(), ColorUtils.LIGHT_GRAY.getRGB()));
 
         if (pokemon.getShiny()) nameComponent.append(createComponent(" ★", ColorUtils.GOLD.getRGB()));
 

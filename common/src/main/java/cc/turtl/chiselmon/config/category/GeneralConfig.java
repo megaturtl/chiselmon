@@ -10,10 +10,14 @@ import net.minecraft.network.chat.Component;
 
 public class GeneralConfig {
     public static final boolean DEFAULT_MOD_DISABLED = false;
+    public static final boolean DEFAULT_MOVE_DETAIL = true;
     public static final boolean DEFAULT_CHECKSPAWN_DETAIL = true;
 
     @SerialEntry
     public boolean modDisabled = DEFAULT_MOD_DISABLED;
+
+    @SerialEntry
+    public boolean moveDetail = DEFAULT_MOVE_DETAIL;
 
     @SerialEntry
     public boolean checkSpawnDetail = DEFAULT_CHECKSPAWN_DETAIL;
@@ -35,6 +39,12 @@ public class GeneralConfig {
                         DEFAULT_MOD_DISABLED,
                         () -> modDisabled,
                         v -> modDisabled = v
+                ))
+                .option(OptionFactory.toggleOnOff(
+                        "chiselmon.config.general.move_detail",
+                        DEFAULT_MOVE_DETAIL,
+                        () -> moveDetail,
+                        v -> moveDetail = v
                 ))
                 .option(OptionFactory.toggleOnOff(
                         "chiselmon.config.general.checkspawn_detail",

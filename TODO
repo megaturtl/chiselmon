@@ -11,7 +11,6 @@ Nice to have:
 - fully grown cobblemon crop markers
 - quick evolve or smth
 - auto pause spawnlogger when exit minecart
-- make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
 
 One day:
@@ -26,4 +25,3 @@ One day:
 
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1) FIXED!! I THINK!! nvm it's still broken on servers
-- Egg preview uses default form

@@ -55,6 +55,8 @@
     "chiselmon.config.category.general": "General",
     "chiselmon.config.general.mod_disabled": "Disable Mod",
     "chiselmon.config.general.mod_disabled.description": "Completely disable all Chiselmon features",
+    "chiselmon.config.general.move_detail": "Show Move Detail Tooltip",
+    "chiselmon.config.general.move_detail.description": "Shows a tooltip with a description and power of battle moves",
     "chiselmon.config.general.open_config_keybind": "Open Config Keybind",
     "chiselmon.config.general.open_config_keybind.description": "Press to return to this config screen",
     "chiselmon.config.general.checkspawn_detail": "Overhaul /checkspawn",

@@ -51,7 +51,7 @@ public final class ComponentUtils {
      * Creates a component from a label and value pair.
      * <p>Example: {@code label("Ability", "Intimidate")} -> "Ability: Intimidate"</p>
      */
-    public static Component labelled(@NotNull Object label, @Nullable Object value) {
+    public static MutableComponent labelled(@NotNull Object label, @Nullable Object value) {
         MutableComponent labelComp = (label instanceof Component c ? c.copy() : Component.literal(label.toString()));
         // If we pass a component label, it gets overridden with gray for label consistency
         labelComp.withColor(ColorUtils.LIGHT_GRAY.getRGB());
