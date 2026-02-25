@@ -18,8 +18,6 @@ public class PCConfig {
     public final TooltipConfig tooltip = new TooltipConfig();
     @SerialEntry
     public final IconConfig icon = new IconConfig();
-    @SerialEntry
-    public final EggSpyConfig eggSpy = new EggSpyConfig();
 
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
@@ -27,7 +25,6 @@ public class PCConfig {
                 .group(quickSort.buildGroup())
                 .group(tooltip.buildGroup())
                 .group(icon.buildGroup())
-                .group(eggSpy.buildGroup())
                 .build();
     }
 
@@ -122,7 +119,7 @@ public class PCConfig {
 
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(Component.translatable("chiselmon.config.group.tooltip"))
+                    .name(Component.translatable("chiselmon.config.pc.group.tooltip"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.tooltip.enabled",
                             DEFAULT_ENABLED,
@@ -206,7 +203,7 @@ public class PCConfig {
 
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
-                    .name(Component.translatable("chiselmon.config.group.icon"))
+                    .name(Component.translatable("chiselmon.config.pc.group.icon"))
                     .option(OptionFactory.toggleOnOff(
                             "chiselmon.config.pc.icon.enabled",
                             DEFAULT_ENABLED,

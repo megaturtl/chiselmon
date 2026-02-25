@@ -45,7 +45,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
             IconRenderer.renderIcons(context, config.pc.icon, preview, posX, posY);
         }
 
-        if (config.pc.eggSpy.enabled && preview instanceof EggDummy eggDummy) {
+        if (config.general.eggSpy.enabled && preview instanceof EggDummy eggDummy) {
             EggRenderer.renderStorageSlot(context, eggDummy, posX, posY);
         }
 

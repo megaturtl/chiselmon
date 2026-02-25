@@ -13,9 +13,6 @@ public class GeneralConfig {
     public static final boolean DEFAULT_CHECKSPAWN_DETAIL = true;
 
     @SerialEntry
-    public final ThresholdsGroup thresholds = new ThresholdsGroup();
-
-    @SerialEntry
     public boolean modDisabled = DEFAULT_MOD_DISABLED;
 
     @SerialEntry
@@ -23,6 +20,12 @@ public class GeneralConfig {
 
     @SerialEntry
     public String discordWebhookURL = "";
+
+    @SerialEntry
+    public final EggSpyConfig eggSpy = new EggSpyConfig();
+
+    @SerialEntry
+    public final ThresholdsConfig thresholds = new ThresholdsConfig();
 
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
@@ -48,11 +51,40 @@ public class GeneralConfig {
                 .option(OptionFactory.keyMappingPicker(
                         "chiselmon.config.general.open_config_keybind",
                         ChiselmonKeybinds.OPEN_CONFIG))
+                .group(eggSpy.buildGroup())
                 .group(thresholds.buildGroup())
                 .build();
     }
 
-    public static class ThresholdsGroup {
+    public static class EggSpyConfig {
+        public static final boolean DEFAULT_ENABLED = false;
+        public static final boolean DEFAULT_SHOW_HATCH_OVERLAY = false;
+
+        @SerialEntry
+        public boolean enabled = DEFAULT_ENABLED;
+        @SerialEntry
+        public boolean showHatchOverlay = DEFAULT_SHOW_HATCH_OVERLAY;
+
+        public OptionGroup buildGroup() {
+            return OptionGroup.createBuilder()
+                    .name(Component.translatable("chiselmon.config.group.egg_spy"))
+                    .option(OptionFactory.toggleOnOff(
+                            "chiselmon.config.egg_spy.enabled",
+                            DEFAULT_ENABLED,
+                            () -> enabled,
+                            v -> enabled = v
+                    ))
+                    .option(OptionFactory.toggleTick(
+                            "chiselmon.config.egg_spy.hatch_overlay",
+                            DEFAULT_SHOW_HATCH_OVERLAY,
+                            () -> showHatchOverlay,
+                            v -> showHatchOverlay = v
+                    ))
+                    .build();
+        }
+    }
+
+    public static class ThresholdsConfig {
         public static final float DEFAULT_EXTREME_SMALL = 0.3F;
         public static final float DEFAULT_EXTREME_LARGE = 1.7F;
         public static final int DEFAULT_MAX_IVS = 5;
@@ -70,19 +102,19 @@ public class GeneralConfig {
             return OptionGroup.createBuilder()
                     .name(Component.translatable("chiselmon.config.group.thresholds"))
                     .option(OptionFactory.floatSlider(
-                            "chiselmon.config.general.extreme_small",
+                            "chiselmon.config.thresholds.extreme_small",
                             DEFAULT_EXTREME_SMALL,
                             () -> extremeSmall, v -> extremeSmall = v,
                             SMALL_MIN, SMALL_MAX, SMALL_STEP
                     ))
                     .option(OptionFactory.floatSlider(
-                            "chiselmon.config.general.extreme_large",
+                            "chiselmon.config.thresholds.extreme_large",
                             DEFAULT_EXTREME_LARGE,
                             () -> extremeLarge, v -> extremeLarge = v,
                             LARGE_MIN, LARGE_MAX, LARGE_STEP
                     ))
                     .option(OptionFactory.intSlider(
-                            "chiselmon.config.general.max_ivs",
+                            "chiselmon.config.thresholds.max_ivs",
                             DEFAULT_MAX_IVS,
                             () -> maxIvs, v -> maxIvs = v,
                             IVS_MIN, IVS_MAX, IVS_STEP

@@ -1,12 +1,10 @@
 Bugs:
-- some eggdummies are showing 0IVs (when you put an egg in your party and back again) - hopefully fixed
 
 High priority:
 - add screenshots to the config descriptions (like chesttracker)
 
 ALERTS
 - add a nicer way to select tags for the ui
-- maybe add pitch slider to alert sounds config
 
 Nice to have:
 - fully grown cobblemon crop markers
@@ -17,15 +15,14 @@ Nice to have:
 
 One day:
 - client side catchcombo tracking to derive my own data (ansun suggests shiny %)
+- maybe also prevent throwing balls at the wrong mon when on a catchcombo ("CC Lock" or smth)
 - pc living dex checklist
 - interactive heatmap generator with the db data. maybe you type a command and it hosts a local web server where you can move stuff around or smth.
 - improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
-- If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Add a jade tooltip if a block is pokemon spawnable
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1) FIXED!! I THINK!! nvm it's still broken on servers
 - Egg preview uses default form
-- SpawnAlert has trouble distinguishing wild pokemon from  and some pokedisguises

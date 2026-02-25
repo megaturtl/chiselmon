@@ -44,7 +44,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         if (chiselmon$redirecting) return (Pokemon) (Object) this;
         ChiselmonConfig config = ChiselmonConfig.get();
         Pokemon self = (Pokemon) (Object) this;
-        if (config.general.modDisabled || !config.pc.eggSpy.enabled) return self;
+        if (config.general.modDisabled || !config.general.eggSpy.enabled) return self;
         else return EggCache.getPreview(self);
     }
 
