@@ -8,6 +8,7 @@ ALERTS
 - add a nicer way to select tags for the ui
 
 Nice to have:
+- small quicksort button that always shows, tooltip says the hotkey it is currently set to and current sort mode
 - fully grown cobblemon crop markers
 - quick evolve or smth
 - auto pause spawnlogger when exit minecart
@@ -25,3 +26,4 @@ One day:
 
 Current known limitations:
 - Quick and timer balls don't know the current turn (both assume turn 1) FIXED!! I THINK!! nvm it's still broken on servers
+- form data is wrong for egg dummies sometimes (defaulting to regular)

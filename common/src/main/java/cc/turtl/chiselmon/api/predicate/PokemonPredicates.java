@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.species.ClientSpecies;
 import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
+import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
 

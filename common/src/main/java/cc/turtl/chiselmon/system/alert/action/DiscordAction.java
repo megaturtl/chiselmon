@@ -12,12 +12,24 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class DiscordAction implements AlertAction {
+    // Max 2 alerts every 5 seconds to prevent spam but still allow double spawns to both register
+    private static final int MAX_ALERTS = 2;
+    private static final long WINDOW_MS = 5_000L;
+
+    // Time in ms of recently sent alerts
+    private final Deque<Long> sentTimestamps = new ArrayDeque<>();
 
     @Override
     public void execute(AlertContext ctx) {
         if (!ctx.shouldDiscord()) return;
+        if (!allowAlert()) {
+            ChiselmonConstants.LOGGER.warn("Discord alert suppressed: rate limit reached ({} per {}ms)", MAX_ALERTS, WINDOW_MS);
+            return;
+        }
 
         JsonArray embeds = new JsonArray();
         embeds.add(buildDiscordEmbed(ctx));
@@ -52,6 +64,26 @@ public class DiscordAction implements AlertAction {
                 ChiselmonConstants.LOGGER.warn("Failed to send Discord notification", e);
             }
         });
+    }
+
+    /**
+     * Returns true and records the current timestamp if the alert is within
+     * the allowed rate, false if it should be suppressed to stop spam.
+     */
+    private synchronized boolean allowAlert() {
+        long now = System.currentTimeMillis();
+
+        // Drop timestamps that have fallen outside the window
+        while (!sentTimestamps.isEmpty() && now - sentTimestamps.peekFirst() >= WINDOW_MS) {
+            sentTimestamps.pollFirst();
+        }
+
+        if (sentTimestamps.size() >= MAX_ALERTS) {
+            return false;
+        }
+
+        sentTimestamps.addLast(now);
+        return true;
     }
 
     private JsonObject buildDiscordEmbed(AlertContext ctx) {

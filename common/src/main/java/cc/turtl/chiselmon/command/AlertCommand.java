@@ -21,7 +21,7 @@ public class AlertCommand implements ChiselmonCommand {
 
     @Override
     public String getDescription() {
-        return "Manage pokemon alerts";
+        return "Manage pokemon alert";
     }
 
     @Override

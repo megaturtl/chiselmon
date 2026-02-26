@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.eggspy.EggDummy;
+import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.client.gui.PartyOverlay;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.llamalad7.mixinextras.sugar.Local;

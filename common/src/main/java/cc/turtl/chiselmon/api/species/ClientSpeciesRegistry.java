@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.api.species;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
-import cc.turtl.chiselmon.platform.PlatformHelper;
+import cc.turtl.chiselmon.platform.PlatformServices;
 import com.google.gson.Gson;
 
 import java.io.Reader;
@@ -39,7 +39,7 @@ public final class ClientSpeciesRegistry {
         CompletableFuture.runAsync(() -> {
             long startTime = System.currentTimeMillis();
             var tempMap = new ConcurrentHashMap<String, ClientSpecies>(1024);
-            var pathFinder = PlatformHelper.getPathFinder();
+            var pathFinder = PlatformServices.getPathFinder();
 
             pathFinder.getModPath("cobblemon", "data/cobblemon/species").ifPresentOrElse(root -> {
                 try (Stream<Path> walk = Files.walk(root)) {

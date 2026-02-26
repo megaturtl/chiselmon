@@ -42,7 +42,7 @@ public class TrackerSession {
     public void tick() {
         cleanUnloaded();
 
-        // reset these always, before despawn glow or alerts, so they always work from a blank slate.
+        // reset these always, before despawn glow or alert, so they always work from a blank slate.
         for (PokemonEntity entity : currentlyLoaded.values()) {
             PokemonEntityUtils.removeGlow(entity);
             PokemonEntityUtils.resetNickname(entity);

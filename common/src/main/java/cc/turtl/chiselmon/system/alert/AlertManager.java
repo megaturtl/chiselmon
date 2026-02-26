@@ -8,7 +8,7 @@ import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.AlertsConfig;
+import cc.turtl.chiselmon.config.category.AlertConfig;
 import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.util.MessageUtils;
@@ -69,14 +69,14 @@ public class AlertManager {
     }
 
     private void tick() {
-        AlertsConfig config = ChiselmonConfig.get().alerts;
+        AlertConfig config = ChiselmonConfig.get().alert;
         if (!config.masterEnabled) return;
 
         while (ChiselmonKeybinds.MUTE_ALERTS.consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
                 muteAll();
-                MessageUtils.sendSuccess(player, "All active alerts muted");
+                MessageUtils.sendSuccess(player, "All active alert muted");
             }
         }
 
@@ -107,7 +107,7 @@ public class AlertManager {
             }
         }
 
-        // replay the sound action for repeating sound alerts
+        // replay the sound action for repeating sound alert
         if (soundDelayRemaining > 0) {
             soundDelayRemaining--;
         } else if (bestSoundContext != null) {

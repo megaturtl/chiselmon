@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.pc.eggspy.EggCache;
+import cc.turtl.chiselmon.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.pokemon.*;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static cc.turtl.chiselmon.feature.pc.eggspy.EggDummy.EGG_SPECIES_ID;
+import static cc.turtl.chiselmon.feature.eggspy.EggDummy.EGG_SPECIES_ID;
 
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon {

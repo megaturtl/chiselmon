@@ -6,7 +6,6 @@ import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.config.category.*;
 import cc.turtl.chiselmon.config.custom.KeyAdapter;
 import cc.turtl.chiselmon.util.MiscUtil;
-import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
@@ -36,7 +35,7 @@ public class ChiselmonConfig {
     public final PCConfig pc = new PCConfig();
 
     @SerialEntry
-    public final AlertsConfig alerts = new AlertsConfig();
+    public final AlertConfig alert = new AlertConfig();
 
     @SerialEntry
     public final RecorderConfig recorder = new RecorderConfig();
@@ -69,7 +68,7 @@ public class ChiselmonConfig {
                 .category(get().general.buildCategory(parent))
                 .category(get().pc.buildCategory(parent))
                 .category(get().filter.buildCategory(parent))
-                .category(get().alerts.buildCategory(parent))
+                .category(get().alert.buildCategory(parent))
                 .category(get().recorder.buildCategory(parent))
                 .save(ChiselmonConfig::save);
 
@@ -89,7 +88,7 @@ public class ChiselmonConfig {
         switchTab(newScreen, tabIndex);
     }
 
-    private static void switchTab(YACLScreen screen, int tabIndex) {
+    public static void switchTab(YACLScreen screen, int tabIndex) {
         if (screen.tabNavigationBar != null) {
             // Ensure index is within bounds of the tabs list
             if (tabIndex >= 0 && tabIndex < screen.tabNavigationBar.getTabs().size()) {

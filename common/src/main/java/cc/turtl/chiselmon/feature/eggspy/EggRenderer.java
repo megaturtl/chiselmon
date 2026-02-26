@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.feature.pc.eggspy;
+package cc.turtl.chiselmon.feature.eggspy;
 
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import com.cobblemon.mod.common.client.gui.PokemonGuiUtilsKt;

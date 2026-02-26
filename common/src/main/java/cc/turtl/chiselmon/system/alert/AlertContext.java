@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.system.alert;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.AlertsConfig;
+import cc.turtl.chiselmon.config.category.AlertConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -14,21 +14,21 @@ public record AlertContext(
         PokemonEntity entity,
         List<RuntimeFilter> filters, // sorted by priority they matched for
         boolean isMuted,
-        AlertsConfig config,
+        AlertConfig config,
         PokemonEncounter encounter
 ) {
     public Pokemon pokemon() {
         return entity.getPokemon();
     }
 
-    private AlertsConfig.FilterAlertSettings getFilterSettings(RuntimeFilter filter) {
-        return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertsConfig.FilterAlertSettings());
+    private AlertConfig.FilterAlertSettings getFilterSettings(RuntimeFilter filter) {
+        return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertConfig.FilterAlertSettings());
     }
 
     /**
      * Returns the first filter (in priority order) whose settings satisfy the predicate, or null.
      */
-    private RuntimeFilter firstMatchingFilter(Predicate<AlertsConfig.FilterAlertSettings> predicate) {
+    private RuntimeFilter firstMatchingFilter(Predicate<AlertConfig.FilterAlertSettings> predicate) {
         for (RuntimeFilter filter : filters) {
             if (predicate.test(getFilterSettings(filter))) {
                 return filter;
@@ -102,13 +102,13 @@ public record AlertContext(
      * Settings for the winning sound filter. Returns a default instance if none matched
      * (callers should guard with shouldSingleSound/shouldRepeatingSound first).
      */
-    public AlertsConfig.FilterAlertSettings soundSettings() {
+    public AlertConfig.FilterAlertSettings soundSettings() {
         RuntimeFilter filter = soundFilter();
-        return filter != null ? getFilterSettings(filter) : new AlertsConfig.FilterAlertSettings();
+        return filter != null ? getFilterSettings(filter) : new AlertConfig.FilterAlertSettings();
     }
 
     public float getEffectiveVolume() {
-        AlertsConfig.FilterAlertSettings settings = soundSettings();
+        AlertConfig.FilterAlertSettings settings = soundSettings();
         return (config.masterVolume / 100f) * (settings.volume / 100f);
     }
 }
