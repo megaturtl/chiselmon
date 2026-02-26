@@ -1,40 +1,60 @@
 # Chiselmon
+![Enviroment](https://img.shields.io/badge/Enviroment-Client-purple)
+![Discord](https://img.shields.io/discord/1476397018204082188?style=flat&logo=discord&label=Discord&color=blue&link=https%3A%2F%2Fdiscord.gg%2FwFRFqQK9WW)
+<br>
+![Lurantis with magnifying glass, the Chiselmon logo](common/src/main/resources/assets/chiselmon/icon.png)
 
-Client-side quality-of-life improvements for Cobblemon. Lightweight, configurable, and focused on PC management, fishing, and Jade additions.
+Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!
 
-## Install
-1. Install Cobblemon, Cloth Config, and Jade (optional).
-2. Drop the jar file into your mods folder and launch the game.
+## Installation
+Chiselmon is a fully client side Cobblemon sidemod for Fabric and NeoForge.
 
-## Key features
-All features are configurable or can be disabled via the config.
+To use Chiselmon, make sure you have Cobblemon 1.7.0+ and [Yet Another Config Lib](https://modrinth.com/mod/yacl) installed. To get the most out of the mod, consider also installing [Jade](https://modrinth.com/mod/jade).
 
-- PC
-  - Sort boxes by Pokemon size or IV total (uses hypertrained IVs).
-  - Quick-sort a box with middle-click (sorting mode configurable).
-  - Small icons on each pc slot for quick recognition:
-    - Gold cap = high max IVs
-    - Green mushroom = extreme size
-    - Ability patch = hidden ability
-    - Saddle = rideable
-    - Sparkle = shiny
-  - Tooltips on hover, use shift for more detailed info.
-  - 6 new wallpapers (some with dark variants). Hold Ctrl to apply a selected wallpaper to every box.
-  - Bookmark up to 5 boxes.
-  - Extra egg info before hatching.
-  - Alert system for legendaries, shinies, size variations, or custom whitelisted pokemon that spawn around you. Press 'M' (configurable in controls) to mute all active alerts.
-  - Spawnlogger system to track spawns around you and export to CSV.
-    - /chisel log start
-    - /chisel log stop
-    - /chisel log pause
-    - /chisel log resume
+## Customising Your Tweaks
+If you haven't used Chiselmon before, I recommend exploring the config options beforehand so you can see what features are available.
 
-- Fishing
-  - Show current bait type and quantity while holding a pokerod.
+You can open the Chiselmon config in 3 ways:
+1. Click the Chiselmon icon in your mod menu.
+2. Use the `/ch config` command in-game.
+3. Press the hotkey. The default is `;`, but this can be changed in the config.
 
-- Jade UI enhancements
-  - Extra hover info: typing, egg groups, EV yield, catch rate, catch chance (when holding a Pokeball), and warnings for self-damaging moves.
-  - Poke Snack details: bites remaining, ingredients, and spawn effects.
-
-## Configuration
-Open the mod config from the 'Mods' tab in the escape menu to enable/disable features and adjust thresholds (e.g., IV count, size limits).
+## Features
+### PC Addons:
+- 2 new sorting modes: Sort by Pokemon size, or total IVs.
+- Quick-sort any box using a hotkey `default: middle-click`.
+- PC icons to easily identify special pokemon (shiny, high IVs, hidden ability, extreme size, marks, rideable).
+- PC tooltips showing IVs, original trainer, form, friendship, ride styles, marks, and egg hatch progress.
+- 10 new wallpapers (some with dark variants - hold `Shift`). Hold `Ctrl` while choosing to apply a selected wallpaper to every box.
+- Bookmark up to 5 boxes and jump to them at any time.
+### Egg Spy:
+- Use Chiselmon's cutting edge ultrasound technology to preview what's inside pokemon eggs (NeoDaycare only).
+- Optionally replaces the HP and XP bar of eggs in your party overlay with their hatch progress so you can easily keep track while hatching.
+### Spawn Alerts:
+- Alert system for legendaries, shinies, size variations, or custom whitelisted pokemon that spawn around you.
+- Create unlimited custom filters to receive alerts for with Chiselmon's logic building system.
+- 4 Fully configurable alert types per filter - chat messages, Discord webhook messages, sounds, colored highlights.
+- Mute all active alert sounds with the 'M' keybind (configurable in Minecraft controls and Chiselmon config).
+### Spawn Recorder:
+- Records total pokemon spawns and the number of each species in the current session.
+- Use the `/ch recorder start, stop, pause, and resume` commands to manage your session.
+- Optional action bar display: shows the total spawns and time passed since starting, and the number of currently loaded pokemon + how many are old enough to start despawning.
+- Optional despawn glow: highlights loaded pokemon in green, turning red when they're ready to despawn.
+### Misc:
+- Detailed move tooltips showing extra info about the selected move while battling.
+- `/checkspawn` results now have hoverable tooltips showing egg group and EV yield info to make cake hunting easier.
+### Jade Addons:
+#### Pokemon Extra Info
+  - Types
+  - Weaknesses
+  - Form
+  - Pokedex status
+  - Egg groups
+  - EV yield
+  - Catch rate
+  - Catch chance % (when holding a Pokeball)
+  - Warnings for self-damaging moves
+#### Poke Snack Extra Info:
+  - Bites remaining
+  - Ingredients
+  - Seasoning effects
