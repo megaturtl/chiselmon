@@ -1,4 +1,5 @@
 Bugs:
+- sometimes currenthp > maxhp in capturecalc, this might be fine but need to look into (for now i am just clamping it)
 
 High priority:
 - Finish the README

@@ -18,10 +18,8 @@ public record CaptureParams(
 ) {
 
     public CaptureParams {
-        // Validation
-        if (maxHp <= 0) throw new IllegalArgumentException("maxHp must be positive");
-        if (currentHp < 0) throw new IllegalArgumentException("currentHp cannot be negative");
-        if (currentHp > maxHp) throw new IllegalArgumentException("currentHp cannot exceed maxHp");
+        if (maxHp <= 0) maxHp = 1.0F;
+        currentHp = Math.max(0, Math.min(currentHp, maxHp));
     }
 
     public static Builder builder() {
