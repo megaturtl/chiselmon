@@ -12,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
+import java.util.Locale;
+
 import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
 
 public class MessageAction implements AlertAction {
@@ -20,19 +22,34 @@ public class MessageAction implements AlertAction {
         Pokemon pokemon = ctx.pokemon();
         RuntimeFilter filter = ctx.messageFilter();
 
-        // Alert Emoji + Mute Click Event
-        MutableComponent message = createComponent("⚠ ", ColorUtils.PINK.getRGB())
+        // Alert prefix
+        MutableComponent message = Component.empty()
+                .withColor(ColorUtils.PINK.getRGB());
+        message.append(Component.literal("⚠ ")
                 .withStyle(style -> style
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                                 "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                Component.translatable("chiselmon.spawnalert.mute.tooltip"))));
-        // Pokemon Name (includes shiny and size)
-        message.append(PokemonFormats.detailedName(pokemon, ctx.config().showFormInMessage));
-        message.append(Component.literal(" [").withColor(ColorUtils.LIGHT_GRAY.getRGB()));
+                                Component.translatable("chiselmon.spawnalert.mute.tooltip")))));
+        // Filter name
         message.append(filter.displayName());
-        message.append(Component.literal("] ").withColor(ColorUtils.LIGHT_GRAY.getRGB()));
-        message.append(Component.literal(" spawned nearby! ").withColor(ColorUtils.PINK.getRGB()));
+        message.append(Component.literal(" • ")
+                .withColor(ColorUtils.DARK_GRAY.getRGB()));
+        // Pokemon name/details
+        message.append(Component.literal(pokemon.getSpecies().getName()));
+        if (pokemon.getForm() != pokemon.getSpecies().getStandardForm()) {
+            message.append(Component.literal("-" + pokemon.getForm().getName()));
+        }
+        if (pokemon.getShiny()) {
+            message.append(Component.literal(" ★")
+                    .withColor(ColorUtils.GOLD.getRGB()));
+        }
+        if (pokemon.getScaleModifier() != 1.0f) {
+            message.append(Component.literal(" (" + String.format("%.2f", pokemon.getScaleModifier()) + ")")
+                    .withColor(ColorUtils.TEAL.getRGB()));
+        }
+        // Alert suffix
+        message.append(Component.literal("spawned nearby!"));
         // Coords
         message.append(createComponent(" (" + ctx.entity().getOnPos().toShortString() + ")", ColorUtils.AQUA.getRGB()));
 

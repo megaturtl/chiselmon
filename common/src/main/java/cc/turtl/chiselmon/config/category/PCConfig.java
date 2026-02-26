@@ -66,34 +66,6 @@ public class PCConfig {
         }
     }
 
-    public static class EggSpyConfig {
-        public static final boolean DEFAULT_ENABLED = false;
-        public static final boolean DEFAULT_SYNC_HATCH_PROGRESS = false;
-
-        @SerialEntry
-        public boolean enabled = DEFAULT_ENABLED;
-        @SerialEntry
-        public boolean syncHatchProgress = DEFAULT_SYNC_HATCH_PROGRESS;
-
-        public OptionGroup buildGroup() {
-            return OptionGroup.createBuilder()
-                    .name(Component.translatable("chiselmon.config.pc.group.egg_spy"))
-                    .option(OptionFactory.toggleOnOff(
-                            "chiselmon.config.pc.egg_spy.enabled",
-                            DEFAULT_ENABLED,
-                            () -> enabled,
-                            v -> enabled = v
-                    ))
-                    .option(OptionFactory.toggleTick(
-                            "chiselmon.config.pc.sync_hatch_progress.enabled",
-                            DEFAULT_SYNC_HATCH_PROGRESS,
-                            () -> syncHatchProgress,
-                            v -> syncHatchProgress = v
-                    ))
-                    .build();
-        }
-    }
-
     public static class TooltipConfig {
         public static final boolean DEFAULT_ENABLED = true;
         public static final boolean DEFAULT_SHOW_ON_HOVER = false;
@@ -102,7 +74,7 @@ public class PCConfig {
         public static final boolean DEFAULT_ORIGINAL_TRAINER = true;
         public static final boolean DEFAULT_FORM = true;
         public static final boolean DEFAULT_FRIENDSHIP = false;
-        public static final boolean DEFAULT_RIDE_STYLES = true;
+        public static final boolean DEFAULT_RIDE_STYLES = false;
         public static final boolean DEFAULT_MARKS = true;
         public static final boolean DEFAULT_HATCH_PROGRESS = false;
 
