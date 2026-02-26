@@ -164,6 +164,7 @@ public class PCConfig {
         public static final boolean DEFAULT_SIZE = true;
         public static final boolean DEFAULT_MARK = true;
         public static final boolean DEFAULT_RIDEABLE = false;
+        public static final boolean DEFAULT_SHOULDERABLE = false;
 
         @SerialEntry public boolean enabled = DEFAULT_ENABLED;
         @SerialEntry public boolean hiddenAbility = DEFAULT_HIDDEN_ABILITY;
@@ -172,6 +173,7 @@ public class PCConfig {
         @SerialEntry public boolean size = DEFAULT_SIZE;
         @SerialEntry public boolean mark = DEFAULT_MARK;
         @SerialEntry public boolean rideable = DEFAULT_RIDEABLE;
+        @SerialEntry public boolean shoulderable = DEFAULT_SHOULDERABLE;
 
         public OptionGroup buildGroup() {
             return OptionGroup.createBuilder()
@@ -217,6 +219,12 @@ public class PCConfig {
                             DEFAULT_RIDEABLE,
                             () -> rideable,
                             v -> rideable = v
+                    ))
+                    .option(OptionFactory.toggleTick(
+                            "chiselmon.config.pc.icon.shoulderable",
+                            DEFAULT_SHOULDERABLE,
+                            () -> shoulderable,
+                            v -> shoulderable = v
                     ))
                     .build();
         }

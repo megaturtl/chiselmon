@@ -16,6 +16,7 @@ public final class PokemonPredicates {
     // Simple predicates (no config needed)
     public static final Predicate<Pokemon> IS_SHINY = Pokemon::getShiny;
     public static final Predicate<Pokemon> IS_RIDEABLE = p -> p.getRiding().getBehaviours() != null;
+    public static final Predicate<Pokemon> IS_SHOULDERABLE = p -> ClientSpeciesRegistry.get(p.getSpecies().getName()).shoulderMountable();
     public static final Predicate<Pokemon> IS_MARKED = p -> !p.getMarks().isEmpty();
     public static final Predicate<Pokemon> IS_LEGENDARY = hasAnyLabel(List.of("legendary", "mythical", "ultra_beast"));
     public static final Predicate<Pokemon> IS_ULTRABEAST = hasAnyLabel(List.of("ultra_beast"));

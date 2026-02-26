@@ -22,6 +22,7 @@ public final class IconRegistry {
         add("size", cfg -> cfg.size, PokemonPredicates.IS_EXTREME_SIZE);
         add("mark", cfg -> cfg.mark, PokemonPredicates.IS_MARKED);
         add("rideable", cfg -> cfg.rideable, PokemonPredicates.IS_RIDEABLE);
+        add("shoulderable", cfg -> cfg.rideable, PokemonPredicates.IS_SHOULDERABLE);
     }
 
     private IconRegistry() {

@@ -126,6 +126,8 @@
     "chiselmon.config.pc.icon.mark.description": "Show a purple trophy icon for marked pokemon",
     "chiselmon.config.pc.icon.rideable": "Rideable Icon",
     "chiselmon.config.pc.icon.rideable.description": "Show a brown saddle icon for rideable pokemon",
+    "chiselmon.config.pc.icon.shoulderable": "Shoulderable Icon",
+    "chiselmon.config.pc.icon.shoulderable.description": "Show a red paw print icon for shoulderable pokemon",
 
     "chiselmon.config.category.filters": "Filters",
     "chiselmon.config.filters.manage": "Manage Filters",

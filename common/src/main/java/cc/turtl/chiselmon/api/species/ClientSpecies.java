@@ -18,6 +18,7 @@ public record ClientSpecies(
         Set<String> labels,
         List<String> aspects,
         int eggCycles,
+        boolean shoulderMountable,
         Map<String, Integer> baseStats,
         Map<String, Integer> evYield
 ) {
