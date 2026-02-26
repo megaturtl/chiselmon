@@ -1,24 +1,30 @@
 Bugs:
+- sometimes currenthp > maxhp in capturecalc, this might be fine but need to look into (for now i am just clamping it)
 
 High priority:
-- make the quicksort key bindable
-- fully grown cobblemon crop markers
+- Finish the README
+- add screenshots to the config descriptions (like chesttracker)
+
+ALERTS
+- add a nicer way to select tags for the ui
 
 Nice to have:
+- small quicksort button that always shows, tooltip says the hotkey it is currently set to and current sort mode
+- fully grown cobblemon crop markers
+- quick evolve or smth
 - auto pause spawnlogger when exit minecart
-- show loaded pokemon count in the surrounding chunks, and eligible for despawn count using a hud library widget.
-- make all text translatable (lang file)
 - total pc fullness % (and number of eggs)
 
 One day:
+- client side catchcombo tracking to derive my own data (ansun suggests shiny %)
+- maybe also prevent throwing balls at the wrong mon when on a catchcombo ("CC Lock" or smth)
+- pc living dex checklist
+- interactive heatmap generator with the db data. maybe you type a command and it hosts a local web server where you can move stuff around or smth.
 - improve the multiselect feature from morecobblemontweaks
 - Add a set all before/after key in wallpapers
-- If a mon meets the high iv cap and also has a 0 iv show a custom rusted bottle cap
 - Add a jade tooltip if a block is pokemon spawnable
 - add a contents/list/scrollthrough for pc pages (name of box, how many pokemon in each, hover on box to see what's inside - kinda like an inv view)
 
 Current known limitations:
-- Quick and timer balls don't know the current turn (both assume turn 1)
-- Quick and timer balls don't know the current turn (both assume turn 1)
-- Egg preview uses default form
-- SpawnAlert has trouble distinguishing wild pokemon from  and some pokedisguises
+- Quick and timer balls don't know the current turn (both assume turn 1) FIXED!! I THINK!! nvm it's still broken on servers
+- form data is wrong for egg dummies sometimes (defaulting to regular)

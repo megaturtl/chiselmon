@@ -1,0 +1,50 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[5.3,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "chiselmon"
+version = "${version}"
+displayName = "Chiselmon"
+authors = "megaturtl"
+description = "Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!"
+logoFile="assets/chiselmon/icon.png"
+
+[[dependencies.chiselmon]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "cobblemon"
+type = "required"
+versionRange = "[1.7.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.chiselmon]]
+modId = "yet_another_config_lib_v3"
+mandatory = true
+versionRange = "[3.6.1,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.chiselmon]]
+modId = "jade"
+type = "optional"
+versionRange = "[15.10.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "chiselmon.mixins.json"

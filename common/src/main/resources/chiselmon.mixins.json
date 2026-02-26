@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "cc.turtl.chiselmon.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "MixinClientParty",
+    "MixinClientPC",
+    "MixinEntity",
+    "MixinMoveTile",
+    "MixinPartyOverlay",
+    "MixinPCGUI",
+    "MixinPokemon",
+    "MixinStorageSlot",
+    "MixinWallpaperEntry",
+    "accessor.KeyMappingAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

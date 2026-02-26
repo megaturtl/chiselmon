@@ -1,0 +1,57 @@
+package cc.turtl.chiselmon.platform;
+
+import cc.turtl.chiselmon.api.PokemonEncounter;
+import cc.turtl.chiselmon.api.event.*;
+import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+
+public class PlatformEventHandlers {
+    public static void handleEntityLoad(Entity entity, ClientLevel clientLevel) {
+         if (entity instanceof PokemonEntity pe) {
+            PokemonLoadedEvent event = new PokemonLoadedEvent(pe, PokemonEncounter.from(pe), PokemonEntityPredicates.IS_WILD.test(pe));
+            ChiselmonEvents.POKEMON_LOADED.emit(event);
+        }
+    }
+
+    public static void handleEntityUnload(Entity entity, ClientLevel clientLevel) {
+        if (entity instanceof PokemonEntity pe) {
+            PokemonUnloadedEvent event = new PokemonUnloadedEvent(pe, PokemonEntityPredicates.IS_WILD.test(pe));
+            ChiselmonEvents.POKEMON_UNLOADED.emit(event);
+        }
+    }
+
+    public static void handleClientPostTick(Minecraft client) {
+        ClientPostTickEvent event = new ClientPostTickEvent(client);
+        ChiselmonEvents.CLIENT_POST_TICK.emit(event);
+    }
+
+    public static void handleLevelConnect() {
+        LevelConnectedEvent event = new LevelConnectedEvent();
+        ChiselmonEvents.LEVEL_CONNECTED.emit(event);
+    }
+
+    public static void handleLevelDisconnect() {
+        LevelDisconnectedEvent event = new LevelDisconnectedEvent();
+        ChiselmonEvents.LEVEL_DISCONNECTED.emit(event);
+    }
+
+    public static void handleGameStopping() {
+        GameStoppingEvent event = new GameStoppingEvent();
+        ChiselmonEvents.GAME_STOPPING.emit(event);
+    }
+
+    public static void handleCommandSent(String commandString) {
+        CommandSentEvent event = new CommandSentEvent(commandString);
+        ChiselmonEvents.COMMAND_SENT.emit(event);
+    }
+
+    public static Component handleGameMessageReceived(Component message) {
+        MessageReceivedEvent event = new MessageReceivedEvent(message);
+        ChiselmonEvents.MESSAGE_RECEIVED.emit(event);
+        return event.getMessage();
+    }
+}

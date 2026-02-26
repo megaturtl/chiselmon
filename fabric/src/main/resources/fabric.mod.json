@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "chiselmon",
+  "version": "${version}",
+  "name": "Chiselmon",
+  "description": "Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!",
+  "authors": [
+    "megaturtl"
+  ],
+  "contact": {
+    "sources": "https://github.com/megaturtl/chiselmon",
+    "issues": "https://github.com/megaturtl/chiselmon/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/chiselmon/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "cc.turtl.chiselmon.fabric.ChiselmonFabric"
+    ],
+    "modmenu": [
+      "cc.turtl.chiselmon.fabric.compat.ModMenuIntegration"
+    ],
+    "jade": [
+      "cc.turtl.chiselmon.compat.jade.ChiselmonJadePlugin"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "chiselmon.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+
+    "cobblemon": ">=1.7.0",
+    "yet_another_config_lib_v3": ">=3.6.1"
+  },
+  "recommends": {
+    "jade": ">=15.10.2"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/wFRFqQK9WW"
+      },
+      "update_checker": true
+    }
+  }
+}
