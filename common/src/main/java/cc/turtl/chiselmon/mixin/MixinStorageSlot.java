@@ -31,8 +31,14 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Shadow(remap = false)
     public abstract Pokemon getPokemon();
 
+    // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent stale tooltips.
+    @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
+    private void chiselmon$clearTooltip(GuiGraphics context, int MouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (getPokemon() == null) setTooltip(null);
+    }
+
     @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
-    private void chiselmon$renderEntryPoint(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+    private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.get();
         if (config.general.modDisabled) return;
 
@@ -48,18 +54,13 @@ public abstract class MixinStorageSlot extends AbstractWidget {
             EggRenderer.renderStorageSlot(context, eggDummy, posX, posY);
         }
 
-        if (config.pc.tooltip.enabled) {
+        if (config.pc.tooltip.enabled && isHovered) {
             chiselmon$updateTooltip(preview, config.pc.tooltip);
         }
     }
 
     @Unique
     private void chiselmon$updateTooltip(Pokemon pokemon, PCConfig.TooltipConfig config) {
-        if (!isHovered()) {
-            setTooltip(null);
-            return;
-        }
-
         boolean isShiftDown = Screen.hasShiftDown();
         boolean shouldShowTooltip = config.showOnHover ||
                 (config.extendOnShift && isShiftDown);
