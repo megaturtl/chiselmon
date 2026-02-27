@@ -14,18 +14,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = WallpapersScrollingWidget.WallpaperEntry.class, remap = false)
+@Mixin(value = WallpapersScrollingWidget.WallpaperEntry.class)
 public abstract class MixinWallpaperEntry {
 
-    @Shadow(aliases = "this$0")
+    @Shadow(aliases = "this$0", remap = false)
     @Final
     private WallpapersScrollingWidget outer;
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private ResourceLocation wallpaper;
-    @Shadow
+    @Shadow(remap = false)
     private ResourceLocation altWallpaper;
-    @Shadow
+    @Shadow(remap = false)
     private boolean isNew;
 
     @Inject(method = "render", at = @At("RETURN"))

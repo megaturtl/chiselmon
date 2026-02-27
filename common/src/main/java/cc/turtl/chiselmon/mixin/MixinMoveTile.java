@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Mixin(value = BattleMoveSelection.MoveTile.class, remap = false)
+@Mixin(value = BattleMoveSelection.MoveTile.class)
 public abstract class MixinMoveTile {
 
     @Unique
@@ -54,7 +54,7 @@ public abstract class MixinMoveTile {
     @Shadow(remap = false)
     public abstract List<Targetable> getTargetList();
 
-    @Inject(method = "render", at = @At("TAIL"), remap = false)
+    @Inject(method = "render", at = @At("TAIL"), remap = false) // doesn't override MC's render method
     public void chiselmon$renderMoveTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.get();
 

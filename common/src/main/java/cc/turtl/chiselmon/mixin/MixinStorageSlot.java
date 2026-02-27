@@ -31,7 +31,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Shadow(remap = false)
     public abstract Pokemon getPokemon();
 
-    @Inject(method = "renderSlot", at = @At("TAIL"))
+    @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
     private void chiselmon$renderEntryPoint(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.get();
         if (config.general.modDisabled) return;

@@ -54,7 +54,8 @@ public abstract class MixinPCGUI extends Screen {
         super(title);
     }
 
-    @Inject(method = "init", at = @At("TAIL"), remap = false)
+    // Don't use remap=false here or InvMove early loading the class will break the Mixin injection
+    @Inject(method = "init", at = @At("TAIL"))
     private void chiselmon$initEntryPoint(CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.get();
         if (config.general.modDisabled) return;
