@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chiselmon Dash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="/dashboard.css"/>
+</head>
+<body>
+
+<div class="shell">
+
+    <header>
+        <div class="logo">chiselmon <span>dash</span></div>
+        <div style="color:var(--muted);font-size:11px;margin-left:8px">Encounters</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+            <span class="status-label" id="last-update">–</span>
+            <div class="status-dot"></div>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="stat-grid" id="stat-grid">
+            <div class="loading">Loading stats…</div>
+        </div>
+
+        <div class="chart-grid">
+
+            <div class="chart-card wide">
+                <h2>Encounters over time (hourly · last 7 days)</h2>
+                <canvas id="chart-timeline"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>Top species</h2>
+                <canvas id="chart-species"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>Encounters by biome</h2>
+                <canvas id="chart-biomes"></canvas>
+            </div>
+
+        </div>
+
+        <div class="table-card">
+            <h2>Recent encounters</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Species</th>
+                        <th>Form</th>
+                        <th>Lvl</th>
+                        <th>Gender</th>
+                        <th>Biome</th>
+                        <th>Dimension</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody id="enc-tbody">
+                    <tr>
+                        <td colspan="7" class="loading">Loading…</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="hm-card">
+            <h2>Spawn heatmap</h2>
+
+            <div class="hm-controls">
+                <label>Centre X <input id="hm-cx" type="number" value="0" placeholder="0"/></label>
+                <label>Centre Z <input id="hm-cz" type="number" value="0" placeholder="0"/></label>
+                <label>Radius <input id="hm-radius" type="number" value="256" placeholder="256" min="16"
+                                     max="4096"/></label>
+                <button onclick="loadHeatmap()">Load</button>
+                <span class="hm-status" id="hm-status"></span>
+            </div>
+
+            <div class="hm-wrap">
+                <span class="hm-corner tl" id="hm-label-tl"></span>
+                <span class="hm-corner br" id="hm-label-br"></span>
+                <canvas id="hm-canvas"></canvas>
+            </div>
+
+            <div class="hm-legend">
+                <span class="hm-swatch" style="background:rgba(249,199,79,0.75)"></span> Pokémon spawns &nbsp;&nbsp;
+                <span class="hm-swatch" style="background:rgba(77,201,240,0.6)"></span> Player positions
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/dashboard.js"></script>
+</body>
+</html>

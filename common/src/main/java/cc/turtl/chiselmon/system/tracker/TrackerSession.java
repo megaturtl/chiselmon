@@ -1,23 +1,28 @@
 package cc.turtl.chiselmon.system.tracker;
 
+import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.event.PokemonLoadedEvent;
 import cc.turtl.chiselmon.api.event.PokemonUnloadedEvent;
-import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.system.dashboard.DashboardServer;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database.
  */
 public class TrackerSession {
+    private static final int DASHBOARD_PORT = 7890;
+
     private final long startTimeMs;
     private final Map<UUID, PokemonEntity> currentlyLoaded = new HashMap<>();
     private final Set<UUID> seenUuids = new HashSet<>();
     private final EncounterDatabase db;
+    private DashboardServer dashboardServer;
 
     public TrackerSession() {
         this.startTimeMs = System.currentTimeMillis();
@@ -55,6 +60,26 @@ public class TrackerSession {
 
     public EncounterDatabase getDb() {
         return db;
+    }
+
+    public void startDashboard() throws IOException {
+        if (dashboardServer != null) return;
+        dashboardServer = new DashboardServer(db, DASHBOARD_PORT);
+        dashboardServer.start();
+    }
+
+    public void stopDashboard() {
+        if (dashboardServer == null) return;
+        dashboardServer.stop();
+        dashboardServer = null;
+    }
+
+    public boolean isDashboardRunning() {
+        return dashboardServer != null;
+    }
+
+    public int getDashboardPort() {
+        return DASHBOARD_PORT;
     }
 
     public Map<UUID, PokemonEntity> getCurrentlyLoaded() {

@@ -168,4 +168,8 @@ public class EncounterDatabase {
             return rs.next() ? rs.getInt(1) : 0;
         }
     }
+
+    public Connection getConnection() {
+        return conn;
+    }
 }
