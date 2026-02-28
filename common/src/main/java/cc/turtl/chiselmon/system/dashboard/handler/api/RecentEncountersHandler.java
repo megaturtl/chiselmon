@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RecentEncountersHandler extends ApiHandler {
 
@@ -30,7 +31,8 @@ public class RecentEncountersHandler extends ApiHandler {
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    entries.add(String.format(
+                    // Locale.US guarantees '.' as decimal separator — safe JSON
+                    entries.add(String.format(Locale.US,
                             "{\"species\":\"%s\",\"form\":\"%s\",\"level\":%d,\"gender\":\"%s\",\"scale\":%f," +
                                     "\"shiny\":%b,\"legendary\":%b,\"snack\":%b,\"dimension\":\"%s\",\"block_name\":\"%s\",\"biome\":\"%s\",\"ms\":%d}",
                             escape(rs.getString("species")),

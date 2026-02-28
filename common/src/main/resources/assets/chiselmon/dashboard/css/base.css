@@ -1,0 +1,47 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #21262d;
+    --accent: #F46997;
+    --accent2: #90be6d;
+    --accent3: #f94144;
+    --accent4: #577590;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --shiny: #FFD700;
+    --legendary: #ff42ff;
+    --size_variation: #008080;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --radius: 6px;
+}
+
+html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono), monospace;
+    font-size: 14px;
+    min-height: 100vh;
+}
+
+.shell {
+    display: grid;
+    grid-template-rows: 56px 1fr;
+    min-height: 100vh;
+}
+
+main {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}

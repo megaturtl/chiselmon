@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,13 +65,28 @@ public abstract class ApiHandler implements HttpHandler {
         return 0;
     }
 
+    /**
+     * Parses all query parameters into a map, URL-decoding both keys and values.
+     * This is required for dimension strings like {@code cobblemon:ultra_space}
+     * which arrive percent-encoded as {@code cobblemon%3Aultra_space}.
+     */
     protected static Map<String, String> parseQuery(URI uri) {
         Map<String, String> map = new HashMap<>();
         String query = uri.getQuery();
         if (query == null) return map;
         for (String pair : query.split("&")) {
             String[] kv = pair.split("=", 2);
-            if (kv.length == 2) map.put(kv[0], kv[1]);
+            if (kv.length == 2) {
+                try {
+                    map.put(
+                            URLDecoder.decode(kv[0], StandardCharsets.UTF_8),
+                            URLDecoder.decode(kv[1], StandardCharsets.UTF_8)
+                    );
+                } catch (IllegalArgumentException e) {
+                    // Fallback to raw value if decoding fails
+                    map.put(kv[0], kv[1]);
+                }
+            }
         }
         return map;
     }

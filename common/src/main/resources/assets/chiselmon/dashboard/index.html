@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
           rel="stylesheet"/>
-    <link rel="stylesheet" href="/dashboard.css"/>
+    <link rel="stylesheet" href="/css/dashboard.css"/>
 </head>
 <body>
 
@@ -37,17 +37,14 @@
         </div>
 
         <div class="chart-grid">
-
             <div class="chart-card wide">
                 <h2>Encounters over time</h2>
                 <canvas id="chart-timeline"></canvas>
             </div>
-
             <div class="chart-card">
                 <h2>Top species</h2>
                 <canvas id="chart-species"></canvas>
             </div>
-
             <div class="chart-card">
                 <h2>Encounters by biome</h2>
                 <canvas id="chart-biomes"></canvas>
@@ -64,7 +61,6 @@
                         <canvas id="hm-canvas"></canvas>
                         <div id="hm-tooltip" class="hm-tooltip"></div>
                     </div>
-
                     <div class="hm-legend-wrap">
                         <div class="hm-legend-labels">
                             <span>🟡 Pokemon spawns</span>
@@ -76,16 +72,16 @@
 
                 <div class="hm-controls">
                     <label>Centre X
-                        <input id="hm-cx" type="number" value="0" onchange="loadHeatmap()"/>
+                        <input id="hm-cx" type="number" value="0"/>
                     </label>
                     <label>Centre Z
-                        <input id="hm-cz" type="number" value="0" onchange="loadHeatmap()"/>
+                        <input id="hm-cz" type="number" value="0"/>
                     </label>
                     <label>Chunk radius
-                        <input id="hm-radius" type="number" value="8" min="2" max="32" onchange="loadHeatmap()"/>
+                        <input id="hm-radius" type="number" value="8" min="2" max="32"/>
                     </label>
                     <label>Tile Size
-                        <select id="hm-tile-size" onchange="loadHeatmap()">
+                        <select id="hm-tile-size">
                             <option value="auto">Auto</option>
                             <option value="1">1x1</option>
                             <option value="2">2x2</option>
@@ -95,10 +91,9 @@
                         </select>
                     </label>
                     <label>Dimension
-                        <select id="hm-dimension" onchange="loadHeatmap()"></select>
+                        <select id="hm-dimension"></select>
                     </label>
-
-                    <button onclick="resetHeatmap()">Reset</button>
+                    <button id="hm-reset-btn">Reset</button>
                     <div class="hm-status" id="hm-status">-</div>
                 </div>
             </div>
@@ -132,6 +127,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/dashboard.js"></script>
+<script type="module" src="/js/main.js"></script>
 </body>
 </html>

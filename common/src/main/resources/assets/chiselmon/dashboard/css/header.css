@@ -1,0 +1,124 @@
+header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 0 24px;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+}
+
+.logo-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+#logo-text {
+    font-family: var(--font-head), sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+}
+
+#logo-text span {
+    color: var(--text);
+}
+
+#author-text {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+#world-name {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.time-range {
+    display: flex;
+    gap: 4px;
+}
+
+.tr-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--font-mono), monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    text-transform: uppercase;
+    transition: border-color .15s, color .15s, background .15s;
+}
+
+.tr-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.tr-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+}
+
+.tr-sep {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 10px;
+    align-self: center;
+}
+
+.tr-btn.gran-btn.active {
+    background: var(--accent4);
+    border-color: var(--accent4);
+    color: #fff;
+}
+
+.tr-btn.gran-btn:hover {
+    border-color: var(--accent4);
+    color: var(--text);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 6px var(--accent2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+.status-label {
+    color: var(--muted);
+    font-size: 11px;
+}
