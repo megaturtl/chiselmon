@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.util.format;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,17 @@ public final class ComponentUtils {
             style = style.withColor(color).withBold(bold);
             return style;
         });
+    }
+
+    /**
+     * Creates a clickable URL component that opens the link in the browser on click.
+     */
+    public static Component clickableUrl(String url) {
+        return Component.literal(url)
+                .withStyle(s -> s
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url))
+                        .withColor(ColorUtils.PINK.getRGB())
+                        .withUnderlined(true));
     }
 
     /**

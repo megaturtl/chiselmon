@@ -26,10 +26,12 @@ public class DashboardServer {
     private final EncounterDatabase db;
     private final int port;
     private HttpServer httpServer;
+    private final long startTimeMs;
 
     public DashboardServer(EncounterDatabase db, int port) {
         this.db = db;
         this.port = port;
+        this.startTimeMs = System.currentTimeMillis();
     }
 
     public void start() throws IOException {
@@ -63,5 +65,12 @@ public class DashboardServer {
             httpServer.stop(0);
             ChiselmonConstants.LOGGER.info("Chiselmon Dashboard server stopped.");
         }
+    }
+
+    public long uptime() {
+        if (httpServer != null) {
+            return System.currentTimeMillis() - startTimeMs;
+        }
+        return 0;
     }
 }

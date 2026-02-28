@@ -78,6 +78,10 @@ public class TrackerSession {
         return dashboardServer != null;
     }
 
+    public long dashboardUptime() {
+        return dashboardServer.uptime();
+    }
+
     public int getDashboardPort() {
         return DASHBOARD_PORT;
     }
