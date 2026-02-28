@@ -41,7 +41,6 @@ const TIME_RANGES = [
 ];
 
 let currentFromMs = Date.now() - 86_400_000;   // default: 24h
-let heatmapLoaded = false;
 
 function getFrom() {
     return currentFromMs;
@@ -65,7 +64,7 @@ function initTimeRange() {
         const ms = parseInt(btn.dataset.ms);
         currentFromMs = ms === 0 ? 0 : Date.now() - ms;
         refresh();
-        if (heatmapLoaded) loadHeatmap();
+        loadHeatmap();
     });
 }
 
@@ -179,6 +178,8 @@ async function loadTimeline() {
                 backgroundColor: 'rgba(237,109,152,0.2)',
                 borderWidth: 1.5,
                 pointRadius: 0,
+                pointHoverRadius: 5,
+                pointHitRadius: 10,
                 tension: 0.3,
                 fill: true,
             }]
@@ -325,7 +326,8 @@ function getBestPowerOfTwoTileSize(radiusBlocks) {
     const totalBlocks = radiusBlocks * 2;
     const sizes = [16, 8, 4, 2, 1];
     for (let s of sizes) {
-        if (totalBlocks / s >= 64) return s;
+        // aims to fit around 32x32 tiles on the heatmap
+        if (totalBlocks / s >= 32) return s;
     }
     return 1;
 }
@@ -574,7 +576,7 @@ function initHeatmapDrag(canvas) {
 async function loadHeatmap() {
     const cx = parseInt(document.getElementById('hm-cx').value) || 0;
     const cz = parseInt(document.getElementById('hm-cz').value) || 0;
-    const chunkRadius = Math.min(16, Math.max(1, parseInt(document.getElementById('hm-radius').value) || 8));
+    const chunkRadius = Math.min(32, Math.max(2, parseInt(document.getElementById('hm-radius').value) || 8));
     const visibleRadius = chunkRadius * CHUNKS_TO_BLOCKS;
 
     // Check Tile Size Selector
@@ -584,12 +586,16 @@ async function loadHeatmap() {
         : parseInt(tileSizeSetting);
 
     const status = document.getElementById('hm-status');
-    status.textContent = 'Updating...';
 
     const fetchRadius = Math.round(visibleRadius * OVERSCAN_FACTOR);
 
     try {
         const data = await api(withFrom(`/api/heatmap?cx=${cx}&cz=${cz}&radius=${fetchRadius}`));
+
+        // visible encounters excluding overscan
+        const visibleEncounters = data.pokemon.filter(([x, z]) => {
+            return Math.abs(x - cx) <= visibleRadius && Math.abs(z - cz) <= visibleRadius;
+        });
 
         const gridBlocks = visibleRadius * 2 * OVERSCAN_FACTOR;
         const cells = Math.ceil(gridBlocks / tileSize);
@@ -626,7 +632,7 @@ async function loadHeatmap() {
 
             document.getElementById('hm-label-tl').textContent = `${cx - visibleRadius}, ${cz - visibleRadius}`;
             document.getElementById('hm-label-br').textContent = `${cx + visibleRadius}, ${cz + visibleRadius}`;
-            status.textContent = `${data.pokemon.length.toLocaleString()} encounters · tile: ${tileSize}x${tileSize}`;
+            status.textContent = `${visibleEncounters.length.toLocaleString()} encounters · tile: ${tileSize}x${tileSize}`;
         });
 
     } catch (err) {
@@ -637,7 +643,6 @@ async function loadHeatmap() {
 
 async function resetHeatmap() {
     const status = document.getElementById('hm-status');
-    status.textContent = 'Resetting...';
 
     try {
         // Re-fetch world info to get the latest player position
