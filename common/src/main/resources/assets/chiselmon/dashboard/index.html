@@ -14,14 +14,19 @@
 <div class="shell">
 
     <header>
-        <div class="logo">chiselmon <span>dash</span></div>
-        <div class="header-world">
-            encounters for <span id="world-name" class="world-name">–</span>
-        </div>
-        <div id="time-range" class="time-range"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
-            <span class="status-label" id="last-update">–</span>
-            <div class="status-dot"></div>
+        <div class="header-inner">
+            <div class="header-left">
+                <div class="logo-wrap">
+                    <div id="logo-text">chiselmon <span>dash</span></div>
+                    <div id="author-text">by megaturtl 💚</div>
+                </div>
+                <div id="world-name">-</div>
+                <div id="time-range" class="time-range"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <span class="status-label" id="last-update">–</span>
+                <div class="status-dot"></div>
+            </div>
         </div>
     </header>
 
@@ -47,38 +52,12 @@
                 <h2>Encounters by biome</h2>
                 <canvas id="chart-biomes"></canvas>
             </div>
+        </div>
 
-            <div class="hm-card">
-                <h2>Spawn heatmap</h2>
-                <div class="hm-body">
-
-                    <div class="hm-controls">
-                        <label>Centre X
-                            <input id="hm-cx" type="number" value="0" onchange="loadHeatmap()"/>
-                        </label>
-                        <label>Centre Z
-                            <input id="hm-cz" type="number" value="0" onchange="loadHeatmap()"/>
-                        </label>
-                        <label>Chunk radius
-                            <input id="hm-radius" type="number" value="8" min="2" max="32" onchange="loadHeatmap()"/>
-                        </label>
-                        <label>Tile Size
-                            <select id="hm-tile-size" onchange="loadHeatmap()">
-                                <option value="auto">Auto</option>
-                                <option value="1">1x1</option>
-                                <option value="2">2x2</option>
-                                <option value="4">4x4</option>
-                                <option value="8">8x8</option>
-                                <option value="16">16x16</option>
-                            </select>
-                        </label>
-                        <label>Dimension
-                            <select id="hm-dimension" onchange="loadHeatmap()"></select>
-                        </label>
-
-                        <button onclick="resetHeatmap()">Reset</button>
-                    </div>
-
+        <div class="hm-card">
+            <h2>Spawn heatmap</h2>
+            <div class="hm-body">
+                <div class="hm-map-side">
                     <div class="hm-status" id="hm-status">-</div>
 
                     <div class="hm-wrap">
@@ -95,14 +74,35 @@
                         </div>
                         <canvas id="hm-legend-canvas" class="hm-legend-canvas"></canvas>
                     </div>
+                </div>
 
+                <div class="hm-controls">
+                    <label>Centre X
+                        <input id="hm-cx" type="number" value="0" onchange="loadHeatmap()"/>
+                    </label>
+                    <label>Centre Z
+                        <input id="hm-cz" type="number" value="0" onchange="loadHeatmap()"/>
+                    </label>
+                    <label>Chunk radius
+                        <input id="hm-radius" type="number" value="8" min="2" max="32" onchange="loadHeatmap()"/>
+                    </label>
+                    <label>Tile Size
+                        <select id="hm-tile-size" onchange="loadHeatmap()">
+                            <option value="auto">Auto</option>
+                            <option value="1">1x1</option>
+                            <option value="2">2x2</option>
+                            <option value="4">4x4</option>
+                            <option value="8">8x8</option>
+                            <option value="16">16x16</option>
+                        </select>
+                    </label>
+                    <label>Dimension
+                        <select id="hm-dimension" onchange="loadHeatmap()"></select>
+                    </label>
+
+                    <button onclick="resetHeatmap()">Reset</button>
                 </div>
             </div>
-
-            <div class="chart-card">
-                <h2>Coming Soon</h2>
-            </div>
-
         </div>
 
         <div class="table-card">

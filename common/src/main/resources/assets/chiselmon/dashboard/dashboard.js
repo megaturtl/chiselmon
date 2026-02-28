@@ -103,9 +103,6 @@ function initTimeRange() {
             currentGranularity = autoGran;
             updateGranularityButtons();
         }
-
-        destroyCharts();
-        refresh();
         loadHeatmap();
     });
 
@@ -129,8 +126,6 @@ function initTimeRange() {
         if (!btn) return;
         currentGranularity = btn.dataset.gran;
         updateGranularityButtons();
-        destroyCharts();
-        loadTimeline();
     });
 }
 
@@ -163,13 +158,6 @@ function fmtTime(ms) {
 
 function fmtBiome(b) {
     return b ? b.replace(/^minecraft:/, '').replace(/_/g, ' ') : '–';
-}
-
-function destroyCharts() {
-    [timelineChart, speciesChart, biomesChart].forEach(c => c && c.destroy());
-    timelineChart = null;
-    speciesChart = null;
-    biomesChart = null;
 }
 
 async function loadStats() {
@@ -265,7 +253,7 @@ async function loadTimeline() {
     if (timelineChart) {
         timelineChart.data.labels = labels;
         timelineChart.data.datasets[0].data = counts;
-        timelineChart.update('active');
+        timelineChart.update();
         return;
     }
 
@@ -328,7 +316,7 @@ async function loadSpecies() {
         speciesChart.data.labels = labels;
         speciesChart.data.datasets[0].data = counts;
         speciesChart.data.datasets[0].backgroundColor = colors;
-        speciesChart.update('active');
+        speciesChart.update();
         return;
     }
 
@@ -369,7 +357,7 @@ async function loadBiomes() {
     if (biomesChart) {
         biomesChart.data.labels = labels;
         biomesChart.data.datasets[0].data = counts;
-        biomesChart.update('active');
+        biomesChart.update();
         return;
     }
 
@@ -867,6 +855,7 @@ async function refresh() {
             loadSpecies(),
             loadBiomes(),
             loadEncounters(),
+            loadHeatmap(),
         ]);
         document.getElementById('last-update').textContent =
             'Updated ' + new Date().toLocaleTimeString();

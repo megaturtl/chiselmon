@@ -38,18 +38,40 @@ html, body {
 }
 
 header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 24px;
+    /* Keep background and border edge-to-edge */
     border-bottom: 1px solid var(--border);
     background: var(--surface);
     position: sticky;
     top: 0;
     z-index: 10;
+    padding: 0 24px;
 }
 
-.logo {
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    height: 56px; /* Match your grid-template-rows: 56px */
+
+    /* Layout logic */
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.logo-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+#logo-text {
     font-family: var(--font-head), sans-serif;
     font-weight: 800;
     font-size: 18px;
@@ -57,26 +79,25 @@ header {
     color: var(--accent);
 }
 
-.logo span {
+#logo-text span {
     color: var(--text);
 }
 
-.header-world {
+#author-text {
     color: var(--muted);
-    font-size: 11px;
-    margin-left: 8px;
+    font-size: 12px;
 }
 
-.world-name {
+#world-name {
     color: var(--text);
     font-weight: 700;
+    font-size: 12px;
 }
 
 /* ── Time range pills ── */
 .time-range {
     display: flex;
     gap: 4px;
-    margin-left: 20px;
 }
 
 .tr-btn {
@@ -134,7 +155,6 @@ header {
     border-radius: 50%;
     background: var(--accent2);
     box-shadow: 0 0 6px var(--accent2);
-    margin-left: auto;
     animation: pulse 2s infinite;
 }
 
@@ -157,7 +177,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
@@ -327,21 +347,22 @@ tbody td {
     margin-bottom: 16px;
 }
 
-/* Vertical stack: controls → canvas → legend */
 .hm-body {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row; /* Controls and Map side-by-side */
+    gap: 24px;
+    align-items: flex-start;
 }
 
 /* Controls row */
 .hm-controls {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column; /* Stack inputs vertically */
     gap: 16px;
-    flex-wrap: nowrap;
-    width: 100%;
+    width: 120px; /* Give the sidebar a fixed width */
+    flex-shrink: 0;
 }
+
 .hm-controls label {
     display: flex;
     flex-direction: column;
@@ -352,12 +373,12 @@ tbody td {
     color: var(--muted);
     flex: 1 1 auto;
     min-width: 0;
+    width: 100%;
 }
 
 .hm-controls input,
 .hm-controls select {
     width: 100%;
-    max-width: 110px; /* Still keeps them from getting too huge on big screens */
     min-width: 60px; /* The smallest you're willing to let them get */
     box-sizing: border-box;
     background: var(--bg);
@@ -379,7 +400,6 @@ tbody td {
     font-family: var(--font-mono), monospace;
     font-size: 13px;
     padding: 6px 10px;
-    width: 110px;
     outline: none;
     transition: border-color .2s;
 }
@@ -405,6 +425,14 @@ tbody td {
 
 .hm-controls button:hover {
     opacity: 0.85;
+}
+
+.hm-map-side {
+    flex: 1; /* Take up remaining space */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0; /* Prevents flexbox overflow */
 }
 
 .hm-status {
