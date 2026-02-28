@@ -19,14 +19,18 @@ public class SpeciesHandler extends ApiHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
+            long from = parseFrom(exchange);
             List<String> entries = new ArrayList<>();
 
-            try (PreparedStatement ps = db.getConnection().prepareStatement(
-                    "SELECT species, COUNT(*) as count FROM encounters GROUP BY species ORDER BY count DESC LIMIT 20");
+            String sql = "SELECT species, COUNT(*) as cnt FROM encounters"
+                    + (from > 0 ? " WHERE encountered_ms >= " + from : "")
+                    + " GROUP BY species ORDER BY cnt DESC LIMIT 20";
+
+            try (PreparedStatement ps = db.getConnection().prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     entries.add(String.format("{\"species\":\"%s\",\"count\":%d}",
-                            escape(rs.getString("species")), rs.getLong("count")));
+                            escape(rs.getString("species")), rs.getLong("cnt")));
                 }
             }
 

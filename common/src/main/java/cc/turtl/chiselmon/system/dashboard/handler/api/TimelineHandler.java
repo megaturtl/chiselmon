@@ -19,16 +19,14 @@ public class TimelineHandler extends ApiHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
+            long from = parseFrom(exchange);
             List<String> entries = new ArrayList<>();
 
-            String sql = """
-                        SELECT FLOOR(encountered_ms / 3600000) * 3600000 AS bucket,
-                               COUNT(*) AS cnt
-                        FROM encounters
-                        WHERE encountered_ms >= (EXTRACT(EPOCH FROM NOW()) * 1000 - 604800000)
-                        GROUP BY bucket
-                        ORDER BY bucket
-                    """;
+            String sql = "SELECT FLOOR(encountered_ms / 3600000) * 3600000 AS bucket,"
+                    + " COUNT(*) AS cnt FROM encounters"
+                    + (from > 0 ? " WHERE encountered_ms >= " + from : "")
+                    + " GROUP BY bucket ORDER BY bucket ASC";
+
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

@@ -38,7 +38,26 @@ public abstract class ApiHandler implements HttpHandler {
         }
     }
 
-    protected void sendError(HttpExchange ex, String message) throws IOException {
-        sendJson(ex, 500, "{\"error\":\"" + escape(message) + "\"}");
+    protected void sendError(HttpExchange exchange, String message) throws IOException {
+        sendJson(exchange, 500, "{\"error\":\"" + escape(message) + "\"}");
+    }
+
+    /**
+     * Parses the {@code from} query parameter as epoch milliseconds.
+     * Returns {@code 0} (representing all-time) if absent or unparseable.
+     */
+    protected static long parseFrom(HttpExchange exchange) {
+        String query = exchange.getRequestURI().getQuery();
+        if (query == null) return 0;
+        for (String pair : query.split("&")) {
+            String[] kv = pair.split("=", 2);
+            if (kv.length == 2 && kv[0].equals("from")) {
+                try {
+                    return Long.parseLong(kv[1]);
+                } catch (NumberFormatException ignored) {
+                }
+            }
+        }
+        return 0;
     }
 }

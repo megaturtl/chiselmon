@@ -19,15 +19,14 @@ public class RecentEncountersHandler extends ApiHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
+            long from = parseFrom(exchange);
             List<String> entries = new ArrayList<>();
 
-            String sql = """
-                        SELECT species, form, level, gender, is_shiny, is_legendary, from_snack,
-                               dimension, biome, encountered_ms
-                        FROM encounters
-                        ORDER BY encountered_ms DESC
-                        LIMIT 50
-                    """;
+            String sql = "SELECT species, form, level, gender, is_shiny, is_legendary, from_snack,"
+                    + " dimension, biome, encountered_ms FROM encounters"
+                    + (from > 0 ? " WHERE encountered_ms >= " + from : "")
+                    + " ORDER BY encountered_ms DESC LIMIT 50";
+
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

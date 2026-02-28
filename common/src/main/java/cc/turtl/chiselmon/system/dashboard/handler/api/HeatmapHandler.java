@@ -24,27 +24,26 @@ public class HeatmapHandler extends ApiHandler {
         Map<String, String> params = parseQuery(exchange.getRequestURI());
 
         int cx, cz, radius;
+        long from;
         try {
             cx = Integer.parseInt(params.getOrDefault("cx", "0"));
             cz = Integer.parseInt(params.getOrDefault("cz", "0"));
             radius = Integer.parseInt(params.getOrDefault("radius", "256"));
+            from = Long.parseLong(params.getOrDefault("from", "0"));
         } catch (NumberFormatException e) {
-            sendError(exchange, "cx, cz, and radius must be integers");
+            sendError(exchange, "cx, cz, radius, and from must be numbers");
             return;
         }
 
-        radius = Math.max(16, Math.min(radius, 4096));   // clamp: 16 – 4096
+        radius = Math.max(16, Math.min(radius, 4096));
 
         try {
             List<String> pokemon = new ArrayList<>();
             List<String> player = new ArrayList<>();
 
-            String sql = """
-                        SELECT pokemon_x, pokemon_z, player_x, player_z
-                        FROM encounters
-                        WHERE pokemon_x BETWEEN ? AND ?
-                          AND pokemon_z BETWEEN ? AND ?
-                    """;
+            String sql = "SELECT pokemon_x, pokemon_z, player_x, player_z FROM encounters"
+                    + " WHERE pokemon_x BETWEEN ? AND ? AND pokemon_z BETWEEN ? AND ?"
+                    + (from > 0 ? " AND encountered_ms >= " + from : "");
 
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
                 ps.setInt(1, cx - radius);
@@ -60,13 +59,12 @@ public class HeatmapHandler extends ApiHandler {
                 }
             }
 
-            String json = String.format(
+            sendJson(exchange, 200, String.format(
                     "{\"cx\":%d,\"cz\":%d,\"radius\":%d,\"pokemon\":[%s],\"player\":[%s]}",
                     cx, cz, radius,
                     String.join(",", pokemon),
                     String.join(",", player)
-            );
-            sendJson(exchange, 200, json);
+            ));
 
         } catch (SQLException e) {
             sendError(exchange, e.getMessage());

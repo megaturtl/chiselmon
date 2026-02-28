@@ -16,6 +16,7 @@
     <header>
         <div class="logo">chiselmon <span>dash</span></div>
         <div style="color:var(--muted);font-size:11px;margin-left:8px">Encounters</div>
+        <div id="time-range" class="time-range"></div>
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
             <span class="status-label" id="last-update">–</span>
             <div class="status-dot"></div>
@@ -31,7 +32,7 @@
         <div class="chart-grid">
 
             <div class="chart-card wide">
-                <h2>Encounters over time (hourly · last 7 days)</h2>
+                <h2>Encounters over time (hourly)</h2>
                 <canvas id="chart-timeline"></canvas>
             </div>
 
@@ -45,6 +46,35 @@
                 <canvas id="chart-biomes"></canvas>
             </div>
 
+        </div>
+
+        <div class="hm-card">
+            <h2>Spawn heatmap</h2>
+            <div class="hm-body">
+
+                <div class="hm-wrap">
+                    <span class="hm-corner tl" id="hm-label-tl"></span>
+                    <span class="hm-corner br" id="hm-label-br"></span>
+                    <canvas id="hm-canvas"></canvas>
+                </div>
+
+                <div class="hm-sidebar">
+                    <div class="hm-controls">
+                        <label>Centre X <input id="hm-cx" type="number" value="0" placeholder="0"/></label>
+                        <label>Centre Z <input id="hm-cz" type="number" value="0" placeholder="0"/></label>
+                        <label>Radius <input id="hm-radius" type="number" value="256" placeholder="256" min="16"
+                                             max="4096"/></label>
+                        <button onclick="loadHeatmap()">Load</button>
+                    </div>
+                    <span class="hm-status" id="hm-status"></span>
+                    <div class="hm-legend">
+                        <span class="hm-swatch" style="background:rgba(249,199,79,0.75)"></span> Pokémon spawns
+                        <span style="margin:0 8px">·</span>
+                        <span class="hm-swatch" style="background:rgba(77,201,240,0.6)"></span> Player positions
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <div class="table-card">
@@ -71,34 +101,10 @@
             </div>
         </div>
 
-        <div class="hm-card">
-            <h2>Spawn heatmap</h2>
-
-            <div class="hm-controls">
-                <label>Centre X <input id="hm-cx" type="number" value="0" placeholder="0"/></label>
-                <label>Centre Z <input id="hm-cz" type="number" value="0" placeholder="0"/></label>
-                <label>Radius <input id="hm-radius" type="number" value="256" placeholder="256" min="16"
-                                     max="4096"/></label>
-                <button onclick="loadHeatmap()">Load</button>
-                <span class="hm-status" id="hm-status"></span>
-            </div>
-
-            <div class="hm-wrap">
-                <span class="hm-corner tl" id="hm-label-tl"></span>
-                <span class="hm-corner br" id="hm-label-br"></span>
-                <canvas id="hm-canvas"></canvas>
-            </div>
-
-            <div class="hm-legend">
-                <span class="hm-swatch" style="background:rgba(249,199,79,0.75)"></span> Pokémon spawns &nbsp;&nbsp;
-                <span class="hm-swatch" style="background:rgba(77,201,240,0.6)"></span> Player positions
-            </div>
-        </div>
-
     </main>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/dashboard.js"></script>
 </body>
 </html>

@@ -10,12 +10,58 @@ const CHART_PALETTE = [
     '#40E0D0', '#2D73B0', '#6C44C3', '#F46997',
 ];
 
+// ── Time range state ──────────────────────────────────────────────────────────
+
+const TIME_RANGES = [
+    {label: '1h', ms: 3_600_000},
+    {label: '24h', ms: 86_400_000},
+    {label: '7d', ms: 604_800_000},
+    {label: '30d', ms: 2_592_000_000},
+    {label: 'All', ms: 0},
+];
+
+let currentFromMs = Date.now() - 86_400_000;   // default: 24h
+let heatmapLoaded = false;
+
+function getFrom() {
+    return currentFromMs;
+}
+
+function initTimeRange() {
+    const bar = document.getElementById('time-range');
+    TIME_RANGES.forEach(({label, ms}, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'tr-btn' + (i === 1 ? ' active' : '');
+        btn.textContent = label;
+        btn.dataset.ms = ms;
+        bar.appendChild(btn);
+    });
+
+    bar.addEventListener('click', e => {
+        const btn = e.target.closest('.tr-btn');
+        if (!btn) return;
+        bar.querySelectorAll('.tr-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const ms = parseInt(btn.dataset.ms);
+        currentFromMs = ms === 0 ? 0 : Date.now() - ms;
+        refresh();
+        if (heatmapLoaded) loadHeatmap();
+    });
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 async function api(path) {
     const r = await fetch(path);
     if (!r.ok) throw new Error(r.statusText);
     return r.json();
+}
+
+// Appends ?from= or &from= depending on whether the path already has params
+function withFrom(path) {
+    const from = getFrom();
+    if (from <= 0) return path;
+    return path + (path.includes('?') ? '&' : '?') + 'from=' + from;
 }
 
 function fmtTime(ms) {
@@ -31,7 +77,7 @@ function fmtBiome(b) {
 // ── Stats cards ───────────────────────────────────────────────────────────────
 
 async function loadStats() {
-    const s = await api('/api/stats');
+    const s = await api(withFrom('/api/stats'));
     document.getElementById('stat-grid').innerHTML = `
         <div class="stat-card">
             <span class="label">Total Encounters</span>
@@ -65,7 +111,7 @@ async function loadStats() {
 let timelineChart;
 
 async function loadTimeline() {
-    const data = await api('/api/timeline');
+    const data = await api(withFrom('/api/timeline'));
 
     const labels = data.map(d => {
         const dt = new Date(d.bucket);
@@ -105,7 +151,7 @@ async function loadTimeline() {
 let speciesChart;
 
 async function loadSpecies() {
-    const data = await api('/api/species');
+    const data = await api(withFrom('/api/species'));
 
     const ctx = document.getElementById('chart-species').getContext('2d');
     if (speciesChart) speciesChart.destroy();
@@ -137,7 +183,7 @@ async function loadSpecies() {
 let biomesChart;
 
 async function loadBiomes() {
-    const data = await api('/api/biomes');
+    const data = await api(withFrom('/api/biomes'));
 
     const ctx = document.getElementById('chart-biomes').getContext('2d');
     if (biomesChart) biomesChart.destroy();
@@ -168,7 +214,7 @@ async function loadBiomes() {
 // ── Recent encounters table ───────────────────────────────────────────────────
 
 async function loadEncounters() {
-    const data = await api('/api/encounters');
+    const data = await api(withFrom('/api/encounters'));
     const tbody = document.getElementById('enc-tbody');
 
     if (!data.length) {
@@ -200,8 +246,7 @@ async function loadEncounters() {
 
 // ── Heatmap ───────────────────────────────────────────────────────────────────
 
-const HEATMAP_RESOLUTION = 80;   // grid cells per axis
-const HEATMAP_BLUR = 1.8;  // gaussian blur radius on the canvas (px scaled)
+const HEATMAP_RESOLUTION = 80;
 
 function buildGrid(points, cx, cz, radius, cells) {
     const grid = new Float32Array(cells * cells);
@@ -216,23 +261,19 @@ function buildGrid(points, cx, cz, radius, cells) {
 }
 
 function paintHeatmap(canvas, pokemonGrid, playerGrid, cells) {
-    // Match canvas buffer to its CSS display size so it's sharp on HiDPI screens
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.width * dpr);   // keep it square
+    canvas.height = Math.round(rect.width * dpr);
 
     const size = canvas.width;
     const cell = size / cells;
     const ctx = canvas.getContext('2d');
 
     ctx.clearRect(0, 0, size, size);
-
-    // Dark background
     ctx.fillStyle = '#0d1117';
     ctx.fillRect(0, 0, size, size);
 
-    // Grid lines (subtle)
     ctx.strokeStyle = 'rgba(255,255,255,0.04)';
     ctx.lineWidth = 0.5;
     const step = size / 8;
@@ -255,19 +296,15 @@ function paintHeatmap(canvas, pokemonGrid, playerGrid, cells) {
             const idx = row * cells + col;
             const pokVal = pokemonGrid[idx] / pokMax;
             const plyVal = playerGrid[idx] / plyMax;
-
             if (pokVal <= 0 && plyVal <= 0) continue;
 
             const x = col * cell;
             const y = row * cell;
 
-            // Player layer: teal/cyan
             if (plyVal > 0) {
                 ctx.fillStyle = `rgba(77,201,240,${Math.pow(plyVal, 0.5) * 0.6})`;
                 ctx.fillRect(x, y, cell + 0.5, cell + 0.5);
             }
-
-            // Pokemon layer: amber/gold — drawn on top, additive feel
             if (pokVal > 0) {
                 ctx.fillStyle = `rgba(249,199,79,${Math.pow(pokVal, 0.5) * 0.75})`;
                 ctx.fillRect(x, y, cell + 0.5, cell + 0.5);
@@ -275,7 +312,6 @@ function paintHeatmap(canvas, pokemonGrid, playerGrid, cells) {
         }
     }
 
-    // Crosshair at centre
     const mid = size / 2;
     ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 1;
@@ -301,7 +337,7 @@ async function loadHeatmap() {
 
     let data;
     try {
-        data = await api(`/api/heatmap?cx=${cx}&cz=${cz}&radius=${radius}`);
+        data = await api(withFrom(`/api/heatmap?cx=${cx}&cz=${cz}&radius=${radius}`));
     } catch (err) {
         status.textContent = 'Error: ' + err.message;
         return;
@@ -314,12 +350,12 @@ async function loadHeatmap() {
     const canvas = document.getElementById('hm-canvas');
     paintHeatmap(canvas, pokGrid, plyGrid, cells);
 
-    // Axis labels
     document.getElementById('hm-label-tl').textContent = `${cx - radius}, ${cz - radius}`;
     document.getElementById('hm-label-br').textContent = `${cx + radius}, ${cz + radius}`;
 
     const total = data.pokemon.length;
     status.textContent = `${total.toLocaleString()} encounter${total !== 1 ? 's' : ''} in range`;
+    heatmapLoaded = true;
 }
 
 // ── Boot & auto-refresh ───────────────────────────────────────────────────────
@@ -341,5 +377,6 @@ async function refresh() {
     }
 }
 
+initTimeRange();
 refresh();
 setInterval(refresh, 30_000);
