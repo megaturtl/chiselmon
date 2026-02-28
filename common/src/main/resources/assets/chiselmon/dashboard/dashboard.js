@@ -103,7 +103,7 @@ function initTimeRange() {
             currentGranularity = autoGran;
             updateGranularityButtons();
         }
-        loadHeatmap();
+        refresh();
     });
 
     // ── Separator ──
@@ -126,6 +126,7 @@ function initTimeRange() {
         if (!btn) return;
         currentGranularity = btn.dataset.gran;
         updateGranularityButtons();
+        refresh();
     });
 }
 

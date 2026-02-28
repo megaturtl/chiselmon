@@ -192,7 +192,7 @@ main {
 
 .stat-card {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     display: flex;
@@ -361,7 +361,9 @@ tbody td {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    min-width: 0;
+    max-width: 780px;
+    flex-grow: 1;
+
 }
 
 /* The core container for the 1:1 aspect ratio */
@@ -369,7 +371,6 @@ tbody td {
     position: relative;
     /* This makes it 1:1, max 780px tall, and scales down with width */
     width: 100%;
-    max-width: 780px;
     max-height: 780px;
     aspect-ratio: 1 / 1;
 
@@ -386,7 +387,6 @@ tbody td {
     gap: 6px;
     /* Match the map width constraints */
     width: 100%;
-    max-width: 780px;
 }
 
 /* Controls row */
