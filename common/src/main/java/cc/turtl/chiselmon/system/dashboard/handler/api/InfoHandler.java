@@ -5,6 +5,10 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InfoHandler extends ApiHandler {
 
@@ -14,14 +18,9 @@ public class InfoHandler extends ApiHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // I could use the static StorageScope.currentScope()
-        // but maybe down the line I'll let users explore other servers/worlds, not just currently open one
         String folder = db.getDbPath().getParent().getFileName().toString();
 
-        // Folder format: mp-<address> or sp-<world_name>
-        // Strip the prefix and replace underscores for display
-        String type;
-        String name;
+        String type, name;
         if (folder.startsWith("mp-")) {
             type = "mp";
             name = folder.substring(3);
@@ -33,21 +32,34 @@ public class InfoHandler extends ApiHandler {
             name = folder;
         }
 
-        // Last recorded player position (used to centre the heatmap)
+        // Last recorded player position + dimension
         int lastX = 0, lastZ = 0;
+        String lastDimension = "minecraft:overworld";
         try (PreparedStatement ps = db.getConnection().prepareStatement(
-                "SELECT player_x, player_z FROM encounters ORDER BY encountered_ms DESC LIMIT 1");
-             java.sql.ResultSet rs = ps.executeQuery()) {
+                "SELECT player_x, player_z, dimension FROM encounters ORDER BY encountered_ms DESC LIMIT 1");
+             ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 lastX = rs.getInt("player_x");
                 lastZ = rs.getInt("player_z");
+                lastDimension = rs.getString("dimension");
             }
-        } catch (java.sql.SQLException ignored) {
+        } catch (SQLException ignored) {
+        }
+
+        // All known dimensions ordered by encounter count
+        List<String> dimensions = new ArrayList<>();
+        try (PreparedStatement ps = db.getConnection().prepareStatement(
+                "SELECT dimension FROM encounters GROUP BY dimension ORDER BY COUNT(*) DESC");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                dimensions.add("\"" + escape(rs.getString("dimension")) + "\"");
+            }
+        } catch (SQLException ignored) {
         }
 
         sendJson(exchange, 200, String.format(
-                "{\"type\":\"%s\",\"name\":\"%s\",\"lastX\":%d,\"lastZ\":%d}",
-                escape(type), escape(name), lastX, lastZ
+                "{\"type\":\"%s\",\"name\":\"%s\",\"lastX\":%d,\"lastZ\":%d,\"lastDimension\":\"%s\",\"dimensions\":[%s]}",
+                escape(type), escape(name), lastX, lastZ, escape(lastDimension), String.join(",", dimensions)
         ));
     }
 }

@@ -41,8 +41,11 @@ public class HeatmapHandler extends ApiHandler {
             List<String> pokemon = new ArrayList<>();
             List<String> player = new ArrayList<>();
 
+            String dimension = params.getOrDefault("dimension", "minecraft:overworld");
+
             String sql = "SELECT pokemon_x, pokemon_z, player_x, player_z FROM encounters"
                     + " WHERE pokemon_x BETWEEN ? AND ? AND pokemon_z BETWEEN ? AND ?"
+                    + " AND dimension = ?"
                     + (from > 0 ? " AND encountered_ms >= " + from : "");
 
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
@@ -50,6 +53,7 @@ public class HeatmapHandler extends ApiHandler {
                 ps.setInt(2, cx + radius);
                 ps.setInt(3, cz - radius);
                 ps.setInt(4, cz + radius);
+                ps.setString(5, dimension);
 
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {

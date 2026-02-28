@@ -316,7 +316,8 @@ tbody td {
     display: flex;
     align-items: flex-end;
     gap: 16px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 .hm-controls label {
     display: flex;
@@ -326,8 +327,16 @@ tbody td {
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--muted);
+    flex: 1 1 auto;
+    min-width: 0;
 }
-.hm-controls input {
+
+.hm-controls input,
+.hm-controls select {
+    width: 100%;
+    max-width: 110px; /* Still keeps them from getting too huge on big screens */
+    min-width: 60px; /* The smallest you're willing to let them get */
+    box-sizing: border-box;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -335,7 +344,6 @@ tbody td {
     font-family: var(--font-mono), monospace;
     font-size: 13px;
     padding: 6px 10px;
-    width: 110px;
     outline: none;
     transition: border-color .2s;
 }
@@ -369,6 +377,7 @@ tbody td {
     padding: 8px 18px;
     text-transform: uppercase;
     transition: opacity .2s;
+    flex-shrink: 0; /* The button stays its original size */
 }
 
 .hm-controls button:hover {

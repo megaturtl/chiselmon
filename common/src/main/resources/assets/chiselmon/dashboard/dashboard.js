@@ -18,7 +18,15 @@ async function loadInfo() {
         const prefix = info.type === 'mp' ? '🌐 ' : '🌏 ';
         document.getElementById('world-name').textContent = prefix + info.name;
 
-        // Seed heatmap with last player position + 8 chunk default radius
+        // Populate dimension dropdown
+        const select = document.getElementById('hm-dimension');
+        select.innerHTML = (info.dimensions ?? ['minecraft:overworld']).map(d =>
+            `<option value="${d}">${d.replace('minecraft:', '')}</option>`
+        ).join('');
+        if (info.lastDimension) select.value = info.lastDimension;
+        select.addEventListener('change', loadHeatmap);
+
+        // Seed heatmap at last known player position
         if (info.lastX !== undefined) {
             document.getElementById('hm-cx').value = info.lastX;
             document.getElementById('hm-cz').value = info.lastZ;
@@ -27,6 +35,17 @@ async function loadInfo() {
         }
     } catch (_) {
         // non-fatal, header just stays empty if we can't get it
+    }
+}
+
+async function loadDimensions() {
+    try {
+        const dims = await api('/api/dimensions');
+        const select = document.getElementById('hm-dimension');
+        select.innerHTML = dims.map(d =>
+            `<option value="${d}">${d.replace('minecraft:', '')}</option>`
+        ).join('')
+    } catch (_) {
     }
 }
 
@@ -316,16 +335,12 @@ async function loadEncounters() {
     }).join('');
 }
 
-// ── Heatmap ─────────────────────────────────────────────────────
-
-// ── Constants ─────────────────────────────────────────────────────────────────
+// ── Heatmap ───────────────────────────────────────────────────────────────────
 
 const CHUNKS_TO_BLOCKS = 16;
 const OVERSCAN_FACTOR = 2.0;
 
-// ── Shared State ──────────────────────────────────────────────────────────────
-
-let _hm = {pokGrid: null, plyGrid: null, cells: 0, radius: 0, tileSize: 1};
+let _hm = {pokGrid: null, plyGrid: null, pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1};
 
 // ── Grid Utilities ────────────────────────────────────────────────────────────
 
@@ -343,9 +358,7 @@ function gridGeometry(cx, cz, visibleRadius, tileSize) {
     const canvasLeft = cx - span / 2;
     const canvasTop = cz - span / 2;
     return {
-        span,
-        canvasLeft,
-        canvasTop,
+        span, canvasLeft, canvasTop,
         cells: Math.ceil(span / tileSize),
         minX: Math.floor(canvasLeft / tileSize) * tileSize,
         minZ: Math.floor(canvasTop / tileSize) * tileSize,
@@ -369,6 +382,22 @@ function buildGrid(points, {minX, minZ, cells}, tileSize) {
     return grid;
 }
 
+// Returns the max count considering only points within the visible (non-overscan) radius
+function visibleGridMax(grid, geom, cx, cz, visibleRadius, tileSize) {
+    let max = 0;
+    const {minX, minZ, cells} = geom;
+    for (let row = 0; row < cells; row++) {
+        for (let col = 0; col < cells; col++) {
+            const worldX = minX + (col + 0.5) * tileSize;
+            const worldZ = minZ + (row + 0.5) * tileSize;
+            if (Math.abs(worldX - cx) > visibleRadius || Math.abs(worldZ - cz) > visibleRadius) continue;
+            const v = grid[row * cells + col];
+            if (v > max) max = v;
+        }
+    }
+    return max || 1;
+}
+
 // ── Canvas Helpers ────────────────────────────────────────────────────────────
 
 function setupCanvas(canvas) {
@@ -385,7 +414,6 @@ function blendCellColor(pokVal, plyVal) {
         const pa = Math.pow(plyVal, 0.4) * 0.7;
         [r, g, b, a] = [77 * pa, 201 * pa, 240 * pa, pa];
     }
-
     if (pokVal > 0) {
         const pa = Math.pow(pokVal, 0.4) * 0.8;
         const outA = pa + a * (1 - pa);
@@ -401,8 +429,8 @@ function blendCellColor(pokVal, plyVal) {
 }
 
 function stampCell(px, size, x0, y0, cellPx, R, G, B, A) {
-    const x1 = Math.min(size, x0 + Math.ceil(cellPx) + 1);
-    const y1 = Math.min(size, y0 + Math.ceil(cellPx) + 1);
+    const x1 = Math.min(size, x0 + Math.ceil(cellPx));
+    const y1 = Math.min(size, y0 + Math.ceil(cellPx));
     for (let py = Math.max(0, y0); py < y1; py++) {
         const base = py * size * 4;
         for (let qx = Math.max(0, x0); qx < x1; qx++) {
@@ -420,19 +448,16 @@ function stampCell(px, size, x0, y0, cellPx, R, G, B, A) {
 function drawChunkGrid(ctx, size, canvasLeft, canvasTop, span, dpr) {
     ctx.strokeStyle = 'rgba(255,255,255,0.04)';
     ctx.lineWidth = dpr;
-
-    const right = canvasLeft + span;
-    const bottom = canvasTop + span;
     const pxPerBlock = size / span;
 
-    for (let x = Math.ceil(canvasLeft / 16) * 16; x <= right; x += 16) {
+    for (let x = Math.ceil(canvasLeft / 16) * 16; x <= canvasLeft + span; x += 16) {
         const lx = (x - canvasLeft) * pxPerBlock;
         ctx.beginPath();
         ctx.moveTo(lx, 0);
         ctx.lineTo(lx, size);
         ctx.stroke();
     }
-    for (let z = Math.ceil(canvasTop / 16) * 16; z <= bottom; z += 16) {
+    for (let z = Math.ceil(canvasTop / 16) * 16; z <= canvasTop + span; z += 16) {
         const lz = (z - canvasTop) * pxPerBlock;
         ctx.beginPath();
         ctx.moveTo(0, lz);
@@ -442,21 +467,17 @@ function drawChunkGrid(ctx, size, canvasLeft, canvasTop, span, dpr) {
 }
 
 function drawDataCells(ctx, size, geom, pxPerBlock) {
-    const {pokGrid, plyGrid, tileSize} = _hm;
+    const {pokGrid, plyGrid, pokMax, plyMax, tileSize} = _hm;
     const {cells, minX, minZ, canvasLeft, canvasTop} = geom;
-    const pokMax = gridMax(pokGrid);
-    const plyMax = gridMax(plyGrid);
     const cellPx = tileSize * pxPerBlock;
-
-    // ← Get ImageData from the blank background BEFORE drawing the chunk grid,
-    //   so putImageData doesn't wipe the grid lines
     const imgData = ctx.getImageData(0, 0, size, size);
 
     for (let row = 0; row < cells; row++) {
         for (let col = 0; col < cells; col++) {
             const idx = row * cells + col;
-            const pokVal = pokGrid[idx] / pokMax;
-            const plyVal = plyGrid[idx] / plyMax;
+            // clamp to 1 — overscan cells can legitimately exceed the visible max
+            const pokVal = Math.min(1, pokGrid[idx] / pokMax);
+            const plyVal = Math.min(1, plyGrid[idx] / plyMax);
             if (!pokVal && !plyVal) continue;
 
             const x0 = Math.floor((minX + col * tileSize - canvasLeft) * pxPerBlock);
@@ -467,7 +488,6 @@ function drawDataCells(ctx, size, geom, pxPerBlock) {
     }
 
     ctx.putImageData(imgData, 0, 0);
-    // ← chunk grid drawn on top so it's never wiped by putImageData
 }
 
 function paintHeatmap(canvas, cx, cz) {
@@ -478,19 +498,17 @@ function paintHeatmap(canvas, cx, cz) {
     ctx.fillStyle = '#0d1117';
     ctx.fillRect(0, 0, size, size);
 
-    // Order: background → cells → grid lines on top
     drawDataCells(ctx, size, geom, pxPerBlock);
     drawChunkGrid(ctx, size, geom.canvasLeft, geom.canvasTop, geom.span, dpr);
 }
 
-function drawLegendBar(ctx, x, width, color, label, align, labelX, midY) {
+function drawLegendBar(ctx, x, width, color, label, labelX, midY) {
     const grad = ctx.createLinearGradient(x, 0, x + width, 0);
-    grad.addColorStop(0, color.replace(')', ',0)').replace('rgb', 'rgba'));
-    grad.addColorStop(1, color.replace(')', ',0.85)').replace('rgb', 'rgba'));
+    grad.addColorStop(0, color.replace('rgb', 'rgba').replace(')', ',0)'));
+    grad.addColorStop(1, color.replace('rgb', 'rgba').replace(')', ',0.85)'));
     ctx.fillStyle = grad;
     ctx.fillRect(x, midY - 5, width, 10);
     ctx.fillStyle = '#8b949e';
-    ctx.textAlign = align;
     ctx.fillText(label, labelX, midY);
 }
 
@@ -506,15 +524,15 @@ function paintLegend(canvas) {
 
     ctx.font = `${9 * dpr | 0}px 'Space Mono', monospace`;
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#8b949e';
+    ctx.textAlign = 'right';
 
-    const pokMax = gridMax(_hm.pokGrid);
-    const plyMax = gridMax(_hm.plyGrid);
+    // pokMax/plyMax on _hm are already computed from visible tiles only
+    const {pokMax, plyMax} = _hm;
     const pokLabelW = ctx.measureText(pokMax).width;
     const plyLabelW = ctx.measureText(plyMax).width;
 
-    drawLegendBar(ctx, 0, w / 2 - gap - pokLabelW - labelGap, 'rgb(249,199,79)', pokMax, 'right', w / 2 - gap, midY);
-    drawLegendBar(ctx, w / 2 + gap, w - (w / 2 + gap) - plyLabelW - labelGap, 'rgb(77,201,240)', plyMax, 'right', w, midY);
+    drawLegendBar(ctx, 0, w / 2 - gap - pokLabelW - labelGap, 'rgb(249,199,79)', pokMax, w / 2 - gap, midY);
+    drawLegendBar(ctx, w / 2 + gap, w - (w / 2 + gap) - plyLabelW - labelGap, 'rgb(77,201,240)', plyMax, w, midY);
 }
 
 // ── Interactions ──────────────────────────────────────────────────────────────
@@ -572,12 +590,11 @@ function initHeatmapHover(canvas) {
 
         const dispX = Math.floor(geom.minX + (col + 0.5) * _hm.tileSize);
         const dispZ = Math.floor(geom.minZ + (row + 0.5) * _hm.tileSize);
-
         tooltip.innerHTML = `
             <span style="color:#8b949e">${dispX}, ${dispZ}</span><br>
             ${pok ? `🟡 ${pok} spawns<br>` : ''}
             ${ply ? `🔵 ${ply} player pos<br>` : ''}
-            <small>tile: ${_hm.tileSize}x${_hm.tileSize}</small>
+            <small>tile size: ${_hm.tileSize}x${_hm.tileSize}</small>
         `;
         tooltip.style.display = 'block';
         const wrap = canvas.closest('.hm-wrap').getBoundingClientRect();
@@ -629,6 +646,20 @@ function initHeatmapDrag(canvas) {
     });
 }
 
+function initHeatmapZoom(canvas) {
+    if (canvas._zoomInit) return;
+    canvas._zoomInit = true;
+
+    canvas.addEventListener('wheel', e => {
+        e.preventDefault();
+        const input = document.getElementById('hm-radius');
+        const current = parseInt(input.value) || 8;
+        const delta = e.deltaY > 0 ? 1 : -1; // scroll down = zoom out = bigger radius
+        input.value = Math.min(32, Math.max(2, current + delta));
+        loadHeatmap();
+    }, {passive: false});
+}
+
 // ── Load & Reset ──────────────────────────────────────────────────────────────
 
 function readHeatmapInputs() {
@@ -637,7 +668,8 @@ function readHeatmapInputs() {
     const visibleRadius = chunkRadius * CHUNKS_TO_BLOCKS;
     const tileSetting = document.getElementById('hm-tile-size').value;
     const tileSize = tileSetting === 'auto' ? bestTileSize(visibleRadius) : parseInt(tileSetting);
-    return {cx, cz, visibleRadius, tileSize};
+    const dimension = document.getElementById('hm-dimension').value || 'minecraft:overworld';
+    return {cx, cz, visibleRadius, tileSize, dimension};
 }
 
 function countVisibleEncounters(points, cx, cz, visibleRadius) {
@@ -649,7 +681,7 @@ function countVisibleEncounters(points, cx, cz, visibleRadius) {
 function updateHeatmapLabels(cx, cz, visibleRadius, tileSize, encounterCount) {
     document.getElementById('hm-label-tl').textContent = `${cx - visibleRadius}, ${cz - visibleRadius}`;
     document.getElementById('hm-label-br').textContent = `${cx + visibleRadius}, ${cz + visibleRadius}`;
-    document.getElementById('hm-status').textContent = `${encounterCount.toLocaleString()} encounters · tile: ${tileSize}x${tileSize}`;
+    document.getElementById('hm-status').textContent = `Showing ${encounterCount.toLocaleString()} encounters`;
 }
 
 async function loadHeatmap() {
@@ -661,9 +693,14 @@ async function loadHeatmap() {
         const data = await api(withFrom(`/api/heatmap?cx=${cx}&cz=${cz}&radius=${fetchRadius}`));
         const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
 
+        const pokGrid = buildGrid(data.pokemon, geom, tileSize);
+        const plyGrid = buildGrid(data.player, geom, tileSize);
+
         _hm = {
-            pokGrid: buildGrid(data.pokemon, geom, tileSize),
-            plyGrid: buildGrid(data.player, geom, tileSize),
+            pokGrid, plyGrid,
+            // compute max from visible tiles only — overscan must not wash out colours
+            pokMax: visibleGridMax(pokGrid, geom, cx, cz, visibleRadius, tileSize),
+            plyMax: visibleGridMax(plyGrid, geom, cx, cz, visibleRadius, tileSize),
             cells: geom.cells,
             radius: visibleRadius,
             tileSize,
@@ -680,6 +717,7 @@ async function loadHeatmap() {
             paintLegend(document.getElementById('hm-legend-canvas'));
             initHeatmapHover(canvas);
             initHeatmapDrag(canvas);
+            initHeatmapZoom(canvas);
             updateHeatmapLabels(cx, cz, visibleRadius, tileSize, encounterCount);
         });
 
@@ -721,5 +759,6 @@ async function refresh() {
 
 initTimeRange();
 loadInfo();
+loadDimensions();
 refresh();
 setInterval(refresh, 30_000);
