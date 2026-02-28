@@ -10,6 +10,18 @@ const CHART_PALETTE = [
     '#40E0D0', '#2D73B0', '#6C44C3', '#F46997',
 ];
 
+// ── World/server info ─────────────────────────────────────────────────────────
+
+async function loadInfo() {
+    try {
+        const info = await api('/api/info');
+        const prefix = info.type === 'mp' ? '🌐 ' : '🌏 ';
+        document.getElementById('world-name').textContent = prefix + info.name;
+    } catch (_) {
+        // non-fatal, header just stays empty if we can't get it
+    }
+}
+
 // ── Time range state ──────────────────────────────────────────────────────────
 
 const TIME_RANGES = [
@@ -378,5 +390,6 @@ async function refresh() {
 }
 
 initTimeRange();
+loadInfo();
 refresh();
 setInterval(refresh, 30_000);

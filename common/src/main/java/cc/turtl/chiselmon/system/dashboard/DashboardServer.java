@@ -41,11 +41,11 @@ public class DashboardServer {
         httpServer.createContext("/", new StaticFileHandler());
 
         // Serves API endpoints which get data from the EncounterDatabase
+        httpServer.createContext("/api/info", new InfoHandler(db));
         httpServer.createContext("/api/stats", new StatsHandler(db));
         httpServer.createContext("/api/species", new SpeciesHandler(db));
         httpServer.createContext("/api/biomes", new BiomesHandler(db));
         httpServer.createContext("/api/encounters", new RecentEncountersHandler(db));
-        httpServer.createContext("/api/shinies", new RecentShiniesHandler(db));
         httpServer.createContext("/api/timeline", new TimelineHandler(db));
         httpServer.createContext("/api/heatmap", new HeatmapHandler(db));
 

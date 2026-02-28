@@ -29,7 +29,7 @@ html, body {
     min-height: 100vh;
 }
 
-/* Layout */
+/* ── Layout ── */
 .shell {
     display: grid;
     grid-template-rows: 56px 1fr;
@@ -60,26 +60,18 @@ header {
     color: var(--text);
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent2);
-    box-shadow: 0 0 6px var(--accent2);
-    margin-left: auto;
-    animation: pulse 2s infinite;
+.header-world {
+    color: var(--muted);
+    font-size: 11px;
+    margin-left: 8px;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.3;
-    }
+.world-name {
+    color: var(--text);
+    font-weight: 700;
 }
 
-/* Time range pills */
+/* ── Time range pills ── */
 .time-range {
     display: flex;
     gap: 4px;
@@ -92,7 +84,7 @@ header {
     border-radius: 20px;
     color: var(--muted);
     cursor: pointer;
-    font-family: var(--font-mono);
+    font-family: var(--font-mono), monospace;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -112,6 +104,25 @@ header {
     color: #0d1117;
 }
 
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 6px var(--accent2);
+    margin-left: auto;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
 .status-label {
     color: var(--muted);
     font-size: 11px;
@@ -127,7 +138,7 @@ main {
     width: 100%;
 }
 
-/* Stat Cards */
+/* ── Stat cards ── */
 .stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -148,14 +159,12 @@ main {
 .stat-card:hover {
     border-color: var(--accent);
 }
-
 .stat-card .label {
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--muted);
 }
-
 .stat-card .value {
     font-family: var(--font-head), sans-serif;
     font-size: 32px;
@@ -172,13 +181,12 @@ main {
     color: var(--legendary);
 }
 
-/* Charts */
+/* ── Charts ── */
 .chart-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
-
 @media (max-width: 800px) {
     .chart-grid {
         grid-template-columns: 1fr;
@@ -191,7 +199,6 @@ main {
     border-radius: var(--radius);
     padding: 20px;
 }
-
 .chart-card h2 {
     font-family: var(--font-head), sans-serif;
     font-size: 13px;
@@ -214,14 +221,13 @@ main {
     max-height: 180px;
 }
 
-/* Encounters table */
+/* ── Encounters table ── */
 .table-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
 }
-
 .table-card h2 {
     font-family: var(--font-head), sans-serif;
     font-size: 13px;
@@ -241,7 +247,6 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-
 thead th {
     font-size: 10px;
     text-transform: uppercase;
@@ -272,14 +277,13 @@ tbody td {
     font-size: 13px;
 }
 
-/* Heatmap */
+/* ── Heatmap card ── */
 .hm-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
 }
-
 .hm-card h2 {
     font-family: var(--font-head), sans-serif;
     font-size: 13px;
@@ -290,45 +294,20 @@ tbody td {
     margin-bottom: 16px;
 }
 
+/* Vertical stack: controls → canvas → legend */
 .hm-body {
     display: flex;
-    gap: 24px;
-    align-items: flex-start;
-}
-
-.hm-wrap {
-    flex: 0 0 auto;
-    width: min(460px, 50%);
-    position: relative;
-}
-
-.hm-sidebar {
-    flex: 1;
-    min-width: 0;
-    display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
-@media (max-width: 800px) {
-    .hm-body {
-        flex-direction: column;
-    }
-
-    .hm-wrap {
-        width: 100%;
-    }
-}
-
-/* ── Heatmap controls ── */
+/* Controls row */
 .hm-controls {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
 }
-
 .hm-controls label {
     display: flex;
     flex-direction: column;
@@ -338,7 +317,6 @@ tbody td {
     letter-spacing: 1px;
     color: var(--muted);
 }
-
 .hm-controls input {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -347,7 +325,7 @@ tbody td {
     font-family: var(--font-mono), monospace;
     font-size: 13px;
     padding: 6px 10px;
-    width: 100px;
+    width: 110px;
     outline: none;
     transition: border-color .2s;
 }
@@ -355,7 +333,6 @@ tbody td {
 .hm-controls input:focus {
     border-color: var(--accent);
 }
-
 .hm-controls button {
     background: var(--accent);
     border: none;
@@ -368,7 +345,6 @@ tbody td {
     letter-spacing: 1px;
     padding: 8px 18px;
     text-transform: uppercase;
-    align-self: flex-end;
     transition: opacity .2s;
 }
 
@@ -379,21 +355,19 @@ tbody td {
 .hm-status {
     color: var(--muted);
     font-size: 11px;
-    align-self: flex-end;
-    padding-bottom: 2px;
+    align-self: center;
 }
 
+/* Canvas — square, capped width so it doesn't fill the whole screen */
 .hm-wrap {
     position: relative;
-    display: inline-block;
-    width: 100%;
+    width: min(480px, 100%);
 }
-
 .hm-wrap canvas {
+    display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1;
-    display: block;
     border-radius: var(--radius);
     border: 1px solid var(--border);
 }
@@ -407,6 +381,7 @@ tbody td {
     background: rgba(13, 17, 23, 0.7);
     padding: 2px 4px;
     border-radius: 3px;
+    z-index: 1;
 }
 
 .hm-corner.tl {
@@ -423,11 +398,9 @@ tbody td {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 12px;
     font-size: 11px;
     color: var(--muted);
 }
-
 .hm-swatch {
     display: inline-block;
     width: 12px;
@@ -435,7 +408,7 @@ tbody td {
     border-radius: 2px;
 }
 
-/* Badges */
+/* ── Badges ── */
 .badge {
     display: inline-block;
     padding: 2px 7px;
@@ -461,14 +434,13 @@ tbody td {
     color: var(--muted);
 }
 
-/* Misc */
+/* ── Misc ── */
 .loading {
     color: var(--muted);
     font-size: 13px;
     padding: 40px;
     text-align: center;
 }
-
 .error-msg {
     color: var(--accent3);
     font-size: 12px;

@@ -94,7 +94,7 @@ public class DashCommand implements ChiselmonCommand {
 
         try {
             session.startDashboard();
-            MessageUtils.sendPrefixed(player, Component.literal("Dashboard opened at ")
+            MessageUtils.sendPrefixed(player, Component.literal("Dashboard server opened at ")
                     .withColor(ColorUtils.GREEN.getRGB())
                     .append(ComponentUtils.clickableUrl(url)));
         } catch (IOException e) {
