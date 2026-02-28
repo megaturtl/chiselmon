@@ -2,8 +2,8 @@
  * Loads and renders the top-level stat cards.
  */
 
-import { api, withFrom } from '../core/api.js';
-import { state } from '../core/state.js';
+import {api, withFrom} from '../core/api.js';
+import {state} from '../core/state.js';
 
 export async function loadStats() {
     const s = await api(withFrom('/api/stats'));
@@ -37,21 +37,17 @@ export async function loadStats() {
         <div class="stat-card shiny">
             <span class="label">Shinies</span>
             <span class="value">${s.shinies.toLocaleString()}</span>
-            <span class="secondary_value">${shinyOdds}</span>
+            <span class="secondary_value">1/${shinyOdds}</span>
         </div>
         <div class="stat-card legendary">
             <span class="label">Legendaries</span>
             <span class="value">${s.legendaries.toLocaleString()}</span>
-            <span class="secondary_value">${legendOdds}</span>
+            <span class="secondary_value">1/${legendOdds}</span>
         </div>
         <div class="stat-card size_variation">
             <span class="label">Size Variations</span>
             <span class="value">${s.size_variations.toLocaleString()}</span>
-            <span class="secondary_value">${sizeVarOdds}</span>
-        </div>
-        <div class="stat-card">
-            <span class="label">Unique Species</span>
-            <span class="value">${s.uniqueSpecies.toLocaleString()}</span>
+            <span class="secondary_value">1/${sizeVarOdds}</span>
         </div>
     `;
 }
