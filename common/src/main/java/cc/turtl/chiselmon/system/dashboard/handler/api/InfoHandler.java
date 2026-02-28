@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 
 public class InfoHandler extends ApiHandler {
 
@@ -32,9 +33,21 @@ public class InfoHandler extends ApiHandler {
             name = folder;
         }
 
+        // Last recorded player position (used to centre the heatmap)
+        int lastX = 0, lastZ = 0;
+        try (PreparedStatement ps = db.getConnection().prepareStatement(
+                "SELECT player_x, player_z FROM encounters ORDER BY encountered_ms DESC LIMIT 1");
+             java.sql.ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                lastX = rs.getInt("player_x");
+                lastZ = rs.getInt("player_z");
+            }
+        } catch (java.sql.SQLException ignored) {
+        }
+
         sendJson(exchange, 200, String.format(
-                "{\"type\":\"%s\",\"name\":\"%s\"}",
-                escape(type), escape(name)
+                "{\"type\":\"%s\",\"name\":\"%s\",\"lastX\":%d,\"lastZ\":%d}",
+                escape(type), escape(name), lastX, lastZ
         ));
     }
 }

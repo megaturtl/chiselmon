@@ -22,8 +22,8 @@ public class RecentEncountersHandler extends ApiHandler {
             long from = parseFrom(exchange);
             List<String> entries = new ArrayList<>();
 
-            String sql = "SELECT species, form, level, gender, is_shiny, is_legendary, from_snack,"
-                    + " dimension, biome, encountered_ms FROM encounters"
+            String sql = "SELECT species, form, level, gender, scale_modifier, is_shiny, is_legendary, from_snack,"
+                    + " block_name, dimension, biome, encountered_ms FROM encounters"
                     + (from > 0 ? " WHERE encountered_ms >= " + from : "")
                     + " ORDER BY encountered_ms DESC LIMIT 50";
 
@@ -31,16 +31,18 @@ public class RecentEncountersHandler extends ApiHandler {
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     entries.add(String.format(
-                            "{\"species\":\"%s\",\"form\":\"%s\",\"level\":%d,\"gender\":\"%s\"," +
-                                    "\"shiny\":%b,\"legendary\":%b,\"snack\":%b,\"dimension\":\"%s\",\"biome\":\"%s\",\"ms\":%d}",
+                            "{\"species\":\"%s\",\"form\":\"%s\",\"level\":%d,\"gender\":\"%s\",\"scale\":%f," +
+                                    "\"shiny\":%b,\"legendary\":%b,\"snack\":%b,\"dimension\":\"%s\",\"block_name\":\"%s\",\"biome\":\"%s\",\"ms\":%d}",
                             escape(rs.getString("species")),
                             escape(rs.getString("form")),
                             rs.getInt("level"),
                             escape(rs.getString("gender")),
+                            rs.getDouble("scale_modifier"),
                             rs.getBoolean("is_shiny"),
                             rs.getBoolean("is_legendary"),
                             rs.getBoolean("from_snack"),
                             escape(rs.getString("dimension")),
+                            escape(rs.getString("block_name")),
                             escape(rs.getString("biome")),
                             rs.getLong("encountered_ms")
                     ));

@@ -48,39 +48,49 @@
                 <canvas id="chart-biomes"></canvas>
             </div>
 
-        </div>
+            <div class="hm-card">
+                <h2>Spawn heatmap</h2>
+                <div class="hm-body">
 
-        <div class="hm-card">
-            <h2>Spawn heatmap</h2>
-            <div class="hm-body">
+                    <div class="hm-controls">
+                        <label>Centre X
+                            <input id="hm-cx" type="number" value="0" placeholder="0"/>
+                        </label>
+                        <label>Centre Z
+                            <input id="hm-cz" type="number" value="0" placeholder="0"/>
+                        </label>
+                        <label>Chunk radius
+                            <input id="hm-radius" type="number" value="8" placeholder="8" min="1" max="16"/>
+                        </label>
+                        <button onclick="loadHeatmap()">Load</button>
+                    </div>
 
-                <div class="hm-controls">
-                    <label>Centre X
-                        <input id="hm-cx" type="number" value="0" placeholder="0"/>
-                    </label>
-                    <label>Centre Z
-                        <input id="hm-cz" type="number" value="0" placeholder="0"/>
-                    </label>
-                    <label>Radius
-                        <input id="hm-radius" type="number" value="256" placeholder="256" min="16" max="4096"/>
-                    </label>
-                    <button onclick="loadHeatmap()">Load</button>
-                    <span class="hm-status" id="hm-status"></span>
+                    <div class="hm-status" id="hm-status">
+                        -
+                    </div>
+
+                    <div class="hm-wrap">
+                        <span class="hm-corner tl" id="hm-label-tl"></span>
+                        <span class="hm-corner br" id="hm-label-br"></span>
+                        <canvas id="hm-canvas"></canvas>
+                        <div id="hm-tooltip" class="hm-tooltip"></div>
+                    </div>
+
+                    <div class="hm-legend-wrap">
+                        <div class="hm-legend-labels">
+                            <span>🟡 Pokemon spawns</span>
+                            <span>🔵 Player positions</span>
+                        </div>
+                        <canvas id="hm-legend-canvas" class="hm-legend-canvas"></canvas>
+                    </div>
+
                 </div>
-
-                <div class="hm-wrap">
-                    <span class="hm-corner tl" id="hm-label-tl"></span>
-                    <span class="hm-corner br" id="hm-label-br"></span>
-                    <canvas id="hm-canvas"></canvas>
-                </div>
-
-                <div class="hm-legend">
-                    <span class="hm-swatch" style="background:rgba(249,199,79,0.75)"></span> Pokémon spawns
-                    <span style="margin:0 8px">·</span>
-                    <span class="hm-swatch" style="background:rgba(77,201,240,0.6)"></span> Player positions
-                </div>
-
             </div>
+
+            <div class="chart-card">
+                <h2>Coming Soon</h2>
+            </div>
+
         </div>
 
         <div class="table-card">
@@ -92,7 +102,6 @@
                         <th>Species</th>
                         <th>Form</th>
                         <th>Lvl</th>
-                        <th>Gender</th>
                         <th>Biome</th>
                         <th>Dimension</th>
                         <th>Time</th>

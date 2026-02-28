@@ -23,7 +23,7 @@ public class StatsHandler extends ApiHandler {
         try {
             long from = parseFrom(exchange);
             Connection conn = db.getConnection();
-            long total, shinies, legendaries, species, dimensions, snackSpawns;
+            long total, shinies, legendaries, size_variations, species, dimensions, snackSpawns;
 
             try (Statement s = conn.createStatement()) {
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters", from))) {
@@ -34,6 +34,9 @@ public class StatsHandler extends ApiHandler {
                 }
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters WHERE is_legendary = TRUE", from))) {
                     legendaries = rs.next() ? rs.getLong(1) : 0;
+                }
+                try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters WHERE scale_modifier != 1.0", from))) {
+                    size_variations = rs.next() ? rs.getLong(1) : 0;
                 }
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(DISTINCT species) FROM encounters", from))) {
                     species = rs.next() ? rs.getLong(1) : 0;
@@ -47,8 +50,8 @@ public class StatsHandler extends ApiHandler {
             }
 
             sendJson(exchange, 200, String.format(
-                    "{\"total\":%d,\"shinies\":%d,\"legendaries\":%d,\"uniqueSpecies\":%d,\"dimensions\":%d,\"snackSpawns\":%d}",
-                    total, shinies, legendaries, species, dimensions, snackSpawns
+                    "{\"total\":%d,\"shinies\":%d,\"legendaries\":%d,\"size_variations\":%d,\"uniqueSpecies\":%d,\"dimensions\":%d,\"snackSpawns\":%d}",
+                    total, shinies, legendaries, size_variations, species, dimensions, snackSpawns
             ));
 
         } catch (SQLException e) {
