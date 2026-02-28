@@ -79,6 +79,39 @@ header {
     }
 }
 
+/* Time range pills */
+.time-range {
+    display: flex;
+    gap: 4px;
+    margin-left: 20px;
+}
+
+.tr-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    text-transform: uppercase;
+    transition: border-color .15s, color .15s, background .15s;
+}
+
+.tr-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.tr-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+}
+
 .status-label {
     color: var(--muted);
     font-size: 11px;
