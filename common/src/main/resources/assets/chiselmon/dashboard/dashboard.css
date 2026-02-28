@@ -340,6 +340,19 @@ tbody td {
     transition: border-color .2s;
 }
 
+.hm-controls select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--font-mono), monospace;
+    font-size: 13px;
+    padding: 6px 10px;
+    width: 110px;
+    outline: none;
+    transition: border-color .2s;
+}
+
 .hm-controls input:focus {
     border-color: var(--accent);
 }
@@ -367,18 +380,41 @@ tbody td {
     font-size: 11px;
 }
 
-/* Canvas — square, capped width so it doesn't fill the whole screen */
+#hm-canvas {
+    display: block;
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    will-change: transform;
+    cursor: grab;
+    image-rendering: pixelated;
+    /* This allows the canvas to "glide" back if the user lets go
+       without the load being instant */
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Ensure the wrapper hides the overscan completely */
 .hm-wrap {
     position: relative;
     width: min(480px, 100%);
-}
-.hm-wrap canvas {
-    display: block;
-    width: 100%;
-    height: auto;
     aspect-ratio: 1;
+    overflow: hidden;
     border-radius: var(--radius);
     border: 1px solid var(--border);
+    background: #0d1117;
+    /* Create a "vignette" effect so the edges of the map feel depth-y */
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.hm-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
 }
 
 .hm-corner {

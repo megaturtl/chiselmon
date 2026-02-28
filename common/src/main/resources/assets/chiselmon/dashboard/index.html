@@ -54,20 +54,28 @@
 
                     <div class="hm-controls">
                         <label>Centre X
-                            <input id="hm-cx" type="number" value="0" placeholder="0"/>
+                            <input id="hm-cx" type="number" value="0" onchange="loadHeatmap()"/>
                         </label>
                         <label>Centre Z
-                            <input id="hm-cz" type="number" value="0" placeholder="0"/>
+                            <input id="hm-cz" type="number" value="0" onchange="loadHeatmap()"/>
                         </label>
                         <label>Chunk radius
-                            <input id="hm-radius" type="number" value="8" placeholder="8" min="1" max="16"/>
+                            <input id="hm-radius" type="number" value="8" min="1" max="16" onchange="loadHeatmap()"/>
                         </label>
-                        <button onclick="loadHeatmap()">Load</button>
+                        <label>Tile Size
+                            <select id="hm-tile-size" onchange="loadHeatmap()">
+                                <option value="auto">Auto</option>
+                                <option value="1">1x1</option>
+                                <option value="2">2x2</option>
+                                <option value="4">4x4</option>
+                                <option value="8">8x8</option>
+                                <option value="16">16x16</option>
+                            </select>
+                        </label>
+                        <button onclick="resetHeatmap()">Reset</button>
                     </div>
 
-                    <div class="hm-status" id="hm-status">
-                        -
-                    </div>
+                    <div class="hm-status" id="hm-status">-</div>
 
                     <div class="hm-wrap">
                         <span class="hm-corner tl" id="hm-label-tl"></span>
@@ -102,6 +110,7 @@
                         <th>Species</th>
                         <th>Form</th>
                         <th>Lvl</th>
+                        <th>Block</th>
                         <th>Biome</th>
                         <th>Dimension</th>
                         <th>Time</th>
