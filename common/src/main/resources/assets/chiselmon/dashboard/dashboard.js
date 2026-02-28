@@ -49,27 +49,41 @@ async function loadDimensions() {
     }
 }
 
-// ── Time range state ──────────────────────────────────────────────────────────
+// ── Time range & granularity state ───────────────────────────────────────────
 
 const TIME_RANGES = [
+    {label: '30m', ms: 1_800_000},
     {label: '1h', ms: 3_600_000},
+    {label: '3h', ms: 10_800_000},
+    {label: '6h', ms: 21_600_000},
     {label: '24h', ms: 86_400_000},
     {label: '7d', ms: 604_800_000},
     {label: '30d', ms: 2_592_000_000},
     {label: 'All', ms: 0},
 ];
 
-let currentFromMs = Date.now() - 86_400_000;   // default: 24h
+// Granularity: 'hour' or 'minute'
+let currentGranularity = 'hour';
+
+// Default: 24h
+let currentFromMs = Date.now() - 86_400_000;
 
 function getFrom() {
     return currentFromMs;
 }
 
+function getGranularity() {
+    return currentGranularity;
+}
+
 function initTimeRange() {
     const bar = document.getElementById('time-range');
+
+    // ── Time range pills ──
     TIME_RANGES.forEach(({label, ms}, i) => {
         const btn = document.createElement('button');
-        btn.className = 'tr-btn' + (i === 1 ? ' active' : '');
+        // Default active: 24h (index 4)
+        btn.className = 'tr-btn' + (i === 4 ? ' active' : '');
         btn.textContent = label;
         btn.dataset.ms = ms;
         bar.appendChild(btn);
@@ -77,13 +91,50 @@ function initTimeRange() {
 
     bar.addEventListener('click', e => {
         const btn = e.target.closest('.tr-btn');
-        if (!btn) return;
-        bar.querySelectorAll('.tr-btn').forEach(b => b.classList.remove('active'));
+        if (!btn || btn.classList.contains('gran-btn')) return;
+        bar.querySelectorAll('.tr-btn:not(.gran-btn)').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const ms = parseInt(btn.dataset.ms);
         currentFromMs = ms === 0 ? 0 : Date.now() - ms;
+
+        // Auto-switch granularity: short windows → minute, long → hour
+        const autoGran = ms > 0 && ms <= 10_800_000 ? 'minute' : 'hour';
+        if (autoGran !== currentGranularity) {
+            currentGranularity = autoGran;
+            updateGranularityButtons();
+        }
+
         refresh();
         loadHeatmap();
+    });
+
+    // ── Separator ──
+    const sep = document.createElement('div');
+    sep.className = 'tr-sep';
+    bar.appendChild(sep);
+
+    // ── Granularity pills ──
+    ['hour', 'minute'].forEach(gran => {
+        const btn = document.createElement('button');
+        btn.className = 'tr-btn gran-btn' + (gran === currentGranularity ? ' active' : '');
+        btn.textContent = gran === 'hour' ? '1H' : '1m';
+        btn.title = gran === 'hour' ? 'Hourly buckets' : 'Minutely buckets';
+        btn.dataset.gran = gran;
+        bar.appendChild(btn);
+    });
+
+    bar.addEventListener('click', e => {
+        const btn = e.target.closest('.gran-btn');
+        if (!btn) return;
+        currentGranularity = btn.dataset.gran;
+        updateGranularityButtons();
+        loadTimeline();
+    });
+}
+
+function updateGranularityButtons() {
+    document.querySelectorAll('.gran-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.gran === currentGranularity);
     });
 }
 
@@ -117,12 +168,20 @@ function fmtBiome(b) {
 async function loadStats() {
     const s = await api(withFrom('/api/stats'));
 
-    // --- Compute encounters per minute ---
+    // --- Compute encounters per minute using only active minutes ---
+    // The backend now returns activeMinutes: count of distinct minutes that had data.
+    // This avoids penalising offline/AFK time.
     let perMin = 0;
 
-    if (s.total > 0 && getFrom() > 0) {
-        const minutes = (Date.now() - getFrom()) / 60000;
-        if (minutes > 0) perMin = s.total / minutes;
+    if (s.total > 0) {
+        if (s.activeMinutes && s.activeMinutes > 0) {
+            // Preferred: use server-reported active minutes
+            perMin = s.total / s.activeMinutes;
+        } else if (getFrom() > 0) {
+            // Fallback: wall-clock minutes (old behaviour)
+            const minutes = (Date.now() - getFrom()) / 60000;
+            if (minutes > 0) perMin = s.total / minutes;
+        }
     }
 
     const perMinText = `(${perMin.toFixed(2)}/min)`;
@@ -177,10 +236,19 @@ async function loadStats() {
 let timelineChart;
 
 async function loadTimeline() {
-    const data = await api(withFrom('/api/timeline'));
+    const gran = getGranularity();
+    const url = withFrom('/api/timeline') + (withFrom('/api/timeline').includes('?') ? '&' : '?') + 'granularity=' + gran;
+    const data = await api(url);
+
+    const isMinute = gran === 'minute';
 
     const labels = data.map(d => {
         const dt = new Date(d.bucket);
+        if (isMinute) {
+            return dt.toLocaleDateString(undefined, {month: 'short', day: 'numeric'})
+                + ' ' + String(dt.getHours()).padStart(2, '0')
+                + ':' + String(dt.getMinutes()).padStart(2, '0');
+        }
         return dt.toLocaleDateString(undefined, {month: 'short', day: 'numeric'})
             + ' ' + String(dt.getHours()).padStart(2, '0') + 'h';
     });
@@ -207,7 +275,23 @@ async function loadTimeline() {
             responsive: true,
             plugins: {legend: {display: false}},
             scales: {
-                x: {ticks: {maxTicksLimit: 12, maxRotation: 0}, grid: {display: false}},
+                x: {
+                    ticks: {
+                        maxTicksLimit: 12,
+                        maxRotation: 0,
+                        callback(val) {
+                            // val is the index into the labels array
+                            const raw = this.getLabelForValue(val);
+                            if (!raw) return '';
+                            // labels are like "Feb 28 14:30" or "Feb 28 14h"
+                            // split on the last space to get date v time parts
+                            const lastSpace = raw.lastIndexOf(' ');
+                            if (lastSpace === -1) return raw;
+                            return [raw.slice(0, lastSpace), raw.slice(lastSpace + 1)];
+                        }
+                    },
+                    grid: {display: false}
+                },
                 y: {beginAtZero: true, ticks: {precision: 0}},
             }
         }

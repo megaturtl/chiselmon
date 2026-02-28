@@ -10,7 +10,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Basic top-level stat overview of encounters
+ * Basic top-level stat overview of encounters.
+ *
+ * Now also returns {@code activeMinutes}: the number of distinct 1-minute
+ * buckets that contain at least one encounter. The frontend uses this to
+ * calculate spawns/min, so offline/AFK time is not counted.
  */
 public class StatsHandler extends ApiHandler {
 
@@ -23,7 +27,7 @@ public class StatsHandler extends ApiHandler {
         try {
             long from = parseFrom(exchange);
             Connection conn = db.getConnection();
-            long total, shinies, legendaries, size_variations, species, dimensions, snackSpawns;
+            long total, shinies, legendaries, size_variations, species, dimensions, snackSpawns, activeMinutes;
 
             try (Statement s = conn.createStatement()) {
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters", from))) {
@@ -47,11 +51,17 @@ public class StatsHandler extends ApiHandler {
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters WHERE from_snack = TRUE", from))) {
                     snackSpawns = rs.next() ? rs.getLong(1) : 0;
                 }
+                // Count distinct 1-minute buckets that have data — excludes offline gaps
+                try (ResultSet rs = s.executeQuery(
+                        where("SELECT COUNT(DISTINCT FLOOR(encountered_ms / 60000)) FROM encounters", from))) {
+                    activeMinutes = rs.next() ? rs.getLong(1) : 0;
+                }
             }
 
             sendJson(exchange, 200, String.format(
-                    "{\"total\":%d,\"shinies\":%d,\"legendaries\":%d,\"size_variations\":%d,\"uniqueSpecies\":%d,\"dimensions\":%d,\"snackSpawns\":%d}",
-                    total, shinies, legendaries, size_variations, species, dimensions, snackSpawns
+                    "{\"total\":%d,\"shinies\":%d,\"legendaries\":%d,\"size_variations\":%d,"
+                            + "\"uniqueSpecies\":%d,\"dimensions\":%d,\"snackSpawns\":%d,\"activeMinutes\":%d}",
+                    total, shinies, legendaries, size_variations, species, dimensions, snackSpawns, activeMinutes
             ));
 
         } catch (SQLException e) {

@@ -6,7 +6,10 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ApiHandler implements HttpHandler {
 
@@ -59,5 +62,16 @@ public abstract class ApiHandler implements HttpHandler {
             }
         }
         return 0;
+    }
+
+    protected static Map<String, String> parseQuery(URI uri) {
+        Map<String, String> map = new HashMap<>();
+        String query = uri.getQuery();
+        if (query == null) return map;
+        for (String pair : query.split("&")) {
+            String[] kv = pair.split("=", 2);
+            if (kv.length == 2) map.put(kv[0], kv[1]);
+        }
+        return map;
     }
 }

@@ -105,6 +105,29 @@ header {
     color: #0d1117;
 }
 
+/* ── Granularity pill separator ── */
+.tr-sep {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 4px;
+    align-self: center;
+}
+
+/* Gran pills share .tr-btn styles but get a distinct accent */
+.tr-btn.gran-btn.active {
+    background: var(--accent4);
+    border-color: var(--accent4);
+    color: #fff;
+}
+
+.tr-btn.gran-btn:hover {
+    border-color: var(--accent4);
+    color: var(--text);
+}
+
+/* Status Dot */
 .status-dot {
     width: 8px;
     height: 8px;

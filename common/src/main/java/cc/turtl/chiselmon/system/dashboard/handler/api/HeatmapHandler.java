@@ -4,12 +4,10 @@ import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,16 +71,5 @@ public class HeatmapHandler extends ApiHandler {
         } catch (SQLException e) {
             sendError(exchange, e.getMessage());
         }
-    }
-
-    private static Map<String, String> parseQuery(URI uri) {
-        Map<String, String> map = new HashMap<>();
-        String query = uri.getQuery();
-        if (query == null) return map;
-        for (String pair : query.split("&")) {
-            String[] kv = pair.split("=", 2);
-            if (kv.length == 2) map.put(kv[0], kv[1]);
-        }
-        return map;
     }
 }

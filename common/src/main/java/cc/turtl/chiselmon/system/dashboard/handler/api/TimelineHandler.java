@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TimelineHandler extends ApiHandler {
 
@@ -20,9 +21,18 @@ public class TimelineHandler extends ApiHandler {
     public void handle(HttpExchange exchange) throws IOException {
         try {
             long from = parseFrom(exchange);
+
+            // Parse ?granularity=minute|hour (default: hour)
+            Map<String, String> params = parseQuery(exchange.getRequestURI());
+            String granularity = params.getOrDefault("granularity", "hour");
+            boolean isMinute = "minute".equalsIgnoreCase(granularity);
+
+            // Bucket size in milliseconds
+            long bucketMs = isMinute ? 60_000L : 3_600_000L;
+
             List<String> entries = new ArrayList<>();
 
-            String sql = "SELECT FLOOR(encountered_ms / 3600000) * 3600000 AS bucket,"
+            String sql = "SELECT FLOOR(encountered_ms / " + bucketMs + ") * " + bucketMs + " AS bucket,"
                     + " COUNT(*) AS cnt FROM encounters"
                     + (from > 0 ? " WHERE encountered_ms >= " + from : "")
                     + " GROUP BY bucket ORDER BY bucket ASC";
