@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class EncounterDatabase {
-    private static final int FLUSH_THRESHOLD = 50;
+    private static final int FLUSH_THRESHOLD = 4;
 
     private final Connection conn;
     private final Path dbPath;

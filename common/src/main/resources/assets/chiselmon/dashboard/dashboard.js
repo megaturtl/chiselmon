@@ -316,204 +316,270 @@ async function loadEncounters() {
     }).join('');
 }
 
-// ── Heatmap Configuration ─────────────────────────────────────────────────────
+// ── Heatmap ─────────────────────────────────────────────────────
+
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const CHUNKS_TO_BLOCKS = 16;
 const OVERSCAN_FACTOR = 2.0;
-let _hmPokGrid = null, _hmPlyGrid = null, _hmCells = 0, _hmRadius = 0, _hmTileSize = 1;
 
-function getBestPowerOfTwoTileSize(radiusBlocks) {
-    const totalBlocks = radiusBlocks * 2;
-    const sizes = [16, 8, 4, 2, 1];
-    for (let s of sizes) {
-        // aims to fit around 32x32 tiles on the heatmap
-        if (totalBlocks / s >= 32) return s;
-    }
+// ── Shared State ──────────────────────────────────────────────────────────────
+
+let _hm = {pokGrid: null, plyGrid: null, cells: 0, radius: 0, tileSize: 1};
+
+// ── Grid Utilities ────────────────────────────────────────────────────────────
+
+function bestTileSize(radiusBlocks) {
+    const span = radiusBlocks * 2;
+    if (span >= 512) return 16;
+    if (span >= 256) return 8;
+    if (span >= 128) return 4;
+    if (span >= 64) return 2;
     return 1;
 }
 
-function buildGrid(points, minX, minZ, cells, tileSize) {
+function gridGeometry(cx, cz, visibleRadius, tileSize) {
+    const span = visibleRadius * 2 * OVERSCAN_FACTOR;
+    const canvasLeft = cx - span / 2;
+    const canvasTop = cz - span / 2;
+    return {
+        span,
+        canvasLeft,
+        canvasTop,
+        cells: Math.ceil(span / tileSize),
+        minX: Math.floor(canvasLeft / tileSize) * tileSize,
+        minZ: Math.floor(canvasTop / tileSize) * tileSize,
+    };
+}
+
+function gridMax(grid) {
+    let max = 0;
+    for (let i = 0; i < grid.length; i++) if (grid[i] > max) max = grid[i];
+    return max || 1;
+}
+
+function buildGrid(points, {minX, minZ, cells}, tileSize) {
     const grid = new Float32Array(cells * cells);
     for (const [x, z] of points) {
         const col = Math.floor((x - minX) / tileSize);
         const row = Math.floor((z - minZ) / tileSize);
-        if (col >= 0 && col < cells && row >= 0 && row < cells) {
+        if (col >= 0 && col < cells && row >= 0 && row < cells)
             grid[row * cells + col]++;
-        }
     }
     return grid;
 }
 
-// ── Rendering ────────────────────────────────────────────────────────────────
+// ── Canvas Helpers ────────────────────────────────────────────────────────────
 
-function paintHeatmap(canvas, pokemonGrid, playerGrid, cells, minX, minZ, tileSize, cx, cz, visibleRadius) {
+function setupCanvas(canvas) {
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
+    const size = Math.round(canvas.getBoundingClientRect().width * dpr);
+    canvas.width = canvas.height = size;
+    return {ctx: canvas.getContext('2d'), size, dpr};
+}
 
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
+function blendCellColor(pokVal, plyVal) {
+    let r = 0, g = 0, b = 0, a = 0;
 
-    const ctx = canvas.getContext('2d');
-    const size = canvas.width;
+    if (plyVal > 0) {
+        const pa = Math.pow(plyVal, 0.4) * 0.7;
+        [r, g, b, a] = [77 * pa, 201 * pa, 240 * pa, pa];
+    }
 
-    ctx.fillStyle = '#0d1117';
-    ctx.fillRect(0, 0, size, size);
+    if (pokVal > 0) {
+        const pa = Math.pow(pokVal, 0.4) * 0.8;
+        const outA = pa + a * (1 - pa);
+        if (outA > 0) {
+            r = (249 * pa + r * a * (1 - pa)) / outA;
+            g = (199 * pa + g * a * (1 - pa)) / outA;
+            b = (79 * pa + b * a * (1 - pa)) / outA;
+            a = outA;
+        }
+    }
 
-    const blocksOnCanvas = visibleRadius * 2 * OVERSCAN_FACTOR;
-    const canvasLeftWorld = cx - (blocksOnCanvas / 2);
-    const canvasTopWorld = cz - (blocksOnCanvas / 2);
-    const pxPerBlock = size / blocksOnCanvas;
+    return [r + 0.5 | 0, g + 0.5 | 0, b + 0.5 | 0, Math.min(255, a * 255 + 0.5 | 0)];
+}
 
-    // 1. Draw Absolute Chunk Grid
+function stampCell(px, size, x0, y0, cellPx, R, G, B, A) {
+    const x1 = Math.min(size, x0 + Math.ceil(cellPx) + 1);
+    const y1 = Math.min(size, y0 + Math.ceil(cellPx) + 1);
+    for (let py = Math.max(0, y0); py < y1; py++) {
+        const base = py * size * 4;
+        for (let qx = Math.max(0, x0); qx < x1; qx++) {
+            const i = base + qx * 4;
+            px[i] = R;
+            px[i + 1] = G;
+            px[i + 2] = B;
+            px[i + 3] = A;
+        }
+    }
+}
+
+// ── Paint Functions ───────────────────────────────────────────────────────────
+
+function drawChunkGrid(ctx, size, canvasLeft, canvasTop, span, dpr) {
     ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-    ctx.lineWidth = 1 * dpr;
-    const gridStartX = Math.ceil(canvasLeftWorld / 16) * 16;
-    const gridStartZ = Math.ceil(canvasTopWorld / 16) * 16;
+    ctx.lineWidth = dpr;
 
-    for (let x = gridStartX; x <= canvasLeftWorld + blocksOnCanvas; x += 16) {
-        const lx = (x - canvasLeftWorld) * pxPerBlock;
+    const right = canvasLeft + span;
+    const bottom = canvasTop + span;
+    const pxPerBlock = size / span;
+
+    for (let x = Math.ceil(canvasLeft / 16) * 16; x <= right; x += 16) {
+        const lx = (x - canvasLeft) * pxPerBlock;
         ctx.beginPath();
         ctx.moveTo(lx, 0);
         ctx.lineTo(lx, size);
         ctx.stroke();
     }
-    for (let z = gridStartZ; z <= canvasTopWorld + blocksOnCanvas; z += 16) {
-        const lz = (z - canvasTopWorld) * pxPerBlock;
+    for (let z = Math.ceil(canvasTop / 16) * 16; z <= bottom; z += 16) {
+        const lz = (z - canvasTop) * pxPerBlock;
         ctx.beginPath();
         ctx.moveTo(0, lz);
         ctx.lineTo(size, lz);
         ctx.stroke();
     }
+}
 
-    // 2. Draw Data Cells
-    const pokMax = Math.max(1, ...pokemonGrid);
-    const plyMax = Math.max(1, ...playerGrid);
+function drawDataCells(ctx, size, geom, pxPerBlock) {
+    const {pokGrid, plyGrid, tileSize} = _hm;
+    const {cells, minX, minZ, canvasLeft, canvasTop} = geom;
+    const pokMax = gridMax(pokGrid);
+    const plyMax = gridMax(plyGrid);
     const cellPx = tileSize * pxPerBlock;
+
+    // ← Get ImageData from the blank background BEFORE drawing the chunk grid,
+    //   so putImageData doesn't wipe the grid lines
+    const imgData = ctx.getImageData(0, 0, size, size);
 
     for (let row = 0; row < cells; row++) {
         for (let col = 0; col < cells; col++) {
             const idx = row * cells + col;
-            const pokVal = pokemonGrid[idx] / pokMax;
-            const plyVal = playerGrid[idx] / plyMax;
-            if (pokVal <= 0 && plyVal <= 0) continue;
+            const pokVal = pokGrid[idx] / pokMax;
+            const plyVal = plyGrid[idx] / plyMax;
+            if (!pokVal && !plyVal) continue;
 
-            const worldX = minX + (col * tileSize);
-            const worldZ = minZ + (row * tileSize);
-
-            const x = (worldX - canvasLeftWorld) * pxPerBlock;
-            const y = (worldZ - canvasTopWorld) * pxPerBlock;
-
-            if (plyVal > 0) {
-                ctx.fillStyle = `rgba(77,201,240,${Math.pow(plyVal, 0.4) * 0.7})`;
-                ctx.fillRect(x, y, cellPx + 0.5, cellPx + 0.5);
-            }
-            if (pokVal > 0) {
-                ctx.fillStyle = `rgba(249,199,79,${Math.pow(pokVal, 0.4) * 0.8})`;
-                ctx.fillRect(x, y, cellPx + 0.5, cellPx + 0.5);
-            }
+            const x0 = Math.floor((minX + col * tileSize - canvasLeft) * pxPerBlock);
+            const y0 = Math.floor((minZ + row * tileSize - canvasTop) * pxPerBlock);
+            const [R, G, B, A] = blendCellColor(pokVal, plyVal);
+            stampCell(imgData.data, size, x0, y0, cellPx, R, G, B, A);
         }
     }
+
+    ctx.putImageData(imgData, 0, 0);
+    // ← chunk grid drawn on top so it's never wiped by putImageData
 }
 
-function paintLegend(canvas, pokMax, plyMax) {
+function paintHeatmap(canvas, cx, cz) {
+    const {ctx, size, dpr} = setupCanvas(canvas);
+    const geom = gridGeometry(cx, cz, _hm.radius, _hm.tileSize);
+    const pxPerBlock = size / geom.span;
+
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, size, size);
+
+    // Order: background → cells → grid lines on top
+    drawDataCells(ctx, size, geom, pxPerBlock);
+    drawChunkGrid(ctx, size, geom.canvasLeft, geom.canvasTop, geom.span, dpr);
+}
+
+function drawLegendBar(ctx, x, width, color, label, align, labelX, midY) {
+    const grad = ctx.createLinearGradient(x, 0, x + width, 0);
+    grad.addColorStop(0, color.replace(')', ',0)').replace('rgb', 'rgba'));
+    grad.addColorStop(1, color.replace(')', ',0.85)').replace('rgb', 'rgba'));
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, midY - 5, width, 10);
+    ctx.fillStyle = '#8b949e';
+    ctx.textAlign = align;
+    ctx.fillText(label, labelX, midY);
+}
+
+function paintLegend(canvas) {
     const dpr = window.devicePixelRatio || 1;
     canvas.width = canvas.offsetWidth * dpr;
     canvas.height = canvas.offsetHeight * dpr;
     const ctx = canvas.getContext('2d');
-    const w = canvas.width, h = canvas.height;
-    const barH = Math.round(10 * dpr), y = Math.round((h - barH) / 2);
-    const gap = 8 * dpr, labelGap = 6 * dpr;
+    const w = canvas.width;
+    const midY = canvas.height / 2;
+    const gap = 8 * dpr;
+    const labelGap = 6 * dpr;
 
-    ctx.font = `${Math.round(9 * dpr)}px 'Space Mono', monospace`;
+    ctx.font = `${9 * dpr | 0}px 'Space Mono', monospace`;
     ctx.textBaseline = 'middle';
-
-    const pokLabel = `${pokMax}`, plyLabel = `${plyMax}`;
-    const pokLabelW = ctx.measureText(pokLabel).width;
-    const plyLabelW = ctx.measureText(plyLabel).width;
-
-    // --- Pokemon Side (Left) ---
-    // Bar ends before the label in the center
-    const pokBarWidth = w / 2 - gap - pokLabelW - labelGap;
-    const pokGrad = ctx.createLinearGradient(0, 0, pokBarWidth, 0);
-    pokGrad.addColorStop(0, 'rgba(249,199,79,0)');
-    pokGrad.addColorStop(1, 'rgba(249,199,79,0.85)');
-    ctx.fillStyle = pokGrad;
-    ctx.fillRect(0, y, pokBarWidth, barH);
-
-    // Pokemon Label (Centered-right)
     ctx.fillStyle = '#8b949e';
-    ctx.textAlign = 'right';
-    ctx.fillText(pokLabel, w / 2 - gap, h / 2);
 
-    // --- Player Side (Right) ---
-    // Bar starts at center and ends before the label on the far right
-    const plyStartX = w / 2 + gap;
-    const plyBarWidth = (w - plyStartX) - plyLabelW - labelGap;
+    const pokMax = gridMax(_hm.pokGrid);
+    const plyMax = gridMax(_hm.plyGrid);
+    const pokLabelW = ctx.measureText(pokMax).width;
+    const plyLabelW = ctx.measureText(plyMax).width;
 
-    const plyGrad = ctx.createLinearGradient(plyStartX, 0, plyStartX + plyBarWidth, 0);
-    plyGrad.addColorStop(0, 'rgba(77,201,240,0)');
-    plyGrad.addColorStop(1, 'rgba(77,201,240,0.75)');
-    ctx.fillStyle = plyGrad;
-    ctx.fillRect(plyStartX, y, plyBarWidth, barH);
-
-    // Player Label (Far right)
-    ctx.fillStyle = '#8b949e';
-    ctx.textAlign = 'right'; // Set to right to align with the canvas edge
-    ctx.fillText(plyLabel, w, h / 2);
+    drawLegendBar(ctx, 0, w / 2 - gap - pokLabelW - labelGap, 'rgb(249,199,79)', pokMax, 'right', w / 2 - gap, midY);
+    drawLegendBar(ctx, w / 2 + gap, w - (w / 2 + gap) - plyLabelW - labelGap, 'rgb(77,201,240)', plyMax, 'right', w, midY);
 }
 
-// ── Interaction Logic ────────────────────────────────────────────────────────
+// ── Interactions ──────────────────────────────────────────────────────────────
 
-function initHeatmapHover(canvas, minX, minZ, cells, tileSize, visibleRadius) {
+function getCxCz() {
+    return {
+        cx: parseInt(document.getElementById('hm-cx').value) || 0,
+        cz: parseInt(document.getElementById('hm-cz').value) || 0,
+    };
+}
+
+function setCxCz(cx, cz) {
+    document.getElementById('hm-cx').value = cx;
+    document.getElementById('hm-cz').value = cz;
+}
+
+function worldCoordsAtMouse(e, canvas) {
+    const {cx, cz} = getCxCz();
+    const geom = gridGeometry(cx, cz, _hm.radius, _hm.tileSize);
+    const rect = canvas.getBoundingClientRect();
+    const pxPerBlock = rect.width / geom.span;
+    return {
+        worldX: geom.canvasLeft + (e.clientX - rect.left) / pxPerBlock,
+        worldZ: geom.canvasTop + (e.clientY - rect.top) / pxPerBlock,
+        geom,
+    };
+}
+
+function initHeatmapHover(canvas) {
     const tooltip = document.getElementById('hm-tooltip');
 
-    // Replace the listener to avoid duplicates
     canvas.onmousemove = e => {
-        if (!_hmPokGrid || canvas._dragging) {
+        if (!_hm.pokGrid || canvas._dragging) {
             tooltip.style.display = 'none';
             return;
         }
 
-        const rect = canvas.getBoundingClientRect();
-        const sizeOnCanvas = visibleRadius * 2 * OVERSCAN_FACTOR;
-        const pxPerBlock = rect.width / sizeOnCanvas;
+        const {worldX, worldZ, geom} = worldCoordsAtMouse(e, canvas);
+        const col = Math.floor((worldX - geom.minX) / _hm.tileSize);
+        const row = Math.floor((worldZ - geom.minZ) / _hm.tileSize);
 
-        const cx = parseInt(document.getElementById('hm-cx').value) || 0;
-        const cz = parseInt(document.getElementById('hm-cz').value) || 0;
-        const canvasLeftWorld = cx - (sizeOnCanvas / 2);
-        const canvasTopWorld = cz - (sizeOnCanvas / 2);
-
-        const worldX = canvasLeftWorld + (e.clientX - rect.left) / pxPerBlock;
-        const worldZ = canvasTopWorld + (e.clientY - rect.top) / pxPerBlock;
-
-        const col = Math.floor((worldX - minX) / tileSize);
-        const row = Math.floor((worldZ - minZ) / tileSize);
-
-        if (col < 0 || col >= cells || row < 0 || row >= cells) {
+        if (col < 0 || col >= geom.cells || row < 0 || row >= geom.cells) {
             tooltip.style.display = 'none';
             return;
         }
 
-        const idx = row * cells + col;
-        const pok = _hmPokGrid[idx];
-        const ply = _hmPlyGrid[idx];
+        const idx = row * geom.cells + col;
+        const pok = _hm.pokGrid[idx];
+        const ply = _hm.plyGrid[idx];
 
         if (!pok && !ply) {
             tooltip.style.display = 'none';
             return;
         }
 
-        const dispX = Math.floor(minX + (col + 0.5) * tileSize);
-        const dispZ = Math.floor(minZ + (row + 0.5) * tileSize);
+        const dispX = Math.floor(geom.minX + (col + 0.5) * _hm.tileSize);
+        const dispZ = Math.floor(geom.minZ + (row + 0.5) * _hm.tileSize);
 
         tooltip.innerHTML = `
             <span style="color:#8b949e">${dispX}, ${dispZ}</span><br>
-            ${pok > 0 ? `🟡 ${pok} spawns<br>` : ''}
-            ${ply > 0 ? `🔵 ${ply} player pos<br>` : ''}
-            <small>tile: ${tileSize}x${tileSize}</small>
+            ${pok ? `🟡 ${pok} spawns<br>` : ''}
+            ${ply ? `🔵 ${ply} player pos<br>` : ''}
+            <small>tile: ${_hm.tileSize}x${_hm.tileSize}</small>
         `;
         tooltip.style.display = 'block';
-
         const wrap = canvas.closest('.hm-wrap').getBoundingClientRect();
         tooltip.style.left = (e.clientX - wrap.left + 15) + 'px';
         tooltip.style.top = (e.clientY - wrap.top - 15) + 'px';
@@ -530,7 +596,7 @@ function initHeatmapDrag(canvas) {
 
     canvas.addEventListener('mousedown', e => {
         if (e.button !== 0) return;
-        e.preventDefault(); // CRITICAL: Stops browser from trying to "drag" the canvas as an image
+        e.preventDefault();
         dragStart = {x: e.clientX, y: e.clientY};
         canvas.style.transition = 'none';
         canvas._dragging = false;
@@ -540,7 +606,6 @@ function initHeatmapDrag(canvas) {
         if (!dragStart) return;
         const dx = e.clientX - dragStart.x;
         const dy = e.clientY - dragStart.y;
-
         if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
             canvas._dragging = true;
             canvas.style.transform = `translate(${dx}px, ${dy}px)`;
@@ -555,84 +620,67 @@ function initHeatmapDrag(canvas) {
         dragStart = null;
 
         if (wasDragging) {
-            const rect = canvas.getBoundingClientRect();
-            const blocksPerPixel = (_hmRadius * 2) / (rect.width / OVERSCAN_FACTOR);
-
-            const cxInput = document.getElementById('hm-cx');
-            const czInput = document.getElementById('hm-cz');
-            cxInput.value = parseInt(cxInput.value || 0) + Math.round(-dx * blocksPerPixel);
-            czInput.value = parseInt(czInput.value || 0) + Math.round(-dy * blocksPerPixel);
-
+            const {cx, cz} = getCxCz();
+            const blocksPerPixel = (_hm.radius * 2) / (canvas.getBoundingClientRect().width / OVERSCAN_FACTOR);
+            setCxCz(cx + Math.round(-dx * blocksPerPixel), cz + Math.round(-dy * blocksPerPixel));
             await loadHeatmap();
-
-            // RESET FLAG AFTER LOAD
             canvas._dragging = false;
         }
     });
 }
 
-// ── Main Entry Point ─────────────────────────────────────────────────────────
+// ── Load & Reset ──────────────────────────────────────────────────────────────
 
-async function loadHeatmap() {
-    const cx = parseInt(document.getElementById('hm-cx').value) || 0;
-    const cz = parseInt(document.getElementById('hm-cz').value) || 0;
+function readHeatmapInputs() {
+    const {cx, cz} = getCxCz();
     const chunkRadius = Math.min(32, Math.max(2, parseInt(document.getElementById('hm-radius').value) || 8));
     const visibleRadius = chunkRadius * CHUNKS_TO_BLOCKS;
+    const tileSetting = document.getElementById('hm-tile-size').value;
+    const tileSize = tileSetting === 'auto' ? bestTileSize(visibleRadius) : parseInt(tileSetting);
+    return {cx, cz, visibleRadius, tileSize};
+}
 
-    // Check Tile Size Selector
-    const tileSizeSetting = document.getElementById('hm-tile-size').value;
-    const tileSize = tileSizeSetting === 'auto'
-        ? getBestPowerOfTwoTileSize(visibleRadius)
-        : parseInt(tileSizeSetting);
+function countVisibleEncounters(points, cx, cz, visibleRadius) {
+    return points.filter(([x, z]) =>
+        Math.abs(x - cx) <= visibleRadius && Math.abs(z - cz) <= visibleRadius
+    ).length;
+}
 
-    const status = document.getElementById('hm-status');
+function updateHeatmapLabels(cx, cz, visibleRadius, tileSize, encounterCount) {
+    document.getElementById('hm-label-tl').textContent = `${cx - visibleRadius}, ${cz - visibleRadius}`;
+    document.getElementById('hm-label-br').textContent = `${cx + visibleRadius}, ${cz + visibleRadius}`;
+    document.getElementById('hm-status').textContent = `${encounterCount.toLocaleString()} encounters · tile: ${tileSize}x${tileSize}`;
+}
 
+async function loadHeatmap() {
+    const {cx, cz, visibleRadius, tileSize} = readHeatmapInputs();
     const fetchRadius = Math.round(visibleRadius * OVERSCAN_FACTOR);
+    const status = document.getElementById('hm-status');
 
     try {
         const data = await api(withFrom(`/api/heatmap?cx=${cx}&cz=${cz}&radius=${fetchRadius}`));
+        const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
 
-        // visible encounters excluding overscan
-        const visibleEncounters = data.pokemon.filter(([x, z]) => {
-            return Math.abs(x - cx) <= visibleRadius && Math.abs(z - cz) <= visibleRadius;
-        });
-
-        const gridBlocks = visibleRadius * 2 * OVERSCAN_FACTOR;
-        const cells = Math.ceil(gridBlocks / tileSize);
-
-        // Standardize the grid alignment based on tileSize
-        const minX = Math.floor((cx - gridBlocks / 2) / tileSize) * tileSize;
-        const minZ = Math.floor((cz - gridBlocks / 2) / tileSize) * tileSize;
-
-        _hmPokGrid = buildGrid(data.pokemon, minX, minZ, cells, tileSize);
-        _hmPlyGrid = buildGrid(data.player, minX, minZ, cells, tileSize);
-        _hmCells = cells;
-        _hmRadius = visibleRadius;
-        _hmTileSize = tileSize;
+        _hm = {
+            pokGrid: buildGrid(data.pokemon, geom, tileSize),
+            plyGrid: buildGrid(data.player, geom, tileSize),
+            cells: geom.cells,
+            radius: visibleRadius,
+            tileSize,
+        };
 
         const canvas = document.getElementById('hm-canvas');
+        const encounterCount = countVisibleEncounters(data.pokemon, cx, cz, visibleRadius);
 
         requestAnimationFrame(() => {
-            // Force reset the visual offset because paintHeatmap is
-            // now drawing the canvas based on the NEW cx/cz values.
             canvas.style.transition = 'none';
             canvas.style.transform = 'translate(0, 0)';
 
-            paintHeatmap(canvas, _hmPokGrid, _hmPlyGrid, cells, minX, minZ, tileSize, cx, cz, visibleRadius);
-
-            const legendCanvas = document.getElementById('hm-legend-canvas');
-            if (legendCanvas) {
-                const pMax = _hmPokGrid.length ? Math.max(..._hmPokGrid) : 0;
-                const plMax = _hmPlyGrid.length ? Math.max(..._hmPlyGrid) : 0;
-                paintLegend(legendCanvas, pMax, plMax);
-            }
-
-            initHeatmapHover(canvas, minX, minZ, cells, tileSize, visibleRadius);
+            paintHeatmap(canvas, cx, cz);
+            paintLegend(document.getElementById('hm-legend-canvas'));
+            initHeatmapHover(canvas);
             initHeatmapDrag(canvas);
-
-            document.getElementById('hm-label-tl').textContent = `${cx - visibleRadius}, ${cz - visibleRadius}`;
-            document.getElementById('hm-label-br').textContent = `${cx + visibleRadius}, ${cz + visibleRadius}`;
-            status.textContent = `${visibleEncounters.length.toLocaleString()} encounters · tile: ${tileSize}x${tileSize}`;
+            updateHeatmapLabels(cx, cz, visibleRadius, tileSize, encounterCount);
         });
 
     } catch (err) {
@@ -642,21 +690,13 @@ async function loadHeatmap() {
 }
 
 async function resetHeatmap() {
-    const status = document.getElementById('hm-status');
-
     try {
-        // Re-fetch world info to get the latest player position
         const info = await api('/api/info');
-
-        // Reset inputs to the player's last known location
-        document.getElementById('hm-cx').value = info.lastX ?? 0;
-        document.getElementById('hm-cz').value = info.lastZ ?? 0;
+        setCxCz(info.lastX ?? 0, info.lastZ ?? 0);
         document.getElementById('hm-radius').value = 8;
-
-        // Force reload the heatmap with these new values
         await loadHeatmap();
     } catch (err) {
-        status.textContent = 'Reset failed: ' + err.message;
+        document.getElementById('hm-status').textContent = 'Reset failed: ' + err.message;
     }
 }
 
