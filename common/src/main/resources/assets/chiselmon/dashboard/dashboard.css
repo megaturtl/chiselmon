@@ -111,7 +111,7 @@ header {
     width: 1px;
     height: 18px;
     background: var(--border);
-    margin: 0 4px;
+    margin: 0 10px;
     align-self: center;
 }
 

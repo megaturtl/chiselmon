@@ -98,12 +98,13 @@ function initTimeRange() {
         currentFromMs = ms === 0 ? 0 : Date.now() - ms;
 
         // Auto-switch granularity: short windows → minute, long → hour
-        const autoGran = ms > 0 && ms <= 10_800_000 ? 'minute' : 'hour';
+        const autoGran = ms > 0 && ms <= 21_600_000 ? 'minute' : 'hour';
         if (autoGran !== currentGranularity) {
             currentGranularity = autoGran;
             updateGranularityButtons();
         }
 
+        destroyCharts();
         refresh();
         loadHeatmap();
     });
@@ -128,6 +129,7 @@ function initTimeRange() {
         if (!btn) return;
         currentGranularity = btn.dataset.gran;
         updateGranularityButtons();
+        destroyCharts();
         loadTimeline();
     });
 }
@@ -163,7 +165,12 @@ function fmtBiome(b) {
     return b ? b.replace(/^minecraft:/, '').replace(/_/g, ' ') : '–';
 }
 
-// ── Stats cards ───────────────────────────────────────────────────────────────
+function destroyCharts() {
+    [timelineChart, speciesChart, biomesChart].forEach(c => c && c.destroy());
+    timelineChart = null;
+    speciesChart = null;
+    biomesChart = null;
+}
 
 async function loadStats() {
     const s = await api(withFrom('/api/stats'));
@@ -253,14 +260,22 @@ async function loadTimeline() {
             + ' ' + String(dt.getHours()).padStart(2, '0') + 'h';
     });
 
+    const counts = data.map(d => d.count);
+
+    if (timelineChart) {
+        timelineChart.data.labels = labels;
+        timelineChart.data.datasets[0].data = counts;
+        timelineChart.update('active');
+        return;
+    }
+
     const ctx = document.getElementById('chart-timeline').getContext('2d');
-    if (timelineChart) timelineChart.destroy();
     timelineChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels,
             datasets: [{
-                data: data.map(d => d.count),
+                data: counts,
                 borderColor: '#F46997',
                 backgroundColor: 'rgba(237,109,152,0.2)',
                 borderWidth: 1.5,
@@ -284,7 +299,7 @@ async function loadTimeline() {
                             const raw = this.getLabelForValue(val);
                             if (!raw) return '';
                             // labels are like "Feb 28 14:30" or "Feb 28 14h"
-                            // split on the last space to get date v time parts
+                            // split on the last space to get date vs time parts
                             const lastSpace = raw.lastIndexOf(' ');
                             if (lastSpace === -1) return raw;
                             return [raw.slice(0, lastSpace), raw.slice(lastSpace + 1)];
@@ -305,15 +320,26 @@ let speciesChart;
 async function loadSpecies() {
     const data = await api(withFrom('/api/species'));
 
+    const labels = data.map(d => d.species);
+    const counts = data.map(d => d.count);
+    const colors = data.map((_, i) => CHART_PALETTE[i % CHART_PALETTE.length] + 'cc');
+
+    if (speciesChart) {
+        speciesChart.data.labels = labels;
+        speciesChart.data.datasets[0].data = counts;
+        speciesChart.data.datasets[0].backgroundColor = colors;
+        speciesChart.update('active');
+        return;
+    }
+
     const ctx = document.getElementById('chart-species').getContext('2d');
-    if (speciesChart) speciesChart.destroy();
     speciesChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: data.map(d => d.species),
+            labels,
             datasets: [{
-                data: data.map(d => d.count),
-                backgroundColor: data.map((_, i) => CHART_PALETTE[i % CHART_PALETTE.length] + 'cc'),
+                data: counts,
+                backgroundColor: colors,
                 borderWidth: 0,
                 borderRadius: 3,
             }]
@@ -337,14 +363,23 @@ let biomesChart;
 async function loadBiomes() {
     const data = await api(withFrom('/api/biomes'));
 
+    const labels = data.map(d => fmtBiome(d.biome));
+    const counts = data.map(d => d.count);
+
+    if (biomesChart) {
+        biomesChart.data.labels = labels;
+        biomesChart.data.datasets[0].data = counts;
+        biomesChart.update('active');
+        return;
+    }
+
     const ctx = document.getElementById('chart-biomes').getContext('2d');
-    if (biomesChart) biomesChart.destroy();
     biomesChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: data.map(d => fmtBiome(d.biome)),
+            labels,
             datasets: [{
-                data: data.map(d => d.count),
+                data: counts,
                 backgroundColor: CHART_PALETTE.map(c => c + 'cc'),
                 borderColor: '#161b22',
                 borderWidth: 2,
