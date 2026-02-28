@@ -46,4 +46,57 @@ tbody td {
     padding: 9px 16px;
     white-space: nowrap;
     font-size: 13px;
+    vertical-align: middle;
+}
+
+/* ── Sprite column ── */
+
+.enc-sprite {
+    max-width: 48px;
+}
+
+.enc-sprite-img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.sprite-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.sprite-missing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* ── Type tags ── */
+
+.type-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+.type-tag + .type-tag {
+    margin-left: 4px;
+}
+
+.enc-types {
+    min-width: 100px;
 }
