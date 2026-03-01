@@ -2,9 +2,9 @@
  * Biome doughnut chart.
  */
 
-import { CHART_PALETTE } from '../config/chart-defaults.js';
-import { fmtBiome } from '../core/format.js';
-import { createChartLoader } from './chart-factory.js';
+import {CHART_PALETTE} from '../config/chart-defaults.js';
+import {fmtBiome} from '../core/format.js';
+import {createChartLoader} from './chart-factory.js';
 
 export const loadBiomes = createChartLoader(
     'chart-biomes',
@@ -12,6 +12,8 @@ export const loadBiomes = createChartLoader(
     data => ({
         labels: data.map(d => fmtBiome(d.biome)),
         counts: data.map(d => d.count),
+        // Pre-map the full palette rather than cycling per-entry,
+        // since slices are fixed in number and map 1:1 with palette entries
         colors: CHART_PALETTE.map(c => c + 'cc'),
     }),
     (labels, counts, colors) => ({
@@ -31,7 +33,7 @@ export const loadBiomes = createChartLoader(
             plugins: {
                 legend: {
                     position: 'right',
-                    labels: { boxWidth: 10, padding: 10, font: { size: 10 } },
+                    labels: {boxWidth: 10, padding: 10, font: {size: 10}},
                 },
             },
         },

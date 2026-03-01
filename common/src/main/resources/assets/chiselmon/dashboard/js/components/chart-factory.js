@@ -1,9 +1,9 @@
 /**
- * Factory for simple Chart.js components that follow the
- * fetch → labels/counts → create-or-update pattern.
+ * Factory for simple Chart.js components that follow the pattern:
+ * fetch api -> generate labels/counts -> create-or-update.
  */
 
-import { api, buildUrl } from '../core/api.js';
+import {api, buildUrl} from '../core/api.js';
 
 /**
  * Creates a managed chart loader.
@@ -15,11 +15,12 @@ import { api, buildUrl } from '../core/api.js';
  * @returns {Function} async load function
  */
 export function createChartLoader(canvasId, endpoint, transform, chartOpts) {
+    // Each loader gets its own chart instance so multiple charts don't interfere
     let chart = null;
 
     return async function load() {
         const raw = await api(buildUrl(endpoint));
-        const { labels, counts, colors } = transform(raw);
+        const {labels, counts, colors} = transform(raw);
 
         if (chart) {
             chart.data.labels = labels;

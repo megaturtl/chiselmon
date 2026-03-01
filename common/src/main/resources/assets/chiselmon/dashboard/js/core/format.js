@@ -1,18 +1,14 @@
-/**
- * Shared formatting helpers.
- */
-
 export function fmtTime(ms) {
     return new Date(ms).toLocaleString(undefined, {
         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
     });
 }
 
-export function fmtBiome(b) {
-    return b ? b.replace(/^minecraft:/, '').replace(/_/g, ' ') : '–';
+export function fmtBiome(biome) {
+    return stripNamespace(biome);
 }
 
-/** Strip the minecraft: namespace prefix (dimensions, blocks, etc.) */
-export function stripNamespace(s) {
-    return s ? s.replace(/^minecraft:/, '') : '–';
+/** Strips any namespace prefix (e.g., 'minecraft:', 'cobblemon:') */
+export function stripNamespace(str) {
+    return str ? str.replace(/^[^:]+:/, '') : '–';
 }

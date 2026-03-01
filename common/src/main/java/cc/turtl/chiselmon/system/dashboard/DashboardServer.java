@@ -41,7 +41,6 @@ public class DashboardServer {
         httpServer.createContext("/", new StaticFileHandler());
 
         // Serves API endpoints which get data from the EncounterDatabase
-        httpServer.createContext("/api/info", new InfoHandler(db));
         httpServer.createContext("/api/dimensions", new DimensionsHandler(db));
         httpServer.createContext("/api/stats", new StatsHandler(db));
         httpServer.createContext("/api/species", new SpeciesHandler(db));
@@ -49,6 +48,8 @@ public class DashboardServer {
         httpServer.createContext("/api/encounters", new RecentEncountersHandler(db));
         httpServer.createContext("/api/timeline", new TimelineHandler(db));
         httpServer.createContext("/api/heatmap", new HeatmapHandler(db));
+        httpServer.createContext("/api/context", new ContextHandler(db));
+        httpServer.createContext("/api/playerpos", new PlayerPosHandler(db));
 
         // Executes on a single thread for now, should be fine for a simple local dashboard
         httpServer.setExecutor(Executors.newSingleThreadExecutor(r -> {

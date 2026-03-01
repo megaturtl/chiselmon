@@ -1,6 +1,6 @@
 /**
  * Pure grid-math utilities for the heatmap.
- * No DOM access — just numbers in, numbers out.
+ * No DOM access - just numbers in, numbers out.
  */
 
 export const CHUNKS_TO_BLOCKS = 16;

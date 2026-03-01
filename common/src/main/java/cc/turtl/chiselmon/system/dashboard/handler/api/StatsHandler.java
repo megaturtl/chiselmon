@@ -11,7 +11,6 @@ import java.sql.Statement;
 
 /**
  * Basic top-level stat overview of encounters.
- *
  * Now also returns {@code activeMinutes}: the number of distinct 1-minute
  * buckets that contain at least one encounter. The frontend uses this to
  * calculate spawns/min, so offline/AFK time is not counted.
@@ -27,11 +26,11 @@ public class StatsHandler extends ApiHandler {
         try {
             long from = parseFrom(exchange);
             Connection conn = db.getConnection();
-            long total, shinies, legendaries, size_variations, species, dimensions, snackSpawns, activeMinutes;
+            long totalEncounters, shinies, legendaries, sizeVariations, species, dimensions, snackSpawns, activeMinutes;
 
             try (Statement s = conn.createStatement()) {
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters", from))) {
-                    total = rs.next() ? rs.getLong(1) : 0;
+                    totalEncounters = rs.next() ? rs.getLong(1) : 0;
                 }
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters WHERE is_shiny = TRUE", from))) {
                     shinies = rs.next() ? rs.getLong(1) : 0;
@@ -40,7 +39,7 @@ public class StatsHandler extends ApiHandler {
                     legendaries = rs.next() ? rs.getLong(1) : 0;
                 }
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(*) FROM encounters WHERE scale_modifier != 1.0", from))) {
-                    size_variations = rs.next() ? rs.getLong(1) : 0;
+                    sizeVariations = rs.next() ? rs.getLong(1) : 0;
                 }
                 try (ResultSet rs = s.executeQuery(where("SELECT COUNT(DISTINCT species) FROM encounters", from))) {
                     species = rs.next() ? rs.getLong(1) : 0;
@@ -59,9 +58,9 @@ public class StatsHandler extends ApiHandler {
             }
 
             sendJson(exchange, 200, String.format(
-                    "{\"total\":%d,\"shinies\":%d,\"legendaries\":%d,\"size_variations\":%d,"
+                    "{\"totalEncounters\":%d,\"shinies\":%d,\"legendaries\":%d,\"sizeVariations\":%d,"
                             + "\"uniqueSpecies\":%d,\"dimensions\":%d,\"snackSpawns\":%d,\"activeMinutes\":%d}",
-                    total, shinies, legendaries, size_variations, species, dimensions, snackSpawns, activeMinutes
+                    totalEncounters, shinies, legendaries, sizeVariations, species, dimensions, snackSpawns, activeMinutes
             ));
 
         } catch (SQLException e) {

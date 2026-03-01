@@ -1,13 +1,12 @@
 /**
  * Drag, zoom, and hover handlers for the heatmap canvas.
- * Each init* function is idempotent — safe to call on every repaint.
  *
  * All handlers accept a `getHm` getter so they always read the
  * latest heatmap state, even though they're only bound once.
  */
 
-import { gridGeometry, OVERSCAN_FACTOR } from './grid.js';
-import { getCxCz, setCxCz } from './controls.js';
+import {gridGeometry, OVERSCAN_FACTOR} from './grid.js';
+import {getCxCz, setCxCz} from './controls.js';
 
 // ── Internal helper ───────────────────────────────────────────────────────────
 

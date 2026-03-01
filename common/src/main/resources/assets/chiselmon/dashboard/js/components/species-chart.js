@@ -1,9 +1,9 @@
 /**
- * Top-species horizontal bar chart.
+ * Species bar chart.
  */
 
-import { CHART_PALETTE } from '../config/chart-defaults.js';
-import { createChartLoader } from './chart-factory.js';
+import {CHART_PALETTE} from '../config/chart-defaults.js';
+import {createChartLoader} from './chart-factory.js';
 
 export const loadSpecies = createChartLoader(
     'chart-species',
@@ -11,6 +11,7 @@ export const loadSpecies = createChartLoader(
     data => ({
         labels: data.map(d => d.species),
         counts: data.map(d => d.count),
+        // 'cc' adds a bit of transparency
         colors: data.map((_, i) => CHART_PALETTE[i % CHART_PALETTE.length] + 'cc'),
     }),
     (labels, counts, colors) => ({
@@ -27,10 +28,10 @@ export const loadSpecies = createChartLoader(
         options: {
             indexAxis: 'y',
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {legend: {display: false}},
             scales: {
-                x: { beginAtZero: true, ticks: { precision: 0 } },
-                y: { ticks: { font: { size: 10 } } },
+                x: {beginAtZero: true, ticks: {precision: 0}},
+                y: {ticks: {font: {size: 10}}},
             },
         },
     }),

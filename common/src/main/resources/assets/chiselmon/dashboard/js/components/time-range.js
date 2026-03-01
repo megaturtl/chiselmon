@@ -3,24 +3,24 @@
  * inside #time-range, and wires them to state changes.
  */
 
-import { state } from '../core/state.js';
+import {state} from '../core/state.js';
 
 const TIME_RANGES = [
-    { label: '30m', ms: 1_800_000 },
-    { label: '1h',  ms: 3_600_000 },
-    { label: '3h',  ms: 10_800_000 },
-    { label: '6h',  ms: 21_600_000 },
-    { label: '24h', ms: 86_400_000 },
-    { label: '7d',  ms: 604_800_000 },
-    { label: '30d', ms: 2_592_000_000 },
-    { label: 'All', ms: 0 },
+    {label: '30m', ms: 1_800_000},
+    {label: '1h', ms: 3_600_000},
+    {label: '3h', ms: 10_800_000},
+    {label: '6h', ms: 21_600_000},
+    {label: '24h', ms: 86_400_000},
+    {label: '7d', ms: 604_800_000},
+    {label: '30d', ms: 2_592_000_000},
+    {label: 'All', ms: 0},
 ];
 
 export function initTimeRange() {
     const bar = document.getElementById('time-range');
 
-    // ── Time-range pills ──
-    TIME_RANGES.forEach(({ label, ms }, i) => {
+    // Time-range pills
+    TIME_RANGES.forEach(({label, ms}, i) => {
         const btn = document.createElement('button');
         btn.className = 'tr-btn' + (i === 4 ? ' active' : '');
         btn.textContent = label;
@@ -28,12 +28,12 @@ export function initTimeRange() {
         bar.appendChild(btn);
     });
 
-    // ── Separator ──
+    // Separator
     const sep = document.createElement('div');
     sep.className = 'tr-sep';
     bar.appendChild(sep);
 
-    // ── Granularity pills ──
+    // Granularity pills
     ['hour', 'minute'].forEach(gran => {
         const btn = document.createElement('button');
         btn.className = 'tr-btn gran-btn' + (gran === state.granularity ? ' active' : '');
@@ -43,7 +43,7 @@ export function initTimeRange() {
         bar.appendChild(btn);
     });
 
-    // Single delegated listener for the whole bar
+    // Single delegated listener for the whole time bar
     bar.addEventListener('click', e => {
         const granBtn = e.target.closest('.gran-btn');
         if (granBtn) {
@@ -60,9 +60,9 @@ export function initTimeRange() {
 
         const ms = parseInt(trBtn.dataset.ms);
         const fromMs = ms === 0 ? 0 : Date.now() - ms;
+        // Automatically changes granularity to be appropriate for the selected time range
         const autoGran = ms > 0 && ms <= 21_600_000 ? 'minute' : 'hour';
-
-        // Batched update — one notification, one refresh
+        
         state.update(fromMs, autoGran);
         syncGranButtons();
     });

@@ -1,144 +1,124 @@
 /**
- * Recent encounters table renderer.
- * Fetches sprite + type data from PokeAPI with a persistent cache.
+ * Recent encounters table.
  */
 
 import {api, withFrom} from '../core/api.js';
 import {fmtBiome, fmtTime, stripNamespace} from '../core/format.js';
 
-// ── PokeAPI cache ─────────────────────────────────────────────────────────────
-
 const _pokeCache = new Map();
 
-/**
- * Fetches sprite URL and types for a species name.
- * Results are cached so each species is only fetched once per session.
- * Returns { sprite, types } or a fallback on failure.
- */
+/** Returns and caches species name -> { sprite, types } */
 async function fetchPokeData(species) {
     const key = species.toLowerCase();
+
+    // Cache hit
     if (_pokeCache.has(key)) return _pokeCache.get(key);
 
-    const promise = (async () => {
-        try {
-            const r = await fetch(`https://pokeapi.co/api/v2/pokemon/${key}`);
-            if (!r.ok) throw new Error(r.status);
-            const data = await r.json();
-            return {
-                sprite: data.sprites?.front_default ?? null,
-                types: data.types?.map(t => t.type.name) ?? [],
-            };
-        } catch (_) {
+    // Define the logic: Fetch -> Transform -> Handle Errors
+    const promise = fetch(`https://pokeapi.co/api/v2/pokemon/${key}`)
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(data => ({
+            sprite: data.sprites?.front_default ?? null,
+            types: data.types?.map(t => t.type.name) ?? []
+        }))
+        .catch(() => {
+            _pokeCache.delete(key); // Cleanup cache so we can retry later
             return {sprite: null, types: []};
-        }
-    })();
+        });
 
+    // Save the promise and return it
     _pokeCache.set(key, promise);
     return promise;
 }
 
-// ── Type colours ──────────────────────────────────────────────────────────────
-
 const TYPE_COLORS = {
-    normal: {bg: '#a8a878', text: '#fff'},
-    fire: {bg: '#f08030', text: '#fff'},
-    water: {bg: '#6890f0', text: '#fff'},
-    electric: {bg: '#f8d030', text: '#333'},
-    grass: {bg: '#78c850', text: '#fff'},
-    ice: {bg: '#98d8d8', text: '#333'},
-    fighting: {bg: '#c03028', text: '#fff'},
-    poison: {bg: '#a040a0', text: '#fff'},
-    ground: {bg: '#e0c068', text: '#333'},
-    flying: {bg: '#a890f0', text: '#fff'},
-    psychic: {bg: '#f85888', text: '#fff'},
-    bug: {bg: '#a8b820', text: '#fff'},
-    rock: {bg: '#b8a038', text: '#fff'},
-    ghost: {bg: '#705898', text: '#fff'},
-    dragon: {bg: '#7038f8', text: '#fff'},
-    dark: {bg: '#705848', text: '#fff'},
-    steel: {bg: '#b8b8d0', text: '#333'},
-    fairy: {bg: '#ee99ac', text: '#333'},
+    normal: {bg: '#E8E8DA', text: '#333'},
+    fire: {bg: '#FF6E21', text: '#333'},
+    water: {bg: '#3FA5FF', text: '#333'},
+    grass: {bg: '#62D14F', text: '#333'},
+    electric: {bg: '#FFD314', text: '#333'},
+    ice: {bg: '#54F2F2', text: '#333'},
+    fighting: {bg: '#EF565D', text: '#333'},
+    poison: {bg: '#D651FF', text: '#333'},
+    ground: {bg: '#F4A453', text: '#333'},
+    flying: {bg: '#B8B2FF', text: '#333'},
+    psychic: {bg: '#FF5E9E', text: '#333'},
+    bug: {bg: '#D3D319', text: '#333'},
+    rock: {bg: '#B7A16E', text: '#333'},
+    ghost: {bg: '#9C80F7', text: '#333'},
+    dragon: {bg: '#7580FF', text: '#333'},
+    dark: {bg: '#587DA0', text: '#333'},
+    steel: {bg: '#ABD1F4', text: '#333'},
+    fairy: {bg: '#FF7FE5', text: '#333'},
 };
 
-function typeTag(typeName) {
-    const c = TYPE_COLORS[typeName] ?? {bg: '#8b949e', text: '#fff'};
-    return `<span class="type-tag" style="background:${c.bg};color:${c.text}">${typeName}</span>`;
+function typeTagHtml(typeName) {
+    const {bg, text} = TYPE_COLORS[typeName] ?? {bg: '#8b949e', text: '#fff'};
+    return `<span class="type-tag" style="background:${bg};color:${text}">${typeName}</span>`;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+function speciesNameStr(species, form) {
+    const isDefault = !form || form.toLowerCase() === 'normal' || form === '–';
+    return isDefault ? species : `${species}-${form}`;
+}
 
-/**
- * Builds the display name: "Pikachu" if form is empty/normal,
- * "Pikachu-Alola" otherwise.
- */
-function displayName(species, form) {
-    if (!form || form.toLowerCase() === 'normal' || form === '–') {
-        return species;
+function genderHtml(gender) {
+    if (gender === 'MALE') return '<span title="Male" style="color:#2D73B0;margin-right:6px">♂</span>';
+    if (gender === 'FEMALE') return '<span title="Female" style="color:#F46997;margin-right:6px">♀</span>';
+    return '<span title="Genderless" style="color:var(--muted);margin-right:6px">•</span>';
+}
+
+/** Builds a table row for one encounter with the available local data */
+function buildRow(encounter, i) {
+    const scale = parseFloat(encounter.scale);
+    const scaleHtml = scale !== 1.0 ? ` <span style="color:var(--size_variation)">(${scale.toFixed(2)})</span>` : '';
+    const specialsHtml = [
+        encounter.shiny && '<span style="color:var(--shiny)" title="Shiny">★</span>',
+        encounter.legendary && '<span style="color:var(--legendary)" title="Legendary">★</span>',
+    ].filter(Boolean).join(' ');
+    const cakeHtml = encounter.snack ? '<span title="From snack" style="margin-right:6px">🎂</span>' : '';
+
+    return `<tr>
+        <td class="enc-sprite" data-row="${i}"><div class="sprite-placeholder"></div></td>
+        <td>${cakeHtml}${genderHtml(encounter.gender)}<strong>${speciesNameStr(encounter.species, encounter.form)}</strong>${scaleHtml}${specialsHtml}</td>
+        <td class="enc-types" data-row="${i}"></td>
+        <td>${encounter.level}</td>
+        <td style="color:var(--muted)">${stripNamespace(encounter.blockName)}</td>
+        <td style="color:var(--muted)">${fmtBiome(encounter.biome)}</td>
+        <td style="color:var(--muted)">${fmtTime(encounter.ms)}</td>
+    </tr>`;
+}
+
+/** Fills in the sprite and type cells for row i once PokeAPI data is available. */
+function fillPokeCell(tbody, i, {sprite, types}) {
+    const spriteCell = tbody.querySelector(`.enc-sprite[data-row="${i}"]`);
+    if (spriteCell) {
+        spriteCell.innerHTML = sprite
+            ? `<img class="enc-sprite-img" src="${sprite}" alt="" loading="lazy"/>`
+            : '<div class="sprite-placeholder sprite-missing">?</div>';
     }
-    return `${species}-${form}`;
+
+    const typesCell = tbody.querySelector(`.enc-types[data-row="${i}"]`);
+    if (typesCell) {
+        typesCell.innerHTML = types.length
+            ? types.map(typeTagHtml).join('')
+            : '<span style="color:var(--muted)">–</span>';
+    }
 }
 
-// ── Table rendering ───────────────────────────────────────────────────────────
-
-export async function loadEncounters() {
-    const data  = await api(withFrom('/api/encounters'));
+export async function loadRecentEncounters() {
+    const encounters = await api(withFrom('/api/encounters'));
     const tbody = document.getElementById('enc-tbody');
 
-    if (!data.length) {
+    if (!encounters.length) {
         tbody.innerHTML = '<tr><td colspan="7" class="loading">No encounters recorded yet.</td></tr>';
         return;
     }
 
-    // Kick off all PokeAPI fetches in parallel
-    const pokeDataPromises = data.map(e => fetchPokeData(e.species));
+    // requests for external api data (sprites and types)
+    const pokeRequests = encounters.map(e => fetchPokeData(e.species));
+    tbody.innerHTML = encounters.map(buildRow).join('');
 
-    tbody.innerHTML = data.map((e, i) => {
-        let specials = '';
-        if (e.shiny)     specials += ' <span style="color:var(--shiny)" title="Shiny">★</span>';
-        if (e.legendary) specials += ' <span style="color:var(--legendary)" title="Legendary">★</span>';
-
-        let gender = '<span title="Genderless" style="color:var(--muted);margin-right:6px">•</span>';
-        if (e.gender === 'MALE')   gender = '<span title="Male" style="color:#2D73B0;margin-right:6px">♂</span>';
-        if (e.gender === 'FEMALE') gender = '<span title="Female" style="color:#F46997;margin-right:6px">♀</span>';
-
-        const scale = parseFloat(e.scale);
-        const scaleHtml = scale !== 1.0
-            ? ` <span style="color:var(--size_variation)">(${scale.toFixed(2)})</span>` : '';
-
-        const cake = e.snack ? '<span title="From snack" style="margin-right:6px">🎂</span>' : '';
-
-        const name = displayName(e.species, e.form);
-
-        return `<tr>
-            <td class="enc-sprite" data-row="${i}">
-                <div class="sprite-placeholder"></div>
-            </td>
-            <td>${cake}${gender}<strong>${name}</strong>${scaleHtml}${specials}</td>
-            <td class="enc-types" data-row="${i}"></td>
-            <td>${e.level}</td>
-            <td style="color:var(--muted)">${stripNamespace(e.block_name)}</td>
-            <td style="color:var(--muted)">${fmtBiome(e.biome)}</td>
-            <td style="color:var(--muted)">${fmtTime(e.ms)}</td>
-        </tr>`;
-    }).join('');
-
-    // Fill in sprites + types as they resolve
-    const resolved = await Promise.all(pokeDataPromises);
-    resolved.forEach((poke, i) => {
-        const spriteCell = tbody.querySelector(`.enc-sprite[data-row="${i}"]`);
-        if (spriteCell) {
-            if (poke.sprite) {
-                spriteCell.innerHTML = `<img class="enc-sprite-img" src="${poke.sprite}" alt="" loading="lazy"/>`;
-            } else {
-                spriteCell.innerHTML = '<div class="sprite-placeholder sprite-missing">?</div>';
-            }
-        }
-
-        const typesCell = tbody.querySelector(`.enc-types[data-row="${i}"]`);
-        if (typesCell && poke.types.length) {
-            typesCell.innerHTML = poke.types.map(typeTag).join('');
-        } else if (typesCell) {
-            typesCell.innerHTML = '<span style="color:var(--muted)">–</span>';
-        }
-    });
+    const pokeData = await Promise.all(pokeRequests);
+    pokeData.forEach((poke, i) => fillPokeCell(tbody, i, poke));
 }

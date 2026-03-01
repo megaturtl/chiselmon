@@ -34,7 +34,7 @@ public class RecentEncountersHandler extends ApiHandler {
                     // Locale.US guarantees '.' as decimal separator — safe JSON
                     entries.add(String.format(Locale.US,
                             "{\"species\":\"%s\",\"form\":\"%s\",\"level\":%d,\"gender\":\"%s\",\"scale\":%f," +
-                                    "\"shiny\":%b,\"legendary\":%b,\"snack\":%b,\"dimension\":\"%s\",\"block_name\":\"%s\",\"biome\":\"%s\",\"ms\":%d}",
+                                    "\"shiny\":%b,\"legendary\":%b,\"snack\":%b,\"dimension\":\"%s\",\"blockName\":\"%s\",\"biome\":\"%s\",\"ms\":%d}",
                             escape(rs.getString("species")),
                             escape(rs.getString("form")),
                             rs.getInt("level"),

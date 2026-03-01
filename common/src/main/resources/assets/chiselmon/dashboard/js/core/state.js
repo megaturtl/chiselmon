@@ -12,7 +12,7 @@ const listeners = [];
 let _notifyQueued = false;
 
 export const state = {
-    fromMs: Date.now() - 86_400_000,
+    fromMs: Date.now() - 86_400_000, // Default to last 24 hrs
     granularity: 'hour',
 
     /** Subscribe to any state change. Returns an unsubscribe function. */
@@ -31,7 +31,7 @@ export const state = {
         this._scheduleNotify();
     },
 
-    /** Update the bucket granularity ('hour' or 'minute'). */
+    /** Update the bucket granularity (e.g. 'hour' or 'minute'). */
     setGranularity(gran) {
         if (this.granularity === gran) return;
         this.granularity = gran;
@@ -52,7 +52,11 @@ export const state = {
         queueMicrotask(() => {
             _notifyQueued = false;
             for (const fn of listeners) {
-                try { fn(); } catch (e) { console.error('State listener error:', e); }
+                try {
+                    fn();
+                } catch (e) {
+                    console.error('State listener error:', e);
+                }
             }
         });
     },
