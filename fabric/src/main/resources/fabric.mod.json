@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "chiselmon",
-  "version": "${version}",
-  "name": "Chiselmon",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_display_name}",
   "description": "Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!",
   "authors": [
-    "megaturtl"
+    "${mod_author}"
   ],
   "contact": {
     "sources": "https://github.com/megaturtl/chiselmon",

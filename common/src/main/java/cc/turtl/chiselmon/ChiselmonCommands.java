@@ -48,7 +48,7 @@ public class ChiselmonCommands {
         String alias = context.getNodes().getFirst().getNode().getName();
 
         MessageUtils.sendEmptyLine(player);
-        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_NAME + " Commands");
+        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_DISPLAY_NAME + " Commands");
         COMMANDS.forEach(cmd ->
                 MessageUtils.sendPrefixed(player, "  /" + alias + " " + cmd.getName() + " - " + cmd.getDescription())
         );

@@ -33,7 +33,7 @@ allprojects {
 
     base {
         // e.g `chiselmon-fabric`
-        archivesName = "${mod_name}-${project.name}"
+        archivesName = "${mod_id}-${project.name}"
     }
 
     version = mod_version
