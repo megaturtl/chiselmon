@@ -134,12 +134,16 @@ function drawDataCells(ctx, size, geom, pxPerBlock, hm) {
     ctx.putImageData(imgData, 0, 0);
 }
 
-function drawLegendBar(ctx, x, width, {r, g, b}, maxAlpha, label, labelX, midY) {
-    const grad = ctx.createLinearGradient(x, 0, x + width, 0);
+function drawLegendBar(ctx, barX, barW, {r, g, b}, maxAlpha, label, labelX, midY) {
+    // Draw the gradient bar
+    const grad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
     grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
     grad.addColorStop(1, `rgba(${r},${g},${b},${maxAlpha})`);
+
     ctx.fillStyle = grad;
-    ctx.fillRect(x, midY - 5, width, 10);
+    ctx.fillRect(barX, midY - 5, barW, 10);
+
+    // Draw the label (using the labelX provided)
     ctx.fillStyle = '#8b949e';
     ctx.fillText(label, labelX, midY);
 }
@@ -160,16 +164,28 @@ export function paintHeatmap(canvas, cx, cz, hm) {
 export function paintLegend(canvas, hm) {
     const {ctx, size: w, h, dpr} = setupCanvas(canvas, {square: false});
     const midY = h / 2;
-    const gap = 8 * dpr;
-    const labelGap = 6 * dpr;
+    const halfW = w / 2;
+    const gap = 12 * dpr;      // Gap between the two legend groups
+    const labelGap = 6 * dpr;  // Gap between a bar and its number
 
     ctx.font = `${9 * dpr | 0}px 'Space Mono', monospace`;
     ctx.textBaseline = 'middle';
-    ctx.textAlign = 'right';
 
-    const pokLabelW = ctx.measureText(hm.pokMax).width;
-    const plyLabelW = ctx.measureText(hm.plyMax).width;
+    // Pokemon Legend
+    const pokLabel = String(hm.pokMax);
+    const pokLabelW = ctx.measureText(pokLabel).width;
+    // Bar takes up remaining space in the left half minus gaps
+    const pokBarW = (halfW - (gap / 2)) - pokLabelW - labelGap;
 
-    drawLegendBar(ctx, 0, w / 2 - gap - pokLabelW - labelGap, COLORS.pokemon, ALPHA.pokemonMax, hm.pokMax, w / 2, midY);
-    drawLegendBar(ctx, w / 2 + gap, w - gap - plyLabelW - labelGap, COLORS.player, ALPHA.playerMax, hm.plyMax, w, midY);
+    ctx.textAlign = 'left';
+    drawLegendBar(ctx, 0, pokBarW, COLORS.pokemon, ALPHA.pokemonMax, pokLabel, pokBarW + labelGap, midY);
+
+    // Player Legend
+    const plyLabel = String(hm.plyMax);
+    const plyLabelW = ctx.measureText(plyLabel).width;
+    const plyBarW = (halfW - (gap / 2)) - plyLabelW - labelGap;
+    const plyStart = halfW + (gap / 2);
+
+    ctx.textAlign = 'left';
+    drawLegendBar(ctx, plyStart, plyBarW, COLORS.player, ALPHA.playerMax, plyLabel, plyStart + plyBarW + labelGap, midY);
 }

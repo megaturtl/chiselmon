@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.system.dashboard.handler;
+package cc.turtl.chiselmon.system.dashboard;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -35,7 +35,7 @@ public class StaticFileHandler implements HttpHandler {
 
         String path = exchange.getRequestURI().getPath();
 
-        // Root → index.html
+        // Root resolves to index.html
         if ("/".equals(path) || "/index.html".equals(path)) {
             serveResource(exchange, RESOURCE_ROOT + "/index.html", "text/html; charset=utf-8");
             return;

@@ -1,8 +1,8 @@
 /**
  * Tiny reactive state store for the dashboard.
  *
- * Holds the current time-range (fromMs) and granularity,
- * and notifies subscribers when either changes.
+ * Holds the current time-range (fromMs, toMs) and granularity,
+ * and notifies subscribers when any value changes.
  *
  * Mutations within the same microtask are coalesced into
  * a single notification to prevent double-refreshes.
@@ -12,7 +12,8 @@ const listeners = [];
 let _notifyQueued = false;
 
 export const state = {
-    fromMs: Date.now() - 86_400_000, // Default to last 24 hrs
+    fromMs: Date.now() - 86_400_000, // Default to last 24h
+    toMs: 0, // 0 = open-ended (no upper bound)
     granularity: 'hour',
 
     /** Subscribe to any state change. Returns an unsubscribe function. */
@@ -25,9 +26,16 @@ export const state = {
     },
 
     /** Update the time-range origin (epoch ms, or 0 for all-time). */
-    setRange(ms) {
+    setFrom(ms) {
         if (this.fromMs === ms) return;
         this.fromMs = ms;
+        this._scheduleNotify();
+    },
+
+    /** Update the time-range upper bound (epoch ms, or 0 for open-ended). */
+    setTo(ms) {
+        if (this.toMs === ms) return;
+        this.toMs = ms;
         this._scheduleNotify();
     },
 
@@ -38,10 +46,16 @@ export const state = {
         this._scheduleNotify();
     },
 
-    /** Batch-update range + granularity, firing listeners only once. */
-    update(fromMs, granularity) {
-        const changed = this.fromMs !== fromMs || this.granularity !== granularity;
+    /**
+     * Batch-update from, to, and granularity, firing listeners only once.
+     * toMs and granularity are optional - omit to leave unchanged.
+     */
+    update(fromMs, granularity, toMs = 0) {
+        const changed = this.fromMs !== fromMs
+            || this.toMs !== toMs
+            || this.granularity !== granularity;
         this.fromMs = fromMs;
+        this.toMs = toMs;
         this.granularity = granularity;
         if (changed) this._scheduleNotify();
     },

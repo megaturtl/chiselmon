@@ -11,28 +11,23 @@ export async function api(path) {
 }
 
 /**
- * Build a URL with query parameters, automatically including the `from` time param
- * in the current state.
+ * Builds a URL with query parameters, automatically including the current
+ * time range (from/to) from state. Any extra params are merged in after.
  *
  *   buildUrl('/api/heatmap', { cx: 100, dimension: 'minecraft:the_nether' })
- *   -> '/api/heatmap?from=17091…&cx=100&dimension=minecraft%3Athe_nether'
+ *   -> '/api/heatmap?from=17091…&to=17092…&cx=100&dimension=minecraft%3Athe_nether'
  */
 export function buildUrl(path, params = {}) {
-    const from = state.fromMs;
-    const all = from > 0 ? {from, ...params} : {...params};
+    const timeParams = {};
+    if (state.fromMs > 0) timeParams.from = state.fromMs;
+    if (state.toMs > 0) timeParams.to = state.toMs;
 
+    const all = {...timeParams, ...params};
     const entries = Object.entries(all);
     if (entries.length === 0) return path;
 
-    const queryParams = entries
+    const query = entries
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
         .join('&');
-    return `${path}?${queryParams}`;
-}
-
-/**
- * Just appends the `from` time param.
- */
-export function withFrom(path) {
-    return buildUrl(path);
+    return `${path}?${query}`;
 }

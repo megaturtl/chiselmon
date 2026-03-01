@@ -8,10 +8,11 @@ import {createChartLoader} from './chart-factory.js';
 
 export const loadBiomes = createChartLoader(
     'chart-biomes',
-    '/api/biomes',
-    data => ({
-        labels: data.map(d => fmtBiome(d.biome)),
-        counts: data.map(d => d.count),
+    '/api/biomes/',
+    'biomes',
+    entries => ({
+        labels: entries.map(entry => fmtBiome(entry.biome)),
+        counts: entries.map(entry => entry.count),
         // Pre-map the full palette rather than cycling per-entry,
         // since slices are fixed in number and map 1:1 with palette entries
         colors: CHART_PALETTE.map(c => c + 'cc'),

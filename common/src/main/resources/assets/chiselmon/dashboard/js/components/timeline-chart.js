@@ -10,9 +10,10 @@ let chart;
 
 export async function loadTimeline() {
     const gran = state.granularity;
-    const timelineData = await api(buildUrl('/api/timeline', {granularity: gran}));
+    const response = await api(buildUrl('/api/timeline/', {granularity: gran}));
+    const buckets = response.buckets;
 
-    const bucketLabels = timelineData.map(d => {
+    const bucketLabels = buckets.map(d => {
         const dateTime = new Date(d.bucket);
         const date = dateTime.toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
         const hh = String(dateTime.getHours()).padStart(2, '0');
@@ -21,7 +22,7 @@ export async function loadTimeline() {
         return `${date} ${time}`;
     });
 
-    const bucketCounts = timelineData.map(d => d.count);
+    const bucketCounts = buckets.map(d => d.count);
 
     // If the chart already exists, update its data and re-render
     if (chart) {

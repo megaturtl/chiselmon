@@ -7,12 +7,13 @@ import {createChartLoader} from './chart-factory.js';
 
 export const loadSpecies = createChartLoader(
     'chart-species',
-    '/api/species',
-    data => ({
-        labels: data.map(d => d.species),
-        counts: data.map(d => d.count),
+    '/api/species/',
+    'species',
+    entries => ({
+        labels: entries.map(entry => entry.species),
+        counts: entries.map(entry => entry.count),
         // 'cc' adds a bit of transparency
-        colors: data.map((_, i) => CHART_PALETTE[i % CHART_PALETTE.length] + 'cc'),
+        colors: entries.map((_, i) => CHART_PALETTE[i % CHART_PALETTE.length] + 'cc'),
     }),
     (labels, counts, colors) => ({
         type: 'bar',

@@ -1,5 +1,4 @@
 import {api, buildUrl} from '../../core/api.js';
-import {getPlayerPos} from '../../core/playerpos.js';
 import {buildGrid, countVisibleEncounters, gridGeometry, OVERSCAN_FACTOR, visibleGridMax} from './grid.js';
 import {paintHeatmap, paintLegend} from './render.js';
 import {initHeatmapDrag, initHeatmapHover, initHeatmapZoom} from './interact.js';
@@ -8,17 +7,23 @@ import {readHeatmapInputs, updateHeatmapLabels} from './controls.js';
 let _hm = {pokGrid: null, plyGrid: null, pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1};
 const getHm = () => _hm;
 
+/**
+ * Normalises a HeatmapPoint from the API ({ x, z } object) to the [x, z] tuple
+ * format expected by grid.js. Keeps grid.js decoupled from the API shape.
+ */
+const toTuple = ({x, z}) => [x, z];
+
 export async function initHeatmap() {
-    let dimensions;
+    let dimensionsResponse;
     try {
-        dimensions = await api('/api/dimensions');
+        dimensionsResponse = await api('/api/dimensions/');
     } catch (e) {
         console.error('Failed to load dimensions', e);
-        dimensions = [{dimension: 'minecraft:overworld', count: 0}];
+        dimensionsResponse = {dimensions: [{dimension: 'minecraft:overworld', count: 0}]};
     }
 
     const select = document.getElementById('hm-dimension');
-    select.innerHTML = dimensions.map(d => {
+    select.innerHTML = dimensionsResponse.dimensions.map(d => {
         const shortName = d.dimension.replace('minecraft:', '');
         return `<option value="${d.dimension}">${shortName}</option>`;
     }).join('');
@@ -38,7 +43,7 @@ export async function initHeatmap() {
     initHeatmapZoom(canvas, loadHeatmap);
 
     // Seed position from player, then do the first load with correct coordinates
-    const playerPos = await getPlayerPos();
+    const playerPos = await api('/api/playerpos/');
     if (playerPos?.lastX !== undefined) {
         document.getElementById('hm-cx').value = playerPos.lastX;
         document.getElementById('hm-cz').value = playerPos.lastZ;
@@ -55,11 +60,15 @@ export async function loadHeatmap() {
     const status = document.getElementById('hm-status');
 
     try {
-        const data = await api(buildUrl('/api/heatmap', {cx, cz, radius: fetchRadius, dimension}));
-        const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
+        const data = await api(buildUrl('/api/heatmap/', {cx, cz, radius: fetchRadius, dimension}));
 
-        const pokGrid = buildGrid(data.pokemon, geom, tileSize);
-        const plyGrid = buildGrid(data.player, geom, tileSize);
+        // API returns { x, z } point objects — normalise to [x, z] tuples for grid.js
+        const pokemonTuples = data.pokemon.map(toTuple);
+        const playerTuples = data.player.map(toTuple);
+
+        const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
+        const pokGrid = buildGrid(pokemonTuples, geom, tileSize);
+        const plyGrid = buildGrid(playerTuples, geom, tileSize);
 
         _hm = {
             pokGrid, plyGrid,
@@ -71,7 +80,7 @@ export async function loadHeatmap() {
         };
 
         const canvas = document.getElementById('hm-canvas');
-        const encounterCount = countVisibleEncounters(data.pokemon, cx, cz, visibleRadius);
+        const encounterCount = countVisibleEncounters(pokemonTuples, cx, cz, visibleRadius);
 
         requestAnimationFrame(() => {
             canvas.style.transition = 'none';
@@ -88,7 +97,7 @@ export async function loadHeatmap() {
 }
 
 async function resetHeatmap() {
-    const playerPos = await getPlayerPos();
+    const playerPos = await api('/api/playerpos/');
     document.getElementById('hm-cx').value = playerPos?.lastX ?? 0;
     document.getElementById('hm-cz').value = playerPos?.lastZ ?? 0;
     document.getElementById('hm-radius').value = 8;

@@ -62,7 +62,7 @@ export function initTimeRange() {
         const fromMs = ms === 0 ? 0 : Date.now() - ms;
         // Automatically changes granularity to be appropriate for the selected time range
         const autoGran = ms > 0 && ms <= 21_600_000 ? 'minute' : 'hour';
-        
+
         state.update(fromMs, autoGran);
         syncGranButtons();
     });

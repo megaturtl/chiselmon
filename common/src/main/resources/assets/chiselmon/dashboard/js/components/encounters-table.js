@@ -2,7 +2,7 @@
  * Recent encounters table.
  */
 
-import {api, withFrom} from '../core/api.js';
+import {api, buildUrl} from '../core/api.js';
 import {fmtBiome, fmtTime, stripNamespace} from '../core/format.js';
 
 const _pokeCache = new Map();
@@ -73,10 +73,10 @@ function buildRow(encounter, i) {
     const scale = parseFloat(encounter.scale);
     const scaleHtml = scale !== 1.0 ? ` <span style="color:var(--size_variation)">(${scale.toFixed(2)})</span>` : '';
     const specialsHtml = [
-        encounter.shiny && '<span style="color:var(--shiny)" title="Shiny">★</span>',
+        encounter.shiny && '<span style="color:var(--shiny)"     title="Shiny">★</span>',
         encounter.legendary && '<span style="color:var(--legendary)" title="Legendary">★</span>',
     ].filter(Boolean).join(' ');
-    const cakeHtml = encounter.snack ? '<span title="From snack" style="margin-right:6px">🎂</span>' : '';
+    const cakeHtml = encounter.fromSnack ? '<span title="From snack" style="margin-right:6px">🎂</span>' : '';
 
     return `<tr>
         <td class="enc-sprite" data-row="${i}"><div class="sprite-placeholder"></div></td>
@@ -107,7 +107,7 @@ function fillPokeCell(tbody, i, {sprite, types}) {
 }
 
 export async function loadRecentEncounters() {
-    const encounters = await api(withFrom('/api/encounters'));
+    const {encounters} = await api(buildUrl('/api/encounters/'));
     const tbody = document.getElementById('enc-tbody');
 
     if (!encounters.length) {
@@ -115,7 +115,7 @@ export async function loadRecentEncounters() {
         return;
     }
 
-    // requests for external api data (sprites and types)
+    // Kick off external PokeAPI requests in parallel with rendering the skeleton rows
     const pokeRequests = encounters.map(e => fetchPokeData(e.species));
     tbody.innerHTML = encounters.map(buildRow).join('');
 

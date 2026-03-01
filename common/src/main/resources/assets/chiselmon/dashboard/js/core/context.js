@@ -13,7 +13,7 @@ let _context = null;
  */
 export async function loadContext() {
     try {
-        _context = await api('/api/context');
+        _context = await api('/api/context/');
 
         // Set world/server name in header
         const prefix = _context.worldType === 'mp' ? '🌐 ' : '🌏 ';

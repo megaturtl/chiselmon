@@ -11,13 +11,13 @@ import {getCxCz, setCxCz} from './controls.js';
 // ── Internal helper ───────────────────────────────────────────────────────────
 
 function worldCoordsAtMouse(e, canvas, hm) {
-    const { cx, cz } = getCxCz();
+    const {cx, cz} = getCxCz();
     const geom = gridGeometry(cx, cz, hm.radius, hm.tileSize);
     const rect = canvas.getBoundingClientRect();
     const pxPerBlock = rect.width / geom.span;
     return {
         worldX: geom.canvasLeft + (e.clientX - rect.left) / pxPerBlock,
-        worldZ: geom.canvasTop  + (e.clientY - rect.top)  / pxPerBlock,
+        worldZ: geom.canvasTop + (e.clientY - rect.top) / pxPerBlock,
         geom,
     };
 }
@@ -37,7 +37,7 @@ export function initHeatmapHover(canvas, getHm) {
             return;
         }
 
-        const { worldX, worldZ, geom } = worldCoordsAtMouse(e, canvas, hm);
+        const {worldX, worldZ, geom} = worldCoordsAtMouse(e, canvas, hm);
         const col = Math.floor((worldX - geom.minX) / hm.tileSize);
         const row = Math.floor((worldZ - geom.minZ) / hm.tileSize);
 
@@ -50,7 +50,10 @@ export function initHeatmapHover(canvas, getHm) {
         const pok = hm.pokGrid[idx];
         const ply = hm.plyGrid[idx];
 
-        if (!pok && !ply) { tooltip.style.display = 'none'; return; }
+        if (!pok && !ply) {
+            tooltip.style.display = 'none';
+            return;
+        }
 
         const dispX = Math.floor(geom.minX + (col + 0.5) * hm.tileSize);
         const dispZ = Math.floor(geom.minZ + (row + 0.5) * hm.tileSize);
@@ -63,7 +66,7 @@ export function initHeatmapHover(canvas, getHm) {
         tooltip.style.display = 'block';
         const wrap = canvas.closest('.hm-wrap').getBoundingClientRect();
         tooltip.style.left = (e.clientX - wrap.left + 15) + 'px';
-        tooltip.style.top  = (e.clientY - wrap.top  - 15) + 'px';
+        tooltip.style.top = (e.clientY - wrap.top - 15) + 'px';
     });
 
     canvas.addEventListener('mouseleave', () => tooltip.style.display = 'none');
@@ -80,7 +83,7 @@ export function initHeatmapDrag(canvas, getHm, reloadFn) {
     canvas.addEventListener('mousedown', e => {
         if (e.button !== 0) return;
         e.preventDefault();
-        dragStart = { x: e.clientX, y: e.clientY };
+        dragStart = {x: e.clientX, y: e.clientY};
         canvas.style.transition = 'none';
         canvas._dragging = false;
     });
@@ -104,7 +107,7 @@ export function initHeatmapDrag(canvas, getHm, reloadFn) {
 
         if (wasDragging) {
             const hm = getHm();
-            const { cx, cz } = getCxCz();
+            const {cx, cz} = getCxCz();
             const blocksPerPixel =
                 (hm.radius * 2) / (canvas.getBoundingClientRect().width / OVERSCAN_FACTOR);
             setCxCz(
@@ -125,10 +128,10 @@ export function initHeatmapZoom(canvas, reloadFn) {
 
     canvas.addEventListener('wheel', e => {
         e.preventDefault();
-        const input   = document.getElementById('hm-radius');
+        const input = document.getElementById('hm-radius');
         const current = parseInt(input.value) || 8;
-        const delta   = e.deltaY > 0 ? 1 : -1;
-        input.value   = Math.min(32, Math.max(2, current + delta));
+        const delta = e.deltaY > 0 ? 1 : -1;
+        input.value = Math.min(64, Math.max(2, current + delta));
         reloadFn();
-    }, { passive: false });
+    }, {passive: false});
 }

@@ -2,11 +2,11 @@
  * Top-level stat cards.
  */
 
-import {api, withFrom} from '../core/api.js';
+import {api} from '../core/api.js';
 import {state} from '../core/state.js';
 
 export async function loadStats() {
-    const stats = await api(withFrom('/api/stats'));
+    const stats = await api('/api/stats/');
 
     // Only count active minutes to avoid afk/offline skewing the rate
     let encountersPerMin = 0;
@@ -19,7 +19,6 @@ export async function loadStats() {
         }
     }
 
-    // Secondary value calcs
     const encountersPerMinStr = stats.totalEncounters > 0 ? `(${encountersPerMin.toFixed(2)}/min)` : '';
     const snackPct = stats.totalEncounters > 0 ? `${(stats.snackSpawns / stats.totalEncounters * 100).toFixed(2)}%` : '0.00%';
     const shinyRatioStr = stats.shinies > 0 ? `1/${Math.floor(stats.totalEncounters / stats.shinies)}` : 'N/A';
