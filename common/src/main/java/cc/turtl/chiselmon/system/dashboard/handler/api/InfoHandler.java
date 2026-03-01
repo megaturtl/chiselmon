@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.system.dashboard.handler.api;
 
+import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -57,9 +58,14 @@ public class InfoHandler extends ApiHandler {
         } catch (SQLException ignored) {
         }
 
+        String version = ChiselmonConstants.VERSION;
+
         sendJson(exchange, 200, String.format(
-                "{\"type\":\"%s\",\"name\":\"%s\",\"lastX\":%d,\"lastZ\":%d,\"lastDimension\":\"%s\",\"dimensions\":[%s]}",
-                escape(type), escape(name), lastX, lastZ, escape(lastDimension), String.join(",", dimensions)
+                "{\"type\":\"%s\",\"name\":\"%s\",\"lastX\":%d,\"lastZ\":%d,"
+                        + "\"lastDimension\":\"%s\",\"dimensions\":[%s],\"version\":\"%s\"}",
+                escape(type), escape(name), lastX, lastZ,
+                escape(lastDimension), String.join(",", dimensions),
+                escape(version)
         ));
     }
 }

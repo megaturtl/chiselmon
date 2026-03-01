@@ -67,8 +67,8 @@ public abstract class ApiHandler implements HttpHandler {
 
     /**
      * Parses all query parameters into a map, URL-decoding both keys and values.
-     * This is required for dimension strings like {@code cobblemon:ultra_space}
-     * which arrive percent-encoded as {@code cobblemon%3Aultra_space}.
+     * This is required for dimension strings like {@code minecraft:the_nether}
+     * which arrive percent-encoded as {@code minecraft%3Athe_nether}.
      */
     protected static Map<String, String> parseQuery(URI uri) {
         Map<String, String> map = new HashMap<>();

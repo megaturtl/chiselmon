@@ -1,13 +1,14 @@
 /**
  * Heatmap orchestrator — ties together grid math, rendering, interactions,
- * and the world/info bootstrap.
+ * and seeds initial position from world info.
  */
 
-import { api, buildUrl } from '../../core/api.js';
-import { OVERSCAN_FACTOR, gridGeometry, buildGrid, visibleGridMax, countVisibleEncounters } from './grid.js';
-import { paintHeatmap, paintLegend } from './render.js';
-import { initHeatmapHover, initHeatmapDrag, initHeatmapZoom } from './interact.js';
-import { readHeatmapInputs, updateHeatmapLabels } from './controls.js';
+import {api, buildUrl} from '../../core/api.js';
+import {getWorldInfo, refreshWorldInfo} from '../../core/world-info.js';
+import {buildGrid, countVisibleEncounters, gridGeometry, OVERSCAN_FACTOR, visibleGridMax} from './grid.js';
+import {paintHeatmap, paintLegend} from './render.js';
+import {initHeatmapDrag, initHeatmapHover, initHeatmapZoom} from './interact.js';
+import {readHeatmapInputs, updateHeatmapLabels} from './controls.js';
 
 /** Shared mutable heatmap state — updated on every load. */
 let _hm = { pokGrid: null, plyGrid: null, pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1 };
@@ -15,37 +16,32 @@ let _hm = { pokGrid: null, plyGrid: null, pokMax: 1, plyMax: 1, cells: 0, radius
 /** Getter so interaction handlers always read the latest state. */
 const getHm = () => _hm;
 
-// ── Bootstrap ─────────────────────────────────────────────────────────────────
+// ── Bootstrap ─────────────────────────────────────────────────────────────���───
 
-export async function initHeatmap() {
-    try {
-        const info = await api('/api/info');
-        const prefix = info.type === 'mp' ? '🌐 ' : '🌏 ';
-        document.getElementById('world-name').textContent = prefix + info.name;
+export function initHeatmap() {
+    const info = getWorldInfo();
 
-        // Populate dimension dropdown from /api/info (the only reliable source)
-        const select = document.getElementById('hm-dimension');
-        select.innerHTML = (info.dimensions ?? ['minecraft:overworld']).map(d =>
-            `<option value="${d}">${d.replace('minecraft:', '')}</option>`
-        ).join('');
-        if (info.lastDimension) select.value = info.lastDimension;
+    // Populate dimension dropdown
+    const select = document.getElementById('hm-dimension');
+    const dims = info?.dimensions ?? ['minecraft:overworld'];
+    select.innerHTML = dims.map(d =>
+        `<option value="${d}">${d.replace('minecraft:', '')}</option>`
+    ).join('');
+    if (info?.lastDimension) select.value = info.lastDimension;
 
-        // Wire up controls (no inline handlers in the HTML)
-        select.addEventListener('change', loadHeatmap);
-        document.getElementById('hm-cx').addEventListener('change', loadHeatmap);
-        document.getElementById('hm-cz').addEventListener('change', loadHeatmap);
-        document.getElementById('hm-radius').addEventListener('change', loadHeatmap);
-        document.getElementById('hm-tile-size').addEventListener('change', loadHeatmap);
-        document.getElementById('hm-reset-btn').addEventListener('click', resetHeatmap);
+    // Wire up controls
+    select.addEventListener('change', loadHeatmap);
+    document.getElementById('hm-cx').addEventListener('change', loadHeatmap);
+    document.getElementById('hm-cz').addEventListener('change', loadHeatmap);
+    document.getElementById('hm-radius').addEventListener('change', loadHeatmap);
+    document.getElementById('hm-tile-size').addEventListener('change', loadHeatmap);
+    document.getElementById('hm-reset-btn').addEventListener('click', resetHeatmap);
 
-        // Seed at last known player position
-        if (info.lastX !== undefined) {
-            document.getElementById('hm-cx').value = info.lastX;
-            document.getElementById('hm-cz').value = info.lastZ;
-            document.getElementById('hm-radius').value = 8;
-        }
-    } catch (_) {
-        // non-fatal — header just stays empty
+    // Seed at last known player position
+    if (info?.lastX !== undefined) {
+        document.getElementById('hm-cx').value = info.lastX;
+        document.getElementById('hm-cz').value = info.lastZ;
+        document.getElementById('hm-radius').value = 8;
     }
 }
 
@@ -57,7 +53,6 @@ export async function loadHeatmap() {
     const status = document.getElementById('hm-status');
 
     try {
-        // FIX: dimension is now included in the request
         const data = await api(buildUrl('/api/heatmap', {
             cx, cz,
             radius: fetchRadius,
@@ -101,13 +96,26 @@ export async function loadHeatmap() {
 // ── Reset ─────────────────────────────────────────────────────────────────────
 
 async function resetHeatmap() {
-    try {
-        const info = await api('/api/info');
-        document.getElementById('hm-cx').value = info.lastX ?? 0;
-        document.getElementById('hm-cz').value = info.lastZ ?? 0;
-        document.getElementById('hm-radius').value = 8;
-        await loadHeatmap();
-    } catch (err) {
-        document.getElementById('hm-status').textContent = 'Reset failed: ' + err.message;
+    // Fetch fresh position from server — player may have moved
+    const info = await refreshWorldInfo();
+    document.getElementById('hm-cx').value = info?.lastX ?? 0;
+    document.getElementById('hm-cz').value = info?.lastZ ?? 0;
+    document.getElementById('hm-radius').value = 8;
+
+    // Update dimension dropdown in case new dimensions appeared
+    if (info?.dimensions) {
+        const select = document.getElementById('hm-dimension');
+        const current = select.value;
+        select.innerHTML = info.dimensions.map(d =>
+            `<option value="${d}">${d.replace('minecraft:', '')}</option>`
+        ).join('');
+        // Switch to the player's current dimension
+        if (info.lastDimension) {
+            select.value = info.lastDimension;
+        } else if (info.dimensions.includes(current)) {
+            select.value = current;
+        }
     }
+
+    await loadHeatmap();
 }

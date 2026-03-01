@@ -1,8 +1,6 @@
-/* Dashboard CSS — modular entry point.
-   Each @import pulls in one logical section. */
-
 @import 'base.css';
 @import 'header.css';
+@import 'footer.css';
 @import 'stat-cards.css';
 @import 'charts.css';
 @import 'table.css';

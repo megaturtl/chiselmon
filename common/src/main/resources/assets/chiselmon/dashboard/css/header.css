@@ -42,9 +42,10 @@ header {
     color: var(--text);
 }
 
-#author-text {
+#author-text a {
     color: var(--muted);
     font-size: 12px;
+    text-decoration: none;
 }
 
 #world-name {

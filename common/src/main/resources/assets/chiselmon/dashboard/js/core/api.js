@@ -2,7 +2,7 @@
  * Lightweight fetch wrapper for the dashboard API.
  */
 
-import { state } from './state.js';
+import {state} from './state.js';
 
 export async function api(path) {
     const r = await fetch(path);
@@ -14,8 +14,8 @@ export async function api(path) {
  * Build a URL with query parameters, automatically including `from`
  * from the current state when it's non-zero.
  *
- *   buildUrl('/api/heatmap', { cx: 100, dimension: 'cobblemon:ultra_space' })
- *   → '/api/heatmap?from=17091…&cx=100&dimension=cobblemon%3Aultra_space'
+ *   buildUrl('/api/heatmap', { cx: 100, dimension: 'minecraft:the_nether' })
+ *   → '/api/heatmap?from=17091…&cx=100&dimension=minecraft%3Athe_nether'
  */
 export function buildUrl(path, params = {}) {
     const from = state.fromMs;

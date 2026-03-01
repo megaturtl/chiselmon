@@ -9,16 +9,17 @@
 import './config/chart-defaults.js';
 
 // Core
-import { state } from './core/state.js';
+import {state} from './core/state.js';
+import {loadWorldInfo} from "./core/world-info.js";
 
 // Components
-import { initTimeRange }                from './components/time-range.js';
-import { loadStats }                    from './components/stats.js';
-import { loadTimeline }                 from './components/timeline-chart.js';
-import { loadSpecies }                  from './components/species-chart.js';
-import { loadBiomes }                   from './components/biomes-chart.js';
-import { loadEncounters }               from './components/encounters-table.js';
-import { initHeatmap, loadHeatmap }     from './components/heatmap/heatmap.js';
+import {initTimeRange} from './components/time-range.js';
+import {loadStats} from './components/stats.js';
+import {loadTimeline} from './components/timeline-chart.js';
+import {loadSpecies} from './components/species-chart.js';
+import {loadBiomes} from './components/biomes-chart.js';
+import {loadEncounters} from './components/encounters-table.js';
+import {initHeatmap, loadHeatmap} from './components/heatmap/heatmap.js';
 
 // ── Refresh orchestration ─────────────────────────────────────────────────────
 
@@ -42,14 +43,18 @@ async function refresh() {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
-initTimeRange();
-await initHeatmap();
+// 1. Load world info first — header, footer, and heatmap seed depend on it
+await loadWorldInfo();
 
-// Subscribe all data-loaders to state changes
+// 2. Init UI components that build DOM elements
+initTimeRange();
+initHeatmap();
+
+// 3. Subscribe all data-loaders to state changes
 state.onChange(refresh);
 
-// First paint
+// 4. First paint
 await refresh();
 
-// Auto-refresh every 30 s
+// 5. Auto-refresh every 30 s
 setInterval(refresh, 30_000);
