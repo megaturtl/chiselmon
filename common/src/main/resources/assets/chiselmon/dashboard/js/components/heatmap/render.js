@@ -1,135 +1,85 @@
-/**
- * All canvas painting for the heatmap — data cells, chunk grid, legend.
- */
-
 import {gridGeometry} from './grid.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
 const COLORS = {
-    player: {r: 77, g: 201, b: 240},  // blue
-    pokemon: {r: 249, g: 199, b: 79},   // yellow
+    player: {r: 77, g: 201, b: 240},
+    pokemon: {r: 249, g: 199, b: 79},
 };
 
-const ALPHA = {
-    min: 0.20,  // floor: any non-zero tile is at least this visible (0 to disable)
-    playerMax: 0.70,  // ceiling for the player layer
-    pokemonMax: 0.90,  // ceiling for the pokemon layer
-    gamma: 0.60,  // curve: <1 lifts midtones, >1 suppresses them
-};
+const BUCKETS = 8;
+const MIN_ALPHA = 0.15;
+const MAX_ALPHA = 0.8;
 
-// ── Canvas setup ──────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-function setupCanvas(canvas, {square = true} = {}) {
+function setupCanvas(canvas, square = true) {
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
     const w = Math.round(rect.width * dpr);
     const h = square ? w : Math.round(rect.height * dpr);
     canvas.width = w;
     canvas.height = h;
-    return {ctx: canvas.getContext('2d'), size: w, h, dpr};
+    return {ctx: canvas.getContext('2d'), w, h, dpr};
 }
 
-// ── Colour math ───────────────────────────────────────────────────────────────
-
-function logNorm(val, max) {
-    if (val <= 0 || max <= 0) return 0;
-    return Math.log1p(val) / Math.log1p(max);
-}
-
-function intensityToAlpha(normalised, maxAlpha) {
-    if (normalised <= 0) return 0;
-    const curved = Math.pow(normalised, ALPHA.gamma);
-    return ALPHA.min + curved * (maxAlpha - ALPHA.min);
+/**
+ * Logarithmic normalization formula:
+ * $norm = \frac{\ln(1 + \text{count})}{\ln(1 + \text{max})}$
+ */
+function getNorm(count, max) {
+    if (count <= 0 || max <= 0) return 0;
+    return Math.log1p(count) / Math.log1p(max);
 }
 
 // ── Drawing primitives ────────────────────────────────────────────────────────
 
-function drawChunkGrid(ctx, size, canvasLeft, canvasTop, span, dpr) {
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-    ctx.lineWidth = dpr;
-    const pxPerBlock = size / span;
+function paintLayer(ctx, canvasSize, geom, pxPerBlock, grid, max, {r, g, b}) {
+    if (grid.size === 0 || max <= 0) return;
 
-    for (let x = Math.ceil(canvasLeft / 16) * 16; x <= canvasLeft + span; x += 16) {
-        const lx = (x - canvasLeft) * pxPerBlock;
-        ctx.beginPath();
-        ctx.moveTo(lx, 0);
-        ctx.lineTo(lx, size);
-        ctx.stroke();
+    const {cells, minX, minZ, canvasLeft, canvasTop} = geom;
+    const cellPx = (geom.span / cells) * pxPerBlock;
+    const buckets = Array.from({length: BUCKETS}, () => []);
+
+    for (const [idx, count] of grid) {
+        const col = idx % cells;
+        const row = Math.floor(idx / cells);
+        const x0 = (minX + col * (geom.span / cells) - canvasLeft) * pxPerBlock;
+        const y0 = (minZ + row * (geom.span / cells) - canvasTop) * pxPerBlock;
+
+        if (x0 + cellPx < 0 || x0 >= canvasSize || y0 + cellPx < 0 || y0 >= canvasSize) continue;
+
+        // Clamp the norm between 0 and 1 so bucketIdx never exceeds 15
+        const norm = Math.min(1, getNorm(count, max));
+        const bucketIdx = Math.floor(norm * (BUCKETS - 1));
+
+        buckets[bucketIdx].push(x0, y0);
     }
-    for (let z = Math.ceil(canvasTop / 16) * 16; z <= canvasTop + span; z += 16) {
-        const lz = (z - canvasTop) * pxPerBlock;
+
+    for (let i = 0; i < BUCKETS; i++) {
+        if (buckets[i].length === 0) continue;
+
+        const alpha = MIN_ALPHA + (i / (BUCKETS - 1)) * (MAX_ALPHA - MIN_ALPHA);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(2)})`;
         ctx.beginPath();
-        ctx.moveTo(0, lz);
-        ctx.lineTo(size, lz);
-        ctx.stroke();
+        for (let j = 0; j < buckets[i].length; j += 2) {
+            ctx.rect(buckets[i][j], buckets[i][j + 1], cellPx, cellPx);
+        }
+        ctx.fill();
     }
 }
 
-/**
- * Draws all data cells using batched fillRect passes.
- *
- * Grids are sparse Maps so we only iterate cells that actually have data.
- * Rects sharing the same quantized alpha are batched into a single path+fill
- * to minimise compositor state changes.
- *
- * Two passes (player then pokemon) preserve the correct layer ordering.
- */
-function drawDataCells(ctx, size, geom, pxPerBlock, hm) {
-    const {pokGrid, plyGrid, pokMax, plyMax, tileSize} = hm;
-    const {cells, minX, minZ} = geom;
+function drawLegendBar(ctx, x, w, color, label, labelX, midY) {
+    const {r, g, b} = color;
+    const grad = ctx.createLinearGradient(x, 0, x + w, 0);
 
-    const cellPx = tileSize * pxPerBlock;
-    const BUCKETS = 64;  // alpha quantization — 64 steps is imperceptible at normal sizes
+    // Legend follows the same 0.2 to 0.8 spread
+    grad.addColorStop(0, `rgba(${r},${g},${b},${MIN_ALPHA})`);
+    grad.addColorStop(1, `rgba(${r},${g},${b},${MAX_ALPHA})`);
 
-    function paintLayer(grid, max, {r, g, b}, maxAlpha) {
-        if (grid.size === 0) return;
-
-        // Bucket rects by quantized alpha — avoids a fillStyle change per cell
-        const buckets = new Array(BUCKETS);
-
-        const originX = geom.canvasLeft * pxPerBlock;
-        const originZ = geom.canvasTop * pxPerBlock;
-
-        for (const [idx, count] of grid) {
-            const col = idx % cells;
-            const row = (idx - col) / cells;
-            const x0 = (minX + col * tileSize) * pxPerBlock - originX;
-            const y0 = (minZ + row * tileSize) * pxPerBlock - originZ;
-
-            // Cull cells entirely outside the canvas
-            if (x0 + cellPx < 0 || x0 >= size || y0 + cellPx < 0 || y0 >= size) continue;
-
-            const norm = logNorm(count, max);
-            const alpha = intensityToAlpha(norm, maxAlpha);
-            const bucketIdx = Math.min(BUCKETS - 1, alpha * BUCKETS | 0);
-
-            if (!buckets[bucketIdx]) buckets[bucketIdx] = [];
-            buckets[bucketIdx].push(x0, y0);
-        }
-
-        for (let i = 0; i < BUCKETS; i++) {
-            if (!buckets[i]) continue;
-            const a = ((i + 0.5) / BUCKETS).toFixed(3);
-            ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-            ctx.beginPath();
-            const rects = buckets[i];
-            for (let j = 0; j < rects.length; j += 2)
-                ctx.rect(rects[j], rects[j + 1], cellPx, cellPx);
-            ctx.fill();
-        }
-    }
-
-    paintLayer(plyGrid, plyMax, COLORS.player, ALPHA.playerMax);
-    paintLayer(pokGrid, pokMax, COLORS.pokemon, ALPHA.pokemonMax);
-}
-
-function drawLegendBar(ctx, barX, barW, {r, g, b}, maxAlpha, label, labelX, midY) {
-    const grad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
-    grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
-    grad.addColorStop(1, `rgba(${r},${g},${b},${maxAlpha})`);
     ctx.fillStyle = grad;
-    ctx.fillRect(barX, midY - 5, barW, 10);
+    ctx.fillRect(x, midY - 4, w, 8);
+
     ctx.fillStyle = '#8b949e';
     ctx.fillText(label, labelX, midY);
 }
@@ -137,36 +87,34 @@ function drawLegendBar(ctx, barX, barW, {r, g, b}, maxAlpha, label, labelX, midY
 // ── Exports ───────────────────────────────────────────────────────────────────
 
 export function paintHeatmap(canvas, cx, cz, hm) {
-    const {ctx, size, dpr} = setupCanvas(canvas);
+    const {ctx, w} = setupCanvas(canvas);
     const geom = gridGeometry(cx, cz, hm.radius, hm.tileSize);
-    const pxPerBlock = size / geom.span;
+    const pxPerBlock = w / geom.span;
 
-    ctx.fillStyle = '#0d1117';
-    ctx.fillRect(0, 0, size, size);
-    drawDataCells(ctx, size, geom, pxPerBlock, hm);
-    drawChunkGrid(ctx, size, geom.canvasLeft, geom.canvasTop, geom.span, dpr);
+    ctx.fillStyle = '#0d1117'; // Dark background
+    ctx.fillRect(0, 0, w, w);
+
+    paintLayer(ctx, w, geom, pxPerBlock, hm.plyGrid, hm.plyMax, COLORS.player);
+    paintLayer(ctx, w, geom, pxPerBlock, hm.pokGrid, hm.pokMax, COLORS.pokemon);
 }
 
 export function paintLegend(canvas, hm) {
-    const {ctx, size: w, h, dpr} = setupCanvas(canvas, {square: false});
+    const {ctx, w, h, dpr} = setupCanvas(canvas, false);
     const midY = h / 2;
     const halfW = w / 2;
-    const gap = 12 * dpr;
-    const labelGap = 6 * dpr;
+    const gap = 16 * dpr;
 
-    ctx.font = `${9 * dpr | 0}px 'Space Mono', monospace`;
+    ctx.font = `${10 * dpr | 0}px monospace`;
     ctx.textBaseline = 'middle';
 
-    const pokLabel = String(hm.pokMax);
-    const pokLabelW = ctx.measureText(pokLabel).width;
-    const pokBarW = (halfW - gap / 2) - pokLabelW - labelGap;
-    ctx.textAlign = 'left';
-    drawLegendBar(ctx, 0, pokBarW, COLORS.pokemon, ALPHA.pokemonMax, pokLabel, pokBarW + labelGap, midY);
+    // Pokemon Legend (Left)
+    const pokLabel = `Max: ${hm.pokMax}`;
+    const pokBarW = halfW - ctx.measureText(pokLabel).width - gap;
+    drawLegendBar(ctx, 0, pokBarW, COLORS.pokemon, pokLabel, pokBarW + 8 * dpr, midY);
 
-    const plyLabel = String(hm.plyMax);
-    const plyLabelW = ctx.measureText(plyLabel).width;
-    const plyBarW = (halfW - gap / 2) - plyLabelW - labelGap;
-    const plyStart = halfW + gap / 2;
-    ctx.textAlign = 'left';
-    drawLegendBar(ctx, plyStart, plyBarW, COLORS.player, ALPHA.playerMax, plyLabel, plyStart + plyBarW + labelGap, midY);
+    // Player Legend (Right)
+    const plyLabel = `Max: ${hm.plyMax}`;
+    const plyBarW = halfW - ctx.measureText(plyLabel).width - gap;
+    const plyStartX = halfW + (gap / 2);
+    drawLegendBar(ctx, plyStartX, plyBarW, COLORS.player, plyLabel, plyStartX + plyBarW + 8 * dpr, midY);
 }

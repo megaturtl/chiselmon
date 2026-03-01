@@ -7,7 +7,6 @@ import {initHeatmapDrag, initHeatmapHover, initHeatmapZoom} from './interact.js'
 import {readHeatmapInputs, updateHeatmapLabels} from './controls.js';
 
 let _hm = {pokGrid: new Map(), plyGrid: new Map(), pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1};
-const getHm = () => _hm;
 
 export async function initHeatmap() {
     let dimensionsResponse;
@@ -18,14 +17,13 @@ export async function initHeatmap() {
         dimensionsResponse = {dimensions: [{dimension: 'minecraft:overworld', count: 0}]};
     }
 
-    const select = document.getElementById('hm-dimension');
-    select.innerHTML = dimensionsResponse.dimensions.map(d => {
-        const shortName = d.dimension.replace('minecraft:', '');
-        return `<option value="${d.dimension}">${shortName}</option>`;
+    const dimSelect = document.getElementById('hm-dimension');
+    dimSelect.innerHTML = dimensionsResponse.dimensions.map(d => {
+        const label = d.dimension.replace('minecraft:', '');
+        return `<option value="${d.dimension}">${label}</option>`;
     }).join('');
 
-    // Dimension change busts the cache since points are dimension-scoped
-    select.addEventListener('change', () => {
+    dimSelect.addEventListener('change', () => {
         invalidateHeatmapCache();
         loadHeatmap();
     });
@@ -35,15 +33,14 @@ export async function initHeatmap() {
     document.getElementById('hm-tile-size').addEventListener('change', loadHeatmap);
     document.getElementById('hm-reset-btn').addEventListener('click', resetHeatmap);
 
-    // Time range changes bust the cache — hook into state directly
     state.onChange(() => {
         invalidateHeatmapCache();
         loadHeatmap();
     });
 
     const canvas = document.getElementById('hm-canvas');
-    initHeatmapHover(canvas, getHm);
-    initHeatmapDrag(canvas, getHm, loadHeatmap);
+    initHeatmapHover(canvas, () => _hm);
+    initHeatmapDrag(canvas, () => _hm, loadHeatmap);
     initHeatmapZoom(canvas, loadHeatmap);
 
     const playerPos = await api('/api/playerpos/');
@@ -59,19 +56,12 @@ export async function initHeatmap() {
 
 export async function loadHeatmap() {
     const {cx, cz, visibleRadius, tileSize, dimension} = readHeatmapInputs();
-    const status = document.getElementById('hm-status');
 
     try {
-        // getHeatmapData returns cached points if the view is already covered,
-        // or fetches from the API if not. No caller needs to know which happened.
         const data = await getHeatmapData(cx, cz, visibleRadius, dimension);
-
-        const pokemonTuples = data.pokemon;
-        const playerTuples = data.player;
-
         const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
-        const pokGrid = buildGrid(pokemonTuples, geom, tileSize);
-        const plyGrid = buildGrid(playerTuples, geom, tileSize);
+        const pokGrid = buildGrid(data.pokemon, geom, tileSize);
+        const plyGrid = buildGrid(data.player, geom, tileSize);
 
         _hm = {
             pokGrid, plyGrid,
@@ -83,7 +73,7 @@ export async function loadHeatmap() {
         };
 
         const canvas = document.getElementById('hm-canvas');
-        const encounterCount = countVisibleEncounters(pokemonTuples, cx, cz, visibleRadius);
+        const encounterCount = countVisibleEncounters(data.pokemon, cx, cz, visibleRadius);
 
         requestAnimationFrame(() => {
             canvas.style.transition = 'none';
@@ -94,7 +84,7 @@ export async function loadHeatmap() {
         });
 
     } catch (err) {
-        status.textContent = 'Error: ' + err.message;
+        document.getElementById('hm-status').textContent = 'Error: ' + err.message;
         console.error(err);
     }
 }

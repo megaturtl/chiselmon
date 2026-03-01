@@ -2,13 +2,11 @@
  * Drag, zoom, and hover handlers for the heatmap canvas.
  *
  * All handlers accept a `getHm` getter so they always read the
- * latest heatmap state, even though they're only bound once.
+ * latest heatmap state even though they're bound only once.
  */
 
 import {gridGeometry, OVERSCAN_FACTOR} from './grid.js';
 import {getCxCz, setCxCz} from './controls.js';
-
-// ── Internal helper ───────────────────────────────────────────────────────────
 
 function worldCoordsAtMouse(e, canvas, hm) {
     const {cx, cz} = getCxCz();
@@ -32,8 +30,7 @@ export function initHeatmapHover(canvas, getHm) {
 
     canvas.addEventListener('mousemove', e => {
         const hm = getHm();
-        // grids are now Maps — check .size instead of null
-        if (!hm.pokGrid.size && !hm.plyGrid.size || canvas._dragging) {
+        if ((!hm.pokGrid.size && !hm.plyGrid.size) || canvas._dragging) {
             tooltip.style.display = 'none';
             return;
         }
@@ -60,7 +57,7 @@ export function initHeatmapHover(canvas, getHm) {
         const dispZ = Math.floor(geom.minZ + (row + 0.5) * hm.tileSize);
         tooltip.innerHTML = `
             <span style="color:#8b949e">${dispX}, ${dispZ}</span><br>
-            ${pok ? `🟡 ${pok} spawns<br>` : ''}
+            ${pok ? `🟡 ${pok} spawn pos<br>` : ''}
             ${ply ? `🔵 ${ply} player pos<br>` : ''}
             <small>tile size: ${hm.tileSize}x${hm.tileSize}</small>
         `;
@@ -106,18 +103,17 @@ export function initHeatmapDrag(canvas, getHm, reloadFn) {
         const wasDragging = canvas._dragging;
         dragStart = null;
 
-        if (wasDragging) {
-            const hm = getHm();
-            const {cx, cz} = getCxCz();
-            const blocksPerPixel =
-                (hm.radius * 2) / (canvas.getBoundingClientRect().width / OVERSCAN_FACTOR);
-            setCxCz(
-                cx + Math.round(-dx * blocksPerPixel),
-                cz + Math.round(-dy * blocksPerPixel),
-            );
-            await reloadFn();
-            canvas._dragging = false;
-        }
+        if (!wasDragging) return;
+
+        const hm = getHm();
+        const {cx, cz} = getCxCz();
+        const blocksPerPixel = (hm.radius * 2) / (canvas.getBoundingClientRect().width / OVERSCAN_FACTOR);
+        setCxCz(
+            cx + Math.round(-dx * blocksPerPixel),
+            cz + Math.round(-dy * blocksPerPixel),
+        );
+        await reloadFn();
+        canvas._dragging = false;
     });
 }
 
@@ -130,9 +126,8 @@ export function initHeatmapZoom(canvas, reloadFn) {
     canvas.addEventListener('wheel', e => {
         e.preventDefault();
         const input = document.getElementById('hm-radius');
-        const current = parseInt(input.value) || 8;
         const delta = e.deltaY > 0 ? 1 : -1;
-        input.value = Math.min(64, Math.max(2, current + delta));
+        input.value = Math.min(64, Math.max(2, (parseInt(input.value) || 8) + delta));
         reloadFn();
     }, {passive: false});
 }

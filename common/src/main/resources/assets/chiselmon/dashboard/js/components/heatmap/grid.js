@@ -1,10 +1,9 @@
 /**
  * Pure grid-math utilities for the heatmap.
- * No DOM access - just numbers in, numbers out.
+ * No DOM access — just numbers in, numbers out.
  *
- * Grids are sparse Maps (cellIndex -> count) rather than dense Float32Arrays.
- * Memory and iteration cost scale with actual data, not grid area — which matters
- * a lot at large radii or small tile sizes where a dense grid would be huge.
+ * Grids are sparse Maps (cellIndex -> count) rather than dense arrays so
+ * memory and iteration cost scale with actual data, not grid area.
  */
 
 export const CHUNKS_TO_BLOCKS = 16;
@@ -31,10 +30,7 @@ export function gridGeometry(cx, cz, visibleRadius, tileSize) {
     };
 }
 
-/**
- * Builds a sparse grid: Map<cellIndex, count>.
- * Points outside the grid bounds are silently dropped.
- */
+/** Builds a sparse Map<cellIndex, count>. Points outside bounds are dropped. */
 export function buildGrid(points, {minX, minZ, cells}, tileSize) {
     const grid = new Map();
     for (const [x, z] of points) {
@@ -48,10 +44,7 @@ export function buildGrid(points, {minX, minZ, cells}, tileSize) {
     return grid;
 }
 
-/**
- * Finds the max count within the visible (non-overscan) region.
- * Iterates only populated cells — O(data) not O(grid area).
- */
+/** Returns the max count within the visible (non-overscan) region. */
 export function visibleGridMax(grid, geom, cx, cz, visibleRadius, tileSize) {
     let max = 0;
     const {minX, minZ, cells} = geom;
@@ -60,18 +53,16 @@ export function visibleGridMax(grid, geom, cx, cz, visibleRadius, tileSize) {
         const row = (idx - col) / cells;
         const worldX = minX + (col + 0.5) * tileSize;
         const worldZ = minZ + (row + 0.5) * tileSize;
-        if (Math.abs(worldX - cx) <= visibleRadius && Math.abs(worldZ - cz) <= visibleRadius) {
+        if (Math.abs(worldX - cx) <= visibleRadius && Math.abs(worldZ - cz) <= visibleRadius)
             if (count > max) max = count;
-        }
     }
     return max || 1;
 }
 
 export function countVisibleEncounters(points, cx, cz, visibleRadius) {
     let count = 0;
-    for (const [x, z] of points) {
+    for (const [x, z] of points)
         if (Math.abs(x - cx) <= visibleRadius && Math.abs(z - cz) <= visibleRadius)
             count++;
-    }
     return count;
 }
