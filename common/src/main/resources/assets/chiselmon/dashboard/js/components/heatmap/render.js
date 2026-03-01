@@ -1,4 +1,4 @@
-import {gridGeometry} from './grid.js';
+import {CHUNKS_TO_BLOCKS, gridGeometry} from './grid.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -84,6 +84,33 @@ function drawLegendBar(ctx, x, w, color, label, labelX, midY) {
     ctx.fillText(label, labelX, midY);
 }
 
+// ── Chunk grid ────────────────────────────────────────────────────────────────
+
+function drawChunkGrid(ctx, canvasSize, geom, pxPerBlock) {
+    const {canvasLeft, canvasTop, span} = geom;
+
+    // Snap to the nearest chunk boundary left/above the canvas origin
+    const startX = Math.floor(canvasLeft / CHUNKS_TO_BLOCKS) * CHUNKS_TO_BLOCKS;
+    const startZ = Math.floor(canvasTop / CHUNKS_TO_BLOCKS) * CHUNKS_TO_BLOCKS;
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    for (let wx = startX; wx <= canvasLeft + span; wx += CHUNKS_TO_BLOCKS) {
+        const px = (wx - canvasLeft) * pxPerBlock;
+        ctx.moveTo(px, 0);
+        ctx.lineTo(px, canvasSize);
+    }
+    for (let wz = startZ; wz <= canvasTop + span; wz += CHUNKS_TO_BLOCKS) {
+        const pz = (wz - canvasTop) * pxPerBlock;
+        ctx.moveTo(0, pz);
+        ctx.lineTo(canvasSize, pz);
+    }
+
+    ctx.stroke();
+}
+
 // ── Exports ───────────────────────────────────────────────────────────────────
 
 export function paintHeatmap(canvas, cx, cz, hm) {
@@ -93,6 +120,8 @@ export function paintHeatmap(canvas, cx, cz, hm) {
 
     ctx.fillStyle = '#0d1117'; // Dark background
     ctx.fillRect(0, 0, w, w);
+
+    drawChunkGrid(ctx, w, geom, pxPerBlock);
 
     paintLayer(ctx, w, geom, pxPerBlock, hm.plyGrid, hm.plyMax, COLORS.player);
     paintLayer(ctx, w, geom, pxPerBlock, hm.pokGrid, hm.pokMax, COLORS.pokemon);
