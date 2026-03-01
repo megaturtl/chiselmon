@@ -9,7 +9,8 @@ const _pokeCache = new Map();
 
 /** Returns and caches species name -> { sprite, types } */
 async function fetchPokeData(species) {
-    const key = species.toLowerCase();
+    // Replace spaces with dashes and convert to lowercase
+    const key = species.toLowerCase().replace(/\s+/g, '-');
 
     // Cache hit
     if (_pokeCache.has(key)) return _pokeCache.get(key);
