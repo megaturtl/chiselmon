@@ -31,7 +31,7 @@ public class InfoCommand implements ChiselmonCommand {
         if (player == null) return 0;
 
         MessageUtils.sendEmptyLine(player);
-        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_NAME + " Info");
+        MessageUtils.sendSuccess(player, ChiselmonConstants.MOD_DISPLAY_NAME + " Info");
         MessageUtils.sendLabeled(player, "  Version", ChiselmonConstants.VERSION);
         MessageUtils.sendLabeled(player, "  Author", ChiselmonConstants.AUTHOR);
         return Command.SINGLE_SUCCESS;

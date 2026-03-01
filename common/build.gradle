@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.gmazzo.buildconfig" version "6.0.7"
+}
+
 architectury {
     common(enabled_platforms.split(","))
 }
@@ -11,4 +15,15 @@ dependencies {
     modCompileOnly("maven.modrinth:jade:${jade_version}+fabric") { transitive = false }
 
     implementation("com.h2database:h2:${h2_version}")
+}
+
+buildConfig {
+    packageName("cc.turtl.chiselmon")
+    className("BuildConfig")
+    useJavaOutput()
+
+    buildConfigField("String", "MOD_ID", "\"${project.property('mod_id')}\"")
+    buildConfigField("String", "MOD_DISPLAY_NAME", "\"${project.property('mod_display_name')}\"")
+    buildConfigField("String", "VERSION", "\"${project.property('mod_version')}\"")
+    buildConfigField("String", "AUTHOR", "\"${project.property('mod_author')}\"")
 }

@@ -139,7 +139,7 @@ public class DiscordAction implements AlertAction {
 
         // Footer
         JsonObject footer = new JsonObject();
-        footer.addProperty("text", "Sent using " + ChiselmonConstants.MOD_NAME + " by " + ChiselmonConstants.AUTHOR);
+        footer.addProperty("text", "Sent using " + ChiselmonConstants.MOD_DISPLAY_NAME + " by " + ChiselmonConstants.AUTHOR);
         embed.add("footer", footer);
 
         return embed;

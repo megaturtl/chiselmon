@@ -14,10 +14,10 @@ import java.nio.file.Path;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.createComponent;
 
 public class ChiselmonConstants {
-    public static final String MOD_ID = "chiselmon";
-    public static final String MOD_NAME = "Chiselmon";
-    public static final String VERSION = "1.1.0-alpha";
-    public static final String AUTHOR = "megaturtl";
+    public static final String MOD_ID = BuildConfig.MOD_ID;
+    public static final String MOD_DISPLAY_NAME = BuildConfig.MOD_DISPLAY_NAME;
+    public static final String VERSION = BuildConfig.VERSION;
+    public static final String AUTHOR = BuildConfig.AUTHOR;
 
     /**
      * The path to the '.minecraft/config/chiselmon' folder
