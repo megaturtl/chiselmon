@@ -32,7 +32,8 @@ export function initHeatmapHover(canvas, getHm) {
 
     canvas.addEventListener('mousemove', e => {
         const hm = getHm();
-        if (!hm.pokGrid || canvas._dragging) {
+        // grids are now Maps — check .size instead of null
+        if (!hm.pokGrid.size && !hm.plyGrid.size || canvas._dragging) {
             tooltip.style.display = 'none';
             return;
         }
@@ -47,8 +48,8 @@ export function initHeatmapHover(canvas, getHm) {
         }
 
         const idx = row * geom.cells + col;
-        const pok = hm.pokGrid[idx];
-        const ply = hm.plyGrid[idx];
+        const pok = hm.pokGrid.get(idx) ?? 0;
+        const ply = hm.plyGrid.get(idx) ?? 0;
 
         if (!pok && !ply) {
             tooltip.style.display = 'none';

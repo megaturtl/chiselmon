@@ -5,16 +5,25 @@ import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.util.List;
 
 public class HeatmapHandler extends ApiHandler {
 
-    private record HeatmapPoint(int x, int z) {
+    /**
+     * Points are encoded as a flat interleaved array: [x1, z1, x2, z2, ...].
+     * This halves the JSON payload vs [{x,z}, ...] by eliminating repeated key
+     * names — significant at scale where heatmaps can return thousands of points.
+     * <p>
+     * Client decodes with: for (let i = 0; i < arr.length; i += 2) use(arr[i], arr[i+1])
+     */
+    private record FetchBounds(int minX, int maxX, int minZ, int maxZ) {
     }
 
-    private record HeatmapResponse(int cx, int cz, int radius, String dimension,
-                                   List<HeatmapPoint> pokemon, List<HeatmapPoint> player) {
-    }
+    private record HeatmapResponse(
+            int cx, int cz, int radius, String dimension,
+            FetchBounds fetchBounds,
+            int[] pokemon,
+            int[] player
+    ) {}
 
     public HeatmapHandler(EncounterDatabase db) {
         super(db);
@@ -30,24 +39,28 @@ public class HeatmapHandler extends ApiHandler {
 
             String dimension = params.getOrDefault("dimension", "minecraft:overworld");
 
-            // Spatial bounds
-            String pokemonXRange = "pokemon_x BETWEEN " + (cx - radius) + " AND " + (cx + radius);
-            String pokemonZRange = "pokemon_z BETWEEN " + (cz - radius) + " AND " + (cz + radius);
-            List<HeatmapPoint> pokemonPoints = query("encounters").timeRange(timeRange)
+            int minX = cx - radius;
+            int maxX = cx + radius;
+            int minZ = cz - radius;
+            int maxZ = cz + radius;
+
+            String xRange = "pokemon_x BETWEEN " + minX + " AND " + maxX;
+            String zRange = "pokemon_z BETWEEN " + minZ + " AND " + maxZ;
+            String dim = "dimension = '" + dimension + "'";
+
+            int[] pokemon = query("encounters").timeRange(timeRange)
                     .select("pokemon_x, pokemon_z")
-                    .where(pokemonXRange)
-                    .where(pokemonZRange)
-                    .where("dimension = '" + dimension + "'")
-                    .fetchList(rs -> new HeatmapPoint(rs.getInt("pokemon_x"), rs.getInt("pokemon_z")));
+                    .where(xRange).where(zRange).where(dim)
+                    .fetchInterleavedPairs("pokemon_x", "pokemon_z");
 
-            List<HeatmapPoint> playerPoints = query("encounters").timeRange(timeRange)
+            int[] player = query("encounters").timeRange(timeRange)
                     .select("player_x, player_z")
-                    .where(pokemonXRange)
-                    .where(pokemonZRange)
-                    .where("dimension = '" + dimension + "'")
-                    .fetchList(rs -> new HeatmapPoint(rs.getInt("player_x"), rs.getInt("player_z")));
+                    .where(xRange).where(zRange).where(dim)
+                    .fetchInterleavedPairs("player_x", "player_z");
 
-            return new HeatmapResponse(cx, cz, radius, dimension, pokemonPoints, playerPoints);
+            return new HeatmapResponse(cx, cz, radius, dimension,
+                    new FetchBounds(minX, maxX, minZ, maxZ),
+                    pokemon, player);
         });
     }
 }

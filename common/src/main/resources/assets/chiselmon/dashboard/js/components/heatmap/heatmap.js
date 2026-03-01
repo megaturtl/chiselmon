@@ -1,17 +1,13 @@
-import {api, buildUrl} from '../../core/api.js';
-import {buildGrid, countVisibleEncounters, gridGeometry, OVERSCAN_FACTOR, visibleGridMax} from './grid.js';
+import {api} from '../../core/api.js';
+import {state} from '../../core/state.js';
+import {buildGrid, countVisibleEncounters, gridGeometry, visibleGridMax} from './grid.js';
+import {getHeatmapData, invalidateHeatmapCache} from './cache.js';
 import {paintHeatmap, paintLegend} from './render.js';
 import {initHeatmapDrag, initHeatmapHover, initHeatmapZoom} from './interact.js';
 import {readHeatmapInputs, updateHeatmapLabels} from './controls.js';
 
-let _hm = {pokGrid: null, plyGrid: null, pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1};
+let _hm = {pokGrid: new Map(), plyGrid: new Map(), pokMax: 1, plyMax: 1, cells: 0, radius: 0, tileSize: 1};
 const getHm = () => _hm;
-
-/**
- * Normalises a HeatmapPoint from the API ({ x, z } object) to the [x, z] tuple
- * format expected by grid.js. Keeps grid.js decoupled from the API shape.
- */
-const toTuple = ({x, z}) => [x, z];
 
 export async function initHeatmap() {
     let dimensionsResponse;
@@ -28,21 +24,28 @@ export async function initHeatmap() {
         return `<option value="${d.dimension}">${shortName}</option>`;
     }).join('');
 
-    // Wire controls - changes will trigger a data reload, not a full re-init
-    select.addEventListener('change', loadHeatmap);
+    // Dimension change busts the cache since points are dimension-scoped
+    select.addEventListener('change', () => {
+        invalidateHeatmapCache();
+        loadHeatmap();
+    });
     document.getElementById('hm-cx').addEventListener('change', loadHeatmap);
     document.getElementById('hm-cz').addEventListener('change', loadHeatmap);
     document.getElementById('hm-radius').addEventListener('change', loadHeatmap);
     document.getElementById('hm-tile-size').addEventListener('change', loadHeatmap);
     document.getElementById('hm-reset-btn').addEventListener('click', resetHeatmap);
 
-    // Interactions are bound once here - getHm() ensures they always see the fresh state
+    // Time range changes bust the cache — hook into state directly
+    state.onChange(() => {
+        invalidateHeatmapCache();
+        loadHeatmap();
+    });
+
     const canvas = document.getElementById('hm-canvas');
     initHeatmapHover(canvas, getHm);
     initHeatmapDrag(canvas, getHm, loadHeatmap);
     initHeatmapZoom(canvas, loadHeatmap);
 
-    // Seed position from player, then do the first load with correct coordinates
     const playerPos = await api('/api/playerpos/');
     if (playerPos?.lastX !== undefined) {
         document.getElementById('hm-cx').value = playerPos.lastX;
@@ -56,15 +59,15 @@ export async function initHeatmap() {
 
 export async function loadHeatmap() {
     const {cx, cz, visibleRadius, tileSize, dimension} = readHeatmapInputs();
-    const fetchRadius = Math.round(visibleRadius * OVERSCAN_FACTOR);
     const status = document.getElementById('hm-status');
 
     try {
-        const data = await api(buildUrl('/api/heatmap/', {cx, cz, radius: fetchRadius, dimension}));
+        // getHeatmapData returns cached points if the view is already covered,
+        // or fetches from the API if not. No caller needs to know which happened.
+        const data = await getHeatmapData(cx, cz, visibleRadius, dimension);
 
-        // API returns { x, z } point objects — normalise to [x, z] tuples for grid.js
-        const pokemonTuples = data.pokemon.map(toTuple);
-        const playerTuples = data.player.map(toTuple);
+        const pokemonTuples = data.pokemon;
+        const playerTuples = data.player;
 
         const geom = gridGeometry(cx, cz, visibleRadius, tileSize);
         const pokGrid = buildGrid(pokemonTuples, geom, tileSize);

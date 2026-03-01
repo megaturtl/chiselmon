@@ -67,9 +67,7 @@ public class QueryBuilder {
         return this;
     }
 
-    /**
-     * Appends a raw WHERE condition (joined with AND).
-     */
+    /** Appends a raw WHERE condition (joined with AND). */
     public QueryBuilder where(String condition) {
         conditions.add(condition);
         return this;
@@ -90,9 +88,7 @@ public class QueryBuilder {
         return this;
     }
 
-    /**
-     * Builds and executes the query, mapping each row with the provided {@link RowMapper}.
-     */
+    /** Builds and executes the query, mapping each row with the provided {@link RowMapper}. */
     public <T> List<T> fetchList(RowMapper<T> mapper) throws SQLException {
         List<T> results = new ArrayList<>();
         try (PreparedStatement ps = conn.prepareStatement(buildSql());
@@ -125,6 +121,32 @@ public class QueryBuilder {
              ResultSet rs = ps.executeQuery()) {
             return rs.next() ? rs.getLong(1) : 0;
         }
+    }
+
+
+    /**
+     * Builds and executes the query, returning a flat interleaved int array:
+     * {@code [colA_row0, colB_row0, colA_row1, colB_row1, ...]}.
+     * <p>
+     * More compact than a list of objects for coordinate data — eliminates
+     * repeated field names in the JSON serialization.
+     *
+     * @param colA first column name (e.g. {@code "pokemon_x"})
+     * @param colB second column name (e.g. {@code "pokemon_z"})
+     * @return interleaved int array
+     */
+    public int[] fetchInterleavedPairs(String colA, String colB) throws SQLException {
+        List<Integer> buf = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(buildSql());
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                buf.add(rs.getInt(colA));
+                buf.add(rs.getInt(colB));
+            }
+        }
+        int[] result = new int[buf.size()];
+        for (int i = 0; i < buf.size(); i++) result[i] = buf.get(i);
+        return result;
     }
 
     private String buildSql() {
