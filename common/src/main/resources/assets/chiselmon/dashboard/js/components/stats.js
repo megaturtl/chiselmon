@@ -2,11 +2,11 @@
  * Top-level stat cards.
  */
 
-import {api} from '../core/api.js';
+import {api, buildUrl} from '../core/api.js';
 import {state} from '../core/state.js';
 
 export async function loadStats() {
-    const stats = await api('/api/stats/');
+    const stats = await api(buildUrl('/api/stats/'));
 
     // Only count active minutes to avoid afk/offline skewing the rate
     let encountersPerMin = 0;
