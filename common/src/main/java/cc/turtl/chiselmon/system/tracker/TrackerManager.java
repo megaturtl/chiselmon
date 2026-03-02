@@ -40,6 +40,7 @@ public class TrackerManager {
     }
 
     private void onWorldLeave() {
+        activeSession.stopDashboard();
         activeSession = null;
         ChiselmonConstants.LOGGER.debug("TrackerSession disposed");
     }

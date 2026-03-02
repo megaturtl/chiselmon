@@ -1,0 +1,26 @@
+.badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.badge.shiny     { background: rgba(255, 215, 0, .15);   color: var(--shiny); }
+.badge.legendary { background: rgba(192, 132, 252, .15); color: var(--legendary); }
+.badge.normal    { background: rgba(139, 148, 158, .1);  color: var(--muted); }
+
+.loading {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 40px;
+    text-align: center;
+}
+
+.error-msg {
+    color: var(--accent3);
+    font-size: 12px;
+    padding: 12px 20px;
+}

@@ -2,8 +2,8 @@ package cc.turtl.chiselmon;
 
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
-import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.api.storage.ScopedData;
+import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.api.storage.adapter.GsonAdapter;
 import cc.turtl.chiselmon.api.storage.adapter.H2Adapter;
 import cc.turtl.chiselmon.feature.pc.PCUserData;
@@ -25,7 +25,7 @@ public class ChiselmonStorage {
             H2Adapter.of("encounters", EncounterDatabase::new, EncounterDatabase::flush, EncounterDatabase::close)
     );
 
-    private static final List<ScopedData<?>> ALL = List.of(FILTERS, PC_SETTINGS);
+    private static final List<ScopedData<?>> ALL = List.of(FILTERS, PC_SETTINGS, ENCOUNTERS);
 
     private static final int AUTOSAVE_INTERVAL_TICKS = 20 * 60 * 5;
     private static int tickCount = 0;
