@@ -1,0 +1,74 @@
+# ============================================================
+# build-commit.yml
+#
+# Triggers: Any push to the main branch (i.e. merged PRs or
+#   direct commits).
+#
+# Purpose: Two responsibilities:
+#   1. Verify that main is healthy after each commit.
+#   2. Keep the Gradle dependency cache warm so that PR builds
+#      (which are cache-read-only) stay fast.
+#
+# Trust level: TRUSTED. This is committed, reviewed code. It is
+#   the only workflow permitted to write to the Gradle cache.
+#
+# Versioning: Jars are stamped with the base version +
+#   short commit SHA. e.g. 1.1.0-alpha+a3f92c1
+#   These are dev build artifacts. You can hand one to a tester
+#   and know exactly which commit it came from.
+# ============================================================
+
+name: build-commit
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      # Construct a version suffix from the short SHA only.
+      # Output: e.g. "1.1.0-alpha+a3f92c1"
+      - name: Compute build version
+        id: version
+        shell: bash
+        run: |
+          BASE_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          SHORT_SHA="${GITHUB_SHA::7}"
+          echo "version=${BASE_VERSION}+${SHORT_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Build
+        run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
+
+      - name: Upload Fabric jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: chiselmon-fabric-${{ github.sha }}
+          path: fabric/build/libs/chiselmon-fabric-*.jar
+          if-no-files-found: error
+
+      - name: Upload NeoForge jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: chiselmon-neoforge-${{ github.sha }}
+          path: neoforge/build/libs/chiselmon-neoforge-*.jar
+          if-no-files-found: error
