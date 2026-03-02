@@ -18,7 +18,8 @@ public class ChiselmonCommands {
             new DatabaseCommand(),
             new AlertCommand(),
             new ConfigCommand(),
-            new RecordCommand()
+            new RecordCommand(),
+            new DashCommand()
     );
 
     public static <S> void register(CommandDispatcher<S> dispatcher) {

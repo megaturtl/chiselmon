@@ -1,0 +1,44 @@
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color .2s;
+}
+
+.stat-card:hover {
+    border-color: var(--accent);
+}
+
+.stat-card .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+}
+
+.stat-card .value {
+    font-family: var(--font-head), sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+}
+
+.stat-card.shiny .value          { color: var(--shiny); }
+.stat-card.legendary .value      { color: var(--legendary); }
+.stat-card.size_variation .value { color: var(--size_variation); }
+
+.stat-card .secondary_value {
+    color: var(--muted);
+    font-size: 12px;
+}
