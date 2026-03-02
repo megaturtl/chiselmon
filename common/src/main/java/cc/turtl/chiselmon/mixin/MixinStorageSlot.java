@@ -32,7 +32,7 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     public abstract Pokemon getPokemon();
 
     // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent stale tooltips.
-    @Inject(method = "renderWidget", at = @At("TAIL"), remap = false)
+    @Inject(method = "renderWidget", at = @At("TAIL"))
     private void chiselmon$clearTooltip(GuiGraphics context, int MouseX, int mouseY, float delta, CallbackInfo ci) {
         if (getPokemon() == null) setTooltip(null);
     }
