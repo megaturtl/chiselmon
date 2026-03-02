@@ -29,7 +29,7 @@ export async function loadStats() {
         <div class="stat-card">
             <span class="label">Total Encounters</span>
             <span class="value">${stats.totalEncounters.toLocaleString()}</span>
-            <span class="secondary_value">${encountersPerMinStr}</span>
+            <span class="secondary_value" title="This rate only includes active time (minutes with at least one encounter)">${encountersPerMinStr}</span>
         </div>
         <div class="stat-card">
             <span class="label">Snack Spawns</span>

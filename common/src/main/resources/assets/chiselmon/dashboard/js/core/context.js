@@ -15,9 +15,15 @@ export async function loadContext() {
     try {
         _context = await api('/api/context/');
 
-        // Set world/server name in header
-        const prefix = _context.worldType === 'mp' ? '🌐 ' : '🌏 ';
-        document.getElementById('world-name').textContent = prefix + _context.worldName;
+        const worldNameEl = document.getElementById('world-name');
+
+        const isMP = _context.worldType === 'mp';
+        const prefix = isMP ? '🌐 ' : '🌏 ';
+        const tooltip = isMP ? 'Multiplayer' : 'Singleplayer';
+
+
+        worldNameEl.textContent = prefix + _context.worldName;
+        worldNameEl.title = tooltip;
 
         // Set mod version in footer
         if (_context.modVersion) {
