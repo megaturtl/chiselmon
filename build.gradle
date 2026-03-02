@@ -15,6 +15,17 @@ subprojects {
         silentMojangMappingsLicense()
     }
 
+    if (project.path != ':common') {
+        loom {
+            mods {
+                main(({ // to match the default mod generated for Forge
+                    sourceSet project.sourceSets.main
+                    sourceSet project(':common').sourceSets.main
+                } as String))
+            }
+        }
+    }
+
     dependencies {
         minecraft "net.minecraft:minecraft:${minecraft_version}"
 
@@ -30,6 +41,10 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
     apply plugin: "org.jetbrains.kotlin.jvm"
+
+    architectury {
+        compileOnly()
+    }
 
     base {
         // e.g `chiselmon-fabric`
@@ -65,14 +80,5 @@ allprojects {
         withSourcesJar()
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-    }
-
-    configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'org.ow2.asm') {
-                details.useVersion '9.8'
-                details.because 'NeoForge 1.21.1 requires ASM 9.8 for proper Mixin transformation'
-            }
-        }
     }
 }
