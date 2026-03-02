@@ -1,18 +1,13 @@
 /**
- * Chiselmon dashboard dev proxy.
- *
- * Serves JS/CSS/HTML files directly from your source tree on disk,
- * and proxies everything else (API calls) to the live Java server.
+ * Chiselmon dashboard dev proxy. Edit and test static html/css/js files without needing the rebuild and restart mc.
  *
  * Usage:
  *   node dev-server.mjs [game-port] [dev-port]
  *
  * Defaults:
- *   game-port  7890  (wherever DashboardServer is running)
- *   dev-port   7891  (open this in your browser during dev)
+ *   game-port 7890
+ *   dev-port 7891
  *
- * Edit a JS file -> refresh browser -> changes are live immediately.
- * No Gradle, no Minecraft restart.
  */
 
 import http from 'http';
@@ -23,10 +18,10 @@ import {fileURLToPath} from 'url';
 const GAME_PORT = parseInt(process.argv[2]) || 7890;
 const DEV_PORT = parseInt(process.argv[3]) || 7891;
 
-// Root of the static assets on disk
+// Root of the static assets on disk (from repository root)
 const ASSETS_ROOT = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
-    ''
+    'common/src/main/resources/assets/chiselmon/dashboard'
 );
 
 const CONTENT_TYPES = {
@@ -79,7 +74,7 @@ function proxyToGame(req, res) {
 
     proxy.on('error', err => {
         res.writeHead(502, {'Content-Type': 'text/plain'});
-        res.end(`Proxy error — is Minecraft running on port ${GAME_PORT}?\n${err.message}`);
+        res.end(`Proxy error - is the backend running on port ${GAME_PORT}?\n${err.message}`);
     });
 
     req.pipe(proxy);
@@ -97,7 +92,7 @@ const server = http.createServer((req, res) => {
 server.listen(DEV_PORT, '127.0.0.1', () => {
     console.log(`Chiselmon dev server running at http://localhost:${DEV_PORT}/`);
     console.log(`  Static files: ${ASSETS_ROOT}`);
-    console.log(`  API proxy  -> http://127.0.0.1:${GAME_PORT}/api/`);
+    console.log(`  API proxy -> http://127.0.0.1:${GAME_PORT}/api/`);
     console.log();
-    console.log('Edit any JS/CSS/HTML file and refresh your browser — no rebuild needed.');
+    console.log('Edit any JS/CSS/HTML file and refresh the browser to test - no rebuild needed.');
 });
