@@ -18,10 +18,11 @@ subprojects {
     if (project.path != ':common') {
         loom {
             mods {
-                main(({ // to match the default mod generated for Forge
+                // "main" is the name of the mod definition
+                "main" {
                     sourceSet project.sourceSets.main
                     sourceSet project(':common').sourceSets.main
-                } as String))
+                }
             }
         }
     }
