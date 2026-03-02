@@ -81,6 +81,9 @@
     "chiselmon.config.thresholds.max_ivs.description": "Number of max IVs required to be considered high IVs",
 
     "chiselmon.config.category.pc": "PC",
+    "chiselmon.config.pc.open_wallpaper_folder": "Open Custom Wallpaper Folder",
+    "chiselmon.config.pc.open_wallpaper_folder.text": "OPEN",
+    "chiselmon.config.pc.open_wallpaper_folder.description": "Wallpaper files must be PNGs and named using all lowercase letters and no spaces. After putting wallpaper images in this folder, reload your textures using F3 + T and relog your current world/server.",
     "chiselmon.config.pc.group.quick_sort": "Quick Sort",
     "chiselmon.config.pc.quick_sort.enabled": "Enable Quick Sort",
     "chiselmon.config.pc.quick_sort.enabled.description": "Sort the current PC box with a hotkey",

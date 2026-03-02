@@ -2,8 +2,11 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.config.OptionFactory;
 import cc.turtl.chiselmon.feature.pc.sort.SortMode;
+import cc.turtl.chiselmon.util.CustomWallpaperUtil;
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.isxander.yacl3.api.ButtonOption;
 import dev.isxander.yacl3.api.ConfigCategory;
+import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,6 +25,15 @@ public class PCConfig {
     public ConfigCategory buildCategory(Screen parent) {
         return ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.pc"))
+                .option(ButtonOption.<InputConstants.Key>createBuilder()
+                        .name(Component.translatable("chiselmon.config.pc.open_wallpaper_folder"))
+                        .text(Component.translatable("chiselmon.config.pc.open_wallpaper_folder.text"))
+                        .description(OptionDescription.of(Component.translatable("chiselmon.config.pc.open_wallpaper_folder.description")))
+                        .action((screen, button) -> {
+                            CustomWallpaperUtil.initializePack();
+                            CustomWallpaperUtil.openFolder();
+                        })
+                        .build())
                 .group(quickSort.buildGroup())
                 .group(tooltip.buildGroup())
                 .group(icon.buildGroup())
