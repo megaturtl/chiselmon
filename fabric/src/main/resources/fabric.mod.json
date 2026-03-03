@@ -29,6 +29,10 @@
     {
       "config": "chiselmon.mixins.json",
       "environment": "client"
+    },
+    {
+      "config": "chiselmon.mixins.fabric.json",
+      "environment": "client"
     }
   ],
   "depends": {
