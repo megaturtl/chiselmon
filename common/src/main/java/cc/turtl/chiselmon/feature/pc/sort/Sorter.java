@@ -71,21 +71,25 @@ public final class Sorter {
     }
 
     private static Comparator<Pokemon> createComparator(SortMode mode, boolean reversed, Map<Pokemon, Pokemon> previews) {
+        // Eggs always go to the end
         Comparator<Pokemon> eggLast = Comparator.comparing(p -> getPreview(previews, p) instanceof EggDummy);
 
+        // Logic for standard Pokemon
         Comparator<Pokemon> nonEggOrder = Comparator.<Pokemon, Pokemon>comparing(
                         p -> getPreview(previews, p), mode.comparator(reversed))
                 .thenComparingInt(p -> getPreview(previews, p).getLevel());
 
+        // Logic for Eggs: Hatch % first, then the selected SortMode
         Comparator<Pokemon> eggOrder = Comparator.comparingDouble(
-                p -> getPreview(previews, p) instanceof EggDummy e ? e.getHatchPercentage() : 0);
+                        (Pokemon p) -> getPreview(previews, p) instanceof EggDummy e ? e.getHatchPercentage() : 0)
+                .thenComparing(p -> getPreview(previews, p), mode.comparator(reversed));
 
         return eggLast.thenComparing((a, b) -> {
             boolean aIsEgg = getPreview(previews, a) instanceof EggDummy;
             boolean bIsEgg = getPreview(previews, b) instanceof EggDummy;
+
             if (aIsEgg && bIsEgg) return eggOrder.compare(a, b);
-            if (!aIsEgg && !bIsEgg) return nonEggOrder.compare(a, b);
-            return 0;
+            return nonEggOrder.compare(a, b); // eggLast already handled the mixed cases
         });
     }
 
