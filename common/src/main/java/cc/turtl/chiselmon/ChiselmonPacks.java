@@ -54,6 +54,8 @@ public class ChiselmonPacks {
                         - Enable and disable the 'Custom_PC_Wallpapers' resource pack and then relog to your current world/server.
                     5. They should now show up in your PC options!
                     
+                    Tip: Wallpapers show up in cobblemon in alphabetical order. You can name yours "aa_my_wallpaper.png" to make it appear first!
+                    
                     Note: Native Cobblemon wallpapers are 174x155 pixels. If your wallpapers aren't showing up in-game try to use the same size, or at least the same aspect ratio.
                     """;
                 Files.writeString(instructionsFile, instructionsContent);
