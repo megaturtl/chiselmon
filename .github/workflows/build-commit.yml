@@ -59,16 +59,33 @@ jobs:
       - name: Build
         run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
 
+      - name: Store reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
+
       - name: Upload Fabric jar
         uses: actions/upload-artifact@v4
         with:
           name: chiselmon-fabric-${{ github.sha }}
-          path: fabric/build/libs/chiselmon-fabric-*.jar
+          path: |
+            fabric/build/libs/chiselmon-fabric-*.jar
+            !fabric/build/libs/chiselmon-fabric-*-sources.jar
+            !fabric/build/libs/chiselmon-fabric-*-dev.jar
+            !fabric/build/libs/chiselmon-fabric-*-javadoc.jar
           if-no-files-found: error
 
       - name: Upload NeoForge jar
         uses: actions/upload-artifact@v4
         with:
           name: chiselmon-neoforge-${{ github.sha }}
-          path: neoforge/build/libs/chiselmon-neoforge-*.jar
+          path: |
+            neoforge/build/libs/chiselmon-neoforge-*.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-sources.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-dev.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-javadoc.jar
           if-no-files-found: error

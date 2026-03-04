@@ -64,19 +64,33 @@ jobs:
       - name: Build
         run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
 
-      # Upload both platform jars as separate artifacts so you can
-      # The archivesName in build.gradle is `${mod_id}-${project.name}`,
-      # so jars are named chiselmon-fabric-*.jar / chiselmon-neoforge-*.jar.
+      - name: Store reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
+
       - name: Upload Fabric jar
         uses: actions/upload-artifact@v4
         with:
-          name: chiselmon-fabric-pr${{ github.event.pull_request.number }}-${{ github.sha }}
-          path: fabric/build/libs/chiselmon-fabric-*.jar
+          name: chiselmon-fabric-${{ github.sha }}
+          path: |
+            fabric/build/libs/chiselmon-fabric-*.jar
+            !fabric/build/libs/chiselmon-fabric-*-sources.jar
+            !fabric/build/libs/chiselmon-fabric-*-dev.jar
+            !fabric/build/libs/chiselmon-fabric-*-javadoc.jar
           if-no-files-found: error
 
       - name: Upload NeoForge jar
         uses: actions/upload-artifact@v4
         with:
-          name: chiselmon-neoforge-pr${{ github.event.pull_request.number }}-${{ github.sha }}
-          path: neoforge/build/libs/chiselmon-neoforge-*.jar
+          name: chiselmon-neoforge-${{ github.sha }}
+          path: |
+            neoforge/build/libs/chiselmon-neoforge-*.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-sources.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-dev.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-javadoc.jar
           if-no-files-found: error
