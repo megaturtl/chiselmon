@@ -15,6 +15,11 @@ dependencies {
     modCompileOnly("maven.modrinth:jade:${jade_version}+fabric") { transitive = false }
 
     implementation("com.h2database:h2:${h2_version}")
+
+    // Cobblemon shadows this dep in its jar which means we can't use it to mock objects without redefining the dep here.
+    testImplementation("com.bedrockk:molang:1.1.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect:${kotlin_jvm_version}")
+    testImplementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlin_jvm_version}")
 }
 
 buildConfig {

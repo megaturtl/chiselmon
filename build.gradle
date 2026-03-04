@@ -27,6 +27,23 @@ subprojects {
         }
     }
 
+    configurations {
+        mockitoAgent
+    }
+
+    test {
+        useJUnitPlatform()
+
+        jvmArgumentProviders.add({
+            def agentFile = configurations.mockitoAgent.asPath
+            return agentFile ? ["-javaagent:${agentFile}"] : []
+        } as CommandLineArgumentProvider)
+
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+
     dependencies {
         minecraft "net.minecraft:minecraft:${minecraft_version}"
 
@@ -34,14 +51,23 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:${parchment_version}")
         }
+
+        // JUnit dependencies for writing and running tests
+        testImplementation(platform("org.junit:junit-bom:${junit_version}"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testImplementation("org.mockito:mockito-core:${mockito_version}")
+        testImplementation("org.mockito:mockito-junit-jupiter:${mockito_version}")
+        mockitoAgent("org.mockito:mockito-core:${mockito_version}") { transitive = false }
+
     }
 }
 
 allprojects {
     apply plugin: "java"
+    apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
-    apply plugin: "org.jetbrains.kotlin.jvm"
 
     architectury {
         compileOnly()
@@ -64,7 +90,10 @@ allprojects {
         maven { url = "https://maven.quiltmc.org/repository/release" }
         maven {
             url = "https://maven.impactdev.net/repository/development"
-            content { includeGroup 'com.cobblemon' }
+            content {
+                includeGroup "com.cobblemon"
+                includeGroup "com.bedrockk"
+            }
         }
         exclusiveContent {
             forRepository { maven { url = "https://api.modrinth.com/maven" } }
