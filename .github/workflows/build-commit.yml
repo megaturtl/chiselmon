@@ -76,6 +76,7 @@ jobs:
             fabric/build/libs/chiselmon-fabric-*.jar
             !fabric/build/libs/chiselmon-fabric-*-sources.jar
             !fabric/build/libs/chiselmon-fabric-*-dev.jar
+            !fabric/build/libs/chiselmon-fabric-*-shadow.jar
             !fabric/build/libs/chiselmon-fabric-*-javadoc.jar
           if-no-files-found: error
 
@@ -87,5 +88,6 @@ jobs:
             neoforge/build/libs/chiselmon-neoforge-*.jar
             !neoforge/build/libs/chiselmon-neoforge-*-sources.jar
             !neoforge/build/libs/chiselmon-neoforge-*-dev.jar
+            !neoforge/build/libs/chiselmon-neoforge-*-shadow.jar
             !neoforge/build/libs/chiselmon-neoforge-*-javadoc.jar
           if-no-files-found: error
