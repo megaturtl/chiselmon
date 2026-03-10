@@ -1,6 +1,7 @@
 # Chiselmon
 ![Environment](https://img.shields.io/badge/Environment-Client-purple)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/chiselmon?style=flat&logo=modrinth&label=Downloads&color=%2358a95a)](https://modrinth.com/mod/chiselmon)
+[![CurseForge Downloads](https://img.shields.io/curseforge/dt/1475518?style=flat&logo=curseforge&label=Downloads&color=%23d66d36)](https://www.curseforge.com/minecraft/mc-mods/chiselmon)
 [![Discord](https://img.shields.io/discord/1476397018204082188?style=flat&logo=discord&label=Discord&color=blue)](https://discord.gg/wFRFqQK9WW)
 <br>
 ![Lurantis with magnifying glass, the Chiselmon logo](common/src/main/resources/assets/chiselmon/icon.png)
