@@ -69,7 +69,13 @@ public abstract class MixinMoveTile {
         lines.addAll(chiselmon$createMoveDescription());
         lines.addAll(chiselmon$createEffectivenessLines());
 
+        // push the tooltip in front of other tooltips and gui elements
+        context.pose().pushPose();
+        context.pose().translate(0, 0, 500);
+
         context.renderComponentTooltip(Minecraft.getInstance().font, lines, mouseX, mouseY);
+
+        context.pose().popPose();
     }
 
     @Unique
