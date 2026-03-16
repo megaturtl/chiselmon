@@ -33,6 +33,7 @@ public class TrackerManager {
     private void onWorldJoin() {
         if (activeSession != null) {
             ChiselmonConstants.LOGGER.warn("New world joined before previous TrackerSession was disposed - disposing now");
+            activeSession.stopDashboard();
             activeSession = null;
         }
         activeSession = new TrackerSession();
@@ -40,9 +41,11 @@ public class TrackerManager {
     }
 
     private void onWorldLeave() {
-        activeSession.stopDashboard();
-        activeSession = null;
-        ChiselmonConstants.LOGGER.debug("TrackerSession disposed");
+        if (activeSession != null) {
+            activeSession.stopDashboard();
+            activeSession = null;
+            ChiselmonConstants.LOGGER.debug("TrackerSession disposed");
+        }
     }
 
     /**
