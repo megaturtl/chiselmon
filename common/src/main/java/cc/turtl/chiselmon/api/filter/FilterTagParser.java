@@ -78,6 +78,11 @@ public class FilterTagParser {
                 }
             };
 
+            case "min_level" -> pokemon -> {
+                try { return pokemon.getLevel() >= Integer.parseInt(rawValue); }
+                catch (Exception e) { return false; }
+            };
+
             default -> p -> false;
         };
     }

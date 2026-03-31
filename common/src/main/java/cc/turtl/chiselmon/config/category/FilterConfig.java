@@ -2,7 +2,8 @@ package cc.turtl.chiselmon.config.category;
 
 import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.Priority;
-import cc.turtl.chiselmon.api.filter.*;
+import cc.turtl.chiselmon.api.filter.FilterDefinition;
+import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.config.ChiselmonConfig;
@@ -17,8 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -128,6 +127,7 @@ public class FilterConfig {
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.species"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.type"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.gender"))
+                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.level"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.size"))
                             .build())
                     .binding(DEFAULT_CONDITION_STRING, () -> filter.conditionString, v -> {

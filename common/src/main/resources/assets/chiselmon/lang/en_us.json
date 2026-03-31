@@ -157,6 +157,7 @@
     "chiselmon.config.filters.condition.tags.examples.type": "◆ Specific typing: e.g. 'type=grass'",
     "chiselmon.config.filters.condition.tags.examples.species": "◆ Specific species: e.g. 'species=fomantis'",
     "chiselmon.config.filters.condition.tags.examples.gender": "◆ Specific gender: e.g. 'gender=female'",
+    "chiselmon.config.filters.condition.tags.examples.level": "◆ Minimum level: e.g. 'min_level=50'",
     "chiselmon.config.filters.condition.tags.examples.size": "◆ Specific sizes: e.g. 'min_size=1.5' or 'max_size=0.5'",
     "chiselmon.config.filters.delete": "Delete '%s'",
     "chiselmon.config.filters.delete.description": "Permanently deletes this filter. Hold the button to confirm.",
