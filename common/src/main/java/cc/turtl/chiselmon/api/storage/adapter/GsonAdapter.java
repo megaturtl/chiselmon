@@ -53,13 +53,40 @@ public class GsonAdapter<T> implements StorageAdapter<T> {
     @Override
     public T load(StorageScope scope) {
         Path file = scope.dataFile(filename);
+
+        // If the file doesn't exist, get a new default
         if (!Files.exists(file)) return defaultFactory.get();
-        try (Reader reader = Files.newBufferedReader(file)) {
-            T result = GSON.fromJson(reader, type);
-            return result != null ? result : defaultFactory.get();
-        } catch (IOException e) {
-            ChiselmonConstants.LOGGER.error("Failed to load {}: {}", file, e.getMessage());
+
+        try {
+            if (Files.size(file) == 0) {
+                handleCorruptedFile(file, "File is empty");
+                return defaultFactory.get();
+            }
+
+            try (Reader reader = Files.newBufferedReader(file)) {
+                T result = GSON.fromJson(reader, type);
+                if (result != null) return result;
+
+                handleCorruptedFile(file, "JSON parsed as null");
+                return defaultFactory.get();
+            }
+        } catch (Exception e) {
+            handleCorruptedFile(file, e.getMessage());
             return defaultFactory.get();
+        }
+    }
+
+    /**
+     * Logs the error, renames the broken file to .bak, and allows the adapter to continue.
+     */
+    private void handleCorruptedFile(Path file, String reason) {
+        ChiselmonConstants.LOGGER.warn("Error reading {}, backing up and overwriting. Reason: {}", filename, reason);
+        try {
+            Path backup = file.resolveSibling(filename + ".bak");
+            // Replace existing .bak if it exists, then move the current broken file
+            Files.move(file, backup, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            ChiselmonConstants.LOGGER.error("Failed to create backup for {}: {}", filename, e.getMessage());
         }
     }
 
