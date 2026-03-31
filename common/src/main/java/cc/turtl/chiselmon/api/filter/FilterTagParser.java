@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.util.ParseUtils;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -34,25 +35,48 @@ public class FilterTagParser {
 
     private static Predicate<Pokemon> parseComplexTag(String tag) {
         if (!tag.contains("=")) {
-            return p -> false; // Invalid tag
+            return p -> false;
         }
 
         String[] parts = tag.split("=", 2);
-        String key = parts[0];
-        String value = parts[1];
+        String key = parts[0].toLowerCase().trim();
+        String rawValue = parts[1].trim();
 
         return switch (key) {
-            case "species" -> pokemon ->
-                    pokemon.getSpecies().getName().equalsIgnoreCase(value);
+            case "species" -> {
+                String normalizedSearch = ParseUtils.normalizeSpeciesName(rawValue);
+                yield pokemon -> {
+                    String internalName = ParseUtils.normalizeSpeciesName(pokemon.getSpecies().getName());
+                    return internalName.equals(normalizedSearch);
+                };
+            }
 
             case "type" -> pokemon -> StreamSupport.stream(pokemon.getTypes().spliterator(), false)
-                    .anyMatch(t -> t.getName().equalsIgnoreCase(value));
+                    .anyMatch(t -> t.getName().equalsIgnoreCase(rawValue));
 
-            case "gender" -> pokemon ->
-                    pokemon.getGender().equals(Gender.valueOf(value.toUpperCase()));
+            case "gender" -> pokemon -> {
+                try {
+                    return pokemon.getGender().equals(Gender.valueOf(rawValue.toUpperCase()));
+                } catch (Exception e) {
+                    return false;
+                }
+            };
 
-            case "min_size" -> pokemon -> pokemon.getScaleModifier() >= Float.parseFloat(value);
-            case "max_size" -> pokemon -> pokemon.getScaleModifier() <= Float.parseFloat(value);
+            case "min_size" -> pokemon -> {
+                try {
+                    return pokemon.getScaleModifier() >= Float.parseFloat(rawValue);
+                } catch (Exception e) {
+                    return false;
+                }
+            };
+
+            case "max_size" -> pokemon -> {
+                try {
+                    return pokemon.getScaleModifier() <= Float.parseFloat(rawValue);
+                } catch (Exception e) {
+                    return false;
+                }
+            };
 
             default -> p -> false;
         };

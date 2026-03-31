@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.system.alert.action;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
+import cc.turtl.chiselmon.util.ParseUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -92,6 +93,7 @@ public class DiscordAction implements AlertAction {
         RuntimeFilter filter = ctx.discordFilter();
         String username = Minecraft.getInstance().getUser().getName();
         String pokemonName = ctx.pokemon().getSpecies().getName();
+        String urlSlug = ParseUtils.normalizeSpeciesName(pokemonName);
         String filterName = filter.name();
 
         // Author
@@ -107,7 +109,7 @@ public class DiscordAction implements AlertAction {
         String spriteUrl = String.format(
                 "https://play.pokemonshowdown.com/sprites/%s/%s.gif",
                 ctx.encounter().isShiny() ? "ani-shiny" : "ani",
-                pokemonName.toLowerCase()
+                urlSlug
         );
 
         JsonObject thumbnail = new JsonObject();

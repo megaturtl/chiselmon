@@ -3,12 +3,12 @@ package cc.turtl.chiselmon.api.species;
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.platform.PlatformServices;
+import cc.turtl.chiselmon.util.ParseUtils;
 import com.google.gson.Gson;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.Normalizer;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,9 +63,8 @@ public final class ClientSpeciesRegistry {
         try (Reader reader = Files.newBufferedReader(path)) {
             ClientSpecies species = GSON.fromJson(reader, ClientSpecies.class);
             if (species != null) {
-                // Get "flutter_mane.json" -> "flutter_mane" -> "fluttermane"
                 String fileName = path.getFileName().toString().replace(".json", "");
-                String cleanKey = cleanString(fileName);
+                String cleanKey = ParseUtils.normalizeSpeciesName(fileName);
 
                 map.put(cleanKey, species);
             }
@@ -74,20 +73,7 @@ public final class ClientSpeciesRegistry {
     }
 
     public static ClientSpecies get(String name) {
-        return name == null ? null : speciesMap.get(cleanString(name));
-    }
-
-    // Centralized helper to ensure the Registry and callers always match species names
-    public static String cleanString(String input) {
-        if (input == null) return "";
-
-        // 1. Normalize first (Decompose é into e + accent)
-        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-
-        // 2. Remove the accent marks (\p{M})
-        String stripped = normalized.replaceAll("\\p{M}", "");
-
-        // 3. Lowercase and remove remaining non-alphanumerics
-        return stripped.toLowerCase().replaceAll("[^a-z0-9]", "");
+        // Apply normalization here so lookups always match the registry keys
+        return name == null ? null : speciesMap.get(ParseUtils.normalizeSpeciesName(name));
     }
 }
