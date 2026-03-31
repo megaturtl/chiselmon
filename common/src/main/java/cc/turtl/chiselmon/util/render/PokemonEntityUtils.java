@@ -31,6 +31,6 @@ public class PokemonEntityUtils {
 
     public static void resetNickname(PokemonEntity pe) {
         Pokemon pokemon = pe.getPokemon();
-        pokemon.setNickname(pokemon.getSpecies().getTranslatedName());
+        pokemon.setNickname(null);
     }
 }
