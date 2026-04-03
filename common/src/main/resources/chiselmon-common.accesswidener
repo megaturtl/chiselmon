@@ -1,0 +1,8 @@
+accessWidener	v2	named
+
+# TurtlShell makes use of the v2 protocol for access wideners. This allows for plugins
+# and mods depending on this mod to apply theses wideners to their own environments,
+# avoiding illegal access errors where they would otherwise not apply on production.
+#
+# For all entries, unless otherwise noted, prefix each typical access keywork with
+# "transitive-" to ensure they will extend down to dev environments.

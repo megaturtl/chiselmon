@@ -23,7 +23,7 @@ public record TypingMatchups(Map<ElementalType, Float> multiplierMap) {
     }
 
     /**
-     * Gets all types that deal > 1.0x damage, sorted (4x then 2x).
+     * Gets all types that deal more than 1.0x damage, sorted (4x then 2x).
      */
     public List<ElementalType> getAllWeak() {
         return multiplierMap.entrySet().stream()
@@ -46,7 +46,7 @@ public record TypingMatchups(Map<ElementalType, Float> multiplierMap) {
     }
 
     /**
-     * Gets all types that deal < 1.0x damage, sorted (0x, then 0.25x, then 0.5x).
+     * Gets all types that deal less than 1.0x damage, sorted (0x, then 0.25x, then 0.5x).
      */
     public List<ElementalType> getAllResist() {
         return multiplierMap.entrySet().stream()

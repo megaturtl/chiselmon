@@ -18,11 +18,13 @@ import java.util.function.Supplier;
  * Saves/loads a data class as a JSON file within the scope's data directory.
  * <p>
  * Usage:
- * ScopeStorage<FiltersUserData> storage = GsonStorage.of(
- * "filters.json",
- * FiltersUserData.class,
- * FiltersUserData::withDefaults
+ * {@code
+ * GsonAdapter<FiltersUserData> adapter = GsonAdapter.of(
+ *     "filters.json",
+ *     FiltersUserData.class,
+ *     FiltersUserData::withDefaults
  * );
+ * }
  */
 public class GsonAdapter<T> implements StorageAdapter<T> {
     private static final Gson GSON = new GsonBuilder()
