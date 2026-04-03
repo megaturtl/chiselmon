@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon;
 
 
-import cc.turtl.chiselmon.platform.PlatformServices;
 import cc.turtl.chiselmon.util.format.ColorUtils;
+import cc.turtl.turtlshell.api.core.Platform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -22,7 +22,7 @@ public class ChiselmonConstants {
     /**
      * The path to the '.minecraft/config/chiselmon' folder
      */
-    public static final Path CONFIG_PATH = PlatformServices.getPathFinder().getConfigDir().resolve(MOD_ID);
+    public static final Path CONFIG_PATH = Platform.INSTANCE.getConfigDir().resolve(MOD_ID);
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 

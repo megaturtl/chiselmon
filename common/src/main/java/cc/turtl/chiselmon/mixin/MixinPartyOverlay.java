@@ -1,7 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.client.gui.PartyOverlay;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -29,11 +30,11 @@ public class MixinPartyOverlay {
     // Checks if a pokemon should have its egg hatch ratio injected into their party overlay bars and sets if true
     @Unique
     private float chiselmon$setEggHatchRatio(float fallback, Pokemon pokemon) {
-        ChiselmonConfig config = ChiselmonConfig.get();
+        GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
 
-        if (config.general.modDisabled
-                || !config.general.eggSpy.enabled
-                || !config.general.eggSpy.showHatchOverlay
+        if (config.getModDisabled()
+                || !config.getEggSpy().getEnabled()
+                || !config.getEggSpy().getShowHatchOverlay()
                 || !(pokemon instanceof DuckPreviewPokemon duckPokemon)) {
             return fallback;
         }

@@ -1,13 +1,15 @@
 package cc.turtl.chiselmon.feature.chat;
 
-import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.species.ClientSpecies;
 import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.GeneralConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
+import cc.turtl.turtlshell.api.client.ClientEvents;
+import kotlin.Unit;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
@@ -27,19 +29,25 @@ public class CheckSpawnInterceptor {
     private static int messagesRemaining = 0;
 
     public static void init() {
-        ChiselmonEvents.COMMAND_SENT.subscribe(e -> {
-            GeneralConfig config = ChiselmonConfig.get().general;
-            if (!config.modDisabled && config.checkSpawnDetail && e.commandString().startsWith("checkspawn")) {
+        ClientEvents.INSTANCE.getCOMMAND_SENT().subscribe(e -> {
+            GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
+            if (!config.getModDisabled() && config.getCheckSpawnDetail() && e.startsWith("checkspawn")) {
                 messagesRemaining = WATCH_WINDOW;
             }
+            return Unit.INSTANCE;
         });
 
-        ChiselmonEvents.MESSAGE_RECEIVED.subscribe(e -> {
-            GeneralConfig config = ChiselmonConfig.get().general;
-            if (!config.modDisabled && config.checkSpawnDetail) {
-                Component intercepted = tryIntercept(e.getMessage());
-                if (intercepted != null) e.setMessage(intercepted);
+        ClientEvents.INSTANCE.getMESSAGE_RECEIVED().subscribe(message -> {
+            GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
+            if (!config.getModDisabled() && config.getCheckSpawnDetail()) {
+                Component intercepted = tryIntercept(message);
+                if (intercepted != null) {
+                    // send the modified message manually, cancel the original
+                    Minecraft.getInstance().gui.getChat().addMessage(intercepted);
+                    return true;
+                }
             }
+            return false;
         });
     }
 

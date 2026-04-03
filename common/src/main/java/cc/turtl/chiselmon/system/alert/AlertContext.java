@@ -2,8 +2,8 @@ package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.AlertConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.AlertConfig;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -22,7 +22,7 @@ public record AlertContext(
     }
 
     private AlertConfig.FilterAlertSettings getFilterSettings(RuntimeFilter filter) {
-        return config.filterAlerts.computeIfAbsent(filter.id(), id -> new AlertConfig.FilterAlertSettings());
+        return config.getFilterAlerts().computeIfAbsent(filter.id(), id -> new AlertConfig.FilterAlertSettings());
     }
 
     /**
@@ -39,27 +39,27 @@ public record AlertContext(
 
     /** The first enabled filter — used for general priority comparisons. */
     public RuntimeFilter alertFilter() {
-        return firstMatchingFilter(s -> s.enabled);
+        return firstMatchingFilter(AlertConfig.FilterAlertSettings::getEnabled);
     }
 
     /** The filter that drives highlighting. */
     public RuntimeFilter highlightFilter() {
-        return firstMatchingFilter(s -> s.enabled && s.highlightEntity);
+        return firstMatchingFilter(s -> s.getEnabled() && s.getHighlightEntity());
     }
 
     /** The filter that drives chat messages. */
     public RuntimeFilter messageFilter() {
-        return firstMatchingFilter(s -> s.enabled && s.sendChatMessage);
+        return firstMatchingFilter(s -> s.getEnabled() && s.getSendChatMessage());
     }
 
     /** The filter that drives Discord messages. */
     public RuntimeFilter discordFilter() {
-        return firstMatchingFilter(s -> s.enabled && s.sendDiscordMessage);
+        return firstMatchingFilter(s -> s.getEnabled() && s.getSendDiscordMessage());
     }
 
     /** The filter that drives sound (single or repeating). */
     public RuntimeFilter soundFilter() {
-        return firstMatchingFilter(s -> s.enabled && s.playSound);
+        return firstMatchingFilter(s -> s.getEnabled() && s.getPlaySound());
     }
 
     // -------------------------------------------------------------------------
@@ -67,17 +67,17 @@ public record AlertContext(
     // -------------------------------------------------------------------------
 
     public boolean shouldAlert() {
-        return config.masterEnabled && alertFilter() != null;
+        return config.getMasterEnabled() && alertFilter() != null;
     }
 
     public boolean shouldRepeatingSound() {
         if (!shouldAlert() || isMuted) return false;
-        return firstMatchingFilter(s -> s.enabled && s.playSound && s.repeatSound) != null;
+        return firstMatchingFilter(s -> s.getEnabled() && s.getPlaySound() && s.getRepeatSound()) != null;
     }
 
     public boolean shouldSingleSound() {
         if (!shouldAlert() || isMuted) return false;
-        return firstMatchingFilter(s -> s.enabled && s.playSound && !s.repeatSound) != null;
+        return firstMatchingFilter(s -> s.getEnabled() && s.getPlaySound() && !s.getRepeatSound()) != null;
     }
 
     public boolean shouldMessage() {
@@ -86,7 +86,7 @@ public record AlertContext(
 
     public boolean shouldDiscord() {
         if (!shouldAlert() || isMuted) return false;
-        if (ChiselmonConfig.get().general.discordWebhookURL.isBlank()) return false;
+        if (ChiselmonConfig.INSTANCE.getGeneral().getDiscordWebhookURL().isBlank()) return false;
         return discordFilter() != null;
     }
 
@@ -95,7 +95,7 @@ public record AlertContext(
     }
 
     public String discordWebhookUrl() {
-        return ChiselmonConfig.get().general.discordWebhookURL;
+        return ChiselmonConfig.INSTANCE.getGeneral().getDiscordWebhookURL();
     }
 
     /**
@@ -109,6 +109,6 @@ public record AlertContext(
 
     public float getEffectiveVolume() {
         AlertConfig.FilterAlertSettings settings = soundSettings();
-        return (config.masterVolume / 100f) * (settings.volume / 100f);
+        return (config.getMasterVolume() / 100f) * (settings.getVolume() / 100f);
     }
 }

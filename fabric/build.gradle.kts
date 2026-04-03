@@ -62,6 +62,7 @@ tasks {
     }
 
     processResources {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         dependsOn(copyAccessWidener)
 
         inputs.property("mod_id", project.property("mod_id"))
@@ -93,6 +94,7 @@ tasks {
     }
 
     sourcesJar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         dependsOn(copyAccessWidener)
     }
 }

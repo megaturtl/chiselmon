@@ -1,7 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
@@ -42,9 +43,9 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
     @Override
     public Pokemon chiselmon$getPreview() {
         if (chiselmon$redirecting) return (Pokemon) (Object) this;
-        ChiselmonConfig config = ChiselmonConfig.get();
+        GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
         Pokemon self = (Pokemon) (Object) this;
-        if (config.general.modDisabled || !config.general.eggSpy.enabled) return self;
+        if (config.getModDisabled() || !config.getEggSpy().getEnabled()) return self;
         else return EggCache.getPreview(self);
     }
 

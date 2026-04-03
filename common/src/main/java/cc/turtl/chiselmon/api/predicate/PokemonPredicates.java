@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.api.predicate;
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.species.ClientSpecies;
 import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty;
@@ -37,13 +37,13 @@ public final class PokemonPredicates {
 
     // Config-dependent predicates (lazily fetch config when evaluated)
     public static final Predicate<Pokemon> HAS_HIGH_IVS = p ->
-            PokemonCalcs.countPerfectIVs(p) >= ChiselmonConfig.get().general.thresholds.maxIvs;
+            PokemonCalcs.countPerfectIVs(p) >= ChiselmonConfig.INSTANCE.getGeneral().getThresholds().getMaxIvs();
 
     public static final Predicate<Pokemon> IS_EXTREME_SMALL = p ->
-            p.getScaleModifier() <= ChiselmonConfig.get().general.thresholds.extremeSmall;
+            p.getScaleModifier() <= ChiselmonConfig.INSTANCE.getGeneral().getThresholds().getExtremeSmall();
 
     public static final Predicate<Pokemon> IS_EXTREME_LARGE = p ->
-            p.getScaleModifier() >= ChiselmonConfig.get().general.thresholds.extremeLarge;
+            p.getScaleModifier() >= ChiselmonConfig.INSTANCE.getGeneral().getThresholds().getExtremeLarge();
 
     public static final Predicate<Pokemon> IS_EXTREME_SIZE = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE);
 

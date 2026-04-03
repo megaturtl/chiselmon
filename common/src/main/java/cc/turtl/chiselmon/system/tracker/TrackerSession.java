@@ -2,8 +2,8 @@ package cc.turtl.chiselmon.system.tracker;
 
 import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.PokemonEncounter;
-import cc.turtl.chiselmon.api.event.PokemonLoadedEvent;
-import cc.turtl.chiselmon.api.event.PokemonUnloadedEvent;
+import cc.turtl.chiselmon.client.api.PokemonLoadedEvent;
+import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent;
 import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.system.dashboard.DashboardServer;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
@@ -32,16 +32,16 @@ public class TrackerSession {
     public void onPokemonLoad(PokemonLoadedEvent event) {
         if (!event.isWild()) return;
 
-        PokemonEncounter encounter = event.encounterSnapshot();
-        UUID uuid = event.entity().getUUID();
+        PokemonEncounter encounter = event.getEncounter();
+        UUID uuid = event.getEntity().getUUID();
 
-        currentlyLoaded.put(uuid, event.entity());
+        currentlyLoaded.put(uuid, event.getEntity());
         seenUuids.add(uuid);
         db.record(encounter);
     }
 
     public void onPokemonUnload(PokemonUnloadedEvent event) {
-        currentlyLoaded.remove(event.entity().getUUID());
+        currentlyLoaded.remove(event.getEntity().getUUID());
     }
 
     public void tick() {

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.feature.pc.wallpaper.WallpaperManager;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.WallpapersScrollingWidget;
@@ -29,15 +29,15 @@ public abstract class MixinWallpaperEntry {
     private boolean isNew;
 
     @Inject(method = "render", at = @At("RETURN"))
-    private void chiselmon$renderBulkHint(GuiGraphics context, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovering, float partialTick, CallbackInfo ci) {
-        if (ChiselmonConfig.get().general.modDisabled) return;
+    private void chiselmon$renderBulkHint(GuiGraphics guiGraphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovering, float partialTick, CallbackInfo ci) {
+        if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
 
-        WallpaperManager.renderBulkHint(context, left, top, width, height);
+        WallpaperManager.renderBulkHint(guiGraphics, left, top, width, height);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void chiselmon$handleBulkClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (ChiselmonConfig.get().general.modDisabled) return;
+        if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
 
         PCGUI pcGui = this.outer.getPcGui();
         if (WallpaperManager.handleBulkClick(pcGui, this.wallpaper, this.altWallpaper)) {

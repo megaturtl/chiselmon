@@ -1,8 +1,9 @@
 package cc.turtl.chiselmon.system.tracker;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.Priority;
-import cc.turtl.chiselmon.api.event.ChiselmonEvents;
+import cc.turtl.chiselmon.client.api.ChiselmonClientEvents;
+import cc.turtl.turtlshell.api.client.ClientEvents;
+import kotlin.Unit;
 
 public class TrackerManager {
     private static final TrackerManager INSTANCE = new TrackerManager();
@@ -16,16 +17,25 @@ public class TrackerManager {
     }
 
     public void init() {
-        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.HIGH, e -> onWorldJoin());
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.HIGH, e -> onWorldLeave());
-        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.HIGHEST, e -> {
+        ClientEvents.INSTANCE.getLEVEL_CONNECTED().subscribe(e -> {
+            onWorldJoin();
+            return Unit.INSTANCE;
+        });
+        ClientEvents.INSTANCE.getLEVEL_DISCONNECTED().subscribe(e -> {
+            onWorldLeave();
+            return Unit.INSTANCE;
+        });
+        ChiselmonClientEvents.INSTANCE.getPOKEMON_LOADED().subscribe(e -> {
             if (activeSession != null) activeSession.onPokemonLoad(e);
+            return Unit.INSTANCE;
         });
-        ChiselmonEvents.POKEMON_UNLOADED.subscribe(Priority.HIGH, e -> {
+        ChiselmonClientEvents.INSTANCE.getPOKEMON_UNLOADED().subscribe(e -> {
             if (activeSession != null) activeSession.onPokemonUnload(e);
+            return Unit.INSTANCE;
         });
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.HIGHEST, e -> {
+        ClientEvents.INSTANCE.getTICK_POST().subscribe(e -> {
             if (activeSession != null) activeSession.tick();
+            return Unit.INSTANCE;
         });
         ChiselmonConstants.LOGGER.info("TrackerManager initialized");
     }

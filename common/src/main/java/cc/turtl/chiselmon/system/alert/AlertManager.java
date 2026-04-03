@@ -1,18 +1,18 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.api.PokemonEncounter;
-import cc.turtl.chiselmon.api.Priority;
-import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.AlertConfig;
+import cc.turtl.chiselmon.client.ChiselmonKeybindsKt;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.AlertConfig;
 import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.util.MessageUtils;
+import cc.turtl.turtlshell.api.client.ClientEvents;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
@@ -40,11 +40,18 @@ public class AlertManager {
     }
 
     public void init() {
-        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.LOW, e -> onWorldJoin());
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.LOW, e -> onWorldLeave());
+        ClientEvents.INSTANCE.getLEVEL_CONNECTED().subscribe(e -> {
+            onWorldJoin();
+            return Unit.INSTANCE;
+        });
+        ClientEvents.INSTANCE.getLEVEL_DISCONNECTED().subscribe(e -> {
+            onWorldLeave();
+            return Unit.INSTANCE;
+        });
         // this is low priority for the glow logic that might clash with despawn glow. i want alert to override despawn glow
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.LOW, e -> {
+        ClientEvents.INSTANCE.getTICK_POST().subscribe(e -> {
             if (active) tick();
+            return Unit.INSTANCE;
         });
         ChiselmonConstants.LOGGER.info("AlertSystem initialized");
     }
@@ -69,10 +76,10 @@ public class AlertManager {
     }
 
     private void tick() {
-        AlertConfig config = ChiselmonConfig.get().alert;
-        if (!config.masterEnabled) return;
+        AlertConfig config = ChiselmonConfig.INSTANCE.getAlert();
+        if (!config.getMasterEnabled()) return;
 
-        while (ChiselmonKeybinds.MUTE_ALERTS.consumeClick()) {
+        while (ChiselmonKeybindsKt.INSTANCE.getMUTE_ALERTS().consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
                 muteAll();

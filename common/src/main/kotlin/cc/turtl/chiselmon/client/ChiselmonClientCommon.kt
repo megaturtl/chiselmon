@@ -1,0 +1,50 @@
+package cc.turtl.chiselmon.client
+
+import cc.turtl.chiselmon.BuildDetails
+import cc.turtl.chiselmon.ChiselmonStorage
+import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry
+import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
+import cc.turtl.chiselmon.client.command.*
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.chiselmon.feature.chat.CheckSpawnInterceptor
+import cc.turtl.chiselmon.system.alert.AlertManager
+import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager
+import cc.turtl.chiselmon.system.tracker.TrackerManager
+import cc.turtl.turtlshell.api.client.keybind.KeybindRegistry
+import cc.turtl.turtlshell.api.core.command.CommandRegistry
+
+object ChiselmonClientCommon {
+    fun init() {
+
+        KeybindRegistry.registerGroup(
+            category = BuildDetails.MOD_DISPLAY_NAME,
+            keybinds = ChiselmonKeybindsKt.ALL
+        )
+
+        CommandRegistry.registerGroup(
+            aliases = listOf(BuildDetails.MOD_ID, "ch"),
+            commands = listOf(
+                InfoCommand(),
+                DebugCommand(),
+                DatabaseCommand(),
+                AlertCommand(),
+                ConfigCommand(),
+                RecordCommand(),
+                DashCommand()
+            )
+        )
+
+        ChiselmonConfig.init()
+
+        ChiselmonClientEvents.init()
+
+        ClientSpeciesRegistry.init()
+        ChiselmonStorage.init()
+
+        TrackerManager.getInstance().init()
+        AlertManager.getInstance().init()
+        SpawnRecorderManager.getInstance().init()
+
+        CheckSpawnInterceptor.init()
+    }
+}
