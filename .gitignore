@@ -31,8 +31,10 @@ bin/
 # mc
 
 run/
+runClient/
+runServer/
 logs/
-config/
+fabric/src/generated/
 
 # java
 
@@ -42,3 +44,6 @@ replay_*.log
 *.jfr
 *.class
 /frontend/node_modules
+
+# kotlin
+.kotlin/

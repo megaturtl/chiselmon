@@ -110,8 +110,8 @@ public final class StorageScope {
      * Data directory for this scope.
      * <p>
      * Global:       .mc/config/chiselmon/
-     * Singleplayer: .mc/config/chiselmon/worlds/sp-<worldname>/
-     * Multiplayer:  .mc/config/chiselmon/worlds/mp-<serveraddress>/
+     * Singleplayer: .mc/config/chiselmon/worlds/sp-(worldname)/
+     * Multiplayer:  .mc/config/chiselmon/worlds/mp-(serveraddress)/
      */
     public Path dataDir() {
         Path base = ChiselmonConstants.CONFIG_PATH;

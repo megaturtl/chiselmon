@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "${mod_id}",
-  "version": "${mod_version}",
+  "version": "${version}",
   "name": "${mod_display_name}",
-  "description": "Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!",
+  "description": "${mod_description}",
   "authors": [
     "${mod_author}"
   ],
@@ -26,23 +26,19 @@
     ]
   },
   "mixins": [
-    {
-      "config": "chiselmon.mixins.json",
-      "environment": "client"
-    },
-    {
-      "config": "chiselmon.mixins.fabric.json",
-      "environment": "client"
-    }
+    "chiselmon-common.mixins.json",
+    "chiselmon-fabric.mixins.json"
   ],
+  "accessWidener": "chiselmon-common.accesswidener",
   "depends": {
-    "fabricloader": ">=0.17.2",
-    "minecraft": "~1.21.1",
-    "java": ">=21",
-    "fabric-api": "*",
-
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}",
+    "minecraft": "${minecraft_version}",
+    "java": "${java_version}",
+    "turtlshell": ">=1.0.0",
     "cobblemon": ">=1.7.0",
-    "yet_another_config_lib_v3": ">=3.6.1"
+    "yet_another_config_lib_v3": ">=3.8.1"
   },
   "recommends": {
     "jade": ">=15.10.2"
