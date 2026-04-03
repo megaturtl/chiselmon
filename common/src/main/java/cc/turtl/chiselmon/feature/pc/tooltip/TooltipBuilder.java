@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.components.Tooltip;

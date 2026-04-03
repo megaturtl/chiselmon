@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon;
 
-import cc.turtl.chiselmon.api.event.ChiselmonEvents;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.api.storage.ScopedData;
 import cc.turtl.chiselmon.api.storage.StorageScope;
@@ -8,6 +7,8 @@ import cc.turtl.chiselmon.api.storage.adapter.GsonAdapter;
 import cc.turtl.chiselmon.api.storage.adapter.H2Adapter;
 import cc.turtl.chiselmon.feature.pc.PCUserData;
 import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
+import cc.turtl.turtlshell.api.client.ClientEvents;
+import kotlin.Unit;
 
 import java.util.List;
 
@@ -36,27 +37,29 @@ public class ChiselmonStorage {
     public static void init() {
 
         // Save + clear world-scoped data on world leave
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(e -> {
+        ClientEvents.INSTANCE.getLEVEL_DISCONNECTED().subscribe(e -> {
             StorageScope world = StorageScope.currentWorld();
             if (world != null) {
                 for (ScopedData<?> data : ALL) {
                     data.saveAndClear(world);
                 }
             }
+            return Unit.INSTANCE;
         });
 
         // Save everything on game close
-        ChiselmonEvents.GAME_STOPPING.subscribe(e -> {
+        ClientEvents.INSTANCE.getGAME_STOPPING().subscribe(e -> {
             saveAll();
+            return Unit.INSTANCE;
         });
 
         // Autosave every 5 minutes (only while in a world)
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(e -> {
-            if (e.mc() == null) return;
+        ClientEvents.INSTANCE.getTICK_POST().subscribe(e -> {
             if (++tickCount >= AUTOSAVE_INTERVAL_TICKS) {
                 tickCount = 0;
                 saveAll();
             }
+            return Unit.INSTANCE;
         });
     }
 

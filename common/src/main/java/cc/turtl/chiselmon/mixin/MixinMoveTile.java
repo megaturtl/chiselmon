@@ -2,7 +2,8 @@ package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.types.ElementalType;
@@ -56,10 +57,10 @@ public abstract class MixinMoveTile {
 
     @Inject(method = "render", at = @At("TAIL"), remap = false) // doesn't override MC's render method
     public void chiselmon$renderMoveTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        ChiselmonConfig config = ChiselmonConfig.get();
+        GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
 
-        if (config.general.modDisabled
-                || !config.general.moveDetail
+        if (config.getModDisabled()
+                || !config.getMoveDetail()
                 || !isHovered(mouseX, mouseY)
                 || moveTemplate == null) return;
 

@@ -15,11 +15,23 @@
   "icon": "assets/chiselmon/icon.png",
   "environment": "client",
   "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "cc.turtl.chiselmon.fabric.core.ChiselmonCoreFabric"
+      }
+    ],
     "client": [
-      "cc.turtl.chiselmon.fabric.ChiselmonFabric"
+      {
+        "adapter": "kotlin",
+        "value": "cc.turtl.chiselmon.fabric.client.ChiselmonClientFabric"
+      }
     ],
     "modmenu": [
-      "cc.turtl.chiselmon.fabric.compat.ModMenuIntegration"
+      {
+        "adapter": "kotlin",
+        "value": "cc.turtl.chiselmon.fabric.client.ModMenuIntegration"
+      }
     ],
     "jade": [
       "cc.turtl.chiselmon.compat.jade.ChiselmonJadePlugin"

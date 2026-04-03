@@ -2,10 +2,7 @@ package cc.turtl.chiselmon.util;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,9 +45,9 @@ public class MessageUtils {
         sendPrefixed(player, createComponent(message, ColorUtils.YELLOW.getRGB()));
     }
 
-    public static <S> void sendError(@NotNull LocalPlayer player, CommandContext<S> context, Exception e) {
-        sendPrefixed(player, createComponent("Error executing: " + context.getInput(), ColorUtils.RED.getRGB()));
-        ChiselmonConstants.LOGGER.error("Error executing '{}': ", context, e);
+    public static void sendError(@NotNull LocalPlayer player, Exception e) {
+        sendPrefixed(player, createComponent("An error occurred with that command.", ColorUtils.RED.getRGB()));
+        ChiselmonConstants.LOGGER.error("Error occured while executing command: ", e);
     }
 
     public static void sendLabeled(@NotNull LocalPlayer player, String label, Object value) {

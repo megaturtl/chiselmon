@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import cc.turtl.chiselmon.feature.eggspy.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
@@ -39,31 +39,31 @@ public abstract class MixinStorageSlot extends AbstractWidget {
 
     @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
     private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
-        ChiselmonConfig config = ChiselmonConfig.get();
-        if (config.general.modDisabled) return;
+        ChiselmonConfig config = ChiselmonConfig.INSTANCE;
+        if (config.getGeneral().getModDisabled()) return;
 
         Pokemon pokemon = getPokemon();
         // Use preview so we either pass the eggdummy or normal pokemon
         Pokemon preview = ((DuckPreviewPokemon) pokemon).chiselmon$getPreview();
 
-        if (config.pc.icon.enabled && preview != null) {
-            IconRenderer.renderIcons(context, config.pc.icon, preview, posX, posY);
+        if (config.getPc().getIcon().getEnabled() && preview != null) {
+            IconRenderer.renderIcons(context, config.getPc().getIcon(), preview, posX, posY);
         }
 
-        if (config.general.eggSpy.enabled && preview instanceof EggDummy eggDummy) {
+        if (config.getGeneral().getEggSpy().getEnabled() && preview instanceof EggDummy eggDummy) {
             EggRenderer.renderStorageSlot(context, eggDummy, posX, posY);
         }
 
-        if (config.pc.tooltip.enabled && isHovered) {
-            chiselmon$updateTooltip(preview, config.pc.tooltip);
+        if (config.getPc().getTooltip().getEnabled() && isHovered) {
+            chiselmon$updateTooltip(preview, config.getPc().getTooltip());
         }
     }
 
     @Unique
     private void chiselmon$updateTooltip(Pokemon pokemon, PCConfig.TooltipConfig config) {
         boolean isShiftDown = Screen.hasShiftDown();
-        boolean shouldShowTooltip = config.showOnHover ||
-                (config.extendOnShift && isShiftDown);
+        boolean shouldShowTooltip = config.getShowOnHover() ||
+                (config.getExtendOnShift() && isShiftDown);
 
         if (shouldShowTooltip && pokemon != null) {
             setTooltip(TooltipBuilder.build(pokemon, config, isShiftDown));

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.spawnrecorder;
 
-import cc.turtl.chiselmon.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.system.tracker.TrackerSession;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.StringFormats;
@@ -39,11 +39,11 @@ public class SpawnRecorderSession {
         if (!paused) sessionTicks++;
         removeOldTickData();
 
-        if (ChiselmonConfig.get().recorder.actionBar) {
+        if (ChiselmonConfig.INSTANCE.getRecorder().getActionBar()) {
             setActionBarStatus();
         }
 
-        if (ChiselmonConfig.get().recorder.despawnGlow) {
+        if (ChiselmonConfig.INSTANCE.getRecorder().getDespawnGlow()) {
             tracker.getCurrentlyLoaded().values().forEach(entity -> {
                 int rgb = getTicksLived(entity) >= DESPAWN_MIN_TICKS ? ColorUtils.RED.getRGB() : ColorUtils.LIME.getRGB();
                 PokemonEntityUtils.addGlow(entity, rgb);

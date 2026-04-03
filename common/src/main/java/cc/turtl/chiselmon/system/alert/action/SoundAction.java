@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.system.alert.action;
 
-import cc.turtl.chiselmon.config.category.AlertConfig;
+import cc.turtl.chiselmon.client.config.category.AlertConfig;
 import cc.turtl.chiselmon.system.alert.AlertContext;
-import cc.turtl.chiselmon.system.alert.AlertSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvent;
@@ -20,8 +19,7 @@ public class SoundAction implements AlertAction {
 
     private void playSound(AlertContext ctx) {
         AlertConfig.FilterAlertSettings settings = ctx.soundSettings();
-        AlertSounds alertSound = settings.alertSound != null ? settings.alertSound : AlertSounds.PLING;
-        SoundEvent sound = alertSound.getSound();
+        SoundEvent sound = settings.getAlertSound().getSound();
         if (sound != null) {
             Minecraft.getInstance().getSoundManager().play(
                     SimpleSoundInstance.forUI(sound, 1.0f, ctx.getEffectiveVolume())

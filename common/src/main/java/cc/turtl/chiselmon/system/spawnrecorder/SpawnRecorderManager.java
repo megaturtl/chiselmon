@@ -1,9 +1,10 @@
 package cc.turtl.chiselmon.system.spawnrecorder;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.api.Priority;
-import cc.turtl.chiselmon.api.event.ChiselmonEvents;
+import cc.turtl.chiselmon.client.api.ChiselmonClientEvents;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
+import cc.turtl.turtlshell.api.client.ClientEvents;
+import kotlin.Unit;
 
 public class SpawnRecorderManager {
     private static final SpawnRecorderManager INSTANCE = new SpawnRecorderManager();
@@ -17,37 +18,41 @@ public class SpawnRecorderManager {
     }
 
     public void init() {
-        // Auto-pause/resume around disconnects so elapsed time stays honest
-        ChiselmonEvents.LEVEL_DISCONNECTED.subscribe(Priority.HIGH, e -> {
+        ClientEvents.INSTANCE.getLEVEL_DISCONNECTED().subscribe(e -> {
             if (activeSession != null && !activeSession.isPaused()) {
                 activeSession.pause();
                 ChiselmonConstants.LOGGER.info("SpawnRecorder auto-paused on disconnect");
             }
+            return Unit.INSTANCE;
         });
 
-        ChiselmonEvents.LEVEL_CONNECTED.subscribe(Priority.HIGH, e -> {
+        ClientEvents.INSTANCE.getLEVEL_CONNECTED().subscribe(e -> {
             if (activeSession != null && activeSession.isPaused()) {
                 activeSession.resume();
                 ChiselmonConstants.LOGGER.info("SpawnRecorder auto-resumed on reconnect");
             }
+            return Unit.INSTANCE;
         });
 
-        ChiselmonEvents.POKEMON_LOADED.subscribe(Priority.HIGH, e -> {
+        ChiselmonClientEvents.INSTANCE.getPOKEMON_LOADED().subscribe(e -> {
             if (activeSession != null && e.isWild()) {
-                activeSession.onPokemonLoaded(e.entity());
+                activeSession.onPokemonLoaded(e.getEntity());
             }
+            return Unit.INSTANCE;
         });
 
-        ChiselmonEvents.POKEMON_UNLOADED.subscribe(Priority.HIGH, e -> {
+        ChiselmonClientEvents.INSTANCE.getPOKEMON_UNLOADED().subscribe(e -> {
             if (activeSession != null && e.isWild()) {
-                activeSession.onPokemonUnloaded(e.entity());
+                activeSession.onPokemonUnloaded(e.getEntity());
             }
+            return Unit.INSTANCE;
         });
 
-        ChiselmonEvents.CLIENT_POST_TICK.subscribe(Priority.HIGH, e -> {
+        ClientEvents.INSTANCE.getTICK_POST().subscribe(e -> {
             if (activeSession != null) {
                 activeSession.tick();
             }
+            return Unit.INSTANCE;
         });
 
         ChiselmonConstants.LOGGER.info("SpawnRecorderManager initialized");

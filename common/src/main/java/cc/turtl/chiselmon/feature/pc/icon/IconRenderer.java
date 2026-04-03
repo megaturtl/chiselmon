@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.icon;
 
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.client.config.category.PCConfig;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;

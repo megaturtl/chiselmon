@@ -1,12 +1,12 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.ChiselmonKeybinds;
 import cc.turtl.chiselmon.ChiselmonStorage;
 import cc.turtl.chiselmon.api.storage.StorageScope;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
+import cc.turtl.turtlshell.api.client.keybind.KeybindHelper;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
@@ -57,8 +57,7 @@ public abstract class MixinPCGUI extends Screen {
     // Don't use remap=false here or InvMove early loading the class will break the Mixin injection
     @Inject(method = "init", at = @At("TAIL"))
     private void chiselmon$initEntryPoint(CallbackInfo ci) {
-        ChiselmonConfig config = ChiselmonConfig.get();
-        if (config.general.modDisabled) return;
+        if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
 
         int x = (width - BASE_WIDTH) / 2;
         int y = (height - BASE_HEIGHT) / 2;
@@ -86,11 +85,11 @@ public abstract class MixinPCGUI extends Screen {
             chiselmon$bookmarkManager.update();
         }
 
-        PCConfig.QuickSortConfig quickSort = ChiselmonConfig.get().pc.quickSort;
-        if (quickSort.enabled
+        PCConfig.QuickSortConfig quickSort = ChiselmonConfig.INSTANCE.getPc().getQuickSort();
+        if (quickSort.getEnabled()
                 && chiselmon$sortManager != null
-                && ChiselmonKeybinds.isDown(quickSort.hotkey)) {
-            chiselmon$sortManager.executeQuickSort(quickSort.mode, Screen.hasShiftDown());
+                && KeybindHelper.INSTANCE.isDown(quickSort.getHotkey())) {
+            chiselmon$sortManager.executeQuickSort(quickSort.getMode(), Screen.hasShiftDown());
         }
     }
 

@@ -2,9 +2,9 @@ package cc.turtl.chiselmon.system.alert.action;
 
 import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
-import cc.turtl.chiselmon.platform.PlatformServices;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.util.format.ColorUtils;
+import cc.turtl.turtlshell.api.core.Platform;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -59,7 +59,7 @@ public class MessageAction implements AlertAction {
                 .withColor(ColorUtils.AQUA.getRGB());
 
         // only if xaeros is installed and loaded
-        if (PlatformServices.getModChecker().isLoaded("xaerominimap")) {
+        if (Platform.INSTANCE.isModLoaded("xaerominimap")) {
             char mcColor = ColorUtils.legacy(ctx.messageFilter().rgb()).getChar();
             int colorIndex = Character.digit(mcColor, 16);
             String dimension = ctx.entity().level().dimension().location().toString().replace(":", "$");

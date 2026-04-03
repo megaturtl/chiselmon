@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
 import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
-import cc.turtl.chiselmon.config.category.PCConfig;
+import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -15,15 +15,15 @@ public final class TooltipRegistry {
 
     static {
         // Register standard entries
-        add("ivs", cfg -> cfg.ivs, p -> true, PokemonFormats::ivsSummary);
-        add("original_trainer", cfg -> cfg.originalTrainer, p -> true, Pokemon::getOriginalTrainerName);
-        add("form", cfg -> cfg.form, p -> true, p -> p.getForm().getName());
-        add("friendship", cfg -> cfg.friendship, p -> true, Pokemon::getFriendship);
+        add("ivs", PCConfig.TooltipConfig::getIvs, p -> true, PokemonFormats::ivsSummary);
+        add("original_trainer", PCConfig.TooltipConfig::getOriginalTrainer, p -> true, Pokemon::getOriginalTrainerName);
+        add("form", PCConfig.TooltipConfig::getForm, p -> true, p -> p.getForm().getName());
+        add("friendship", PCConfig.TooltipConfig::getFriendship, p -> true, Pokemon::getFriendship);
 
         // Register conditional entries
-        add("ride_styles", cfg -> cfg.rideStyles, PokemonPredicates.IS_RIDEABLE, PokemonFormats::rideStyles);
-        add("marks", cfg -> cfg.marks, PokemonPredicates.IS_MARKED, PokemonFormats::marks);
-        add("hatch_progress", cfg -> cfg.hatchProgress, PokemonPredicates.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
+        add("ride_styles", PCConfig.TooltipConfig::getRideStyles, PokemonPredicates.IS_RIDEABLE, PokemonFormats::rideStyles);
+        add("marks", PCConfig.TooltipConfig::getMarks, PokemonPredicates.IS_MARKED, PokemonFormats::marks);
+        add("hatch_progress", PCConfig.TooltipConfig::getHatchProgress, PokemonPredicates.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
     }
 
     private TooltipRegistry() {

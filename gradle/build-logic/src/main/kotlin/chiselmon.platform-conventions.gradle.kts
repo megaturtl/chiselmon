@@ -13,6 +13,12 @@ val bundle: Configuration by configurations.creating {
     isCanBeResolved = true
 }
 
+// Read common's resources directly from source so the IDE doesn't need
+// processResources to have run before launching.
+sourceSets.main {
+    resources.srcDir(project(":common").file("src/main/resources"))
+}
+
 loom {
     val clientConfig = runConfigs.getByName("client")
     clientConfig.runDir = "runClient"
