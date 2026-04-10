@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.storage.adapter;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.api.storage.StorageScope;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

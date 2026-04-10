@@ -7,7 +7,7 @@ import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
 
-import static cc.turtl.chiselmon.ChiselmonConstants.MOD_ID;
+import static cc.turtl.chiselmon.BuildDetails.MOD_ID;
 
 @WailaPlugin(MOD_ID)
 public class ChiselmonJadePlugin implements IWailaPlugin {

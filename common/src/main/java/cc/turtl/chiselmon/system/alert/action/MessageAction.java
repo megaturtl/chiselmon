@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.system.alert.action;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.util.format.ColorUtils;
@@ -13,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
+import static cc.turtl.chiselmon.BuildDetails.MOD_ID;
+
 public class MessageAction implements AlertAction {
 
     private static Component buildAlertMessage(AlertContext ctx) {
@@ -24,7 +25,7 @@ public class MessageAction implements AlertAction {
                 .withStyle(style -> style
                         .withColor(ColorUtils.PINK.getRGB())
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                "/" + ChiselmonConstants.MOD_ID + " alert mute " + ctx.entity().getUUID()))
+                                "/" + MOD_ID + " alert mute " + ctx.entity().getUUID()))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.translatable("chiselmon.spawnalert.mute.tooltip"))));
         // Filter name
@@ -32,7 +33,7 @@ public class MessageAction implements AlertAction {
                 .append(filter.displayName())
                 .withStyle(style -> style
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                "/" + ChiselmonConstants.MOD_ID + " config alert"))
+                                "/" + MOD_ID + " config alert"))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.translatable("chiselmon.spawnalert.filter.tooltip")))));
 

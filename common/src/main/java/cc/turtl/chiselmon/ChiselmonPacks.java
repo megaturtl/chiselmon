@@ -1,5 +1,7 @@
 package cc.turtl.chiselmon;
 
+import cc.turtl.chiselmon.core.ChiselmonConstants;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

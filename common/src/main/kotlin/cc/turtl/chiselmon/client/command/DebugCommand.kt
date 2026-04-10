@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.command
 
-import cc.turtl.chiselmon.ChiselmonConstants
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates
 import cc.turtl.chiselmon.util.MessageUtils
 import cc.turtl.chiselmon.util.ObjectDumper

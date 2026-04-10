@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.dashboard.api.endpoints;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.BuildDetails;
 import cc.turtl.chiselmon.system.dashboard.api.ApiHandler;
 import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpExchange;
@@ -33,7 +33,7 @@ public class ContextHandler extends ApiHandler {
                 worldName = "unknown";
             }
 
-            return new ContextResponse(worldType, worldName, ChiselmonConstants.VERSION);
+            return new ContextResponse(worldType, worldName, BuildDetails.MOD_VERSION);
         });
     }
 }
