@@ -66,7 +66,7 @@ public final class ComponentUtils {
     public static MutableComponent labelled(@NotNull Object label, @Nullable Object value) {
         MutableComponent labelComp = (label instanceof Component c ? c.copy() : Component.literal(label.toString()));
         // If we pass a component label, it gets overridden with gray for label consistency
-        labelComp.withColor(ColorUtils.LIGHT_GRAY.getRGB());
+        labelComp = labelComp.withStyle(style -> style.withColor(ColorUtils.LIGHT_GRAY.getRGB()).withBold(false));
 
         Component valueComp = (value == null) ? UNKNOWN :
                 (value instanceof Component c ? c : createComponent(value.toString(), ColorUtils.WHITE.getRGB()));
