@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.command
 
-import cc.turtl.chiselmon.ChiselmonConstants
+import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.util.MessageUtils
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
@@ -20,9 +20,9 @@ class InfoCommand : TurtlShellCommand {
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "${ChiselmonConstants.MOD_DISPLAY_NAME} Info")
-                MessageUtils.sendLabeled(player, "  Version", ChiselmonConstants.VERSION)
-                MessageUtils.sendLabeled(player, "  Author", ChiselmonConstants.AUTHOR)
+                MessageUtils.sendSuccess(player, "${BuildDetails.MOD_DISPLAY_NAME} Info")
+                MessageUtils.sendLabeled(player, "  Version", BuildDetails.MOD_VERSION)
+                MessageUtils.sendLabeled(player, "  Author", BuildDetails.MOD_AUTHOR)
                 Command.SINGLE_SUCCESS
             }
 }

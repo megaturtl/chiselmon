@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.fabric.mixin;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.ChiselmonPacks;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;

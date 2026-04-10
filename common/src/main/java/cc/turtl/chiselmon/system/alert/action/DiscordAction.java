@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.system.alert.action;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.BuildDetails;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.util.ParseUtils;
@@ -141,7 +142,7 @@ public class DiscordAction implements AlertAction {
 
         // Footer
         JsonObject footer = new JsonObject();
-        footer.addProperty("text", "Sent using " + ChiselmonConstants.MOD_DISPLAY_NAME + " by " + ChiselmonConstants.AUTHOR);
+        footer.addProperty("text", "Sent using " + BuildDetails.MOD_DISPLAY_NAME + " by " + BuildDetails.MOD_AUTHOR);
         embed.add("footer", footer);
 
         return embed;

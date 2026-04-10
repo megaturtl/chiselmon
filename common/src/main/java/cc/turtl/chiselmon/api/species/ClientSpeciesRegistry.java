@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.species;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.util.ParseUtils;
 import cc.turtl.turtlshell.api.client.ClientEvents;
 import cc.turtl.turtlshell.api.core.Platform;

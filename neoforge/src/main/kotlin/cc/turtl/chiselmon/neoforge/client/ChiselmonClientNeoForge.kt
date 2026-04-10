@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.neoforge.client
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.ChiselmonConstants
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
@@ -22,7 +22,6 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.event.AddPackFindersEvent
 import java.nio.file.Path
-import java.nio.file.PathMatcher
 
 @EventBusSubscriber
 @Mod(value = BuildDetails.MOD_ID, dist = [Dist.CLIENT])
@@ -37,7 +36,7 @@ object ChiselmonClientNeoForge {
             .ifPresent { c: ModContainer ->
                 c.registerExtensionPoint(
                     IConfigScreenFactory::class.java,
-                    IConfigScreenFactory { container: ModContainer, parent: Screen ->
+                    IConfigScreenFactory { _: ModContainer, parent: Screen ->
                         ChiselmonConfig.createScreen(parent)
                     })
             }
@@ -69,7 +68,7 @@ object ChiselmonClientNeoForge {
                 ChiselmonConstants.CONFIG_PATH,
                 PackType.CLIENT_RESOURCES,
                 PackSource.BUILT_IN,
-                DirectoryValidator(PathMatcher { path: Path? -> true })
+                DirectoryValidator { _: Path? -> true }
             )
         )
     }

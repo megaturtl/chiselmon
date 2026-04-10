@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.dashboard;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.system.dashboard.api.endpoints.*;
 import cc.turtl.chiselmon.system.tracker.EncounterDatabase;
 import com.sun.net.httpserver.HttpServer;

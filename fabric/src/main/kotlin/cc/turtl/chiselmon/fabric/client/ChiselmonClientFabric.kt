@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.fabric.client
 
-import cc.turtl.chiselmon.ChiselmonConstants
+import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.util.MiscUtil
@@ -18,7 +18,7 @@ object ChiselmonClientFabric : ClientModInitializer {
 
     private fun registerPacks() {
         val modContainer = FabricLoader.getInstance()
-            .getModContainer(ChiselmonConstants.MOD_ID)
+            .getModContainer(BuildDetails.MOD_ID)
             .orElseThrow()
 
         for (pack in ChiselmonPacks.BuiltInPack.ALL) {

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.util;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;

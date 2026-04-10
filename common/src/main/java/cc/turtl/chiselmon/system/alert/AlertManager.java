@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;

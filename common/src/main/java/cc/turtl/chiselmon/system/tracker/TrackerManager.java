@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.tracker;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents;
 import cc.turtl.turtlshell.api.client.ClientEvents;
 import kotlin.Unit;
