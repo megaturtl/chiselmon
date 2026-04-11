@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.util.format;
 
-import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
-import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.client.api.ClientSpecies;
+import cc.turtl.chiselmon.core.api.calc.PokemonCalcsKt;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
 import cc.turtl.chiselmon.core.api.predicate.MoveTemplatePredicatesKt;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
@@ -137,7 +137,7 @@ public final class PokemonFormats {
     }
 
     public static Component selfDamagingMoves(Pokemon pokemon) {
-        var moves = PokemonCalcs.getPossibleMoves(pokemon, true).stream()
+        var moves = PokemonCalcsKt.getPossibleMoves(pokemon, true).stream()
                 .filter(MoveTemplatePredicatesKt.IS_SELF_DAMAGING)
                 .toList();
 

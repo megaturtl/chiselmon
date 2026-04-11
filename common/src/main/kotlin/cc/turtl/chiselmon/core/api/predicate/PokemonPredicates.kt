@@ -1,12 +1,13 @@
 package cc.turtl.chiselmon.core.api.predicate
 
-import cc.turtl.chiselmon.api.calc.PokemonCalcs
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig.general
+import cc.turtl.chiselmon.core.api.calc.getPossibleMoves
 import cc.turtl.chiselmon.feature.eggspy.EggDummy
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty
 import java.util.function.Predicate
+import cc.turtl.chiselmon.core.api.calc.*
 
 // Simple predicates
 @JvmField
@@ -31,17 +32,17 @@ val IS_EGG_DUMMY: Predicate<Pokemon> = Predicate { it.forcedAspects.contains(Egg
 // Cobblemon treats Pokemon with a single ability as having HA so we need to check this first
 @JvmField
 val HAS_HIDDEN_ABILITY: Predicate<Pokemon> = Predicate {
-    PokemonCalcs.countUniqueAbilities(it) > 1 && HiddenAbilityProperty(true).matches(it)
+    countUniqueAbilities(it) > 1 && HiddenAbilityProperty(true).matches(it)
 }
 
 @JvmField
 val HAS_SELF_DAMAGING_MOVE: Predicate<Pokemon> = Predicate {
-    PokemonCalcs.getPossibleMoves(it, true).any(IS_SELF_DAMAGING::test)
+    getPossibleMoves(it, true).any(IS_SELF_DAMAGING::test)
 }
 
 // Config-dependent predicates (lazily fetch config when evaluated)
 @JvmField
-val HAS_HIGH_IVS: Predicate<Pokemon> = Predicate { PokemonCalcs.countPerfectIVs(it) >= general.thresholds.maxIvs }
+val HAS_HIGH_IVS: Predicate<Pokemon> = Predicate { countPerfectIVs(it) >= general.thresholds.maxIvs }
 @JvmField
 val IS_EXTREME_SMALL: Predicate<Pokemon> = Predicate { it.scaleModifier <= general.thresholds.extremeSmall }
 @JvmField
