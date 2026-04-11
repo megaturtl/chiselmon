@@ -5,7 +5,7 @@ import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
-import cc.turtl.chiselmon.util.MiscUtil
+import cc.turtl.chiselmon.core.util.modResource
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.PackType
@@ -50,7 +50,7 @@ object ChiselmonClientNeoForge {
         for (pack in ChiselmonPacks.BuiltInPack.ALL) {
             if (pack.requiredModIds.stream().allMatch { modTarget: String? -> ModList.get().isLoaded(modTarget) }) {
                 event.addPackFinders(
-                    MiscUtil.modResource("resourcepacks/" + pack.id),
+                    modResource("resourcepacks/" + pack.id),
                     PackType.CLIENT_RESOURCES,
                     Component.literal(pack.name),
                     PackSource.BUILT_IN,

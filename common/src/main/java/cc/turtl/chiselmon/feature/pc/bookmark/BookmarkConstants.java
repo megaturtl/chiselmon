@@ -4,7 +4,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import static cc.turtl.chiselmon.util.MiscUtil.modResource;
+import static cc.turtl.chiselmon.core.util.MiscUtilsKt.modResource;
 
 /**
  * Configuration constants for PC Bookmark Buttons.

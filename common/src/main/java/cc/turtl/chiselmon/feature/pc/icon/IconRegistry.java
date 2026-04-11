@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static cc.turtl.chiselmon.util.MiscUtil.modResource;
+import static cc.turtl.chiselmon.core.util.MiscUtilsKt.modResource;
 
 public final class IconRegistry {
     private static final List<IconEntry> ENTRIES = new ArrayList<>();

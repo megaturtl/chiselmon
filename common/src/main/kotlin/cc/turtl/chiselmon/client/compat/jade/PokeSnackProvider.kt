@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.compat.jade
 
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
-import cc.turtl.chiselmon.util.MiscUtil.modResource
+import cc.turtl.chiselmon.core.util.modResource
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.chiselmon.util.format.ComponentUtils
 import com.cobblemon.mod.common.CobblemonItemComponents

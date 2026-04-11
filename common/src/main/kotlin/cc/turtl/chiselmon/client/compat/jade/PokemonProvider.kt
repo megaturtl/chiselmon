@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.client.compat.jade
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.predicate.HAS_SELF_DAMAGING_MOVE
-import cc.turtl.chiselmon.util.MiscUtil.modResource
+import cc.turtl.chiselmon.core.util.modResource
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.chiselmon.util.format.ComponentUtils
 import cc.turtl.chiselmon.util.format.PokemonFormats

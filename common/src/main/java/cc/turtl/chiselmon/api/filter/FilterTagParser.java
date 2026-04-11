@@ -1,12 +1,13 @@
 package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
-import cc.turtl.chiselmon.util.ParseUtils;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.function.Predicate;
 import java.util.stream.StreamSupport;
+
+import static cc.turtl.chiselmon.core.util.ParseUtilsKt.normalizeSpeciesName;
 
 public class FilterTagParser {
 
@@ -44,9 +45,9 @@ public class FilterTagParser {
 
         return switch (key) {
             case "species" -> {
-                String normalizedSearch = ParseUtils.normalizeSpeciesName(rawValue);
+                String normalizedSearch = normalizeSpeciesName(rawValue);
                 yield pokemon -> {
-                    String internalName = ParseUtils.normalizeSpeciesName(pokemon.getSpecies().getName());
+                    String internalName = normalizeSpeciesName(pokemon.getSpecies().getName());
                     return internalName.equals(normalizedSearch);
                 };
             }

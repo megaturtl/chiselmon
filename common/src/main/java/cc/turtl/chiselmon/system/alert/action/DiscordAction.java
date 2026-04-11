@@ -4,7 +4,6 @@ import cc.turtl.chiselmon.BuildDetails;
 import cc.turtl.chiselmon.core.ChiselmonConstants;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
-import cc.turtl.chiselmon.util.ParseUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -16,6 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import static cc.turtl.chiselmon.core.util.ParseUtilsKt.normalizeSpeciesName;
 
 public class DiscordAction implements AlertAction {
     // Max 2 alerts every 5 seconds to prevent spam but still allow double spawns to both register
@@ -94,7 +95,7 @@ public class DiscordAction implements AlertAction {
         RuntimeFilter filter = ctx.discordFilter();
         String username = Minecraft.getInstance().getUser().getName();
         String pokemonName = ctx.pokemon().getSpecies().getName();
-        String urlSlug = ParseUtils.normalizeSpeciesName(pokemonName);
+        String urlSlug = normalizeSpeciesName(pokemonName);
         String filterName = filter.name();
 
         // Author
@@ -122,13 +123,13 @@ public class DiscordAction implements AlertAction {
 
         JsonObject locationField = new JsonObject();
         locationField.addProperty("name", "📍 Location");
-        locationField.addProperty("value", String.format("%d, %d, %d", ctx.encounter().pokemonX(), ctx.encounter().pokemonY(), ctx.encounter().pokemonZ()));
+        locationField.addProperty("value", String.format("%d, %d, %d", ctx.encounter().getPokemonX(), ctx.encounter().getPokemonY(), ctx.encounter().getPokemonZ()));
         locationField.addProperty("inline", true);
         fields.add(locationField);
 
         JsonObject biomeField = new JsonObject();
         biomeField.addProperty("name", "🏞️ Biome");
-        biomeField.addProperty("value", ctx.encounter().biome());
+        biomeField.addProperty("value", ctx.encounter().getBiome());
         biomeField.addProperty("inline", true);
         fields.add(biomeField);
 

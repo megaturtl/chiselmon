@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.api
 
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.util.ParseUtils
+import cc.turtl.chiselmon.core.util.normalizeSpeciesName
 import cc.turtl.turtlshell.api.client.ClientEvents
 import cc.turtl.turtlshell.api.core.Platform
 import com.google.gson.Gson
@@ -80,7 +80,7 @@ object ClientSpeciesRegistry {
         try {
             Files.newBufferedReader(path).use { reader ->
                 val species = GSON.fromJson(reader, ClientSpecies::class.java) ?: return
-                val cleanKey = ParseUtils.normalizeSpeciesName(path.fileName.toString().removeSuffix(".json"))
+                val cleanKey = normalizeSpeciesName(path.fileName.toString().removeSuffix(".json"))
                 map[cleanKey] = species
             }
         } catch (_: Exception) {}
@@ -88,6 +88,6 @@ object ClientSpeciesRegistry {
 
     @JvmStatic
     fun get(name: String): ClientSpecies? {
-        return name.let { speciesMap[ParseUtils.normalizeSpeciesName(it)] }
+        return name.let { speciesMap[normalizeSpeciesName(it)] }
     }
 }

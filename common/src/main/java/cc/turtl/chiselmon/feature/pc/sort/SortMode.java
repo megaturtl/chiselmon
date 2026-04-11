@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Comparator;
 
-import static cc.turtl.chiselmon.util.MiscUtil.modResource;
+import static cc.turtl.chiselmon.core.util.MiscUtilsKt.modResource;
 
 public enum SortMode {
 

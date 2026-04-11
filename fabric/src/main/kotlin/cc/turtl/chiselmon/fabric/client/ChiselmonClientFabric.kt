@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.fabric.client
 import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
-import cc.turtl.chiselmon.util.MiscUtil
+import cc.turtl.chiselmon.core.util.modResource
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
@@ -28,7 +28,7 @@ object ChiselmonClientFabric : ClientModInitializer {
 
             if (shouldLoad) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                    MiscUtil.modResource(pack.id),
+                    modResource(pack.id),
                     modContainer,
                     Component.literal(pack.name),
                     ResourcePackActivationType.DEFAULT_ENABLED
