@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import cc.turtl.chiselmon.api.species.ClientSpecies;
-import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.client.api.ClientSpecies;
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.util.format.ColorUtils;

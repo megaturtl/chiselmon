@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.core.api.predicate
 
 import cc.turtl.chiselmon.api.calc.PokemonCalcs
-import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig.general
 import cc.turtl.chiselmon.feature.eggspy.EggDummy
 import com.cobblemon.mod.common.pokemon.Pokemon

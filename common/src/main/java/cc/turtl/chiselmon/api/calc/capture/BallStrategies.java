@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
-import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
@@ -11,6 +11,8 @@ import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.SleepStatus;
+
+import java.util.Objects;
 
 class ParkBallStrategy implements BallStrategy {
     @Override
@@ -29,7 +31,7 @@ class SafariBallStrategy implements BallStrategy {
 class FastBallStrategy implements BallStrategy {
     @Override
     public float calculate(CaptureContext ctx) {
-        return ClientSpeciesRegistry.get(ctx.pokemon().getSpecies().getName()).baseStats().get("speed") >= 100 ? 4.0F : 1.0F;
+        return Objects.requireNonNull(ClientSpeciesRegistry.get(ctx.pokemon().getSpecies().getName())).getBaseStats().get("speed") >= 100 ? 4.0F : 1.0F;
     }
 }
 

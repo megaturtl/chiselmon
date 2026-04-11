@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.chat;
 
-import cc.turtl.chiselmon.api.species.ClientSpecies;
-import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.client.api.ClientSpecies;
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.util.format.ColorUtils;

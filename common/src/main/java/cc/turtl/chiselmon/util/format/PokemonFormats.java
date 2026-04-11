@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
-import cc.turtl.chiselmon.api.species.ClientSpecies;
+import cc.turtl.chiselmon.client.api.ClientSpecies;
 import cc.turtl.chiselmon.core.api.predicate.MoveTemplatePredicatesKt;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
@@ -148,17 +148,17 @@ public final class PokemonFormats {
     // --- Breeding & Species ---
 
     public static Component eggGroups(ClientSpecies species) {
-        if (species == null || species.eggGroups().isEmpty()) return UNKNOWN;
-        return join(species.eggGroups(), " / ", group -> {
+        if (species == null || species.getEggGroups().isEmpty()) return UNKNOWN;
+        return join(species.getEggGroups(), " / ", group -> {
             int color = EGG_GROUP_COLORS.getOrDefault(group.toLowerCase(), ColorUtils.WHITE.getRGB());
             return createComponent(StringFormats.formatSnakeCase(group), color);
         });
     }
 
     public static Component evYield(ClientSpecies species) {
-        if (species == null || species.evYield().isEmpty()) return UNKNOWN;
+        if (species == null || species.getEvYield().isEmpty()) return UNKNOWN;
 
-        var yields = species.evYield().entrySet().stream()
+        var yields = species.getEvYield().entrySet().stream()
                 .filter(e -> e.getValue() > 0)
                 .toList();
 
@@ -171,7 +171,7 @@ public final class PokemonFormats {
     // --- Capture ---
 
     public static Component catchRate(ClientSpecies species) {
-        return (species == null) ? UNKNOWN : createComponent(species.catchRate(), ColorUtils.WHITE.getRGB());
+        return (species == null) ? UNKNOWN : createComponent(species.getCatchRate(), ColorUtils.WHITE.getRGB());
     }
 
     public static Component catchChance(PokemonEntity entity, PokeBall ball) {

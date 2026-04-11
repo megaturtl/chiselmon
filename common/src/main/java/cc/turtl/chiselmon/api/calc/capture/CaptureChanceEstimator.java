@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
-import cc.turtl.chiselmon.api.species.ClientSpecies;
-import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.client.api.ClientSpecies;
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry;
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokeball.PokeBall;
@@ -35,7 +35,7 @@ public class CaptureChanceEstimator {
 
     private static float getCatchRate(Pokemon pokemon) {
         ClientSpecies species = ClientSpeciesRegistry.get(pokemon.getSpecies().getName());
-        return species != null ? species.catchRate() : 0f;
+        return species != null ? species.getCatchRate() : 0f;
     }
 
     private static float calculateStatusMultiplier(PersistentStatus status) {
