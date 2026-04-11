@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.api
 
 import cc.turtl.chiselmon.api.PokemonEncounter
-import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates
+import cc.turtl.chiselmon.core.api.predicate.IS_WILD
 import cc.turtl.turtlshell.api.client.ClientEvents
 import cc.turtl.turtlshell.impl.ObservableEvent
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -16,12 +16,12 @@ object ChiselmonClientEvents {
     fun init() {
         ClientEvents.ENTITY_LOAD.subscribe { entity ->
             if (entity is PokemonEntity) {
-                POKEMON_LOADED(PokemonLoadedEvent(entity, PokemonEncounter.from(entity), PokemonEntityPredicates.IS_WILD.test(entity)))
+                POKEMON_LOADED(PokemonLoadedEvent(entity, PokemonEncounter.from(entity), IS_WILD.test(entity)))
             }
         }
         ClientEvents.ENTITY_UNLOAD.subscribe { entity ->
             if (entity is PokemonEntity) {
-                POKEMON_UNLOADED(PokemonUnloadedEvent(entity, PokemonEntityPredicates.IS_WILD.test(entity)))
+                POKEMON_UNLOADED(PokemonUnloadedEvent(entity, IS_WILD.test(entity)))
             }
         }
     }

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.util.render;
 
-import cc.turtl.chiselmon.api.duck.DuckGlowableEntity;
+import cc.turtl.chiselmon.core.api.duck.DuckGlowableEntity;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;

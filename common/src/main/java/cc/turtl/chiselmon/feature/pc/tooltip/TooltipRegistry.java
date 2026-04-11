@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
@@ -21,9 +21,9 @@ public final class TooltipRegistry {
         add("friendship", PCConfig.TooltipConfig::getFriendship, p -> true, Pokemon::getFriendship);
 
         // Register conditional entries
-        add("ride_styles", PCConfig.TooltipConfig::getRideStyles, PokemonPredicates.IS_RIDEABLE, PokemonFormats::rideStyles);
-        add("marks", PCConfig.TooltipConfig::getMarks, PokemonPredicates.IS_MARKED, PokemonFormats::marks);
-        add("hatch_progress", PCConfig.TooltipConfig::getHatchProgress, PokemonPredicates.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
+        add("ride_styles", PCConfig.TooltipConfig::getRideStyles, PokemonPredicatesKt.IS_RIDEABLE, PokemonFormats::rideStyles);
+        add("marks", PCConfig.TooltipConfig::getMarks, PokemonPredicatesKt.IS_MARKED, PokemonFormats::marks);
+        add("hatch_progress", PCConfig.TooltipConfig::getHatchProgress, PokemonPredicatesKt.IS_EGG_DUMMY, PokemonFormats::hatchProgress);
     }
 
     private TooltipRegistry() {

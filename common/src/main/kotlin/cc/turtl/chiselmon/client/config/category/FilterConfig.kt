@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.config.category
 
 import cc.turtl.chiselmon.ChiselmonStorage
-import cc.turtl.chiselmon.api.Priority
+import cc.turtl.turtlshell.api.core.Priority
 import cc.turtl.chiselmon.api.filter.FilterDefinition
 import cc.turtl.chiselmon.api.filter.FiltersUserData
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher

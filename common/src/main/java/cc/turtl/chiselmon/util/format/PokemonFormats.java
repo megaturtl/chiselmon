@@ -4,9 +4,9 @@ import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
 import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
-import cc.turtl.chiselmon.api.predicate.MoveTemplatePredicates;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.species.ClientSpecies;
+import cc.turtl.chiselmon.core.api.predicate.MoveTemplatePredicatesKt;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
@@ -138,7 +138,7 @@ public final class PokemonFormats {
 
     public static Component selfDamagingMoves(Pokemon pokemon) {
         var moves = PokemonCalcs.getPossibleMoves(pokemon, true).stream()
-                .filter(MoveTemplatePredicates.IS_SELF_DAMAGING)
+                .filter(MoveTemplatePredicatesKt.IS_SELF_DAMAGING)
                 .toList();
 
         if (moves.isEmpty()) return UNKNOWN;
@@ -188,7 +188,7 @@ public final class PokemonFormats {
     // --- Misc ---
 
     public static Component rideStyles(Pokemon pokemon) {
-        if (!PokemonPredicates.IS_RIDEABLE.test(pokemon)) return UNKNOWN;
+        if (!PokemonPredicatesKt.IS_RIDEABLE.test(pokemon)) return UNKNOWN;
         var behaviours = pokemon.getRiding().getBehaviours();
         if (behaviours == null) return UNKNOWN;
 
@@ -203,7 +203,7 @@ public final class PokemonFormats {
     }
 
     public static Component marks(Pokemon pokemon) {
-        if (!PokemonPredicates.IS_MARKED.test(pokemon)) return UNKNOWN;
+        if (!PokemonPredicatesKt.IS_MARKED.test(pokemon)) return UNKNOWN;
 
         return join(pokemon.getMarks(), ", ", mark -> {
             try {

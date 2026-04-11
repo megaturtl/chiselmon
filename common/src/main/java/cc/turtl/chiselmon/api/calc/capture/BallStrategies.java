@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api.calc.capture;
 
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags;
 import com.cobblemon.mod.common.api.types.ElementalType;
@@ -202,6 +202,6 @@ class DreamBallStrategy implements BallStrategy {
 class BeastBallStrategy implements BallStrategy {
     @Override
     public float calculate(CaptureContext ctx) {
-        return PokemonPredicates.IS_ULTRABEAST.test(ctx.pokemon()) ? 5.0F : 1.0F;
+        return PokemonPredicatesKt.IS_ULTRABEAST.test(ctx.pokemon()) ? 5.0F : 1.0F;
     }
 }

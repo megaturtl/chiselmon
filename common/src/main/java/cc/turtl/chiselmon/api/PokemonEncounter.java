@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.api;
 
-import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates;
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.core.api.predicate.PokemonEntityPredicatesKt;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Gender;
@@ -80,8 +80,8 @@ public record PokemonEncounter(
                 pokemon.getScaleModifier(),
 
                 // Flags
-                PokemonPredicates.IS_SHINY.test(pokemon),
-                PokemonPredicates.IS_LEGENDARY.test(pokemon),
+                PokemonPredicatesKt.IS_SHINY.test(pokemon),
+                PokemonPredicatesKt.IS_LEGENDARY.test(pokemon),
 
                 // World context
                 pe.level().dimension().location().toString().intern(),
@@ -91,7 +91,7 @@ public record PokemonEncounter(
                 BuiltInRegistries.BLOCK.getKey(blockState.getBlock()).toString(),
 
                 // Snack
-                PokemonEntityPredicates.FROM_POKESNACK.test(pe),
+                PokemonEntityPredicatesKt.FROM_POKESNACK.test(pe),
 
                 // Positions
                 pe.getBlockX(),

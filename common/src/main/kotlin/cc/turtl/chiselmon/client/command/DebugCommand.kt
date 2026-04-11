@@ -1,9 +1,8 @@
 package cc.turtl.chiselmon.client.command
 
-import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.api.predicate.PokemonEntityPredicates
+import cc.turtl.chiselmon.core.api.predicate.IS_OWNED
+import cc.turtl.chiselmon.core.api.predicate.IS_WILD
 import cc.turtl.chiselmon.util.MessageUtils
-import cc.turtl.chiselmon.util.ObjectDumper
 import cc.turtl.chiselmon.util.format.PokemonFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -58,13 +57,12 @@ class DebugCommand : TurtlShellCommand {
                                 MessageUtils.sendLabeled(
                                     player,
                                     "  Owned",
-                                    PokemonEntityPredicates.IS_OWNED.test(target)
+                                    IS_OWNED.test(target)
                                 )
-                                MessageUtils.sendLabeled(player, "  Wild", PokemonEntityPredicates.IS_WILD.test(target))
+                                MessageUtils.sendLabeled(player, "  Wild", IS_WILD.test(target))
                             } else {
                                 MessageUtils.sendWarning(player, "Entity is a ${target.type.description.string}")
                             }
-                            ObjectDumper.dump(ChiselmonConstants.LOGGER, target)
                             Command.SINGLE_SUCCESS
                         } catch (e: Exception) {
                             MessageUtils.sendError(player, e)

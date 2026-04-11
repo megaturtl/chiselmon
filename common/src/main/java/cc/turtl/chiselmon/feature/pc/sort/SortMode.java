@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.sort;
 
-import cc.turtl.chiselmon.api.comparator.PokemonComparators;
+import cc.turtl.chiselmon.core.api.PokemonComparators;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.resources.ResourceLocation;
 

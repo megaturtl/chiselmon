@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.feature.eggspy;
 
 import cc.turtl.chiselmon.core.ChiselmonConstants;
-import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
+import cc.turtl.chiselmon.core.api.duck.DuckPreviewPokemon;
 import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;

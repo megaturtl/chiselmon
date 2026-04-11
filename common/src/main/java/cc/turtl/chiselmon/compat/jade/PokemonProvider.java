@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.compat.jade;
 
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
 import cc.turtl.chiselmon.api.species.ClientSpecies;
 import cc.turtl.chiselmon.api.species.ClientSpeciesRegistry;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import cc.turtl.chiselmon.util.format.PokemonFormats;
@@ -121,7 +121,7 @@ public enum PokemonProvider implements IEntityComponentProvider {
             return;
         }
 
-        if (PokemonPredicates.HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
+        if (PokemonPredicatesKt.HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
             tooltip.add(Component.literal("⚠ ").withColor(ColorUtils.RED.getRGB()));
             tooltip.append(PokemonFormats.selfDamagingMoves(pokemon));
         }

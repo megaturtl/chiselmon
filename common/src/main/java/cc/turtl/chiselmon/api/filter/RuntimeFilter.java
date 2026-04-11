@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.filter;
 
-import cc.turtl.chiselmon.api.Priority;
+import cc.turtl.turtlshell.api.core.Priority;
 import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.api.filter;
 
-import cc.turtl.chiselmon.api.predicate.PokemonPredicates;
+import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.util.ParseUtils;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -26,9 +26,9 @@ public class FilterTagParser {
         tag = tag.toLowerCase().trim();
 
         return switch (tag) {
-            case "shiny" -> PokemonPredicates.IS_SHINY;
-            case "legendary" -> PokemonPredicates.IS_LEGENDARY;
-            case "extreme_size" -> PokemonPredicates.IS_EXTREME_SIZE;
+            case "shiny" -> PokemonPredicatesKt.IS_SHINY;
+            case "legendary" -> PokemonPredicatesKt.IS_LEGENDARY;
+            case "extreme_size" -> PokemonPredicatesKt.IS_EXTREME_SIZE;
             default -> parseComplexTag(tag);
         };
     }
