@@ -34,7 +34,10 @@
       }
     ],
     "jade": [
-      "cc.turtl.chiselmon.compat.jade.ChiselmonJadePlugin"
+      {
+        "adapter": "kotlin",
+        "value": "cc.turtl.chiselmon.client.compat.jade.ChiselmonJadePlugin"
+      }
     ]
   },
   "mixins": [
