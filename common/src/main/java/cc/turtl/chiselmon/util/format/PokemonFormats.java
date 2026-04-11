@@ -1,6 +1,5 @@
 package cc.turtl.chiselmon.util.format;
 
-import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
 import cc.turtl.chiselmon.client.api.ClientSpecies;
 import cc.turtl.chiselmon.core.api.calc.PokemonCalcsKt;
 import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
@@ -28,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import static cc.turtl.chiselmon.core.api.calc.capture.CaptureFormulaKt.estimateCaptureProbability;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.*;
 
 /**
@@ -175,8 +175,7 @@ public final class PokemonFormats {
     }
 
     public static Component catchChance(PokemonEntity entity, PokeBall ball) {
-        var estimator = new CaptureChanceEstimator();
-        float chance = estimator.estimateCaptureProbability(entity, ball);
+        float chance = estimateCaptureProbability(entity, ball);
         int color = ColorUtils.getGradient(chance, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty()
