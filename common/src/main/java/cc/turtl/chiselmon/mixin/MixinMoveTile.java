@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
-import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.types.ElementalType;
@@ -159,8 +159,8 @@ public abstract class MixinMoveTile {
                 .map(t -> {
                     // Creates a dummy pokemon with the stats we care about
                     Pokemon defender = ((ActiveClientBattlePokemon) t).getBattlePokemon().getProperties().create();
-                    TypingMatchups matchups = TypeCalcs.computeMatchups(defender.getTypes());
-                    float multiplier = matchups.multiplierMap().getOrDefault(elementalType, 1.0f);
+                    TypingMatchups matchups = TypingMatchupsKt.computeMatchups(defender.getTypes());
+                    float multiplier = matchups.getMultiplierMap().getOrDefault(elementalType, 1.0f);
                     return multiplier == 1.0f ? null : chiselmon$createEffectivenessLine(defender.getSpecies().getName(), multiplier);
                 })
                 .filter(Objects::nonNull)

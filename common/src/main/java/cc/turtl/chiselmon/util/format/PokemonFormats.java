@@ -2,9 +2,9 @@ package cc.turtl.chiselmon.util.format;
 
 import cc.turtl.chiselmon.api.calc.PokemonCalcs;
 import cc.turtl.chiselmon.api.calc.capture.CaptureChanceEstimator;
-import cc.turtl.chiselmon.api.calc.type.TypeCalcs;
-import cc.turtl.chiselmon.api.calc.type.TypingMatchups;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.client.api.ClientSpecies;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
 import cc.turtl.chiselmon.core.api.predicate.MoveTemplatePredicatesKt;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
@@ -101,13 +101,13 @@ public final class PokemonFormats {
     public static Component typingWeaknesses(Pokemon pokemon) {
         if (pokemon == null) return UNKNOWN;
 
-        TypingMatchups matchups = TypeCalcs.computeMatchups(pokemon.getTypes());
+        TypingMatchups matchups = TypingMatchupsKt.computeMatchups(pokemon.getTypes());
         List<ElementalType> weaknesses = matchups.getAllWeak();
 
         if (weaknesses.isEmpty()) return NONE;
 
         return join(weaknesses, " / ", type -> {
-            float multiplier = matchups.multiplierMap().getOrDefault(type, 1.0f);
+            float multiplier = matchups.getMultiplierMap().getOrDefault(type, 1.0f);
             boolean isSuperWeak = multiplier > 2.0f;
 
             return type.getDisplayName().withStyle(style ->
