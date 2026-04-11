@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.tracker;
 
-import cc.turtl.chiselmon.api.PokemonEncounter;
+import cc.turtl.chiselmon.core.api.PokemonEncounter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -68,7 +68,7 @@ public class EncounterDatabase {
     }
 
     public void record(PokemonEncounter e) {
-        writeCache.put(e.uuid(), e);
+        writeCache.put(e.getUuid(), e);
         if (writeCache.size() >= FLUSH_THRESHOLD) flush();
     }
 
@@ -86,27 +86,27 @@ public class EncounterDatabase {
 
         try (PreparedStatement eps = conn.prepareStatement(encounterSql)) {
             for (PokemonEncounter e : writeCache.values()) {
-                eps.setObject(1, e.uuid());
-                eps.setString(2, e.species().getName());
-                eps.setString(3, e.form().getName());
-                eps.setInt(4, e.level());
-                eps.setString(5, e.gender().name());
-                eps.setFloat(6, e.scale());
+                eps.setObject(1, e.getUuid());
+                eps.setString(2, e.getSpecies().getName());
+                eps.setString(3, e.getForm().getName());
+                eps.setInt(4, e.getLevel());
+                eps.setString(5, e.getGender().name());
+                eps.setFloat(6, e.getScale());
                 eps.setBoolean(7, e.isShiny());
                 eps.setBoolean(8, e.isLegendary());
-                eps.setString(9, e.dimension());
-                eps.setString(10, e.biome());
-                eps.setLong(11, e.dayTime());
+                eps.setString(9, e.getDimension());
+                eps.setString(10, e.getBiome());
+                eps.setLong(11, e.getDayTime());
                 eps.setBoolean(12, e.isRaining());
-                eps.setString(13, e.blockName());
-                eps.setBoolean(14, e.spawnedFromSnack());
-                eps.setInt(15, e.pokemonX());
-                eps.setInt(16, e.pokemonY());
-                eps.setInt(17, e.pokemonZ());
-                eps.setInt(18, e.playerX());
-                eps.setInt(19, e.playerY());
-                eps.setInt(20, e.playerZ());
-                eps.setLong(21, e.encounteredMs());
+                eps.setString(13, e.getBlockName());
+                eps.setBoolean(14, e.getSpawnedFromSnack());
+                eps.setInt(15, e.getPokemonX());
+                eps.setInt(16, e.getPokemonY());
+                eps.setInt(17, e.getPokemonZ());
+                eps.setInt(18, e.getPlayerX());
+                eps.setInt(19, e.getPlayerY());
+                eps.setInt(20, e.getPlayerZ());
+                eps.setLong(21, e.getEncounteredMs());
                 eps.addBatch();
             }
 

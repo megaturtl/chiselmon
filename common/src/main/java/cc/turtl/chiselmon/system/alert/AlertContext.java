@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.AlertConfig;
+import cc.turtl.chiselmon.core.api.PokemonEncounter;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 

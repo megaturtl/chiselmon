@@ -1,12 +1,12 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.core.ChiselmonConstants;
-import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.AlertConfig;
+import cc.turtl.chiselmon.core.api.PokemonEncounter;
 import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
 import cc.turtl.chiselmon.util.MessageUtils;

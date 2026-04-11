@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.api
 
-import cc.turtl.chiselmon.api.PokemonEncounter
+import cc.turtl.chiselmon.core.api.PokemonEncounter
 import cc.turtl.chiselmon.core.api.predicate.IS_WILD
 import cc.turtl.turtlshell.api.client.ClientEvents
 import cc.turtl.turtlshell.impl.ObservableEvent

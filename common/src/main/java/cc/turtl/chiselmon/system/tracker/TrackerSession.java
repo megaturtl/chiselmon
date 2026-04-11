@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.system.tracker;
 
 import cc.turtl.chiselmon.ChiselmonStorage;
-import cc.turtl.chiselmon.api.PokemonEncounter;
 import cc.turtl.chiselmon.client.api.PokemonLoadedEvent;
 import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent;
 import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.core.api.PokemonEncounter;
 import cc.turtl.chiselmon.system.dashboard.DashboardServer;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
