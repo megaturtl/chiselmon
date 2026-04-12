@@ -12,8 +12,7 @@
     "MixinPCGUI",
     "MixinPokemon",
     "MixinStorageSlot",
-    "MixinWallpaperEntry",
-    "accessor.KeyMappingAccessor"
+    "MixinWallpaperEntry"
   ],
   "injectors": {
     "defaultRequire": 1
