@@ -13,6 +13,7 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 import static cc.turtl.chiselmon.BuildDetails.MOD_ID;
+import static cc.turtl.turtlshell.api.core.util.ColorUtilsKt.getClosestLegacy;
 
 public class MessageAction implements AlertAction {
 
@@ -61,7 +62,7 @@ public class MessageAction implements AlertAction {
 
         // only if xaeros is installed and loaded
         if (Platform.INSTANCE.isModLoaded("xaerominimap")) {
-            char mcColor = ColorUtils.legacy(ctx.messageFilter().rgb()).getChar();
+            char mcColor = getClosestLegacy(ctx.messageFilter().rgb()).getChar();
             int colorIndex = Character.digit(mcColor, 16);
             String dimension = ctx.entity().level().dimension().location().toString().replace(":", "$");
             // this commands gets intercepted by xaeros to bring up the waypoint screen

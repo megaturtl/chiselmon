@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import static cc.turtl.turtlshell.api.core.util.ColorUtilsKt.toArgb;
+
 public final class EggRenderer {
     // Model rendering constants
     private static final float EGG_SCALE = 5F;
@@ -26,8 +28,8 @@ public final class EggRenderer {
     private static final int BAR_HEIGHT = 2;
     private static final int BAR_WIDTH = 25;
     private static final int BAR_Y_OFFSET = 23;
-    private static final int BAR_BG_COLOR = ColorUtils.argb(ColorUtils.DARK_GRAY.getRGB(), 1f);
-    private static final int BAR_FILL_COLOR = ColorUtils.argb(ColorUtils.GREEN.getRGB(), 1f);
+    private static final int BAR_BG_COLOR = toArgb(ColorUtils.DARK_GRAY.getRGB(), 1f);
+    private static final int BAR_FILL_COLOR = toArgb(ColorUtils.GREEN.getRGB(), 1f);
 
     private EggRenderer() {
     }

@@ -3,7 +3,6 @@ package cc.turtl.chiselmon.system.spawnrecorder;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.system.tracker.TrackerSession;
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -16,6 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static cc.turtl.turtlshell.api.core.format.StringFormatsKt.formatDuration;
+import static cc.turtl.chiselmon.client.util.PokemonEntityExtensionsKt.*;
 
 public class SpawnRecorderSession {
     private static final int TICKS_PER_SECOND = 20;
@@ -47,8 +47,8 @@ public class SpawnRecorderSession {
         if (ChiselmonConfig.INSTANCE.getRecorder().getDespawnGlow()) {
             tracker.getCurrentlyLoaded().values().forEach(entity -> {
                 int rgb = getTicksLived(entity) >= DESPAWN_MIN_TICKS ? ColorUtils.RED.getRGB() : ColorUtils.LIME.getRGB();
-                PokemonEntityUtils.addGlow(entity, rgb);
-                PokemonEntityUtils.highlightNickname(entity, rgb);
+                addGlow(entity, rgb);
+                highlightNickname(entity, rgb);
             });
         }
     }

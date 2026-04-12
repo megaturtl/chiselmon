@@ -6,8 +6,8 @@ import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent;
 import cc.turtl.chiselmon.core.api.PokemonEncounter;
 import cc.turtl.chiselmon.core.api.storage.Scope;
 import cc.turtl.chiselmon.system.dashboard.DashboardServer;
-import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import static cc.turtl.chiselmon.client.util.PokemonEntityExtensionsKt.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -51,8 +51,8 @@ public class TrackerSession {
 
         // reset these always, before despawn glow or alert, so they always work from a blank slate.
         for (PokemonEntity entity : currentlyLoaded.values()) {
-            PokemonEntityUtils.removeGlow(entity);
-            PokemonEntityUtils.resetNickname(entity);
+            removeGlow(entity);
+            resetNickname(entity);
         }
     }
 

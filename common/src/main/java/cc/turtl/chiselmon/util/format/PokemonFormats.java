@@ -30,6 +30,7 @@ import java.util.Map;
 import static cc.turtl.chiselmon.core.api.calc.capture.CaptureFormulaKt.estimateCaptureProbability;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.*;
 import static cc.turtl.turtlshell.api.core.format.StringFormatsKt.*;
+import static cc.turtl.turtlshell.api.core.util.ColorUtilsKt.getRatioColor;
 
 /**
  * High-level formatter for turning Pokemon data into styled Components.
@@ -125,11 +126,11 @@ public final class PokemonFormats {
         Component stats = join(Stats.Companion.getPERMANENT(), "/", stat -> {
             int val = ivs.getEffectiveBattleIV(stat);
             float ratio = (float) val / IVs.MAX_VALUE;
-            return createComponent(val, ColorUtils.getGradient(ratio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB()));
+            return createComponent(val, getRatioColor(ratio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB()));
         });
 
         float totalRatio = (float) ivs.getEffectiveBattleTotal() / IVs.MAX_TOTAL;
-        int totalColor = ColorUtils.getGradient(totalRatio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
+        int totalColor = getRatioColor(totalRatio, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty().append(stats).append(" ")
                 .append(createComponent("(", ColorUtils.DARK_GRAY.getRGB()))
@@ -177,7 +178,7 @@ public final class PokemonFormats {
 
     public static Component catchChance(PokemonEntity entity, PokeBall ball) {
         float chance = estimateCaptureProbability(entity, ball);
-        int color = ColorUtils.getGradient(chance, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
+        int color = getRatioColor(chance, ColorUtils.RED.getRGB(), ColorUtils.YELLOW.getRGB(), ColorUtils.GREEN.getRGB());
 
         return Component.empty()
                 .append(createComponent("(", ColorUtils.LIGHT_GRAY.getRGB()))

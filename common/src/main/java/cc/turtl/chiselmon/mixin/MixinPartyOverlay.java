@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.core.api.duck.DuckPreviewPokemon;
+import cc.turtl.chiselmon.client.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;

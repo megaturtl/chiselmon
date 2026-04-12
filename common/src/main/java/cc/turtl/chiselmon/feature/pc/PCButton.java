@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.feature.pc;
 
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.render.TextRenderUtils;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,6 +11,8 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
+import static cc.turtl.chiselmon.client.util.RenderUtilsKt.renderCenteredText;
 
 /**
  * Generic PC button with configurable sprite, tooltip, and optional text rendering.
@@ -114,7 +115,7 @@ public class PCButton extends Button implements CobblemonRenderable {
         int centerX = getX() + width / 2;
         int centerY = getY() + height / 2;
 
-        TextRenderUtils.renderCenteredText(
+        renderCenteredText(
                 context,
                 getMessage(),
                 textColor,

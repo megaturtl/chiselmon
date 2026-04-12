@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.core.api.duck
+package cc.turtl.chiselmon.client.duck
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon

@@ -10,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 import java.util.function.Function;
 
+import static cc.turtl.turtlshell.api.core.util.ColorUtilsKt.getRatioColor;
+
 /**
  * Provides basic chat component formatting utils.
  */
@@ -114,7 +116,7 @@ public final class ComponentUtils {
             // If length is 1, ratio is 0.
             float ratio = length > 1 ? (float) i / (length - 1) : 0.0f;
 
-            int color = ColorUtils.getGradient(ratio, colors);
+            int color = getRatioColor(ratio, colors);
             result.append(Component.literal(String.valueOf(text.charAt(i))).withColor(color));
         }
 
