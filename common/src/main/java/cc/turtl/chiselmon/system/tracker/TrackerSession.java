@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.system.tracker;
 
-import cc.turtl.chiselmon.ChiselmonStorage;
+import cc.turtl.chiselmon.client.ChiselmonStorage;
 import cc.turtl.chiselmon.client.api.PokemonLoadedEvent;
 import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent;
-import cc.turtl.chiselmon.api.storage.StorageScope;
 import cc.turtl.chiselmon.core.api.PokemonEncounter;
+import cc.turtl.chiselmon.core.api.storage.Scope;
 import cc.turtl.chiselmon.system.dashboard.DashboardServer;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
@@ -26,7 +26,9 @@ public class TrackerSession {
 
     public TrackerSession() {
         this.startTimeMs = System.currentTimeMillis();
-        this.db = ChiselmonStorage.ENCOUNTERS.get(StorageScope.currentWorld());
+        Scope worldScope = Scope.Companion.currentWorld();
+        if (worldScope == null) throw new IllegalStateException("TrackerSession must be created while in a world");
+        this.db = ChiselmonStorage.ENCOUNTERS.get(worldScope);
     }
 
     public void onPokemonLoad(PokemonLoadedEvent event) {

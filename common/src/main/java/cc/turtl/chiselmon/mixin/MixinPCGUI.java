@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.ChiselmonStorage;
-import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.client.ChiselmonStorage;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
+import cc.turtl.chiselmon.core.api.storage.Scope;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.chiselmon.feature.pc.sort.SortManager;
 import cc.turtl.turtlshell.api.client.keybind.KeybindHelper;
@@ -11,10 +11,8 @@ import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,11 +60,11 @@ public abstract class MixinPCGUI extends Screen {
         int x = (width - BASE_WIDTH) / 2;
         int y = (height - BASE_HEIGHT) / 2;
 
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level == null) return;
+        Scope worldScope = Scope.Companion.currentWorld();
+        if (worldScope == null) return;
 
         chiselmon$bookmarkManager = new BookmarkManager(
-                ChiselmonStorage.PC_SETTINGS.get(StorageScope.currentWorld()).bookmarks,
+                ChiselmonStorage.PC_SETTINGS.get(worldScope).bookmarks,
                 storageWidget,
                 pc,
                 this::addRenderableWidget,
@@ -102,7 +100,9 @@ public abstract class MixinPCGUI extends Screen {
 
         chiselmon$sortManager = null;
 
-        ChiselmonStorage.PC_SETTINGS.save(StorageScope.currentWorld());
+        Scope worldScope = Scope.Companion.currentWorld();
+        if (worldScope == null) return;
+        ChiselmonStorage.PC_SETTINGS.save(worldScope);
 
         super.removed();
     }

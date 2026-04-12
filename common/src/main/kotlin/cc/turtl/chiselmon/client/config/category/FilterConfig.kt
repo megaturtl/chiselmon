@@ -1,12 +1,12 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.ChiselmonStorage
+import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.turtlshell.api.core.Priority
 import cc.turtl.chiselmon.api.filter.FilterDefinition
 import cc.turtl.chiselmon.api.filter.FiltersUserData
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher
-import cc.turtl.chiselmon.api.storage.StorageScope
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.chiselmon.util.format.ComponentUtils
 import cc.turtl.turtlshell.api.client.config.OptionFactory
@@ -23,7 +23,7 @@ import java.util.*
 class FilterConfig {
 
     fun buildCategory(parent: Screen?): ConfigCategory {
-        val filtersUserData = ChiselmonStorage.FILTERS.get(StorageScope.global())
+        val filtersUserData = ChiselmonStorage.FILTERS[Scope.global()]
 
         val builder = ConfigCategory.createBuilder()
             .name(Component.translatable("chiselmon.config.category.filters"))
@@ -110,7 +110,7 @@ class FilterConfig {
                 { filter.priority },
                 {
                     filter.priority = it
-                    ChiselmonStorage.FILTERS.save(StorageScope.global())
+                    ChiselmonStorage.FILTERS.save(Scope.global())
                     FilterMatcher.invalidateCache()
                 },
                 Priority::class.java
@@ -147,7 +147,7 @@ class FilterConfig {
                     )
                     .binding(DEFAULT_CONDITION_STRING, { filter.conditionString }, {
                         filter.conditionString = it.trim()
-                        ChiselmonStorage.FILTERS.save(StorageScope.global())
+                        ChiselmonStorage.FILTERS.save(Scope.global())
                         FilterMatcher.invalidateCache()
                     })
                     .controller(StringControllerBuilder::create)
@@ -181,7 +181,7 @@ class FilterConfig {
     }
 
     private fun saveAndReload(parent: Screen?) {
-        ChiselmonStorage.FILTERS.save(StorageScope.global())
+        ChiselmonStorage.FILTERS.save(Scope.global())
         FilterMatcher.invalidateCache()
         ChiselmonConfig.saveAndReloadScreen(parent, 2)
     }

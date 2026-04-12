@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.ChiselmonStorage
 import cc.turtl.chiselmon.api.filter.FilterDefinition
-import cc.turtl.chiselmon.api.storage.StorageScope
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
+import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.system.alert.AlertSounds
 import cc.turtl.chiselmon.util.format.ComponentUtils
 import cc.turtl.turtlshell.api.client.config.OptionFactory
@@ -54,7 +54,7 @@ class AlertConfig {
 
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alert.filters")))
 
-        for (filter in ChiselmonStorage.FILTERS.get(StorageScope.global()).all.values) {
+        for (filter in ChiselmonStorage.FILTERS[Scope.global()].all.values) {
             val settings = filterAlerts.getOrPut(filter.id) { FilterAlertSettings() }
             builder.group(buildFilterAlertGroup(filter, settings))
         }

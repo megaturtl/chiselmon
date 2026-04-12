@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.api.filter.match;
 import cc.turtl.chiselmon.api.filter.FilterConditionParser;
 import cc.turtl.chiselmon.api.filter.FiltersUserData;
 import cc.turtl.chiselmon.api.filter.RuntimeFilter;
-import cc.turtl.chiselmon.ChiselmonStorage;
-import cc.turtl.chiselmon.api.storage.StorageScope;
+import cc.turtl.chiselmon.client.ChiselmonStorage;
+import cc.turtl.chiselmon.core.api.storage.Scope;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.Comparator;
@@ -40,7 +40,7 @@ public class FilterMatcher {
     }
 
     private static List<RuntimeFilter> createRuntimeFilters() {
-        FiltersUserData data = ChiselmonStorage.FILTERS.get(StorageScope.global());
+        FiltersUserData data = ChiselmonStorage.FILTERS.get(Scope.Companion.global());
         data.migrateAll();
 
         return data.getAll().values().stream()
