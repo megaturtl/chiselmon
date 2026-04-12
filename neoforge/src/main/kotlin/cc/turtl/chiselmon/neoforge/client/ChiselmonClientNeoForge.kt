@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.neoforge.client
 
 import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.ChiselmonPacks
+import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.util.modResource

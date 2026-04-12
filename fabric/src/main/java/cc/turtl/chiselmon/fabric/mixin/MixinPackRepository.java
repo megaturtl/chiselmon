@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.fabric.mixin;
 
 import cc.turtl.chiselmon.core.ChiselmonConstants;
-import cc.turtl.chiselmon.ChiselmonPacks;
+import cc.turtl.chiselmon.client.ChiselmonPacks;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -30,7 +30,7 @@ public class MixinPackRepository {
         // Create a mutable copy (using LinkedHashSet to maintain vanilla/mod pack order)
         Set<RepositorySource> newSources = new java.util.LinkedHashSet<>(this.sources);
 
-        ChiselmonPacks.getOrCreateCustomWallpaperDir();
+        ChiselmonPacks.INSTANCE.getOrCreateCustomWallpaperDir();
 
         // Add custom source
         newSources.add(new FolderRepositorySource(

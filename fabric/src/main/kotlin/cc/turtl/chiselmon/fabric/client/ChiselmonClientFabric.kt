@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.fabric.client
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.ChiselmonPacks
+import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.core.util.modResource
 import net.fabricmc.api.ClientModInitializer
