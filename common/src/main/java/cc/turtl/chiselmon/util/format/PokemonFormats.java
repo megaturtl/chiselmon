@@ -29,6 +29,7 @@ import java.util.Map;
 
 import static cc.turtl.chiselmon.core.api.calc.capture.CaptureFormulaKt.estimateCaptureProbability;
 import static cc.turtl.chiselmon.util.format.ComponentUtils.*;
+import static cc.turtl.turtlshell.api.core.format.StringFormatsKt.*;
 
 /**
  * High-level formatter for turning Pokemon data into styled Components.
@@ -132,7 +133,7 @@ public final class PokemonFormats {
 
         return Component.empty().append(stats).append(" ")
                 .append(createComponent("(", ColorUtils.DARK_GRAY.getRGB()))
-                .append(createComponent(StringFormats.formatPercentage(totalRatio), totalColor))
+                .append(createComponent(formatPercentage(totalRatio), totalColor))
                 .append(createComponent(")", ColorUtils.DARK_GRAY.getRGB()));
     }
 
@@ -151,7 +152,7 @@ public final class PokemonFormats {
         if (species == null || species.getEggGroups().isEmpty()) return UNKNOWN;
         return join(species.getEggGroups(), " / ", group -> {
             int color = EGG_GROUP_COLORS.getOrDefault(group.toLowerCase(), ColorUtils.WHITE.getRGB());
-            return createComponent(StringFormats.formatSnakeCase(group), color);
+            return createComponent(snakeCaseToTitleCase(group), color);
         });
     }
 
@@ -180,7 +181,7 @@ public final class PokemonFormats {
 
         return Component.empty()
                 .append(createComponent("(", ColorUtils.LIGHT_GRAY.getRGB()))
-                .append(createComponent(StringFormats.formatPercentage(chance), color))
+                .append(createComponent(formatPercentage(chance), color))
                 .append(createComponent(")", ColorUtils.LIGHT_GRAY.getRGB()));
     }
 
@@ -197,7 +198,7 @@ public final class PokemonFormats {
                 case LIQUID -> ColorUtils.AQUA.getRGB();
                 case AIR -> ColorUtils.LAVENDER.getRGB();
             };
-            return createComponent(StringFormats.capitalize(style.name()), color);
+            return createComponent(capitalizeFirst(style.name()), color);
         });
     }
 
@@ -212,7 +213,7 @@ public final class PokemonFormats {
                 int color = Integer.parseInt(mark.getTitleColour(), 16);
 
                 return createComponent(Component.translatable(key).getString(), color)
-                        .append(createComponent(" (" + StringFormats.formatPercentage(mark.getChance()) + ")", ColorUtils.DARK_GRAY.getRGB()));
+                        .append(createComponent(" (" + formatPercentage(mark.getChance()) + ")", ColorUtils.DARK_GRAY.getRGB()));
             } catch (Exception e) {
                 return UNKNOWN;
             }
@@ -248,7 +249,7 @@ public final class PokemonFormats {
             case "special_attack" -> "SpA";
             case "special_defense", "special_defence" -> "SpD";
             case "speed" -> "Spe";
-            default -> StringFormats.capitalize(internalKey);
+            default -> capitalizeFirst(internalKey);
         };
     }
 

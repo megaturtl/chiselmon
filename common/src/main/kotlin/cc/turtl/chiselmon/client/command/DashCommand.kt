@@ -5,8 +5,8 @@ import cc.turtl.chiselmon.system.tracker.TrackerSession
 import cc.turtl.chiselmon.util.MessageUtils
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.chiselmon.util.format.ComponentUtils
-import cc.turtl.chiselmon.util.format.StringFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
+import cc.turtl.turtlshell.api.core.format.formatDuration
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.minecraft.client.Minecraft
@@ -56,7 +56,7 @@ class DashCommand : TurtlShellCommand {
         }
 
         val url = "http://localhost:${session.dashboardPort}/"
-        val uptime = StringFormats.formatDurationMs(session.dashboardUptime())
+        val uptime = formatDuration(session.dashboardUptime())
 
         MessageUtils.sendPrefixed(
             player, Component.literal("Dashboard server is running at ")

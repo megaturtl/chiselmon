@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.client.command
 
-import cc.turtl.chiselmon.api.storage.StorageScope
+import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.system.tracker.TrackerManager
 import cc.turtl.chiselmon.util.MessageUtils
-import cc.turtl.chiselmon.util.format.StringFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
+import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.minecraft.client.Minecraft
@@ -38,7 +38,7 @@ class DatabaseCommand : TurtlShellCommand {
                 }
 
                 MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "DB Info for ${StorageScope.currentWorld()!!.worldKey}")
+                MessageUtils.sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
                 MessageUtils.sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
                 MessageUtils.sendLabeled(player, "  Encounters stored on disk", encounters)
                 MessageUtils.sendLabeled(player, "    Legendaries", legendaries)
@@ -46,7 +46,7 @@ class DatabaseCommand : TurtlShellCommand {
                 MessageUtils.sendLabeled(
                     player,
                     "  Database size on disk",
-                    StringFormats.formatBytes(db.sizeOnDiskBytes)
+                    formatBytes(db.sizeOnDiskBytes)
                 )
                 Command.SINGLE_SUCCESS
             }

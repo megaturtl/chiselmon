@@ -4,8 +4,9 @@ import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderSession
 import cc.turtl.chiselmon.util.MessageUtils
 import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.StringFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
+import cc.turtl.turtlshell.api.core.format.formatDecimal
+import cc.turtl.turtlshell.api.core.format.formatDuration
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.minecraft.client.Minecraft
@@ -116,10 +117,10 @@ class RecordCommand : TurtlShellCommand {
 
     private fun sendSessionSummary(player: LocalPlayer, title: String, session: SpawnRecorderSession, topCount: Int) {
         MessageUtils.sendSuccess(player, "Spawn Recorder - $title")
-        MessageUtils.sendLabeled(player, "  Time elapsed", StringFormats.formatDurationMs(session.elapsedMs))
+        MessageUtils.sendLabeled(player, "  Time elapsed", formatDuration(session.elapsedMs))
         MessageUtils.sendLabeled(
             player, "  Spawns", "${session.totalRecordedCount} (${
-                StringFormats.formatDecimal(
+                formatDecimal(
                     session.spawnsPerMinute.toDouble()
                 )
             }/min)"

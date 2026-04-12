@@ -3,7 +3,6 @@ package cc.turtl.chiselmon.system.spawnrecorder;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.system.tracker.TrackerSession;
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.format.StringFormats;
 import cc.turtl.chiselmon.util.render.PokemonEntityUtils;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.client.Minecraft;
@@ -15,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static cc.turtl.turtlshell.api.core.format.StringFormatsKt.formatDuration;
 
 public class SpawnRecorderSession {
     private static final int TICKS_PER_SECOND = 20;
@@ -136,7 +137,7 @@ public class SpawnRecorderSession {
                 .append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorUtils.LIGHT_GRAY.getRGB()))
                 .append(Component.literal(String.valueOf(getTotalRecordedCount())).withColor(ColorUtils.AQUA.getRGB()))
                 .append(Component.literal(" | ").withColor(ColorUtils.DARK_GRAY.getRGB()))
-                .append(Component.literal(StringFormats.formatDurationMs(getElapsedMs())).withColor(ColorUtils.YELLOW.getRGB()));
+                .append(Component.literal(formatDuration(getElapsedMs())).withColor(ColorUtils.YELLOW.getRGB()));
 
         if (isPaused()) {
             message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorUtils.ORANGE.getRGB()));
