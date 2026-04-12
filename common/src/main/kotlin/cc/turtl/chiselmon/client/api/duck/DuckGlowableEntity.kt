@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.client.duck
+package cc.turtl.chiselmon.client.api.duck
 
 interface DuckGlowableEntity {
     fun `chiselmon$setClientGlowColor`(rgb: Int?)

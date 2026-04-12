@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.util
 
-import cc.turtl.chiselmon.client.duck.DuckGlowableEntity
+import cc.turtl.chiselmon.client.api.duck.DuckGlowableEntity
 import cc.turtl.turtlshell.api.core.util.getClosestLegacy
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.network.chat.Component

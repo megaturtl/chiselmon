@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.eggspy;
 
-import cc.turtl.chiselmon.client.duck.DuckPreviewPokemon;
+import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

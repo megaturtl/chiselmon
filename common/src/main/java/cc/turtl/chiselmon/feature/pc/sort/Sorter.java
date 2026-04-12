@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.sort;
 
-import cc.turtl.chiselmon.client.duck.DuckPreviewPokemon;
+import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientBox;
