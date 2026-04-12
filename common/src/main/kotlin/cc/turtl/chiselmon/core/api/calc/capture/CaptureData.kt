@@ -13,7 +13,8 @@ data class CaptureContext(
     val playerActiveBattlePokemon: List<ClientBattlePokemon>,
     val targetStatus: PersistentStatus?,
     val level: Level,
-    val pos: BlockPos
+    val pos: BlockPos,
+    val turn: Int = 1
 )
 
 data class CaptureParams(

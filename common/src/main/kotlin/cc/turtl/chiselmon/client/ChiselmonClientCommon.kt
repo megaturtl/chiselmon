@@ -5,7 +5,7 @@ import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
 import cc.turtl.chiselmon.client.command.*
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
-import cc.turtl.chiselmon.feature.chat.CheckSpawnInterceptor
+import cc.turtl.chiselmon.client.feature.CheckSpawnInterceptor
 import cc.turtl.chiselmon.system.alert.AlertManager
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.system.tracker.TrackerManager

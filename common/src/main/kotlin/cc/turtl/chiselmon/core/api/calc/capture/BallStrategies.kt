@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Gender
@@ -128,11 +127,9 @@ private fun moonBallBonus(ctx: CaptureContext): Float {
 }
 
 private fun timerBallBonus(ctx: CaptureContext): Float {
-    val turn = ctx.targetEntity.battleId?.let { BattleRegistry.getBattle(it) }?.turn ?: return 1f
-    return (1f + turn * (1229f / 4096f)).coerceAtMost(4f)
+    return (1f + ctx.turn * (1229f / 4096f)).coerceAtMost(4f)
 }
 
 private fun quickBallBonus(ctx: CaptureContext): Float {
-    val turn = ctx.targetEntity.battleId?.let { BattleRegistry.getBattle(it) }?.turn ?: return 1f
-    return if (turn == 1) 5f else 1f
+    return if (ctx.turn == 1) 5f else 1f
 }
