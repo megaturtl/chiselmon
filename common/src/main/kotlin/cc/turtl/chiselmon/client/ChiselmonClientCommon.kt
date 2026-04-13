@@ -45,5 +45,6 @@ object ChiselmonClientCommon {
         SpawnRecorderManager.getInstance().init()
 
         CheckSpawnInterceptor.init()
+        BattleState.init()
     }
 }

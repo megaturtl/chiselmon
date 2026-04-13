@@ -127,9 +127,11 @@ private fun moonBallBonus(ctx: CaptureContext): Float {
 }
 
 private fun timerBallBonus(ctx: CaptureContext): Float {
-    return (1f + ctx.turn * (1229f / 4096f)).coerceAtMost(4f)
+    if (ctx.targetEntity.battleId == null) return 1f
+    return (ctx.turn * (1229f / 4096f)).coerceAtMost(4f)
 }
 
 private fun quickBallBonus(ctx: CaptureContext): Float {
+    if (ctx.targetEntity.battleId == null) return 1f
     return if (ctx.turn == 1) 5f else 1f
 }

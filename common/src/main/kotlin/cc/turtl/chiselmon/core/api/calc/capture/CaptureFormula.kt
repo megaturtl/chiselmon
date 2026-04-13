@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.core.api.calc.capture
 
+import cc.turtl.chiselmon.client.BattleState
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -24,7 +25,8 @@ fun estimateCaptureProbability(targetEntity: PokemonEntity, ball: PokeBall?): Fl
             ?.activePokemon?.mapNotNull { it.battlePokemon } ?: emptyList(),
         targetStatus = battle?.wildActor?.activePokemon?.firstOrNull()?.battlePokemon?.status,
         level = targetEntity.level(),
-        pos = targetEntity.blockPosition()
+        pos = targetEntity.blockPosition(),
+        turn = BattleState.currentTurn
     )
 
     val ballBonus = calculateBallBonus(ball, ctx)

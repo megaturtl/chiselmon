@@ -16,5 +16,10 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "MixinBattleEndHandler",
+    "MixinBattleInitializeHandler",
+    "MixinBattleMessageHandler"
+  ]
 }
