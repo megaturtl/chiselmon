@@ -87,7 +87,7 @@ object CheckSpawnInterceptor {
                         labelled(
                             Component.translatable("chiselmon.ui.label.ev_yield"),
                             if (species == null) UNKNOWN
-                                else PokemonFormats.evYield(species)
+                            else PokemonFormats.evYield(species)
                         )
                     )
                     .append(Component.literal("\n"))

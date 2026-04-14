@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.client.command
 
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.api.predicate.IS_OWNED
 import cc.turtl.chiselmon.core.api.predicate.IS_WILD
-import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.util.format.PokemonFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity

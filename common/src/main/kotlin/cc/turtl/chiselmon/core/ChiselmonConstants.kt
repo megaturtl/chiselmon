@@ -8,8 +8,8 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import org.apache.logging.log4j.LogManager
-import java.nio.file.Path
 import org.apache.logging.log4j.Logger
+import java.nio.file.Path
 
 object ChiselmonConstants {
 

@@ -8,7 +8,9 @@ import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.*
 import net.minecraft.client.Minecraft
-import kotlin.math.*
+import kotlin.math.floor
+import kotlin.math.min
+import kotlin.math.pow
 
 private const val MAX_LEVEL = 100f
 private const val LOW_LEVEL_THRESHOLD = 13

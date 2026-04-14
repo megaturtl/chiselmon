@@ -31,6 +31,7 @@ class EggDummy(val originalEgg: Pokemon) : Pokemon() {
 
     companion object {
         const val DUMMY_ASPECT = "EggDummy"
+
         @JvmField
         val EGG_SPECIES_ID: ResourceLocation = ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species")
         const val HATCH_PERCENTAGE_FEATURE = "hatch_percentage"

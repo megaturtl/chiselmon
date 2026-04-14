@@ -68,7 +68,11 @@ object ClientSpeciesRegistry {
                 }
                 speciesMap = tempMap.toMap()
                 state = LoadState.LOADED
-                ChiselmonConstants.LOGGER.info("Indexed {} species in {}ms.", speciesMap.size, System.currentTimeMillis() - startTime)
+                ChiselmonConstants.LOGGER.info(
+                    "Indexed {} species in {}ms.",
+                    speciesMap.size,
+                    System.currentTimeMillis() - startTime
+                )
             } catch (e: Exception) {
                 ChiselmonConstants.LOGGER.error("Failed indexing species: ", e)
                 state = LoadState.IDLE
@@ -83,7 +87,8 @@ object ClientSpeciesRegistry {
                 val cleanKey = normalizeSpeciesName(path.fileName.toString().removeSuffix(".json"))
                 map[cleanKey] = species
             }
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
     }
 
     @JvmStatic

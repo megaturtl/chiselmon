@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.client
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.command.*
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.feature.CheckSpawnInterceptor

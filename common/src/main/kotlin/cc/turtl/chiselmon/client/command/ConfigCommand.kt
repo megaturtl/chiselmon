@@ -24,15 +24,15 @@ class ConfigCommand : TurtlShellCommand {
             }
             .then(
                 RequiredArgumentBuilder.argument<CommandSourceStack, String>("tab", StringArgumentType.word())
-                .suggests { _, builder ->
-                    TABS.forEach(builder::suggest)
-                    builder.buildFuture()
-                }
-                .executes { ctx ->
-                    val tab = StringArgumentType.getString(ctx, "tab")
-                    openScreen(maxOf(TABS.indexOf(tab), 0))
-                    Command.SINGLE_SUCCESS
-                }
+                    .suggests { _, builder ->
+                        TABS.forEach(builder::suggest)
+                        builder.buildFuture()
+                    }
+                    .executes { ctx ->
+                        val tab = StringArgumentType.getString(ctx, "tab")
+                        openScreen(maxOf(TABS.indexOf(tab), 0))
+                        Command.SINGLE_SUCCESS
+                    }
             )
 
     private fun openScreen(tabIndex: Int) {

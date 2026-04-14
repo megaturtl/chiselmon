@@ -3,10 +3,10 @@ package cc.turtl.chiselmon.client.compat.jade
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.predicate.HAS_SELF_DAMAGING_MOVE
-import cc.turtl.chiselmon.core.util.modResource
 import cc.turtl.chiselmon.core.util.format.PokemonFormats
 import cc.turtl.chiselmon.core.util.format.SPACE
 import cc.turtl.chiselmon.core.util.format.labelled
+import cc.turtl.chiselmon.core.util.modResource
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem

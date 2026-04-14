@@ -1,7 +1,9 @@
 package cc.turtl.chiselmon.client.command
 
+import cc.turtl.chiselmon.client.util.sendEmptyLine
+import cc.turtl.chiselmon.client.util.sendPrefixed
+import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.system.alert.AlertManager
-import cc.turtl.chiselmon.client.util.*
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -35,19 +37,19 @@ class AlertCommand : TurtlShellCommand {
             }
             .then(
                 LiteralArgumentBuilder.literal<CommandSourceStack>("mute")
-                .then(
-                    RequiredArgumentBuilder.argument<CommandSourceStack, String>(
-                        "uuid",
-                        StringArgumentType.string()
+                    .then(
+                        RequiredArgumentBuilder.argument<CommandSourceStack, String>(
+                            "uuid",
+                            StringArgumentType.string()
+                        )
+                            .executes { ctx ->
+                                val player = Minecraft.getInstance().player ?: return@executes 0
+                                val uuid = UUID.fromString(StringArgumentType.getString(ctx, "uuid"))
+                                AlertManager.getInstance().mute(uuid)
+                                sendSuccess(player, "Pokemon muted")
+                                Command.SINGLE_SUCCESS
+                            }
                     )
-                        .executes { ctx ->
-                            val player = Minecraft.getInstance().player ?: return@executes 0
-                            val uuid = UUID.fromString(StringArgumentType.getString(ctx, "uuid"))
-                            AlertManager.getInstance().mute(uuid)
-                            sendSuccess(player, "Pokemon muted")
-                            Command.SINGLE_SUCCESS
-                        }
-                )
             )
             .then(
                 LiteralArgumentBuilder.literal<CommandSourceStack>("muteall")

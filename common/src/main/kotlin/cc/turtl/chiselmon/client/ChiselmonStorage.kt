@@ -17,8 +17,10 @@ object ChiselmonStorage {
 
     @JvmField
     val FILTERS = gsonData("filters.json", FiltersUserData::class.java) { FiltersUserData.withDefaults() }
+
     @JvmField
     val PC_SETTINGS = gsonData("pc.json", PCUserData::class.java, ::PCUserData)
+
     @JvmField
     val ENCOUNTERS = h2Data("encounters", ::EncounterDatabase, EncounterDatabase::flush, EncounterDatabase::close)
 

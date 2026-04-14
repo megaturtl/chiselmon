@@ -1,15 +1,15 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.client.ChiselmonStorage
-import cc.turtl.turtlshell.api.core.Priority
 import cc.turtl.chiselmon.api.filter.FilterDefinition
 import cc.turtl.chiselmon.api.filter.FiltersUserData
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher
+import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import cc.turtl.turtlshell.api.client.config.custom.HoldToConfirmButton
+import cc.turtl.turtlshell.api.core.Priority
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.api.controller.StringControllerBuilder
