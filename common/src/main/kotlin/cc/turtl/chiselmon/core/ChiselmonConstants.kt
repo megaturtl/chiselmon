@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.core
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils.createComponent
+import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.turtlshell.api.core.Platform
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
@@ -22,18 +22,18 @@ object ChiselmonConstants {
 
     @JvmField
     val MESSAGE_PREFIX: Component = Component.empty()
-        .append(createComponent("[", ColorUtils.DARK_GRAY.rgb))
+        .append(createComponent("[", ColorLib.DARK_GRAY.rgb))
         .append(
             Component.literal("\uD83D\uDEE0")
-                .withColor(ColorUtils.PINK.rgb)
+                .withColor(ColorLib.PINK.rgb)
                 .withStyle(ChatFormatting.BOLD)
         )
-        .append(createComponent("] ", ColorUtils.DARK_GRAY.rgb))
+        .append(createComponent("] ", ColorLib.DARK_GRAY.rgb))
         .withStyle { style ->
             style.withHoverEvent(
                 HoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
-                    createComponent("Chiselmon", ColorUtils.PINK.rgb)
+                    createComponent("Chiselmon", ColorLib.PINK.rgb)
                 )
             )
         }

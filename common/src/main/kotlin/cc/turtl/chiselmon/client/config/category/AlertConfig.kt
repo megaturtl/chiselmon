@@ -4,8 +4,8 @@ import cc.turtl.chiselmon.api.filter.FilterDefinition
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
 import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.core.api.storage.Scope
+import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.chiselmon.system.alert.AlertSounds
-import cc.turtl.chiselmon.util.format.ComponentUtils
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.config.v2.api.SerialEntry
@@ -63,7 +63,7 @@ class AlertConfig {
     }
 
     private fun buildFilterAlertGroup(filter: FilterDefinition, settings: FilterAlertSettings): OptionGroup {
-        val filterName = ComponentUtils.createComponent(filter.displayName, filter.rgb)
+        val filterName = createComponent(filter.displayName, filter.rgb)
 
         val volumeOption = OptionFactory.intSlider(
             "chiselmon.config.alert.volume",

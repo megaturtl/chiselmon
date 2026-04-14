@@ -35,7 +35,7 @@ fun estimateCaptureProbability(targetEntity: PokemonEntity, ball: PokeBall?): Fl
     val params = CaptureParams(
         maxHp = targetEntity.maxHealth,
         currentHp = targetEntity.health,
-        catchRate = ClientSpeciesRegistry.get(pokemon.species.name)?.catchRate?.toFloat() ?: 0f,
+        catchRate = ClientSpeciesRegistry.getSpecies(pokemon.species.name)?.catchRate?.toFloat() ?: 0f,
         targetLevel = pokemon.level,
         statusMultiplier = statusMultiplier(ctx.targetStatus),
         inBattleModifier = if (targetEntity.battleId != null) 1f else 0.5f,

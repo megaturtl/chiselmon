@@ -3,9 +3,9 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.system.tracker.TrackerManager
 import cc.turtl.chiselmon.system.tracker.TrackerSession
 import cc.turtl.chiselmon.client.util.*
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
+import cc.turtl.chiselmon.core.util.format.*
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDuration
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -60,8 +60,8 @@ class DashCommand : TurtlShellCommand {
 
         sendPrefixed(
             player, Component.literal("Dashboard server is running at ")
-                .withColor(ColorUtils.GREEN.rgb)
-                .append(ComponentUtils.clickableUrl(url))
+                .withColor(ColorLib.GREEN.rgb)
+                .append(clickableUrl(url))
                 .append(Component.literal(" (Uptime: $uptime)"))
         )
         return Command.SINGLE_SUCCESS
@@ -76,8 +76,8 @@ class DashCommand : TurtlShellCommand {
         if (session.isDashboardRunning) {
             sendPrefixed(
                 player, Component.literal("Dashboard is already running at ")
-                    .withColor(ColorUtils.YELLOW.rgb)
-                    .append(ComponentUtils.clickableUrl(url))
+                    .withColor(ColorLib.YELLOW.rgb)
+                    .append(clickableUrl(url))
             )
             return Command.SINGLE_SUCCESS
         }
@@ -86,8 +86,8 @@ class DashCommand : TurtlShellCommand {
             session.startDashboard()
             sendPrefixed(
                 player, Component.literal("Dashboard server opened at ")
-                    .withColor(ColorUtils.GREEN.rgb)
-                    .append(ComponentUtils.clickableUrl(url))
+                    .withColor(ColorLib.GREEN.rgb)
+                    .append(clickableUrl(url))
             )
         } catch (e: Exception) {
             sendError(player, e)

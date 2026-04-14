@@ -16,7 +16,7 @@ val IS_SHINY: Predicate<Pokemon> = Predicate { it.shiny }
 val IS_RIDEABLE: Predicate<Pokemon> = Predicate { it.riding.behaviours != null }
 @JvmField
 val IS_SHOULDERABLE: Predicate<Pokemon> = Predicate {
-    ClientSpeciesRegistry.get(it.species.name)?.shoulderMountable ?: false
+    ClientSpeciesRegistry.getSpecies(it.species.name)?.shoulderMountable ?: false
 }
 @JvmField
 val IS_MARKED: Predicate<Pokemon> = Predicate { it.marks.isNotEmpty() }
@@ -51,6 +51,6 @@ val IS_EXTREME_LARGE: Predicate<Pokemon> = Predicate { it.scaleModifier >= gener
 val IS_EXTREME_SIZE: Predicate<Pokemon> = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE)
 
 private fun hasAnyLabel(vararg labels: String): Predicate<Pokemon> = Predicate {
-    val species = ClientSpeciesRegistry.get(it.species.name) ?: return@Predicate false
+    val species = ClientSpeciesRegistry.getSpecies(it.species.name) ?: return@Predicate false
     labels.any { label -> species.labels.contains(label) }
 }

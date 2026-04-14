@@ -1,12 +1,13 @@
 package cc.turtl.chiselmon.client.util
 
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
+import cc.turtl.chiselmon.core.util.format.createComponent
+import cc.turtl.chiselmon.core.util.format.labelled
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.network.chat.Component
 
-    fun executeCommand(player: LocalPlayer, command: String) {
+fun executeCommand(player: LocalPlayer, command: String) {
         player.connection.sendCommand(if (command.startsWith("/")) command.substring(1) else command)
     }
 
@@ -27,25 +28,25 @@ import net.minecraft.network.chat.Component
     }
 
     fun sendPrefixed(player: LocalPlayer, message: String) {
-        sendPrefixed(player, ComponentUtils.createComponent(message, ColorUtils.WHITE.rgb))
+        sendPrefixed(player, createComponent(message, ColorLib.WHITE.rgb))
     }
 
     fun sendSuccess(player: LocalPlayer, message: String) {
-        sendPrefixed(player, ComponentUtils.createComponent(message, ColorUtils.GREEN.rgb))
+        sendPrefixed(player, createComponent(message, ColorLib.GREEN.rgb))
     }
 
     fun sendWarning(player: LocalPlayer, message: String) {
-        sendPrefixed(player, ComponentUtils.createComponent(message, ColorUtils.YELLOW.rgb))
+        sendPrefixed(player, createComponent(message, ColorLib.YELLOW.rgb))
     }
 
     fun sendError(player: LocalPlayer, e: Exception) {
         sendPrefixed(
             player,
-            ComponentUtils.createComponent("An error occurred with that command.", ColorUtils.RED.rgb)
+            createComponent("An error occurred with that command.", ColorLib.RED.rgb)
         )
         ChiselmonConstants.LOGGER.error("Error occured while executing command: ", e)
     }
 
     fun sendLabeled(player: LocalPlayer, label: String, value: Any) {
-        sendPrefixed(player, ComponentUtils.labelled(label, value))
+        sendPrefixed(player, labelled(label, value))
     }

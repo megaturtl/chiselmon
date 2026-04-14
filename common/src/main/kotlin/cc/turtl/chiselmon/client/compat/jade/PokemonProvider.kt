@@ -4,9 +4,10 @@ import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.predicate.HAS_SELF_DAMAGING_MOVE
 import cc.turtl.chiselmon.core.util.modResource
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
-import cc.turtl.chiselmon.util.format.PokemonFormats
+import cc.turtl.chiselmon.core.util.format.PokemonFormats
+import cc.turtl.chiselmon.core.util.format.SPACE
+import cc.turtl.chiselmon.core.util.format.labelled
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -44,7 +45,7 @@ object PokemonProvider : IEntityComponentProvider {
 
         val pokemon = entity.pokemon
         val species = pokemon.species
-        val clientSpecies = ClientSpeciesRegistry.get(species.name)
+
 
         tooltip.clear()
         tooltip.add(PokemonFormats.detailedName(pokemon, false))
@@ -62,6 +63,8 @@ object PokemonProvider : IEntityComponentProvider {
             )
         }
         addIfEnabled(tooltip, config, FORM, "chiselmon.ui.label.form") { PokemonFormats.form(pokemon) }
+
+        val clientSpecies = ClientSpeciesRegistry.getSpecies(species.name) ?: return
         addIfEnabled(tooltip, config, EGG_GROUPS, "chiselmon.ui.label.egg_groups") {
             PokemonFormats.eggGroups(
                 clientSpecies
@@ -71,19 +74,19 @@ object PokemonProvider : IEntityComponentProvider {
 
         if (config.get(CATCH_RATE)) {
             tooltip.add(
-                ComponentUtils.labelled(
+                labelled(
                     Component.translatable("chiselmon.ui.label.catch_rate"),
                     PokemonFormats.catchRate(clientSpecies)
                 )
             )
             findHeldPokeball(accessor.player)?.let { ball ->
-                tooltip.append(ComponentUtils.SPACE)
+                tooltip.append(SPACE)
                 tooltip.append(PokemonFormats.catchChance(entity, ball))
             }
         }
 
         if (config.get(SELF_DAMAGE_WARNING) && HAS_SELF_DAMAGING_MOVE.test(pokemon)) {
-            tooltip.add(Component.literal("⚠ ").withColor(ColorUtils.RED.rgb))
+            tooltip.add(Component.literal("⚠ ").withColor(ColorLib.RED.rgb))
             tooltip.append(PokemonFormats.selfDamagingMoves(pokemon))
         }
     }
@@ -96,7 +99,7 @@ object PokemonProvider : IEntityComponentProvider {
         value: () -> Component
     ) {
         if (config.get(key)) {
-            tooltip.add(ComponentUtils.labelled(Component.translatable(labelKey), value()))
+            tooltip.add(labelled(Component.translatable(labelKey), value()))
         }
     }
 

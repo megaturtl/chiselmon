@@ -7,10 +7,10 @@ import cc.turtl.chiselmon.api.filter.FiltersUserData
 import cc.turtl.chiselmon.api.filter.match.FilterMatcher
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
+import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import cc.turtl.turtlshell.api.client.config.custom.HoldToConfirmButton
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.api.controller.StringControllerBuilder
 import net.minecraft.client.gui.screens.Screen
@@ -32,7 +32,7 @@ class FilterConfig {
             ButtonOption.createBuilder()
                 .name(
                     Component.translatable("chiselmon.config.filters.create")
-                        .withColor(ColorUtils.GREEN.rgb)
+                        .withColor(ColorLib.GREEN.rgb)
                 )
                 .description(
                     OptionDescription.of(
@@ -69,7 +69,7 @@ class FilterConfig {
         filter: FilterDefinition
     ): OptionGroup {
         val isDefault = FilterDefinition.DefaultFilters.all().containsKey(filter.id)
-        val filterName = ComponentUtils.createComponent(filter.displayName, filter.rgb)
+        val filterName = createComponent(filter.displayName, filter.rgb)
 
         val groupBuilder = OptionGroup.createBuilder()
             .name(filterName)
@@ -158,7 +158,7 @@ class FilterConfig {
                 HoldToConfirmButton.builder()
                     .name(
                         Component.translatable("chiselmon.config.filters.delete", filter.displayName)
-                            .withColor(ColorUtils.RED.rgb)
+                            .withColor(ColorLib.RED.rgb)
                     )
                     .description(
                         OptionDescription.of(
@@ -187,7 +187,7 @@ class FilterConfig {
     }
 
     companion object {
-        val DEFAULT_COLOR: Color = ColorUtils.WHITE
+        val DEFAULT_COLOR: Color = ColorLib.WHITE
         val DEFAULT_PRIORITY: Priority = Priority.NORMAL
         const val DEFAULT_DISPLAY_NAME = "New Custom Filter"
         const val DEFAULT_CONDITION_STRING = "shiny"

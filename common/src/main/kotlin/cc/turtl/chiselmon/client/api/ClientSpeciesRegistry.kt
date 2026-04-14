@@ -87,7 +87,7 @@ object ClientSpeciesRegistry {
     }
 
     @JvmStatic
-    fun get(name: String): ClientSpecies? {
+    fun getSpecies(name: String): ClientSpecies? {
         return name.let { speciesMap[normalizeSpeciesName(it)] }
     }
 }

@@ -1,9 +1,9 @@
 package cc.turtl.chiselmon.client.compat.jade
 
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.chiselmon.core.util.format.labelled
 import cc.turtl.chiselmon.core.util.modResource
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import com.cobblemon.mod.common.CobblemonItemComponents
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.block.PokeSnackBlock
@@ -45,7 +45,7 @@ object PokeSnackProvider : IBlockComponentProvider {
         if (config.get(BITES)) {
             val remaining = MAX_BITES - state.getValue(PokeSnackBlock.BITES)
             tooltip.add(
-                ComponentUtils.labelled(
+                labelled(
                     Component.translatable("chiselmon.ui.label.pokesnack_block.bites_remaining"),
                     remaining
                 )
@@ -57,7 +57,7 @@ object PokeSnackProvider : IBlockComponentProvider {
             if (ingredients == null) {
                 tooltip.add(
                     Component.translatable("chiselmon.ui.label.pokesnack_block.no_ingredients")
-                        .withColor(ColorUtils.RED.rgb)
+                        .withColor(ColorLib.RED.rgb)
                 )
             } else {
                 addIngredientIcons(tooltip, ingredients)

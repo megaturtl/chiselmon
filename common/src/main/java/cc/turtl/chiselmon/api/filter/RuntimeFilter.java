@@ -1,11 +1,12 @@
 package cc.turtl.chiselmon.api.filter;
 
 import cc.turtl.turtlshell.api.core.Priority;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Predicate;
+
+import static cc.turtl.chiselmon.core.util.format.ComponentUtilsKt.createComponent;
 
 /**
  * Represents a named group of conditions specifying pokemon.
@@ -28,6 +29,6 @@ public record RuntimeFilter(
     }
 
     public Component displayName() {
-        return ComponentUtils.createComponent(name(), rgb());
+        return createComponent(name(), rgb(), false);
     }
 }

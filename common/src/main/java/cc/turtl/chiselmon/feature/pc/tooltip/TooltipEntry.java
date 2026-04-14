@@ -1,12 +1,13 @@
 package cc.turtl.chiselmon.feature.pc.tooltip;
 
 import cc.turtl.chiselmon.client.config.category.PCConfig;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static cc.turtl.chiselmon.core.util.format.ComponentUtilsKt.labelled;
 
 public record TooltipEntry(
         String translationKey,
@@ -20,7 +21,7 @@ public record TooltipEntry(
 
     public Component getComponent(Pokemon pokemon) {
         Object value = componentProvider.apply(pokemon);
-        return ComponentUtils.labelled(
+        return labelled(
                 Component.translatable("chiselmon.ui.label." + translationKey),
                 value);
     }

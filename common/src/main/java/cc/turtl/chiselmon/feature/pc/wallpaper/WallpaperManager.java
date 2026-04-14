@@ -1,7 +1,6 @@
 package cc.turtl.chiselmon.feature.pc.wallpaper;
 
 import cc.turtl.chiselmon.util.format.ColorUtils;
-import cc.turtl.chiselmon.util.format.ComponentUtils;
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.net.messages.server.storage.pc.RequestChangePCBoxWallpaperPacket;
@@ -12,8 +11,10 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import static cc.turtl.chiselmon.core.util.format.ComponentUtilsKt.createComponent;
+
 public final class WallpaperManager {
-    private static final Component HINT_COMPONENT = ComponentUtils.createComponent("APPLY ALL", ColorUtils.YELLOW.getRGB(), true);
+    private static final Component HINT_COMPONENT = createComponent("APPLY ALL", ColorUtils.YELLOW.getRGB(), true);
     private static final float HINT_SCALE = 0.70f;
 
     public static void renderBulkHint(GuiGraphics context, int left, int top, int width, int height) {

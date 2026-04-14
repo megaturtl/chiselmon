@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderSession
 import cc.turtl.chiselmon.client.util.*
-import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDecimal
 import cc.turtl.turtlshell.api.core.format.formatDuration
 import com.mojang.brigadier.Command
@@ -131,11 +131,11 @@ class RecordCommand : TurtlShellCommand {
     private fun sendTopSpecies(player: LocalPlayer, top: List<Map.Entry<String, Int>>) {
         top.forEachIndexed { index, entry ->
             val line = Component.empty()
-                .append(Component.literal("    #${index + 1}").withColor(ColorUtils.AQUA.rgb))
-                .append(Component.literal(" » ").withColor(ColorUtils.DARK_GRAY.rgb))
-                .append(Component.literal(entry.key).withColor(ColorUtils.PINK.rgb))
-                .append(Component.literal(" - ").withColor(ColorUtils.DARK_GRAY.rgb))
-                .append(Component.literal("${entry.value} spawns").withColor(ColorUtils.WHITE.rgb))
+                .append(Component.literal("    #${index + 1}").withColor(ColorLib.AQUA.rgb))
+                .append(Component.literal(" » ").withColor(ColorLib.DARK_GRAY.rgb))
+                .append(Component.literal(entry.key).withColor(ColorLib.PINK.rgb))
+                .append(Component.literal(" - ").withColor(ColorLib.DARK_GRAY.rgb))
+                .append(Component.literal("${entry.value} spawns").withColor(ColorLib.WHITE.rgb))
             sendPrefixed(player, line)
         }
     }

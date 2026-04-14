@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.feature.pc.tooltip;
 
 import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
-import cc.turtl.chiselmon.util.format.PokemonFormats;
+import cc.turtl.chiselmon.core.util.format.PokemonFormats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import java.util.ArrayList;

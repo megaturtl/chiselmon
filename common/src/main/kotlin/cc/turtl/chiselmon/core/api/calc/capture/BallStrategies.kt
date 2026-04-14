@@ -52,7 +52,7 @@ private fun builtInStrategy(ball: PokeBall, ctx: CaptureContext): Float = when (
     PokeBalls.PARK_BALL -> if (ctx.level.getBiome(ctx.pos).`is`(CobblemonBiomeTags.IS_TEMPERATE)) 2.5f else 1f
     PokeBalls.SAFARI_BALL -> if (!ctx.targetEntity.isBattling) 1.5f else 1f
     PokeBalls.FAST_BALL -> {
-        val speed = ClientSpeciesRegistry.get(ctx.pokemon.species.name)?.baseStats?.get("speed") ?: 0
+        val speed = ClientSpeciesRegistry.getSpecies(ctx.pokemon.species.name)?.baseStats?.get("speed") ?: 0
         if (speed >= 100) 4f else 1f
     }
 

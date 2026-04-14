@@ -1,21 +1,20 @@
 package cc.turtl.chiselmon.client.feature
 
-import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry.get
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig.general
-import cc.turtl.chiselmon.util.format.ColorUtils
-import cc.turtl.chiselmon.util.format.ComponentUtils
-import cc.turtl.chiselmon.util.format.PokemonFormats
+import cc.turtl.chiselmon.core.util.format.PokemonFormats
+import cc.turtl.chiselmon.core.util.format.UNKNOWN
+import cc.turtl.chiselmon.core.util.format.labelled
 import cc.turtl.turtlshell.api.client.ClientEvents.COMMAND_SENT
 import cc.turtl.turtlshell.api.client.ClientEvents.MESSAGE_RECEIVED
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.Style
-import java.util.*
 import java.util.regex.Pattern
 
 object CheckSpawnInterceptor {
-    // Handles names like Mr. Mime, Wo-Chien, Flutter Mane
     private val ENTRY_PATTERN: Pattern = Pattern.compile(
         "([A-Z][\\p{L}0-9\\s.\\-']+):\\s*([\\d.]+%)[,;]?"
     )
@@ -77,9 +76,7 @@ object CheckSpawnInterceptor {
     }
 
     private fun buildEntry(speciesName: String, percentage: String): Component {
-        // Clean "Mr. Mime" or "Flutter Mane" into "mrmime" or "fluttermane"
-        val key = speciesName.lowercase(Locale.getDefault()).replace("[^a-z0-9]".toRegex(), "")
-        val species = get(key)
+        val species = ClientSpeciesRegistry.getSpecies(speciesName)
 
         val hover = Component.empty()
             .append(Component.literal("$speciesName: "))
@@ -87,16 +84,18 @@ object CheckSpawnInterceptor {
                 Component.literal(percentage).withColor(percentageColor(percentage))
                     .append(Component.literal("\n"))
                     .append(
-                        ComponentUtils.labelled(
+                        labelled(
                             Component.translatable("chiselmon.ui.label.ev_yield"),
-                            PokemonFormats.evYield(species)
+                            if (species == null) UNKNOWN
+                                else PokemonFormats.evYield(species)
                         )
                     )
                     .append(Component.literal("\n"))
                     .append(
-                        ComponentUtils.labelled(
+                        labelled(
                             Component.translatable("chiselmon.ui.label.egg_groups"),
-                            PokemonFormats.eggGroups(species)
+                            if (species == null) UNKNOWN
+                            else PokemonFormats.eggGroups(species)
                         )
                     )
             )
@@ -119,11 +118,11 @@ object CheckSpawnInterceptor {
     private fun percentageColor(percentage: String): Int {
         try {
             val value = percentage.replace("%", "").toFloat()
-            if (value >= 5f) return ColorUtils.GREEN.rgb
-            if (value >= 0.5f) return ColorUtils.YELLOW.rgb
-            return ColorUtils.RED.rgb
+            if (value >= 5f) return ColorLib.GREEN.rgb
+            if (value >= 0.5f) return ColorLib.YELLOW.rgb
+            return ColorLib.RED.rgb
         } catch (e: NumberFormatException) {
-            return ColorUtils.WHITE.rgb
+            return ColorLib.WHITE.rgb
         }
     }
 }

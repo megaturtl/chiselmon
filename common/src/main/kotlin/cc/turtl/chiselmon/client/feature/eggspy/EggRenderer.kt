@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.feature.eggspy
 
-import cc.turtl.chiselmon.util.format.ColorUtils
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.util.toArgb
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
@@ -27,8 +27,8 @@ object EggRenderer {
     private const val BAR_HEIGHT = 2
     private const val BAR_WIDTH = 25
     private const val BAR_Y_OFFSET = 23
-    private val BAR_BG_COLOR = toArgb(ColorUtils.DARK_GRAY.rgb, 1f)
-    private val BAR_FILL_COLOR = toArgb(ColorUtils.GREEN.rgb, 1f)
+    private val BAR_BG_COLOR = toArgb(ColorLib.DARK_GRAY.rgb, 1f)
+    private val BAR_FILL_COLOR = toArgb(ColorLib.GREEN.rgb, 1f)
 
     @JvmStatic
     fun renderStorageSlot(context: GuiGraphics, eggDummy: EggDummy, posX: Int, posY: Int) {
