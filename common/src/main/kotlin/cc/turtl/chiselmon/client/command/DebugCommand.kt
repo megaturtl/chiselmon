@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.core.api.predicate.IS_OWNED
 import cc.turtl.chiselmon.core.api.predicate.IS_WILD
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.util.format.PokemonFormats
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -24,17 +24,17 @@ class DebugCommand : TurtlShellCommand {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val root = ctx.nodes.first().node.name
 
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "Debug Commands")
-                MessageUtils.sendPrefixed(player, "  /$root debug test")
-                MessageUtils.sendPrefixed(player, "  /$root debug dumpentity")
+                sendEmptyLine(player)
+                sendSuccess(player, "Debug Commands")
+                sendPrefixed(player, "  /$root debug test")
+                sendPrefixed(player, "  /$root debug dumpentity")
                 Command.SINGLE_SUCCESS
             }
             .then(
                 LiteralArgumentBuilder.literal<CommandSourceStack>("test")
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
-                        MessageUtils.sendSuccess(player, "Test successful!")
+                        sendSuccess(player, "Test successful!")
                         Command.SINGLE_SUCCESS
                     }
             )
@@ -45,27 +45,27 @@ class DebugCommand : TurtlShellCommand {
                         try {
                             val target = Minecraft.getInstance().crosshairPickEntity
                             if (target == null) {
-                                MessageUtils.sendWarning(player, "Not looking at an entity!")
+                                sendWarning(player, "Not looking at an entity!")
                                 return@executes Command.SINGLE_SUCCESS
                             }
 
                             if (target is PokemonEntity) {
-                                MessageUtils.sendEmptyLine(player)
-                                MessageUtils.sendPrefixed(player, PokemonFormats.detailedName(target.pokemon, false))
-                                MessageUtils.sendLabeled(player, "  NoAI", target.isNoAi)
-                                MessageUtils.sendLabeled(player, "  Busy", target.isBusy)
-                                MessageUtils.sendLabeled(
+                                sendEmptyLine(player)
+                                sendPrefixed(player, PokemonFormats.detailedName(target.pokemon, false))
+                                sendLabeled(player, "  NoAI", target.isNoAi)
+                                sendLabeled(player, "  Busy", target.isBusy)
+                                sendLabeled(
                                     player,
                                     "  Owned",
                                     IS_OWNED.test(target)
                                 )
-                                MessageUtils.sendLabeled(player, "  Wild", IS_WILD.test(target))
+                                sendLabeled(player, "  Wild", IS_WILD.test(target))
                             } else {
-                                MessageUtils.sendWarning(player, "Entity is a ${target.type.description.string}")
+                                sendWarning(player, "Entity is a ${target.type.description.string}")
                             }
                             Command.SINGLE_SUCCESS
                         } catch (e: Exception) {
-                            MessageUtils.sendError(player, e)
+                            sendError(player, e)
                             0
                         }
                     }

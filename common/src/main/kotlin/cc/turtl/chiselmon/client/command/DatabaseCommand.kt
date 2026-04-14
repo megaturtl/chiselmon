@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.system.tracker.TrackerManager
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command
@@ -37,13 +37,13 @@ class DatabaseCommand : TurtlShellCommand {
                     shinies = "ERROR"
                 }
 
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
-                MessageUtils.sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
-                MessageUtils.sendLabeled(player, "  Encounters stored on disk", encounters)
-                MessageUtils.sendLabeled(player, "    Legendaries", legendaries)
-                MessageUtils.sendLabeled(player, "    Shinies", shinies)
-                MessageUtils.sendLabeled(
+                sendEmptyLine(player)
+                sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
+                sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
+                sendLabeled(player, "  Encounters stored on disk", encounters)
+                sendLabeled(player, "    Legendaries", legendaries)
+                sendLabeled(player, "    Shinies", shinies)
+                sendLabeled(
                     player,
                     "  Database size on disk",
                     formatBytes(db.sizeOnDiskBytes)

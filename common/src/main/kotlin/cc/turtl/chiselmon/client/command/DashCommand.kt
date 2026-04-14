@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.system.tracker.TrackerManager
 import cc.turtl.chiselmon.system.tracker.TrackerSession
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.chiselmon.util.format.ComponentUtils
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
@@ -26,11 +26,11 @@ class DashCommand : TurtlShellCommand {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val root = ctx.nodes.first().node.name
 
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "Chiselmon Dash - Commands")
-                MessageUtils.sendPrefixed(player, "  /$root dash status")
-                MessageUtils.sendPrefixed(player, "  /$root dash open")
-                MessageUtils.sendPrefixed(player, "  /$root dash close")
+                sendEmptyLine(player)
+                sendSuccess(player, "Chiselmon Dash - Commands")
+                sendPrefixed(player, "  /$root dash status")
+                sendPrefixed(player, "  /$root dash open")
+                sendPrefixed(player, "  /$root dash close")
                 Command.SINGLE_SUCCESS
             }
             .then(
@@ -51,14 +51,14 @@ class DashCommand : TurtlShellCommand {
         val session = requireSession(player) ?: return Command.SINGLE_SUCCESS
 
         if (!session.isDashboardRunning) {
-            MessageUtils.sendWarning(player, "Dashboard server is not running.")
+            sendWarning(player, "Dashboard server is not running.")
             return Command.SINGLE_SUCCESS
         }
 
         val url = "http://localhost:${session.dashboardPort}/"
         val uptime = formatDuration(session.dashboardUptime())
 
-        MessageUtils.sendPrefixed(
+        sendPrefixed(
             player, Component.literal("Dashboard server is running at ")
                 .withColor(ColorUtils.GREEN.rgb)
                 .append(ComponentUtils.clickableUrl(url))
@@ -74,7 +74,7 @@ class DashCommand : TurtlShellCommand {
         val url = "http://localhost:${session.dashboardPort}/"
 
         if (session.isDashboardRunning) {
-            MessageUtils.sendPrefixed(
+            sendPrefixed(
                 player, Component.literal("Dashboard is already running at ")
                     .withColor(ColorUtils.YELLOW.rgb)
                     .append(ComponentUtils.clickableUrl(url))
@@ -84,13 +84,13 @@ class DashCommand : TurtlShellCommand {
 
         try {
             session.startDashboard()
-            MessageUtils.sendPrefixed(
+            sendPrefixed(
                 player, Component.literal("Dashboard server opened at ")
                     .withColor(ColorUtils.GREEN.rgb)
                     .append(ComponentUtils.clickableUrl(url))
             )
         } catch (e: Exception) {
-            MessageUtils.sendError(player, e)
+            sendError(player, e)
         }
 
         return Command.SINGLE_SUCCESS
@@ -101,12 +101,12 @@ class DashCommand : TurtlShellCommand {
         val session = requireSession(player) ?: return Command.SINGLE_SUCCESS
 
         if (!session.isDashboardRunning) {
-            MessageUtils.sendWarning(player, "Dashboard server is not running.")
+            sendWarning(player, "Dashboard server is not running.")
             return Command.SINGLE_SUCCESS
         }
 
         session.stopDashboard()
-        MessageUtils.sendSuccess(player, "Dashboard server closed.")
+        sendSuccess(player, "Dashboard server closed.")
         return Command.SINGLE_SUCCESS
     }
 
@@ -117,7 +117,7 @@ class DashCommand : TurtlShellCommand {
         return try {
             TrackerManager.getInstance().tracker
         } catch (e: IllegalStateException) {
-            MessageUtils.sendWarning(player, "No active tracker session.")
+            sendWarning(player, "No active tracker session.")
             null
         }
     }

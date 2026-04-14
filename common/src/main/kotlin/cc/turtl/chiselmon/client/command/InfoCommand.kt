@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -19,10 +19,10 @@ class InfoCommand : TurtlShellCommand {
         LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "${BuildDetails.MOD_DISPLAY_NAME} Info")
-                MessageUtils.sendLabeled(player, "  Version", BuildDetails.MOD_VERSION)
-                MessageUtils.sendLabeled(player, "  Author", BuildDetails.MOD_AUTHOR)
+                sendEmptyLine(player)
+                sendSuccess(player, "${BuildDetails.MOD_DISPLAY_NAME} Info")
+                sendLabeled(player, "  Version", BuildDetails.MOD_VERSION)
+                sendLabeled(player, "  Author", BuildDetails.MOD_AUTHOR)
                 Command.SINGLE_SUCCESS
             }
 }

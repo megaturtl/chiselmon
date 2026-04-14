@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.system.spawnrecorder.SpawnRecorderSession
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatDecimal
@@ -26,13 +26,13 @@ class RecordCommand : TurtlShellCommand {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val root = ctx.nodes.first().node.name
 
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "Spawn Recorder - Commands")
-                MessageUtils.sendPrefixed(player, "  /$root record start")
-                MessageUtils.sendPrefixed(player, "  /$root record pause")
-                MessageUtils.sendPrefixed(player, "  /$root record resume")
-                MessageUtils.sendPrefixed(player, "  /$root record stop")
-                MessageUtils.sendPrefixed(player, "  /$root record summary")
+                sendEmptyLine(player)
+                sendSuccess(player, "Spawn Recorder - Commands")
+                sendPrefixed(player, "  /$root record start")
+                sendPrefixed(player, "  /$root record pause")
+                sendPrefixed(player, "  /$root record resume")
+                sendPrefixed(player, "  /$root record stop")
+                sendPrefixed(player, "  /$root record summary")
                 Command.SINGLE_SUCCESS
             }
             .then(
@@ -42,12 +42,12 @@ class RecordCommand : TurtlShellCommand {
                         try {
                             val started = SpawnRecorderManager.getInstance().startSession()
                             if (!started) {
-                                MessageUtils.sendWarning(player, "A Spawn Recorder session is already running!")
+                                sendWarning(player, "A Spawn Recorder session is already running!")
                             } else {
-                                MessageUtils.sendSuccess(player, "Spawn Recorder session started!")
+                                sendSuccess(player, "Spawn Recorder session started!")
                             }
                         } catch (e: Exception) {
-                            MessageUtils.sendError(player, e)
+                            sendError(player, e)
                         }
                         Command.SINGLE_SUCCESS
                     }
@@ -59,11 +59,11 @@ class RecordCommand : TurtlShellCommand {
                         val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
 
                         if (session.isPaused) {
-                            MessageUtils.sendWarning(player, "Session is already paused.")
+                            sendWarning(player, "Session is already paused.")
                             return@executes Command.SINGLE_SUCCESS
                         }
                         session.pause()
-                        MessageUtils.sendSuccess(player, "Spawn Recorder paused.")
+                        sendSuccess(player, "Spawn Recorder paused.")
                         Command.SINGLE_SUCCESS
                     }
             )
@@ -74,11 +74,11 @@ class RecordCommand : TurtlShellCommand {
                         val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
 
                         if (!session.isPaused) {
-                            MessageUtils.sendWarning(player, "Session is already running.")
+                            sendWarning(player, "Session is already running.")
                             return@executes Command.SINGLE_SUCCESS
                         }
                         session.resume()
-                        MessageUtils.sendSuccess(player, "Spawn Recorder resumed.")
+                        sendSuccess(player, "Spawn Recorder resumed.")
                         Command.SINGLE_SUCCESS
                     }
             )
@@ -89,11 +89,11 @@ class RecordCommand : TurtlShellCommand {
                         val finished = SpawnRecorderManager.getInstance().stopSession()
 
                         if (finished == null) {
-                            MessageUtils.sendWarning(player, "No active session to stop.")
+                            sendWarning(player, "No active session to stop.")
                             return@executes Command.SINGLE_SUCCESS
                         }
 
-                        MessageUtils.sendEmptyLine(player)
+                        sendEmptyLine(player)
                         sendSessionSummary(player, "Session Ended", finished, 3)
                         Command.SINGLE_SUCCESS
                     }
@@ -105,20 +105,20 @@ class RecordCommand : TurtlShellCommand {
                         val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
 
                         if (session.getTopSpecies(1).isEmpty()) {
-                            MessageUtils.sendWarning(player, "No spawns recorded yet.")
+                            sendWarning(player, "No spawns recorded yet.")
                             return@executes Command.SINGLE_SUCCESS
                         }
 
-                        MessageUtils.sendEmptyLine(player)
+                        sendEmptyLine(player)
                         sendSessionSummary(player, "Session Summary", session, 10)
                         Command.SINGLE_SUCCESS
                     }
             )
 
     private fun sendSessionSummary(player: LocalPlayer, title: String, session: SpawnRecorderSession, topCount: Int) {
-        MessageUtils.sendSuccess(player, "Spawn Recorder - $title")
-        MessageUtils.sendLabeled(player, "  Time elapsed", formatDuration(session.elapsedMs))
-        MessageUtils.sendLabeled(
+        sendSuccess(player, "Spawn Recorder - $title")
+        sendLabeled(player, "  Time elapsed", formatDuration(session.elapsedMs))
+        sendLabeled(
             player, "  Spawns", "${session.totalRecordedCount} (${
                 formatDecimal(
                     session.spawnsPerMinute.toDouble()
@@ -136,7 +136,7 @@ class RecordCommand : TurtlShellCommand {
                 .append(Component.literal(entry.key).withColor(ColorUtils.PINK.rgb))
                 .append(Component.literal(" - ").withColor(ColorUtils.DARK_GRAY.rgb))
                 .append(Component.literal("${entry.value} spawns").withColor(ColorUtils.WHITE.rgb))
-            MessageUtils.sendPrefixed(player, line)
+            sendPrefixed(player, line)
         }
     }
 
@@ -146,7 +146,7 @@ class RecordCommand : TurtlShellCommand {
     private fun requireSession(player: LocalPlayer): SpawnRecorderSession? {
         return SpawnRecorderManager.getInstance().session
             ?: run {
-                MessageUtils.sendWarning(player, "No active session.")
+                sendWarning(player, "No active session.")
                 null
             }
     }

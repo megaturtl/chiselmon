@@ -9,7 +9,7 @@ import cc.turtl.chiselmon.client.config.category.AlertConfig;
 import cc.turtl.chiselmon.core.api.PokemonEncounter;
 import cc.turtl.chiselmon.system.alert.action.*;
 import cc.turtl.chiselmon.system.tracker.TrackerManager;
-import cc.turtl.chiselmon.util.MessageUtils;
+import cc.turtl.chiselmon.client.util.MessageUtilsKt;
 import cc.turtl.turtlshell.api.client.ClientEvents;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import kotlin.Unit;
@@ -83,7 +83,7 @@ public class AlertManager {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
                 muteAll();
-                MessageUtils.sendSuccess(player, "All active alert muted");
+                MessageUtilsKt.sendSuccess(player, "All active alert muted");
             }
         }
 

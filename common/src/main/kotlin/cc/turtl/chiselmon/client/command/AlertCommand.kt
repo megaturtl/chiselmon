@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.system.alert.AlertManager
-import cc.turtl.chiselmon.util.MessageUtils
+import cc.turtl.chiselmon.client.util.*
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -24,10 +24,10 @@ class AlertCommand : TurtlShellCommand {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val root = ctx.nodes.first().node.name
 
-                MessageUtils.sendEmptyLine(player)
-                MessageUtils.sendSuccess(player, "Alert Commands")
-                MessageUtils.sendPrefixed(player, "  /$root alert muteall - Mutes all currently loaded pokemon")
-                MessageUtils.sendPrefixed(
+                sendEmptyLine(player)
+                sendSuccess(player, "Alert Commands")
+                sendPrefixed(player, "  /$root alert muteall - Mutes all currently loaded pokemon")
+                sendPrefixed(
                     player,
                     "  /$root alert unmuteall - Removes all muted pokemon from the current session"
                 )
@@ -44,7 +44,7 @@ class AlertCommand : TurtlShellCommand {
                             val player = Minecraft.getInstance().player ?: return@executes 0
                             val uuid = UUID.fromString(StringArgumentType.getString(ctx, "uuid"))
                             AlertManager.getInstance().mute(uuid)
-                            MessageUtils.sendSuccess(player, "Pokemon muted")
+                            sendSuccess(player, "Pokemon muted")
                             Command.SINGLE_SUCCESS
                         }
                 )
@@ -54,7 +54,7 @@ class AlertCommand : TurtlShellCommand {
                     .executes { ctx ->
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         AlertManager.getInstance().muteAll()
-                        MessageUtils.sendSuccess(player, "All loaded pokemon muted")
+                        sendSuccess(player, "All loaded pokemon muted")
                         Command.SINGLE_SUCCESS
                     }
             )
@@ -63,7 +63,7 @@ class AlertCommand : TurtlShellCommand {
                     .executes { ctx ->
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         AlertManager.getInstance().unmuteAll()
-                        MessageUtils.sendSuccess(player, "All loaded pokemon unmuted")
+                        sendSuccess(player, "All loaded pokemon unmuted")
                         Command.SINGLE_SUCCESS
                     }
             )
