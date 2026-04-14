@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.core.api.predicate
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.client.config.ChiselmonConfig.general
 import cc.turtl.chiselmon.core.api.calc.getPossibleMoves
-import cc.turtl.chiselmon.feature.eggspy.EggDummy
+import cc.turtl.chiselmon.client.feature.eggspy.EggDummy
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty
 import java.util.function.Predicate

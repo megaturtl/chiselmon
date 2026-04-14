@@ -3,13 +3,14 @@ package cc.turtl.chiselmon.mixin;
 import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
-import cc.turtl.chiselmon.feature.eggspy.EggCache;
+import cc.turtl.chiselmon.client.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.pokemon.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static cc.turtl.chiselmon.feature.eggspy.EggDummy.EGG_SPECIES_ID;
+import static cc.turtl.chiselmon.client.feature.eggspy.EggDummy.EGG_SPECIES_ID;
 
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon {
@@ -171,7 +172,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
     // Bypasses all redirect logic to get the egg's own renderable pokemon
     @Unique
     @Override
-    public RenderablePokemon chiselmon$getRawRenderablePokemon() {
+    public @NotNull RenderablePokemon chiselmon$getRawRenderablePokemon() {
         return new RenderablePokemon(species, ((Pokemon) (Object) this).getAspects(), ItemStack.EMPTY);
     }
 }

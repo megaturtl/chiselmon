@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.mixin;
 import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
-import cc.turtl.chiselmon.feature.eggspy.EggDummy;
-import cc.turtl.chiselmon.feature.eggspy.EggRenderer;
+import cc.turtl.chiselmon.client.feature.eggspy.EggDummy;
+import cc.turtl.chiselmon.client.feature.eggspy.EggRenderer;
 import cc.turtl.chiselmon.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
@@ -33,12 +33,12 @@ public abstract class MixinStorageSlot extends AbstractWidget {
 
     // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent stale tooltips.
     @Inject(method = "renderWidget", at = @At("TAIL"))
-    private void chiselmon$clearTooltip(GuiGraphics context, int MouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void chiselmon$clearTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (getPokemon() == null) setTooltip(null);
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
-    private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float delta, CallbackInfo ci) {
+    private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float partialTicks, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.INSTANCE;
         if (config.getGeneral().getModDisabled()) return;
 

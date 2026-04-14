@@ -6,7 +6,7 @@ import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
 import cc.turtl.chiselmon.core.api.predicate.MoveTemplatePredicatesKt;
 import cc.turtl.chiselmon.core.api.predicate.PokemonPredicatesKt;
-import cc.turtl.chiselmon.feature.eggspy.EggDummy;
+import cc.turtl.chiselmon.client.feature.eggspy.EggDummy;
 import com.cobblemon.mod.common.api.mark.Mark;
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;

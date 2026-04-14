@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.feature.eggspy.EggCache;
+import cc.turtl.chiselmon.client.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.storage.pc.PCPosition;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Pokemon;

@@ -17,5 +17,5 @@ interface DuckPreviewPokemon {
     /**
      * Bypasses preview/dummy logic to get the original renderable pokemon.
      */
-    fun `chiselmon$getRawRenderablePokemon`(): RenderablePokemon?
+    fun `chiselmon$getRawRenderablePokemon`(): RenderablePokemon
 }
