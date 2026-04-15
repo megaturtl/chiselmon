@@ -46,7 +46,7 @@ class MessageAction : AlertAction {
         // Filter name
         message.append(
             Component.empty()
-                .append(filter.displayName())
+                .append(filter.displayName)
                 .withStyle { style ->
                     style.withClickEvent(
                         ClickEvent(

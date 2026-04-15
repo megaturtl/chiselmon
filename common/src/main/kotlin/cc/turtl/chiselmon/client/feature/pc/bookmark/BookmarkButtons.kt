@@ -12,39 +12,38 @@ internal object BookmarkButtons {
 
     fun createBookmarkButton(x: Int, y: Int, isBookmarked: Boolean, onPress: () -> Unit): PCButton =
         PCButton.Builder(
-            x,
-            y,
+            x, y,
             BookmarkConstants.BOOKMARK_SPRITE,
             BookmarkConstants.BOOKMARK_TEXTURE_WIDTH,
-            BookmarkConstants.BOOKMARK_TEXTURE_HEIGHT
-        ) { onPress() }
-            .tooltips(BookmarkConstants.BOOKMARK_ACTIVE_TOOLTIP, BookmarkConstants.BOOKMARK_INACTIVE_TOOLTIP)
-            .active(isBookmarked)
-            .build()
+            BookmarkConstants.BOOKMARK_TEXTURE_HEIGHT,
+        ) { onPress() }.apply {
+            activeTooltip = BookmarkConstants.BOOKMARK_ACTIVE_TOOLTIP
+            inactiveTooltip = BookmarkConstants.BOOKMARK_INACTIVE_TOOLTIP
+            initialActive = isBookmarked
+        }.build()
 
     fun createHomeButton(x: Int, y: Int, onPress: () -> Unit): PCButton =
         PCButton.Builder(
-            x,
-            y,
+            x, y,
             BookmarkConstants.HOME_SPRITE,
             BookmarkConstants.HOME_TEXTURE_WIDTH,
-            BookmarkConstants.HOME_TEXTURE_HEIGHT
-        ) { onPress() }
-            .tooltip(BookmarkConstants.HOME_TOOLTIP)
-            .build()
+            BookmarkConstants.HOME_TEXTURE_HEIGHT,
+        ) { onPress() }.apply {
+            inactiveTooltip = BookmarkConstants.HOME_TOOLTIP
+        }.build()
 
     fun createTabButton(x: Int, y: Int, boxNumber: Int, boxName: Component, onPress: () -> Unit): PCButton =
         PCButton.Builder(
-            x,
-            y,
+            x, y,
             BookmarkConstants.TAB_SPRITE,
             BookmarkConstants.TAB_TEXTURE_WIDTH,
-            BookmarkConstants.TAB_TEXTURE_HEIGHT
-        ) { onPress() }
-            .text(boxName)
-            .textStyle(ColorLib.WHITE.rgb, BookmarkConstants.TAB_TEXT_MARGIN)
-            .tooltip(Tooltip.create(Component.translatable("chiselmon.pc.tab_button.tooltip", boxName, boxNumber + 1)))
-            .build()
+            BookmarkConstants.TAB_TEXTURE_HEIGHT,
+        ) { onPress() }.apply {
+            text = boxName
+            textColor = ColorLib.WHITE.rgb
+            textMargin = BookmarkConstants.TAB_TEXT_MARGIN
+            inactiveTooltip = Tooltip.create(Component.translatable("chiselmon.pc.tab_button.tooltip", boxName, boxNumber + 1))
+        }.build()
 
     fun createTabButtons(
         bookmarkedBoxes: Collection<Int>,

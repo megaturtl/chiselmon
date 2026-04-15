@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
+import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.storage.Scope
@@ -48,7 +48,7 @@ class AlertConfig {
             .option(
                 OptionFactory.keyMappingPicker(
                     "chiselmon.config.alert.mute_keybind",
-                    ChiselmonKeybindsKt.MUTE_ALERTS
+                    ChiselmonKeybinds.MUTE_ALERTS
                 )
             )
 

@@ -133,29 +133,22 @@ class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
             -1L
         }
 
-    val savedEncounters: Int
-        get() = conn.createStatement().use { s ->
-            s.executeQuery("SELECT COUNT(*) FROM encounters").use { rs ->
-                if (rs.next()) rs.getInt(1) else 0
-            }
+    data class SummaryStats(val total: Int, val shinies: Int, val legendaries: Int)
+
+    fun summaryStats(): SummaryStats = conn.createStatement().use { s ->
+        s.executeQuery(
+            "SELECT COUNT(*), " +
+                "COUNT(*) FILTER (WHERE is_shiny = TRUE), " +
+                "COUNT(*) FILTER (WHERE is_legendary = TRUE) " +
+                "FROM encounters"
+        ).use { rs ->
+            if (rs.next()) SummaryStats(rs.getInt(1), rs.getInt(2), rs.getInt(3))
+            else SummaryStats(0, 0, 0)
         }
+    }
 
     val writeCachedCount: Int
         get() = writeCache.size
-
-    val shinyCount: Int
-        get() = conn.createStatement().use { s ->
-            s.executeQuery("SELECT COUNT(*) FROM encounters WHERE is_shiny = TRUE").use { rs ->
-                if (rs.next()) rs.getInt(1) else 0
-            }
-        }
-
-    val legendaryCount: Int
-        get() = conn.createStatement().use { s ->
-            s.executeQuery("SELECT COUNT(*) FROM encounters WHERE is_legendary = TRUE").use { rs ->
-                if (rs.next()) rs.getInt(1) else 0
-            }
-        }
 
     val connection: Connection get() = conn
 

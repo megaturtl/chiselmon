@@ -13,7 +13,7 @@ class FiltersUserData {
         get() = filters.toMap()
 
     fun migrateAll() {
-        for (def in FilterDefinition.DefaultFilters.all().values) {
+        FilterDefinition.DefaultFilters.all().values.forEach { def ->
             filters.putIfAbsent(def.id, def)
         }
     }
@@ -28,16 +28,8 @@ class FiltersUserData {
         FilterMatcher.invalidateCache()
     }
 
-    fun has(id: String): Boolean = filters.containsKey(id)
-
     companion object {
         @JvmStatic
-        fun withDefaults(): FiltersUserData {
-            val data = FiltersUserData()
-            for (def in FilterDefinition.DefaultFilters.all().values) {
-                data.filters.putIfAbsent(def.id, def)
-            }
-            return data
-        }
+        fun withDefaults(): FiltersUserData = FiltersUserData().also { it.migrateAll() }
     }
 }

@@ -32,14 +32,13 @@ object ChiselmonClientNeoForge {
     }
 
     private fun registerConfigScreen() {
-        ModList.get().getModContainerById(BuildDetails.MOD_ID)
-            .ifPresent { c: ModContainer ->
-                c.registerExtensionPoint(
-                    IConfigScreenFactory::class.java,
-                    IConfigScreenFactory { _: ModContainer, parent: Screen ->
-                        ChiselmonConfig.createScreen(parent)
-                    })
-            }
+        ModList.get().getModContainerById(BuildDetails.MOD_ID).orElse(null)?.let { c ->
+            c.registerExtensionPoint(
+                IConfigScreenFactory::class.java,
+                IConfigScreenFactory { _: ModContainer, parent: Screen ->
+                    ChiselmonConfig.createScreen(parent)
+                })
+        }
     }
 
     @SubscribeEvent
@@ -48,7 +47,7 @@ object ChiselmonClientNeoForge {
 
         // Add Chiselmon builtins
         for (pack in ChiselmonPacks.BuiltInPack.ALL) {
-            if (pack.requiredModIds.stream().allMatch { modTarget: String? -> ModList.get().isLoaded(modTarget) }) {
+            if (pack.requiredModIds.all { ModList.get().isLoaded(it) }) {
                 event.addPackFinders(
                     modResource("resourcepacks/" + pack.id),
                     PackType.CLIENT_RESOURCES,

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.config
 
-import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
+import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.turtlshell.api.client.ClientEvents
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import dev.isxander.yacl3.gui.YACLScreen
@@ -20,7 +20,7 @@ object ChiselmonConfig {
         ChiselmonConfigHandler.load()
         ClientEvents.TICK_POST.subscribe {
             val client = Minecraft.getInstance()
-            while (ChiselmonKeybindsKt.OPEN_CONFIG.consumeClick()) {
+            while (ChiselmonKeybinds.OPEN_CONFIG.consumeClick()) {
                 val currentScreen = client.screen
                 client.execute { client.setScreen(createScreen(currentScreen)) }
             }

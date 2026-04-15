@@ -44,10 +44,7 @@ class TrackerSession {
         cleanUnloaded()
 
         // reset these always, before despawn glow or alert, so they always work from a blank slate.
-        for (entity in currentlyLoaded.values) {
-            entity.removeGlow()
-            entity.resetNickname()
-        }
+        currentlyLoaded.values.forEach { it.removeGlow(); it.resetNickname() }
     }
 
     private fun cleanUnloaded() {

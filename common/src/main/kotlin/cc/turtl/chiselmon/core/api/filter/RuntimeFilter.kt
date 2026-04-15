@@ -24,5 +24,5 @@ data class RuntimeFilter(
 ) {
     fun matches(pokemon: Pokemon): Boolean = condition.test(pokemon)
 
-    fun displayName(): Component = createComponent(name, rgb, false)
+    val displayName: Component get() = createComponent(name, rgb, false)
 }
