@@ -4,7 +4,6 @@ import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
-import cc.turtl.chiselmon.util.format.ColorUtils;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.battles.InBattleMove;
@@ -31,8 +30,19 @@ import java.util.stream.Collectors;
 @Mixin(value = BattleMoveSelection.MoveTile.class)
 public abstract class MixinMoveTile {
 
-    @Unique
-    private static final int TOOLTIP_MAX_WIDTH = 200;
+    @Unique private static final int TOOLTIP_MAX_WIDTH = 200;
+
+    // Palette – mirrors the turtlshell ColorLib values used elsewhere in the project.
+    @Unique private static final int COLOR_DARK_GRAY  = 0x555555;
+    @Unique private static final int COLOR_RED        = 0xE13538;
+    @Unique private static final int COLOR_GREEN      = 0x41D73B;
+    @Unique private static final int COLOR_YELLOW     = 0xF9C74F;
+    @Unique private static final int COLOR_AQUA       = 0x40E0D0;
+    @Unique private static final int COLOR_PURPLE     = 0x6C44C3;
+    @Unique private static final int COLOR_LIGHT_GRAY = 0xAAAAAA;
+    @Unique private static final int COLOR_MAGENTA    = 0xFF00FF;
+    @Unique private static final int COLOR_ORANGE     = 0xF9844A;
+    @Unique private static final int COLOR_WHITE      = 0xFFFFFF;
 
     @Shadow(remap = false)
     private MoveTemplate moveTemplate;
@@ -89,38 +99,38 @@ public abstract class MixinMoveTile {
         header.append(moveTemplate.getDisplayName().copy()
                 .withColor(elementalType.getHue()));
         header.append(Component.literal(" » ")
-                .withColor(ColorUtils.DARK_GRAY.getRGB()));
+                .withColor(COLOR_DARK_GRAY));
         header.append(Component.literal("⚡")
-                .withStyle(s -> s.withBold(true).withColor(ColorUtils.RED.getRGB())));
+                .withStyle(s -> s.withBold(true).withColor(COLOR_RED)));
         header.append(Component.literal(" " + powerString)
                 .withStyle(s -> s.withBold(false)));
-        header.append(Component.literal(" • ").withColor(ColorUtils.DARK_GRAY.getRGB()));
+        header.append(Component.literal(" • ").withColor(COLOR_DARK_GRAY));
         header.append(Component.literal("🎯")
-                .withStyle(s -> s.withBold(true).withColor(ColorUtils.GREEN.getRGB())));
+                .withStyle(s -> s.withBold(true).withColor(COLOR_GREEN)));
         header.append(Component.literal(" " + accuracyString)
                 .withStyle(s -> s.withBold(false)));
 
         // If the move has an effect chance we add just the first for simplicity
         Arrays.stream(moveTemplate.getEffectChances()).findFirst().ifPresent(effectChance -> {
-            header.append(Component.literal(" • ").withColor(ColorUtils.DARK_GRAY.getRGB()));
+            header.append(Component.literal(" • ").withColor(COLOR_DARK_GRAY));
             header.append(Component.literal("⚗")
-                    .withStyle(s -> s.withBold(false).withColor(ColorUtils.YELLOW.getRGB())));
+                    .withStyle(s -> s.withBold(false).withColor(COLOR_YELLOW)));
             header.append(Component.literal(" " + effectChance.intValue() + "%")
                     .withStyle(s -> s.withBold(false)));
         });
 
         if (moveTemplate.getPriority() != 0) {
-            header.append(Component.literal(" • ").withColor(ColorUtils.DARK_GRAY.getRGB()));
+            header.append(Component.literal(" • ").withColor(COLOR_DARK_GRAY));
             header.append(Component.literal("⌛")
-                    .withStyle(s -> s.withBold(false).withColor(ColorUtils.AQUA.getRGB())));
+                    .withStyle(s -> s.withBold(false).withColor(COLOR_AQUA)));
             header.append(Component.literal(" " + (moveTemplate.getPriority() > 0 ? "+" : "") + moveTemplate.getPriority()))
                     .withStyle(s -> s.withBold(false));
         }
 
         if (moveTemplate.getCritRatio() != 1) {
-            header.append(Component.literal(" • ").withColor(ColorUtils.DARK_GRAY.getRGB()));
+            header.append(Component.literal(" • ").withColor(COLOR_DARK_GRAY));
             header.append(Component.literal("💥")
-                    .withStyle(s -> s.withBold(true).withColor(ColorUtils.PURPLE.getRGB())));
+                    .withStyle(s -> s.withBold(true).withColor(COLOR_PURPLE)));
             header.append(Component.literal(" " + moveTemplate.getCritRatio() + "x")
                     .withStyle(s -> s.withBold(false)));
         }
@@ -135,8 +145,7 @@ public abstract class MixinMoveTile {
                 .getSplitter()
                 .splitLines(moveTemplate.getDescription(), TOOLTIP_MAX_WIDTH, Style.EMPTY)
                 .stream()
-                .map(line -> Component.literal(line.getString())
-                        .withColor(ColorUtils.LIGHT_GRAY.getRGB()))
+                .map(line -> Component.literal(line.getString()).withColor(COLOR_LIGHT_GRAY))
                 .collect(Collectors.toList());
     }
 
@@ -175,17 +184,16 @@ public abstract class MixinMoveTile {
     @Unique
     private MutableComponent chiselmon$createEffectivenessLine(String speciesName, float multiplier) {
         int color = switch ((int) (multiplier * 100)) {
-            case 400 -> ColorUtils.MAGENTA.getRGB();
-            case 200 -> ColorUtils.GREEN.getRGB();
-            case 50 -> ColorUtils.ORANGE.getRGB();
-            case 25 -> ColorUtils.YELLOW.getRGB();
-            case 0 -> ColorUtils.RED.getRGB();
-            default -> ColorUtils.WHITE.getRGB();
+            case 400 -> COLOR_MAGENTA;
+            case 200 -> COLOR_GREEN;
+            case 50  -> COLOR_ORANGE;
+            case 25  -> COLOR_YELLOW;
+            case 0   -> COLOR_RED;
+            default  -> COLOR_WHITE;
         };
 
         MutableComponent effectiveness = Component.empty();
-        effectiveness.append(Component.literal("» ")
-                .withColor(ColorUtils.DARK_GRAY.getRGB()));
+        effectiveness.append(Component.literal("» ").withColor(COLOR_DARK_GRAY));
         // cleans up decimal yuckness
         effectiveness.append("Deals " + (multiplier % 1 == 0 ? (int) multiplier : multiplier) + "x to ").withColor(color);
         effectiveness.append(Component.literal(speciesName).withColor(color));

@@ -131,7 +131,7 @@ class SpawnRecorderSession(private val tracker: TrackerSession) {
         private const val DESPAWN_MIN_TICKS = 600
         private const val EXPIRY_TICKS = 5 * 60 * TICKS_PER_SECOND
 
-        /** "Safe" despawn-glow color -- matches the legacy [ColorUtils.LIME] value. */
+        /** Despawn-safe glow color (lime green, 0x32CD32). ColorLib has no LIME constant. */
         private const val LIME_RGB = 0x32CD32
     }
 }

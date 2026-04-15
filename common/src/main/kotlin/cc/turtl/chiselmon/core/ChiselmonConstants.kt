@@ -14,13 +14,10 @@ import java.nio.file.Path
 object ChiselmonConstants {
 
     /** The path to the '.minecraft/config/chiselmon' folder */
-    @JvmField
     val CONFIG_PATH: Path = Platform.getConfigDir().resolve(BuildDetails.MOD_ID)
 
-    @JvmField
     val LOGGER: Logger = LogManager.getLogger(BuildDetails.MOD_ID)
 
-    @JvmField
     val MESSAGE_PREFIX: Component = Component.empty()
         .append(createComponent("[", ColorLib.DARK_GRAY.rgb))
         .append(

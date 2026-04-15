@@ -18,7 +18,6 @@ object TooltipRegistry {
         entry("hatch_progress", { it.hatchProgress }, IS_EGG_DUMMY::test, PokemonFormats::hatchProgress),
     )
 
-    @JvmStatic
     fun getEntries(): List<TooltipEntry> = entries
 
     private fun entry(

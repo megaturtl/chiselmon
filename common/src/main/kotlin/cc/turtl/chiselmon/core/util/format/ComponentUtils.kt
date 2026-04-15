@@ -68,21 +68,15 @@ fun labelled(label: Any, value: Any?): MutableComponent {
 /**
  * Joins items into a single component with separators.
  *
- * Example: `join(list, ", ", { item -> literal(item, ColorUtils.RED) })`
+ * Example: `join(list, ", ") { item -> createComponent(item, ColorLib.RED.rgb) }`
  */
 fun <E> join(items: Iterable<E>?, separator: String, mapper: (E) -> Component?): Component {
-    if (items == null || !items.iterator().hasNext()) return UNKNOWN
-
+    val parts = items?.mapNotNull(mapper)?.takeIf { it.isNotEmpty() } ?: return UNKNOWN
+    val sep = createComponent(separator, ColorLib.DARK_GRAY.rgb)
     val result = Component.empty()
-    val iterator = items.iterator()
-    while (iterator.hasNext()) {
-        val mapped = mapper(iterator.next())
-        if (mapped != null) {
-            result.append(mapped)
-            if (iterator.hasNext()) {
-                result.append(createComponent(separator, ColorLib.DARK_GRAY.rgb))
-            }
-        }
+    parts.forEachIndexed { i, comp ->
+        if (i > 0) result.append(sep)
+        result.append(comp)
     }
     return result
 }

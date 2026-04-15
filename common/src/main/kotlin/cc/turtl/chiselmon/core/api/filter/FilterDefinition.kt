@@ -12,6 +12,7 @@ import cc.turtl.turtlshell.api.core.format.ColorLib
  * the field serializes as a simple JSON string.
  */
 class FilterDefinition(
+    // @JvmField: ensures Gson serializes these as plain fields matching the property names
     @JvmField var id: String,
     @JvmField var displayName: String,
     @JvmField var rgb: Int,
@@ -32,33 +33,29 @@ class FilterDefinition(
     // -------------------------------------------------------------------------
 
     object DefaultFilters {
+        // Magenta (0xFF00FF): ColorLib has no MAGENTA constant.
+        private const val MAGENTA_RGB = 0xFF00FF
 
-        @JvmField
         val LEGENDARIES = FilterDefinition(
             "legendaries", "Legendary Pokemon",
             MAGENTA_RGB, Priority.HIGHEST,
             "legendary"
         )
 
-        @JvmField
         val SHINIES = FilterDefinition(
             "shinies", "Shiny Pokemon",
             ColorLib.GOLD.rgb, Priority.HIGH,
             "shiny"
         )
 
-        @JvmField
         val EXTREME_SIZES = FilterDefinition(
             "extreme_sizes", "Extreme Size Pokemon",
             ColorLib.TEAL.rgb, Priority.NORMAL,
             "extreme_size"
         )
 
-        private const val MAGENTA_RGB = 0xFF00FF
-
         private val ALL = listOf(LEGENDARIES, SHINIES, EXTREME_SIZES)
 
-        @JvmStatic
         fun all(): Map<String, FilterDefinition> = ALL.associateBy { it.id }
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation
 enum class SortMode(
     val id: String,
     val displayName: String,
-    val comparator: Comparator<Pokemon?>,
+    val comparator: Comparator<Pokemon>,
     val showInUI: Boolean
 ) {
     SIZE("size", "Size", PokemonComparators.SIZE_COMPARATOR, true),
@@ -21,7 +21,7 @@ enum class SortMode(
     val icon: ResourceLocation = modResource("textures/gui/pc/pc_button_sort_$id.png")
     val iconReversed: ResourceLocation = modResource("textures/gui/pc/pc_button_sort_${id}_reverse.png")
 
-    fun comparator(reversed: Boolean): Comparator<Pokemon?> =
+    fun comparator(reversed: Boolean): Comparator<Pokemon> =
         if (reversed) comparator.reversed() else comparator
 
     override fun toString() = displayName

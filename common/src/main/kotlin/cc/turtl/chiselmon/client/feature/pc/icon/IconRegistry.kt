@@ -4,7 +4,17 @@ import cc.turtl.chiselmon.client.config.category.PCConfig.IconConfig
 import cc.turtl.chiselmon.core.api.predicate.*
 import cc.turtl.chiselmon.core.util.modResource
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.resources.ResourceLocation
 import java.util.function.Predicate
+
+data class IconEntry(
+    val resource: ResourceLocation,
+    val configCheck: Predicate<IconConfig>,
+    val pokemonCheck: Predicate<Pokemon>
+) {
+    fun shouldDisplay(config: IconConfig, pokemon: Pokemon): Boolean =
+        configCheck.test(config) && pokemonCheck.test(pokemon)
+}
 
 object IconRegistry {
     val entries: MutableList<IconEntry> = ArrayList()
@@ -20,7 +30,6 @@ object IconRegistry {
     }
 
     private fun add(path: String, cfg: Predicate<IconConfig>, pkmn: Predicate<Pokemon>) {
-        val resource = modResource("textures/gui/pc/icon/icon_$path.png")
-        entries.add(IconEntry(resource, cfg, pkmn))
+        entries.add(IconEntry(modResource("textures/gui/pc/icon/icon_$path.png"), cfg, pkmn))
     }
 }

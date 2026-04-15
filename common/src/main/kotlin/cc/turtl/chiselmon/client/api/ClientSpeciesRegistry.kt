@@ -53,8 +53,7 @@ object ClientSpeciesRegistry {
             val startTime = System.currentTimeMillis()
             val tempMap = ConcurrentHashMap<String, ClientSpecies>(1024)
 
-            val root: Path? = Platform.findPath("cobblemon", "data/cobblemon/species")
-            if (root == null) {
+            val root: Path = Platform.findPath("cobblemon", "data/cobblemon/species") ?: run {
                 ChiselmonConstants.LOGGER.warn("Cobblemon species path not found, will retry...")
                 state = LoadState.IDLE
                 return@runAsync
@@ -91,8 +90,5 @@ object ClientSpeciesRegistry {
         }
     }
 
-    @JvmStatic
-    fun getSpecies(name: String): ClientSpecies? {
-        return name.let { speciesMap[normalizeSpeciesName(it)] }
-    }
+    fun getSpecies(name: String): ClientSpecies? = speciesMap[normalizeSpeciesName(name)]
 }

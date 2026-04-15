@@ -45,6 +45,19 @@ object PokemonFormats {
         "ditto" to 0xB6AAD5, "dragon" to 0x5E57BF
     )
 
+    // Stat display name and color keyed by lowercase stat name.
+    // "defence" variants alias to their canonical "defense" entries.
+    private val STAT_INFO: Map<String, Pair<String, Int>> = mapOf(
+        "hp" to ("HP" to ColorLib.GREEN.rgb),
+        "attack" to ("Atk" to ColorLib.RED.rgb),
+        "defense" to ("Def" to ColorLib.ORANGE.rgb),
+        "defence" to ("Def" to ColorLib.ORANGE.rgb),
+        "special_attack" to ("SpA" to ColorLib.BLUE.rgb),
+        "special_defense" to ("SpD" to ColorLib.YELLOW.rgb),
+        "special_defence" to ("SpD" to ColorLib.YELLOW.rgb),
+        "speed" to ("Spe" to ColorLib.PURPLE.rgb),
+    )
+
     // --- Identification ---
 
     fun genderIcon(gender: Gender?): Component = when (gender) {
@@ -54,7 +67,6 @@ object PokemonFormats {
         else -> ICON_GENDERLESS
     }
 
-    @JvmStatic
     fun detailedName(pokemon: Pokemon, form: Boolean): Component {
         val name = Component.empty()
             .append(genderIcon(pokemon.gender))
@@ -105,7 +117,6 @@ object PokemonFormats {
         }
     }
 
-    @JvmStatic
     fun ivsSummary(pokemon: Pokemon): Component {
         val ivs = pokemon.ivs
 
@@ -154,7 +165,7 @@ object PokemonFormats {
             Component.empty()
                 .append(createComponent(value, statColor(stat)))
                 .append(" ")
-                .append(createComponent(statDisplayName(stat), statColor(stat)))
+                .append(createComponent(statName(stat), statColor(stat)))
         }
     }
 
@@ -175,7 +186,6 @@ object PokemonFormats {
 
     // --- Misc ---
 
-    @JvmStatic
     fun rideStyles(pokemon: Pokemon): Component {
         if (!IS_RIDEABLE.test(pokemon)) return UNKNOWN
         val behaviours = pokemon.riding.behaviours ?: return UNKNOWN
@@ -185,21 +195,16 @@ object PokemonFormats {
                 RidingStyle.LAND -> ColorLib.GREEN.rgb
                 RidingStyle.LIQUID -> ColorLib.AQUA.rgb
                 // ColorLib has no LAVENDER -- using PURPLE as the closest available.
-                // Consider adding LAVENDER (0xB57BFF or similar) to ColorLib if this matters.
                 RidingStyle.AIR -> ColorLib.PURPLE.rgb
             }
             createComponent(style.name.capitalizeFirst(), color)
         }
     }
 
-    @JvmStatic
     fun marks(pokemon: Pokemon): Component {
         if (!IS_MARKED.test(pokemon)) return UNKNOWN
 
         return join(pokemon.marks, ", ") { mark ->
-            // Mark.name is not currently exposed via a stable accessor.
-            // The translation key is retrieved here via toString(), which for
-            // Mark returns the identifier. Update this if the API exposes getName().
             val key = mark.toString()
             val color = mark.titleColour?.toIntOrNull(16) ?: ColorLib.WHITE.rgb
 
@@ -208,7 +213,6 @@ object PokemonFormats {
         }
     }
 
-    @JvmStatic
     fun hatchProgress(pokemon: Pokemon): Component {
         val egg = pokemon as? EggDummy ?: return UNKNOWN
 
@@ -231,23 +235,9 @@ object PokemonFormats {
 
     // --- Helpers ---
 
-    private fun statDisplayName(key: String): String = when (key.lowercase()) {
-        "hp" -> "HP"
-        "attack" -> "Atk"
-        "defense", "defence" -> "Def"
-        "special_attack" -> "SpA"
-        "special_defense", "special_defence" -> "SpD"
-        "speed" -> "Spe"
-        else -> key.capitalizeFirst()
-    }
+    private fun statName(key: String): String =
+        STAT_INFO[key.lowercase()]?.first ?: key.capitalizeFirst()
 
-    private fun statColor(key: String): Int = when (key.lowercase()) {
-        "hp" -> ColorLib.GREEN.rgb
-        "attack" -> ColorLib.RED.rgb
-        "defense", "defence" -> ColorLib.ORANGE.rgb
-        "special_attack" -> ColorLib.BLUE.rgb
-        "special_defense", "special_defence" -> ColorLib.YELLOW.rgb
-        "speed" -> ColorLib.PURPLE.rgb
-        else -> ColorLib.WHITE.rgb
-    }
+    private fun statColor(key: String): Int =
+        STAT_INFO[key.lowercase()]?.second ?: ColorLib.WHITE.rgb
 }

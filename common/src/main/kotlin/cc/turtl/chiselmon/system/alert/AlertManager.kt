@@ -24,8 +24,8 @@ object AlertManager {
     private val continuousActions: List<AlertAction> = listOf(GlowAction())
     private val repeatingSoundAction = SoundAction()
 
-    private var mutedUuids: MutableSet<UUID> = HashSet()
-    private var actionedUuids: MutableSet<UUID> = HashSet()
+    private val mutedUuids = hashSetOf<UUID>()
+    private val actionedUuids = hashSetOf<UUID>()
     private var soundDelayRemaining = 0
     private var active = false
 
@@ -37,21 +37,23 @@ object AlertManager {
         ChiselmonConstants.LOGGER.info("AlertSystem initialized")
     }
 
+    private fun reset() {
+        mutedUuids.clear()
+        actionedUuids.clear()
+        soundDelayRemaining = 0
+    }
+
     private fun onWorldJoin() {
         if (active) {
             ChiselmonConstants.LOGGER.warn("New world joined before AlertSystem was disposed - resetting")
         }
-        mutedUuids = HashSet()
-        actionedUuids = HashSet()
-        soundDelayRemaining = 0
+        reset()
         active = true
         ChiselmonConstants.LOGGER.debug("AlertSystem started")
     }
 
     private fun onWorldLeave() {
-        mutedUuids = HashSet()
-        actionedUuids = HashSet()
-        soundDelayRemaining = 0
+        reset()
         active = false
         ChiselmonConstants.LOGGER.debug("AlertSystem disposed")
     }
@@ -110,19 +112,13 @@ object AlertManager {
         }
     }
 
-    fun mute(uuid: UUID) {
-        mutedUuids.add(uuid)
-    }
+    fun mute(uuid: UUID) = mutedUuids.add(uuid)
 
-    fun muteAll() {
-        mutedUuids.addAll(TrackerManager.tracker.currentlyLoaded.keys)
-    }
+    fun muteAll() = mutedUuids.addAll(TrackerManager.tracker.currentlyLoaded.keys)
 
-    fun unmuteAll() {
-        mutedUuids.clear()
-    }
+    fun unmuteAll() = mutedUuids.clear()
 
-    fun isMuted(uuid: UUID): Boolean = mutedUuids.contains(uuid)
+    fun isMuted(uuid: UUID): Boolean = uuid in mutedUuids
 
     fun getMutedUuids(): Set<UUID> = mutedUuids
 }
