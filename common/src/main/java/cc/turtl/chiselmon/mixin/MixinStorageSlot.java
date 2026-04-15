@@ -6,7 +6,7 @@ import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.client.feature.eggspy.EggDummy;
 import cc.turtl.chiselmon.client.feature.eggspy.EggRenderer;
 import cc.turtl.chiselmon.client.feature.pc.icon.IconRenderer;
-import cc.turtl.chiselmon.feature.pc.tooltip.TooltipBuilder;
+import cc.turtl.chiselmon.client.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.client.gui.GuiGraphics;
