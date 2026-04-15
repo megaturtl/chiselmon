@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.client.config.category
 
+import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.filter.FiltersUserData
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
-import cc.turtl.chiselmon.client.ChiselmonStorage
-import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.turtlshell.api.client.config.OptionFactory

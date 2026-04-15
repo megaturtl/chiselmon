@@ -1,9 +1,10 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
+import cc.turtl.chiselmon.core.api.calc.TypingMatchups;
 import cc.turtl.chiselmon.core.api.calc.TypingMatchupsKt;
+import cc.turtl.turtlshell.api.core.format.ColorLib;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.battles.InBattleMove;
@@ -24,25 +25,39 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mixin(value = BattleMoveSelection.MoveTile.class)
 public abstract class MixinMoveTile {
 
-    @Unique private static final int TOOLTIP_MAX_WIDTH = 200;
+    @Unique
+    private static final int TOOLTIP_MAX_WIDTH = 200;
 
     // Palette – mirrors the turtlshell ColorLib values used elsewhere in the project.
-    @Unique private static final int COLOR_DARK_GRAY  = 0x555555;
-    @Unique private static final int COLOR_RED        = 0xE13538;
-    @Unique private static final int COLOR_GREEN      = 0x41D73B;
-    @Unique private static final int COLOR_YELLOW     = 0xF9C74F;
-    @Unique private static final int COLOR_AQUA       = 0x40E0D0;
-    @Unique private static final int COLOR_PURPLE     = 0x6C44C3;
-    @Unique private static final int COLOR_LIGHT_GRAY = 0xAAAAAA;
-    @Unique private static final int COLOR_MAGENTA    = 0xFF00FF;
-    @Unique private static final int COLOR_ORANGE     = 0xF9844A;
-    @Unique private static final int COLOR_WHITE      = 0xFFFFFF;
+    @Unique
+    private static final int COLOR_DARK_GRAY = ColorLib.INSTANCE.getDARK_GRAY().getRGB();
+    @Unique
+    private static final int COLOR_RED = ColorLib.INSTANCE.getRED().getRGB();
+    @Unique
+    private static final int COLOR_GREEN = ColorLib.INSTANCE.getGREEN().getRGB();
+    @Unique
+    private static final int COLOR_YELLOW = ColorLib.INSTANCE.getYELLOW().getRGB();
+    @Unique
+    private static final int COLOR_AQUA = ColorLib.INSTANCE.getAQUA().getRGB();
+    @Unique
+    private static final int COLOR_PURPLE = ColorLib.INSTANCE.getPURPLE().getRGB();
+    @Unique
+    private static final int COLOR_LIGHT_GRAY = ColorLib.INSTANCE.getLIGHT_GRAY().getRGB();
+    @Unique
+    private static final int COLOR_MAGENTA = ColorLib.INSTANCE.getMAGENTA().getRGB();
+    @Unique
+    private static final int COLOR_ORANGE = ColorLib.INSTANCE.getORANGE().getRGB();
+    @Unique
+    private static final int COLOR_WHITE = ColorLib.INSTANCE.getWHITE().getRGB();
 
     @Shadow(remap = false)
     private MoveTemplate moveTemplate;
@@ -99,7 +114,7 @@ public abstract class MixinMoveTile {
         header.append(moveTemplate.getDisplayName().copy()
                 .withColor(elementalType.getHue()));
         header.append(Component.literal(" » ")
-                .withColor(COLOR_DARK_GRAY));
+                .withColor(ColorLib.INSTANCE.getLIGHT_GRAY().getRGB()));
         header.append(Component.literal("⚡")
                 .withStyle(s -> s.withBold(true).withColor(COLOR_RED)));
         header.append(Component.literal(" " + powerString)
@@ -186,10 +201,10 @@ public abstract class MixinMoveTile {
         int color = switch ((int) (multiplier * 100)) {
             case 400 -> COLOR_MAGENTA;
             case 200 -> COLOR_GREEN;
-            case 50  -> COLOR_ORANGE;
-            case 25  -> COLOR_YELLOW;
-            case 0   -> COLOR_RED;
-            default  -> COLOR_WHITE;
+            case 50 -> COLOR_ORANGE;
+            case 25 -> COLOR_YELLOW;
+            case 0 -> COLOR_RED;
+            default -> COLOR_WHITE;
         };
 
         MutableComponent effectiveness = Component.empty();

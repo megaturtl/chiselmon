@@ -57,19 +57,19 @@ data class AlertContext(
 
     val shouldRepeatingSound: Boolean
         get() = shouldAlert && !isMuted &&
-            firstMatching { it.enabled && it.playSound && it.repeatSound } != null
+                firstMatching { it.enabled && it.playSound && it.repeatSound } != null
 
     val shouldSingleSound: Boolean
         get() = shouldAlert && !isMuted &&
-            firstMatching { it.enabled && it.playSound && !it.repeatSound } != null
+                firstMatching { it.enabled && it.playSound && !it.repeatSound } != null
 
     val shouldMessage: Boolean
         get() = shouldAlert && !isMuted && messageFilter != null
 
     val shouldDiscord: Boolean
         get() = shouldAlert && !isMuted &&
-            ChiselmonConfig.general.discordWebhookURL.isNotBlank() &&
-            discordFilter != null
+                ChiselmonConfig.general.discordWebhookURL.isNotBlank() &&
+                discordFilter != null
 
     val shouldHighlight: Boolean
         get() = shouldAlert && highlightFilter != null

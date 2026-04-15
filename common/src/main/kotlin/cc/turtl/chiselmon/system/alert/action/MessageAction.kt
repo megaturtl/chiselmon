@@ -90,7 +90,7 @@ class MessageAction : AlertAction {
             val colorIndex = Character.digit(mcColor, 16)
             val dimension = ctx.entity.level().dimension().location().toString().replace(":", "$")
             val waypointCommand = "/xaero_waypoint_add:${pokemon.species.name}:!:" +
-                "${pos.x}:${pos.y}:${pos.z}:$colorIndex:false:0:Internal-dim%$dimension-waypoints"
+                    "${pos.x}:${pos.y}:${pos.z}:$colorIndex:false:0:Internal-dim%$dimension-waypoints"
 
             coords.withStyle { style ->
                 style.withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, waypointCommand))

@@ -6,15 +6,11 @@ import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.PokemonEncounter
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
-import cc.turtl.chiselmon.system.alert.action.AlertAction
-import cc.turtl.chiselmon.system.alert.action.DiscordAction
-import cc.turtl.chiselmon.system.alert.action.GlowAction
-import cc.turtl.chiselmon.system.alert.action.MessageAction
-import cc.turtl.chiselmon.system.alert.action.SoundAction
+import cc.turtl.chiselmon.system.alert.action.*
 import cc.turtl.chiselmon.system.tracker.TrackerManager
 import cc.turtl.turtlshell.api.client.ClientEvents
 import net.minecraft.client.Minecraft
-import java.util.UUID
+import java.util.*
 
 object AlertManager {
 

@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.sql.Connection
 import java.sql.SQLException
-import java.util.UUID
+import java.util.*
 
 class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
 

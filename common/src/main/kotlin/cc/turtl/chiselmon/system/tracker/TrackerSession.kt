@@ -8,7 +8,7 @@ import cc.turtl.chiselmon.client.util.resetNickname
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.system.dashboard.DashboardServer
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import java.util.UUID
+import java.util.*
 
 /**
  * Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database.

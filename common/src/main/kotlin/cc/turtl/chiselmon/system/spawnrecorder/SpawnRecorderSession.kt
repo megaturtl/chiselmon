@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import java.util.UUID
+import java.util.*
 
 class SpawnRecorderSession(private val tracker: TrackerSession) {
 
@@ -104,18 +104,24 @@ class SpawnRecorderSession(private val tracker: TrackerSession) {
         val safeCount = loadedCount - despawnCount
 
         val message: MutableComponent = Component.empty()
-            .append(Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorLib.LIGHT_GRAY.rgb))
+            .append(
+                Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorLib.LIGHT_GRAY.rgb)
+            )
             .append(Component.literal(despawnCount.toString()).withColor(ColorLib.RED.rgb))
             .append(Component.literal("/").withColor(ColorLib.DARK_GRAY.rgb))
             .append(Component.literal(safeCount.toString()).withColor(ColorLib.GREEN.rgb))
             .append(Component.literal(" | ").withColor(ColorLib.DARK_GRAY.rgb))
-            .append(Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorLib.LIGHT_GRAY.rgb))
+            .append(
+                Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorLib.LIGHT_GRAY.rgb)
+            )
             .append(Component.literal(totalRecordedCount.toString()).withColor(ColorLib.AQUA.rgb))
             .append(Component.literal(" | ").withColor(ColorLib.DARK_GRAY.rgb))
             .append(Component.literal(formatDuration(elapsedMs)).withColor(ColorLib.YELLOW.rgb))
 
         if (isPaused) {
-            message.append(Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorLib.ORANGE.rgb))
+            message.append(
+                Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorLib.ORANGE.rgb)
+            )
         }
 
         Minecraft.getInstance().gui.setOverlayMessage(message, false)

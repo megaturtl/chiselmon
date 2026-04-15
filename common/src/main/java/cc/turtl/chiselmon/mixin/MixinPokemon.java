@@ -25,20 +25,18 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Shadow(remap = false)
     private Species species;
+    // If mid-redirect, return self to avoid infinite loops when the preview's own getters are called
+    @Unique
+    private boolean chiselmon$redirecting = false;
+    // Cached during a redirect so inject bodies don't need to call getPreview() again
+    @Unique
+    private Pokemon chiselmon$pendingPreview = null;
 
     // Accessed directly to avoid triggering our own getSpecies() redirect
     @Override
     public boolean chiselmon$isEgg() {
         return EGG_SPECIES_ID.equals(this.species.getResourceIdentifier());
     }
-
-    // If mid-redirect, return self to avoid infinite loops when the preview's own getters are called
-    @Unique
-    private boolean chiselmon$redirecting = false;
-
-    // Cached during a redirect so inject bodies don't need to call getPreview() again
-    @Unique
-    private Pokemon chiselmon$pendingPreview = null;
 
     @Unique
     @Override

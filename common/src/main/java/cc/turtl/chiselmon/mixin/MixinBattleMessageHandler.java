@@ -21,7 +21,8 @@ public class MixinBattleMessageHandler {
                 if (args.length > 0) {
                     try {
                         BattleState.INSTANCE.onTurnMessage(Integer.parseInt(args[0].toString().trim()));
-                    } catch (NumberFormatException ignored) {}
+                    } catch (NumberFormatException ignored) {
+                    }
                 }
             }
         }

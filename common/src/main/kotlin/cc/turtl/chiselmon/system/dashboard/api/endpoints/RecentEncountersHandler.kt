@@ -30,7 +30,7 @@ class RecentEncountersHandler(db: EncounterDatabase) : ApiHandler(db) {
             val encounters = query("encounters").timeRange(timeRange)
                 .select(
                     "species, form, level, gender, scale_modifier, is_shiny, is_legendary," +
-                        " from_snack, block_name, dimension, biome, encountered_ms"
+                            " from_snack, block_name, dimension, biome, encountered_ms"
                 )
                 .orderBy("encountered_ms DESC")
                 .limit(limit)

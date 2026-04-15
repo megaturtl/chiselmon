@@ -11,7 +11,7 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.time.Instant
-import java.util.ArrayDeque
+import java.util.*
 
 class DiscordAction : AlertAction {
 
@@ -87,12 +87,18 @@ class DiscordAction : AlertAction {
 
             // Thumbnail image
             val spriteUrl = "https://play.pokemonshowdown.com/sprites/" +
-                "${if (ctx.encounter.isShiny) "ani-shiny" else "ani"}/$urlSlug.gif"
+                    "${if (ctx.encounter.isShiny) "ani-shiny" else "ani"}/$urlSlug.gif"
             add("thumbnail", JsonObject().apply { addProperty("url", spriteUrl) })
 
             // Fields
             add("fields", JsonArray().apply {
-                add(embedField("📍 Location", "${ctx.encounter.pokemonX}, ${ctx.encounter.pokemonY}, ${ctx.encounter.pokemonZ}", true))
+                add(
+                    embedField(
+                        "📍 Location",
+                        "${ctx.encounter.pokemonX}, ${ctx.encounter.pokemonY}, ${ctx.encounter.pokemonZ}",
+                        true
+                    )
+                )
                 add(embedField("🏞️ Biome", ctx.encounter.biome, true))
                 add(embedField("🕐 Time", "<t:${Instant.now().epochSecond}:R>", false))
             })

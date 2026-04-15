@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
 import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.chiselmon.system.alert.AlertSounds
@@ -84,12 +84,10 @@ class AlertConfig {
         soundOption.addEventListener { opt, event ->
             if (event == OptionEventListener.Event.STATE_CHANGE) {
                 val sound = opt.pendingValue().sound
-                if (sound != null) {
-                    val volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f)
-                    Minecraft.getInstance().soundManager.play(
-                        SimpleSoundInstance.forUI(sound, 1.0f, volume)
-                    )
-                }
+                val volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f)
+                Minecraft.getInstance().soundManager.play(
+                    SimpleSoundInstance.forUI(sound, 1.0f, volume)
+                )
             }
         }
 
