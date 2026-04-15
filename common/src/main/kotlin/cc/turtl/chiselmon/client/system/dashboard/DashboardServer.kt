@@ -1,16 +1,8 @@
 package cc.turtl.chiselmon.client.system.dashboard
 
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.BiomesHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.ContextHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.DimensionsHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.HeatmapHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.PlayerPosHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.RecentEncountersHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.SpeciesHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.StatsHandler
-import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.TimelineHandler
-import cc.turtl.chiselmon.core.ChiselmonConstants
+import cc.turtl.chiselmon.client.system.dashboard.api.endpoints.*
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
