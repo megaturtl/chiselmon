@@ -5,7 +5,7 @@ import cc.turtl.chiselmon.core.api.filter.FiltersUserData
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.api.storage.gsonData
 import cc.turtl.chiselmon.core.api.storage.h2Data
-import cc.turtl.chiselmon.system.tracker.EncounterDatabase
+import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import cc.turtl.turtlshell.api.client.ClientEvents
 
 /**

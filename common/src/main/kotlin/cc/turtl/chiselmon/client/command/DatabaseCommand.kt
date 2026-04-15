@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.chiselmon.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.tracker.TrackerManager
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command

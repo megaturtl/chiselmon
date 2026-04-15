@@ -5,7 +5,7 @@ import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
-import cc.turtl.chiselmon.system.alert.AlertSounds
+import cc.turtl.chiselmon.client.system.alert.AlertSounds
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.config.v2.api.SerialEntry

@@ -3,7 +3,7 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendPrefixed
 import cc.turtl.chiselmon.client.util.sendSuccess
-import cc.turtl.chiselmon.system.alert.AlertManager
+import cc.turtl.chiselmon.client.system.alert.AlertManager
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
