@@ -3,9 +3,9 @@ package cc.turtl.chiselmon.mixin;
 import cc.turtl.chiselmon.client.ChiselmonStorage;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
+import cc.turtl.chiselmon.client.feature.pc.sort.SortManager;
 import cc.turtl.chiselmon.core.api.storage.Scope;
 import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
-import cc.turtl.chiselmon.feature.pc.sort.SortManager;
 import cc.turtl.turtlshell.api.client.keybind.KeybindHelper;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
@@ -43,6 +43,7 @@ public abstract class MixinPCGUI extends Screen {
     private List<IconButton> optionButtons;
     @Shadow(remap = false)
     private boolean displayOptions;
+
     @Unique
     private BookmarkManager chiselmon$bookmarkManager;
     @Unique
@@ -54,23 +55,21 @@ public abstract class MixinPCGUI extends Screen {
 
     // Don't use remap=false here or InvMove early loading the class will break the Mixin injection
     @Inject(method = "init", at = @At("TAIL"))
-    private void chiselmon$initEntryPoint(CallbackInfo ci) {
+    private void chiselmon$init(CallbackInfo ci) {
         if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
-
-        int x = (width - BASE_WIDTH) / 2;
-        int y = (height - BASE_HEIGHT) / 2;
 
         Scope worldScope = Scope.Companion.currentWorld();
         if (worldScope == null) return;
 
+        int x = (width - BASE_WIDTH) / 2;
+        int y = (height - BASE_HEIGHT) / 2;
+
         chiselmon$bookmarkManager = new BookmarkManager(
                 ChiselmonStorage.PC_SETTINGS.get(worldScope).bookmarks,
-                storageWidget,
-                pc,
+                storageWidget, pc,
                 this::addRenderableWidget,
                 this::removeWidget
         );
-
         chiselmon$bookmarkManager.initialize(x, y);
 
         chiselmon$sortManager = new SortManager(pc, storageWidget, displayOptions, optionButtons, this::addRenderableWidget);
@@ -78,15 +77,11 @@ public abstract class MixinPCGUI extends Screen {
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void chiselmon$updateBookmarks(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (chiselmon$bookmarkManager != null) {
-            chiselmon$bookmarkManager.update();
-        }
+    private void chiselmon$render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (chiselmon$bookmarkManager != null) chiselmon$bookmarkManager.update();
 
         PCConfig.QuickSortConfig quickSort = ChiselmonConfig.INSTANCE.getPc().getQuickSort();
-        if (quickSort.getEnabled()
-                && chiselmon$sortManager != null
-                && KeybindHelper.INSTANCE.isDown(quickSort.getHotkey())) {
+        if (chiselmon$sortManager != null && quickSort.getEnabled() && KeybindHelper.INSTANCE.isDown(quickSort.getHotkey())) {
             chiselmon$sortManager.executeQuickSort(quickSort.getMode(), Screen.hasShiftDown());
         }
     }
@@ -97,12 +92,10 @@ public abstract class MixinPCGUI extends Screen {
             chiselmon$bookmarkManager.cleanup();
             chiselmon$bookmarkManager = null;
         }
-
         chiselmon$sortManager = null;
 
         Scope worldScope = Scope.Companion.currentWorld();
-        if (worldScope == null) return;
-        ChiselmonStorage.PC_SETTINGS.save(worldScope);
+        if (worldScope != null) ChiselmonStorage.PC_SETTINGS.save(worldScope);
 
         super.removed();
     }

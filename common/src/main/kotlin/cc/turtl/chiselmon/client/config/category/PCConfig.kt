@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.config.category
 
 import cc.turtl.chiselmon.client.ChiselmonPacks
-import cc.turtl.chiselmon.feature.pc.sort.SortMode
+import cc.turtl.chiselmon.client.feature.pc.sort.SortMode
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import com.mojang.blaze3d.platform.InputConstants
 import dev.isxander.yacl3.api.ButtonOption
