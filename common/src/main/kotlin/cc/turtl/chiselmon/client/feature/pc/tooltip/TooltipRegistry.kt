@@ -26,7 +26,7 @@ data class TooltipEntry(
 }
 
 object TooltipRegistry {
-    private val entries = listOf(
+    val entries = listOf(
         entry("ivs", { it.ivs }, { true }, PokemonFormats::ivsSummary),
         entry("original_trainer", { it.originalTrainer }, { true }, { it.originalTrainerName ?: "???" }),
         entry("form", { it.form }, { true }, { it.form.name }),
@@ -35,8 +35,6 @@ object TooltipRegistry {
         entry("marks", { it.marks }, IS_MARKED::test, PokemonFormats::marks),
         entry("hatch_progress", { it.hatchProgress }, IS_EGG_DUMMY::test, PokemonFormats::hatchProgress),
     )
-
-    fun getEntries(): List<TooltipEntry> = entries
 
     private fun entry(
         key: String,

@@ -12,12 +12,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.Style
-import java.util.regex.Pattern
 
 object CheckSpawnInterceptor {
-    private val ENTRY_PATTERN: Pattern = Pattern.compile(
-        "([A-Z][\\p{L}0-9\\s.\\-']+):\\s*([\\d.]+%)[,;]?"
-    )
+    private val ENTRY_PATTERN = Regex("([A-Z][\\p{L}0-9\\s.\\-']+):\\s*([\\d.]+%)[,;]?")
 
     private const val WATCH_WINDOW = 3
     private var messagesRemaining = 0
@@ -48,24 +45,23 @@ object CheckSpawnInterceptor {
         if (messagesRemaining <= 0) return null
 
         val raw = original.string
-        val matcher = ENTRY_PATTERN.matcher(raw)
+        val matches = ENTRY_PATTERN.findAll(raw).toList()
 
-        if (!matcher.find()) {
+        if (matches.isEmpty()) {
             messagesRemaining--
             return null
         }
-        matcher.reset()
         messagesRemaining--
 
         val result = Component.empty()
         var lastEnd = 0
 
-        while (matcher.find()) {
-            if (matcher.start() > lastEnd) {
-                result.append(Component.literal(raw.substring(lastEnd, matcher.start())))
+        for (match in matches) {
+            if (match.range.first > lastEnd) {
+                result.append(Component.literal(raw.substring(lastEnd, match.range.first)))
             }
-            result.append(buildEntry(matcher.group(1), matcher.group(2)))
-            lastEnd = matcher.end()
+            result.append(buildEntry(match.groupValues[1], match.groupValues[2]))
+            lastEnd = match.range.last + 1
         }
 
         if (lastEnd < raw.length) {

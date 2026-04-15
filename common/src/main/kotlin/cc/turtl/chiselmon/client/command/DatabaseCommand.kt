@@ -4,7 +4,7 @@ import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.chiselmon.client.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command
@@ -23,7 +23,7 @@ class DatabaseCommand : TurtlShellCommand {
         LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                val db = TrackerManager.tracker.db
+                val db = TrackerSession.current.db
                 val stats = db.summaryStats()
 
                 sendEmptyLine(player)

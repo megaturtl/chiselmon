@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.system.spawnrecorder
 
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.client.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.client.ClientEvents
 
 object SpawnRecorderManager {
@@ -44,7 +44,7 @@ object SpawnRecorderManager {
      */
     fun startSession(): Boolean {
         if (session != null) return false
-        session = SpawnRecorderSession(TrackerManager.tracker)
+        session = SpawnRecorderSession(TrackerSession.current)
         ChiselmonConstants.LOGGER.info("SpawnRecorder session started")
         return true
     }

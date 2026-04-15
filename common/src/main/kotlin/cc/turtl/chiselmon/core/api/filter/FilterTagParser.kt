@@ -53,36 +53,33 @@ object FilterTagParser {
                 pokemon.types.any { it.name.equals(rawValue, ignoreCase = true) }
             }
 
-            "gender" -> Predicate { pokemon ->
-                try {
-                    pokemon.gender == Gender.valueOf(rawValue.uppercase())
-                } catch (_: Exception) {
-                    false
+            "gender" -> {
+                val gender = try {
+                    Gender.valueOf(rawValue.uppercase())
+                } catch (_: IllegalArgumentException) {
+                    throw FilterConditionParser.ParseException(
+                        "Invalid gender '$rawValue' -- expected male, female, or genderless"
+                    )
                 }
+                Predicate { it.gender == gender }
             }
 
-            "min_size" -> Predicate { pokemon ->
-                try {
-                    pokemon.scaleModifier >= rawValue.toFloat()
-                } catch (_: Exception) {
-                    false
-                }
+            "min_size" -> {
+                val threshold = rawValue.toFloatOrNull()
+                    ?: throw FilterConditionParser.ParseException("Invalid min_size value: '$rawValue'")
+                Predicate { it.scaleModifier >= threshold }
             }
 
-            "max_size" -> Predicate { pokemon ->
-                try {
-                    pokemon.scaleModifier <= rawValue.toFloat()
-                } catch (_: Exception) {
-                    false
-                }
+            "max_size" -> {
+                val threshold = rawValue.toFloatOrNull()
+                    ?: throw FilterConditionParser.ParseException("Invalid max_size value: '$rawValue'")
+                Predicate { it.scaleModifier <= threshold }
             }
 
-            "min_level" -> Predicate { pokemon ->
-                try {
-                    pokemon.level >= rawValue.toInt()
-                } catch (_: Exception) {
-                    false
-                }
+            "min_level" -> {
+                val level = rawValue.toIntOrNull()
+                    ?: throw FilterConditionParser.ParseException("Invalid min_level value: '$rawValue'")
+                Predicate { it.level >= level }
             }
 
             else -> Predicate { false }

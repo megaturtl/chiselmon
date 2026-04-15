@@ -8,7 +8,7 @@ import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.feature.CheckSpawnInterceptor
 import cc.turtl.chiselmon.client.system.alert.AlertManager
 import cc.turtl.chiselmon.client.system.spawnrecorder.SpawnRecorderManager
-import cc.turtl.chiselmon.client.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.client.keybind.KeybindRegistry
 import cc.turtl.turtlshell.api.core.command.CommandRegistry
 
@@ -40,7 +40,7 @@ object ChiselmonClientCommon {
         ClientSpeciesRegistry.init()
         ChiselmonStorage.init()
 
-        TrackerManager.init()
+        TrackerSession.init()
         AlertManager.init()
         SpawnRecorderManager.init()
 

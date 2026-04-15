@@ -12,9 +12,9 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.MutableComponent
 
-class MessageAction : AlertAction {
+class MessageAction {
 
-    override fun execute(ctx: AlertContext) {
+    fun execute(ctx: AlertContext) {
         if (!ctx.shouldMessage) return
         val client = Minecraft.getInstance()
         if (client.player == null || ctx.isMuted) return

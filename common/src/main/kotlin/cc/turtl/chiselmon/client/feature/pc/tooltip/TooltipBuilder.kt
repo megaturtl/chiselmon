@@ -12,7 +12,7 @@ object TooltipBuilder {
         val content = detailedName(pokemon, false).copy()
 
         if (shiftDown) {
-            TooltipRegistry.getEntries()
+            TooltipRegistry.entries
                 .filter { it.shouldDisplay(config, pokemon) }
                 .forEach { content.append(Component.literal("\n")).append(it.getComponent(pokemon)) }
         }
