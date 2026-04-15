@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.util.format.clickableUrl
-import cc.turtl.chiselmon.client.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.ColorLib
@@ -115,7 +115,7 @@ class DashCommand : TurtlShellCommand {
      */
     private fun requireSession(player: LocalPlayer): TrackerSession? {
         return try {
-            TrackerManager.tracker
+            TrackerSession.current
         } catch (e: IllegalStateException) {
             sendWarning(player, "No active tracker session.")
             null

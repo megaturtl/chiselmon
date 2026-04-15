@@ -2,11 +2,14 @@ package cc.turtl.chiselmon.client.system.alert
 
 import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
-import cc.turtl.chiselmon.client.system.alert.action.*
-import cc.turtl.chiselmon.client.system.tracker.TrackerManager
+import cc.turtl.chiselmon.client.system.alert.action.DiscordAction
+import cc.turtl.chiselmon.client.system.alert.action.MessageAction
+import cc.turtl.chiselmon.client.system.alert.action.SoundAction
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
+import cc.turtl.chiselmon.client.util.addGlow
+import cc.turtl.chiselmon.client.util.highlightNickname
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.core.api.PokemonEncounter
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
 import cc.turtl.turtlshell.api.client.ClientEvents
 import net.minecraft.client.Minecraft
@@ -16,8 +19,9 @@ object AlertManager {
 
     private const val SOUND_DELAY_TICKS = 20
 
-    private val oneTimeActions: List<AlertAction> = listOf(MessageAction(), SoundAction(), DiscordAction())
-    private val continuousActions: List<AlertAction> = listOf(GlowAction())
+    private val messageAction = MessageAction()
+    private val soundAction = SoundAction()
+    private val discordAction = DiscordAction()
     private val repeatingSoundAction = SoundAction()
 
     private val mutedUuids = hashSetOf<UUID>()
@@ -68,7 +72,7 @@ object AlertManager {
         // Track the "best" filter match for the sound this tick
         var bestSoundContext: AlertContext? = null
 
-        for (pe in TrackerManager.tracker.currentlyLoaded.values) {
+        for (pe in TrackerSession.current.currentlyLoaded.values) {
             val uuid = pe.uuid
             if (pe.busyLocks.isNotEmpty()) mute(uuid)
 
@@ -80,13 +84,19 @@ object AlertManager {
                 filters = result.allMatches,
                 isMuted = isMuted(uuid),
                 config = config,
-                encounter = PokemonEncounter.from(pe),
             )
 
-            continuousActions.forEach { it.execute(ctx) }
+            // Continuous: apply glow every tick
+            val highlightFilter = ctx.highlightFilter
+            if (ctx.shouldHighlight && highlightFilter != null) {
+                pe.addGlow(highlightFilter.rgb)
+                pe.highlightNickname(highlightFilter.rgb)
+            }
 
             if (actionedUuids.add(uuid)) {
-                oneTimeActions.forEach { it.execute(ctx) }
+                messageAction.execute(ctx)
+                soundAction.execute(ctx)
+                discordAction.execute(ctx)
             }
 
             // Promote ctx to the best sound candidate if its filter out-prioritises the current best
@@ -110,7 +120,7 @@ object AlertManager {
 
     fun mute(uuid: UUID) = mutedUuids.add(uuid)
 
-    fun muteAll() = mutedUuids.addAll(TrackerManager.tracker.currentlyLoaded.keys)
+    fun muteAll() = mutedUuids.addAll(TrackerSession.current.currentlyLoaded.keys)
 
     fun unmuteAll() = mutedUuids.clear()
 

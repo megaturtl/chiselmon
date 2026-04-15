@@ -7,7 +7,7 @@ import cc.turtl.turtlshell.impl.ObservableEvent
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
-data class PokemonLoadedEvent(val entity: PokemonEntity, val encounter: PokemonEncounter, val isWild: Boolean)
+data class PokemonLoadedEvent(val entity: PokemonEntity, val encounter: PokemonEncounter?, val isWild: Boolean)
 data class PokemonUnloadedEvent(val entity: PokemonEntity, val isWild: Boolean)
 data class BattleStartedEvent(val battle: ClientBattle)
 data class BattleEndedEvent(val battle: ClientBattle)
@@ -21,7 +21,8 @@ object ChiselmonClientEvents {
     fun init() {
         ClientEvents.ENTITY_LOAD.subscribe { entity ->
             if (entity is PokemonEntity) {
-                POKEMON_LOADED(PokemonLoadedEvent(entity, PokemonEncounter.from(entity), IS_WILD.test(entity)))
+                val isWild = IS_WILD.test(entity)
+                POKEMON_LOADED(PokemonLoadedEvent(entity, if (isWild) PokemonEncounter.from(entity) else null, isWild))
             }
         }
         ClientEvents.ENTITY_UNLOAD.subscribe { entity ->

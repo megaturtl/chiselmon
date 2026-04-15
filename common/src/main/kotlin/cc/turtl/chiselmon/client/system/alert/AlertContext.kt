@@ -2,7 +2,6 @@ package cc.turtl.chiselmon.client.system.alert
 
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.config.category.AlertConfig
-import cc.turtl.chiselmon.core.api.PokemonEncounter
 import cc.turtl.chiselmon.core.api.filter.RuntimeFilter
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -10,18 +9,16 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 /**
  * Snapshot of a Pokemon's alert state for a single tick.
  *
- * @param entity     The live entity that triggered the alert.
- * @param filters    The filters that matched this pokemon, sorted by priority.
- * @param isMuted    Whether the user has muted this specific pokemon.
- * @param config     The current alert config.
- * @param encounter  The immutable encounter snapshot.
+ * @param entity  The live entity that triggered the alert.
+ * @param filters The filters that matched this pokemon, sorted by priority.
+ * @param isMuted Whether the user has muted this specific pokemon.
+ * @param config  The current alert config.
  */
 data class AlertContext(
     val entity: PokemonEntity,
     val filters: List<RuntimeFilter>,
     val isMuted: Boolean,
     val config: AlertConfig,
-    val encounter: PokemonEncounter,
 ) {
     val pokemon: Pokemon get() = entity.pokemon
 

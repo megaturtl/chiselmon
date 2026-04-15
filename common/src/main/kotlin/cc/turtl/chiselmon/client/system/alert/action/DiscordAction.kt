@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.util.normalizeSpeciesName
 import cc.turtl.chiselmon.client.system.alert.AlertContext
+import cc.turtl.chiselmon.core.api.PokemonEncounter
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.client.Minecraft
@@ -13,13 +14,14 @@ import java.nio.charset.StandardCharsets
 import java.time.Instant
 import java.util.*
 
-class DiscordAction : AlertAction {
+class DiscordAction {
 
     /** Timestamps of recently-sent alerts, used for simple in-window rate limiting. */
     private val sentTimestamps = ArrayDeque<Long>()
 
-    override fun execute(ctx: AlertContext) {
+    fun execute(ctx: AlertContext) {
         if (!ctx.shouldDiscord) return
+        val encounter = PokemonEncounter.from(ctx.entity)
         if (!allowAlert()) {
             ChiselmonConstants.LOGGER.warn(
                 "Discord alert suppressed: rate limit reached ({} per {}ms)", MAX_ALERTS, WINDOW_MS
@@ -28,7 +30,7 @@ class DiscordAction : AlertAction {
         }
 
         val body = JsonObject().apply {
-            add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx)) })
+            add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
         }
 
         Thread.ofVirtual().start {
@@ -72,7 +74,7 @@ class DiscordAction : AlertAction {
         return true
     }
 
-    private fun buildDiscordEmbed(ctx: AlertContext): JsonObject {
+    private fun buildDiscordEmbed(ctx: AlertContext, encounter: PokemonEncounter): JsonObject {
         val filter = ctx.discordFilter ?: return JsonObject()
         val username = Minecraft.getInstance().user.name
         val pokemonName = ctx.pokemon.species.name
@@ -87,7 +89,7 @@ class DiscordAction : AlertAction {
 
             // Thumbnail image
             val spriteUrl = "https://play.pokemonshowdown.com/sprites/" +
-                    "${if (ctx.encounter.isShiny) "ani-shiny" else "ani"}/$urlSlug.gif"
+                    "${if (encounter.isShiny) "ani-shiny" else "ani"}/$urlSlug.gif"
             add("thumbnail", JsonObject().apply { addProperty("url", spriteUrl) })
 
             // Fields
@@ -95,11 +97,11 @@ class DiscordAction : AlertAction {
                 add(
                     embedField(
                         "📍 Location",
-                        "${ctx.encounter.pokemonX}, ${ctx.encounter.pokemonY}, ${ctx.encounter.pokemonZ}",
+                        "${encounter.pokemonX}, ${encounter.pokemonY}, ${encounter.pokemonZ}",
                         true
                     )
                 )
-                add(embedField("🏞️ Biome", ctx.encounter.biome, true))
+                add(embedField("🏞️ Biome", encounter.biome, true))
                 add(embedField("🕐 Time", "<t:${Instant.now().epochSecond}:R>", false))
             })
 

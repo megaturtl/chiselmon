@@ -4,9 +4,9 @@ import cc.turtl.chiselmon.client.system.alert.AlertContext
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
 
-class SoundAction : AlertAction {
+class SoundAction {
 
-    override fun execute(ctx: AlertContext) {
+    fun execute(ctx: AlertContext) {
         if (ctx.shouldSingleSound) playSound(ctx)
     }
 
