@@ -40,7 +40,7 @@ class RecordCommand : TurtlShellCommand {
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         try {
-                            val started = SpawnRecorderManager.getInstance().startSession()
+                            val started = SpawnRecorderManager.startSession()
                             if (!started) {
                                 sendWarning(player, "A Spawn Recorder session is already running!")
                             } else {
@@ -86,7 +86,7 @@ class RecordCommand : TurtlShellCommand {
                 LiteralArgumentBuilder.literal<CommandSourceStack>("stop")
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
-                        val finished = SpawnRecorderManager.getInstance().stopSession()
+                        val finished = SpawnRecorderManager.stopSession()
 
                         if (finished == null) {
                             sendWarning(player, "No active session to stop.")
@@ -144,7 +144,7 @@ class RecordCommand : TurtlShellCommand {
      * Validates a session exists, sending a warning if not. Returns null if invalid.
      */
     private fun requireSession(player: LocalPlayer): SpawnRecorderSession? {
-        return SpawnRecorderManager.getInstance().session
+        return SpawnRecorderManager.session
             ?: run {
                 sendWarning(player, "No active session.")
                 null

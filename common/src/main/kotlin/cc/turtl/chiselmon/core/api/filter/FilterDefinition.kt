@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.core.api.filter
 
-import cc.turtl.chiselmon.util.format.ColorUtils
 import cc.turtl.turtlshell.api.core.Priority
+import cc.turtl.turtlshell.api.core.format.ColorLib
 
 /**
  * Serializable filter definition suitable for the config format.
@@ -36,23 +36,25 @@ class FilterDefinition(
         @JvmField
         val LEGENDARIES = FilterDefinition(
             "legendaries", "Legendary Pokemon",
-            ColorUtils.MAGENTA.rgb, Priority.HIGHEST,
+            MAGENTA_RGB, Priority.HIGHEST,
             "legendary"
         )
 
         @JvmField
         val SHINIES = FilterDefinition(
             "shinies", "Shiny Pokemon",
-            ColorUtils.GOLD.rgb, Priority.HIGH,
+            ColorLib.GOLD.rgb, Priority.HIGH,
             "shiny"
         )
 
         @JvmField
         val EXTREME_SIZES = FilterDefinition(
             "extreme_sizes", "Extreme Size Pokemon",
-            ColorUtils.TEAL.rgb, Priority.NORMAL,
+            ColorLib.TEAL.rgb, Priority.NORMAL,
             "extreme_size"
         )
+
+        private const val MAGENTA_RGB = 0xFF00FF
 
         private val ALL = listOf(LEGENDARIES, SHINIES, EXTREME_SIZES)
 

@@ -45,7 +45,7 @@ class AlertCommand : TurtlShellCommand {
                             .executes { ctx ->
                                 val player = Minecraft.getInstance().player ?: return@executes 0
                                 val uuid = UUID.fromString(StringArgumentType.getString(ctx, "uuid"))
-                                AlertManager.getInstance().mute(uuid)
+                                AlertManager.mute(uuid)
                                 sendSuccess(player, "Pokemon muted")
                                 Command.SINGLE_SUCCESS
                             }
@@ -55,7 +55,7 @@ class AlertCommand : TurtlShellCommand {
                 LiteralArgumentBuilder.literal<CommandSourceStack>("muteall")
                     .executes { ctx ->
                         val player = Minecraft.getInstance().player ?: return@executes 0
-                        AlertManager.getInstance().muteAll()
+                        AlertManager.muteAll()
                         sendSuccess(player, "All loaded pokemon muted")
                         Command.SINGLE_SUCCESS
                     }
@@ -64,7 +64,7 @@ class AlertCommand : TurtlShellCommand {
                 LiteralArgumentBuilder.literal<CommandSourceStack>("unmuteall")
                     .executes { ctx ->
                         val player = Minecraft.getInstance().player ?: return@executes 0
-                        AlertManager.getInstance().unmuteAll()
+                        AlertManager.unmuteAll()
                         sendSuccess(player, "All loaded pokemon unmuted")
                         Command.SINGLE_SUCCESS
                     }
