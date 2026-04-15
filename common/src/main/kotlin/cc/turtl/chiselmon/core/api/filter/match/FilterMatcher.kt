@@ -37,7 +37,12 @@ object FilterMatcher {
                 val condition: Predicate<Pokemon> = try {
                     FilterConditionParser.parse(def.conditionString).toPredicate()
                 } catch (e: Exception) {
-                    ChiselmonConstants.LOGGER.warn("Filter '{}' has an invalid condition '{}': {}", def.id, def.conditionString, e.message)
+                    ChiselmonConstants.LOGGER.warn(
+                        "Filter '{}' has an invalid condition '{}': {}",
+                        def.id,
+                        def.conditionString,
+                        e.message
+                    )
                     Predicate { false }
                 }
                 RuntimeFilter(def.id, def.displayName, def.rgb, def.priority, condition)

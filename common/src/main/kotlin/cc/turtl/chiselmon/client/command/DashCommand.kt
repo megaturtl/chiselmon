@@ -3,7 +3,6 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.util.format.clickableUrl
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
-import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDuration
