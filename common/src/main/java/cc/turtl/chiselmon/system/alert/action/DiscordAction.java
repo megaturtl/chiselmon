@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.system.alert.action;
 
 import cc.turtl.chiselmon.BuildDetails;
 import cc.turtl.chiselmon.core.ChiselmonConstants;
-import cc.turtl.chiselmon.api.filter.RuntimeFilter;
+import cc.turtl.chiselmon.core.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -96,7 +96,7 @@ public class DiscordAction implements AlertAction {
         String username = Minecraft.getInstance().getUser().getName();
         String pokemonName = ctx.pokemon().getSpecies().getName();
         String urlSlug = normalizeSpeciesName(pokemonName);
-        String filterName = filter.name();
+        String filterName = filter.name;
 
         // Author
         JsonObject author = new JsonObject();
@@ -105,7 +105,7 @@ public class DiscordAction implements AlertAction {
 
         // Title
         embed.addProperty("title", String.format("%s matched filter %s!", pokemonName, filterName));
-        embed.addProperty("color", filter.rgb() & 0xFFFFFF);
+        embed.addProperty("color", filter.rgb & 0xFFFFFF);
 
         // Thumbnail image
         String spriteUrl = String.format(

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.alert;
 
-import cc.turtl.chiselmon.api.filter.RuntimeFilter;
+import cc.turtl.chiselmon.core.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.AlertConfig;
 import cc.turtl.chiselmon.core.api.PokemonEncounter;
@@ -22,7 +22,7 @@ public record AlertContext(
     }
 
     private AlertConfig.FilterAlertSettings getFilterSettings(RuntimeFilter filter) {
-        return config.getFilterAlerts().computeIfAbsent(filter.id(), id -> new AlertConfig.FilterAlertSettings());
+        return config.getFilterAlerts().computeIfAbsent(filter.id, id -> new AlertConfig.FilterAlertSettings());
     }
 
     /**

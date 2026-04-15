@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.api.filter.FilterDefinition
+import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
 import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.core.api.storage.Scope

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client
 
-import cc.turtl.chiselmon.api.filter.FiltersUserData
+import cc.turtl.chiselmon.core.api.filter.FiltersUserData
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.api.storage.gsonData
 import cc.turtl.chiselmon.core.api.storage.h2Data

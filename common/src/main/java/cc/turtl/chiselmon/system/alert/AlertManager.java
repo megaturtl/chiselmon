@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.system.alert;
 
 import cc.turtl.chiselmon.core.ChiselmonConstants;
-import cc.turtl.chiselmon.api.filter.match.FilterMatchResult;
-import cc.turtl.chiselmon.api.filter.match.FilterMatcher;
+import cc.turtl.chiselmon.core.api.filter.match.FilterMatchResult;
+import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher;
 import cc.turtl.chiselmon.client.ChiselmonKeybindsKt;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.AlertConfig;
@@ -95,9 +95,9 @@ public class AlertManager {
             if (!pe.getBusyLocks().isEmpty()) mute(uuid);
 
             FilterMatchResult result = FilterMatcher.match(pe.getPokemon());
-            if (result.allMatches().isEmpty()) continue;
+            if (result.allMatches.isEmpty()) continue;
 
-            AlertContext ctx = new AlertContext(pe, result.allMatches(), isMuted(uuid), config, PokemonEncounter.from(pe));
+            AlertContext ctx = new AlertContext(pe, result.allMatches, isMuted(uuid), config, PokemonEncounter.from(pe));
 
             continuousActions.forEach(action -> action.execute(ctx));
 
@@ -108,7 +108,7 @@ public class AlertManager {
 
             // Update the best sound if the pokemon isn't muted and their filter ctx has a higher priority than the current best
             if (ctx.shouldRepeatingSound()) {
-                if (bestSoundContext == null || ctx.soundFilter().priority().isHigherThan(bestSoundContext.soundFilter().priority())) {
+                if (bestSoundContext == null || ctx.soundFilter().priority.isHigherThan(bestSoundContext.soundFilter().priority)) {
                     bestSoundContext = ctx;
                 }
             }

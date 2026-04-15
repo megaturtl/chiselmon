@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.system.alert.action;
 
-import cc.turtl.chiselmon.api.filter.RuntimeFilter;
+import cc.turtl.chiselmon.core.api.filter.RuntimeFilter;
 import cc.turtl.chiselmon.system.alert.AlertContext;
 import cc.turtl.chiselmon.util.format.ColorUtils;
 import cc.turtl.turtlshell.api.core.Platform;
@@ -62,7 +62,7 @@ public class MessageAction implements AlertAction {
 
         // only if xaeros is installed and loaded
         if (Platform.INSTANCE.isModLoaded("xaerominimap")) {
-            char mcColor = getClosestLegacy(ctx.messageFilter().rgb()).getChar();
+            char mcColor = getClosestLegacy(ctx.messageFilter().rgb).getChar();
             int colorIndex = Character.digit(mcColor, 16);
             String dimension = ctx.entity().level().dimension().location().toString().replace(":", "$");
             // this commands gets intercepted by xaeros to bring up the waypoint screen

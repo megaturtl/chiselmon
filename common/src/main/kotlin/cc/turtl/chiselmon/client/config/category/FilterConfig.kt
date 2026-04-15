@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.api.filter.FilterDefinition
-import cc.turtl.chiselmon.api.filter.FiltersUserData
-import cc.turtl.chiselmon.api.filter.match.FilterMatcher
+import cc.turtl.chiselmon.core.api.filter.FilterDefinition
+import cc.turtl.chiselmon.core.api.filter.FiltersUserData
+import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
 import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.storage.Scope
