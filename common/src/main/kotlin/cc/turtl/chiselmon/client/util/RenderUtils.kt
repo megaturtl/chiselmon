@@ -19,12 +19,12 @@ fun renderCenteredText(
     val font = Minecraft.getInstance().font
 
     // Let Minecraft handle the text trimming
-    var displayText: Component? = text
+    var displayText = text
     var textWidth = font.width(text)
 
     if (textWidth > maxWidth) {
         displayText = Component.literal(font.plainSubstrByWidth(text.string, maxWidth).trim { it <= ' ' })
-            .withStyle(displayText!!.style)
+            .withStyle(text.style)
         textWidth = font.width(displayText)
     }
 
@@ -32,7 +32,5 @@ fun renderCenteredText(
     val x = centerX - textWidth / 2
     val y = centerY - font.lineHeight / 2
 
-    if (displayText != null) {
-        graphics.drawString(font, displayText, x, y, color)
-    }
+    graphics.drawString(font, displayText, x, y, color)
 }

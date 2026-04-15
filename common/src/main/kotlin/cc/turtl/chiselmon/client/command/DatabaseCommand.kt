@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import java.sql.SQLException
 
 class DatabaseCommand : TurtlShellCommand {
 
@@ -25,31 +24,15 @@ class DatabaseCommand : TurtlShellCommand {
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val db = TrackerManager.tracker.db
-
-                var encounters: String
-                var legendaries: String
-                var shinies: String
-                try {
-                    encounters = db.savedEncounters.toString()
-                    legendaries = db.legendaryCount.toString()
-                    shinies = db.shinyCount.toString()
-                } catch (e: SQLException) {
-                    encounters = "ERROR"
-                    legendaries = "ERROR"
-                    shinies = "ERROR"
-                }
+                val stats = db.summaryStats()
 
                 sendEmptyLine(player)
                 sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
                 sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
-                sendLabeled(player, "  Encounters stored on disk", encounters)
-                sendLabeled(player, "    Legendaries", legendaries)
-                sendLabeled(player, "    Shinies", shinies)
-                sendLabeled(
-                    player,
-                    "  Database size on disk",
-                    formatBytes(db.sizeOnDiskBytes)
-                )
+                sendLabeled(player, "  Encounters stored on disk", stats.total)
+                sendLabeled(player, "    Legendaries", stats.legendaries)
+                sendLabeled(player, "    Shinies", stats.shinies)
+                sendLabeled(player, "  Database size on disk", formatBytes(db.sizeOnDiskBytes))
                 Command.SINGLE_SUCCESS
             }
 }

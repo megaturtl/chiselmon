@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.system.alert
 
-import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
+import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.alert.action.*
 import cc.turtl.chiselmon.client.system.tracker.TrackerManager
@@ -58,7 +58,7 @@ object AlertManager {
         val config = ChiselmonConfig.alert
         if (!config.masterEnabled) return
 
-        while (ChiselmonKeybindsKt.MUTE_ALERTS.consumeClick()) {
+        while (ChiselmonKeybinds.MUTE_ALERTS.consumeClick()) {
             Minecraft.getInstance().player?.let { player ->
                 muteAll()
                 sendSuccess(player, "All active alert muted")

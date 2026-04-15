@@ -17,7 +17,7 @@ object ChiselmonClientCommon {
 
         KeybindRegistry.registerGroup(
             category = BuildDetails.MOD_DISPLAY_NAME,
-            keybinds = ChiselmonKeybindsKt.ALL
+            keybinds = ChiselmonKeybinds.ALL
         )
 
         CommandRegistry.registerGroup(

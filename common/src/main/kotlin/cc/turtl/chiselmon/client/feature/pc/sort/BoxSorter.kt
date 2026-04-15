@@ -12,14 +12,10 @@ object BoxSorter {
     fun sortPCBox(pc: ClientPC, boxIndex: Int, mode: SortMode, reversed: Boolean) {
         val box = pc.boxes[boxIndex]
         val allSlots = box.slots.toMutableList()
+        val pokemon = allSlots.filterNotNull()
 
-        val previews = allSlots
-            .filterNotNull()
-            .associateWith { (it as DuckPreviewPokemon).`chiselmon$getPreview`() }
-
-        val sorted = allSlots
-            .filterNotNull()
-            .sortedWith(createComparator(mode, reversed, previews))
+        val previews = pokemon.associateWith { (it as DuckPreviewPokemon).`chiselmon$getPreview`() }
+        val sorted = pokemon.sortedWith(createComparator(mode, reversed, previews))
 
         val positions = HashMap<Pokemon, Int>()
         allSlots.forEachIndexed { i, p -> if (p != null) positions[p] = i }

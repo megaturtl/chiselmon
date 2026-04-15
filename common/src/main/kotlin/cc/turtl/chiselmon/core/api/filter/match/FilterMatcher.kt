@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.core.api.filter.match
 
 import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.filter.FilterConditionParser
 import cc.turtl.chiselmon.core.api.filter.RuntimeFilter
 import cc.turtl.chiselmon.core.api.storage.Scope
@@ -35,7 +36,8 @@ object FilterMatcher {
             .map { def ->
                 val condition: Predicate<Pokemon> = try {
                     FilterConditionParser.parse(def.conditionString).toPredicate()
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    ChiselmonConstants.LOGGER.warn("Filter '{}' has an invalid condition '{}': {}", def.id, def.conditionString, e.message)
                     Predicate { false }
                 }
                 RuntimeFilter(def.id, def.displayName, def.rgb, def.priority, condition)

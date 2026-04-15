@@ -83,12 +83,6 @@ class PCButton private constructor(builder: Builder) : Button(
         var inactiveTooltip: Tooltip? = null
         var initialActive: Boolean = false
 
-        fun dimensions(width: Int, height: Int) = apply { this.width = width; this.height = height }
-        fun text(text: Component) = apply { this.text = text }
-        fun textStyle(color: Int, margin: Int) = apply { textColor = color; textMargin = margin }
-        fun tooltip(tooltip: Tooltip) = apply { inactiveTooltip = tooltip }
-        fun tooltips(active: Tooltip, inactive: Tooltip) = apply { activeTooltip = active; inactiveTooltip = inactive }
-        fun active(active: Boolean) = apply { initialActive = active }
         fun build() = PCButton(this)
     }
 }

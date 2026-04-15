@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.config.category
 
-import cc.turtl.chiselmon.client.ChiselmonKeybindsKt
+import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import dev.isxander.yacl3.api.ConfigCategory
 import dev.isxander.yacl3.api.OptionGroup
@@ -60,7 +60,7 @@ class GeneralConfig {
         .option(
             OptionFactory.keyMappingPicker(
                 "chiselmon.config.general.open_config_keybind",
-                ChiselmonKeybindsKt.OPEN_CONFIG
+                ChiselmonKeybinds.OPEN_CONFIG
             )
         )
         .group(eggSpy.buildGroup())
