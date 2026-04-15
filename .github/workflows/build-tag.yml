@@ -71,23 +71,23 @@ jobs:
       - name: Upload Fabric jar
         uses: actions/upload-artifact@v4
         with:
-          name: chiselmon-fabric-${{ github.sha }}
+          name: Chiselmon-fabric-${{ github.sha }}
           path: |
-            fabric/build/libs/chiselmon-fabric-*.jar
-            !fabric/build/libs/chiselmon-fabric-*-sources.jar
-            !fabric/build/libs/chiselmon-fabric-*-dev.jar
-            !fabric/build/libs/chiselmon-fabric-*-shadow.jar
-            !fabric/build/libs/chiselmon-fabric-*-javadoc.jar
+            fabric/build/libs/Chiselmon-fabric-*.jar
+            !fabric/build/libs/Chiselmon-fabric-*-sources.jar
+            !fabric/build/libs/Chiselmon-fabric-*-dev.jar
+            !fabric/build/libs/Chiselmon-fabric-*-shadow.jar
+            !fabric/build/libs/Chiselmon-fabric-*-javadoc.jar
           if-no-files-found: error
 
       - name: Upload NeoForge jar
         uses: actions/upload-artifact@v4
         with:
-          name: chiselmon-neoforge-${{ github.sha }}
+          name: Chiselmon-neoforge-${{ github.sha }}
           path: |
-            neoforge/build/libs/chiselmon-neoforge-*.jar
-            !neoforge/build/libs/chiselmon-neoforge-*-sources.jar
-            !neoforge/build/libs/chiselmon-neoforge-*-dev.jar
-            !neoforge/build/libs/chiselmon-neoforge-*-shadow.jar
-            !neoforge/build/libs/chiselmon-neoforge-*-javadoc.jar
+            neoforge/build/libs/Chiselmon-neoforge-*.jar
+            !neoforge/build/libs/Chiselmon-neoforge-*-sources.jar
+            !neoforge/build/libs/Chiselmon-neoforge-*-dev.jar
+            !neoforge/build/libs/Chiselmon-neoforge-*-shadow.jar
+            !neoforge/build/libs/Chiselmon-neoforge-*-javadoc.jar
           if-no-files-found: error
