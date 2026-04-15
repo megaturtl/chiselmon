@@ -65,7 +65,7 @@ public abstract class MixinPCGUI extends Screen {
         int y = (height - BASE_HEIGHT) / 2;
 
         chiselmon$bookmarkManager = new BookmarkManager(
-                ChiselmonStorage.PC_SETTINGS.get(worldScope).bookmarks,
+                ChiselmonStorage.PC_SETTINGS.get(worldScope).getBookmarks(),
                 storageWidget, pc,
                 this::addRenderableWidget,
                 this::removeWidget

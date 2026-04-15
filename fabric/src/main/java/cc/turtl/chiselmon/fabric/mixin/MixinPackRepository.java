@@ -34,7 +34,7 @@ public class MixinPackRepository {
 
         // Add custom source
         newSources.add(new FolderRepositorySource(
-                ChiselmonConstants.CONFIG_PATH,
+                ChiselmonConstants.INSTANCE.getCONFIG_PATH(),
                 PackType.CLIENT_RESOURCES,
                 PackSource.BUILT_IN,
                 new DirectoryValidator(path -> true)));
