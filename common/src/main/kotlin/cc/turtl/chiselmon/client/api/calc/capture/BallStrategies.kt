@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.core.api.calc.capture
+package cc.turtl.chiselmon.client.api.calc.capture
 
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
 import cc.turtl.chiselmon.core.api.predicate.IS_ULTRABEAST

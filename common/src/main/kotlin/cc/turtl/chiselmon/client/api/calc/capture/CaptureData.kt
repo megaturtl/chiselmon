@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.core.api.calc.capture
+package cc.turtl.chiselmon.client.api.calc.capture
 
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity

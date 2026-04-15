@@ -1,4 +1,4 @@
-package cc.turtl.chiselmon.core.api.calc.capture
+package cc.turtl.chiselmon.client.api.calc.capture
 
 import cc.turtl.chiselmon.client.BattleState
 import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry

@@ -2,7 +2,7 @@ package cc.turtl.chiselmon.core.util.format
 
 import cc.turtl.chiselmon.client.api.ClientSpecies
 import cc.turtl.chiselmon.client.feature.eggspy.EggDummy
-import cc.turtl.chiselmon.core.api.calc.capture.estimateCaptureProbability
+import cc.turtl.chiselmon.client.api.calc.capture.estimateCaptureProbability
 import cc.turtl.chiselmon.core.api.calc.computeMatchups
 import cc.turtl.chiselmon.core.api.calc.getPossibleMoves
 import cc.turtl.chiselmon.core.api.predicate.IS_MARKED
