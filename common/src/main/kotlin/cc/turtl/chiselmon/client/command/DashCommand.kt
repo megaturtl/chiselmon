@@ -115,7 +115,7 @@ class DashCommand : TurtlShellCommand {
      */
     private fun requireSession(player: LocalPlayer): TrackerSession? {
         return try {
-            TrackerManager.getInstance().tracker
+            TrackerManager.tracker
         } catch (e: IllegalStateException) {
             sendWarning(player, "No active tracker session.")
             null

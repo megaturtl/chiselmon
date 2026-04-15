@@ -40,9 +40,9 @@ object ChiselmonClientCommon {
         ClientSpeciesRegistry.init()
         ChiselmonStorage.init()
 
-        TrackerManager.getInstance().init()
-        AlertManager.getInstance().init()
-        SpawnRecorderManager.getInstance().init()
+        TrackerManager.init()
+        AlertManager.init()
+        SpawnRecorderManager.init()
 
         CheckSpawnInterceptor.init()
         BattleState.init()

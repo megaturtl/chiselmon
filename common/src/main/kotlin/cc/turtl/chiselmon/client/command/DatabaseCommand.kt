@@ -24,7 +24,7 @@ class DatabaseCommand : TurtlShellCommand {
         LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                val db = TrackerManager.getInstance().tracker.db
+                val db = TrackerManager.tracker.db
 
                 var encounters: String
                 var legendaries: String
