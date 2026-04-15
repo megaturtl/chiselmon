@@ -5,7 +5,7 @@ import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.client.feature.pc.sort.SortManager;
 import cc.turtl.chiselmon.core.api.storage.Scope;
-import cc.turtl.chiselmon.feature.pc.bookmark.BookmarkManager;
+import cc.turtl.chiselmon.client.feature.pc.bookmark.BookmarkManager;
 import cc.turtl.turtlshell.api.client.keybind.KeybindHelper;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
