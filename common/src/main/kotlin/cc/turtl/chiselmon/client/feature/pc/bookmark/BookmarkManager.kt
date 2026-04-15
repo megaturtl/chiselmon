@@ -1,7 +1,7 @@
 package cc.turtl.chiselmon.client.feature.pc.bookmark
 
-import cc.turtl.chiselmon.feature.pc.PCButton
-import cc.turtl.chiselmon.feature.pc.PCUserData
+import cc.turtl.chiselmon.client.feature.pc.PCButton
+import cc.turtl.chiselmon.client.feature.pc.PCUserData
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget
 import com.cobblemon.mod.common.client.storage.ClientPC
 import java.util.function.Consumer

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.client.feature.pc.bookmark
 
-import cc.turtl.chiselmon.feature.pc.PCButton
+import cc.turtl.chiselmon.client.feature.pc.PCButton
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.storage.ClientBox
