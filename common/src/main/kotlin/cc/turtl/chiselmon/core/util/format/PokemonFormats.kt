@@ -194,7 +194,6 @@ object PokemonFormats {
             val color = when (style) {
                 RidingStyle.LAND -> ColorLib.GREEN.rgb
                 RidingStyle.LIQUID -> ColorLib.AQUA.rgb
-                // ColorLib has no LAVENDER -- using PURPLE as the closest available.
                 RidingStyle.AIR -> ColorLib.PURPLE.rgb
             }
             createComponent(style.name.capitalizeFirst(), color)
@@ -205,10 +204,10 @@ object PokemonFormats {
         if (!IS_MARKED.test(pokemon)) return UNKNOWN
 
         return join(pokemon.marks, ", ") { mark ->
-            val key = mark.toString()
+            val name = mark.getName()
             val color = mark.titleColour?.toIntOrNull(16) ?: ColorLib.WHITE.rgb
 
-            createComponent(Component.translatable(key).string, color)
+            name.withColor(color)
                 .append(createComponent(" (${formatPercentage(mark.chance.toDouble())})", ColorLib.DARK_GRAY.rgb))
         }
     }
