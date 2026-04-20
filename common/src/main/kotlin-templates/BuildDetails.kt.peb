@@ -1,0 +1,16 @@
+package cc.turtl.chiselmon
+
+object BuildDetails {
+
+    const val MOD_ID: String = "{{ mod_id }}"
+    const val MOD_DISPLAY_NAME: String = "{{ mod_display_name }}"
+    const val MOD_VERSION: String = "{{ mod_version }}"
+    const val MOD_AUTHOR: String = "{{ mod_author }}"
+
+    const val GIT_COMMIT = "{{ gitCommit | default("Not Specified") }}"
+    const val BRANCH = "{{ branch | default("Not Specified") }}"
+
+    fun smallCommitHash(): String {
+        return this.GIT_COMMIT.substring(0, 7)
+    }
+}

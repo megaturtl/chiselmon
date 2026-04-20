@@ -1,8 +1,7 @@
 package cc.turtl.chiselmon.fabric.mixin;
 
-import cc.turtl.chiselmon.ChiselmonConstants;
-import cc.turtl.chiselmon.ChiselmonPacks;
-import com.google.common.collect.ImmutableSet;
+import cc.turtl.chiselmon.core.ChiselmonConstants;
+import cc.turtl.chiselmon.client.ChiselmonPacks;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -17,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(PackRepository.class)
@@ -29,20 +27,19 @@ public class MixinPackRepository {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void chiselmon$addUserPackSource(CallbackInfo ci) {
-        // Create a new mutable set from the existing sources
-        Set<RepositorySource> newSources = new HashSet<>(this.sources);
+        // Create a mutable copy (using LinkedHashSet to maintain vanilla/mod pack order)
+        Set<RepositorySource> newSources = new java.util.LinkedHashSet<>(this.sources);
 
-        // Create the Custom Wallpapers pack structure
-        ChiselmonPacks.getOrCreateCustomWallpaperDir();
+        ChiselmonPacks.INSTANCE.getOrCreateCustomWallpaperDir();
 
-        // Add config folder as a pack source
+        // Add custom source
         newSources.add(new FolderRepositorySource(
-                ChiselmonConstants.CONFIG_PATH,
+                ChiselmonConstants.INSTANCE.getCONFIG_PATH(),
                 PackType.CLIENT_RESOURCES,
                 PackSource.BUILT_IN,
                 new DirectoryValidator(path -> true)));
 
-        // Reassign the mutated sources set
-        this.sources = ImmutableSet.copyOf(newSources);
+        // Reassign as a mutable set
+        this.sources = newSources;
     }
 }

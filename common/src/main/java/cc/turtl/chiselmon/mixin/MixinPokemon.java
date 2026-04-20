@@ -1,14 +1,16 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.api.duck.DuckPreviewPokemon;
-import cc.turtl.chiselmon.config.ChiselmonConfig;
-import cc.turtl.chiselmon.feature.eggspy.EggCache;
+import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
+import cc.turtl.chiselmon.client.config.category.GeneralConfig;
+import cc.turtl.chiselmon.client.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.pokemon.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,13 +18,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static cc.turtl.chiselmon.feature.eggspy.EggDummy.EGG_SPECIES_ID;
+import static cc.turtl.chiselmon.client.feature.eggspy.EggDummy.EGG_SPECIES_ID;
 
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon {
 
     @Shadow(remap = false)
     private Species species;
+    // If mid-redirect, return self to avoid infinite loops when the preview's own getters are called
+    @Unique
+    private boolean chiselmon$redirecting = false;
+    // Cached during a redirect so inject bodies don't need to call getPreview() again
+    @Unique
+    private Pokemon chiselmon$pendingPreview = null;
 
     // Accessed directly to avoid triggering our own getSpecies() redirect
     @Override
@@ -30,21 +38,13 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         return EGG_SPECIES_ID.equals(this.species.getResourceIdentifier());
     }
 
-    // If mid-redirect, return self to avoid infinite loops when the preview's own getters are called
-    @Unique
-    private boolean chiselmon$redirecting = false;
-
-    // Cached during a redirect so inject bodies don't need to call getPreview() again
-    @Unique
-    private Pokemon chiselmon$pendingPreview = null;
-
     @Unique
     @Override
     public Pokemon chiselmon$getPreview() {
         if (chiselmon$redirecting) return (Pokemon) (Object) this;
-        ChiselmonConfig config = ChiselmonConfig.get();
+        GeneralConfig config = ChiselmonConfig.INSTANCE.getGeneral();
         Pokemon self = (Pokemon) (Object) this;
-        if (config.general.modDisabled || !config.general.eggSpy.enabled) return self;
+        if (config.getModDisabled() || !config.getEggSpy().getEnabled()) return self;
         else return EggCache.getPreview(self);
     }
 
@@ -170,7 +170,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
     // Bypasses all redirect logic to get the egg's own renderable pokemon
     @Unique
     @Override
-    public RenderablePokemon chiselmon$getRawRenderablePokemon() {
+    public @NotNull RenderablePokemon chiselmon$getRawRenderablePokemon() {
         return new RenderablePokemon(species, ((Pokemon) (Object) this).getAspects(), ItemStack.EMPTY);
     }
 }

@@ -1,6 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.api.duck.DuckGlowableEntity;
+import cc.turtl.chiselmon.client.api.duck.DuckGlowableEntity;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

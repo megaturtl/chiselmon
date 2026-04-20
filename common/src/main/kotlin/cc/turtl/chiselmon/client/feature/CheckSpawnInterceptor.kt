@@ -1,0 +1,124 @@
+package cc.turtl.chiselmon.client.feature
+
+import cc.turtl.chiselmon.client.api.ClientSpeciesRegistry
+import cc.turtl.chiselmon.client.config.ChiselmonConfig.general
+import cc.turtl.chiselmon.core.util.format.PokemonFormats
+import cc.turtl.chiselmon.core.util.format.UNKNOWN
+import cc.turtl.chiselmon.core.util.format.labelled
+import cc.turtl.turtlshell.api.client.ClientEvents.COMMAND_SENT
+import cc.turtl.turtlshell.api.client.ClientEvents.MESSAGE_RECEIVED
+import cc.turtl.turtlshell.api.core.format.ColorLib
+import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.HoverEvent
+import net.minecraft.network.chat.Style
+
+object CheckSpawnInterceptor {
+    private val ENTRY_PATTERN = Regex("([A-Z][\\p{L}0-9\\s.\\-']+):\\s*([\\d.]+%)[,;]?")
+
+    private const val WATCH_WINDOW = 3
+    private var messagesRemaining = 0
+
+    fun init() {
+        COMMAND_SENT.subscribe { e: String ->
+            val config = general
+            if (!config.modDisabled && config.checkSpawnDetail && e.startsWith("checkspawn")) {
+                messagesRemaining = WATCH_WINDOW
+            }
+        }
+
+        MESSAGE_RECEIVED.subscribe { message: Component ->
+            val config = general
+            if (!config.modDisabled && config.checkSpawnDetail) {
+                val intercepted = tryIntercept(message)
+                if (intercepted != null) {
+                    // send the modified message manually, cancel the original
+                    Minecraft.getInstance().gui.chat.addMessage(intercepted)
+                    return@subscribe true
+                }
+            }
+            false
+        }
+    }
+
+    private fun tryIntercept(original: Component): Component? {
+        if (messagesRemaining <= 0) return null
+
+        val raw = original.string
+        val matches = ENTRY_PATTERN.findAll(raw).toList()
+
+        if (matches.isEmpty()) {
+            messagesRemaining--
+            return null
+        }
+        messagesRemaining--
+
+        val result = Component.empty()
+        var lastEnd = 0
+
+        for (match in matches) {
+            if (match.range.first > lastEnd) {
+                result.append(Component.literal(raw.substring(lastEnd, match.range.first)))
+            }
+            result.append(buildEntry(match.groupValues[1], match.groupValues[2]))
+            lastEnd = match.range.last + 1
+        }
+
+        if (lastEnd < raw.length) {
+            result.append(Component.literal(raw.substring(lastEnd)))
+        }
+
+        return result
+    }
+
+    private fun buildEntry(speciesName: String, percentage: String): Component {
+        val species = ClientSpeciesRegistry.getSpecies(speciesName)
+
+        val hover = Component.empty()
+            .append(Component.literal("$speciesName: "))
+            .append(
+                Component.literal(percentage).withColor(percentageColor(percentage))
+                    .append(Component.literal("\n"))
+                    .append(
+                        labelled(
+                            Component.translatable("chiselmon.ui.label.ev_yield"),
+                            if (species == null) UNKNOWN
+                            else PokemonFormats.evYield(species)
+                        )
+                    )
+                    .append(Component.literal("\n"))
+                    .append(
+                        labelled(
+                            Component.translatable("chiselmon.ui.label.egg_groups"),
+                            if (species == null) UNKNOWN
+                            else PokemonFormats.eggGroups(species)
+                        )
+                    )
+            )
+
+        return Component.empty()
+            .append(
+                Component.literal("$speciesName: ")
+                    .withStyle(Style.EMPTY.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)))
+            )
+            .append(
+                Component.literal(percentage)
+                    .withStyle(
+                        Style.EMPTY
+                            .withColor(percentageColor(percentage))
+                            .withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                    )
+            )
+    }
+
+    private fun percentageColor(percentage: String): Int {
+        try {
+            val value = percentage.replace("%", "").toFloat()
+            if (value >= 5f) return ColorLib.GREEN.rgb
+            if (value >= 0.5f) return ColorLib.YELLOW.rgb
+            return ColorLib.RED.rgb
+        } catch (e: NumberFormatException) {
+            return ColorLib.WHITE.rgb
+        }
+    }
+}
