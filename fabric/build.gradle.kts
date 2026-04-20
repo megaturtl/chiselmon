@@ -51,6 +51,8 @@ dependencies {
 
     modRuntimeOnly(libs.bundles.fabric.integrations.runtimeOnly)
 
+    modRuntimeOnly(libs.turtlshell.fabric) {isChanging = true} // gets the latest snapshot
+
     modImplementation(libs.bundles.fabric.integrations.implementation)
 }
 

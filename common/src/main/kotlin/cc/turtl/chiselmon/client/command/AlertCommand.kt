@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendPrefixed
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.client.system.alert.AlertManager
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -15,7 +16,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import java.util.*
 
-class AlertCommand : TurtlShellCommand {
+class AlertCommand : TurtlShellClientCommand {
 
     override val name = "alert"
     override val description: MutableComponent = Component.literal("Manage pokemon alerts")

@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.api.predicate.IS_OWNED
 import cc.turtl.chiselmon.core.api.predicate.IS_WILD
 import cc.turtl.chiselmon.core.util.format.PokemonFormats
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.mojang.brigadier.Command
@@ -13,7 +14,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class DebugCommand : TurtlShellCommand {
+class DebugCommand : TurtlShellClientCommand {
 
     override val name = "debug"
     override val description: MutableComponent = Component.literal("Debug utilities")

@@ -85,8 +85,8 @@ mock-kotlin = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [bundles]
 kotlin = [ "kotlin-stdlib", "kotlin-reflect" ]
-common-integrations-compileOnly = [ "yet-another-config-lib-common", "turtlshell-common", "cobblemon-common", "jade-common" ]
+common-integrations-compileOnly = [ "yet-another-config-lib-common", "cobblemon-common", "jade-common" ]
 fabric-integrations-implementation = [ "fabric-kotlin", "mod-menu" ]
-fabric-integrations-runtimeOnly = [ "yet-another-config-lib-fabric", "turtlshell-fabric", "cobblemon-fabric" ]
-neoforge-integrations-runtimeOnly = [ "yet-another-config-lib-neoforge", "turtlshell-neoforge", "cobblemon-neoforge" ]
+fabric-integrations-runtimeOnly = [ "yet-another-config-lib-fabric", "cobblemon-fabric" ]
+neoforge-integrations-runtimeOnly = [ "yet-another-config-lib-neoforge", "cobblemon-neoforge" ]
 unitTesting = [ "junit-fabric", "junit-params", "mockito-core", "mockito-extension", "mock-kotlin" ]

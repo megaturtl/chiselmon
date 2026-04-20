@@ -20,7 +20,7 @@ object ChiselmonClientCommon {
             keybinds = ChiselmonKeybinds.ALL
         )
 
-        CommandRegistry.registerGroup(
+        CommandRegistry.registerClientGroup(
             aliases = listOf(BuildDetails.MOD_ID, "ch"),
             commands = listOf(
                 InfoCommand(),

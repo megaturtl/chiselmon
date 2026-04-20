@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.util.format.clickableUrl
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDuration
@@ -14,7 +15,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class DashCommand : TurtlShellCommand {
+class DashCommand : TurtlShellClientCommand {
 
     override val name = "dash"
     override val description: MutableComponent = Component.literal("View detailed spawning stats in the Chiselmon Dash")

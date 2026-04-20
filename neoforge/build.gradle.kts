@@ -35,6 +35,8 @@ dependencies {
 
     runtimeOnly(libs.bundles.neoforge.integrations.runtimeOnly) // this has to be runtimeOnly instead of modRuntimeOnly or loom can't remap the quilt parsers correctly
 
+    modRuntimeOnly(libs.turtlshell.fabric) {isChanging = true} // gets the latest snapshot
+
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }

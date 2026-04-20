@@ -4,6 +4,7 @@ import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -12,7 +13,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class InfoCommand : TurtlShellCommand {
+class InfoCommand : TurtlShellClientCommand {
 
     override val name = "info"
     override val description: MutableComponent = Component.literal("Display mod info")

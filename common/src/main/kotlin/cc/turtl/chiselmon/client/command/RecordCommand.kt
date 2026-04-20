@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.client.command
 import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.client.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.client.system.spawnrecorder.SpawnRecorderSession
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDecimal
@@ -15,7 +16,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class RecordCommand : TurtlShellCommand {
+class RecordCommand : TurtlShellClientCommand {
 
     override val name = "record"
     override val description: MutableComponent = Component.literal("Record pokemon spawn data")

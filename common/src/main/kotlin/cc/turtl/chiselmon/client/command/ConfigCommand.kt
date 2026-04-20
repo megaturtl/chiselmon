@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -11,7 +12,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class ConfigCommand : TurtlShellCommand {
+class ConfigCommand : TurtlShellClientCommand {
 
     override val name = "config"
     override val description: MutableComponent = Component.literal("Open the mod config screen")

@@ -5,6 +5,7 @@ import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
+import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command
@@ -14,7 +15,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-class DatabaseCommand : TurtlShellCommand {
+class DatabaseCommand : TurtlShellClientCommand {
 
     override val name = "db"
     override val description: MutableComponent = Component.literal("Manage the DB for the current world")

@@ -42,6 +42,11 @@ dependencies {
         isTransitive = false
     }
 
+    modCompileOnly(libs.turtlshell.common) {
+        isTransitive = false
+        isChanging = true
+    }
+
 
     // Unit Testing
     testImplementation(libs.bundles.unitTesting)
