@@ -12,7 +12,8 @@
     "MixinPCGUI",
     "MixinPokemon",
     "MixinStorageSlot",
-    "MixinWallpaperEntry"
+    "MixinWallpaperEntry",
+    "MixinCobblemonTooltipGenerator"
   ],
   "injectors": {
     "defaultRequire": 1
