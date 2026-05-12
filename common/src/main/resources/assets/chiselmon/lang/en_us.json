@@ -46,6 +46,8 @@
     "chiselmon.ui.label.catch_rate": "Catch Rate",
     "chiselmon.ui.label.pokedex_status": "Pokedex Status",
 
+    "chiselmon.ui.label.preferred_mulch": "Preferred Mulch",
+
     "chiselmon.spawnalert.mute.tooltip": "Click to mute this Pokemon",
     "chiselmon.spawnalert.mute.success": "All active alerts muted.",
     "chiselmon.spawnalert.filter.tooltip": "Click to customise alerts for this filter",

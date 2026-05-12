@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
+import cc.turtl.turtlshell.api.core.format.ColorLib;
 import com.cobblemon.mod.common.api.berry.Berry;
 import com.cobblemon.mod.common.api.mulch.MulchVariant;
 import com.cobblemon.mod.common.client.tooltips.CobblemonTooltipGenerator;
@@ -12,26 +13,36 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.EnumSet;
 import java.util.List;
 
-import static cc.turtl.chiselmon.core.util.format.ComponentUtilsKt.join;
+import static cc.turtl.chiselmon.core.util.format.ComponentUtilsKt.*;
+import static cc.turtl.turtlshell.api.core.format.StringFormatsKt.capitalizeFirst;
 
 @Mixin(value = CobblemonTooltipGenerator.class)
 public abstract class MixinCobblemonTooltipGenerator {
 
-    @Inject(method = "generateTooltip", at = @At("TAIL"), remap = false, cancellable = true)
+    @Inject(method = "generateTooltip", at = @At("TAIL"), remap = false)
     private void chiselmon$onGenerateTooltip(ItemStack stack, List<Component> lines, CallbackInfoReturnable<List<Component>> cir) {
-        if (stack.getItem() instanceof BerryItem berryItem) {
-            Berry berry = berryItem.berry();
+        if (!(stack.getItem() instanceof BerryItem berryItem)) return;
 
-            if (berry != null && !berry.getFavoriteMulches().isEmpty()) {
-                MutableComponent mulchHint = Component.literal("Preferred Mulch: ");
-                mulchHint.append(join(berry.getFavoriteMulches(), ", ", mulch -> (Component.literal(mulch.getSerializedName()))));
+        Berry berry = berryItem.berry();
+        if (berry == null) return;
 
-                List<Component> tooltipLines = cir.getReturnValue();
-                tooltipLines.add(mulchHint);
-                cir.setReturnValue(tooltipLines);
-            }
-        }
+        EnumSet<MulchVariant> favoriteMulches = berry.getFavoriteMulches();
+        if (favoriteMulches.isEmpty()) return;
+
+        List<Component> tooltipLines = cir.getReturnValue();
+        if (tooltipLines == null) return;
+
+        MutableComponent mulchHint = labelled(
+                Component.translatable("chiselmon.ui.label.preferred_mulch"),
+                join(favoriteMulches, ", ",
+                        mulch -> createComponent(
+                                capitalizeFirst(mulch.getSerializedName()),
+                                ColorLib.INSTANCE.getWHITE().getRGB(), false)
+                ));
+
+        tooltipLines.add(mulchHint);
     }
 }
