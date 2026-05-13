@@ -32,7 +32,10 @@ dependencies {
     implementation(libs.neo.kotlin.forge)
 
     implementation(libs.h2db)
+
+    // Jar in jar
     include(libs.h2db)
+    include(libs.turtlshell.neoforge)
 
     runtimeOnly(libs.bundles.neoforge.integrations.runtimeOnly) // this has to be runtimeOnly instead of modRuntimeOnly or loom can't remap the quilt parsers correctly
 

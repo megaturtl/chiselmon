@@ -44,7 +44,10 @@ dependencies {
     modApi(libs.fabric.api)
 
     implementation(libs.h2db)
+
+    // Jar in jar
     include(libs.h2db)
+    include(libs.turtlshell.fabric)
 
     modCompileOnly(libs.bundles.common.integrations.compileOnly) {
         isTransitive = false
