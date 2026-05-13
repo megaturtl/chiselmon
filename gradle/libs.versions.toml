@@ -15,7 +15,8 @@ architectury-plugin = "3.4-SNAPSHOT"
 # Common
 turtlshell-version = "1.0.1+1.21.1-SNAPSHOT"
 cobblemon-version = "1.7.3+1.21.1"
-jade-common= "15.10.2+fabric"
+jade-common = "15.10.2+fabric"
+devauth-common = "1.2.2"
 
 # Fabric
 fabric-loader = "0.18.4"
@@ -65,6 +66,7 @@ mod-menu = { group = "com.terraformersmc", name = "modmenu", version.ref = "mod-
 yet-another-config-lib-fabric = { group = "dev.isxander", name = "yet-another-config-lib", version.ref = "yet-another-config-lib-fabric" }
 turtlshell-fabric = { group = "cc.turtl.turtlshell", name = "fabric", version.ref = "turtlshell-version" }
 cobblemon-fabric = { group = "com.cobblemon", name = "fabric", version.ref = "cobblemon-version" }
+devauth-fabric = { group = "me.djtheredstoner", name = "DevAuth-fabric", version.ref = "devauth-common" }
 
 # NeoForge
 neoforge = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge" }
@@ -72,6 +74,7 @@ neo-kotlin-forge = { group = "thedarkcolour", name = "kotlinforforge-neoforge", 
 yet-another-config-lib-neoforge = { group = "dev.isxander", name = "yet-another-config-lib", version.ref = "yet-another-config-lib-neoforge" }
 turtlshell-neoforge = { group = "cc.turtl.turtlshell", name = "neoforge", version.ref = "turtlshell-version" }
 cobblemon-neoforge = { group = "com.cobblemon", name = "neoforge", version.ref = "cobblemon-version" }
+devauth-neoforge = { group = "me.djtheredstoner", name = "DevAuth-neoforge", version.ref = "devauth-common" }
 
 # Storage
 h2db = { group = "com.h2database", name = "h2", version.ref = "h2db" }
@@ -87,6 +90,6 @@ mock-kotlin = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 kotlin = [ "kotlin-stdlib", "kotlin-reflect" ]
 common-integrations-compileOnly = [ "yet-another-config-lib-common", "cobblemon-common", "jade-common" ]
 fabric-integrations-implementation = [ "fabric-kotlin", "mod-menu" ]
-fabric-integrations-runtimeOnly = [ "yet-another-config-lib-fabric", "cobblemon-fabric" ]
-neoforge-integrations-runtimeOnly = [ "yet-another-config-lib-neoforge", "cobblemon-neoforge" ]
+fabric-integrations-runtimeOnly = [ "yet-another-config-lib-fabric", "cobblemon-fabric", "devauth-fabric" ]
+neoforge-integrations-runtimeOnly = [ "yet-another-config-lib-neoforge", "cobblemon-neoforge", "devauth-neoforge" ]
 unitTesting = [ "junit-fabric", "junit-params", "mockito-core", "mockito-extension", "mock-kotlin" ]

@@ -22,6 +22,7 @@ repositories {
     maven("https://maven.isxander.dev/releases")
     maven("https://maven.turtl.cc/snapshots")
     maven("https://maven.turtl.cc/releases")
+    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
     mavenLocal()
 }
 
@@ -35,7 +36,7 @@ dependencies {
 
     runtimeOnly(libs.bundles.neoforge.integrations.runtimeOnly) // this has to be runtimeOnly instead of modRuntimeOnly or loom can't remap the quilt parsers correctly
 
-    modRuntimeOnly(libs.turtlshell.fabric) {isChanging = true} // gets the latest snapshot
+    modRuntimeOnly(libs.turtlshell.neoforge) {isChanging = true} // gets the latest snapshot
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false

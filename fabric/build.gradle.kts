@@ -30,6 +30,7 @@ repositories {
     maven("https://maven.isxander.dev/releases")
     maven("https://maven.turtl.cc/snapshots")
     maven("https://maven.turtl.cc/releases")
+    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 dependencies {
