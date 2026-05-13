@@ -6,6 +6,7 @@ import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.client.feature.eggspy.EggCache;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
+import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.pokemon.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -71,6 +72,36 @@ public abstract class MixinPokemon implements DuckPreviewPokemon {
         if (chiselmon$startRedirect()) return;
         try {
             cir.setReturnValue(chiselmon$pendingPreview.getSpecies());
+        } finally {
+            chiselmon$endRedirect();
+        }
+    }
+
+    @Inject(method = "getForm", at = @At("HEAD"), cancellable = true, remap = false)
+    private void chiselmon$redirectForm(CallbackInfoReturnable<FormData> cir) {
+        if (chiselmon$startRedirect()) return;
+        try {
+            cir.setReturnValue(chiselmon$pendingPreview.getForm());
+        } finally {
+            chiselmon$endRedirect();
+        }
+    }
+
+    @Inject(method = "getPrimaryType", at = @At("HEAD"), cancellable = true, remap = false)
+    private void chiselmon$redirectPrimaryType(CallbackInfoReturnable<ElementalType> cir) {
+        if (chiselmon$startRedirect()) return;
+        try {
+            cir.setReturnValue(chiselmon$pendingPreview.getPrimaryType());
+        } finally {
+            chiselmon$endRedirect();
+        }
+    }
+
+    @Inject(method = "getSecondaryType", at = @At("HEAD"), cancellable = true, remap = false)
+    private void chiselmon$redirectSecondaryType(CallbackInfoReturnable<ElementalType> cir) {
+        if (chiselmon$startRedirect()) return;
+        try {
+            cir.setReturnValue(chiselmon$pendingPreview.getSecondaryType());
         } finally {
             chiselmon$endRedirect();
         }
