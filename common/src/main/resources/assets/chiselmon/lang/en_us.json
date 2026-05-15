@@ -68,6 +68,8 @@
     "chiselmon.config.general.open_config_keybind.desc": "Press to return to this config screen",
     "chiselmon.config.general.checkspawn_detail": "Overhaul Checkspawn",
     "chiselmon.config.general.checkspawn_detail.desc": "Adds an egg group and EV yield tooltip to pokemon species when using the /checkspawn command.",
+  "chiselmon.config.general.pokerod_overlay": "PokeRod Bait Overlay",
+  "chiselmon.config.general.pokerod_overlay.desc": "Displays the amount of equipped bait above your hotbar while holding a PokeRod.",
     "chiselmon.config.general.discord_webhook_url": "Discord Webhook URL",
     "chiselmon.config.general.discord_webhook_url.desc": "Used to send Discord Alerts to your own server. To get your URL, open Discord and go to your server's Settings > Integrations > Webhooks > New Webhook, then click 'Copy Webhook URL'",
 

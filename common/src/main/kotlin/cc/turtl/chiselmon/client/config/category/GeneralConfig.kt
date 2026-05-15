@@ -19,6 +19,9 @@ class GeneralConfig {
     var checkSpawnDetail: Boolean = DEFAULT_CHECKSPAWN_DETAIL
 
     @SerialEntry
+    var pokerodOverlay: Boolean = DEFAULT_POKEROD_OVERLAY
+
+    @SerialEntry
     var discordWebhookURL: String = ""
 
     @SerialEntry
@@ -51,6 +54,13 @@ class GeneralConfig {
                 { checkSpawnDetail = it })
         )
         .option(
+            OptionFactory.toggleOnOff(
+                "chiselmon.config.general.pokerod_overlay",
+                DEFAULT_POKEROD_OVERLAY,
+                { pokerodOverlay },
+                { pokerodOverlay = it })
+        )
+        .option(
             OptionFactory.textField(
                 "chiselmon.config.general.discord_webhook_url",
                 "",
@@ -71,6 +81,7 @@ class GeneralConfig {
         const val DEFAULT_MOD_DISABLED = false
         const val DEFAULT_MOVE_DETAIL = true
         const val DEFAULT_CHECKSPAWN_DETAIL = true
+        const val DEFAULT_POKEROD_OVERLAY = true
     }
 
     class EggSpyConfig {

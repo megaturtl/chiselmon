@@ -6,14 +6,15 @@
   "client": [
     "MixinClientParty",
     "MixinClientPC",
+    "MixinCobblemonTooltipGenerator",
     "MixinEntity",
+    "MixinGui",
     "MixinMoveTile",
     "MixinPartyOverlay",
     "MixinPCGUI",
     "MixinPokemon",
     "MixinStorageSlot",
-    "MixinWallpaperEntry",
-    "MixinCobblemonTooltipGenerator"
+    "MixinWallpaperEntry"
   ],
   "injectors": {
     "defaultRequire": 1
