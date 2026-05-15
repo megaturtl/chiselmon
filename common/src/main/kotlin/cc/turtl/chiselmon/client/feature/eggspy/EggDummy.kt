@@ -29,6 +29,10 @@ class EggDummy(val originalEgg: Pokemon) : Pokemon() {
     val originalRenderablePokemon: RenderablePokemon
         get() = (originalEgg as DuckPreviewPokemon).`chiselmon$getRawRenderablePokemon`()
 
+    override fun attemptAbilityUpdate() {
+        // Make this a no-op to protect the original egg ability from being overridden
+    }
+
     companion object {
         const val DUMMY_ASPECT = "EggDummy"
 
