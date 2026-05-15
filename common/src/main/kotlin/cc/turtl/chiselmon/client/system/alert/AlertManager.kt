@@ -32,7 +32,7 @@ object AlertManager {
     fun init() {
         ClientEvents.LEVEL_CONNECTED.subscribe { onWorldJoin() }
         ClientEvents.LEVEL_DISCONNECTED.subscribe { onWorldLeave() }
-        // low priority for the glow logic that might clash with despawn glow -- alert should override despawn glow
+        // low priority for the glow logic that might clash with despawn glow (alert should override despawn glow)
         ClientEvents.TICK_POST.subscribe { if (active) tick() }
 
         LureAlerter.init()

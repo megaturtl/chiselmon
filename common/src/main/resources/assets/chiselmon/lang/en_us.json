@@ -68,8 +68,8 @@
     "chiselmon.config.general.open_config_keybind.desc": "Press to return to this config screen",
     "chiselmon.config.general.checkspawn_detail": "Overhaul Checkspawn",
     "chiselmon.config.general.checkspawn_detail.desc": "Adds an egg group and EV yield tooltip to pokemon species when using the /checkspawn command.",
-  "chiselmon.config.general.pokerod_overlay": "PokeRod Bait Overlay",
-  "chiselmon.config.general.pokerod_overlay.desc": "Displays the amount of equipped bait above your hotbar while holding a PokeRod.",
+    "chiselmon.config.general.pokerod_overlay": "PokeRod Bait Overlay",
+    "chiselmon.config.general.pokerod_overlay.desc": "Displays the amount of equipped bait above your hotbar while holding a PokeRod.",
     "chiselmon.config.general.discord_webhook_url": "Discord Webhook URL",
     "chiselmon.config.general.discord_webhook_url.desc": "Used to send Discord Alerts to your own server. To get your URL, open Discord and go to your server's Settings > Integrations > Webhooks > New Webhook, then click 'Copy Webhook URL'",
 
@@ -182,8 +182,6 @@
     "chiselmon.config.alert.master_volume.desc": "Volume control for all alert sounds",
     "chiselmon.config.alert.mute_keybind": "Mute Keybind",
     "chiselmon.config.alert.mute_keybind.desc": "Press to indefinitely mute all active alert sounds.",
-    "chiselmon.config.alert.lure_alerts": "Lure Expiry Alert",
-    "chiselmon.config.alert.lure_alerts.desc": "Plays a glass breaking sound when a lure runs out. (This looks for the message 'Your lure has run out!')",
     "chiselmon.config.alert.show_form_in_message": "Show Form in Messages",
     "chiselmon.config.alert.show_form_in_message.desc": "Include pokemon form in alert messages",
     "chiselmon.config.alert.filters": "Customise Alert Types",
@@ -205,6 +203,8 @@
     "chiselmon.config.alert.repeat_sound.desc": "Repeats this sound while alert is active. If false, the sound will only play once per pokemon spawn.",
     "chiselmon.config.alert.highlight_entity": "Highlight Entity",
     "chiselmon.config.alert.highlight_entity.desc": "Applies a colored glow effect to alerted pokemon",
+    "chiselmon.config.alert.group.lure_alerts": "Lure Expiry Alert",
+    "chiselmon.config.alert.group.lure_alerts.desc": "Get alerted when your lure runs out. (This only works with some lure mods)",
 
     "chiselmon.config.category.recorder": "Spawn Recorder",
     "chiselmon.config.recorder.action_bar": "Enable Action Bar",

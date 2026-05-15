@@ -12,7 +12,8 @@ enum class AlertSounds(private val displayName: String, val sound: SoundEvent) {
     BELL("Bell", SoundEvents.BELL_BLOCK),
     FIREWORK("Firework Launch", SoundEvents.FIREWORK_ROCKET_LAUNCH),
     MACE("Mace Smash", SoundEvents.MACE_SMASH_AIR),
-    DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL);
+    DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL),
+    GLASS("Glass Shatter", SoundEvents.GLASS_BREAK);
 
     override fun toString(): String = displayName
 }
