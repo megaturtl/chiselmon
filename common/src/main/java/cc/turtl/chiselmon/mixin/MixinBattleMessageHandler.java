@@ -13,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = BattleMessageHandler.class, remap = false)
 public class MixinBattleMessageHandler {
+
+    /**
+     * Intercepts cobblemon battle messages and stores the current battle count in BattleState
+     */
     @Inject(method = "handle(Lcom/cobblemon/mod/common/net/messages/client/battle/BattleMessagePacket;Lnet/minecraft/client/Minecraft;)V", at = @At("HEAD"))
     private void chiselmon$onBattleMessage(BattleMessagePacket packet, Minecraft client, CallbackInfo ci) {
         for (Component message : packet.getMessages()) {

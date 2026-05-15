@@ -34,6 +34,9 @@ object AlertManager {
         ClientEvents.LEVEL_DISCONNECTED.subscribe { onWorldLeave() }
         // low priority for the glow logic that might clash with despawn glow -- alert should override despawn glow
         ClientEvents.TICK_POST.subscribe { if (active) tick() }
+
+        LureAlerter.init()
+
         ChiselmonConstants.LOGGER.info("AlertSystem initialized")
     }
 

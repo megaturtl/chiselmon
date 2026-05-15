@@ -2,10 +2,10 @@ package cc.turtl.chiselmon.client.config.category
 
 import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.client.system.alert.AlertSounds
 import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
-import cc.turtl.chiselmon.client.system.alert.AlertSounds
 import cc.turtl.turtlshell.api.client.config.OptionFactory
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.config.v2.api.SerialEntry
@@ -20,6 +20,9 @@ class AlertConfig {
 
     @SerialEntry
     var masterVolume: Int = DEFAULT_MASTER_VOLUME
+
+    @SerialEntry
+    var lureExpiryAlerts: Boolean = DEFAULT_LURE_EXPIRY_ALERTS
 
     @SerialEntry
     var filterAlerts: MutableMap<String, FilterAlertSettings> = LinkedHashMap()
@@ -50,6 +53,13 @@ class AlertConfig {
                     "chiselmon.config.alert.mute_keybind",
                     ChiselmonKeybinds.MUTE_ALERTS
                 )
+            )
+            .option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.alert.lure_alerts",
+                    DEFAULT_LURE_EXPIRY_ALERTS,
+                    { lureExpiryAlerts },
+                    { lureExpiryAlerts = it })
             )
 
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alert.filters")))
@@ -187,5 +197,6 @@ class AlertConfig {
     companion object {
         const val DEFAULT_MASTER_ENABLED = false
         const val DEFAULT_MASTER_VOLUME = 100
+        const val DEFAULT_LURE_EXPIRY_ALERTS = false
     }
 }
