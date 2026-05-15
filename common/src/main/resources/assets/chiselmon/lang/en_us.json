@@ -181,7 +181,7 @@
     "chiselmon.config.alert.mute_keybind": "Mute Keybind",
     "chiselmon.config.alert.mute_keybind.desc": "Press to indefinitely mute all active alert sounds.",
     "chiselmon.config.alert.lure_alerts": "Lure Expiry Alert",
-    "chiselmon.config.alert.lure_alerts.desc": "Plays a glass breaking sound when a lure runs out. (This looks for the message 'Your lure has run out!'",
+    "chiselmon.config.alert.lure_alerts.desc": "Plays a glass breaking sound when a lure runs out. (This looks for the message 'Your lure has run out!')",
     "chiselmon.config.alert.show_form_in_message": "Show Form in Messages",
     "chiselmon.config.alert.show_form_in_message.desc": "Include pokemon form in alert messages",
     "chiselmon.config.alert.filters": "Customise Alert Types",
