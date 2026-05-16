@@ -25,15 +25,29 @@ private val TYPE_CHART = arrayOf(
     /* Fairy     */ floatArrayOf(1f, .5f, 1f, 1f, 1f, 1f, 2f, .5f, 1f, 1f, 1f, 1f, 1f, 1f, 2f, 2f, .5f, 1f)
 )
 
-private fun typeIndex(type: ElementalType) = type.textureXMultiplier
+private val TYPE_ORDER = listOf(
+    ElementalTypes.NORMAL, ElementalTypes.FIRE, ElementalTypes.WATER,
+    ElementalTypes.GRASS, ElementalTypes.ELECTRIC, ElementalTypes.ICE,
+    ElementalTypes.FIGHTING, ElementalTypes.POISON, ElementalTypes.GROUND,
+    ElementalTypes.FLYING, ElementalTypes.PSYCHIC, ElementalTypes.BUG,
+    ElementalTypes.ROCK, ElementalTypes.GHOST, ElementalTypes.DRAGON,
+    ElementalTypes.DARK, ElementalTypes.STEEL, ElementalTypes.FAIRY
+)
+
+private fun typeIndex(type: ElementalType) = TYPE_ORDER.indexOf(type)
 
 /**
  * Computes the effectiveness of all attacking types against the given typing.
  */
 fun computeMatchups(defendingTypes: Iterable<ElementalType>): TypingMatchups {
     val results = ElementalTypes.all().associateWith { attackingType ->
+        val atkIdx = typeIndex(attackingType)
+        if (atkIdx == -1) return@associateWith 1f
+
         defendingTypes.fold(1f) { multiplier, defendingType ->
-            multiplier * TYPE_CHART[typeIndex(attackingType)][typeIndex(defendingType)]
+            val defIdx = typeIndex(defendingType)
+            if (defIdx == -1) multiplier
+            else multiplier * TYPE_CHART[atkIdx][defIdx]
         }
     }
     return TypingMatchups(results)
