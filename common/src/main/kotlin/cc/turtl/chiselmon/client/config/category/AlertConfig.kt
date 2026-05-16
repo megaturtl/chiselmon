@@ -247,7 +247,7 @@ class AlertConfig {
     class LureAlertSettings : AlertSettings()
 
     companion object {
-        const val DEFAULT_MASTER_ENABLED = false
+        const val DEFAULT_MASTER_ENABLED = true
         const val DEFAULT_MASTER_VOLUME = 100
     }
 }

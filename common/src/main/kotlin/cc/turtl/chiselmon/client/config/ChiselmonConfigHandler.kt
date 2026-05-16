@@ -2,8 +2,8 @@ package cc.turtl.chiselmon.client.config
 
 import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.client.config.category.*
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.turtlshell.api.client.config.custom.KeyAdapter
-import cc.turtl.turtlshell.api.core.Platform
 import com.mojang.blaze3d.platform.InputConstants
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.SerialEntry
@@ -17,7 +17,7 @@ object ChiselmonConfigHandler {
             .id(ResourceLocation.fromNamespaceAndPath(BuildDetails.MOD_ID, "config"))
             .serializer { config ->
                 GsonConfigSerializerBuilder.create(config)
-                    .setPath(Platform.getConfigDir().resolve("config.json"))
+                    .setPath(ChiselmonConstants.CONFIG_PATH.resolve("config.json"))
                     .appendGsonBuilder {
                         it.setPrettyPrinting()
                             .registerTypeHierarchyAdapter(
