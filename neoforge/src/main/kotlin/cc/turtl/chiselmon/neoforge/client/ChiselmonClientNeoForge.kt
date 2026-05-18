@@ -2,6 +2,7 @@ package cc.turtl.chiselmon.neoforge.client
 
 import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.core.ChiselmonConstants
+import cc.turtl.chiselmon.core.ChiselmonCoreCommon
 import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
@@ -23,10 +24,14 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.event.AddPackFindersEvent
 import java.nio.file.Path
 
+// Make sure there's just one @Mod entrypoint per modId on NeoForge
+// KFF's KotlinModContainer.constructMod() runs AutoKotlinEventBusSubscriber.inject()
+// once per @Mod class for the modId, which double-registers every @EventBusSubscriber listener.
 @EventBusSubscriber
 @Mod(value = BuildDetails.MOD_ID, dist = [Dist.CLIENT])
 object ChiselmonClientNeoForge {
     init {
+        ChiselmonCoreCommon.init()
         ChiselmonClientCommon.init()
         registerConfigScreen()
     }
