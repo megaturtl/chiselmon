@@ -4,16 +4,17 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "MixinClientParty",
-    "MixinClientPC",
     "MixinCobblemonTooltipGenerator",
     "MixinEntity",
     "MixinGui",
+    "MixinMovesWidget",
     "MixinMoveTile",
     "MixinPartyOverlay",
+    "MixinPartySlotWidget",
     "MixinPCGUI",
     "MixinPokemon",
     "MixinStorageSlot",
+    "MixinSummary",
     "MixinWallpaperEntry"
   ],
   "injectors": {
@@ -22,6 +23,7 @@
   "mixins": [
     "MixinBattleEndHandler",
     "MixinBattleInitializeHandler",
-    "MixinBattleMessageHandler"
+    "MixinBattleMessageHandler",
+    "accessor.AccessorPokemon"
   ]
 }

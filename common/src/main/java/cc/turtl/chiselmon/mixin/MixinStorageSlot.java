@@ -4,11 +4,16 @@ import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.client.feature.eggspy.EggDummy;
+import cc.turtl.chiselmon.client.feature.eggspy.EggPreview;
 import cc.turtl.chiselmon.client.feature.eggspy.EggRenderer;
 import cc.turtl.chiselmon.client.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.client.feature.pc.tooltip.TooltipBuilder;
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
+import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.RenderablePokemon;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
@@ -70,5 +75,24 @@ public abstract class MixinStorageSlot extends AbstractWidget {
         } else {
             setTooltip(null);
         }
+    }
+
+    @ModifyExpressionValue(
+            method = "renderSlot",
+            at = @At(value = "INVOKE", target = "Lcom/cobblemon/mod/common/pokemon/Pokemon;asRenderablePokemon()Lcom/cobblemon/mod/common/pokemon/RenderablePokemon;", remap = false),
+            remap = false
+    )
+    private RenderablePokemon chiselmon$swapRenderableForDisplay(RenderablePokemon original) {
+        Pokemon pokemon = getPokemon();
+        return pokemon == null ? original : EggPreview.renderableFor(pokemon);
+    }
+
+    @ModifyExpressionValue(
+            method = "renderSlot",
+            at = @At(value = "INVOKE", target = "Lcom/cobblemon/mod/common/pokemon/Pokemon;getGender()Lcom/cobblemon/mod/common/pokemon/Gender;", remap = false)
+    )
+    private Gender chiselmon$swapGenderForDisplay(Gender original, @Local(name = "pokemon") Pokemon pokemon) {
+        Pokemon preview = EggPreview.forDisplay(pokemon);
+        return preview == pokemon ? original : preview.getGender();
     }
 }
