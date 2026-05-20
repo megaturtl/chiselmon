@@ -34,6 +34,4 @@ object EggCache {
         return dummy
     }
 
-    @JvmStatic
-    fun invalidate(uuid: UUID) = cache.invalidate(uuid)
 }

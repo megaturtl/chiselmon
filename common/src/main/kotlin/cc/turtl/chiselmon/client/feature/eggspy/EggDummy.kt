@@ -10,7 +10,9 @@ import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.TagParser
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
 
 /**
  * Represents the pokemon a NeoDaycare egg will hatch into.
@@ -33,6 +35,17 @@ class EggDummy private constructor(
 
     val originalRenderablePokemon: RenderablePokemon
         get() = cachedRenderableEgg
+
+    private var cachedHatchlingRenderable: RenderablePokemon? = null
+
+    /**
+     * Cached [RenderablePokemon] for the hatchling. EggDummy fields are immutable
+     * for its lifetime (EggCache rebuilds the dummy when hatchling data changes),
+     * so the renderable can be reused every frame without wasting performance.
+     */
+    fun hatchlingRenderable(): RenderablePokemon =
+        cachedHatchlingRenderable ?: RenderablePokemon(species, aspects, ItemStack.EMPTY)
+            .also { cachedHatchlingRenderable = it }
 
     override fun attemptAbilityUpdate() {
         // Ability comes from hatchling data and should never be recalculated
@@ -86,6 +99,11 @@ class EggDummy private constructor(
                     (dummy as AccessorPokemon).`chiselmon$setIsClient`(true)
                     dummy.forcedAspects = capturedAspects + DUMMY_ASPECT
                     dummy.uuid = egg.uuid
+
+                    // Prefix the display label with (EGG) so render-site mixins that just
+                    // read getDisplayName() / getickname() don't have to know about egg logic.
+                    val baseName = dummy.nickname?.copy() ?: dummy.species.translatedName.copy()
+                    dummy.nickname = Component.literal("(EGG) ").append(baseName)
                 }
             } catch (e: Exception) {
                 ChiselmonConstants.LOGGER.error("Failed to parse hatchling for egg: {}", egg.uuid, e)
