@@ -2,10 +2,14 @@ package cc.turtl.chiselmon.client.feature.eggspy
 
 import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon
 import cc.turtl.chiselmon.core.ChiselmonConstants
+import cc.turtl.chiselmon.mixin.accessor.AccessorPokemon
+import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
+import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.Minecraft
+import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.TagParser
 import net.minecraft.resources.ResourceLocation
 
@@ -16,21 +20,17 @@ import net.minecraft.resources.ResourceLocation
  * "EggDummy" aspect for recognition by Chiselmon methods.
  */
 class EggDummy(val originalEgg: Pokemon) : Pokemon() {
-
     var totalSteps: Int = 0
         private set
-
     val hatchPercentage: Int
         get() = originalEgg.getFeature<IntSpeciesFeature>(HATCH_PERCENTAGE_FEATURE)?.value ?: 0
-
     val stepsRemaining: Int
         get() = totalSteps - (totalSteps * hatchPercentage / 100)
-
     val originalRenderablePokemon: RenderablePokemon
         get() = (originalEgg as DuckPreviewPokemon).`chiselmon$getRawRenderablePokemon`()
 
     override fun attemptAbilityUpdate() {
-        // Make this a no-op to protect the original egg ability from being overridden
+        // Ability should come from hatchling data and never be recalculated
     }
 
     companion object {
@@ -51,6 +51,15 @@ class EggDummy(val originalEgg: Pokemon) : Pokemon() {
                 EggDummy(egg).also { dummy ->
                     dummy.totalSteps = egg.persistentData.getInt("TotalSteps")
                     dummy.loadFromNBT(registries, hatchlingNbt)
+                    // The codec decode chain corrupts the ability on the intermediate Pokemon so it needs to be reapplied.
+                    Ability.CODEC.decode(NbtOps.INSTANCE, hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY))
+                        .result()
+                        .orElse(null)
+                        ?.getFirst()
+                        ?.let {
+                            @Suppress("CAST_NEVER_SUCCEEDS")
+                            (dummy as AccessorPokemon).`chiselmon$setAbility`(it)
+                        }
                     dummy.uuid = egg.uuid
                     dummy.forcedAspects += DUMMY_ASPECT
                 }

@@ -22,6 +22,7 @@
   "mixins": [
     "MixinBattleEndHandler",
     "MixinBattleInitializeHandler",
-    "MixinBattleMessageHandler"
+    "MixinBattleMessageHandler",
+    "accessor.AccessorPokemon"
   ]
 }
