@@ -24,6 +24,7 @@
     "MixinBattleEndHandler",
     "MixinBattleInitializeHandler",
     "MixinBattleMessageHandler",
+    "MixinSearch",
     "accessor.AccessorPokemon"
   ]
 }
