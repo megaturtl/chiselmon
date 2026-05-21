@@ -73,16 +73,19 @@ class EggDummy private constructor(
                     .orElse(null)
                     ?.getFirst() ?: return null
 
-                // The decoded aspects miss form-specific aspects like "hisuian" so it needs to be set manually
                 val formId = hatchlingNbt.getString(DataKeys.POKEMON_FORM_ID)
-                val formAspects = decoded.species.forms
-                    .firstOrNull { it.formOnlyShowdownId() == formId }
-                    ?.aspects
-                    ?: emptySet()
-                val capturedAspects = decoded.aspects + formAspects
 
                 EggDummy(renderableEgg).also { dummy ->
                     dummy.copyFrom(decoded)
+
+                    // Explicitly restore the actual form. My original solution lost form data like typing
+                    // and only preserved visual form aspects
+                    val resolvedForm = dummy.species.forms
+                        .firstOrNull { it.formOnlyShowdownId() == formId }
+
+                    if (resolvedForm != null) {
+                        dummy.form = resolvedForm
+                    }
 
                     // The codec decode chain corrupts the ability so it needs to be reapplied.
                     Ability.CODEC.decode(NbtOps.INSTANCE, hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY))
@@ -97,6 +100,10 @@ class EggDummy private constructor(
                     // Lock client mode so updateAspects just uses forcedAspects (preserves the form aspects set above)
                     @Suppress("CAST_NEVER_SUCCEEDS")
                     (dummy as AccessorPokemon).`chiselmon$setIsClient`(true)
+
+                    val capturedAspects =
+                        decoded.aspects + (resolvedForm?.aspects ?: emptySet())
+
                     dummy.forcedAspects = capturedAspects + DUMMY_ASPECT
                     dummy.uuid = egg.uuid
 
