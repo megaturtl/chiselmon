@@ -73,6 +73,8 @@ data class AlertContext(
 
     val discordWebhookUrl: String get() = ChiselmonConfig.general.discordWebhookURL
 
+    val discordUserId: String get() = ChiselmonConfig.general.discordUserId
+
     /**
      * Settings for the winning sound filter. Returns a default instance if none matched
      * (callers should guard with [shouldSingleSound] / [shouldRepeatingSound] first).

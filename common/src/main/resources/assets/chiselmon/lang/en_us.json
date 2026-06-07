@@ -72,6 +72,8 @@
     "chiselmon.config.general.pokerod_overlay.desc": "Displays the amount of equipped bait above your hotbar while holding a PokeRod.",
     "chiselmon.config.general.discord_webhook_url": "Discord Webhook URL",
     "chiselmon.config.general.discord_webhook_url.desc": "Used to send Discord Alerts to your own server. To get your URL, open Discord and go to your server's Settings > Integrations > Webhooks > New Webhook, then click 'Copy Webhook URL'",
+    "chiselmon.config.general.discord_user_id": "Discord User ID",
+    "chiselmon.config.general.discord_user_id.desc": "Used to ping you alongside Discord Alerts. To get your ID, enable developer settings and right click your profile.",
 
     "chiselmon.config.group.egg_spy": "Egg Spy",
     "chiselmon.config.egg_spy.enabled": "Enable Egg Spy",

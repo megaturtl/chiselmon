@@ -7,6 +7,7 @@ import cc.turtl.chiselmon.client.system.alert.AlertContext
 import cc.turtl.chiselmon.core.api.PokemonEncounter
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import net.minecraft.client.Minecraft
 import java.net.HttpURLConnection
 import java.net.URI
@@ -30,6 +31,7 @@ class DiscordAction {
         }
 
         val body = JsonObject().apply {
+            add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
             add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
         }
 

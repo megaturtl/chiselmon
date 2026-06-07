@@ -25,6 +25,9 @@ class GeneralConfig {
     var discordWebhookURL: String = ""
 
     @SerialEntry
+    var discordUserId: String = ""
+
+    @SerialEntry
     val eggSpy: EggSpyConfig = EggSpyConfig()
 
     @SerialEntry
@@ -66,6 +69,13 @@ class GeneralConfig {
                 "",
                 { discordWebhookURL },
                 { discordWebhookURL = it })
+        )
+        .option(
+            OptionFactory.textField(
+                "chiselmon.config.general.discord_user_id",
+                "",
+                { discordUserId },
+                { discordUserId = it })
         )
         .option(
             OptionFactory.keyMappingPicker(
