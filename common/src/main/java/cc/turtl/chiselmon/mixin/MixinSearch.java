@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Search.class)
 public class MixinSearch {
 
-    @ModifyVariable(method = "passes", at = @At("HEAD"), argsOnly = true, name = "pokemon")
+    @ModifyVariable(method = "passes", at = @At("HEAD"), argsOnly = true)
     @Nullable
     private Pokemon replacePokemon(@Nullable Pokemon pokemon) {
         if (pokemon == null) return null;

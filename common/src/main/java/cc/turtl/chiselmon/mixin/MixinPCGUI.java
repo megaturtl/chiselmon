@@ -102,7 +102,7 @@ public abstract class MixinPCGUI extends Screen {
             at = @At(value = "INVOKE", target = "Lcom/cobblemon/mod/common/pokemon/Pokemon;asRenderablePokemon()Lcom/cobblemon/mod/common/pokemon/RenderablePokemon;", remap = false),
             remap = false
     )
-    private RenderablePokemon chiselmon$swapPreviewRenderable(RenderablePokemon original, @Local(argsOnly = true, name = "pokemon") Pokemon pokemon) {
+    private RenderablePokemon chiselmon$swapPreviewRenderable(RenderablePokemon original, @Local(argsOnly = true) Pokemon pokemon) {
         return pokemon == null ? original : EggPreview.renderableFor(pokemon);
     }
 
