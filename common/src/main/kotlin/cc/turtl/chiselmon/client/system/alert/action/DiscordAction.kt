@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.client.system.alert.action
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.core.util.normalizeSpeciesName
 import cc.turtl.chiselmon.client.system.alert.AlertContext
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.PokemonEncounter
+import cc.turtl.chiselmon.core.util.normalizeSpeciesName
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -31,7 +31,9 @@ class DiscordAction {
         }
 
         val body = JsonObject().apply {
-            add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
+            if (ctx.discordUserId.isNotBlank()) {
+                add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
+            }
             add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
         }
 
