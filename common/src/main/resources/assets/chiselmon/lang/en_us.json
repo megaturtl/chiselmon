@@ -3,6 +3,7 @@
     "cobblemon.ui.sort.size": "Sort by Size",
 
     "config.jade.plugin_chiselmon.pokemon_entity": "Pokemon Entity",
+    "config.jade.plugin_chiselmon.pokemon_entity.owner_username": "Owner Username",
     "config.jade.plugin_chiselmon.pokemon_entity.typing": "Types",
     "config.jade.plugin_chiselmon.pokemon_entity.weaknesses": "Weaknesses",
     "config.jade.plugin_chiselmon.pokemon_entity.form": "Form",
@@ -33,6 +34,7 @@
     "chiselmon.ui.label.pokesnack_block.no_ingredients": "No Ingredients!",
 
     "chiselmon.ui.label.ivs": "IVs",
+    "chiselmon.ui.label.owner_username": "Owner",
     "chiselmon.ui.label.original_trainer": "OT",
     "chiselmon.ui.label.form": "Form",
     "chiselmon.ui.label.friendship": "Friendship",

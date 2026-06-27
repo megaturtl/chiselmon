@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.network.chat.Component
+import snownee.jade.util.UsernameCache
 
 // High-level formatter for turning Pokemon data into styled Components.
 object PokemonFormats {
@@ -185,6 +186,13 @@ object PokemonFormats {
     }
 
     // --- Misc ---
+
+    fun ownerUsername(entity: PokemonEntity): Component {
+        val uuid = entity.ownerUUID ?: return UNKNOWN
+        val username = UsernameCache.getLastKnownUsername(uuid) ?: return UNKNOWN
+
+        return createComponent(username, ColorLib.LIGHT_GRAY.rgb)
+    }
 
     fun rideStyles(pokemon: Pokemon): Component {
         if (!IS_RIDEABLE.test(pokemon)) return UNKNOWN

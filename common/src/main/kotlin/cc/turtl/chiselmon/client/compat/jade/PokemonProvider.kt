@@ -26,6 +26,7 @@ import snownee.jade.impl.ui.HealthElement
  */
 object PokemonProvider : IEntityComponentProvider {
 
+    val OWNER_USERNAME: ResourceLocation = modResource("pokemon_entity.owner_username")
     val POKEDEX_STATUS: ResourceLocation = modResource("pokemon_entity.pokedex_status")
     val TYPING: ResourceLocation = modResource("pokemon_entity.typing")
     val WEAKNESSES: ResourceLocation = modResource("pokemon_entity.weaknesses")
@@ -50,6 +51,10 @@ object PokemonProvider : IEntityComponentProvider {
         tooltip.clear()
         tooltip.add(PokemonFormats.detailedName(pokemon, false))
         tooltip.add(HealthElement(entity.maxHealth, entity.health))
+
+        addIfEnabled(tooltip, config, OWNER_USERNAME, "chiselmon.ui.label.owner_username") {
+            PokemonFormats.ownerUsername(entity)
+        }
 
         addIfEnabled(tooltip, config, POKEDEX_STATUS, "chiselmon.ui.label.pokedex_status") {
             PokemonFormats.dexStatus(

@@ -19,6 +19,7 @@ class ChiselmonJadePlugin : IWailaPlugin {
         registration.registerEntityComponent(PokemonProvider, PokemonEntity::class.java)
 
         // Register and mark all config options
+        configureOption(registration, PokemonProvider.OWNER_USERNAME, false)
         configureOption(registration, PokemonProvider.POKEDEX_STATUS, false)
         configureOption(registration, PokemonProvider.TYPING, true)
         configureOption(registration, PokemonProvider.WEAKNESSES, true)
