@@ -17,6 +17,7 @@ import java.util.function.Predicate
  * - "extreme_size" -- matches pokemon with extreme size
  * - "type=fire" -- matches pokemon with the given type
  * - "species=pikachu" -- matches a specific species
+ * - "form=alolan" -- matches alolan forms
  * - "gender=male" -- matches a specific gender
  * - "min_size=1.5" -- matches pokemon at or above the given scale
  * - "max_size=0.4" -- matches pokemon at or below the given scale
@@ -47,6 +48,10 @@ object FilterTagParser {
                 Predicate { pokemon ->
                     normalizeSpeciesName(pokemon.species.name) == normalizedSearch
                 }
+            }
+
+            "form" -> Predicate { pokemon ->
+                pokemon.form.name.equals(rawValue, ignoreCase = true)
             }
 
             "type" -> Predicate { pokemon ->
