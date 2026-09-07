@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleMoveSelection
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
@@ -16,8 +16,8 @@ object MoveTooltipRenderer {
     private const val TOOLTIP_MAX_WIDTH = 200
 
     @JvmStatic
-    fun render(
-        context: GuiGraphics,
+    fun schedule(
+        screen: Screen,
         actionSelection: BattleActionSelection?,
         mouseX: Int,
         mouseY: Int,
@@ -36,7 +36,7 @@ object MoveTooltipRenderer {
         lines += createDescription(moveTemplate.description)
         lines += createEffectivenessLines(tile)
 
-        context.renderComponentTooltip(Minecraft.getInstance().font, lines, mouseX, mouseY)
+        screen.setTooltipForNextRenderPass(lines.map(Component::getVisualOrderText))
     }
 
     private fun createHeader(tile: BattleMoveSelection.MoveTile): MutableComponent {
