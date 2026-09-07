@@ -2,7 +2,6 @@ package cc.turtl.chiselmon.client.command
 
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
-import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder

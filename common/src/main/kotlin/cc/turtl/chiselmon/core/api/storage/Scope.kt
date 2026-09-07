@@ -1,8 +1,6 @@
 package cc.turtl.chiselmon.core.api.storage
 
 import cc.turtl.chiselmon.core.ChiselmonConstants
-import cc.turtl.chiselmon.core.api.storage.Scope.Companion.currentWorld
-import cc.turtl.chiselmon.core.api.storage.Scope.Companion.global
 import net.minecraft.client.Minecraft
 import java.nio.file.Path
 

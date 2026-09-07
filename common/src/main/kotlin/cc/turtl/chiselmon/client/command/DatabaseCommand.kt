@@ -6,7 +6,6 @@ import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
-import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
