@@ -11,7 +11,6 @@ import com.sun.net.httpserver.HttpHandler
  * (`..`) is rejected.
  */
 class StaticFileHandler : HttpHandler {
-
     override fun handle(exchange: HttpExchange) {
         if (!"GET".equals(exchange.requestMethod, ignoreCase = true)) {
             exchange.sendResponseHeaders(405, -1)
@@ -43,7 +42,11 @@ class StaticFileHandler : HttpHandler {
         serveResource(exchange, "$RESOURCE_ROOT$path", contentType)
     }
 
-    private fun serveResource(exchange: HttpExchange, resourcePath: String, contentType: String) {
+    private fun serveResource(
+        exchange: HttpExchange,
+        resourcePath: String,
+        contentType: String,
+    ) {
         val stream = StaticFileHandler::class.java.getResourceAsStream(resourcePath)
         if (stream == null) {
             val body = "Resource not found: $resourcePath"
@@ -64,10 +67,11 @@ class StaticFileHandler : HttpHandler {
     companion object {
         private const val RESOURCE_ROOT = "/assets/chiselmon/dashboard"
 
-        private val CONTENT_TYPES = mapOf(
-            "html" to "text/html; charset=utf-8",
-            "css" to "text/css; charset=utf-8",
-            "js" to "text/javascript; charset=utf-8",
-        )
+        private val CONTENT_TYPES =
+            mapOf(
+                "html" to "text/html; charset=utf-8",
+                "css" to "text/css; charset=utf-8",
+                "js" to "text/javascript; charset=utf-8",
+            )
     }
 }

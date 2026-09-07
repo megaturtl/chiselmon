@@ -12,6 +12,7 @@ fun Project.writeVersion(type: VersionType = VersionType.FULL): String {
     return when (type) {
         // This is the "Discovery" version. ALWAYS use -SNAPSHOT for Maven.
         VersionType.PUBLISHING -> if (isSnapshot()) "$baseVersion-SNAPSHOT" else baseVersion
+
         // This is the "Identity" version. The build scripts will append the Git info.
         VersionType.FULL -> baseVersion
     }

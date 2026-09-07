@@ -15,32 +15,35 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
 class DebugCommand : TurtlShellClientCommand {
-
     override val name = "debug"
     override val description: MutableComponent = Component.literal("Debug utilities")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder
+            .literal<CommandSourceStack>(name)
             .executes { ctx ->
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                val root = ctx.nodes.first().node.name
+                val root =
+                    ctx.nodes
+                        .first()
+                        .node.name
 
                 sendEmptyLine(player)
                 sendSuccess(player, "Debug Commands")
                 sendPrefixed(player, "  /$root debug test")
                 sendPrefixed(player, "  /$root debug dumpentity")
                 Command.SINGLE_SUCCESS
-            }
-            .then(
-                LiteralArgumentBuilder.literal<CommandSourceStack>("test")
+            }.then(
+                LiteralArgumentBuilder
+                    .literal<CommandSourceStack>("test")
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         sendSuccess(player, "Test successful!")
                         Command.SINGLE_SUCCESS
-                    }
-            )
-            .then(
-                LiteralArgumentBuilder.literal<CommandSourceStack>("dumpentity")
+                    },
+            ).then(
+                LiteralArgumentBuilder
+                    .literal<CommandSourceStack>("dumpentity")
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         try {
@@ -58,7 +61,7 @@ class DebugCommand : TurtlShellClientCommand {
                                 sendLabeled(
                                     player,
                                     "  Owned",
-                                    IS_OWNED.test(target)
+                                    IS_OWNED.test(target),
                                 )
                                 sendLabeled(player, "  Wild", IS_WILD.test(target))
                             } else {
@@ -69,6 +72,6 @@ class DebugCommand : TurtlShellClientCommand {
                             sendError(player, e)
                             0
                         }
-                    }
+                    },
             )
 }

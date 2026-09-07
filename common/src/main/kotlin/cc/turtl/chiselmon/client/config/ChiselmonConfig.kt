@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 
 object ChiselmonConfig {
-
     val general get() = ChiselmonConfigHandler.general
     val pc get() = ChiselmonConfigHandler.pc
     val alert get() = ChiselmonConfigHandler.alert
@@ -30,7 +29,8 @@ object ChiselmonConfig {
     fun save() = ChiselmonConfigHandler.save()
 
     fun createScreen(parent: Screen?): Screen =
-        YetAnotherConfigLib.createBuilder()
+        YetAnotherConfigLib
+            .createBuilder()
             .title(Component.translatable("chiselmon.config.title"))
             .category(general.buildCategory())
             .category(pc.buildCategory())
@@ -46,12 +46,18 @@ object ChiselmonConfig {
      * Takes a tab index to switch back to that tab after reload.
      * This is a workaround since YACL doesn't support in-place refresh.
      */
-    fun saveAndReloadScreen(parent: Screen?, tabIndex: Int) {
+    fun saveAndReloadScreen(
+        parent: Screen?,
+        tabIndex: Int,
+    ) {
         save()
         openAtTab(parent, tabIndex)
     }
 
-    fun openAtTab(parent: Screen?, tabIndex: Int) {
+    fun openAtTab(
+        parent: Screen?,
+        tabIndex: Int,
+    ) {
         val newScreen = createScreen(parent) as YACLScreen
         Minecraft.getInstance().setScreen(newScreen)
         newScreen.tabNavigationBar?.let { bar ->

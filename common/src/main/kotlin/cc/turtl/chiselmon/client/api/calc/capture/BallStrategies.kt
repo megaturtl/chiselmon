@@ -18,82 +18,159 @@ fun interface BallStrategy {
 // Extension point for mod compatibility or runtime additions.
 private val customStrategies = mutableMapOf<PokeBall, BallStrategy>()
 
-fun registerBallStrategy(ball: PokeBall, strategy: BallStrategy) {
+fun registerBallStrategy(
+    ball: PokeBall,
+    strategy: BallStrategy,
+) {
     customStrategies[ball] = strategy
 }
 
-fun calculateBallBonus(ball: PokeBall?, ctx: CaptureContext): Float {
+fun calculateBallBonus(
+    ball: PokeBall?,
+    ctx: CaptureContext,
+): Float {
     if (ball == null) return 1f
     customStrategies[ball]?.let { return it.calculate(ctx) }
     return builtInStrategy(ball, ctx)
 }
 
-private fun builtInStrategy(ball: PokeBall, ctx: CaptureContext): Float = when (ball) {
-    // Standard balls
-    PokeBalls.POKE_BALL -> 1f
-    PokeBalls.GREAT_BALL -> 1.5f
-    PokeBalls.SPORT_BALL -> 1.5f
-    PokeBalls.ULTRA_BALL -> 2f
-    PokeBalls.MASTER_BALL -> 999f
+private fun builtInStrategy(
+    ball: PokeBall,
+    ctx: CaptureContext,
+): Float =
+    when (ball) {
+        // Standard balls
+        PokeBalls.POKE_BALL -> {
+            1f
+        }
 
-    // Ancient balls
-    PokeBalls.ANCIENT_GREAT_BALL -> 1.5f
-    PokeBalls.ANCIENT_ULTRA_BALL -> 2f
-    PokeBalls.ANCIENT_ORIGIN_BALL -> 999f
+        PokeBalls.GREAT_BALL -> {
+            1.5f
+        }
 
-    // Effect-only balls
-    PokeBalls.FRIEND_BALL,
-    PokeBalls.LUXURY_BALL,
-    PokeBalls.PREMIER_BALL,
-    PokeBalls.HEAL_BALL,
-    PokeBalls.CHERISH_BALL -> 1f
+        PokeBalls.SPORT_BALL -> {
+            1.5f
+        }
 
-    // Specialty balls
-    PokeBalls.PARK_BALL -> if (ctx.level.getBiome(ctx.pos).`is`(CobblemonBiomeTags.IS_TEMPERATE)) 2.5f else 1f
-    PokeBalls.SAFARI_BALL -> if (!ctx.targetEntity.isBattling) 1.5f else 1f
-    PokeBalls.FAST_BALL -> {
-        val speed = ClientSpeciesRegistry.getSpecies(ctx.pokemon.species.name)?.baseStats?.get("speed") ?: 0
-        if (speed >= 100) 4f else 1f
-    }
+        PokeBalls.ULTRA_BALL -> {
+            2f
+        }
 
-    PokeBalls.LEVEL_BALL -> levelBallBonus(ctx)
-    PokeBalls.LURE_BALL -> if (ctx.pokemon.aspects.contains("fished")) 4f else 1f
-    PokeBalls.HEAVY_BALL -> when {
-        ctx.pokemon.form.weight >= 3000f -> 4f
-        ctx.pokemon.form.weight >= 2000f -> 2.5f
-        ctx.pokemon.form.weight >= 1000f -> 1.5f
-        else -> 1f
-    }
+        PokeBalls.MASTER_BALL -> {
+            999f
+        }
 
-    PokeBalls.LOVE_BALL -> loveBallBonus(ctx)
-    PokeBalls.MOON_BALL -> moonBallBonus(ctx)
-    PokeBalls.NET_BALL -> if (ctx.pokemon.types.any { it == ElementalTypes.BUG || it == ElementalTypes.WATER }) 3f else 1f
-    PokeBalls.DIVE_BALL -> if (ctx.targetEntity.isUnderWater) 3.5f else 1f
-    PokeBalls.NEST_BALL -> ctx.pokemon.level.let { if (it < 30) (41f - it) / 10f else 1f }
-    PokeBalls.REPEAT_BALL -> {
-        val caught = CobblemonClient.clientPokedexData
-            .getKnowledgeForSpecies(ctx.pokemon.species.resourceIdentifier) == PokedexEntryProgress.CAUGHT
-        if (caught) 3.5f else 1f
-    }
+        // Ancient balls
+        PokeBalls.ANCIENT_GREAT_BALL -> {
+            1.5f
+        }
 
-    PokeBalls.TIMER_BALL -> timerBallBonus(ctx)
-    PokeBalls.DUSK_BALL -> {
-        val brightness = ctx.level.getMaxLocalRawBrightness(ctx.pos)
-        when {
-            brightness == 0 -> 3.5f
-            brightness <= 7 -> 3f
-            else -> 1f
+        PokeBalls.ANCIENT_ULTRA_BALL -> {
+            2f
+        }
+
+        PokeBalls.ANCIENT_ORIGIN_BALL -> {
+            999f
+        }
+
+        // Effect-only balls
+        PokeBalls.FRIEND_BALL,
+        PokeBalls.LUXURY_BALL,
+        PokeBalls.PREMIER_BALL,
+        PokeBalls.HEAL_BALL,
+        PokeBalls.CHERISH_BALL,
+        -> {
+            1f
+        }
+
+        // Specialty balls
+        PokeBalls.PARK_BALL -> {
+            if (ctx.level.getBiome(ctx.pos).`is`(CobblemonBiomeTags.IS_TEMPERATE)) 2.5f else 1f
+        }
+
+        PokeBalls.SAFARI_BALL -> {
+            if (!ctx.targetEntity.isBattling) 1.5f else 1f
+        }
+
+        PokeBalls.FAST_BALL -> {
+            val speed = ClientSpeciesRegistry.getSpecies(ctx.pokemon.species.name)?.baseStats?.get("speed") ?: 0
+            if (speed >= 100) 4f else 1f
+        }
+
+        PokeBalls.LEVEL_BALL -> {
+            levelBallBonus(ctx)
+        }
+
+        PokeBalls.LURE_BALL -> {
+            if (ctx.pokemon.aspects.contains("fished")) 4f else 1f
+        }
+
+        PokeBalls.HEAVY_BALL -> {
+            when {
+                ctx.pokemon.form.weight >= 3000f -> 4f
+                ctx.pokemon.form.weight >= 2000f -> 2.5f
+                ctx.pokemon.form.weight >= 1000f -> 1.5f
+                else -> 1f
+            }
+        }
+
+        PokeBalls.LOVE_BALL -> {
+            loveBallBonus(ctx)
+        }
+
+        PokeBalls.MOON_BALL -> {
+            moonBallBonus(ctx)
+        }
+
+        PokeBalls.NET_BALL -> {
+            if (ctx.pokemon.types.any { it == ElementalTypes.BUG || it == ElementalTypes.WATER }) 3f else 1f
+        }
+
+        PokeBalls.DIVE_BALL -> {
+            if (ctx.targetEntity.isUnderWater) 3.5f else 1f
+        }
+
+        PokeBalls.NEST_BALL -> {
+            ctx.pokemon.level.let { if (it < 30) (41f - it) / 10f else 1f }
+        }
+
+        PokeBalls.REPEAT_BALL -> {
+            val caught =
+                CobblemonClient.clientPokedexData
+                    .getKnowledgeForSpecies(ctx.pokemon.species.resourceIdentifier) == PokedexEntryProgress.CAUGHT
+            if (caught) 3.5f else 1f
+        }
+
+        PokeBalls.TIMER_BALL -> {
+            timerBallBonus(ctx)
+        }
+
+        PokeBalls.DUSK_BALL -> {
+            val brightness = ctx.level.getMaxLocalRawBrightness(ctx.pos)
+            when {
+                brightness == 0 -> 3.5f
+                brightness <= 7 -> 3f
+                else -> 1f
+            }
+        }
+
+        PokeBalls.QUICK_BALL -> {
+            quickBallBonus(ctx)
+        }
+
+        PokeBalls.DREAM_BALL -> {
+            if (ctx.targetStatus is SleepStatus) 4f else 1f
+        }
+
+        // Cobblemon hasn't implemented the 0.1x penalty yet
+        PokeBalls.BEAST_BALL -> {
+            if (IS_ULTRABEAST.test(ctx.pokemon)) 5f else 1f
+        }
+
+        else -> {
+            1f
         }
     }
-
-    PokeBalls.QUICK_BALL -> quickBallBonus(ctx)
-    PokeBalls.DREAM_BALL -> if (ctx.targetStatus is SleepStatus) 4f else 1f
-
-    // Cobblemon hasn't implemented the 0.1x penalty yet
-    PokeBalls.BEAST_BALL -> if (IS_ULTRABEAST.test(ctx.pokemon)) 5f else 1f
-
-    else -> 1f
-}
 
 private fun levelBallBonus(ctx: CaptureContext): Float {
     val max = ctx.playerActiveBattlePokemon.maxOfOrNull { it.level } ?: return 1f
@@ -107,8 +184,9 @@ private fun levelBallBonus(ctx: CaptureContext): Float {
 
 private fun loveBallBonus(ctx: CaptureContext): Float {
     if (ctx.pokemon.gender == Gender.GENDERLESS) return 1f
-    val opposite = ctx.playerActiveBattlePokemon
-        .filter { it.gender != Gender.GENDERLESS && it.gender != ctx.pokemon.gender }
+    val opposite =
+        ctx.playerActiveBattlePokemon
+            .filter { it.gender != Gender.GENDERLESS && it.gender != ctx.pokemon.gender }
     return when {
         opposite.any { it.species == ctx.pokemon.species } -> 8f
         opposite.isNotEmpty() -> 2.5f

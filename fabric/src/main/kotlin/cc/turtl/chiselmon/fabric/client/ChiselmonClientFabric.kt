@@ -1,8 +1,8 @@
 package cc.turtl.chiselmon.fabric.client
 
 import cc.turtl.chiselmon.BuildDetails
-import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
+import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.core.util.modResource
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -17,21 +17,25 @@ object ChiselmonClientFabric : ClientModInitializer {
     }
 
     private fun registerPacks() {
-        val modContainer = FabricLoader.getInstance()
-            .getModContainer(BuildDetails.MOD_ID)
-            .orElseThrow()
+        val modContainer =
+            FabricLoader
+                .getInstance()
+                .getModContainer(BuildDetails.MOD_ID)
+                .orElseThrow()
 
         for (pack in ChiselmonPacks.BuiltInPack.ALL) {
             // Check if required mods are loaded
-            val shouldLoad = pack.requiredModIds.stream()
-                .allMatch { modId: String? -> FabricLoader.getInstance().isModLoaded(modId) }
+            val shouldLoad =
+                pack.requiredModIds
+                    .stream()
+                    .allMatch { modId: String? -> FabricLoader.getInstance().isModLoaded(modId) }
 
             if (shouldLoad) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                     modResource(pack.id),
                     modContainer,
                     Component.literal(pack.name),
-                    ResourcePackActivationType.DEFAULT_ENABLED
+                    ResourcePackActivationType.DEFAULT_ENABLED,
                 )
             }
         }

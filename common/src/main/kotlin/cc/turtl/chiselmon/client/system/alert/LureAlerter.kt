@@ -11,15 +11,14 @@ object LureAlerter {
         ClientEvents.MESSAGE_RECEIVED.subscribe { message: Component ->
             val alertConfig = ChiselmonConfig.alert
 
-            if (!ChiselmonConfig.general.modDisabled
-                && alertConfig.masterEnabled
-                && alertConfig.lureAlert.enabled
-                && message.string.contains("§cYour lure has run out!")
+            if (!ChiselmonConfig.general.modDisabled &&
+                alertConfig.masterEnabled &&
+                alertConfig.lureAlert.enabled &&
+                message.string.contains("§cYour lure has run out!")
             ) {
-
                 val volume = (alertConfig.masterVolume / 100f) * (alertConfig.lureAlert.volume / 100f)
                 Minecraft.getInstance().soundManager.play(
-                    SimpleSoundInstance.forUI(alertConfig.lureAlert.alertSound.sound, 1.0f, volume)
+                    SimpleSoundInstance.forUI(alertConfig.lureAlert.alertSound.sound, 1.0f, volume),
                 )
             }
             false // don't cancel the message

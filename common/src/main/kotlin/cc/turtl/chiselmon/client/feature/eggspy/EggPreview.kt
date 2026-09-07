@@ -7,7 +7,6 @@ import com.cobblemon.mod.common.pokemon.RenderablePokemon
 
 /** Shared helpers used by render-site mixins to redirect reads on the cached [EggDummy]. */
 object EggPreview {
-
     /**
      * Returns the hatchling preview if [pokemon] is an egg and EggSpy is enabled.
      * Otherwise returns [pokemon] unchanged.
@@ -26,8 +25,11 @@ object EggPreview {
     @JvmStatic
     fun renderableFor(pokemon: Pokemon): RenderablePokemon {
         val preview = forDisplay(pokemon)
-        return if (preview is EggDummy) preview.hatchlingRenderable()
-        else pokemon.asRenderablePokemon()
+        return if (preview is EggDummy) {
+            preview.hatchlingRenderable()
+        } else {
+            pokemon.asRenderablePokemon()
+        }
     }
 
     /**
@@ -35,8 +37,10 @@ object EggPreview {
      * disabled.
      */
     @JvmStatic
-    fun eggHatchRatio(original: Float, pokemon: Pokemon): Float {
-
+    fun eggHatchRatio(
+        original: Float,
+        pokemon: Pokemon,
+    ): Float {
         if (general.modDisabled || !general.eggSpy.enabled || !general.eggSpy.showHatchOverlay) {
             return original
         }

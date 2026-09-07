@@ -4,9 +4,15 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class HeatmapHandler(db: EncounterDatabase) : ApiHandler(db) {
-
-    private data class FetchBounds(val minX: Int, val maxX: Int, val minZ: Int, val maxZ: Int)
+class HeatmapHandler(
+    db: EncounterDatabase,
+) : ApiHandler(db) {
+    private data class FetchBounds(
+        val minX: Int,
+        val maxX: Int,
+        val minZ: Int,
+        val maxZ: Int,
+    )
 
     /**
      * Points are encoded as a flat interleaved array: `[x1, z1, x2, z2, ...]`.
@@ -42,15 +48,23 @@ class HeatmapHandler(db: EncounterDatabase) : ApiHandler(db) {
             val zRange = "pokemon_z BETWEEN ${bounds.minZ} AND ${bounds.maxZ}"
             val dim = "dimension = '$dimension'"
 
-            val pokemon = query("encounters").timeRange(timeRange)
-                .select("pokemon_x, pokemon_z")
-                .where(xRange).where(zRange).where(dim)
-                .fetchInterleavedPairs("pokemon_x", "pokemon_z")
+            val pokemon =
+                query("encounters")
+                    .timeRange(timeRange)
+                    .select("pokemon_x, pokemon_z")
+                    .where(xRange)
+                    .where(zRange)
+                    .where(dim)
+                    .fetchInterleavedPairs("pokemon_x", "pokemon_z")
 
-            val player = query("encounters").timeRange(timeRange)
-                .select("player_x, player_z")
-                .where(xRange).where(zRange).where(dim)
-                .fetchInterleavedPairs("player_x", "player_z")
+            val player =
+                query("encounters")
+                    .timeRange(timeRange)
+                    .select("player_x, player_z")
+                    .where(xRange)
+                    .where(zRange)
+                    .where(dim)
+                    .fetchInterleavedPairs("player_x", "player_z")
 
             HeatmapResponse(cx, cz, radius, dimension, bounds, pokemon, player)
         }

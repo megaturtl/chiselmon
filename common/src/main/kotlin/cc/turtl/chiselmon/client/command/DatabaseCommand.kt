@@ -1,10 +1,10 @@
 package cc.turtl.chiselmon.client.command
 
+import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.chiselmon.client.util.sendEmptyLine
 import cc.turtl.chiselmon.client.util.sendLabeled
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.turtlshell.api.client.TurtlShellClientCommand
 import cc.turtl.turtlshell.api.core.command.TurtlShellCommand
 import cc.turtl.turtlshell.api.core.format.formatBytes
@@ -16,12 +16,12 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
 class DatabaseCommand : TurtlShellClientCommand {
-
     override val name = "db"
     override val description: MutableComponent = Component.literal("Manage the DB for the current world")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder
+            .literal<CommandSourceStack>(name)
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 val db = TrackerSession.current.db

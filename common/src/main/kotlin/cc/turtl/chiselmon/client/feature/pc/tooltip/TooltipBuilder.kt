@@ -8,7 +8,11 @@ import net.minecraft.network.chat.Component
 
 object TooltipBuilder {
     @JvmStatic
-    fun build(pokemon: Pokemon, config: PCConfig.TooltipConfig, shiftDown: Boolean): Tooltip {
+    fun build(
+        pokemon: Pokemon,
+        config: PCConfig.TooltipConfig,
+        shiftDown: Boolean,
+    ): Tooltip {
         val content = detailedName(pokemon, false).copy()
 
         if (shiftDown) {

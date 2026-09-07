@@ -28,7 +28,6 @@ import snownee.jade.util.UsernameCache
 
 // High-level formatter for turning Pokemon data into styled Components.
 object PokemonFormats {
-
     // Icons
     private val ICON_MALE = createComponent("♂", ColorLib.BLUE.rgb)
     private val ICON_FEMALE = createComponent("♀", ColorLib.PINK.rgb)
@@ -36,43 +35,58 @@ object PokemonFormats {
 
     private val POSITIVE_GRADIENT = ColorLib.Gradients.POSITIVE.rgb()
 
-    private val EGG_GROUP_COLORS = mapOf(
-        "monster" to 0x97724C, "water_1" to 0x6BD1F9,
-        "bug" to 0xAAC22A, "flying" to 0x90AFF1,
-        "field" to 0xE5BA65, "fairy" to 0xFF9EB9,
-        "grass" to 0x82D25A, "human_like" to 0x47B7AE,
-        "water_3" to 0x2271B4, "mineral" to 0x979067,
-        "amorphous" to 0x9F82CC, "water_2" to 0x4B94ED,
-        "ditto" to 0xB6AAD5, "dragon" to 0x5E57BF
-    )
+    private val EGG_GROUP_COLORS =
+        mapOf(
+            "monster" to 0x97724C,
+            "water_1" to 0x6BD1F9,
+            "bug" to 0xAAC22A,
+            "flying" to 0x90AFF1,
+            "field" to 0xE5BA65,
+            "fairy" to 0xFF9EB9,
+            "grass" to 0x82D25A,
+            "human_like" to 0x47B7AE,
+            "water_3" to 0x2271B4,
+            "mineral" to 0x979067,
+            "amorphous" to 0x9F82CC,
+            "water_2" to 0x4B94ED,
+            "ditto" to 0xB6AAD5,
+            "dragon" to 0x5E57BF,
+        )
 
     // Stat display name and color keyed by lowercase stat name.
     // "defence" variants alias to their canonical "defense" entries.
-    private val STAT_INFO: Map<String, Pair<String, Int>> = mapOf(
-        "hp" to ("HP" to ColorLib.GREEN.rgb),
-        "attack" to ("Atk" to ColorLib.RED.rgb),
-        "defense" to ("Def" to ColorLib.ORANGE.rgb),
-        "defence" to ("Def" to ColorLib.ORANGE.rgb),
-        "special_attack" to ("SpA" to ColorLib.BLUE.rgb),
-        "special_defense" to ("SpD" to ColorLib.YELLOW.rgb),
-        "special_defence" to ("SpD" to ColorLib.YELLOW.rgb),
-        "speed" to ("Spe" to ColorLib.PURPLE.rgb),
-    )
+    private val STAT_INFO: Map<String, Pair<String, Int>> =
+        mapOf(
+            "hp" to ("HP" to ColorLib.GREEN.rgb),
+            "attack" to ("Atk" to ColorLib.RED.rgb),
+            "defense" to ("Def" to ColorLib.ORANGE.rgb),
+            "defence" to ("Def" to ColorLib.ORANGE.rgb),
+            "special_attack" to ("SpA" to ColorLib.BLUE.rgb),
+            "special_defense" to ("SpD" to ColorLib.YELLOW.rgb),
+            "special_defence" to ("SpD" to ColorLib.YELLOW.rgb),
+            "speed" to ("Spe" to ColorLib.PURPLE.rgb),
+        )
 
     // --- Identification ---
 
-    fun genderIcon(gender: Gender?): Component = when (gender) {
-        Gender.MALE -> ICON_MALE
-        Gender.FEMALE -> ICON_FEMALE
-        null -> createComponent("?", ColorLib.DARK_GRAY.rgb)
-        else -> ICON_GENDERLESS
-    }
+    fun genderIcon(gender: Gender?): Component =
+        when (gender) {
+            Gender.MALE -> ICON_MALE
+            Gender.FEMALE -> ICON_FEMALE
+            null -> createComponent("?", ColorLib.DARK_GRAY.rgb)
+            else -> ICON_GENDERLESS
+        }
 
-    fun detailedName(pokemon: Pokemon, form: Boolean): Component {
-        val name = Component.empty()
-            .append(genderIcon(pokemon.gender))
-            .append(" ")
-            .append(createComponent(pokemon.species.name, ColorLib.WHITE.rgb))
+    fun detailedName(
+        pokemon: Pokemon,
+        form: Boolean,
+    ): Component {
+        val name =
+            Component
+                .empty()
+                .append(genderIcon(pokemon.gender))
+                .append(" ")
+                .append(createComponent(pokemon.species.name, ColorLib.WHITE.rgb))
 
         if (form) {
             val formName = pokemon.form.name
@@ -95,13 +109,11 @@ object PokemonFormats {
         return name
     }
 
-    fun form(pokemon: Pokemon): Component =
-        createComponent(pokemon.form.name, ColorLib.WHITE.rgb)
+    fun form(pokemon: Pokemon): Component = createComponent(pokemon.form.name, ColorLib.WHITE.rgb)
 
     // --- Combat & Stats ---
 
-    fun types(pokemon: Pokemon): Component =
-        join(pokemon.types, " / ") { type -> type.displayName.withColor(type.hue) }
+    fun types(pokemon: Pokemon): Component = join(pokemon.types, " / ") { type -> type.displayName.withColor(type.hue) }
 
     fun typingWeaknesses(pokemon: Pokemon): Component {
         val matchups = computeMatchups(pokemon.types)
@@ -121,25 +133,29 @@ object PokemonFormats {
     fun ivsSummary(pokemon: Pokemon): Component {
         val ivs = pokemon.ivs
 
-        val stats = join(Stats.PERMANENT, "/") { stat ->
-            val value = ivs.getEffectiveBattleIV(stat)
-            val ratio = value.toFloat() / IVs.MAX_VALUE
-            createComponent(value, getRatioColor(ratio, *POSITIVE_GRADIENT))
-        }
+        val stats =
+            join(Stats.PERMANENT, "/") { stat ->
+                val value = ivs.getEffectiveBattleIV(stat)
+                val ratio = value.toFloat() / IVs.MAX_VALUE
+                createComponent(value, getRatioColor(ratio, *POSITIVE_GRADIENT))
+            }
 
         val totalRatio = ivs.getEffectiveBattleTotal().toFloat() / IVs.MAX_TOTAL
         val totalColor = getRatioColor(totalRatio, *POSITIVE_GRADIENT)
 
-        return Component.empty()
-            .append(stats).append(" ")
+        return Component
+            .empty()
+            .append(stats)
+            .append(" ")
             .append(createComponent("(", ColorLib.DARK_GRAY.rgb))
             .append(createComponent(formatPercentage(totalRatio.toDouble()), totalColor))
             .append(createComponent(")", ColorLib.DARK_GRAY.rgb))
     }
 
     fun selfDamagingMoves(pokemon: Pokemon): Component {
-        val moves = getPossibleMoves(pokemon, true)
-            .filter(IS_SELF_DAMAGING::test)
+        val moves =
+            getPossibleMoves(pokemon, true)
+                .filter(IS_SELF_DAMAGING::test)
 
         if (moves.isEmpty()) return UNKNOWN
 
@@ -163,7 +179,8 @@ object PokemonFormats {
         if (yields.isEmpty()) return UNKNOWN
 
         return join(yields, ", ") { (stat, value) ->
-            Component.empty()
+            Component
+                .empty()
                 .append(createComponent(value, statColor(stat)))
                 .append(" ")
                 .append(createComponent(statName(stat), statColor(stat)))
@@ -172,14 +189,17 @@ object PokemonFormats {
 
     // --- Capture ---
 
-    fun catchRate(species: ClientSpecies): Component =
-        createComponent(species.catchRate, ColorLib.WHITE.rgb)
+    fun catchRate(species: ClientSpecies): Component = createComponent(species.catchRate, ColorLib.WHITE.rgb)
 
-    fun catchChance(entity: PokemonEntity, ball: PokeBall): Component {
+    fun catchChance(
+        entity: PokemonEntity,
+        ball: PokeBall,
+    ): Component {
         val chance = estimateCaptureProbability(entity, ball)
         val color = getRatioColor(chance, *POSITIVE_GRADIENT)
 
-        return Component.empty()
+        return Component
+            .empty()
             .append(createComponent("(", ColorLib.LIGHT_GRAY.rgb))
             .append(createComponent(formatPercentage(chance.toDouble()), color))
             .append(createComponent(")", ColorLib.LIGHT_GRAY.rgb))
@@ -199,11 +219,12 @@ object PokemonFormats {
         val behaviours = pokemon.riding.behaviours ?: return UNKNOWN
 
         return join(behaviours.keys, ", ") { style ->
-            val color = when (style) {
-                RidingStyle.LAND -> ColorLib.GREEN.rgb
-                RidingStyle.LIQUID -> ColorLib.AQUA.rgb
-                RidingStyle.AIR -> ColorLib.PURPLE.rgb
-            }
+            val color =
+                when (style) {
+                    RidingStyle.LAND -> ColorLib.GREEN.rgb
+                    RidingStyle.LIQUID -> ColorLib.AQUA.rgb
+                    RidingStyle.AIR -> ColorLib.PURPLE.rgb
+                }
             createComponent(style.name.capitalizeFirst(), color)
         }
     }
@@ -215,7 +236,8 @@ object PokemonFormats {
             val name = mark.getName()
             val color = mark.titleColour?.toIntOrNull(16) ?: ColorLib.WHITE.rgb
 
-            name.withColor(color)
+            name
+                .withColor(color)
                 .append(createComponent(" (${formatPercentage(mark.chance.toDouble())})", ColorLib.DARK_GRAY.rgb))
         }
     }
@@ -242,9 +264,7 @@ object PokemonFormats {
 
     // --- Helpers ---
 
-    private fun statName(key: String): String =
-        STAT_INFO[key.lowercase()]?.first ?: key.capitalizeFirst()
+    private fun statName(key: String): String = STAT_INFO[key.lowercase()]?.first ?: key.capitalizeFirst()
 
-    private fun statColor(key: String): Int =
-        STAT_INFO[key.lowercase()]?.second ?: ColorLib.WHITE.rgb
+    private fun statColor(key: String): Int = STAT_INFO[key.lowercase()]?.second ?: ColorLib.WHITE.rgb
 }

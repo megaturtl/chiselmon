@@ -18,7 +18,10 @@ class FiltersUserData {
         }
     }
 
-    fun put(id: String, def: FilterDefinition) {
+    fun put(
+        id: String,
+        def: FilterDefinition,
+    ) {
         filters[id] = def
         FilterMatcher.invalidateCache()
     }

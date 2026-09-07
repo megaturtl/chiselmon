@@ -18,8 +18,9 @@ import java.sql.SQLException
  * The [query] factory method is the primary entry point for building database queries.
  * Handlers add their own conditions, ordering, and limits via the fluent API.
  */
-abstract class ApiHandler protected constructor(protected val db: EncounterDatabase) : HttpHandler {
-
+abstract class ApiHandler protected constructor(
+    protected val db: EncounterDatabase,
+) : HttpHandler {
     /**
      * Inner request logic for each endpoint. Receives a [TimeRange] and all decoded query
      * parameters, and returns any object to be serialized as the JSON response body.
@@ -30,14 +31,20 @@ abstract class ApiHandler protected constructor(protected val db: EncounterDatab
      */
     protected fun interface RequestHandler {
         @Throws(SQLException::class)
-        fun handle(timeRange: TimeRange, params: Map<String, String>): Any
+        fun handle(
+            timeRange: TimeRange,
+            params: Map<String, String>,
+        ): Any
     }
 
     /**
      * Executes a [RequestHandler] and writes the JSON response. Handles GET validation,
      * parameter parsing, serialization, and error responses.
      */
-    protected fun handleRequest(exchange: HttpExchange, handler: RequestHandler) {
+    protected fun handleRequest(
+        exchange: HttpExchange,
+        handler: RequestHandler,
+    ) {
         if (!"GET".equals(exchange.requestMethod, ignoreCase = true)) {
             exchange.sendResponseHeaders(405, -1)
             return
@@ -61,19 +68,30 @@ abstract class ApiHandler protected constructor(protected val db: EncounterDatab
     protected fun query(table: String): QueryBuilder = QueryBuilder(db.connection, table)
 
     /** Parse an int param, returning [defaultValue] if absent or malformed. */
-    protected fun parseIntParam(params: Map<String, String>, key: String, defaultValue: Int): Int =
-        params[key]?.toIntOrNull() ?: defaultValue
+    protected fun parseIntParam(
+        params: Map<String, String>,
+        key: String,
+        defaultValue: Int,
+    ): Int = params[key]?.toIntOrNull() ?: defaultValue
 
     /**
      * Parse an int param, throwing [IllegalArgumentException] if present but not a valid int.
      */
-    protected fun requireIntParam(params: Map<String, String>, key: String, defaultValue: Int): Int {
+    protected fun requireIntParam(
+        params: Map<String, String>,
+        key: String,
+        defaultValue: Int,
+    ): Int {
         val value = params[key] ?: return defaultValue
         return value.toIntOrNull()
             ?: throw IllegalArgumentException("Parameter '$key' must be an integer, got: $value")
     }
 
-    private fun sendJson(exchange: HttpExchange, status: Int, json: String) {
+    private fun sendJson(
+        exchange: HttpExchange,
+        status: Int,
+        json: String,
+    ) {
         val bytes = json.toByteArray(StandardCharsets.UTF_8)
         exchange.responseHeaders.set("Content-Type", "application/json; charset=utf-8")
         exchange.responseHeaders.set("Access-Control-Allow-Origin", "*")

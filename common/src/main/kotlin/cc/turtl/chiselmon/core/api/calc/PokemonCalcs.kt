@@ -15,15 +15,17 @@ fun countUniqueAbilities(pokemon: Pokemon): Int =
         .count()
 
 /** Counts how many IVs are at the maximum value (31). */
-fun countPerfectIVs(pokemon: Pokemon): Int =
-    Stats.PERMANENT.count { pokemon.ivs.getEffectiveBattleIV(it) == IVs.MAX_VALUE }
+fun countPerfectIVs(pokemon: Pokemon): Int = Stats.PERMANENT.count { pokemon.ivs.getEffectiveBattleIV(it) == IVs.MAX_VALUE }
 
 /**
  * Calculates the probable moveset of a wild Pokemon.
  *
  * @param preferLatest If true, returns only the last 4 moves learned (typical wild moveset).
  */
-fun getPossibleMoves(pokemon: Pokemon, preferLatest: Boolean): Set<MoveTemplate> {
+fun getPossibleMoves(
+    pokemon: Pokemon,
+    preferLatest: Boolean,
+): Set<MoveTemplate> {
     val allMoves = pokemon.form.moves.getLevelUpMovesUpTo(pokemon.level)
 
     if (allMoves.isEmpty()) return setOf(Moves.getExceptional())

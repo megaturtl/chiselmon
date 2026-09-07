@@ -25,7 +25,11 @@ object PokeRodOverlay {
         renderBaitText(guiGraphics, minecraft, getBaitStackOnRod(heldItem))
     }
 
-    private fun renderBaitText(guiGraphics: GuiGraphics, minecraft: Minecraft, baitStack: ItemStack) {
+    private fun renderBaitText(
+        guiGraphics: GuiGraphics,
+        minecraft: Minecraft,
+        baitStack: ItemStack,
+    ) {
         val player = minecraft.player ?: return
         val font = minecraft.font
 
@@ -46,7 +50,7 @@ object PokeRodOverlay {
                 startX + ICON_SIZE + ICON_TEXT_SPACING,
                 y,
                 getRatioColor(baitCount / 64.0f),
-                true
+                true,
             )
         } else {
             val noBaitText = "No bait!"
@@ -54,5 +58,4 @@ object PokeRodOverlay {
             guiGraphics.drawString(font, noBaitText, textX, y, getRatioColor(0f), true)
         }
     }
-
 }

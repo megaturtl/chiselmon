@@ -6,17 +6,17 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 object ChiselmonPacks {
-
     data class BuiltInPack(
         val id: String,
         val name: String,
         val requiredModIds: Set<String>,
     ) {
         companion object {
-            val ALL = listOf(
-                BuiltInPack("wallpapers_pride", "Chiselmon Pride Wallpapers", setOf("cobblemon")),
-                BuiltInPack("wallpapers_default", "Chiselmon Default Wallpapers", setOf("cobblemon")),
-            )
+            val ALL =
+                listOf(
+                    BuiltInPack("wallpapers_pride", "Chiselmon Pride Wallpapers", setOf("cobblemon")),
+                    BuiltInPack("wallpapers_default", "Chiselmon Default Wallpapers", setOf("cobblemon")),
+                )
         }
     }
 
@@ -39,7 +39,8 @@ object ChiselmonPacks {
         if (!Files.exists(this)) Files.writeString(this, content)
     }
 
-    private val MCMETA_CONTENT = """
+    private val MCMETA_CONTENT =
+        """
         {
           "pack": {
             "pack_format": 34,
@@ -47,9 +48,10 @@ object ChiselmonPacks {
             "description": "Added by Chiselmon"
           }
         }
-    """.trimIndent()
+        """.trimIndent()
 
-    private val INSTRUCTIONS_CONTENT = """
+    private val INSTRUCTIONS_CONTENT =
+        """
         --- Chiselmon Custom Wallpapers ---
         
         To add your own wallpapers:
@@ -65,5 +67,5 @@ object ChiselmonPacks {
         Tip: Wallpapers show up in cobblemon in alphabetical order. You can name yours "aa_my_wallpaper.png" to make it appear first!
         
         Note: Native Cobblemon wallpapers are 174x155 pixels. If your wallpapers aren't showing up in-game try to use the same size, or at least the same aspect ratio.
-    """.trimIndent()
+        """.trimIndent()
 }

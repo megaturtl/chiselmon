@@ -26,7 +26,6 @@ package cc.turtl.chiselmon.core.api.filter
  * ```
  */
 object FilterConditionParser {
-
     fun parse(input: String?): FilterCondition {
         if (input.isNullOrBlank()) throw ParseException("Condition string is empty")
         val lexer = Lexer(input.trim())
@@ -91,13 +90,16 @@ object FilterConditionParser {
     // Lexer: splits input into tokens (words, '(', ')')
     // -------------------------------------------------------------------------
 
-    private class Lexer(input: String) {
-        private val tokens: Array<String> = input
-            .replace("(", " ( ")
-            .replace(")", " ) ")
-            .trim()
-            .split("\\s+".toRegex())
-            .toTypedArray()
+    private class Lexer(
+        input: String,
+    ) {
+        private val tokens: Array<String> =
+            input
+                .replace("(", " ( ")
+                .replace(")", " ) ")
+                .trim()
+                .split("\\s+".toRegex())
+                .toTypedArray()
         private var pos = 0
 
         fun hasMore(): Boolean = pos < tokens.size && tokens[pos].isNotEmpty()
@@ -113,5 +115,7 @@ object FilterConditionParser {
         }
     }
 
-    class ParseException(message: String) : RuntimeException(message)
+    class ParseException(
+        message: String,
+    ) : RuntimeException(message)
 }

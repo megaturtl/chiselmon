@@ -16,7 +16,6 @@ import java.time.Instant
 import java.util.*
 
 class DiscordAction {
-
     /** Timestamps of recently-sent alerts, used for simple in-window rate limiting. */
     private val sentTimestamps = ArrayDeque<Long>()
 
@@ -25,17 +24,20 @@ class DiscordAction {
         val encounter = PokemonEncounter.from(ctx.entity)
         if (!allowAlert()) {
             ChiselmonConstants.LOGGER.warn(
-                "Discord alert suppressed: rate limit reached ({} per {}ms)", MAX_ALERTS, WINDOW_MS
+                "Discord alert suppressed: rate limit reached ({} per {}ms)",
+                MAX_ALERTS,
+                WINDOW_MS,
             )
             return
         }
 
-        val body = JsonObject().apply {
-            if (ctx.discordUserId.isNotBlank()) {
-                add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
+        val body =
+            JsonObject().apply {
+                if (ctx.discordUserId.isNotBlank()) {
+                    add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
+                }
+                add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
             }
-            add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
-        }
 
         Thread.ofVirtual().start {
             try {
@@ -53,7 +55,11 @@ class DiscordAction {
                 if (status in 200..299) {
                     ChiselmonConstants.LOGGER.debug("Discord webhook response: {}", status)
                 } else {
-                    val errorBody = conn.errorStream?.readAllBytes()?.toString(StandardCharsets.UTF_8).orEmpty()
+                    val errorBody =
+                        conn.errorStream
+                            ?.readAllBytes()
+                            ?.toString(StandardCharsets.UTF_8)
+                            .orEmpty()
                     ChiselmonConstants.LOGGER.warn("Discord webhook returned {}: {}", status, errorBody)
                 }
                 conn.disconnect()
@@ -78,49 +84,67 @@ class DiscordAction {
         return true
     }
 
-    private fun buildDiscordEmbed(ctx: AlertContext, encounter: PokemonEncounter): JsonObject {
+    private fun buildDiscordEmbed(
+        ctx: AlertContext,
+        encounter: PokemonEncounter,
+    ): JsonObject {
         val filter = ctx.discordFilter ?: return JsonObject()
         val username = Minecraft.getInstance().user.name
         val pokemonName = ctx.pokemon.species.name
         val urlSlug = normalizeSpeciesName(pokemonName)
 
         return JsonObject().apply {
-            add("author", JsonObject().apply {
-                addProperty("name", "\uD83D\uDEA8 Spawn Alert for @$username")
-            })
+            add(
+                "author",
+                JsonObject().apply {
+                    addProperty("name", "\uD83D\uDEA8 Spawn Alert for @$username")
+                },
+            )
             addProperty("title", "$pokemonName matched filter ${filter.name}!")
             addProperty("color", filter.rgb and 0xFFFFFF)
 
             // Thumbnail image
-            val spriteUrl = "https://play.pokemonshowdown.com/sprites/" +
+            val spriteUrl =
+                "https://play.pokemonshowdown.com/sprites/" +
                     "${if (encounter.isShiny) "ani-shiny" else "ani"}/$urlSlug.gif"
             add("thumbnail", JsonObject().apply { addProperty("url", spriteUrl) })
 
             // Fields
-            add("fields", JsonArray().apply {
-                add(
-                    embedField(
-                        "📍 Location",
-                        "${encounter.pokemonX}, ${encounter.pokemonY}, ${encounter.pokemonZ}",
-                        true
+            add(
+                "fields",
+                JsonArray().apply {
+                    add(
+                        embedField(
+                            "📍 Location",
+                            "${encounter.pokemonX}, ${encounter.pokemonY}, ${encounter.pokemonZ}",
+                            true,
+                        ),
                     )
-                )
-                add(embedField("🏞️ Biome", encounter.biome, true))
-                add(embedField("🕐 Time", "<t:${Instant.now().epochSecond}:R>", false))
-            })
+                    add(embedField("🏞️ Biome", encounter.biome, true))
+                    add(embedField("🕐 Time", "<t:${Instant.now().epochSecond}:R>", false))
+                },
+            )
 
             // Footer
-            add("footer", JsonObject().apply {
-                addProperty("text", "Sent using ${BuildDetails.MOD_DISPLAY_NAME} by ${BuildDetails.MOD_AUTHOR}")
-            })
+            add(
+                "footer",
+                JsonObject().apply {
+                    addProperty("text", "Sent using ${BuildDetails.MOD_DISPLAY_NAME} by ${BuildDetails.MOD_AUTHOR}")
+                },
+            )
         }
     }
 
-    private fun embedField(name: String, value: String, inline: Boolean): JsonObject = JsonObject().apply {
-        addProperty("name", name)
-        addProperty("value", value)
-        addProperty("inline", inline)
-    }
+    private fun embedField(
+        name: String,
+        value: String,
+        inline: Boolean,
+    ): JsonObject =
+        JsonObject().apply {
+            addProperty("name", name)
+            addProperty("value", value)
+            addProperty("inline", inline)
+        }
 
     companion object {
         // Max 2 alerts every 5 seconds to prevent spam but still allow double spawns to both register

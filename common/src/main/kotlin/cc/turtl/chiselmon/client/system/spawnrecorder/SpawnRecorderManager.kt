@@ -1,12 +1,11 @@
 package cc.turtl.chiselmon.client.system.spawnrecorder
 
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
-import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.turtlshell.api.client.ClientEvents
 
 object SpawnRecorderManager {
-
     var session: SpawnRecorderSession? = null
         private set
 

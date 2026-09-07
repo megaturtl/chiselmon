@@ -31,16 +31,21 @@ class ScopedStorage<T>(
 
     fun saveAll() = cache.forEach { (scope, data) -> save(scope, data) }
 
-    fun saveAndClear(scope: Scope) = cache.remove(scope)?.let { data ->
-        save(scope, data)
-        close(scope, data)
-    }
+    fun saveAndClear(scope: Scope) =
+        cache.remove(scope)?.let { data ->
+            save(scope, data)
+            close(scope, data)
+        }
 }
 
 private val GSON = GsonBuilder().setPrettyPrinting().serializeNulls().create()
 
 /** JSON-backed [ScopedStorage]. Writes a pretty-printed file per scope. Corrupted files are backed up automatically. */
-fun <T> gsonData(filename: String, type: Type, default: () -> T) = ScopedStorage<T>(
+fun <T> gsonData(
+    filename: String,
+    type: Type,
+    default: () -> T,
+) = ScopedStorage<T>(
     load = { scope ->
         val file = scope.dataFile(filename)
         if (!Files.exists(file)) return@ScopedStorage default()
@@ -48,12 +53,17 @@ fun <T> gsonData(filename: String, type: Type, default: () -> T) = ScopedStorage
         try {
             if (Files.size(file) > 0) {
                 GSON.fromJson<T>(Files.newBufferedReader(file), type)
-                    ?: run { backupCorrupted(file, filename, "parsed as null"); default() }
+                    ?: run {
+                        backupCorrupted(file, filename, "parsed as null")
+                        default()
+                    }
             } else {
-                backupCorrupted(file, filename, "file is empty"); default()
+                backupCorrupted(file, filename, "file is empty")
+                default()
             }
         } catch (e: Exception) {
-            backupCorrupted(file, filename, e.message); default()
+            backupCorrupted(file, filename, e.message)
+            default()
         }
     },
     save = { scope, data ->
@@ -64,7 +74,7 @@ fun <T> gsonData(filename: String, type: Type, default: () -> T) = ScopedStorage
         } catch (e: IOException) {
             ChiselmonConstants.LOGGER.error("Failed to save {}: {}", filename, e.message)
         }
-    }
+    },
 )
 
 /**
@@ -89,10 +99,14 @@ fun <T> h2Data(
         }
     },
     save = { _, data -> onSave(data) },
-    close = { _, data -> onClose(data) }
+    close = { _, data -> onClose(data) },
 )
 
-private fun backupCorrupted(file: Path, filename: String, reason: String?) {
+private fun backupCorrupted(
+    file: Path,
+    filename: String,
+    reason: String?,
+) {
     ChiselmonConstants.LOGGER.warn("Corrupted data in {}, backing up. Reason: {}", filename, reason)
     try {
         Files.move(file, file.resolveSibling("$filename.bak"), StandardCopyOption.REPLACE_EXISTING)

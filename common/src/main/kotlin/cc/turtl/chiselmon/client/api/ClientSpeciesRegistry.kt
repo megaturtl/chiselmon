@@ -25,11 +25,10 @@ data class ClientSpecies(
     val eggCycles: Int = 0,
     val shoulderMountable: Boolean = false,
     val baseStats: Map<String, Int> = emptyMap(),
-    val evYield: Map<String, Int> = emptyMap()
+    val evYield: Map<String, Int> = emptyMap(),
 )
 
 object ClientSpeciesRegistry {
-
     private enum class LoadState { IDLE, LOADING, LOADED }
 
     private val GSON = Gson()
@@ -53,15 +52,17 @@ object ClientSpeciesRegistry {
             val startTime = System.currentTimeMillis()
             val tempMap = ConcurrentHashMap<String, ClientSpecies>(1024)
 
-            val root: Path = Platform.findPath("cobblemon", "data/cobblemon/species") ?: run {
-                ChiselmonConstants.LOGGER.warn("Cobblemon species path not found, will retry...")
-                state = LoadState.IDLE
-                return@runAsync
-            }
+            val root: Path =
+                Platform.findPath("cobblemon", "data/cobblemon/species") ?: run {
+                    ChiselmonConstants.LOGGER.warn("Cobblemon species path not found, will retry...")
+                    state = LoadState.IDLE
+                    return@runAsync
+                }
 
             try {
                 Files.walk(root).use { walk ->
-                    walk.parallel()
+                    walk
+                        .parallel()
                         .filter { it.toString().endsWith(".json") }
                         .forEach { parse(it, tempMap) }
                 }
@@ -70,7 +71,7 @@ object ClientSpeciesRegistry {
                 ChiselmonConstants.LOGGER.info(
                     "Indexed {} species in {}ms.",
                     speciesMap.size,
-                    System.currentTimeMillis() - startTime
+                    System.currentTimeMillis() - startTime,
                 )
             } catch (e: Exception) {
                 ChiselmonConstants.LOGGER.error("Failed indexing species: ", e)
@@ -79,7 +80,10 @@ object ClientSpeciesRegistry {
         }
     }
 
-    private fun parse(path: Path, map: MutableMap<String, ClientSpecies>) {
+    private fun parse(
+        path: Path,
+        map: MutableMap<String, ClientSpecies>,
+    ) {
         try {
             Files.newBufferedReader(path).use { reader ->
                 val species = GSON.fromJson(reader, ClientSpecies::class.java) ?: return

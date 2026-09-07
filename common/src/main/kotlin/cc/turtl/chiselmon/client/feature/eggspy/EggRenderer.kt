@@ -31,12 +31,22 @@ object EggRenderer {
     private val BAR_FILL_COLOR = toArgb(ColorLib.GREEN.rgb, 1f)
 
     @JvmStatic
-    fun renderStorageSlot(context: GuiGraphics, eggDummy: EggDummy, posX: Int, posY: Int) {
+    fun renderStorageSlot(
+        context: GuiGraphics,
+        eggDummy: EggDummy,
+        posX: Int,
+        posY: Int,
+    ) {
         renderProgressBar(context, eggDummy.hatchPercentage, posX, posY)
         renderEggModel(context, eggDummy, posX, posY)
     }
 
-    private fun renderEggModel(context: GuiGraphics, eggDummy: EggDummy, posX: Int, posY: Int) {
+    private fun renderEggModel(
+        context: GuiGraphics,
+        eggDummy: EggDummy,
+        posX: Int,
+        posY: Int,
+    ) {
         context.pose().pushPose()
         context.pose().translate(posX + EGG_X_OFFSET, posY + EGG_Y_OFFSET, EGG_Z_OFFSET)
         context.pose().scale(EGG_SCALE, EGG_SCALE, 1f)
@@ -56,7 +66,12 @@ object EggRenderer {
         context.pose().popPose()
     }
 
-    private fun renderProgressBar(context: GuiGraphics, hatchPercentage: Int, posX: Int, posY: Int) {
+    private fun renderProgressBar(
+        context: GuiGraphics,
+        hatchPercentage: Int,
+        posX: Int,
+        posY: Int,
+    ) {
         val yStart = posY + BAR_Y_OFFSET
 
         context.fill(posX, yStart, posX + BAR_WIDTH, yStart + BAR_HEIGHT, BAR_BG_COLOR)

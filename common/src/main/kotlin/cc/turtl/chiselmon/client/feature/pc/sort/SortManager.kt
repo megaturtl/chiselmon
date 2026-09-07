@@ -12,9 +12,12 @@ class SortManager(
     private val storage: StorageWidget,
     private val displayOptions: Boolean,
     private val optionButtons: MutableList<IconButton>,
-    private val widgetAdder: Consumer<IconButton>
+    private val widgetAdder: Consumer<IconButton>,
 ) {
-    fun initialize(x: Int, y: Int) {
+    fun initialize(
+        x: Int,
+        y: Int,
+    ) {
         val vanillaCount = PokemonSortMode.entries.size
         var btnX = x + 92 + (12 * vanillaCount)
         val btnY = y + 31
@@ -23,9 +26,14 @@ class SortManager(
             .filter { it.showInUI }
             .forEach { mode ->
                 IconButton(
-                    btnX, btnY, 20, 20,
-                    mode.icon, mode.iconReversed,
-                    mode.tooltipKey, mode.labelKey
+                    btnX,
+                    btnY,
+                    20,
+                    20,
+                    mode.icon,
+                    mode.iconReversed,
+                    mode.tooltipKey,
+                    mode.labelKey,
                 ) { BoxSorter.sortPCBox(pc, storage.box, mode, Screen.hasShiftDown()) }.also {
                     it.visible = displayOptions
                     widgetAdder.accept(it)
@@ -35,7 +43,10 @@ class SortManager(
             }
     }
 
-    fun executeQuickSort(mode: SortMode, reversed: Boolean) {
+    fun executeQuickSort(
+        mode: SortMode,
+        reversed: Boolean,
+    ) {
         storage.resetSelected()
         BoxSorter.sortPCBox(pc, storage.box, mode, reversed)
     }

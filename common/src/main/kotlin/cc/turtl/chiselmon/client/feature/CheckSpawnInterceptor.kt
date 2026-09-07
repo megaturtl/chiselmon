@@ -33,7 +33,10 @@ object CheckSpawnInterceptor {
                 val intercepted = tryIntercept(message)
                 if (intercepted != null) {
                     // send the modified message manually, cancel the original
-                    Minecraft.getInstance().gui.chat.addMessage(intercepted)
+                    Minecraft
+                        .getInstance()
+                        .gui.chat
+                        .addMessage(intercepted)
                     return@subscribe true
                 }
             }
@@ -71,43 +74,57 @@ object CheckSpawnInterceptor {
         return result
     }
 
-    private fun buildEntry(speciesName: String, percentage: String): Component {
+    private fun buildEntry(
+        speciesName: String,
+        percentage: String,
+    ): Component {
         val species = ClientSpeciesRegistry.getSpecies(speciesName)
 
-        val hover = Component.empty()
-            .append(Component.literal("$speciesName: "))
-            .append(
-                Component.literal(percentage).withColor(percentageColor(percentage))
-                    .append(Component.literal("\n"))
-                    .append(
-                        labelled(
-                            Component.translatable("chiselmon.ui.label.ev_yield"),
-                            if (species == null) UNKNOWN
-                            else PokemonFormats.evYield(species)
-                        )
-                    )
-                    .append(Component.literal("\n"))
-                    .append(
-                        labelled(
-                            Component.translatable("chiselmon.ui.label.egg_groups"),
-                            if (species == null) UNKNOWN
-                            else PokemonFormats.eggGroups(species)
-                        )
-                    )
-            )
+        val hover =
+            Component
+                .empty()
+                .append(Component.literal("$speciesName: "))
+                .append(
+                    Component
+                        .literal(percentage)
+                        .withColor(percentageColor(percentage))
+                        .append(Component.literal("\n"))
+                        .append(
+                            labelled(
+                                Component.translatable("chiselmon.ui.label.ev_yield"),
+                                if (species == null) {
+                                    UNKNOWN
+                                } else {
+                                    PokemonFormats.evYield(species)
+                                },
+                            ),
+                        ).append(Component.literal("\n"))
+                        .append(
+                            labelled(
+                                Component.translatable("chiselmon.ui.label.egg_groups"),
+                                if (species == null) {
+                                    UNKNOWN
+                                } else {
+                                    PokemonFormats.eggGroups(species)
+                                },
+                            ),
+                        ),
+                )
 
-        return Component.empty()
+        return Component
+            .empty()
             .append(
-                Component.literal("$speciesName: ")
-                    .withStyle(Style.EMPTY.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)))
-            )
-            .append(
-                Component.literal(percentage)
+                Component
+                    .literal("$speciesName: ")
+                    .withStyle(Style.EMPTY.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))),
+            ).append(
+                Component
+                    .literal(percentage)
                     .withStyle(
                         Style.EMPTY
                             .withColor(percentageColor(percentage))
-                            .withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
-                    )
+                            .withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)),
+                    ),
             )
     }
 

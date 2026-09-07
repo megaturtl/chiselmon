@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
 
 class SoundAction {
-
     fun execute(ctx: AlertContext) {
         if (ctx.shouldSingleSound) playSound(ctx)
     }
@@ -17,7 +16,7 @@ class SoundAction {
     private fun playSound(ctx: AlertContext) {
         val sound = ctx.soundSettings.alertSound.sound
         Minecraft.getInstance().soundManager.play(
-            SimpleSoundInstance.forUI(sound, 1.0f, ctx.effectiveVolume)
+            SimpleSoundInstance.forUI(sound, 1.0f, ctx.effectiveVolume),
         )
     }
 }

@@ -7,8 +7,10 @@ import java.sql.Connection
 import java.sql.SQLException
 import java.util.*
 
-class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
-
+class EncounterDatabase(
+    private val conn: Connection,
+    val dbPath: Path,
+) {
     private val writeCache = LinkedHashMap<UUID, PokemonEncounter>()
 
     init {
@@ -48,7 +50,7 @@ class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
                     encountered_ms  BIGINT       NOT NULL,
                     encountered_time     TIMESTAMP AS DATEADD('MILLISECOND', encountered_ms, TIMESTAMP '1970-01-01 00:00:00')
                 )
-                """.trimIndent()
+                """.trimIndent(),
             )
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_species    ON encounters(species)")
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_timestamp  ON encounters(encountered_ms)")
@@ -68,14 +70,15 @@ class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
     fun flush() {
         if (writeCache.isEmpty()) return
 
-        val sql = """
+        val sql =
+            """
             MERGE INTO encounters
                 (uuid, species, form, level, gender, scale_modifier, is_shiny, is_legendary,
                  dimension, biome, world_time, is_raining, block_name, from_snack,
                  pokemon_x, pokemon_y, pokemon_z, player_x, player_y, player_z, encountered_ms)
             KEY(uuid)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """.trimIndent()
+            """.trimIndent()
 
         try {
             conn.prepareStatement(sql).use { ps ->
@@ -120,32 +123,42 @@ class EncounterDatabase(private val conn: Connection, val dbPath: Path) {
     }
 
     val sizeOnDiskBytes: Long
-        get() = try {
-            val dir = dbPath.parent
-            val base = dbPath.fileName.toString().replace(Regex("\\.db$"), "")
-            Files.list(dir).use { stream ->
-                stream
-                    .filter { it.fileName.toString().startsWith(base) }
-                    .mapToLong { runCatching { Files.size(it) }.getOrDefault(0L) }
-                    .sum()
+        get() =
+            try {
+                val dir = dbPath.parent
+                val base = dbPath.fileName.toString().replace(Regex("\\.db$"), "")
+                Files.list(dir).use { stream ->
+                    stream
+                        .filter { it.fileName.toString().startsWith(base) }
+                        .mapToLong { runCatching { Files.size(it) }.getOrDefault(0L) }
+                        .sum()
+                }
+            } catch (_: Exception) {
+                -1L
             }
-        } catch (_: Exception) {
-            -1L
-        }
 
-    data class SummaryStats(val total: Int, val shinies: Int, val legendaries: Int)
+    data class SummaryStats(
+        val total: Int,
+        val shinies: Int,
+        val legendaries: Int,
+    )
 
-    fun summaryStats(): SummaryStats = conn.createStatement().use { s ->
-        s.executeQuery(
-            "SELECT COUNT(*), " +
-                "COUNT(*) FILTER (WHERE is_shiny = TRUE), " +
-                "COUNT(*) FILTER (WHERE is_legendary = TRUE) " +
-                "FROM encounters"
-        ).use { rs ->
-            if (rs.next()) SummaryStats(rs.getInt(1), rs.getInt(2), rs.getInt(3))
-            else SummaryStats(0, 0, 0)
+    fun summaryStats(): SummaryStats =
+        conn.createStatement().use { s ->
+            s
+                .executeQuery(
+                    "SELECT COUNT(*), " +
+                        "COUNT(*) FILTER (WHERE is_shiny = TRUE), " +
+                        "COUNT(*) FILTER (WHERE is_legendary = TRUE) " +
+                        "FROM encounters",
+                ).use { rs ->
+                    if (rs.next()) {
+                        SummaryStats(rs.getInt(1), rs.getInt(2), rs.getInt(3))
+                    } else {
+                        SummaryStats(0, 0, 0)
+                    }
+                }
         }
-    }
 
     val writeCachedCount: Int
         get() = writeCache.size

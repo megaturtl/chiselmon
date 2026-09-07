@@ -15,16 +15,18 @@ val NONE: Component = createComponent("None", ColorLib.DARK_GRAY.rgb)
 val SPACE: Component = Component.literal(" ")
 val RESET: Component = Component.literal("").withStyle(ChatFormatting.RESET)
 
-fun createComponent(text: Any?): MutableComponent {
-    return createComponent(text, ColorLib.WHITE.rgb)
-}
+fun createComponent(text: Any?): MutableComponent = createComponent(text, ColorLib.WHITE.rgb)
 
 /**
  * Creates a component with a specific color.
  *
  * Example: `literal("Lvl 50", ColorLib.GOLD)`
  */
-fun createComponent(text: Any?, color: Int, bold: Boolean = false): MutableComponent {
+fun createComponent(
+    text: Any?,
+    color: Int,
+    bold: Boolean = false,
+): MutableComponent {
     val content = text?.toString() ?: ""
     val component = Component.literal(content)
 
@@ -36,31 +38,36 @@ fun createComponent(text: Any?, color: Int, bold: Boolean = false): MutableCompo
 /**
  * Creates a clickable URL component that opens the link in the browser when clicked.
  */
-fun clickableUrl(url: String): Component {
-    return Component.literal(url).withStyle { style ->
-        style.withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, url))
+fun clickableUrl(url: String): Component =
+    Component.literal(url).withStyle { style ->
+        style
+            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, url))
             .withColor(ColorLib.PINK.rgb)
             .withUnderlined(true)
     }
-}
 
 /**
  * Creates a component from a label and value pair.
  *
  * Example: `label("Ability", "Intimidate")` -> "Ability: Intimidate"
  */
-fun labelled(label: Any, value: Any?): MutableComponent {
+fun labelled(
+    label: Any,
+    value: Any?,
+): MutableComponent {
     val labelComp = (label as? Component)?.copy() ?: Component.literal(label.toString())
-    val styledLabelComp = labelComp.withStyle { style ->
-        style.withColor(ColorLib.LIGHT_GRAY.rgb).withBold(false)
-    }
-
-    val valueComp = value?.let {
-        when (it) {
-            is Component -> it
-            else -> createComponent(it.toString(), ColorLib.WHITE.rgb)
+    val styledLabelComp =
+        labelComp.withStyle { style ->
+            style.withColor(ColorLib.LIGHT_GRAY.rgb).withBold(false)
         }
-    } ?: UNKNOWN
+
+    val valueComp =
+        value?.let {
+            when (it) {
+                is Component -> it
+                else -> createComponent(it.toString(), ColorLib.WHITE.rgb)
+            }
+        } ?: UNKNOWN
 
     return styledLabelComp.append(createComponent(": ", ColorLib.LIGHT_GRAY.rgb)).append(valueComp)
 }
@@ -70,7 +77,11 @@ fun labelled(label: Any, value: Any?): MutableComponent {
  *
  * Example: `join(list, ", ") { item -> createComponent(item, ColorLib.RED.rgb) }`
  */
-fun <E> join(items: Iterable<E>?, separator: String, mapper: (E) -> Component?): Component {
+fun <E> join(
+    items: Iterable<E>?,
+    separator: String,
+    mapper: (E) -> Component?,
+): Component {
     val parts = items?.mapNotNull(mapper)?.takeIf { it.isNotEmpty() } ?: return UNKNOWN
     val sep = createComponent(separator, ColorLib.DARK_GRAY.rgb)
     val result = Component.empty()
@@ -88,7 +99,10 @@ fun <E> join(items: Iterable<E>?, separator: String, mapper: (E) -> Component?):
  * @param colors The RGB color stops (0xRRGGBB).
  * @return A MutableComponent containing the gradient text.
  */
-fun gradient(text: String?, vararg colors: Int): MutableComponent {
+fun gradient(
+    text: String?,
+    vararg colors: Int,
+): MutableComponent {
     if (text.isNullOrEmpty()) return Component.empty()
     if (colors.isEmpty()) return Component.literal(text)
     if (colors.size == 1) return createComponent(text, colors[0])

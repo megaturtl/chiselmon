@@ -13,7 +13,13 @@ object IconRenderer {
     private const val COLUMN_SPACE = 18
 
     @JvmStatic
-    fun renderIcons(context: GuiGraphics, config: IconConfig, pokemon: Pokemon, x: Int, y: Int) {
+    fun renderIcons(
+        context: GuiGraphics,
+        config: IconConfig,
+        pokemon: Pokemon,
+        x: Int,
+        y: Int,
+    ) {
         val entries = IconRegistry.entries
 
         if (entries.isEmpty()) return
@@ -38,14 +44,24 @@ object IconRenderer {
         context.pose().popPose()
     }
 
-    private fun renderIcon(context: GuiGraphics, entry: IconEntry, x: Int, y: Int) {
+    private fun renderIcon(
+        context: GuiGraphics,
+        entry: IconEntry,
+        x: Int,
+        y: Int,
+    ) {
         context.blit(
             entry.resource,
-            x, y,
-            DEST_SIZE, DEST_SIZE,
-            0f, 0f,
-            SRC_SIZE, SRC_SIZE,
-            SRC_SIZE, SRC_SIZE
+            x,
+            y,
+            DEST_SIZE,
+            DEST_SIZE,
+            0f,
+            0f,
+            SRC_SIZE,
+            SRC_SIZE,
+            SRC_SIZE,
+            SRC_SIZE,
         )
     }
 }

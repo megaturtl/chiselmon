@@ -35,6 +35,7 @@ runClient/
 runServer/
 logs/
 fabric/src/generated/
+.architectury-transformer
 
 # java
 

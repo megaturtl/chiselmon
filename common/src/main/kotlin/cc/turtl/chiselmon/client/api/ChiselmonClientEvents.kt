@@ -7,10 +7,24 @@ import cc.turtl.turtlshell.impl.ObservableEvent
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
-data class PokemonLoadedEvent(val entity: PokemonEntity, val encounter: PokemonEncounter?, val isWild: Boolean)
-data class PokemonUnloadedEvent(val entity: PokemonEntity, val isWild: Boolean)
-data class BattleStartedEvent(val battle: ClientBattle)
-data class BattleEndedEvent(val battle: ClientBattle)
+data class PokemonLoadedEvent(
+    val entity: PokemonEntity,
+    val encounter: PokemonEncounter?,
+    val isWild: Boolean,
+)
+
+data class PokemonUnloadedEvent(
+    val entity: PokemonEntity,
+    val isWild: Boolean,
+)
+
+data class BattleStartedEvent(
+    val battle: ClientBattle,
+)
+
+data class BattleEndedEvent(
+    val battle: ClientBattle,
+)
 
 object ChiselmonClientEvents {
     val POKEMON_LOADED = ObservableEvent<PokemonLoadedEvent>()

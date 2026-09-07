@@ -17,32 +17,36 @@ import java.util.concurrent.Executors
  * server.stop()
  * ```
  */
-class DashboardServer(private val db: EncounterDatabase, private val port: Int) {
-
+class DashboardServer(
+    private val db: EncounterDatabase,
+    private val port: Int,
+) {
     private var httpServer: HttpServer? = null
     private val startTimeMs: Long = System.currentTimeMillis()
 
     fun start() {
-        val server = HttpServer.create(InetSocketAddress(LOCALHOST, port), 0).apply {
-            // Serves the HTML/CSS/JS for frontend
-            createContext("/", StaticFileHandler())
+        val server =
+            HttpServer.create(InetSocketAddress(LOCALHOST, port), 0).apply {
+                // Serves the HTML/CSS/JS for frontend
+                createContext("/", StaticFileHandler())
 
-            // Serves API endpoints which get data from the EncounterDatabase
-            createContext("/api/dimensions/", DimensionsHandler(db))
-            createContext("/api/stats/", StatsHandler(db))
-            createContext("/api/species/", SpeciesHandler(db))
-            createContext("/api/biomes/", BiomesHandler(db))
-            createContext("/api/encounters/", RecentEncountersHandler(db))
-            createContext("/api/timeline/", TimelineHandler(db))
-            createContext("/api/heatmap/", HeatmapHandler(db))
-            createContext("/api/context/", ContextHandler(db))
-            createContext("/api/playerpos/", PlayerPosHandler(db))
+                // Serves API endpoints which get data from the EncounterDatabase
+                createContext("/api/dimensions/", DimensionsHandler(db))
+                createContext("/api/stats/", StatsHandler(db))
+                createContext("/api/species/", SpeciesHandler(db))
+                createContext("/api/biomes/", BiomesHandler(db))
+                createContext("/api/encounters/", RecentEncountersHandler(db))
+                createContext("/api/timeline/", TimelineHandler(db))
+                createContext("/api/heatmap/", HeatmapHandler(db))
+                createContext("/api/context/", ContextHandler(db))
+                createContext("/api/playerpos/", PlayerPosHandler(db))
 
-            // Executes on a single thread for now, should be fine for a simple local dashboard
-            executor = Executors.newSingleThreadExecutor { r ->
-                Thread(r, "chiselmon-dashboard").apply { isDaemon = true }
+                // Executes on a single thread for now, should be fine for a simple local dashboard
+                executor =
+                    Executors.newSingleThreadExecutor { r ->
+                        Thread(r, "chiselmon-dashboard").apply { isDaemon = true }
+                    }
             }
-        }
 
         server.start()
         httpServer = server

@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft
 import java.util.*
 
 object AlertManager {
-
     private const val SOUND_DELAY_TICKS = 20
 
     private val messageAction = MessageAction()
@@ -82,12 +81,13 @@ object AlertManager {
             val result = FilterMatcher.match(pe.pokemon)
             if (result.allMatches.isEmpty()) continue
 
-            val ctx = AlertContext(
-                entity = pe,
-                filters = result.allMatches,
-                isMuted = isMuted(uuid),
-                config = config,
-            )
+            val ctx =
+                AlertContext(
+                    entity = pe,
+                    filters = result.allMatches,
+                    isMuted = isMuted(uuid),
+                    config = config,
+                )
 
             // Continuous: apply glow every tick
             val highlightFilter = ctx.highlightFilter
@@ -115,9 +115,11 @@ object AlertManager {
         // Replay the sound action for repeating sound alerts on a delay
         if (soundDelayRemaining > 0) {
             soundDelayRemaining--
-        } else bestSoundContext?.let {
-            repeatingSoundAction.executeRepeating(it)
-            soundDelayRemaining = SOUND_DELAY_TICKS
+        } else {
+            bestSoundContext?.let {
+                repeatingSoundAction.executeRepeating(it)
+                soundDelayRemaining = SOUND_DELAY_TICKS
+            }
         }
     }
 

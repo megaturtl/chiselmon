@@ -20,7 +20,7 @@ data class RuntimeFilter(
     @JvmField val name: String,
     @JvmField val rgb: Int,
     @JvmField val priority: Priority,
-    @JvmField val condition: Predicate<Pokemon>
+    @JvmField val condition: Predicate<Pokemon>,
 ) {
     fun matches(pokemon: Pokemon): Boolean = condition.test(pokemon)
 

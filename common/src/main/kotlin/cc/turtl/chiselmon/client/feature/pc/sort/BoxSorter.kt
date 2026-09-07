@@ -9,7 +9,12 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPack
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 object BoxSorter {
-    fun sortPCBox(pc: ClientPC, boxIndex: Int, mode: SortMode, reversed: Boolean) {
+    fun sortPCBox(
+        pc: ClientPC,
+        boxIndex: Int,
+        mode: SortMode,
+        reversed: Boolean,
+    ) {
         val box = pc.boxes[boxIndex]
         val allSlots = box.slots.toMutableList()
         val pokemon = allSlots.filterNotNull()
@@ -35,7 +40,13 @@ object BoxSorter {
         }
     }
 
-    private fun sendPacket(box: Int, target: Pokemon, from: Int, displaced: Pokemon?, to: Int) {
+    private fun sendPacket(
+        box: Int,
+        target: Pokemon,
+        from: Int,
+        displaced: Pokemon?,
+        to: Int,
+    ) {
         val source = PCPosition(box, from)
         val destination = PCPosition(box, to)
 
@@ -49,26 +60,36 @@ object BoxSorter {
     private fun createComparator(
         mode: SortMode,
         reversed: Boolean,
-        previews: Map<Pokemon, Pokemon?>
-    ): Comparator<Pokemon> = Comparator { a, b ->
-        val pa = previews.preview(a)
-        val pb = previews.preview(b)
-        val aIsEgg = pa is EggDummy
-        val bIsEgg = pb is EggDummy
+        previews: Map<Pokemon, Pokemon?>,
+    ): Comparator<Pokemon> =
+        Comparator { a, b ->
+            val pa = previews.preview(a)
+            val pb = previews.preview(b)
+            val aIsEgg = pa is EggDummy
+            val bIsEgg = pb is EggDummy
 
-        when {
-            // One egg: Eggs go last
-            aIsEgg != bIsEgg -> aIsEgg.compareTo(bIsEgg)
-            // Both eggs: sort by hatch percentage, then mode
-            aIsEgg && bIsEgg -> {
-                pa.hatchPercentage.compareTo(pb.hatchPercentage)
-                    .takeIf { it != 0 } ?: mode.comparator(reversed).compare(pa, pb)
+            when {
+                // One egg: Eggs go last
+                aIsEgg != bIsEgg -> {
+                    aIsEgg.compareTo(bIsEgg)
+                }
+
+                // Both eggs: sort by hatch percentage, then mode
+                aIsEgg && bIsEgg -> {
+                    pa.hatchPercentage
+                        .compareTo(pb.hatchPercentage)
+                        .takeIf { it != 0 } ?: mode.comparator(reversed).compare(pa, pb)
+                }
+
+                // No eggs: sort by mode, then level
+                else -> {
+                    mode
+                        .comparator(reversed)
+                        .compare(pa, pb)
+                        .takeIf { it != 0 } ?: pa.level.compareTo(pb.level)
+                }
             }
-            // No eggs: sort by mode, then level
-            else -> mode.comparator(reversed).compare(pa, pb)
-                .takeIf { it != 0 } ?: pa.level.compareTo(pb.level)
         }
-    }
 }
 
 private fun Map<Pokemon, Pokemon?>.preview(p: Pokemon): Pokemon = this[p] ?: p

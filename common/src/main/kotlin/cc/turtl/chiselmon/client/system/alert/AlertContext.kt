@@ -26,9 +26,8 @@ data class AlertContext(
         config.filterAlerts.getOrPut(filter.id) { AlertConfig.FilterAlertSettings() }
 
     /** Returns the first filter (in priority order) whose settings satisfy [predicate], or null. */
-    private inline fun firstMatching(
-        predicate: (AlertConfig.FilterAlertSettings) -> Boolean,
-    ): RuntimeFilter? = filters.firstOrNull { predicate(settingsFor(it)) }
+    private inline fun firstMatching(predicate: (AlertConfig.FilterAlertSettings) -> Boolean): RuntimeFilter? =
+        filters.firstOrNull { predicate(settingsFor(it)) }
 
     /** The first enabled filter, used for general priority comparisons. */
     val alertFilter: RuntimeFilter? get() = firstMatching { it.enabled }
@@ -53,18 +52,21 @@ data class AlertContext(
         get() = config.masterEnabled && alertFilter != null
 
     val shouldRepeatingSound: Boolean
-        get() = shouldAlert && !isMuted &&
+        get() =
+            shouldAlert && !isMuted &&
                 firstMatching { it.enabled && it.playSound && it.repeatSound } != null
 
     val shouldSingleSound: Boolean
-        get() = shouldAlert && !isMuted &&
+        get() =
+            shouldAlert && !isMuted &&
                 firstMatching { it.enabled && it.playSound && !it.repeatSound } != null
 
     val shouldMessage: Boolean
         get() = shouldAlert && !isMuted && messageFilter != null
 
     val shouldDiscord: Boolean
-        get() = shouldAlert && !isMuted &&
+        get() =
+            shouldAlert && !isMuted &&
                 ChiselmonConfig.general.discordWebhookURL.isNotBlank() &&
                 discordFilter != null
 

@@ -13,8 +13,7 @@ class PCUserData {
 
         private val data = LinkedHashSet<Int>()
 
-        fun toggle(boxNo: Int): Boolean =
-            data.remove(boxNo) || (data.size < MAX_BOOKMARKS && data.add(boxNo))
+        fun toggle(boxNo: Int): Boolean = data.remove(boxNo) || (data.size < MAX_BOOKMARKS && data.add(boxNo))
 
         fun remove(boxNo: Int) {
             data.remove(boxNo)
@@ -25,7 +24,9 @@ class PCUserData {
         }
 
         fun isFull(): Boolean = data.size >= MAX_BOOKMARKS
+
         fun has(boxNo: Int): Boolean = boxNo in data
+
         fun get(): List<Int> = data.toList()
     }
 }

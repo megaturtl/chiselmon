@@ -25,7 +25,6 @@ import snownee.jade.impl.ui.HealthElement
  * Displays customizable information based on config settings.
  */
 object PokemonProvider : IEntityComponentProvider {
-
     val OWNER_USERNAME: ResourceLocation = modResource("pokemon_entity.owner_username")
     val POKEDEX_STATUS: ResourceLocation = modResource("pokemon_entity.pokedex_status")
     val TYPING: ResourceLocation = modResource("pokemon_entity.typing")
@@ -40,13 +39,16 @@ object PokemonProvider : IEntityComponentProvider {
 
     override fun getUid(): ResourceLocation = UID
 
-    override fun appendTooltip(tooltip: ITooltip, accessor: EntityAccessor, config: IPluginConfig) {
+    override fun appendTooltip(
+        tooltip: ITooltip,
+        accessor: EntityAccessor,
+        config: IPluginConfig,
+    ) {
         if (ChiselmonConfig.general.modDisabled) return
         val entity = accessor.entity as? PokemonEntity ?: return
 
         val pokemon = entity.pokemon
         val species = pokemon.species
-
 
         tooltip.clear()
         tooltip.add(PokemonFormats.detailedName(pokemon, false))
@@ -58,13 +60,13 @@ object PokemonProvider : IEntityComponentProvider {
 
         addIfEnabled(tooltip, config, POKEDEX_STATUS, "chiselmon.ui.label.pokedex_status") {
             PokemonFormats.dexStatus(
-                species
+                species,
             )
         }
         addIfEnabled(tooltip, config, TYPING, "chiselmon.ui.label.type") { PokemonFormats.types(pokemon) }
         addIfEnabled(tooltip, config, WEAKNESSES, "chiselmon.ui.label.weaknesses") {
             PokemonFormats.typingWeaknesses(
-                pokemon
+                pokemon,
             )
         }
         addIfEnabled(tooltip, config, FORM, "chiselmon.ui.label.form") { PokemonFormats.form(pokemon) }
@@ -72,7 +74,7 @@ object PokemonProvider : IEntityComponentProvider {
         val clientSpecies = ClientSpeciesRegistry.getSpecies(species.name) ?: return
         addIfEnabled(tooltip, config, EGG_GROUPS, "chiselmon.ui.label.egg_groups") {
             PokemonFormats.eggGroups(
-                clientSpecies
+                clientSpecies,
             )
         }
         addIfEnabled(tooltip, config, EV_YIELD, "chiselmon.ui.label.ev_yield") { PokemonFormats.evYield(clientSpecies) }
@@ -81,8 +83,8 @@ object PokemonProvider : IEntityComponentProvider {
             tooltip.add(
                 labelled(
                     Component.translatable("chiselmon.ui.label.catch_rate"),
-                    PokemonFormats.catchRate(clientSpecies)
-                )
+                    PokemonFormats.catchRate(clientSpecies),
+                ),
             )
             findHeldPokeball(accessor.player)?.let { ball ->
                 tooltip.append(SPACE)
@@ -101,7 +103,7 @@ object PokemonProvider : IEntityComponentProvider {
         config: IPluginConfig,
         key: ResourceLocation,
         labelKey: String,
-        value: () -> Component
+        value: () -> Component,
     ) {
         if (config.get(key)) {
             tooltip.add(labelled(Component.translatable(labelKey), value()))

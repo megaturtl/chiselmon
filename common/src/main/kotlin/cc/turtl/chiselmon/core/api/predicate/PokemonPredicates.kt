@@ -18,9 +18,10 @@ val IS_SHINY: Predicate<Pokemon> = Predicate { it.shiny }
 val IS_RIDEABLE: Predicate<Pokemon> = Predicate { it.riding.behaviours != null }
 
 @JvmField
-val IS_SHOULDERABLE: Predicate<Pokemon> = Predicate {
-    ClientSpeciesRegistry.getSpecies(it.species.name)?.shoulderMountable ?: false
-}
+val IS_SHOULDERABLE: Predicate<Pokemon> =
+    Predicate {
+        ClientSpeciesRegistry.getSpecies(it.species.name)?.shoulderMountable ?: false
+    }
 
 @JvmField
 val IS_MARKED: Predicate<Pokemon> = Predicate { it.marks.isNotEmpty() }
@@ -39,14 +40,16 @@ val IS_EGG_DUMMY: Predicate<Pokemon> = Predicate { it.forcedAspects.contains(Egg
 
 // Cobblemon treats Pokemon with a single ability as having HA so we need to check this first
 @JvmField
-val HAS_HIDDEN_ABILITY: Predicate<Pokemon> = Predicate {
-    countUniqueAbilities(it) > 1 && HiddenAbilityProperty(true).matches(it)
-}
+val HAS_HIDDEN_ABILITY: Predicate<Pokemon> =
+    Predicate {
+        countUniqueAbilities(it) > 1 && HiddenAbilityProperty(true).matches(it)
+    }
 
 @JvmField
-val HAS_SELF_DAMAGING_MOVE: Predicate<Pokemon> = Predicate {
-    getPossibleMoves(it, true).any(IS_SELF_DAMAGING::test)
-}
+val HAS_SELF_DAMAGING_MOVE: Predicate<Pokemon> =
+    Predicate {
+        getPossibleMoves(it, true).any(IS_SELF_DAMAGING::test)
+    }
 
 // Config-dependent predicates (lazily fetch config when evaluated)
 @JvmField
@@ -61,7 +64,8 @@ val IS_EXTREME_LARGE: Predicate<Pokemon> = Predicate { it.scaleModifier >= gener
 @JvmField
 val IS_EXTREME_SIZE: Predicate<Pokemon> = IS_EXTREME_SMALL.or(IS_EXTREME_LARGE)
 
-private fun hasAnyLabel(vararg labels: String): Predicate<Pokemon> = Predicate {
-    val species = ClientSpeciesRegistry.getSpecies(it.species.name) ?: return@Predicate false
-    labels.any { label -> species.labels.contains(label) }
-}
+private fun hasAnyLabel(vararg labels: String): Predicate<Pokemon> =
+    Predicate {
+        val species = ClientSpeciesRegistry.getSpecies(it.species.name) ?: return@Predicate false
+        labels.any { label -> species.labels.contains(label) }
+    }

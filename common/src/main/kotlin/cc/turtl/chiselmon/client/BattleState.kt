@@ -5,7 +5,6 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 
 /** Client-side source of truth for the current battle state. */
 object BattleState {
-
     var currentBattle: ClientBattle? = null
         private set
 

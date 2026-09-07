@@ -16,41 +16,34 @@ import java.util.*
  */
 data class PokemonEncounter(
     val encounteredMs: Long,
-
     // Identity
     val uuid: UUID,
     val species: Species,
     val form: FormData,
-
     // Attributes
     val level: Int,
     val gender: Gender,
     val scale: Float,
-
     // Flags
     val isShiny: Boolean,
     val isLegendary: Boolean,
-
     // World context
     val dimension: String,
     val biome: String,
     val dayTime: Long,
     val isRaining: Boolean,
     val blockName: String,
-
     // Snack
     val spawnedFromSnack: Boolean,
-
     // Positions
     val pokemonX: Int,
     val pokemonY: Int,
     val pokemonZ: Int,
     val playerX: Int,
     val playerY: Int,
-    val playerZ: Int
+    val playerZ: Int,
 ) {
     companion object {
-
         /**
          * Creates a PokemonEncounter snapshot from a live PokemonEntity.
          */
@@ -66,38 +59,43 @@ data class PokemonEncounter(
 
             return PokemonEncounter(
                 encounteredMs = System.currentTimeMillis(),
-
                 // Identity
                 uuid = pe.uuid,
                 species = pokemon.species,
                 form = pe.form,
-
                 // Attributes
                 level = pokemon.level,
                 gender = pokemon.gender,
                 scale = pokemon.scaleModifier,
-
                 // Flags
                 isShiny = IS_SHINY.test(pokemon),
                 isLegendary = IS_LEGENDARY.test(pokemon),
-
                 // World context
-                dimension = pe.level().dimension().location().toString().intern(),
-                biome = pe.level().getBiome(pe.blockPosition()).registeredName.intern(),
+                dimension =
+                    pe
+                        .level()
+                        .dimension()
+                        .location()
+                        .toString()
+                        .intern(),
+                biome =
+                    pe
+                        .level()
+                        .getBiome(pe.blockPosition())
+                        .registeredName
+                        .intern(),
                 dayTime = pe.level().dayTime % 24000,
                 isRaining = pe.level().isRaining,
                 blockName = BuiltInRegistries.BLOCK.getKey(blockState.block).toString(),
-
                 // Snack
                 spawnedFromSnack = FROM_POKESNACK.test(pe),
-
                 // Positions
                 pokemonX = pe.blockX,
                 pokemonY = pe.blockY,
                 pokemonZ = pe.blockZ,
                 playerX = playerX,
                 playerY = playerY,
-                playerZ = playerZ
+                playerZ = playerZ,
             )
         }
     }

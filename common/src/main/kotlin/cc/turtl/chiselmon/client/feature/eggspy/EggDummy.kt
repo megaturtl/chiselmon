@@ -21,9 +21,8 @@ import net.minecraft.world.item.ItemStack
  * "EggDummy" aspect for recognition by Chiselmon methods.
  */
 class EggDummy private constructor(
-    private val cachedRenderableEgg: RenderablePokemon
+    private val cachedRenderableEgg: RenderablePokemon,
 ) : Pokemon() {
-
     var totalSteps: Int = 0
         internal set
 
@@ -68,10 +67,12 @@ class EggDummy private constructor(
                 val ops = registries.createSerializationContext(NbtOps.INSTANCE)
                 val renderableEgg = (egg as DuckPreviewPokemon).`chiselmon$getRawRenderablePokemon`()
 
-                val decoded = CODEC.decode(ops, hatchlingNbt)
-                    .result()
-                    .orElse(null)
-                    ?.getFirst() ?: return null
+                val decoded =
+                    CODEC
+                        .decode(ops, hatchlingNbt)
+                        .result()
+                        .orElse(null)
+                        ?.getFirst() ?: return null
 
                 val formId = hatchlingNbt.getString(DataKeys.POKEMON_FORM_ID)
 
@@ -80,15 +81,17 @@ class EggDummy private constructor(
 
                     // Explicitly restore the actual form. My original solution lost form data like typing
                     // and only preserved visual form aspects
-                    val resolvedForm = dummy.species.forms
-                        .firstOrNull { it.formOnlyShowdownId() == formId }
+                    val resolvedForm =
+                        dummy.species.forms
+                            .firstOrNull { it.formOnlyShowdownId() == formId }
 
                     if (resolvedForm != null) {
                         dummy.form = resolvedForm
                     }
 
                     // The codec decode chain corrupts the ability so it needs to be reapplied.
-                    Ability.CODEC.decode(NbtOps.INSTANCE, hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY))
+                    Ability.CODEC
+                        .decode(NbtOps.INSTANCE, hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY))
                         .result()
                         .orElse(null)
                         ?.getFirst()

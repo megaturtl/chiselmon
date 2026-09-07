@@ -14,23 +14,23 @@ import cc.turtl.turtlshell.api.core.command.CommandRegistry
 
 object ChiselmonClientCommon {
     fun init() {
-
         KeybindRegistry.registerGroup(
             category = BuildDetails.MOD_DISPLAY_NAME,
-            keybinds = ChiselmonKeybinds.ALL
+            keybinds = ChiselmonKeybinds.ALL,
         )
 
         CommandRegistry.registerClientGroup(
             aliases = listOf(BuildDetails.MOD_ID, "ch"),
-            commands = listOf(
-                InfoCommand(),
-                DebugCommand(),
-                DatabaseCommand(),
-                AlertCommand(),
-                ConfigCommand(),
-                RecordCommand(),
-                DashCommand()
-            )
+            commands =
+                listOf(
+                    InfoCommand(),
+                    DebugCommand(),
+                    DatabaseCommand(),
+                    AlertCommand(),
+                    ConfigCommand(),
+                    RecordCommand(),
+                    DashCommand(),
+                ),
         )
 
         ChiselmonConfig.init()

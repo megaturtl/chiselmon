@@ -43,7 +43,8 @@ class ChiselmonJadePlugin : IWailaPlugin {
      */
     private fun configureOption(
         registration: IWailaClientRegistration,
-        id: ResourceLocation?, defaultValue: Boolean
+        id: ResourceLocation?,
+        defaultValue: Boolean,
     ) {
         registration.addConfig(id, defaultValue)
         registration.markAsClientFeature(id)

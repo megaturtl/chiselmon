@@ -1,11 +1,11 @@
 package cc.turtl.chiselmon.client
 
 import cc.turtl.chiselmon.client.feature.pc.PCUserData
+import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import cc.turtl.chiselmon.core.api.filter.FiltersUserData
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.api.storage.gsonData
 import cc.turtl.chiselmon.core.api.storage.h2Data
-import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import cc.turtl.turtlshell.api.client.ClientEvents
 
 /**
@@ -14,7 +14,6 @@ import cc.turtl.turtlshell.api.client.ClientEvents
  *   val data = ChiselmonStorage.FILTERS[StorageScope.global()]
  */
 object ChiselmonStorage {
-
     val FILTERS = gsonData("filters.json", FiltersUserData::class.java) { FiltersUserData.withDefaults() }
 
     // @JvmField: accessed from MixinPCGUI.java

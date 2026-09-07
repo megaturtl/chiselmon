@@ -14,12 +14,12 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
 class InfoCommand : TurtlShellClientCommand {
-
     override val name = "info"
     override val description: MutableComponent = Component.literal("Display mod info")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder
+            .literal<CommandSourceStack>(name)
             .executes {
                 val player = Minecraft.getInstance().player ?: return@executes 0
                 sendEmptyLine(player)

@@ -14,7 +14,6 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 
 class AlertConfig {
-
     @SerialEntry
     var masterEnabled: Boolean = DEFAULT_MASTER_ENABLED
 
@@ -28,30 +27,33 @@ class AlertConfig {
     var filterAlerts: MutableMap<String, FilterAlertSettings> = LinkedHashMap()
 
     fun buildCategory(): ConfigCategory {
-        val builder = ConfigCategory.createBuilder()
-            .name(Component.translatable("chiselmon.config.category.alerts"))
-            .option(
-                OptionFactory.toggleOnOff(
-                    "chiselmon.config.alert.master_enabled",
-                    DEFAULT_MASTER_ENABLED,
-                    { masterEnabled },
-                    { masterEnabled = it })
-            )
-            .option(
-                OptionFactory.intSlider(
-                    "chiselmon.config.alert.master_volume",
-                    DEFAULT_MASTER_VOLUME,
-                    { masterVolume },
-                    { masterVolume = it },
-                    0, 100, 1
+        val builder =
+            ConfigCategory
+                .createBuilder()
+                .name(Component.translatable("chiselmon.config.category.alerts"))
+                .option(
+                    OptionFactory.toggleOnOff(
+                        "chiselmon.config.alert.master_enabled",
+                        DEFAULT_MASTER_ENABLED,
+                        { masterEnabled },
+                        { masterEnabled = it },
+                    ),
+                ).option(
+                    OptionFactory.intSlider(
+                        "chiselmon.config.alert.master_volume",
+                        DEFAULT_MASTER_VOLUME,
+                        { masterVolume },
+                        { masterVolume = it },
+                        0,
+                        100,
+                        1,
+                    ),
+                ).option(
+                    OptionFactory.keyMappingPicker(
+                        "chiselmon.config.alert.mute_keybind",
+                        ChiselmonKeybinds.MUTE_ALERTS,
+                    ),
                 )
-            )
-            .option(
-                OptionFactory.keyMappingPicker(
-                    "chiselmon.config.alert.mute_keybind",
-                    ChiselmonKeybinds.MUTE_ALERTS
-                )
-            )
 
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alert.filters")))
         for (filter in ChiselmonStorage.FILTERS[Scope.global()].all.values) {
@@ -64,39 +66,41 @@ class AlertConfig {
         return builder.build()
     }
 
-    private fun buildFilterAlertGroup(filter: FilterDefinition, settings: FilterAlertSettings): OptionGroup {
+    private fun buildFilterAlertGroup(
+        filter: FilterDefinition,
+        settings: FilterAlertSettings,
+    ): OptionGroup {
         val filterName = createComponent(filter.displayName, filter.rgb)
         val volumeOption = makeVolumeOption(settings)
         val soundOption = makeSoundOption(settings, volumeOption)
 
-        return OptionGroup.createBuilder()
+        return OptionGroup
+            .createBuilder()
             .name(filterName)
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.group.filter_alerts.desc")
-                )
-            )
-            .addBaseAlertOptions(
+                    Component.translatable("chiselmon.config.alert.group.filter_alerts.desc"),
+                ),
+            ).addBaseAlertOptions(
                 settings,
                 soundOption,
                 volumeOption,
                 defaultSendChatMessage = FilterAlertSettings.DEFAULT_SEND_CHAT_MESSAGE_FILTER,
-            )
-            .option(
+            ).option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.highlight_entity",
                     FilterAlertSettings.DEFAULT_HIGHLIGHT_ENTITY,
                     { settings.highlightEntity },
-                    { settings.highlightEntity = it })
-            )
-            .option(
+                    { settings.highlightEntity = it },
+                ),
+            ).option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.repeat_sound",
                     FilterAlertSettings.DEFAULT_REPEAT_SOUND,
                     { settings.repeatSound },
-                    { settings.repeatSound = it })
-            )
-            .collapsed(true)
+                    { settings.repeatSound = it },
+                ),
+            ).collapsed(true)
             .build()
     }
 
@@ -104,21 +108,21 @@ class AlertConfig {
         val volumeOption = makeVolumeOption(settings)
         val soundOption = makeSoundOption(settings, volumeOption, AlertSounds.GLASS)
 
-        return OptionGroup.createBuilder()
+        return OptionGroup
+            .createBuilder()
             .name(Component.translatable("chiselmon.config.alert.group.lure_alerts"))
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.group.lure_alerts.desc")
-                )
-            )
-            .option(
+                    Component.translatable("chiselmon.config.alert.group.lure_alerts.desc"),
+                ),
+            ).option(
                 OptionFactory.toggleOnOff(
                     "chiselmon.config.alert.enabled",
                     AlertSettings.DEFAULT_ENABLED,
                     { settings.enabled },
-                    { settings.enabled = it })
-            )
-            .option(soundOption)
+                    { settings.enabled = it },
+                ),
+            ).option(soundOption)
             .option(volumeOption)
             .collapsed(true)
             .build()
@@ -129,37 +133,38 @@ class AlertConfig {
         soundOption: Option<AlertSounds>,
         volumeOption: Option<Int>,
         defaultSendChatMessage: Boolean = AlertSettings.DEFAULT_SEND_CHAT_MESSAGE,
-    ): OptionGroup.Builder = this
-        .option(
-            OptionFactory.toggleOnOff(
-                "chiselmon.config.alert.enabled",
-                AlertSettings.DEFAULT_ENABLED,
-                { settings.enabled },
-                { settings.enabled = it })
-        )
-        .option(
-            OptionFactory.toggleTick(
-                "chiselmon.config.alert.send_chat_message",
-                defaultSendChatMessage,
-                { settings.sendChatMessage },
-                { settings.sendChatMessage = it })
-        )
-        .option(
-            OptionFactory.toggleTick(
-                "chiselmon.config.alert.send_discord_message",
-                AlertSettings.DEFAULT_SEND_DISCORD_MESSAGE,
-                { settings.sendDiscordMessage },
-                { settings.sendDiscordMessage = it })
-        )
-        .option(
-            OptionFactory.toggleTick(
-                "chiselmon.config.alert.play_sound",
-                AlertSettings.DEFAULT_PLAY_SOUND,
-                { settings.playSound },
-                { settings.playSound = it })
-        )
-        .option(soundOption)
-        .option(volumeOption)
+    ): OptionGroup.Builder =
+        this
+            .option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.alert.enabled",
+                    AlertSettings.DEFAULT_ENABLED,
+                    { settings.enabled },
+                    { settings.enabled = it },
+                ),
+            ).option(
+                OptionFactory.toggleTick(
+                    "chiselmon.config.alert.send_chat_message",
+                    defaultSendChatMessage,
+                    { settings.sendChatMessage },
+                    { settings.sendChatMessage = it },
+                ),
+            ).option(
+                OptionFactory.toggleTick(
+                    "chiselmon.config.alert.send_discord_message",
+                    AlertSettings.DEFAULT_SEND_DISCORD_MESSAGE,
+                    { settings.sendDiscordMessage },
+                    { settings.sendDiscordMessage = it },
+                ),
+            ).option(
+                OptionFactory.toggleTick(
+                    "chiselmon.config.alert.play_sound",
+                    AlertSettings.DEFAULT_PLAY_SOUND,
+                    { settings.playSound },
+                    { settings.playSound = it },
+                ),
+            ).option(soundOption)
+            .option(volumeOption)
 
     private fun makeVolumeOption(settings: AlertSettings): Option<Int> =
         OptionFactory.intSlider(
@@ -167,27 +172,30 @@ class AlertConfig {
             AlertSettings.DEFAULT_VOLUME,
             { settings.volume },
             { settings.volume = it },
-            0, 100, 1,
+            0,
+            100,
+            1,
         )
 
     private fun makeSoundOption(
         settings: AlertSettings,
         volumeOption: Option<Int>,
-        default: AlertSounds = AlertSettings.DEFAULT_ALERT_SOUND
+        default: AlertSounds = AlertSettings.DEFAULT_ALERT_SOUND,
     ): Option<AlertSounds> {
-        val soundOption = OptionFactory.enumCycler(
-            "chiselmon.config.alert.alert_sound",
-            default,
-            { settings.alertSound },
-            { settings.alertSound = it },
-            AlertSounds::class.java,
-        )
+        val soundOption =
+            OptionFactory.enumCycler(
+                "chiselmon.config.alert.alert_sound",
+                default,
+                { settings.alertSound },
+                { settings.alertSound = it },
+                AlertSounds::class.java,
+            )
         soundOption.addEventListener { opt, event ->
             if (event == OptionEventListener.Event.STATE_CHANGE) {
                 val sound = opt.pendingValue().sound
                 val volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f)
                 Minecraft.getInstance().soundManager.play(
-                    SimpleSoundInstance.forUI(sound, 1.0f, volume)
+                    SimpleSoundInstance.forUI(sound, 1.0f, volume),
                 )
             }
         }
@@ -195,7 +203,6 @@ class AlertConfig {
     }
 
     open class AlertSettings {
-
         @SerialEntry
         var enabled: Boolean = DEFAULT_ENABLED
 
@@ -225,7 +232,6 @@ class AlertConfig {
     }
 
     class FilterAlertSettings : AlertSettings() {
-
         @SerialEntry
         var repeatSound: Boolean = DEFAULT_REPEAT_SOUND
 

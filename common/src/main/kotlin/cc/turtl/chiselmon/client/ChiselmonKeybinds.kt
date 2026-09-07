@@ -6,19 +6,21 @@ import net.minecraft.client.KeyMapping
 import org.lwjgl.glfw.GLFW
 
 object ChiselmonKeybinds {
-    val OPEN_CONFIG = KeyMapping(
-        "chiselmon.key.open_config",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_SEMICOLON,
-        BuildDetails.MOD_DISPLAY_NAME
-    )
+    val OPEN_CONFIG =
+        KeyMapping(
+            "chiselmon.key.open_config",
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_SEMICOLON,
+            BuildDetails.MOD_DISPLAY_NAME,
+        )
 
-    val MUTE_ALERTS = KeyMapping(
-        "chiselmon.key.mute_alerts",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_M,
-        BuildDetails.MOD_DISPLAY_NAME
-    )
+    val MUTE_ALERTS =
+        KeyMapping(
+            "chiselmon.key.mute_alerts",
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_M,
+            BuildDetails.MOD_DISPLAY_NAME,
+        )
 
     val ALL: List<KeyMapping> = listOf(OPEN_CONFIG, MUTE_ALERTS)
 }

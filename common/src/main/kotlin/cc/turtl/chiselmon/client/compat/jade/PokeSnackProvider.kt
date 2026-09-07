@@ -25,7 +25,6 @@ import snownee.jade.api.ui.IElementHelper
  * Displays bites remaining, ingredients, and effects based on config.
  */
 object PokeSnackProvider : IBlockComponentProvider {
-
     val BITES: ResourceLocation = modResource("pokesnack_block.bites")
     val INGREDIENTS: ResourceLocation = modResource("pokesnack_block.ingredients")
     val EFFECTS: ResourceLocation = modResource("pokesnack_block.effects")
@@ -35,7 +34,11 @@ object PokeSnackProvider : IBlockComponentProvider {
 
     override fun getUid(): ResourceLocation = UID
 
-    override fun appendTooltip(tooltip: ITooltip, accessor: BlockAccessor, config: IPluginConfig) {
+    override fun appendTooltip(
+        tooltip: ITooltip,
+        accessor: BlockAccessor,
+        config: IPluginConfig,
+    ) {
         if (ChiselmonConfig.general.modDisabled) return
         if (accessor.block !is PokeSnackBlock) return
 
@@ -47,8 +50,8 @@ object PokeSnackProvider : IBlockComponentProvider {
             tooltip.add(
                 labelled(
                     Component.translatable("chiselmon.ui.label.pokesnack_block.bites_remaining"),
-                    remaining
-                )
+                    remaining,
+                ),
             )
         }
 
@@ -56,8 +59,9 @@ object PokeSnackProvider : IBlockComponentProvider {
             val ingredients = entity.ingredientComponent
             if (ingredients == null) {
                 tooltip.add(
-                    Component.translatable("chiselmon.ui.label.pokesnack_block.no_ingredients")
-                        .withColor(ColorLib.RED.rgb)
+                    Component
+                        .translatable("chiselmon.ui.label.pokesnack_block.no_ingredients")
+                        .withColor(ColorLib.RED.rgb),
                 )
             } else {
                 addIngredientIcons(tooltip, ingredients)
@@ -65,15 +69,19 @@ object PokeSnackProvider : IBlockComponentProvider {
         }
 
         if (config.get(EFFECTS)) {
-            val dummySnack = ItemStack(CobblemonItems.POKE_SNACK).also {
-                it.set(CobblemonItemComponents.BAIT_EFFECTS, entity.baitEffectsComponent)
-            }
+            val dummySnack =
+                ItemStack(CobblemonItems.POKE_SNACK).also {
+                    it.set(CobblemonItemComponents.BAIT_EFFECTS, entity.baitEffectsComponent)
+                }
             generateAdditionalBaitEffectTooltip(dummySnack)
                 .forEach(tooltip::add)
         }
     }
 
-    private fun addIngredientIcons(tooltip: ITooltip, ingredients: IngredientComponent) {
+    private fun addIngredientIcons(
+        tooltip: ITooltip,
+        ingredients: IngredientComponent,
+    ) {
         val helper = IElementHelper.get()
         tooltip.add(helper.spacer(0, 0))
         ingredients.ingredientIds.forEachIndexed { index, id ->

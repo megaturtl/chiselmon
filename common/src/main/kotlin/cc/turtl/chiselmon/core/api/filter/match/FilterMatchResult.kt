@@ -6,5 +6,5 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 data class FilterMatchResult(
     @JvmField val pokemon: Pokemon,
     @JvmField val primaryMatch: RuntimeFilter?,
-    @JvmField val allMatches: List<RuntimeFilter>
+    @JvmField val allMatches: List<RuntimeFilter>,
 )

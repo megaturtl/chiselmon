@@ -14,7 +14,7 @@ data class CaptureContext(
     val targetStatus: PersistentStatus?,
     val level: Level,
     val pos: BlockPos,
-    val turn: Int = 1
+    val turn: Int = 1,
 )
 
 data class CaptureParams(
@@ -27,7 +27,7 @@ data class CaptureParams(
     val darkGrassModifier: Float = 1f,
     val levelBonus: Float = 1f,
     val ballBonus: Float = 1f,
-    val pokedexMultiplier: Float = 1f
+    val pokedexMultiplier: Float = 1f,
 ) {
     val clampedHp: Float get() = currentHp.coerceIn(0f, maxHp)
 }

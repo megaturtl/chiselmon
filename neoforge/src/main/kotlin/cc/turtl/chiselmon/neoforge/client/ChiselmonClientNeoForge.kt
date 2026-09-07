@@ -1,11 +1,11 @@
 package cc.turtl.chiselmon.neoforge.client
 
 import cc.turtl.chiselmon.BuildDetails
+import cc.turtl.chiselmon.client.ChiselmonClientCommon
+import cc.turtl.chiselmon.client.ChiselmonPacks
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.ChiselmonCoreCommon
-import cc.turtl.chiselmon.client.ChiselmonPacks
-import cc.turtl.chiselmon.client.ChiselmonClientCommon
-import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.util.modResource
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
@@ -42,7 +42,8 @@ object ChiselmonClientNeoForge {
                 IConfigScreenFactory::class.java,
                 IConfigScreenFactory { _: ModContainer, parent: Screen ->
                     ChiselmonConfig.createScreen(parent)
-                })
+                },
+            )
         }
     }
 
@@ -59,7 +60,7 @@ object ChiselmonClientNeoForge {
                     Component.literal(pack.name),
                     PackSource.BUILT_IN,
                     false,
-                    Pack.Position.TOP
+                    Pack.Position.TOP,
                 )
             }
         }
@@ -72,9 +73,8 @@ object ChiselmonClientNeoForge {
                 ChiselmonConstants.CONFIG_PATH,
                 PackType.CLIENT_RESOURCES,
                 PackSource.BUILT_IN,
-                DirectoryValidator { _: Path? -> true }
-            )
+                DirectoryValidator { _: Path? -> true },
+            ),
         )
     }
 }
-

@@ -12,13 +12,18 @@ import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
-class PCButton private constructor(builder: Builder) : Button(
-    builder.x, builder.y, builder.width, builder.height,
-    builder.text ?: Component.empty(),
-    builder.onPress,
-    DEFAULT_NARRATION
-), CobblemonRenderable {
-
+class PCButton private constructor(
+    builder: Builder,
+) : Button(
+        builder.x,
+        builder.y,
+        builder.width,
+        builder.height,
+        builder.text ?: Component.empty(),
+        builder.onPress,
+        DEFAULT_NARRATION,
+    ),
+    CobblemonRenderable {
     private val sprite: ResourceLocation = builder.sprite
     private val textureWidth: Int = builder.textureWidth
     private val textureHeight: Int = builder.textureHeight
@@ -30,14 +35,20 @@ class PCButton private constructor(builder: Builder) : Button(
     private val inactiveTooltip: Tooltip? = builder.inactiveTooltip
     private var toggled: Boolean = builder.initialActive
 
-    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(
+        context: GuiGraphics,
+        mouseX: Int,
+        mouseY: Int,
+        partialTicks: Float,
+    ) {
         updateTooltip()
 
-        val textureYOffset = if (toggled) {
-            if (isHovered) 0 else buttonHeight
-        } else {
-            if (isHovered) buttonHeight else 0
-        }
+        val textureYOffset =
+            if (toggled) {
+                if (isHovered) 0 else buttonHeight
+            } else {
+                if (isHovered) buttonHeight else 0
+            }
 
         context.blit(sprite, x, y, 0F, textureYOffset.toFloat(), width, height, textureWidth, textureHeight)
 
@@ -72,7 +83,7 @@ class PCButton private constructor(builder: Builder) : Button(
         val sprite: ResourceLocation,
         val textureWidth: Int,
         val textureHeight: Int,
-        val onPress: OnPress
+        val onPress: OnPress,
     ) {
         var width: Int = textureWidth
         var height: Int = textureHeight / 2

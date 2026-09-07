@@ -26,7 +26,6 @@ class QueryBuilder internal constructor(
     private val conn: Connection,
     private val table: String,
 ) {
-
     private var select: String = "*"
     private val conditions = mutableListOf<String>()
     private var groupBy: String? = null
@@ -38,10 +37,11 @@ class QueryBuilder internal constructor(
      * Adds `encountered_ms >= from` and/or `encountered_ms <= to` conditions as appropriate.
      * Has no effect if the range is unbounded.
      */
-    fun timeRange(timeRange: TimeRange): QueryBuilder = apply {
-        if (timeRange.hasFrom) where("encountered_ms >= ${timeRange.from}")
-        if (timeRange.hasTo) where("encountered_ms <= ${timeRange.to}")
-    }
+    fun timeRange(timeRange: TimeRange): QueryBuilder =
+        apply {
+            if (timeRange.hasFrom) where("encountered_ms >= ${timeRange.from}")
+            if (timeRange.hasTo) where("encountered_ms <= ${timeRange.to}")
+        }
 
     /** Columns or expressions to SELECT. Defaults to `*`. */
     fun select(columns: String): QueryBuilder = apply { this.select = columns }
@@ -83,10 +83,11 @@ class QueryBuilder internal constructor(
      * ignoring any select/groupBy/orderBy/limit set on this builder.
      */
     fun fetchCount(): Long {
-        val sql = buildString {
-            append("SELECT COUNT(*) FROM ").append(table)
-            appendWhere(this)
-        }
+        val sql =
+            buildString {
+                append("SELECT COUNT(*) FROM ").append(table)
+                appendWhere(this)
+            }
         conn.prepareStatement(sql).use { ps ->
             ps.executeQuery().use { rs ->
                 return if (rs.next()) rs.getLong(1) else 0L
@@ -101,7 +102,10 @@ class QueryBuilder internal constructor(
      * More compact than a list of objects for coordinate data — eliminates repeated field
      * names in the JSON serialization.
      */
-    fun fetchInterleavedPairs(colA: String, colB: String): IntArray {
+    fun fetchInterleavedPairs(
+        colA: String,
+        colB: String,
+    ): IntArray {
         val buf = mutableListOf<Int>()
         conn.prepareStatement(buildSql()).use { ps ->
             ps.executeQuery().use { rs ->
@@ -114,13 +118,14 @@ class QueryBuilder internal constructor(
         return buf.toIntArray()
     }
 
-    private fun buildSql(): String = buildString {
-        append("SELECT ").append(select).append(" FROM ").append(table)
-        appendWhere(this)
-        groupBy?.let { append(" GROUP BY ").append(it) }
-        orderBy?.let { append(" ORDER BY ").append(it) }
-        limit?.let { append(" LIMIT ").append(it) }
-    }
+    private fun buildSql(): String =
+        buildString {
+            append("SELECT ").append(select).append(" FROM ").append(table)
+            appendWhere(this)
+            groupBy?.let { append(" GROUP BY ").append(it) }
+            orderBy?.let { append(" ORDER BY ").append(it) }
+            limit?.let { append(" LIMIT ").append(it) }
+        }
 
     private fun appendWhere(sb: StringBuilder) {
         if (conditions.isNotEmpty()) sb.append(" WHERE ").append(conditions.joinToString(" AND "))

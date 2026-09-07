@@ -4,11 +4,11 @@ import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
 import cc.turtl.chiselmon.client.api.PokemonLoadedEvent
 import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent
+import cc.turtl.chiselmon.client.system.dashboard.DashboardServer
 import cc.turtl.chiselmon.client.util.removeGlow
 import cc.turtl.chiselmon.client.util.resetNickname
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.chiselmon.client.system.dashboard.DashboardServer
 import cc.turtl.turtlshell.api.client.ClientEvents
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import java.util.*
@@ -17,16 +17,17 @@ import java.util.*
  * Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database.
  */
 class TrackerSession private constructor() {
-
     private val startTimeMs: Long = System.currentTimeMillis()
     private val seenUuids: MutableSet<UUID> = HashSet()
 
     val currentlyLoaded: MutableMap<UUID, PokemonEntity> = HashMap()
-    val db: EncounterDatabase = run {
-        val worldScope = Scope.currentWorld()
-            ?: error("TrackerSession must be created while in a world")
-        ChiselmonStorage.ENCOUNTERS[worldScope]
-    }
+    val db: EncounterDatabase =
+        run {
+            val worldScope =
+                Scope.currentWorld()
+                    ?: error("TrackerSession must be created while in a world")
+            ChiselmonStorage.ENCOUNTERS[worldScope]
+        }
 
     private var dashboardServer: DashboardServer? = null
 
@@ -48,7 +49,10 @@ class TrackerSession private constructor() {
         cleanUnloaded()
 
         // reset these always, before despawn glow or alert, so they always work from a blank slate.
-        currentlyLoaded.values.forEach { it.removeGlow(); it.resetNickname() }
+        currentlyLoaded.values.forEach {
+            it.removeGlow()
+            it.resetNickname()
+        }
     }
 
     private fun cleanUnloaded() {
@@ -89,8 +93,9 @@ class TrackerSession private constructor() {
          * @throws IllegalStateException if called outside an active world session
          */
         val current: TrackerSession
-            get() = activeSession
-                ?: error("Attempted to access TrackerSession with no active world.")
+            get() =
+                activeSession
+                    ?: error("Attempted to access TrackerSession with no active world.")
 
         fun init() {
             ClientEvents.LEVEL_CONNECTED.subscribe { start() }

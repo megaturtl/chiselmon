@@ -14,7 +14,7 @@ fun renderCenteredText(
     color: Int,
     centerX: Int,
     centerY: Int,
-    maxWidth: Int
+    maxWidth: Int,
 ) {
     val font = Minecraft.getInstance().font
 
@@ -23,8 +23,10 @@ fun renderCenteredText(
     var textWidth = font.width(text)
 
     if (textWidth > maxWidth) {
-        displayText = Component.literal(font.plainSubstrByWidth(text.string, maxWidth).trim { it <= ' ' })
-            .withStyle(text.style)
+        displayText =
+            Component
+                .literal(font.plainSubstrByWidth(text.string, maxWidth).trim { it <= ' ' })
+                .withStyle(text.style)
         textWidth = font.width(displayText)
     }
 

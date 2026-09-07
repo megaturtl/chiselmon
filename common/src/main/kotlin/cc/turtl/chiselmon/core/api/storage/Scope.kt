@@ -13,8 +13,9 @@ import java.nio.file.Path
  *   val world  = Scope.currentWorld()   // null if not in a world
  *   val file   = scope.dataFile("mydata.json")
  */
-class Scope private constructor(private val worldKey: String?) {
-
+class Scope private constructor(
+    private val worldKey: String?,
+) {
     val isGlobal: Boolean get() = worldKey == null
     val isWorld: Boolean get() = worldKey != null
 
@@ -25,17 +26,20 @@ class Scope private constructor(private val worldKey: String?) {
      * Data directory for this scope.
      * Global: config/chiselmon/ -- World: config/chiselmon/worlds/(key)/
      */
-    fun dataDir(): Path = if (isGlobal) {
-        ChiselmonConstants.CONFIG_PATH
-    } else {
-        ChiselmonConstants.CONFIG_PATH.resolve("worlds").resolve(worldKey!!)
-    }
+    fun dataDir(): Path =
+        if (isGlobal) {
+            ChiselmonConstants.CONFIG_PATH
+        } else {
+            ChiselmonConstants.CONFIG_PATH.resolve("worlds").resolve(worldKey!!)
+        }
 
     /** A specific file within this scope's data directory. */
     fun dataFile(filename: String): Path = dataDir().resolve(filename)
 
     override fun equals(other: Any?) = other is Scope && worldKey == other.worldKey
+
     override fun hashCode() = worldKey.hashCode()
+
     override fun toString() = if (isGlobal) "Scope[global]" else "Scope[$worldKey]"
 
     companion object {

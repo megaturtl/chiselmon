@@ -8,7 +8,6 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry
 import net.minecraft.network.chat.Component
 
 class GeneralConfig {
-
     @SerialEntry
     var modDisabled: Boolean = DEFAULT_MOD_DISABLED
 
@@ -33,59 +32,60 @@ class GeneralConfig {
     @SerialEntry
     val thresholds: ThresholdsConfig = ThresholdsConfig()
 
-    fun buildCategory(): ConfigCategory = ConfigCategory.createBuilder()
-        .name(Component.translatable("chiselmon.config.category.general"))
-        .option(
-            OptionFactory.toggleOnOff(
-                "chiselmon.config.general.mod_disabled",
-                DEFAULT_MOD_DISABLED,
-                { modDisabled },
-                { modDisabled = it })
-        )
-        .option(
-            OptionFactory.toggleOnOff(
-                "chiselmon.config.general.move_detail",
-                DEFAULT_MOVE_DETAIL,
-                { moveDetail },
-                { moveDetail = it })
-        )
-        .option(
-            OptionFactory.toggleOnOff(
-                "chiselmon.config.general.checkspawn_detail",
-                DEFAULT_CHECKSPAWN_DETAIL,
-                { checkSpawnDetail },
-                { checkSpawnDetail = it })
-        )
-        .option(
-            OptionFactory.toggleOnOff(
-                "chiselmon.config.general.pokerod_overlay",
-                DEFAULT_POKEROD_OVERLAY,
-                { pokerodOverlay },
-                { pokerodOverlay = it })
-        )
-        .option(
-            OptionFactory.textField(
-                "chiselmon.config.general.discord_webhook_url",
-                "",
-                { discordWebhookURL },
-                { discordWebhookURL = it })
-        )
-        .option(
-            OptionFactory.textField(
-                "chiselmon.config.general.discord_user_id",
-                "",
-                { discordUserId },
-                { discordUserId = it })
-        )
-        .option(
-            OptionFactory.keyMappingPicker(
-                "chiselmon.config.general.open_config_keybind",
-                ChiselmonKeybinds.OPEN_CONFIG
-            )
-        )
-        .group(eggSpy.buildGroup())
-        .group(thresholds.buildGroup())
-        .build()
+    fun buildCategory(): ConfigCategory =
+        ConfigCategory
+            .createBuilder()
+            .name(Component.translatable("chiselmon.config.category.general"))
+            .option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.general.mod_disabled",
+                    DEFAULT_MOD_DISABLED,
+                    { modDisabled },
+                    { modDisabled = it },
+                ),
+            ).option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.general.move_detail",
+                    DEFAULT_MOVE_DETAIL,
+                    { moveDetail },
+                    { moveDetail = it },
+                ),
+            ).option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.general.checkspawn_detail",
+                    DEFAULT_CHECKSPAWN_DETAIL,
+                    { checkSpawnDetail },
+                    { checkSpawnDetail = it },
+                ),
+            ).option(
+                OptionFactory.toggleOnOff(
+                    "chiselmon.config.general.pokerod_overlay",
+                    DEFAULT_POKEROD_OVERLAY,
+                    { pokerodOverlay },
+                    { pokerodOverlay = it },
+                ),
+            ).option(
+                OptionFactory.textField(
+                    "chiselmon.config.general.discord_webhook_url",
+                    "",
+                    { discordWebhookURL },
+                    { discordWebhookURL = it },
+                ),
+            ).option(
+                OptionFactory.textField(
+                    "chiselmon.config.general.discord_user_id",
+                    "",
+                    { discordUserId },
+                    { discordUserId = it },
+                ),
+            ).option(
+                OptionFactory.keyMappingPicker(
+                    "chiselmon.config.general.open_config_keybind",
+                    ChiselmonKeybinds.OPEN_CONFIG,
+                ),
+            ).group(eggSpy.buildGroup())
+            .group(thresholds.buildGroup())
+            .build()
 
     companion object {
         const val DEFAULT_MOD_DISABLED = false
@@ -95,30 +95,31 @@ class GeneralConfig {
     }
 
     class EggSpyConfig {
-
         @SerialEntry
         var enabled: Boolean = DEFAULT_ENABLED
 
         @SerialEntry
         var showHatchOverlay: Boolean = DEFAULT_SHOW_HATCH_OVERLAY
 
-        fun buildGroup(): OptionGroup = OptionGroup.createBuilder()
-            .name(Component.translatable("chiselmon.config.group.egg_spy"))
-            .option(
-                OptionFactory.toggleOnOff(
-                    "chiselmon.config.egg_spy.enabled",
-                    DEFAULT_ENABLED,
-                    { enabled },
-                    { enabled = it })
-            )
-            .option(
-                OptionFactory.toggleTick(
-                    "chiselmon.config.egg_spy.hatch_overlay",
-                    DEFAULT_SHOW_HATCH_OVERLAY,
-                    { showHatchOverlay },
-                    { showHatchOverlay = it })
-            )
-            .build()
+        fun buildGroup(): OptionGroup =
+            OptionGroup
+                .createBuilder()
+                .name(Component.translatable("chiselmon.config.group.egg_spy"))
+                .option(
+                    OptionFactory.toggleOnOff(
+                        "chiselmon.config.egg_spy.enabled",
+                        DEFAULT_ENABLED,
+                        { enabled },
+                        { enabled = it },
+                    ),
+                ).option(
+                    OptionFactory.toggleTick(
+                        "chiselmon.config.egg_spy.hatch_overlay",
+                        DEFAULT_SHOW_HATCH_OVERLAY,
+                        { showHatchOverlay },
+                        { showHatchOverlay = it },
+                    ),
+                ).build()
 
         companion object {
             const val DEFAULT_ENABLED = false
@@ -127,7 +128,6 @@ class GeneralConfig {
     }
 
     class ThresholdsConfig {
-
         @SerialEntry
         var extremeSmall: Float = DEFAULT_EXTREME_SMALL
 
@@ -137,33 +137,41 @@ class GeneralConfig {
         @SerialEntry
         var maxIvs: Int = DEFAULT_MAX_IVS
 
-        fun buildGroup(): OptionGroup = OptionGroup.createBuilder()
-            .name(Component.translatable("chiselmon.config.group.thresholds"))
-            .option(
-                OptionFactory.floatSlider(
-                    "chiselmon.config.thresholds.extreme_small",
-                    DEFAULT_EXTREME_SMALL,
-                    { extremeSmall }, { extremeSmall = it },
-                    SMALL_MIN, SMALL_MAX, SMALL_STEP
-                )
-            )
-            .option(
-                OptionFactory.floatSlider(
-                    "chiselmon.config.thresholds.extreme_large",
-                    DEFAULT_EXTREME_LARGE,
-                    { extremeLarge }, { extremeLarge = it },
-                    LARGE_MIN, LARGE_MAX, LARGE_STEP
-                )
-            )
-            .option(
-                OptionFactory.intSlider(
-                    "chiselmon.config.thresholds.max_ivs",
-                    DEFAULT_MAX_IVS,
-                    { maxIvs }, { maxIvs = it },
-                    IVS_MIN, IVS_MAX, IVS_STEP
-                )
-            )
-            .build()
+        fun buildGroup(): OptionGroup =
+            OptionGroup
+                .createBuilder()
+                .name(Component.translatable("chiselmon.config.group.thresholds"))
+                .option(
+                    OptionFactory.floatSlider(
+                        "chiselmon.config.thresholds.extreme_small",
+                        DEFAULT_EXTREME_SMALL,
+                        { extremeSmall },
+                        { extremeSmall = it },
+                        SMALL_MIN,
+                        SMALL_MAX,
+                        SMALL_STEP,
+                    ),
+                ).option(
+                    OptionFactory.floatSlider(
+                        "chiselmon.config.thresholds.extreme_large",
+                        DEFAULT_EXTREME_LARGE,
+                        { extremeLarge },
+                        { extremeLarge = it },
+                        LARGE_MIN,
+                        LARGE_MAX,
+                        LARGE_STEP,
+                    ),
+                ).option(
+                    OptionFactory.intSlider(
+                        "chiselmon.config.thresholds.max_ivs",
+                        DEFAULT_MAX_IVS,
+                        { maxIvs },
+                        { maxIvs = it },
+                        IVS_MIN,
+                        IVS_MAX,
+                        IVS_STEP,
+                    ),
+                ).build()
 
         companion object {
             const val DEFAULT_EXTREME_SMALL = 0.3F

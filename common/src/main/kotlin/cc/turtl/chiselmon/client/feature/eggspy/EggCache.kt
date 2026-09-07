@@ -8,10 +8,12 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 object EggCache {
-    private val cache = CacheBuilder.newBuilder()
-        .maximumSize(200)
-        .expireAfterAccess(10, TimeUnit.MINUTES)
-        .build<UUID, EggDummy>()
+    private val cache =
+        CacheBuilder
+            .newBuilder()
+            .maximumSize(200)
+            .expireAfterAccess(10, TimeUnit.MINUTES)
+            .build<UUID, EggDummy>()
 
     /**
      * Returns the original pokemon, or its egg preview if available.
@@ -24,14 +26,14 @@ object EggCache {
         if (!(pokemon as DuckPreviewPokemon).`chiselmon$isEgg`()) return pokemon
 
         val uuid = pokemon.uuid
-        val dummy = cache.getIfPresent(uuid)
-            ?: EggDummy.from(pokemon)?.also { cache.put(uuid, it) }
-            ?: return pokemon
+        val dummy =
+            cache.getIfPresent(uuid)
+                ?: EggDummy.from(pokemon)?.also { cache.put(uuid, it) }
+                ?: return pokemon
 
         dummy.totalSteps = pokemon.persistentData.getInt("TotalSteps")
         dummy.hatchPercentage = pokemon.getFeature<IntSpeciesFeature>(EggDummy.HATCH_PERCENTAGE_FEATURE)?.value ?: 0
 
         return dummy
     }
-
 }

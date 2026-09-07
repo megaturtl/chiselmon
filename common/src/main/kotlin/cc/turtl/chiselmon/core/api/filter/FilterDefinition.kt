@@ -18,7 +18,7 @@ class FilterDefinition(
     @JvmField var rgb: Int,
     @JvmField var priority: Priority,
     /** The filter condition as a word-operator string, e.g. "shiny AND type=fire". */
-    @JvmField var conditionString: String
+    @JvmField var conditionString: String,
 ) {
     /**
      * Legacy field kept for migration only.
@@ -36,23 +36,32 @@ class FilterDefinition(
         // Magenta (0xFF00FF): ColorLib has no MAGENTA constant.
         private const val MAGENTA_RGB = 0xFF00FF
 
-        val LEGENDARIES = FilterDefinition(
-            "legendaries", "Legendary Pokemon",
-            MAGENTA_RGB, Priority.HIGHEST,
-            "legendary"
-        )
+        val LEGENDARIES =
+            FilterDefinition(
+                "legendaries",
+                "Legendary Pokemon",
+                MAGENTA_RGB,
+                Priority.HIGHEST,
+                "legendary",
+            )
 
-        val SHINIES = FilterDefinition(
-            "shinies", "Shiny Pokemon",
-            ColorLib.GOLD.rgb, Priority.HIGH,
-            "shiny"
-        )
+        val SHINIES =
+            FilterDefinition(
+                "shinies",
+                "Shiny Pokemon",
+                ColorLib.GOLD.rgb,
+                Priority.HIGH,
+                "shiny",
+            )
 
-        val EXTREME_SIZES = FilterDefinition(
-            "extreme_sizes", "Extreme Size Pokemon",
-            ColorLib.TEAL.rgb, Priority.NORMAL,
-            "extreme_size"
-        )
+        val EXTREME_SIZES =
+            FilterDefinition(
+                "extreme_sizes",
+                "Extreme Size Pokemon",
+                ColorLib.TEAL.rgb,
+                Priority.NORMAL,
+                "extreme_size",
+            )
 
         private val ALL = listOf(LEGENDARIES, SHINIES, EXTREME_SIZES)
 

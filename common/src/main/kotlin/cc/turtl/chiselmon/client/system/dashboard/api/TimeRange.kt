@@ -9,8 +9,10 @@ package cc.turtl.chiselmon.client.system.dashboard.api
  *   /api/biomes?from=1700000000000                        — from timestamp onwards
  *   /api/biomes?from=1700000000000&to=1710000000000       — bounded range
  */
-data class TimeRange(val from: Long, val to: Long) {
-
+data class TimeRange(
+    val from: Long,
+    val to: Long,
+) {
     val hasFrom: Boolean get() = from > 0
     val hasTo: Boolean get() = to > 0
     val isUnbounded: Boolean get() = !hasFrom && !hasTo
