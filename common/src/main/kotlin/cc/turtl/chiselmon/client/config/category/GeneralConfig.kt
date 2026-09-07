@@ -183,7 +183,7 @@ class GeneralConfig {
             const val SMALL_STEP = 0.1F
 
             const val LARGE_MIN = 1.1F
-            const val LARGE_MAX = 1.9F
+            const val LARGE_MAX = 4.9F
             const val LARGE_STEP = 0.1F
 
             const val IVS_MIN = 3
