@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.client.system.alert
 
 import cc.turtl.chiselmon.client.ChiselmonKeybinds
+import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.alert.action.DiscordAction
 import cc.turtl.chiselmon.client.system.alert.action.MessageAction
@@ -11,6 +12,7 @@ import cc.turtl.chiselmon.client.util.highlightNickname
 import cc.turtl.chiselmon.client.util.sendSuccess
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
+import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.turtlshell.api.client.ClientEvents
 import net.minecraft.client.Minecraft
 import java.util.*
@@ -71,10 +73,27 @@ object AlertManager {
             }
         }
 
+        val worldScope = Scope.currentWorld() ?: return
+        val exclusions = ChiselmonStorage.ALERT_EXCLUSIONS[worldScope]
+
         // Track the "best" filter match for the sound this tick
         var bestSoundContext: AlertContext? = null
 
         for (pe in TrackerSession.current.currentlyLoaded.values) {
+            val pokemonPosition = pe.blockPosition()
+            val dimension = pe.level().dimension().location()
+            if (
+                exclusions.contains(
+                    dimension.namespace,
+                    dimension.path,
+                    pokemonPosition.x,
+                    pokemonPosition.y,
+                    pokemonPosition.z,
+                )
+            ) {
+                continue
+            }
+
             val uuid = pe.uuid
             if (pe.busyLocks.isNotEmpty()) mute(uuid)
 

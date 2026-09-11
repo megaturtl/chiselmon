@@ -2,14 +2,21 @@ package cc.turtl.chiselmon.client.config.category
 
 import cc.turtl.chiselmon.client.ChiselmonKeybinds
 import cc.turtl.chiselmon.client.ChiselmonStorage
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.chiselmon.client.system.alert.AlertExclusionZone
+import cc.turtl.chiselmon.client.system.alert.AlertExclusions
 import cc.turtl.chiselmon.client.system.alert.AlertSounds
 import cc.turtl.chiselmon.core.api.filter.FilterDefinition
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.util.format.createComponent
 import cc.turtl.turtlshell.api.client.config.OptionFactory
+import cc.turtl.turtlshell.api.client.config.custom.HoldToConfirmButton
+import cc.turtl.turtlshell.api.core.format.ColorLib
 import dev.isxander.yacl3.api.*
+import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder
 import dev.isxander.yacl3.config.v2.api.SerialEntry
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 
@@ -26,7 +33,11 @@ class AlertConfig {
     @SerialEntry
     var filterAlerts: MutableMap<String, FilterAlertSettings> = LinkedHashMap()
 
-    fun buildCategory(): ConfigCategory {
+    private fun saveExclusions() {
+        Scope.currentWorld()?.let { ChiselmonStorage.ALERT_EXCLUSIONS.save(it) }
+    }
+
+    fun buildCategory(parent: Screen?): ConfigCategory {
         val builder =
             ConfigCategory
                 .createBuilder()
@@ -63,7 +74,138 @@ class AlertConfig {
 
         builder.group(buildLureAlertGroup(lureAlert))
 
+        Scope.currentWorld()?.let { worldScope ->
+            val exclusions = ChiselmonStorage.ALERT_EXCLUSIONS[worldScope]
+            builder.group(
+                OptionGroup
+                    .createBuilder()
+                    .option(LabelOption.create(Component.empty()))
+                    .build(),
+            )
+            builder.group(buildAlertExclusionsGroup(parent, exclusions))
+            exclusions.zones.forEach { zone ->
+                builder.group(buildAlertExclusionGroup(parent, exclusions, zone))
+            }
+        }
+
         return builder.build()
+    }
+
+    private fun buildAlertExclusionsGroup(
+        parent: Screen?,
+        exclusions: AlertExclusions,
+    ): OptionGroup =
+        OptionGroup
+            .createBuilder()
+            .name(Component.translatable("chiselmon.config.alert.exclusions"))
+            .description(
+                OptionDescription.of(
+                    Component.translatable("chiselmon.config.alert.exclusions.desc"),
+                ),
+            ).option(
+                ButtonOption
+                    .createBuilder()
+                    .name(
+                        Component
+                            .translatable("chiselmon.config.alert.exclusions.create")
+                            .withColor(ColorLib.GREEN.rgb),
+                    ).description(
+                        OptionDescription.of(
+                            Component.translatable("chiselmon.config.alert.exclusions.create.desc"),
+                        ),
+                    ).text(Component.translatable("chiselmon.config.alert.exclusions.create.button"))
+                    .action { _, _ ->
+                        Minecraft.getInstance().player?.let { player ->
+                            val position = player.blockPosition()
+                            val dimension = player.level().dimension().location()
+                            exclusions.zones.add(
+                                AlertExclusionZone(
+                                    dimension.namespace,
+                                    dimension.path,
+                                    position.x,
+                                    position.y,
+                                    position.z,
+                                ),
+                            )
+                            saveExclusions()
+                            saveAndReload(parent)
+                        }
+                    }.build(),
+            ).build()
+
+    private fun buildAlertExclusionGroup(
+        parent: Screen?,
+        exclusions: AlertExclusions,
+        zone: AlertExclusionZone,
+    ): OptionGroup =
+        OptionGroup
+            .createBuilder()
+            .name(Component.literal("${zone.dimension} (${zone.x}, ${zone.y}, ${zone.z})"))
+            .description(
+                OptionDescription.of(
+                    Component.translatable("chiselmon.config.alert.exclusions.group.desc"),
+                ),
+            ).option(
+                OptionFactory.textField(
+                    "chiselmon.config.alert.exclusions.coordinates",
+                    zone.coordinates,
+                    { zone.coordinates },
+                    {
+                        if (zone.updateCoordinates(it)) saveExclusions()
+                    },
+                ),
+            ).option(
+                intField(
+                    "chiselmon.config.alert.exclusions.radius",
+                    zone.radius,
+                    { zone.radius },
+                    {
+                        zone.radius = it
+                        saveExclusions()
+                    },
+                    1,
+                    MAX_EXCLUSION_RADIUS,
+                ),
+            ).option(
+                HoldToConfirmButton
+                    .builder()
+                    .name(
+                        Component
+                            .translatable("chiselmon.config.alert.exclusions.delete")
+                            .withColor(ColorLib.RED.rgb),
+                    ).description(
+                        OptionDescription.of(
+                            Component.translatable("chiselmon.config.alert.exclusions.delete.desc"),
+                        ),
+                    ).buttonText(Component.translatable("chiselmon.config.alert.exclusions.delete.button"))
+                    .holdingText(Component.translatable("chiselmon.config.alert.exclusions.delete.held"))
+                    .holdTimeTicks(30)
+                    .action { _, _ ->
+                        exclusions.zones.remove(zone)
+                        saveExclusions()
+                        saveAndReload(parent)
+                    }.build(),
+            ).collapsed(true)
+            .build()
+
+    private fun intField(
+        translationKey: String,
+        default: Int,
+        getter: () -> Int,
+        setter: (Int) -> Unit,
+        min: Int,
+        max: Int,
+    ): Option<Int> =
+        Option
+            .createBuilder<Int>()
+            .name(Component.translatable(translationKey))
+            .description(OptionDescription.of(Component.translatable("$translationKey.desc")))
+            .binding(default, getter, setter)
+            .controller { option -> IntegerFieldControllerBuilder.create(option).range(min, max) }
+            .build()
+
+    private fun saveAndReload(parent: Screen?) {
+        ChiselmonConfig.saveAndReloadScreen(parent, 3)
     }
 
     private fun buildFilterAlertGroup(
@@ -255,5 +397,6 @@ class AlertConfig {
     companion object {
         const val DEFAULT_MASTER_ENABLED = true
         const val DEFAULT_MASTER_VOLUME = 100
+        const val MAX_EXCLUSION_RADIUS = 512
     }
 }

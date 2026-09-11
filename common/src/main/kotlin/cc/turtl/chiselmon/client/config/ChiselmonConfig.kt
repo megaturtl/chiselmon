@@ -35,7 +35,7 @@ object ChiselmonConfig {
             .category(general.buildCategory())
             .category(pc.buildCategory())
             .category(filter.buildCategory(parent))
-            .category(alert.buildCategory())
+            .category(alert.buildCategory(parent))
             .category(recorder.buildCategory())
             .save(::save)
             .build()
@@ -61,7 +61,7 @@ object ChiselmonConfig {
         val newScreen = createScreen(parent) as YACLScreen
         Minecraft.getInstance().setScreen(newScreen)
         newScreen.tabNavigationBar?.let { bar ->
-            if (tabIndex in 0 until bar.tabs.size) bar.selectTab(tabIndex, false)
+            if (tabIndex in bar.tabs.indices) bar.selectTab(tabIndex, false)
         }
     }
 }

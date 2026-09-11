@@ -45,6 +45,7 @@ You can open the Chiselmon config in 3 ways:
 - Create unlimited custom filters to receive alerts for with Chiselmon's logic building system.
 - 4 Fully configurable alert types per filter - chat messages, Discord webhook messages, sounds, colored highlights.
 - Mute all active alert sounds with the 'M' keybind (configurable in Minecraft controls and Chiselmon config).
+- Create server/world specific exclusion zones to suppress alerts (e.g. at spawn, hubs, or pasture areas).
 ### Spawn Recorder:
 - Records total pokemon spawns and the number of each species in the current session.
 - Use the `/ch recorder start, stop, pause, and resume` commands to manage your session.
@@ -89,12 +90,12 @@ mod_version=1.1.0-alpha
 
 Github Actions appends a build identifier to the base version depending on the context. Local builds use the base version as-is.
 
-| Context | Example jar name | How the version is set |
-|---|---|---|
-| Local build | `chiselmon-fabric-1.1.0-alpha.jar` | Direct from `gradle.properties` |
-| Merged to `main` | `chiselmon-fabric-1.1.0-alpha+a3f92c1.jar` | Base version + short commit SHA |
-| Pull request | `chiselmon-fabric-1.1.0-alpha+pr42.b8d1f03.jar` | Base version + PR number + short SHA |
-| Tagged release | `chiselmon-fabric-1.1.0-alpha.jar` | Taken directly from the tag name, `gradle.properties` ignored |
+| Context          | Example jar name                                | How the version is set                                        |
+|------------------|-------------------------------------------------|---------------------------------------------------------------|
+| Local build      | `chiselmon-fabric-1.1.0-alpha.jar`              | Direct from `gradle.properties`                               |
+| Merged to `main` | `chiselmon-fabric-1.1.0-alpha+a3f92c1.jar`      | Base version + short commit SHA                               |
+| Pull request     | `chiselmon-fabric-1.1.0-alpha+pr42.b8d1f03.jar` | Base version + PR number + short SHA                          |
+| Tagged release   | `chiselmon-fabric-1.1.0-alpha.jar`              | Taken directly from the tag name, `gradle.properties` ignored |
 
 ---
 
