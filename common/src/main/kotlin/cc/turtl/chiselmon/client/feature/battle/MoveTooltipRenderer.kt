@@ -3,9 +3,16 @@ package cc.turtl.chiselmon.client.feature.battle
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.calc.computeMatchups
 import cc.turtl.turtlshell.api.core.format.ColorLib
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.battles.Targetable
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleMoveSelection
+import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import net.minecraft.ResourceLocationException
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
@@ -93,24 +100,20 @@ object MoveTooltipRenderer {
             .map { Component.literal(it.string).withColor(ColorLib.LIGHT_GRAY.rgb) }
 
     private fun createEffectivenessLines(tile: BattleMoveSelection.MoveTile): List<MutableComponent> {
-        val targets =
-            tile.targetList
-                ?: tile.moveSelection.request.activePokemon
-                    .getMultiTargetList(tile.move.target)
-                ?: return emptyList()
+        // Ignore non-damaging moves
+        if (tile.moveTemplate.power == 0.0) return emptyList()
 
         val lines =
-            targets
-                .mapNotNull { target ->
-                    val battlePokemon = (target as? ActiveClientBattlePokemon)?.battlePokemon ?: return@mapNotNull null
-                    val defender = battlePokemon.properties.create()
-                    val multiplier = computeMatchups(defender.types).multiplierMap[tile.elementalType] ?: 1f
-                    multiplier.takeUnless { it == 1f }?.let {
-                        createEffectivenessLine(defender.species.name, it)
-                    }
-                }.toMutableList()
+            resolveTargets(tile).mapNotNull { target ->
+                val battlePokemon = (target as? ActiveClientBattlePokemon)?.battlePokemon ?: return@mapNotNull null
+                val properties = battlePokemon.properties
+                val species = resolveSpecies(properties) ?: return@mapNotNull null
+                val form = species.forms.firstOrNull { it.formOnlyShowdownId().equals(properties.form, true) } ?: species.standardForm
+                val multiplier = computeMatchups(form.types).multiplierMap[tile.elementalType] ?: 1f
+                multiplier.takeUnless { it == 1f }?.let { createEffectivenessLine(species.name, it) }
+            }
 
-        return lines.takeIf { it.isNotEmpty() }?.apply { add(0, Component.empty()) } ?: emptyList()
+        return if (lines.isEmpty()) emptyList() else listOf(Component.empty()) + lines
     }
 
     private fun createEffectivenessLine(
@@ -134,4 +137,21 @@ object MoveTooltipRenderer {
             .append(Component.literal("Deals ${formattedMultiplier}x to ").withColor(color))
             .append(Component.literal(speciesName).withColor(color))
     }
+
+    private fun resolveTargets(tile: BattleMoveSelection.MoveTile): List<Targetable> {
+        val activePokemon = tile.moveSelection.request.activePokemon
+        return when (tile.move.target) {
+            MoveTarget.randomNormal, MoveTarget.scripted -> activePokemon.getAdjacentOpponents()
+            else -> tile.targetList ?: activePokemon.getMultiTargetList(tile.move.target) ?: emptyList()
+        }
+    }
+
+    private fun resolveSpecies(properties: PokemonProperties): Species? =
+        properties.species?.let {
+            try {
+                PokemonSpecies.getByIdentifier(it.asIdentifierDefaultingNamespace())
+            } catch (_: ResourceLocationException) {
+                null
+            }
+        }
 }
