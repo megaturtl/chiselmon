@@ -137,7 +137,7 @@ private fun builtInStrategy(
         PokeBalls.REPEAT_BALL -> {
             val caught =
                 CobblemonClient.clientPokedexData
-                    .getKnowledgeForSpecies(ctx.pokemon.species.resourceIdentifier) == PokedexEntryProgress.CAUGHT
+                    .getKnowledgeForSpecies(ctx.pokemon.species.resourceIdentifier) == PokedexEntryProgress.OWNED
             if (caught) 3.5f else 1f
         }
 

@@ -256,9 +256,9 @@ object PokemonFormats {
         val knowledge = dex.getHighestKnowledgeForSpecies(species.resourceIdentifier)
 
         return when (knowledge) {
-            PokedexEntryProgress.CAUGHT -> createComponent("Caught", ColorLib.GREEN.rgb)
-            PokedexEntryProgress.ENCOUNTERED -> createComponent("Encountered", ColorLib.WHITE.rgb)
-            else -> createComponent("Not Encountered", ColorLib.RED.rgb)
+            PokedexEntryProgress.OWNED -> createComponent("Owned", ColorLib.GREEN.rgb)
+            PokedexEntryProgress.SEEN -> createComponent("Seen", ColorLib.WHITE.rgb)
+            else -> createComponent("Unregistered", ColorLib.RED.rgb)
         }
     }
 
