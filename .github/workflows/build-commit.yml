@@ -1,28 +1,29 @@
 # ============================================================
 # build-commit.yml
 #
-# Triggers: Any push to the main branch (i.e. merged PRs or
-#   direct commits).
+# Triggers: Pushes to main and maintained Cobblemon support branches.
 #
 # Purpose: Two responsibilities:
-#   1. Verify that main is healthy after each commit.
+#   1. Verify maintained branches after each commit.
 #   2. Keep the Gradle dependency cache warm so that PR builds
 #      (which are cache-read-only) stay fast.
 #
 # Trust level: TRUSTED. This is committed, reviewed code. It is
 #   the only workflow permitted to write to the Gradle cache.
 #
-# Versioning: Jars are stamped with the base version +
-#   short commit SHA. e.g. 1.1.0-alpha+a3f92c1
-#   These are dev build artifacts. You can hand one to a tester
-#   and know exactly which commit it came from.
+# Versioning: Jars use the Gradle release version with a commit identifier
+# in its build metadata. e.g. 1.4.0+cobblemon-1.7.3.commit.a3f92c1.
+# These are dev build artifacts. You can hand one to a tester
+# and know exactly which commit it came from.
 # ============================================================
 
 name: build-commit
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'support/cobblemon-*'
 
 jobs:
   build:
@@ -46,18 +47,8 @@ jobs:
         with:
           cache-read-only: false
 
-      # Construct a version suffix from the short SHA only.
-      # Output: e.g. "1.1.0-alpha+a3f92c1"
-      - name: Compute build version
-        id: version
-        shell: bash
-        run: |
-          BASE_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
-          SHORT_SHA="${GITHUB_SHA::7}"
-          echo "version=${BASE_VERSION}+${SHORT_SHA}" >> $GITHUB_OUTPUT
-
       - name: Build
-        run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
+        run: ./gradlew build -Pbuild_metadata="commit.${GITHUB_SHA::7}"
 
       - name: Store reports
         if: failure()

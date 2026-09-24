@@ -15,11 +15,11 @@
 #     2. No secrets are available to pull_request triggers from
 #        forks (GitHub enforces this automatically).
 #
-# Versioning: Jars are stamped with the base version from
-#   gradle.properties + the PR number + short commit SHA.
-#   e.g. 1.1.0-alpha+pr42.a3f92c1
-#   This lets you identify exactly which PR and commit a jar
-#   came from without touching gradle.properties.
+# Versioning: Jars use the Gradle release version with the PR number and
+# short commit SHA in build metadata. e.g.
+# 1.4.0+cobblemon-1.7.3.pr42.a3f92c1.
+# This identifies exactly which PR and commit produced a jar without
+# modifying the branch's version configuration.
 # ============================================================
 
 name: build-pull-request
@@ -48,21 +48,8 @@ jobs:
         with:
           cache-read-only: true
 
-      # Construct a version suffix from the PR number and short SHA.
-      # Output: e.g. "1.1.0-alpha+pr42.a3f92c1"
-      # The base version (1.1.0-alpha) comes from gradle.properties;
-      # we append build metadata so the file doesn't need manual edits.
-      - name: Compute build version
-        id: version
-        shell: bash
-        run: |
-          BASE_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
-          SHORT_SHA="${GITHUB_SHA::7}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          echo "version=${BASE_VERSION}+pr${PR_NUMBER}.${SHORT_SHA}" >> $GITHUB_OUTPUT
-
       - name: Build
-        run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
+        run: ./gradlew build -Pbuild_metadata="pr${{ github.event.pull_request.number }}.${GITHUB_SHA::7}"
 
       - name: Store reports
         if: failure()

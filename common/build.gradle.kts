@@ -1,3 +1,4 @@
+import utilities.cobblemonDependency
 import utilities.isSnapshot
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -42,6 +43,10 @@ dependencies {
         isTransitive = false
     }
 
+    modCompileOnly(cobblemonDependency("mod")) {
+        isTransitive = false
+    }
+
     modCompileOnly(libs.turtlshell.common) {
         isTransitive = false
         isChanging = true
@@ -50,7 +55,7 @@ dependencies {
 
     // Unit Testing
     testImplementation(libs.bundles.unitTesting)
-    testImplementation(libs.cobblemon.common)
+    testImplementation(cobblemonDependency("mod"))
 }
 
 tasks.withType<Test> {

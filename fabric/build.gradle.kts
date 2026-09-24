@@ -1,3 +1,6 @@
+import utilities.cobblemonDependency
+import utilities.cobblemonFabricVersionRange
+
 configurations.all {
     resolutionStrategy {
         force(libs.fabric.loader)
@@ -21,6 +24,8 @@ sourceSets.main {
         srcDir(generatedResources)
     }
 }
+
+val cobblemonVersionRange = cobblemonFabricVersionRange()
 
 repositories {
     mavenLocal()
@@ -53,7 +58,10 @@ dependencies {
         isTransitive = false
     }
 
+    modCompileOnly(cobblemonDependency("mod"))
+
     modRuntimeOnly(libs.bundles.fabric.integrations.runtimeOnly)
+    modRuntimeOnly(cobblemonDependency("fabric"))
 
     modRuntimeOnly(libs.turtlshell.fabric) {isChanging = true} // gets the latest snapshot
 
@@ -82,6 +90,7 @@ tasks {
         inputs.property("fabric_kotlin_version", libs.fabric.kotlin.get().version)
         inputs.property("minecraft_version", rootProject.property("mc_version").toString())
         inputs.property("java_version", rootProject.property("java_version").toString())
+        inputs.property("cobblemon_version_range", cobblemonVersionRange)
 
         filesMatching("fabric.mod.json") {
             expand(
@@ -94,7 +103,8 @@ tasks {
                 "fabric_api_version" to libs.fabric.api.get().version,
                 "fabric_kotlin_version" to libs.fabric.kotlin.get().version,
                 "minecraft_version" to rootProject.property("mc_version").toString(),
-                "java_version" to rootProject.property("java_version").toString()
+                "java_version" to rootProject.property("java_version").toString(),
+                "cobblemon_version_range" to cobblemonVersionRange
             )
         }
     }

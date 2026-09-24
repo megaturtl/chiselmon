@@ -29,7 +29,7 @@ versionRange = "[1.0.0,)"
 [[dependencies.chiselmon]]
 modId = "cobblemon"
 mandatory = true
-versionRange = "[1.7.0,)"
+versionRange = "${cobblemon_version_range}"
 
 [[dependencies.chiselmon]]
 modId = "yet_another_config_lib_v3"

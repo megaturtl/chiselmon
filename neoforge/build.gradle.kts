@@ -1,7 +1,12 @@
+import utilities.cobblemonDependency
+import utilities.cobblemonNeoForgeVersionRange
+
 plugins {
     id("chiselmon.platform-conventions")
     id("chiselmon.publish-conventions")
 }
+
+val cobblemonVersionRange = cobblemonNeoForgeVersionRange()
 
 architectury {
     platformSetupLoomIde()
@@ -41,6 +46,8 @@ dependencies {
 
     modRuntimeOnly(libs.turtlshell.neoforge) {isChanging = true} // gets the latest snapshot
 
+    runtimeOnly(cobblemonDependency("neoforge"))
+
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
@@ -63,10 +70,10 @@ tasks {
         inputs.property("mod_display_name", project.property("mod_display_name"))
         inputs.property("mod_author", project.property("mod_author"))
         inputs.property("mod_description", project.property("mod_description"))
-
         inputs.property("version", rootProject.version.toString())
         inputs.property("minecraft_version", rootProject.property("mc_version").toString())
         inputs.property("java_version", rootProject.property("java_version").toString())
+        inputs.property("cobblemon_version_range", cobblemonVersionRange)
 
         filesMatching("META-INF/neoforge.mods.toml") {
             expand(
@@ -74,10 +81,10 @@ tasks {
                 "mod_display_name" to project.property("mod_display_name"),
                 "mod_author" to project.property("mod_author"),
                 "mod_description" to project.property("mod_description"),
-
                 "version" to rootProject.version.toString(),
                 "minecraft_version" to rootProject.property("mc_version").toString(),
-                "java_version" to rootProject.property("java_version").toString()
+                "java_version" to rootProject.property("java_version").toString(),
+                "cobblemon_version_range" to cobblemonVersionRange
             )
         }
     }

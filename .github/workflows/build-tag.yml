@@ -10,10 +10,9 @@
 #   Tag builds don't write to the cache. A release is defaults:
 #   point-in-time snapshot, it should not mutate shared infrastructure.
 #
-# Versioning: The version is taken DIRECTLY from the tag name,
-#   not from gradle.properties. Tag "v1.1.0" -> mod_version
-#   "1.1.0". gradle.properties is intentionally ignored here.
-#   This is the only workflow that produces a clean version with no SHA suffix.
+# Versioning: The configured Gradle version is the release identity.
+# The tag must match it exactly. This is the only workflow that produces
+# a clean version with no build metadata.
 #
 # Environment: Runs under the "prod" GitHub Environment.
 # ============================================================
@@ -47,17 +46,14 @@ jobs:
         with:
           cache-read-only: true
 
-      # Strip the "v" prefix from the tag to get the clean version.
-      # Tag "v1.1.0" -> mod_version "1.1.0"
-      - name: Compute release version
-        id: version
+      - name: Verify release version
         shell: bash
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
-          echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+          test "$TAG" = "v$(./gradlew --quiet printVersion)"
 
       - name: Build
-        run: ./gradlew build -Pmod_version="${{ steps.version.outputs.version }}"
+        run: ./gradlew build
 
       - name: Store reports
         if: failure()
