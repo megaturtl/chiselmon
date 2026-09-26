@@ -54,6 +54,15 @@ class FilterDefinition(
                 "shiny",
             )
 
+        val ALPHAS =
+            FilterDefinition(
+                "alphas",
+                "Alpha Pokemon",
+                ColorLib.PINK.rgb,
+                Priority.NORMAL,
+                "alpha",
+            )
+
         val EXTREME_SIZES =
             FilterDefinition(
                 "extreme_sizes",
@@ -63,7 +72,7 @@ class FilterDefinition(
                 "extreme_size",
             )
 
-        private val ALL = listOf(LEGENDARIES, SHINIES, EXTREME_SIZES)
+        private val ALL = listOf(LEGENDARIES, SHINIES, ALPHAS, EXTREME_SIZES)
 
         fun all(): Map<String, FilterDefinition> = ALL.associateBy { it.id }
     }

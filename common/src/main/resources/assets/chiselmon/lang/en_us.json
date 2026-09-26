@@ -164,6 +164,7 @@
     "chiselmon.config.filters.condition.syntax.header": "Syntax example:",
     "chiselmon.config.filters.condition.tags.header": "Available Condition Tags:",
     "chiselmon.config.filters.condition.tags.examples.shiny": "◆ Shiny pokemon: e.g. 'shiny'",
+    "chiselmon.config.filters.condition.tags.examples.alpha": "◆ Alpha pokemon: e.g. 'alpha'",
     "chiselmon.config.filters.condition.tags.examples.legendary": "◆ Legendary pokemon: e.g. 'legendary'",
     "chiselmon.config.filters.condition.tags.examples.type": "◆ Specific typing: e.g. 'type=grass'",
     "chiselmon.config.filters.condition.tags.examples.species": "◆ Specific species: e.g. 'species=fomantis'",

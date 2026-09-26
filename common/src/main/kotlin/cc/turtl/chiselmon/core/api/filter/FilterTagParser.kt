@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.core.api.filter
 
+import cc.turtl.chiselmon.core.api.predicate.IS_ALPHA
 import cc.turtl.chiselmon.core.api.predicate.IS_EXTREME_SIZE
 import cc.turtl.chiselmon.core.api.predicate.IS_LEGENDARY
 import cc.turtl.chiselmon.core.api.predicate.IS_SHINY
@@ -13,6 +14,7 @@ import java.util.function.Predicate
  *
  * Supported tags:
  * - "shiny" -- matches shiny pokemon
+ * - "alpha" -- matches alpha pokemon
  * - "legendary" -- matches legendary pokemon
  * - "extreme_size" -- matches pokemon with extreme size
  * - "type=fire" -- matches pokemon with the given type
@@ -28,6 +30,7 @@ object FilterTagParser {
     fun parse(tag: String): Predicate<Pokemon> =
         when (val normalized = tag.lowercase().trim()) {
             "shiny" -> IS_SHINY
+            "alpha" -> IS_ALPHA
             "legendary" -> IS_LEGENDARY
             "extreme_size" -> IS_EXTREME_SIZE
             else -> parseComplexTag(normalized)

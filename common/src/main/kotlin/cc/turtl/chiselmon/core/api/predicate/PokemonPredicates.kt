@@ -15,6 +15,9 @@ import java.util.function.Predicate
 val IS_SHINY: Predicate<Pokemon> = Predicate { it.shiny }
 
 @JvmField
+val IS_ALPHA: Predicate<Pokemon> = Predicate { it.isAlpha }
+
+@JvmField
 val IS_RIDEABLE: Predicate<Pokemon> = Predicate { it.riding.behaviours != null }
 
 @JvmField
