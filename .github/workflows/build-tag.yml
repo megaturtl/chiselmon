@@ -23,11 +23,13 @@ on:
   push:
     tags: [ "v*" ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     environment: prod
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -46,11 +48,14 @@ jobs:
         with:
           cache-read-only: true
 
-      - name: Verify release version
+      - id: version
+        name: Verify release version
         shell: bash
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          test "$TAG" = "v$(./gradlew --quiet printVersion)"
+          tag="${GITHUB_REF#refs/tags/}"
+          version="$(./gradlew --quiet printVersion)"
+          test "$tag" = "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Build
         run: ./gradlew build
@@ -64,26 +69,11 @@ jobs:
             **/build/reports/
             **/build/test-results/
 
-      - name: Upload Fabric jar
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
         with:
-          name: Chiselmon-fabric-${{ github.sha }}
-          path: |
-            fabric/build/libs/Chiselmon-fabric-*.jar
-            !fabric/build/libs/Chiselmon-fabric-*-sources.jar
-            !fabric/build/libs/Chiselmon-fabric-*-dev.jar
-            !fabric/build/libs/Chiselmon-fabric-*-shadow.jar
-            !fabric/build/libs/Chiselmon-fabric-*-javadoc.jar
-          if-no-files-found: error
-
-      - name: Upload NeoForge jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: Chiselmon-neoforge-${{ github.sha }}
-          path: |
-            neoforge/build/libs/Chiselmon-neoforge-*.jar
-            !neoforge/build/libs/Chiselmon-neoforge-*-sources.jar
-            !neoforge/build/libs/Chiselmon-neoforge-*-dev.jar
-            !neoforge/build/libs/Chiselmon-neoforge-*-shadow.jar
-            !neoforge/build/libs/Chiselmon-neoforge-*-javadoc.jar
-          if-no-files-found: error
+          generate_release_notes: true
+          files: |
+            fabric/build/libs/Chiselmon-fabric-${{ steps.version.outputs.version }}.jar
+            neoforge/build/libs/Chiselmon-neoforge-${{ steps.version.outputs.version }}.jar
+          fail_on_unmatched_files: true

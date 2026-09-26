@@ -41,7 +41,7 @@ You can open the Chiselmon config in 3 ways:
 - Optionally replaces the HP and XP bar of eggs in your party overlay with their hatch progress so you can easily keep track while hatching.
 ### Spawn Alerts:
 ![Discord alert](common/src/main/resources/assets/chiselmon/screenshots/discord_alert.png)
-- Alert system for legendaries, shinies, size variations, or custom whitelisted pokemon that spawn around you.
+- Alert system for legendaries, shinies, alphas, size variations, or custom whitelisted pokemon that spawn around you.
 - Create unlimited custom filters to receive alerts for with Chiselmon's logic building system.
 - 4 Fully configurable alert types per filter - chat messages, Discord webhook messages, sounds, colored highlights.
 - Mute all active alert sounds with the 'M' keybind (configurable in Minecraft controls and Chiselmon config).
@@ -78,69 +78,39 @@ You can open the Chiselmon config in 3 ways:
 
 ---
 
-# CI
+# Development Info
 
-### How versioning works
+## Versioning
 
-The base version is set once per release cycle in `gradle.properties`:
+The release version is derived from two properties in `gradle.properties`:
 
 ```properties
-mod_version=1.1.0-alpha
+chiselmon_version = 1.4.1
+cobblemon_version = 1.8.0
 ```
 
-Github Actions appends a build identifier to the base version depending on the context. Local builds use the base version as-is.
+These properties would produce `1.4.1+cobblemon-1.8.0`. Local and tagged builds use this clean string, but extra build metadata is added for development jars.
 
-| Context          | Example jar name                                | How the version is set                                        |
-|------------------|-------------------------------------------------|---------------------------------------------------------------|
-| Local build      | `chiselmon-fabric-1.1.0-alpha.jar`              | Direct from `gradle.properties`                               |
-| Merged to `main` | `chiselmon-fabric-1.1.0-alpha+a3f92c1.jar`      | Base version + short commit SHA                               |
-| Pull request     | `chiselmon-fabric-1.1.0-alpha+pr42.b8d1f03.jar` | Base version + PR number + short SHA                          |
-| Tagged release   | `chiselmon-fabric-1.1.0-alpha.jar`              | Taken directly from the tag name, `gradle.properties` ignored |
+| Context         | Example version                        |
+|-----------------|----------------------------------------|
+| Local build     | `1.4.1+cobblemon-1.8.0`                |
+| Merge to `main` | `1.4.1+cobblemon-1.8.0.commit.a3f92c1` |
+| Pull request    | `1.4.1+cobblemon-1.8.0.pr42.a3f92c1`   |
+| Tagged release  | `1.4.1+cobblemon-1.8.0`                |
 
----
+## Build workflows
 
-## The 3 Build Workflows
+`build-pull-request` verifies every pull request and uploads testable mod artifacts. `build-commit` verifies maintained branches and keeps the gradle cache warm. `build-tag` builds the official release under the `prod` environment.
 
-### `build-pull-request` - runs on every PR
+## Creating a release
 
-Verifies that a PR compiles and produces valid jars for both platforms.
-Artifacts are uploaded to the Actions run so you can download and test
-them without checking out the branch locally.
-
-This workflow is **read-only** with respect to the Gradle cache. PR code
-is untrusted and cannot write to the cache that `main` branch builds
-depend on.
-
-### `build-commit` - runs on every push to `main`
-
-Verifies that `main` is healthy after each merge, and **keeps the Gradle
-cache warm**. This is the only workflow that writes to the cache, PRs read from this and can still build fast.
-
-Artifacts are named by full commit SHA so any build from `main` is
-permanently traceable.
-
-### `build-tag` - runs when a `v*` tag is pushed
-
-Builds the official release artifact. The version is taken from the tag
-name, not `gradle.properties`, so the jar is always consistent with the tag.
-
-This workflow will runs under the `prod` GitHub Environment to:
-- Restrict deployments to tags matching `v*`
-- (In the future) Require manual approval before the job runs. Will be useful if publishing gets set up.
-- (In the future) Hold any private env variables separately from dev builds.
-
----
-
-## Example: Creating a release build
-
-1. Make sure `main` is in a state ready for release.
-2. Push a tag:
+1. Update release properties in `gradle.properties` and merge the release commit to the main branch.
+2. Create and push the exact configured tag:
    ```bash
-   git tag v1.1.0-alpha
-   git push origin v1.1.0-alpha
+   version=$(./gradlew --quiet printVersion)
+   git tag "v$version"
+   git push origin "v$version"
    ```
-3. The `build-tag` workflow triggers.
-4. Download the artifacts from the completed Actions run.
+3. `build-tag` verifies the tag, builds both jars, creates or updates the GitHub Release, and attaches the Fabric and NeoForge jars. GitHub generates a default changelog from the previous release, which can be edited afterward if need be.
 
-Tag naming convention: the tag name minus the `v` prefix becomes the
-mod version. `v1.1.0` -> `1.1.0`. `v1.2.0-beta` -> `1.2.0-beta`.
+To build Fabric and NeoForge jars locally, run `./gradlew build`. The outputs will be saved to `{loader directory}/build/libs`.
