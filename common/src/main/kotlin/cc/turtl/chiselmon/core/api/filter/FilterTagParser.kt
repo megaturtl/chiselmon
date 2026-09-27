@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.core.api.filter
 
 import cc.turtl.chiselmon.core.api.predicate.IS_ALPHA
+import cc.turtl.chiselmon.core.api.predicate.IS_CAUGHT_SPECIES
 import cc.turtl.chiselmon.core.api.predicate.IS_EXTREME_SIZE
 import cc.turtl.chiselmon.core.api.predicate.IS_LEGENDARY
 import cc.turtl.chiselmon.core.api.predicate.IS_SHINY
@@ -17,6 +18,7 @@ import java.util.function.Predicate
  * - "alpha" -- matches alpha pokemon
  * - "legendary" -- matches legendary pokemon
  * - "extreme_size" -- matches pokemon with extreme size
+ * - "uncaught" -- matches pokemon not owned in pokedex
  * - "type=fire" -- matches pokemon with the given type
  * - "species=pikachu" -- matches a specific species
  * - "form=alolan" -- matches alolan forms
@@ -33,6 +35,7 @@ object FilterTagParser {
             "alpha" -> IS_ALPHA
             "legendary" -> IS_LEGENDARY
             "extreme_size" -> IS_EXTREME_SIZE
+            "uncaught" -> IS_CAUGHT_SPECIES.negate()
             else -> parseComplexTag(normalized)
         }
 

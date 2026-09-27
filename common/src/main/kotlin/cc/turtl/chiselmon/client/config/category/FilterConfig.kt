@@ -148,6 +148,7 @@ class FilterConfig {
                             ).text(Component.translatable("chiselmon.config.filters.condition.tags.examples.shiny"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.alpha"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.legendary"))
+                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.uncaught"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.species"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.type"))
                             .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.gender"))

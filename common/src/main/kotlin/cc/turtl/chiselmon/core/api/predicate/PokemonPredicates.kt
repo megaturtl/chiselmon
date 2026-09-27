@@ -6,6 +6,8 @@ import cc.turtl.chiselmon.client.feature.eggspy.EggDummy
 import cc.turtl.chiselmon.core.api.calc.countPerfectIVs
 import cc.turtl.chiselmon.core.api.calc.countUniqueAbilities
 import cc.turtl.chiselmon.core.api.calc.getPossibleMoves
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty
 import java.util.function.Predicate
@@ -16,6 +18,14 @@ val IS_SHINY: Predicate<Pokemon> = Predicate { it.shiny }
 
 @JvmField
 val IS_ALPHA: Predicate<Pokemon> = Predicate { it.isAlpha }
+
+@JvmField
+val IS_CAUGHT_SPECIES: Predicate<Pokemon> =
+    Predicate {
+        val dex = CobblemonClient.clientPokedexData
+        val knowledge = dex.getHighestKnowledgeForSpecies(it.species.resourceIdentifier)
+        knowledge == PokedexEntryProgress.OWNED
+    }
 
 @JvmField
 val IS_RIDEABLE: Predicate<Pokemon> = Predicate { it.riding.behaviours != null }

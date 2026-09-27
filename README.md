@@ -41,7 +41,7 @@ You can open the Chiselmon config in 3 ways:
 - Optionally replaces the HP and XP bar of eggs in your party overlay with their hatch progress so you can easily keep track while hatching.
 ### Spawn Alerts:
 ![Discord alert](common/src/main/resources/assets/chiselmon/screenshots/discord_alert.png)
-- Alert system for legendaries, shinies, alphas, size variations, or custom whitelisted pokemon that spawn around you.
+- Alert system for legendaries, shinies, alphas, uncaught pokemon, size variations, or any other custom chosen pokemon that spawn around you.
 - Create unlimited custom filters to receive alerts for with Chiselmon's logic building system.
 - 4 Fully configurable alert types per filter - chat messages, Discord webhook messages, sounds, colored highlights.
 - Mute all active alert sounds with the 'M' keybind (configurable in Minecraft controls and Chiselmon config).
