@@ -34,7 +34,7 @@ class SortManager(
                     mode.iconReversed,
                     mode.tooltipKey,
                     mode.labelKey,
-                ) { BoxSorter.sortPCBox(pc, storage.box, mode, Screen.hasShiftDown()) }.also {
+                ) { executeQuickSort(mode, Screen.hasShiftDown()) }.also {
                     it.visible = displayOptions
                     widgetAdder.accept(it)
                     optionButtons.add(it)
