@@ -80,6 +80,25 @@ You can open the Chiselmon config in 3 ways:
 
 # Development Info
 
+## Development environment
+
+On Linux x86-64, install Nix with the `nix-command` and `flakes` features enabled, then enter the pinned development shell:
+
+```bash
+nix develop
+./gradlew build
+./gradlew :fabric:runClient
+./gradlew :neoforge:runClient
+```
+
+The shell provides Java 21, Git, and Node.js for `node dev-server.mjs`. Use the Gradle wrapper rather than a separately installed Gradle.
+
+On NixOS, the shell makes the GL, PulseAudio, ALSA, and narrator libraries available to Minecraft's bundled natives and exposes `/run/opengl-driver/lib` for the host GPU. The graphics driver and audio server are not pinned by the flake. Other Linux hosts may need their own graphics integration.
+
+For IntelliJ IDEA, import the Gradle project using its wrapper and set the Gradle JVM to the Java 21 path printed by `echo "$JAVA_HOME"` inside `nix develop`, or start the IDE from that shell.
+
+The flake locks dev tools but not Gradle's downloaded Minecraft, plugins, or mod dependencies. Gradle keeps its writable cache in the usual user directory and needs network access for missing artifacts.
+
 ## Versioning
 
 The release version is derived from two properties in `gradle.properties`:
