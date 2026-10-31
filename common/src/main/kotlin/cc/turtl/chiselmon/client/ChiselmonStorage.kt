@@ -4,7 +4,9 @@ import cc.turtl.chiselmon.client.system.alert.AlertExclusions
 import cc.turtl.chiselmon.client.feature.pc.PCUserData
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import cc.turtl.chiselmon.core.api.filter.FiltersUserData
+import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.storage.Scope
+import cc.turtl.chiselmon.core.api.storage.ScopedStorage
 import cc.turtl.chiselmon.core.api.storage.gsonData
 import cc.turtl.chiselmon.core.api.storage.h2Data
 import cc.turtl.turtlshell.api.client.ClientEvents
@@ -30,20 +32,8 @@ object ChiselmonStorage {
     private const val AUTOSAVE_INTERVAL_TICKS = 20 * 60 * 5
     private var tickCount = 0
 
-    /** Registers autosave and world-leave cleanup. Call once during mod init. */
+    /** Registers autosave. World and game shutdown are ordered by [ChiselmonClientCommon]. */
     fun init() {
-        ClientEvents.LEVEL_CONNECTED.subscribe {
-            Scope.enterWorld()
-        }
-
-        ClientEvents.LEVEL_DISCONNECTED.subscribe {
-            Scope.leaveWorld()?.let { world -> all.forEach { it.saveAndClear(world) } }
-        }
-
-        ClientEvents.GAME_STOPPING.subscribe {
-            saveAll()
-        }
-
         ClientEvents.TICK_POST.subscribe {
             if (++tickCount >= AUTOSAVE_INTERVAL_TICKS) {
                 tickCount = 0
@@ -53,5 +43,19 @@ object ChiselmonStorage {
     }
 
     /** Saves all currently loaded data across all scopes. */
-    fun saveAll() = all.forEach { it.saveAll() }
+    fun saveAll() = persistAll { it.saveAll() }
+
+    internal fun saveAndClear(scope: Scope) = persistAll { it.saveAndClear(scope) }
+
+    internal fun saveAndClearAll() = persistAll { it.saveAndClearAll() }
+
+    private inline fun persistAll(action: (ScopedStorage<*>) -> Unit) {
+        all.forEach { storage ->
+            try {
+                action(storage)
+            } catch (failure: Exception) {
+                ChiselmonConstants.LOGGER.error("Failed to persist scoped data; cached data retained for retry", failure)
+            }
+        }
+    }
 }

@@ -119,7 +119,7 @@ class EncounterDatabase(
 
     fun close() {
         flush()
-        runCatching { conn.close() }
+        conn.close()
     }
 
     val sizeOnDiskBytes: Long

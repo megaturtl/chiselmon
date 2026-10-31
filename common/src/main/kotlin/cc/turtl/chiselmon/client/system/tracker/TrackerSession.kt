@@ -98,9 +98,6 @@ class TrackerSession private constructor() {
                     ?: error("Attempted to access TrackerSession with no active world.")
 
         fun init() {
-            ClientEvents.LEVEL_CONNECTED.subscribe { start() }
-            ClientEvents.LEVEL_DISCONNECTED.subscribe { stop() }
-
             ChiselmonClientEvents.POKEMON_LOADED.subscribe { activeSession?.onPokemonLoad(it) }
             ChiselmonClientEvents.POKEMON_UNLOADED.subscribe { activeSession?.onPokemonUnload(it) }
             ClientEvents.TICK_POST.subscribe { activeSession?.tick() }
@@ -108,16 +105,12 @@ class TrackerSession private constructor() {
             ChiselmonConstants.LOGGER.info("TrackerSession initialized")
         }
 
-        private fun start() {
-            activeSession?.let {
-                ChiselmonConstants.LOGGER.warn("New world joined before previous TrackerSession was disposed - disposing now")
-                it.stopDashboard()
-            }
+        internal fun start() {
             activeSession = TrackerSession()
             ChiselmonConstants.LOGGER.debug("TrackerSession created")
         }
 
-        private fun stop() {
+        internal fun stop() {
             activeSession?.let {
                 it.stopDashboard()
                 activeSession = null
