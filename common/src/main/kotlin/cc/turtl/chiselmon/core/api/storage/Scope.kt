@@ -1,8 +1,14 @@
 package cc.turtl.chiselmon.core.api.storage
-
+import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import net.minecraft.client.Minecraft
+import net.minecraft.world.level.storage.LevelResource
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
+import java.security.MessageDigest
+import java.util.HexFormat
 
 /**
  * Identifies where scoped data is stored. Either [global] or [currentWorld].
@@ -12,48 +18,101 @@ import java.nio.file.Path
  *   val file   = scope.dataFile("mydata.json")
  */
 class Scope private constructor(
-    private val worldKey: String?,
+    directory: Path,
+    val isGlobal: Boolean = false,
 ) {
-    val isGlobal: Boolean get() = worldKey == null
-    val isWorld: Boolean get() = worldKey != null
+    private val directory = directory.toAbsolutePath().normalize()
 
-    /** Stable string identifier, e.g. "GLOBAL", "sp-My_World", "mp-play.example.com". */
-    val key: String get() = worldKey ?: "GLOBAL"
+    /** The storage directory, or "GLOBAL" for shared configuration. */
+    val key: String get() = if (isGlobal) "GLOBAL" else directory.toString()
 
-    /**
-     * Data directory for this scope.
-     * Global: config/chiselmon/ -- World: config/chiselmon/worlds/(key)/
-     */
-    fun dataDir(): Path =
-        if (isGlobal) {
-            ChiselmonConstants.CONFIG_PATH
-        } else {
-            ChiselmonConstants.CONFIG_PATH.resolve("worlds").resolve(worldKey!!)
-        }
+    fun dataDir(): Path = directory
 
     /** A specific file within this scope's data directory. */
     fun dataFile(filename: String): Path = dataDir().resolve(filename)
 
-    override fun equals(other: Any?) = other is Scope && worldKey == other.worldKey
+    override fun equals(other: Any?) = other is Scope && directory == other.directory && isGlobal == other.isGlobal
 
-    override fun hashCode() = worldKey.hashCode()
+    override fun hashCode() = 31 * directory.hashCode() + isGlobal.hashCode()
 
-    override fun toString() = if (isGlobal) "Scope[global]" else "Scope[$worldKey]"
+    override fun toString() = "Scope[$key]"
+
+    private fun importLegacy(
+        configDirectory: Path,
+        legacyKey: String,
+    ) {
+        val legacy = configDirectory.resolve("worlds").resolve(legacyKey.replace(legacyUnsafeCharacters, "_"))
+        // An existing destination is authoritative; never resurrect deleted files or overwrite newer data.
+        if (Files.exists(directory, NOFOLLOW_LINKS) || Files.notExists(legacy, NOFOLLOW_LINKS)) return
+
+        Files.createDirectories(directory.parent)
+        // Retain legacy data for other scopes that collided, and publish only a complete copy.
+        val staging = Files.createTempDirectory(directory.parent, ".chiselmon-migration-")
+        try {
+            Files.walk(legacy).use { paths ->
+                paths.forEach { source ->
+                    val target = staging.resolve(legacy.relativize(source))
+                    when {
+                        Files.isSymbolicLink(source) -> throw IOException("Cannot automatically migrate symbolic link '$source'")
+                        Files.isDirectory(source, NOFOLLOW_LINKS) -> Files.createDirectories(target)
+                        else -> Files.copy(source, target)
+                    }
+                }
+            }
+            Files.move(staging, directory)
+        } catch (failure: Exception) {
+            try {
+                Files.walk(staging).use { paths ->
+                    paths.sorted(Comparator.reverseOrder()).forEach { Files.delete(it) }
+                }
+            } catch (cleanupFailure: Exception) {
+                failure.addSuppressed(cleanupFailure)
+            }
+            throw IOException("Failed to import Chiselmon data from '$legacy' to '$directory'; original data was not modified", failure)
+        }
+    }
 
     companion object {
+        private val legacyUnsafeCharacters = Regex("[^a-zA-Z0-9._\\-]")
+        private val globalScope by lazy { Scope(ChiselmonConstants.CONFIG_PATH, isGlobal = true) }
+        private var worldScope: Scope? = null
+
         /** Data lives in config/chiselmon/. Always available. */
-        fun global(): Scope = Scope(null)
+        fun global(): Scope = globalScope
 
-        /** Scope for the current world or server. Null if not in a world. */
-        fun currentWorld(): Scope? = resolveWorldKey()?.let { Scope(it) }
+        /** Captured on connection so disconnect cleanup does not depend on live Minecraft state. */
+        fun currentWorld(): Scope? = worldScope
 
-        private fun resolveWorldKey(): String? {
+        internal fun enterWorld() {
+            worldScope = null
             val mc = Minecraft.getInstance()
-            mc.singleplayerServer?.let { return sanitize("sp-${it.worldData.levelName}") }
-            mc.currentServer?.let { return sanitize("mp-${it.ip}") }
-            return null
+            worldScope =
+                mc.singleplayerServer?.let {
+                    singleplayer(it.getWorldPath(LevelResource.ROOT), ChiselmonConstants.CONFIG_PATH, it.worldData.levelName)
+                }
+                    ?: mc.currentServer?.let { multiplayer(ChiselmonConstants.CONFIG_PATH, it.ip) }
         }
 
-        private fun sanitize(s: String) = s.replace(Regex("[^a-zA-Z0-9._\\-]"), "_")
+        internal fun leaveWorld(): Scope? = worldScope.also { worldScope = null }
+
+        internal fun singleplayer(
+            worldDirectory: Path,
+            configDirectory: Path,
+            worldName: String,
+        ): Scope =
+            Scope(worldDirectory.resolve(BuildDetails.MOD_ID)).apply {
+                importLegacy(configDirectory, "sp-$worldName")
+            }
+
+        internal fun multiplayer(
+            configDirectory: Path,
+            serverAddress: String,
+        ): Scope {
+            val digest = MessageDigest.getInstance("SHA-256").digest(serverAddress.toByteArray(Charsets.UTF_8))
+            val key = "mp-v2-${HexFormat.of().formatHex(digest)}"
+            return Scope(configDirectory.resolve("worlds").resolve(key)).apply {
+                importLegacy(configDirectory, "mp-$serverAddress")
+            }
+        }
     }
 }

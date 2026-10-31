@@ -12,7 +12,7 @@ import cc.turtl.turtlshell.api.client.ClientEvents
 /**
  * Central registry for scoped data storage.
  *
- *   val data = ChiselmonStorage.FILTERS[StorageScope.global()]
+ *   val data = ChiselmonStorage.FILTERS[Scope.global()]
  */
 object ChiselmonStorage {
     val FILTERS = gsonData("filters.json", FiltersUserData::class.java) { FiltersUserData.withDefaults() }
@@ -32,8 +32,12 @@ object ChiselmonStorage {
 
     /** Registers autosave and world-leave cleanup. Call once during mod init. */
     fun init() {
+        ClientEvents.LEVEL_CONNECTED.subscribe {
+            Scope.enterWorld()
+        }
+
         ClientEvents.LEVEL_DISCONNECTED.subscribe {
-            Scope.currentWorld()?.let { world -> all.forEach { it.saveAndClear(world) } }
+            Scope.leaveWorld()?.let { world -> all.forEach { it.saveAndClear(world) } }
         }
 
         ClientEvents.GAME_STOPPING.subscribe {
