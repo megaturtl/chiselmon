@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.system.spawnrecorder
 
+import cc.turtl.chiselmon.client.api.duck.DuckGui
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.chiselmon.client.util.addGlow
@@ -22,15 +23,21 @@ class SpawnRecorderSession(
     private val tickAges = HashMap<UUID, TickData>()
 
     private var sessionTicks = 0
+    private var lastActionBarMessage: Component? = null
     var isPaused: Boolean = false
         private set
 
     fun tick() {
+        if (ChiselmonConfig.general.modDisabled) {
+            clearActionBar()
+            return
+        }
+
         if (!isPaused) sessionTicks++
         removeOldTickData()
 
         val config = ChiselmonConfig.recorder
-        if (config.actionBar) setActionBarStatus()
+        if (config.actionBar) setActionBarStatus() else clearActionBar()
 
         if (config.despawnGlow) {
             tracker.currentlyLoaded.values.forEach { entity ->
@@ -54,7 +61,7 @@ class SpawnRecorderSession(
     }
 
     fun onPokemonLoaded(entity: PokemonEntity) {
-        if (isPaused) return
+        if (ChiselmonConfig.general.modDisabled || isPaused) return
         if (entity.uuid in tickAges) return // don't double count
         speciesCounts.merge(entity.pokemon.species.name, 1, Int::plus)
         tickAges.getOrPut(entity.uuid) { TickData() }
@@ -100,6 +107,12 @@ class SpawnRecorderSession(
             .sortedByDescending { it.value }
             .take(limit)
 
+    fun clearActionBar() {
+        val message = lastActionBarMessage ?: return
+        (Minecraft.getInstance().gui as DuckGui).`chiselmon$clearOverlayMessage`(message)
+        lastActionBarMessage = null
+    }
+
     private fun setActionBarStatus() {
         val loadedCount = currentlyLoadedCount
         val despawnCount = despawnEligibleCount
@@ -127,6 +140,7 @@ class SpawnRecorderSession(
         }
 
         Minecraft.getInstance().gui.setOverlayMessage(message, false)
+        lastActionBarMessage = message
     }
 
     private class TickData {

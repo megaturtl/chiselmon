@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.client.system.alert.action
 
 import cc.turtl.chiselmon.BuildDetails
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.alert.AlertContext
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.PokemonEncounter
@@ -40,6 +41,7 @@ class DiscordAction {
             }
 
         Thread.ofVirtual().start {
+            if (ChiselmonConfig.general.modDisabled) return@start
             try {
                 val conn = URI.create(ctx.discordWebhookUrl).toURL().openConnection() as HttpURLConnection
                 conn.requestMethod = "POST"

@@ -32,9 +32,6 @@ object AlertManager {
 
     fun init() {
         ClientEvents.LEVEL_CONNECTED.subscribe { onWorldJoin() }
-        ClientEvents.LEVEL_DISCONNECTED.subscribe { onWorldLeave() }
-        // low priority for the glow logic that might clash with despawn glow (alert should override despawn glow)
-        ClientEvents.TICK_POST.subscribe { if (active) tick() }
 
         LureAlerter.init()
 
@@ -56,15 +53,16 @@ object AlertManager {
         ChiselmonConstants.LOGGER.debug("AlertSystem started")
     }
 
-    private fun onWorldLeave() {
+    internal fun onWorldLeave() {
         reset()
         active = false
         ChiselmonConstants.LOGGER.debug("AlertSystem disposed")
     }
 
-    private fun tick() {
+    internal fun tick() {
+        if (!active) return
         val config = ChiselmonConfig.alert
-        if (!config.masterEnabled) return
+        if (ChiselmonConfig.general.modDisabled || !config.masterEnabled) return
 
         while (ChiselmonKeybinds.MUTE_ALERTS.consumeClick()) {
             Minecraft.getInstance().player?.let { player ->

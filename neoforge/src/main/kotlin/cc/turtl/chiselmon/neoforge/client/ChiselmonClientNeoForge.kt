@@ -4,9 +4,11 @@ import cc.turtl.chiselmon.BuildDetails
 import cc.turtl.chiselmon.client.ChiselmonClientCommon
 import cc.turtl.chiselmon.client.ChiselmonPacks
 import cc.turtl.chiselmon.client.config.ChiselmonConfig
+import cc.turtl.chiselmon.client.feature.PokeRodOverlay
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.ChiselmonCoreCommon
 import cc.turtl.chiselmon.core.util.modResource
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.PackType
@@ -16,11 +18,15 @@ import net.minecraft.server.packs.repository.PackSource
 import net.minecraft.world.level.validation.DirectoryValidator
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.bus.api.EventPriority
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.AddPackFindersEvent
 import java.nio.file.Path
 
@@ -34,6 +40,7 @@ object ChiselmonClientNeoForge {
         ChiselmonCoreCommon.init()
         ChiselmonClientCommon.init()
         registerConfigScreen()
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, RenderGuiLayerEvent.Pre::class.java, ::onRenderGuiLayer)
     }
 
     private fun registerConfigScreen() {
@@ -44,6 +51,14 @@ object ChiselmonClientNeoForge {
                     ChiselmonConfig.createScreen(parent)
                 },
             )
+        }
+    }
+
+    private fun onRenderGuiLayer(event: RenderGuiLayerEvent.Pre) {
+        if (event.name != VanillaGuiLayers.SELECTED_ITEM_NAME) return
+        val gui = Minecraft.getInstance().gui
+        if (PokeRodOverlay.render(event.guiGraphics, maxOf(gui.leftHeight, gui.rightHeight))) {
+            event.isCanceled = true
         }
     }
 

@@ -9,7 +9,6 @@ import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.chiselmon.core.api.storage.ScopedStorage
 import cc.turtl.chiselmon.core.api.storage.gsonData
 import cc.turtl.chiselmon.core.api.storage.h2Data
-import cc.turtl.turtlshell.api.client.ClientEvents
 
 /**
  * Central registry for scoped data storage.
@@ -32,13 +31,10 @@ object ChiselmonStorage {
     private const val AUTOSAVE_INTERVAL_TICKS = 20 * 60 * 5
     private var tickCount = 0
 
-    /** Registers autosave. World and game shutdown are ordered by [ChiselmonClientCommon]. */
-    fun init() {
-        ClientEvents.TICK_POST.subscribe {
-            if (++tickCount >= AUTOSAVE_INTERVAL_TICKS) {
-                tickCount = 0
-                saveAll()
-            }
+    internal fun tick() {
+        if (++tickCount >= AUTOSAVE_INTERVAL_TICKS) {
+            tickCount = 0
+            saveAll()
         }
     }
 

@@ -7,36 +7,39 @@ import com.cobblemon.mod.common.item.interactive.PokerodItem.Companion.getBaitSt
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.GameType
 
 object PokeRodOverlay {
     private const val ICON_SIZE = 16
     private const val ICON_TEXT_SPACING = 3
 
     @JvmStatic
-    fun render(guiGraphics: GuiGraphics) {
-        if (!ChiselmonConfig.general.pokerodOverlay) return
+    fun render(guiGraphics: GuiGraphics, occupiedHudHeight: Int): Boolean {
+        if (ChiselmonConfig.general.modDisabled || !ChiselmonConfig.general.pokerodOverlay) return false
 
         val minecraft = Minecraft.getInstance()
-        val player = minecraft.player ?: return
+        if (minecraft.options.hideGui) return false
+        val player = minecraft.player ?: return false
         val heldItem = player.mainHandItem
+        if (heldItem.item !is PokerodItem) return false
+        val gameMode = minecraft.gameMode ?: return false
+        if (gameMode.playerMode == GameType.SPECTATOR) return false
 
-        if (heldItem.item !is PokerodItem) return
-
-        renderBaitText(guiGraphics, minecraft, getBaitStackOnRod(heldItem))
+        var y = guiGraphics.guiHeight() - maxOf(occupiedHudHeight, 59)
+        if (!gameMode.canHurtPlayer()) y += 14
+        renderBaitText(guiGraphics, minecraft, getBaitStackOnRod(heldItem), y)
+        return true
     }
 
     private fun renderBaitText(
         guiGraphics: GuiGraphics,
         minecraft: Minecraft,
         baitStack: ItemStack,
+        y: Int,
     ) {
-        val player = minecraft.player ?: return
         val font = minecraft.font
 
         val baitCount = baitStack.count
-
-        var y = guiGraphics.guiHeight() - 59
-        if (player.isCreative && minecraft.gameMode?.canHurtPlayer() == false) y += 14
 
         if (baitCount > 0) {
             val displayText = "${baitStack.hoverName.string} x$baitCount"

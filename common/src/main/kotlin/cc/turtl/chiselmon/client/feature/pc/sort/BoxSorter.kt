@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.client.feature.pc.sort
 
 import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.feature.eggspy.EggDummy
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.client.storage.ClientPC
@@ -15,6 +16,7 @@ object BoxSorter {
         mode: SortMode,
         reversed: Boolean,
     ) {
+        if (ChiselmonConfig.general.modDisabled) return
         val box = pc.boxes[boxIndex]
         val allSlots = box.slots.toMutableList()
         val pokemon = allSlots.filterNotNull()

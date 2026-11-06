@@ -333,7 +333,7 @@ class AlertConfig {
                 AlertSounds::class.java,
             )
         soundOption.addEventListener { opt, event ->
-            if (event == OptionEventListener.Event.STATE_CHANGE) {
+            if (event == OptionEventListener.Event.STATE_CHANGE && !ChiselmonConfig.general.modDisabled) {
                 val sound = opt.pendingValue().sound
                 val volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f)
                 Minecraft.getInstance().soundManager.play(

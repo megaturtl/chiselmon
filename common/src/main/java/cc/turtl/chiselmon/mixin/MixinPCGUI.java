@@ -1,19 +1,15 @@
 package cc.turtl.chiselmon.mixin;
 
-import cc.turtl.chiselmon.client.ChiselmonStorage;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
-import cc.turtl.chiselmon.client.config.category.PCConfig;
 import cc.turtl.chiselmon.client.feature.eggspy.EggPreview;
-import cc.turtl.chiselmon.client.feature.pc.bookmark.BookmarkManager;
-import cc.turtl.chiselmon.client.feature.pc.sort.SortManager;
-import cc.turtl.chiselmon.core.api.storage.Scope;
-import cc.turtl.turtlshell.api.client.keybind.KeybindHelper;
+import cc.turtl.chiselmon.client.feature.pc.PCScreenFeatures;
 import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.client.gui.pc.IconButton;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget;
+import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget;
 import com.cobblemon.mod.common.client.storage.ClientPC;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.IVs;
@@ -22,6 +18,7 @@ import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -54,11 +51,15 @@ public abstract class MixinPCGUI extends Screen {
     private List<IconButton> optionButtons;
     @Shadow(remap = false)
     private boolean displayOptions;
+    @Shadow(remap = false)
+    private ModelWidget modelWidget;
+    @Shadow(remap = false)
+    private Pokemon previewPokemon;
 
     @Unique
-    private BookmarkManager chiselmon$bookmarkManager;
+    private PCScreenFeatures chiselmon$features;
     @Unique
-    private SortManager chiselmon$sortManager;
+    private boolean chiselmon$eggPreviewEnabled;
 
     protected MixinPCGUI(Component title) {
         super(title);
@@ -67,34 +68,38 @@ public abstract class MixinPCGUI extends Screen {
     // Don't use remap=false here or InvMove early loading the class will break the Mixin injection
     @Inject(method = "init", at = @At("TAIL"))
     private void chiselmon$init(CallbackInfo ci) {
-        if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
+        var general = ChiselmonConfig.INSTANCE.getGeneral();
+        boolean disabled = general.getModDisabled();
+        chiselmon$eggPreviewEnabled = !disabled && general.getEggSpy().getEnabled();
 
-        Scope worldScope = Scope.Companion.currentWorld();
-        if (worldScope == null) return;
-
-        int x = (width - BASE_WIDTH) / 2;
-        int y = (height - BASE_HEIGHT) / 2;
-
-        chiselmon$bookmarkManager = new BookmarkManager(
-                ChiselmonStorage.PC_SETTINGS.get(worldScope).getBookmarks(),
-                storageWidget, pc,
-                this::addRenderableWidget,
-                this::removeWidget
+        if (chiselmon$features != null) chiselmon$features.cleanup();
+        chiselmon$features = new PCScreenFeatures(
+                pc, storageWidget, optionButtons,
+                (width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2,
+                this::addRenderableWidget, this::chiselmon$removeFeatureWidget
         );
-        chiselmon$bookmarkManager.initialize(x, y);
+        chiselmon$features.initialize(disabled, displayOptions);
+    }
 
-        chiselmon$sortManager = new SortManager(pc, storageWidget, displayOptions, optionButtons, this::addRenderableWidget);
-        chiselmon$sortManager.initialize(x, y);
+    @Unique
+    private void chiselmon$removeFeatureWidget(GuiEventListener widget) {
+        if (getFocused() == widget) clearFocus();
+        removeWidget(widget);
     }
 
     @Inject(method = "render", at = @At("HEAD"))
     private void chiselmon$render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (chiselmon$bookmarkManager != null) chiselmon$bookmarkManager.update();
-
-        PCConfig.QuickSortConfig quickSort = ChiselmonConfig.INSTANCE.getPc().getQuickSort();
-        if (chiselmon$sortManager != null && quickSort.getEnabled() && KeybindHelper.INSTANCE.isDown(quickSort.getHotkey())) {
-            chiselmon$sortManager.executeQuickSort(quickSort.getMode(), Screen.hasShiftDown());
+        var general = ChiselmonConfig.INSTANCE.getGeneral();
+        boolean disabled = general.getModDisabled();
+        boolean eggPreviewEnabled = !disabled && general.getEggSpy().getEnabled();
+        if (chiselmon$eggPreviewEnabled != eggPreviewEnabled) {
+            chiselmon$eggPreviewEnabled = eggPreviewEnabled;
+            if (modelWidget != null && previewPokemon != null) {
+                modelWidget.setPokemon(EggPreview.renderableFor(previewPokemon));
+            }
         }
+
+        if (chiselmon$features != null) chiselmon$features.update(disabled, displayOptions);
     }
 
     @ModifyExpressionValue(
@@ -171,14 +176,7 @@ public abstract class MixinPCGUI extends Screen {
 
     @Override
     public void removed() {
-        if (chiselmon$bookmarkManager != null) {
-            chiselmon$bookmarkManager.cleanup();
-            chiselmon$bookmarkManager = null;
-        }
-        chiselmon$sortManager = null;
-
-        Scope worldScope = Scope.Companion.currentWorld();
-        if (worldScope != null) ChiselmonStorage.PC_SETTINGS.save(worldScope);
+        if (chiselmon$features != null) chiselmon$features.removed();
 
         super.removed();
     }

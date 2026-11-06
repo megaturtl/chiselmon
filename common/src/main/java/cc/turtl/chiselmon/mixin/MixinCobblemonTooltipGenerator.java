@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.mixin;
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.turtlshell.api.core.format.ColorLib;
 import com.cobblemon.mod.common.api.berry.Berry;
 import com.cobblemon.mod.common.api.mulch.MulchVariant;
@@ -24,6 +25,7 @@ public abstract class MixinCobblemonTooltipGenerator {
 
     @Inject(method = "generateTooltip", at = @At("TAIL"), remap = false)
     private void chiselmon$onGenerateTooltip(ItemStack stack, List<Component> lines, CallbackInfoReturnable<List<Component>> cir) {
+        if (ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) return;
         if (!(stack.getItem() instanceof BerryItem berryItem)) return;
 
         Berry berry = berryItem.berry();

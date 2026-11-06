@@ -13,6 +13,7 @@ import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.turtlshell.api.client.ClientEvents
 import cc.turtl.turtlshell.api.client.keybind.KeybindRegistry
 import cc.turtl.turtlshell.api.core.command.CommandRegistry
+import net.minecraft.client.Minecraft
 
 object ChiselmonClientCommon {
     fun init() {
@@ -35,26 +36,28 @@ object ChiselmonClientCommon {
                 ),
         )
 
-        ChiselmonConfig.init()
-
-        ChiselmonClientEvents.init()
-
-        ClientSpeciesRegistry.init()
-        ChiselmonStorage.init()
-
-        TrackerSession.init()
-
         ClientEvents.LEVEL_CONNECTED.subscribe {
             leaveWorld()
             Scope.enterWorld()
             TrackerSession.start()
         }
-        ClientEvents.LEVEL_DISCONNECTED.subscribe { leaveWorld() }
+        // Fabric can disconnect on Netty; dispose client-owned state before feature ticks.
+        ClientEvents.TICK_POST.subscribe {
+            if (Scope.currentWorld() != null && Minecraft.getInstance().level == null) leaveWorld()
+            ClientSpeciesRegistry.tick()
+            ChiselmonStorage.tick()
+            TrackerSession.tick()
+            AlertManager.tick()
+            SpawnRecorderManager.session?.tick()
+        }
         ClientEvents.GAME_STOPPING.subscribe {
-            TrackerSession.stop()
-            Scope.leaveWorld()
+            leaveWorld()
             ChiselmonStorage.saveAndClearAll()
         }
+
+        ChiselmonConfig.init()
+        ChiselmonClientEvents.init()
+        TrackerSession.init()
 
         AlertManager.init()
         SpawnRecorderManager.init()
@@ -64,6 +67,10 @@ object ChiselmonClientCommon {
     }
 
     private fun leaveWorld() {
+        if (Scope.currentWorld() == null) return
+        ClientSpeciesRegistry.onWorldLeave()
+        AlertManager.onWorldLeave()
+        SpawnRecorderManager.onWorldLeave()
         TrackerSession.stop()
         Scope.leaveWorld()?.let { ChiselmonStorage.saveAndClear(it) }
     }

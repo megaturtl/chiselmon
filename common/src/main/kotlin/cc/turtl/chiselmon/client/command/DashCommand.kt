@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.command
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.tracker.TrackerSession
 import cc.turtl.chiselmon.client.util.*
 import cc.turtl.chiselmon.core.util.format.clickableUrl
@@ -52,6 +53,11 @@ class DashCommand : TurtlShellClientCommand {
         val player = Minecraft.getInstance().player ?: return 0
         val session = requireSession(player) ?: return Command.SINGLE_SUCCESS
 
+        if (session.isDashboardSuspended) {
+            sendWarning(player, "Dashboard server is suspended while Chiselmon is disabled.")
+            return Command.SINGLE_SUCCESS
+        }
+
         if (!session.isDashboardRunning) {
             sendWarning(player, "Dashboard server is not running.")
             return Command.SINGLE_SUCCESS
@@ -74,6 +80,10 @@ class DashCommand : TurtlShellClientCommand {
     private fun executeOpen(): Int {
         val player = Minecraft.getInstance().player ?: return 0
         val session = requireSession(player) ?: return Command.SINGLE_SUCCESS
+        if (ChiselmonConfig.general.modDisabled) {
+            sendWarning(player, "Enable Chiselmon before opening the dashboard.")
+            return 0
+        }
 
         val url = "http://localhost:${session.dashboardPort}/"
 
@@ -89,7 +99,10 @@ class DashCommand : TurtlShellClientCommand {
         }
 
         try {
-            session.startDashboard()
+            if (!session.startDashboard()) {
+                sendWarning(player, "Dashboard server could not be opened.")
+                return 0
+            }
             sendPrefixed(
                 player,
                 Component
@@ -99,6 +112,7 @@ class DashCommand : TurtlShellClientCommand {
             )
         } catch (e: Exception) {
             sendError(player, e)
+            return 0
         }
 
         return Command.SINGLE_SUCCESS
@@ -108,7 +122,7 @@ class DashCommand : TurtlShellClientCommand {
         val player = Minecraft.getInstance().player ?: return 0
         val session = requireSession(player) ?: return Command.SINGLE_SUCCESS
 
-        if (!session.isDashboardRunning) {
+        if (!session.isDashboardRunning && !session.isDashboardSuspended) {
             sendWarning(player, "Dashboard server is not running.")
             return Command.SINGLE_SUCCESS
         }

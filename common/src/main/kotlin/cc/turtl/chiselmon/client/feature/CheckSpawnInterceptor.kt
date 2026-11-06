@@ -22,7 +22,9 @@ object CheckSpawnInterceptor {
     fun init() {
         COMMAND_SENT.subscribe { e: String ->
             val config = general
-            if (!config.modDisabled && config.checkSpawnDetail && e.startsWith("checkspawn")) {
+            if (config.modDisabled || !config.checkSpawnDetail) {
+                messagesRemaining = 0
+            } else if (e.startsWith("checkspawn")) {
                 messagesRemaining = WATCH_WINDOW
             }
         }
@@ -39,6 +41,8 @@ object CheckSpawnInterceptor {
                         .addMessage(intercepted)
                     return@subscribe true
                 }
+            } else {
+                messagesRemaining = 0
             }
             false
         }

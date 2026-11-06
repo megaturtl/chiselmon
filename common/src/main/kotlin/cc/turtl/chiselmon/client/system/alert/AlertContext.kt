@@ -49,7 +49,7 @@ data class AlertContext(
     // -------------------------------------------------------------------------
 
     val shouldAlert: Boolean
-        get() = config.masterEnabled && alertFilter != null
+        get() = !ChiselmonConfig.general.modDisabled && config.masterEnabled && alertFilter != null
 
     val shouldRepeatingSound: Boolean
         get() =

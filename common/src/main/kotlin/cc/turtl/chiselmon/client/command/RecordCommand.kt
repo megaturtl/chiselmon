@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.command
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.spawnrecorder.SpawnRecorderManager
 import cc.turtl.chiselmon.client.system.spawnrecorder.SpawnRecorderSession
 import cc.turtl.chiselmon.client.util.*
@@ -45,12 +46,20 @@ class RecordCommand : TurtlShellClientCommand {
                         try {
                             val started = SpawnRecorderManager.startSession()
                             if (!started) {
-                                sendWarning(player, "A Spawn Recorder session is already running!")
+                                val reason =
+                                    when {
+                                        ChiselmonConfig.general.modDisabled -> "Enable Chiselmon before starting the Spawn Recorder."
+                                        SpawnRecorderManager.session != null -> "A Spawn Recorder session is already running!"
+                                        else -> "No active tracker session."
+                                    }
+                                sendWarning(player, reason)
+                                return@executes 0
                             } else {
                                 sendSuccess(player, "Spawn Recorder session started!")
                             }
                         } catch (e: Exception) {
                             sendError(player, e)
+                            return@executes 0
                         }
                         Command.SINGLE_SUCCESS
                     },
@@ -75,6 +84,10 @@ class RecordCommand : TurtlShellClientCommand {
                     .executes {
                         val player = Minecraft.getInstance().player ?: return@executes 0
                         val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
+                        if (ChiselmonConfig.general.modDisabled) {
+                            sendWarning(player, "Enable Chiselmon before resuming the Spawn Recorder.")
+                            return@executes 0
+                        }
 
                         if (!session.isPaused) {
                             sendWarning(player, "Session is already running.")

@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.feature.pc
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.util.renderCenteredText
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import com.cobblemon.mod.common.CobblemonSounds
@@ -41,6 +42,11 @@ class PCButton private constructor(
         mouseY: Int,
         partialTicks: Float,
     ) {
+        if (ChiselmonConfig.general.modDisabled) {
+            tooltip = null
+            return
+        }
+
         updateTooltip()
 
         val textureYOffset =
@@ -57,8 +63,26 @@ class PCButton private constructor(
         }
     }
 
+    override fun onPress() {
+        if (!ChiselmonConfig.general.modDisabled) super.onPress()
+    }
+
+    override fun mouseClicked(
+        mouseX: Double,
+        mouseY: Double,
+        button: Int,
+    ): Boolean = !ChiselmonConfig.general.modDisabled && super.mouseClicked(mouseX, mouseY, button)
+
+    override fun keyPressed(
+        keyCode: Int,
+        scanCode: Int,
+        modifiers: Int,
+    ): Boolean = !ChiselmonConfig.general.modDisabled && super.keyPressed(keyCode, scanCode, modifiers)
+
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0f))
+        if (!ChiselmonConfig.general.modDisabled) {
+            soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0f))
+        }
     }
 
     private fun updateTooltip() {

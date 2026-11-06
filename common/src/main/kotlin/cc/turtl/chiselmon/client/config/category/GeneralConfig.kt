@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component
 
 class GeneralConfig {
     @SerialEntry
+    @Volatile
     var modDisabled: Boolean = DEFAULT_MOD_DISABLED
 
     @SerialEntry

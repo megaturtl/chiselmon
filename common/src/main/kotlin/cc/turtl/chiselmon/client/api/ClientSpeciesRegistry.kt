@@ -2,7 +2,6 @@ package cc.turtl.chiselmon.client.api
 
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.util.normalizeSpeciesName
-import cc.turtl.turtlshell.api.client.ClientEvents
 import cc.turtl.turtlshell.api.core.Platform
 import com.google.gson.Gson
 import java.nio.file.Files
@@ -35,15 +34,13 @@ object ClientSpeciesRegistry {
     private var speciesMap: Map<String, ClientSpecies> = emptyMap()
     private var state = LoadState.IDLE
 
-    fun init() {
-        ClientEvents.TICK_POST.subscribe {
-            if (state == LoadState.IDLE) loadAsync()
-        }
+    internal fun tick() {
+        if (state == LoadState.IDLE) loadAsync()
+    }
 
-        ClientEvents.LEVEL_DISCONNECTED.subscribe {
-            speciesMap = emptyMap()
-            state = LoadState.IDLE
-        }
+    internal fun onWorldLeave() {
+        speciesMap = emptyMap()
+        state = LoadState.IDLE
     }
 
     private fun loadAsync() {

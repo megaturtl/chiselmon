@@ -8,6 +8,7 @@
     "MixinCobblemonTooltipGenerator",
     "MixinEntity",
     "MixinGui",
+    "MixinMinecraft",
     "MixinMovesWidget",
     "MixinPartyOverlay",
     "MixinPartySlotWidget",

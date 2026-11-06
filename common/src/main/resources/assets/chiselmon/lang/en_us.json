@@ -63,7 +63,7 @@
 
     "chiselmon.config.category.general": "General",
     "chiselmon.config.general.mod_disabled": "Disable Mod",
-    "chiselmon.config.general.mod_disabled.desc": "Completely disable all Chiselmon features",
+    "chiselmon.config.general.mod_disabled.desc": "Pause Chiselmon effects and new recording without deleting saved data. Configuration and cleanup remain available.",
     "chiselmon.config.general.move_detail": "Show Move Detail Tooltip",
     "chiselmon.config.general.move_detail.desc": "Shows a tooltip with detailed info about the selected move",
     "chiselmon.config.general.open_config_keybind": "Open Config Keybind",

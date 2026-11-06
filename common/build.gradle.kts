@@ -16,6 +16,10 @@ architectury {
     common("neoforge", "fabric")
 }
 
+loom {
+    createRemapConfigurations(sourceSets.test.get())
+}
+
 repositories {
     maven("https://api.modrinth.com/maven")
     maven("https://maven.impactdev.net/repository/development")
@@ -55,7 +59,10 @@ dependencies {
 
     // Unit Testing
     testImplementation(libs.bundles.unitTesting)
-    testImplementation(cobblemonDependency("mod"))
+    add("modTestImplementation", cobblemonDependency("fabric"))
+    addProvider("modTestRuntimeOnly", libs.fabric.api)
+    addProvider("modTestRuntimeOnly", libs.turtlshell.common)
+    addProvider("modTestRuntimeOnly", libs.yet.another.config.lib.common)
 }
 
 tasks.withType<Test> {

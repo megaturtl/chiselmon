@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.feature.pc.sort
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import com.cobblemon.mod.common.api.pokemon.PokemonSortMode
 import com.cobblemon.mod.common.client.gui.pc.IconButton
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget
@@ -12,8 +13,11 @@ class SortManager(
     private val storage: StorageWidget,
     private val displayOptions: Boolean,
     private val optionButtons: MutableList<IconButton>,
-    private val widgetAdder: Consumer<IconButton>,
+    private val widgetAdder: Consumer<in IconButton>,
+    private val widgetRemover: Consumer<in IconButton>,
 ) {
+    private val buttons = mutableListOf<IconButton>()
+
     fun initialize(
         x: Int,
         y: Int,
@@ -38,15 +42,25 @@ class SortManager(
                     it.visible = displayOptions
                     widgetAdder.accept(it)
                     optionButtons.add(it)
+                    buttons.add(it)
                 }
                 btnX += 12
             }
+    }
+
+    fun cleanup() {
+        buttons.forEach {
+            optionButtons.remove(it)
+            widgetRemover.accept(it)
+        }
+        buttons.clear()
     }
 
     fun executeQuickSort(
         mode: SortMode,
         reversed: Boolean,
     ) {
+        if (ChiselmonConfig.general.modDisabled) return
         storage.resetSelected()
         BoxSorter.sortPCBox(pc, storage.box, mode, reversed)
     }

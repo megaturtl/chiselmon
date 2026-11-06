@@ -10,8 +10,8 @@ class BookmarkManager(
     private val bookmarkStore: PCUserData.Bookmarks,
     private val storageWidget: StorageWidget,
     private val pc: ClientPC,
-    private val widgetAdder: Consumer<PCButton>,
-    private val widgetRemover: Consumer<PCButton>,
+    private val widgetAdder: Consumer<in PCButton>,
+    private val widgetRemover: Consumer<in PCButton>,
 ) {
     private val tabButtons = mutableListOf<PCButton>()
     private var bookmarkButton: PCButton? = null

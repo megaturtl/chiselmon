@@ -4,12 +4,12 @@ import cc.turtl.chiselmon.client.ChiselmonStorage
 import cc.turtl.chiselmon.client.api.ChiselmonClientEvents
 import cc.turtl.chiselmon.client.api.PokemonLoadedEvent
 import cc.turtl.chiselmon.client.api.PokemonUnloadedEvent
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.client.system.dashboard.DashboardServer
 import cc.turtl.chiselmon.client.util.removeGlow
 import cc.turtl.chiselmon.client.util.resetNickname
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.storage.Scope
-import cc.turtl.turtlshell.api.client.ClientEvents
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import java.util.*
 
@@ -30,47 +30,85 @@ class TrackerSession private constructor() {
         }
 
     private var dashboardServer: DashboardServer? = null
+    private var dashboardResumePending = false
+    private var wasDisabled = ChiselmonConfig.general.modDisabled
 
     fun onPokemonLoad(event: PokemonLoadedEvent) {
         if (!event.isWild) return
-        val encounter = event.encounter ?: return
-
         val uuid = event.entity.uuid
         currentlyLoaded[uuid] = event.entity
+        if (ChiselmonConfig.general.modDisabled) return
+        val encounter = event.encounter ?: return
         seenUuids.add(uuid)
         db.record(encounter)
     }
 
     fun onPokemonUnload(event: PokemonUnloadedEvent) {
-        currentlyLoaded.remove(event.entity.uuid)
-    }
-
-    fun tick() {
-        cleanUnloaded()
-
-        // reset these always, before despawn glow or alert, so they always work from a blank slate.
-        currentlyLoaded.values.forEach {
+        currentlyLoaded.remove(event.entity.uuid)?.let {
             it.removeGlow()
             it.resetNickname()
         }
     }
 
-    private fun cleanUnloaded() {
-        currentlyLoaded.entries.removeAll { it.value.isRemoved }
+    fun tick() {
+        val disabled = ChiselmonConfig.general.modDisabled
+        updateDashboard(disabled)
+        cleanUnloaded()
+
+        // Clean the last enabled frame once; disabled ticks must leave other visuals alone.
+        if (!disabled || !wasDisabled) {
+            currentlyLoaded.values.forEach {
+                it.removeGlow()
+                it.resetNickname()
+            }
+        }
+        wasDisabled = disabled
     }
 
-    fun startDashboard() {
-        if (dashboardServer != null) return
+    private fun cleanUnloaded() {
+        currentlyLoaded.entries.removeAll { (_, entity) ->
+            if (!entity.isRemoved) return@removeAll false
+            entity.removeGlow()
+            entity.resetNickname()
+            true
+        }
+    }
+
+    fun startDashboard(): Boolean {
+        if (ChiselmonConfig.general.modDisabled || dashboardServer != null) return false
         dashboardServer = DashboardServer(db, DASHBOARD_PORT).also { it.start() }
+        dashboardResumePending = false
+        return true
+    }
+
+    private fun updateDashboard(disabled: Boolean) {
+        if (disabled) {
+            dashboardServer?.let {
+                it.stop()
+                dashboardServer = null
+                dashboardResumePending = true
+            }
+        } else if (dashboardResumePending) {
+            dashboardResumePending = false
+            try {
+                startDashboard()
+            } catch (e: Exception) {
+                ChiselmonConstants.LOGGER.error("Could not resume Chiselmon Dashboard", e)
+            }
+        }
     }
 
     fun stopDashboard() {
+        dashboardResumePending = false
         dashboardServer?.stop()
         dashboardServer = null
     }
 
     val isDashboardRunning: Boolean
         get() = dashboardServer != null
+
+    val isDashboardSuspended: Boolean
+        get() = dashboardResumePending
 
     fun dashboardUptime(): Long = dashboardServer?.uptime() ?: 0L
 
@@ -100,9 +138,12 @@ class TrackerSession private constructor() {
         fun init() {
             ChiselmonClientEvents.POKEMON_LOADED.subscribe { activeSession?.onPokemonLoad(it) }
             ChiselmonClientEvents.POKEMON_UNLOADED.subscribe { activeSession?.onPokemonUnload(it) }
-            ClientEvents.TICK_POST.subscribe { activeSession?.tick() }
 
             ChiselmonConstants.LOGGER.info("TrackerSession initialized")
+        }
+
+        internal fun tick() {
+            activeSession?.tick()
         }
 
         internal fun start() {
@@ -113,6 +154,10 @@ class TrackerSession private constructor() {
         internal fun stop() {
             activeSession?.let {
                 it.stopDashboard()
+                it.currentlyLoaded.values.forEach { entity ->
+                    entity.removeGlow()
+                    entity.resetNickname()
+                }
                 activeSession = null
                 ChiselmonConstants.LOGGER.debug("TrackerSession disposed")
             }

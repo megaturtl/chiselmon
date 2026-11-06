@@ -39,13 +39,16 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent stale tooltips.
     @Inject(method = "renderWidget", at = @At("TAIL"))
     private void chiselmon$clearTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (getPokemon() == null) setTooltip(null);
+        if (getPokemon() == null || ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) setTooltip(null);
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
     private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float partialTicks, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.INSTANCE;
-        if (config.getGeneral().getModDisabled()) return;
+        if (config.getGeneral().getModDisabled()) {
+            setTooltip(null);
+            return;
+        }
 
         Pokemon pokemon = getPokemon();
         // Use preview so we either pass the eggdummy or normal pokemon

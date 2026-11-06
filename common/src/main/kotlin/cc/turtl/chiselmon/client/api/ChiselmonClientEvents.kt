@@ -1,5 +1,6 @@
 package cc.turtl.chiselmon.client.api
 
+import cc.turtl.chiselmon.client.config.ChiselmonConfig
 import cc.turtl.chiselmon.core.api.PokemonEncounter
 import cc.turtl.chiselmon.core.api.predicate.IS_WILD
 import cc.turtl.turtlshell.api.client.ClientEvents
@@ -36,7 +37,8 @@ object ChiselmonClientEvents {
         ClientEvents.ENTITY_LOAD.subscribe { entity ->
             if (entity is PokemonEntity) {
                 val isWild = IS_WILD.test(entity)
-                POKEMON_LOADED(PokemonLoadedEvent(entity, if (isWild) PokemonEncounter.from(entity) else null, isWild))
+                val encounter = if (isWild && !ChiselmonConfig.general.modDisabled) PokemonEncounter.from(entity) else null
+                POKEMON_LOADED(PokemonLoadedEvent(entity, encounter, isWild))
             }
         }
         ClientEvents.ENTITY_UNLOAD.subscribe { entity ->
