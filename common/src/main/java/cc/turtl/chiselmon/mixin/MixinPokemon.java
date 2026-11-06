@@ -1,25 +1,28 @@
 package cc.turtl.chiselmon.mixin;
 
+import static cc.turtl.chiselmon.client.feature.eggspy.EggDummy.EGG_SPECIES_ID;
+
 import cc.turtl.chiselmon.client.api.duck.DuckHighlightedPokemon;
 import cc.turtl.chiselmon.client.api.duck.DuckPreviewPokemon;
 import cc.turtl.chiselmon.client.config.ChiselmonConfig;
 import cc.turtl.chiselmon.client.config.category.GeneralConfig;
 import cc.turtl.chiselmon.client.feature.eggspy.EggCache;
+
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import static cc.turtl.chiselmon.client.feature.eggspy.EggDummy.EGG_SPECIES_ID;
-
 /**
- * Adds the {@link DuckPreviewPokemon} interface to every Pokemon. The egg preview
- * is read only by Mixins at display sites via {@link DuckPreviewPokemon#chiselmon$getPreview()};
+ * Adds the {@link DuckPreviewPokemon} interface to every Pokemon. The egg preview is read only by
+ * Mixins at display sites via {@link DuckPreviewPokemon#chiselmon$getPreview()};
  */
 @Mixin(Pokemon.class)
 public abstract class MixinPokemon implements DuckPreviewPokemon, DuckHighlightedPokemon {
@@ -27,10 +30,8 @@ public abstract class MixinPokemon implements DuckPreviewPokemon, DuckHighlighte
     @Shadow(remap = false)
     private Species species;
 
-    @Unique
-    private MutableComponent chiselmon$originalNickname;
-    @Unique
-    private MutableComponent chiselmon$nicknameHighlight;
+    @Unique private MutableComponent chiselmon$originalNickname;
+    @Unique private MutableComponent chiselmon$nicknameHighlight;
 
     @Override
     public void chiselmon$setNicknameHighlight(@NotNull MutableComponent nickname) {
@@ -40,7 +41,8 @@ public abstract class MixinPokemon implements DuckPreviewPokemon, DuckHighlighte
             chiselmon$originalNickname = current;
         }
         // Cobblemon retains the existing component when a new nickname is structurally equal.
-        chiselmon$nicknameHighlight = current != null && current.equals(nickname) ? current : nickname;
+        chiselmon$nicknameHighlight =
+                current != null && current.equals(nickname) ? current : nickname;
         self.setNickname(nickname);
     }
 
@@ -75,6 +77,7 @@ public abstract class MixinPokemon implements DuckPreviewPokemon, DuckHighlighte
     @Unique
     @Override
     public @NotNull RenderablePokemon chiselmon$getRawRenderablePokemon() {
-        return new RenderablePokemon(species, ((Pokemon) (Object) this).getAspects(), ItemStack.EMPTY);
+        return new RenderablePokemon(
+                species, ((Pokemon) (Object) this).getAspects(), ItemStack.EMPTY);
     }
 }

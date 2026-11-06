@@ -73,7 +73,7 @@ object FilterTagParser {
                         Gender.valueOf(rawValue.uppercase())
                     } catch (_: IllegalArgumentException) {
                         throw FilterConditionParser.ParseException(
-                            "Invalid gender '$rawValue' -- expected male, female, or genderless",
+                            "Invalid gender '$rawValue' -- expected male, female, or genderless"
                         )
                     }
                 Predicate { it.gender == gender }
@@ -82,21 +82,27 @@ object FilterTagParser {
             "min_size" -> {
                 val threshold =
                     rawValue.toFloatOrNull()
-                        ?: throw FilterConditionParser.ParseException("Invalid min_size value: '$rawValue'")
+                        ?: throw FilterConditionParser.ParseException(
+                            "Invalid min_size value: '$rawValue'"
+                        )
                 Predicate { it.scaleModifier >= threshold }
             }
 
             "max_size" -> {
                 val threshold =
                     rawValue.toFloatOrNull()
-                        ?: throw FilterConditionParser.ParseException("Invalid max_size value: '$rawValue'")
+                        ?: throw FilterConditionParser.ParseException(
+                            "Invalid max_size value: '$rawValue'"
+                        )
                 Predicate { it.scaleModifier <= threshold }
             }
 
             "min_level" -> {
                 val level =
                     rawValue.toIntOrNull()
-                        ?: throw FilterConditionParser.ParseException("Invalid min_level value: '$rawValue'")
+                        ?: throw FilterConditionParser.ParseException(
+                            "Invalid min_level value: '$rawValue'"
+                        )
                 Predicate { it.level >= level }
             }
 

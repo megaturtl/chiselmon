@@ -63,35 +63,31 @@ object BoxSorter {
         mode: SortMode,
         reversed: Boolean,
         previews: Map<Pokemon, Pokemon?>,
-    ): Comparator<Pokemon> =
-        Comparator { a, b ->
-            val pa = previews.preview(a)
-            val pb = previews.preview(b)
-            val aIsEgg = pa is EggDummy
-            val bIsEgg = pb is EggDummy
+    ): Comparator<Pokemon> = Comparator { a, b ->
+        val pa = previews.preview(a)
+        val pb = previews.preview(b)
+        val aIsEgg = pa is EggDummy
+        val bIsEgg = pb is EggDummy
 
-            when {
-                // One egg: Eggs go last
-                aIsEgg != bIsEgg -> {
-                    aIsEgg.compareTo(bIsEgg)
-                }
+        when {
+            // One egg: Eggs go last
+            aIsEgg != bIsEgg -> {
+                aIsEgg.compareTo(bIsEgg)
+            }
 
-                // Both eggs: sort by hatch percentage, then mode
-                aIsEgg && bIsEgg -> {
-                    pa.hatchPercentage
-                        .compareTo(pb.hatchPercentage)
-                        .takeIf { it != 0 } ?: mode.comparator(reversed).compare(pa, pb)
-                }
+            // Both eggs: sort by hatch percentage, then mode
+            aIsEgg && bIsEgg -> {
+                pa.hatchPercentage.compareTo(pb.hatchPercentage).takeIf { it != 0 }
+                    ?: mode.comparator(reversed).compare(pa, pb)
+            }
 
-                // No eggs: sort by mode, then level
-                else -> {
-                    mode
-                        .comparator(reversed)
-                        .compare(pa, pb)
-                        .takeIf { it != 0 } ?: pa.level.compareTo(pb.level)
-                }
+            // No eggs: sort by mode, then level
+            else -> {
+                mode.comparator(reversed).compare(pa, pb).takeIf { it != 0 }
+                    ?: pa.level.compareTo(pb.level)
             }
         }
+    }
 }
 
 private fun Map<Pokemon, Pokemon?>.preview(p: Pokemon): Pokemon = this[p] ?: p

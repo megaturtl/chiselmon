@@ -37,12 +37,13 @@ class BookmarkManager(
         guiTop: Int,
     ) {
         bookmarkButton =
-            BookmarkButtons
-                .createBookmarkButton(
+            BookmarkButtons.createBookmarkButton(
                     guiLeft + BookmarkConstants.BOOKMARK_BUTTON_OFFSET_X,
                     guiTop + BookmarkConstants.BOOKMARK_BUTTON_OFFSET_Y,
                     bookmarkStore.has(storageWidget.box),
-                ) { handleBookmarkClick(guiLeft, guiTop) }
+                ) {
+                    handleBookmarkClick(guiLeft, guiTop)
+                }
                 .also { widgetAdder.accept(it) }
     }
 
@@ -51,11 +52,12 @@ class BookmarkManager(
         guiTop: Int,
     ) {
         homeButton =
-            BookmarkButtons
-                .createHomeButton(
+            BookmarkButtons.createHomeButton(
                     guiLeft + BookmarkConstants.HOME_BUTTON_OFFSET_X,
                     guiTop + BookmarkConstants.HOME_BUTTON_OFFSET_Y,
-                ) { storageWidget.box = 0 }
+                ) {
+                    storageWidget.box = 0
+                }
                 .also { widgetAdder.accept(it) }
     }
 
@@ -66,13 +68,14 @@ class BookmarkManager(
         tabButtons.forEach { widgetRemover.accept(it) }
         tabButtons.clear()
 
-        BookmarkButtons
-            .createTabButtons(
+        BookmarkButtons.createTabButtons(
                 bookmarkStore.get(),
                 pc.boxes,
                 guiLeft + BookmarkConstants.TAB_START_OFFSET_X,
                 guiTop + BookmarkConstants.TAB_START_OFFSET_Y,
-            ) { storageWidget.box = it }
+            ) {
+                storageWidget.box = it
+            }
             .forEach {
                 widgetAdder.accept(it)
                 tabButtons.add(it)

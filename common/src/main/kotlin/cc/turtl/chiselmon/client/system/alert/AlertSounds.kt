@@ -16,8 +16,7 @@ enum class AlertSounds(
     FIREWORK("Firework Launch", SoundEvents.FIREWORK_ROCKET_LAUNCH),
     MACE("Mace Smash", SoundEvents.MACE_SMASH_AIR),
     DRAGON("Dragon Roar", SoundEvents.ENDER_DRAGON_GROWL),
-    GLASS("Glass Shatter", SoundEvents.GLASS_BREAK),
-    ;
+    GLASS("Glass Shatter", SoundEvents.GLASS_BREAK);
 
     override fun toString(): String = displayName
 }

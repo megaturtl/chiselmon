@@ -16,10 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public abstract class MixinGui implements DuckGui {
-    @Shadow
-    private Component overlayMessageString;
-    @Shadow
-    private int overlayMessageTime;
+    @Shadow private Component overlayMessageString;
+    @Shadow private int overlayMessageTime;
 
     @Override
     public void chiselmon$clearOverlayMessage(@NotNull Component expected) {

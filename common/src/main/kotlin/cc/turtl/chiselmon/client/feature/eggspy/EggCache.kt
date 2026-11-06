@@ -9,16 +9,15 @@ import java.util.concurrent.TimeUnit
 
 object EggCache {
     private val cache =
-        CacheBuilder
-            .newBuilder()
+        CacheBuilder.newBuilder()
             .maximumSize(200)
             .expireAfterAccess(10, TimeUnit.MINUTES)
             .build<UUID, EggDummy>()
 
     /**
-     * Returns the original pokemon, or its egg preview if available.
-     * Live progress fields are refreshed from the given pokemon on every call,
-     * so the dummy stays accurate without the whole object needing to be invalidated.
+     * Returns the original pokemon, or its egg preview if available. Live progress fields are
+     * refreshed from the given pokemon on every call, so the dummy stays accurate without the whole
+     * object needing to be invalidated.
      */
     @JvmStatic
     fun getPreview(pokemon: Pokemon): Pokemon {
@@ -32,7 +31,8 @@ object EggCache {
                 ?: return pokemon
 
         dummy.totalSteps = pokemon.persistentData.getInt("TotalSteps")
-        dummy.hatchPercentage = pokemon.getFeature<IntSpeciesFeature>(EggDummy.HATCH_PERCENTAGE_FEATURE)?.value ?: 0
+        dummy.hatchPercentage =
+            pokemon.getFeature<IntSpeciesFeature>(EggDummy.HATCH_PERCENTAGE_FEATURE)?.value ?: 0
 
         return dummy
     }

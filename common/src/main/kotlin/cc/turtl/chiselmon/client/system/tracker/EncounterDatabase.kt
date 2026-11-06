@@ -50,10 +50,13 @@ class EncounterDatabase(
                     encountered_ms  BIGINT       NOT NULL,
                     encountered_time     TIMESTAMP AS DATEADD('MILLISECOND', encountered_ms, TIMESTAMP '1970-01-01 00:00:00')
                 )
-                """.trimIndent(),
+                """
+                    .trimIndent()
             )
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_species    ON encounters(species)")
-            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_timestamp  ON encounters(encountered_ms)")
+            s.executeUpdate(
+                "CREATE INDEX IF NOT EXISTS idx_timestamp  ON encounters(encountered_ms)"
+            )
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_shiny      ON encounters(is_shiny)")
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_legendary  ON encounters(is_legendary)")
             s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_dimension  ON encounters(dimension)")
@@ -78,7 +81,8 @@ class EncounterDatabase(
                  pokemon_x, pokemon_y, pokemon_z, player_x, player_y, player_z, encountered_ms)
             KEY(uuid)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """.trimIndent()
+            """
+                .trimIndent()
 
         try {
             conn.prepareStatement(sql).use { ps ->
@@ -145,13 +149,13 @@ class EncounterDatabase(
 
     fun summaryStats(): SummaryStats =
         conn.createStatement().use { s ->
-            s
-                .executeQuery(
+            s.executeQuery(
                     "SELECT COUNT(*), " +
                         "COUNT(*) FILTER (WHERE is_shiny = TRUE), " +
                         "COUNT(*) FILTER (WHERE is_legendary = TRUE) " +
-                        "FROM encounters",
-                ).use { rs ->
+                        "FROM encounters"
+                )
+                .use { rs ->
                     if (rs.next()) {
                         SummaryStats(rs.getInt(1), rs.getInt(2), rs.getInt(3))
                     } else {
@@ -163,7 +167,8 @@ class EncounterDatabase(
     val writeCachedCount: Int
         get() = writeCache.size
 
-    val connection: Connection get() = conn
+    val connection: Connection
+        get() = conn
 
     companion object {
         private const val FLUSH_THRESHOLD = 4

@@ -18,17 +18,14 @@ object ChiselmonClientFabric : ClientModInitializer {
 
     private fun registerPacks() {
         val modContainer =
-            FabricLoader
-                .getInstance()
-                .getModContainer(BuildDetails.MOD_ID)
-                .orElseThrow()
+            FabricLoader.getInstance().getModContainer(BuildDetails.MOD_ID).orElseThrow()
 
         for (pack in ChiselmonPacks.BuiltInPack.ALL) {
             // Check if required mods are loaded
             val shouldLoad =
-                pack.requiredModIds
-                    .stream()
-                    .allMatch { modId: String? -> FabricLoader.getInstance().isModLoaded(modId) }
+                pack.requiredModIds.stream().allMatch { modId: String? ->
+                    FabricLoader.getInstance().isModLoaded(modId)
+                }
 
             if (shouldLoad) {
                 ResourceManagerHelper.registerBuiltinResourcePack(

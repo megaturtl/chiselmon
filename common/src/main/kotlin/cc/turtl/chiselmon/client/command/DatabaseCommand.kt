@@ -16,23 +16,22 @@ import net.minecraft.network.chat.MutableComponent
 
 class DatabaseCommand : TurtlShellClientCommand {
     override val name = "db"
-    override val description: MutableComponent = Component.literal("Manage the DB for the current world")
+    override val description: MutableComponent =
+        Component.literal("Manage the DB for the current world")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder
-            .literal<CommandSourceStack>(name)
-            .executes {
-                val player = Minecraft.getInstance().player ?: return@executes 0
-                val db = TrackerSession.current.db
-                val stats = db.summaryStats()
+        LiteralArgumentBuilder.literal<CommandSourceStack>(name).executes {
+            val player = Minecraft.getInstance().player ?: return@executes 0
+            val db = TrackerSession.current.db
+            val stats = db.summaryStats()
 
-                sendEmptyLine(player)
-                sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
-                sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
-                sendLabeled(player, "  Encounters stored on disk", stats.total)
-                sendLabeled(player, "    Legendaries", stats.legendaries)
-                sendLabeled(player, "    Shinies", stats.shinies)
-                sendLabeled(player, "  Database size on disk", formatBytes(db.sizeOnDiskBytes))
-                Command.SINGLE_SUCCESS
-            }
+            sendEmptyLine(player)
+            sendSuccess(player, "DB Info for ${Scope.currentWorld()?.key}")
+            sendLabeled(player, "  Encounters in write cache", db.writeCachedCount)
+            sendLabeled(player, "  Encounters stored on disk", stats.total)
+            sendLabeled(player, "    Legendaries", stats.legendaries)
+            sendLabeled(player, "    Shinies", stats.shinies)
+            sendLabeled(player, "  Database size on disk", formatBytes(db.sizeOnDiskBytes))
+            Command.SINGLE_SUCCESS
+        }
 }

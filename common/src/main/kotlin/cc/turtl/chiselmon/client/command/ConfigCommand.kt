@@ -16,22 +16,25 @@ class ConfigCommand : TurtlShellClientCommand {
     override val description: MutableComponent = Component.literal("Open the mod config screen")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder
-            .literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes {
                 openScreen(0)
                 Command.SINGLE_SUCCESS
-            }.then(
-                RequiredArgumentBuilder
-                    .argument<CommandSourceStack, String>("tab", StringArgumentType.word())
+            }
+            .then(
+                RequiredArgumentBuilder.argument<CommandSourceStack, String>(
+                        "tab",
+                        StringArgumentType.word(),
+                    )
                     .suggests { _, builder ->
                         TABS.forEach(builder::suggest)
                         builder.buildFuture()
-                    }.executes { ctx ->
+                    }
+                    .executes { ctx ->
                         val tab = StringArgumentType.getString(ctx, "tab")
                         openScreen(maxOf(TABS.indexOf(tab), 0))
                         Command.SINGLE_SUCCESS
-                    },
+                    }
             )
 
     private fun openScreen(tabIndex: Int) {

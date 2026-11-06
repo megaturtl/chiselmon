@@ -9,9 +9,9 @@ import cc.turtl.turtlshell.api.client.keybind.KeybindHelper
 import com.cobblemon.mod.common.client.gui.pc.IconButton
 import com.cobblemon.mod.common.client.gui.pc.StorageWidget
 import com.cobblemon.mod.common.client.storage.ClientPC
+import java.util.function.Consumer
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.screens.Screen
-import java.util.function.Consumer
 
 class PCScreenFeatures(
     private val pc: ClientPC,
@@ -34,21 +34,23 @@ class PCScreenFeatures(
 
         bookmarkManager =
             BookmarkManager(
-                ChiselmonStorage.PC_SETTINGS.get(worldScope).bookmarks,
-                storageWidget,
-                pc,
-                widgetAdder,
-                widgetRemover,
-            ).also { it.initialize(guiLeft, guiTop) }
+                    ChiselmonStorage.PC_SETTINGS.get(worldScope).bookmarks,
+                    storageWidget,
+                    pc,
+                    widgetAdder,
+                    widgetRemover,
+                )
+                .also { it.initialize(guiLeft, guiTop) }
         sortManager =
             SortManager(
-                pc,
-                storageWidget,
-                displayOptions,
-                optionButtons,
-                widgetAdder,
-                widgetRemover,
-            ).also { it.initialize(guiLeft, guiTop) }
+                    pc,
+                    storageWidget,
+                    displayOptions,
+                    optionButtons,
+                    widgetAdder,
+                    widgetRemover,
+                )
+                .also { it.initialize(guiLeft, guiTop) }
     }
 
     fun update(

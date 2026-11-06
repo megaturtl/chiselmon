@@ -1,9 +1,7 @@
 package cc.turtl.chiselmon.client.system.alert
 
 /** World-scoped locations where alerts are disabled. */
-data class AlertExclusions(
-    val zones: MutableList<AlertExclusionZone> = mutableListOf(),
-) {
+data class AlertExclusions(val zones: MutableList<AlertExclusionZone> = mutableListOf()) {
     fun contains(
         dimensionNamespace: String,
         dimensionPath: String,
@@ -22,9 +20,11 @@ data class AlertExclusionZone(
     var z: Int,
     var radius: Int = DEFAULT_RADIUS,
 ) {
-    val dimension: String get() = "$dimensionNamespace:$dimensionPath"
+    val dimension: String
+        get() = "$dimensionNamespace:$dimensionPath"
 
-    val coordinates: String get() = "$x, $y, $z"
+    val coordinates: String
+        get() = "$x, $y, $z"
 
     fun updateCoordinates(value: String): Boolean {
         val parts = value.split(',')
@@ -46,7 +46,8 @@ data class AlertExclusionZone(
         y: Int,
         z: Int,
     ): Boolean {
-        if (this.dimensionNamespace != dimensionNamespace || this.dimensionPath != dimensionPath) return false
+        if (this.dimensionNamespace != dimensionNamespace || this.dimensionPath != dimensionPath)
+            return false
 
         val dx = x.toLong() - this.x
         val dy = y.toLong() - this.y

@@ -2,30 +2,43 @@
  * Top-level stat cards.
  */
 
-import {api, buildUrl} from '../core/api.js';
-import {state} from '../core/state.js';
+import { api, buildUrl } from "../core/api.js";
+import { state } from "../core/state.js";
 
 export async function loadStats() {
-    const stats = await api(buildUrl('/api/stats/'));
+  const stats = await api(buildUrl("/api/stats/"));
 
-    // Only count active minutes to avoid afk/offline skewing the rate
-    let encountersPerMin = 0;
-    if (stats.totalEncounters > 0) {
-        if (stats.activeMinutes > 0) {
-            encountersPerMin = stats.totalEncounters / stats.activeMinutes;
-        } else if (state.fromMs > 0) {
-            const minutes = (Date.now() - state.fromMs) / 60_000;
-            if (minutes > 0) encountersPerMin = stats.totalEncounters / minutes;
-        }
+  // Only count active minutes to avoid afk/offline skewing the rate
+  let encountersPerMin = 0;
+  if (stats.totalEncounters > 0) {
+    if (stats.activeMinutes > 0) {
+      encountersPerMin = stats.totalEncounters / stats.activeMinutes;
+    } else if (state.fromMs > 0) {
+      const minutes = (Date.now() - state.fromMs) / 60_000;
+      if (minutes > 0) encountersPerMin = stats.totalEncounters / minutes;
     }
+  }
 
-    const encountersPerMinStr = stats.totalEncounters > 0 ? `(${encountersPerMin.toFixed(2)}/min)` : '';
-    const snackPct = stats.totalEncounters > 0 ? `${(stats.snackSpawns / stats.totalEncounters * 100).toFixed(2)}%` : '0.00%';
-    const shinyRatioStr = stats.shinies > 0 ? `1/${Math.floor(stats.totalEncounters / stats.shinies)}` : 'N/A';
-    const legendRatioStr = stats.legendaries > 0 ? `1/${Math.floor(stats.totalEncounters / stats.legendaries)}` : 'N/A';
-    const sizeVarRatioStr = stats.sizeVariations > 0 ? `1/${Math.floor(stats.totalEncounters / stats.sizeVariations)}` : 'N/A';
+  const encountersPerMinStr =
+    stats.totalEncounters > 0 ? `(${encountersPerMin.toFixed(2)}/min)` : "";
+  const snackPct =
+    stats.totalEncounters > 0
+      ? `${((stats.snackSpawns / stats.totalEncounters) * 100).toFixed(2)}%`
+      : "0.00%";
+  const shinyRatioStr =
+    stats.shinies > 0
+      ? `1/${Math.floor(stats.totalEncounters / stats.shinies)}`
+      : "N/A";
+  const legendRatioStr =
+    stats.legendaries > 0
+      ? `1/${Math.floor(stats.totalEncounters / stats.legendaries)}`
+      : "N/A";
+  const sizeVarRatioStr =
+    stats.sizeVariations > 0
+      ? `1/${Math.floor(stats.totalEncounters / stats.sizeVariations)}`
+      : "N/A";
 
-    document.getElementById('stat-grid').innerHTML = `
+  document.getElementById("stat-grid").innerHTML = `
         <div class="stat-card">
             <span class="label">Total Encounters</span>
             <span class="value">${stats.totalEncounters.toLocaleString()}</span>

@@ -1,8 +1,8 @@
-import utilities.cobblemonDependency
-import utilities.isSnapshot
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import utilities.cobblemonDependency
+import utilities.isSnapshot
 
 plugins {
     id("chiselmon.base-conventions")
@@ -56,7 +56,6 @@ dependencies {
         isChanging = true
     }
 
-
     // Unit Testing
     testImplementation(libs.bundles.unitTesting)
     add("modTestImplementation", cobblemonDependency("fabric"))
@@ -85,12 +84,12 @@ sourceSets {
                 property("gitCommit", versioning.info.commit)
                 property("branch", versioning.info.branch)
                 System.getProperty("buildNumber")?.let { property("buildNumber", it) }
-                property("timestamp",
+                property(
+                    "timestamp",
                     OffsetDateTime.now(ZoneOffset.UTC)
-                        .format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC"
+                        .format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC",
                 )
             }
         }
     }
 }
-

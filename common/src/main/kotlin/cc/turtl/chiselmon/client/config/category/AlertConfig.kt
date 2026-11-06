@@ -21,17 +21,13 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 
 class AlertConfig {
-    @SerialEntry
-    var masterEnabled: Boolean = DEFAULT_MASTER_ENABLED
+    @SerialEntry var masterEnabled: Boolean = DEFAULT_MASTER_ENABLED
 
-    @SerialEntry
-    var masterVolume: Int = DEFAULT_MASTER_VOLUME
+    @SerialEntry var masterVolume: Int = DEFAULT_MASTER_VOLUME
 
-    @SerialEntry
-    var lureAlert: LureAlertSettings = LureAlertSettings()
+    @SerialEntry var lureAlert: LureAlertSettings = LureAlertSettings()
 
-    @SerialEntry
-    var filterAlerts: MutableMap<String, FilterAlertSettings> = LinkedHashMap()
+    @SerialEntry var filterAlerts: MutableMap<String, FilterAlertSettings> = LinkedHashMap()
 
     private fun saveExclusions() {
         Scope.currentWorld()?.let { ChiselmonStorage.ALERT_EXCLUSIONS.save(it) }
@@ -39,8 +35,7 @@ class AlertConfig {
 
     fun buildCategory(parent: Screen?): ConfigCategory {
         val builder =
-            ConfigCategory
-                .createBuilder()
+            ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.alerts"))
                 .option(
                     OptionFactory.toggleOnOff(
@@ -48,8 +43,9 @@ class AlertConfig {
                         DEFAULT_MASTER_ENABLED,
                         { masterEnabled },
                         { masterEnabled = it },
-                    ),
-                ).option(
+                    )
+                )
+                .option(
                     OptionFactory.intSlider(
                         "chiselmon.config.alert.master_volume",
                         DEFAULT_MASTER_VOLUME,
@@ -58,12 +54,13 @@ class AlertConfig {
                         0,
                         100,
                         1,
-                    ),
-                ).option(
+                    )
+                )
+                .option(
                     OptionFactory.keyMappingPicker(
                         "chiselmon.config.alert.mute_keybind",
                         ChiselmonKeybinds.MUTE_ALERTS,
-                    ),
+                    )
                 )
 
         builder.option(LabelOption.create(Component.translatable("chiselmon.config.alert.filters")))
@@ -77,10 +74,7 @@ class AlertConfig {
         Scope.currentWorld()?.let { worldScope ->
             val exclusions = ChiselmonStorage.ALERT_EXCLUSIONS[worldScope]
             builder.group(
-                OptionGroup
-                    .createBuilder()
-                    .option(LabelOption.create(Component.empty()))
-                    .build(),
+                OptionGroup.createBuilder().option(LabelOption.create(Component.empty())).build()
             )
             builder.group(buildAlertExclusionsGroup(parent, exclusions))
             exclusions.zones.forEach { zone ->
@@ -95,25 +89,25 @@ class AlertConfig {
         parent: Screen?,
         exclusions: AlertExclusions,
     ): OptionGroup =
-        OptionGroup
-            .createBuilder()
+        OptionGroup.createBuilder()
             .name(Component.translatable("chiselmon.config.alert.exclusions"))
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.exclusions.desc"),
-                ),
-            ).option(
-                ButtonOption
-                    .createBuilder()
+                    Component.translatable("chiselmon.config.alert.exclusions.desc")
+                )
+            )
+            .option(
+                ButtonOption.createBuilder()
                     .name(
-                        Component
-                            .translatable("chiselmon.config.alert.exclusions.create")
-                            .withColor(ColorLib.GREEN.rgb),
-                    ).description(
+                        Component.translatable("chiselmon.config.alert.exclusions.create")
+                            .withColor(ColorLib.GREEN.rgb)
+                    )
+                    .description(
                         OptionDescription.of(
-                            Component.translatable("chiselmon.config.alert.exclusions.create.desc"),
-                        ),
-                    ).text(Component.translatable("chiselmon.config.alert.exclusions.create.button"))
+                            Component.translatable("chiselmon.config.alert.exclusions.create.desc")
+                        )
+                    )
+                    .text(Component.translatable("chiselmon.config.alert.exclusions.create.button"))
                     .action { _, _ ->
                         Minecraft.getInstance().player?.let { player ->
                             val position = player.blockPosition()
@@ -125,27 +119,29 @@ class AlertConfig {
                                     position.x,
                                     position.y,
                                     position.z,
-                                ),
+                                )
                             )
                             saveExclusions()
                             saveAndReload(parent)
                         }
-                    }.build(),
-            ).build()
+                    }
+                    .build()
+            )
+            .build()
 
     private fun buildAlertExclusionGroup(
         parent: Screen?,
         exclusions: AlertExclusions,
         zone: AlertExclusionZone,
     ): OptionGroup =
-        OptionGroup
-            .createBuilder()
+        OptionGroup.createBuilder()
             .name(Component.literal("${zone.dimension} (${zone.x}, ${zone.y}, ${zone.z})"))
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.exclusions.group.desc"),
-                ),
-            ).option(
+                    Component.translatable("chiselmon.config.alert.exclusions.group.desc")
+                )
+            )
+            .option(
                 OptionFactory.textField(
                     "chiselmon.config.alert.exclusions.coordinates",
                     zone.coordinates,
@@ -153,8 +149,9 @@ class AlertConfig {
                     {
                         if (zone.updateCoordinates(it)) saveExclusions()
                     },
-                ),
-            ).option(
+                )
+            )
+            .option(
                 intField(
                     "chiselmon.config.alert.exclusions.radius",
                     zone.radius,
@@ -165,27 +162,34 @@ class AlertConfig {
                     },
                     1,
                     MAX_EXCLUSION_RADIUS,
-                ),
-            ).option(
-                HoldToConfirmButton
-                    .builder()
+                )
+            )
+            .option(
+                HoldToConfirmButton.builder()
                     .name(
-                        Component
-                            .translatable("chiselmon.config.alert.exclusions.delete")
-                            .withColor(ColorLib.RED.rgb),
-                    ).description(
+                        Component.translatable("chiselmon.config.alert.exclusions.delete")
+                            .withColor(ColorLib.RED.rgb)
+                    )
+                    .description(
                         OptionDescription.of(
-                            Component.translatable("chiselmon.config.alert.exclusions.delete.desc"),
-                        ),
-                    ).buttonText(Component.translatable("chiselmon.config.alert.exclusions.delete.button"))
-                    .holdingText(Component.translatable("chiselmon.config.alert.exclusions.delete.held"))
+                            Component.translatable("chiselmon.config.alert.exclusions.delete.desc")
+                        )
+                    )
+                    .buttonText(
+                        Component.translatable("chiselmon.config.alert.exclusions.delete.button")
+                    )
+                    .holdingText(
+                        Component.translatable("chiselmon.config.alert.exclusions.delete.held")
+                    )
                     .holdTimeTicks(30)
                     .action { _, _ ->
                         exclusions.zones.remove(zone)
                         saveExclusions()
                         saveAndReload(parent)
-                    }.build(),
-            ).collapsed(true)
+                    }
+                    .build()
+            )
+            .collapsed(true)
             .build()
 
     private fun intField(
@@ -196,8 +200,7 @@ class AlertConfig {
         min: Int,
         max: Int,
     ): Option<Int> =
-        Option
-            .createBuilder<Int>()
+        Option.createBuilder<Int>()
             .name(Component.translatable(translationKey))
             .description(OptionDescription.of(Component.translatable("$translationKey.desc")))
             .binding(default, getter, setter)
@@ -216,33 +219,36 @@ class AlertConfig {
         val volumeOption = makeVolumeOption(settings)
         val soundOption = makeSoundOption(settings, volumeOption)
 
-        return OptionGroup
-            .createBuilder()
+        return OptionGroup.createBuilder()
             .name(filterName)
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.group.filter_alerts.desc"),
-                ),
-            ).addBaseAlertOptions(
+                    Component.translatable("chiselmon.config.alert.group.filter_alerts.desc")
+                )
+            )
+            .addBaseAlertOptions(
                 settings,
                 soundOption,
                 volumeOption,
                 defaultSendChatMessage = FilterAlertSettings.DEFAULT_SEND_CHAT_MESSAGE_FILTER,
-            ).option(
+            )
+            .option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.highlight_entity",
                     FilterAlertSettings.DEFAULT_HIGHLIGHT_ENTITY,
                     { settings.highlightEntity },
                     { settings.highlightEntity = it },
-                ),
-            ).option(
+                )
+            )
+            .option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.repeat_sound",
                     FilterAlertSettings.DEFAULT_REPEAT_SOUND,
                     { settings.repeatSound },
                     { settings.repeatSound = it },
-                ),
-            ).collapsed(true)
+                )
+            )
+            .collapsed(true)
             .build()
     }
 
@@ -250,21 +256,22 @@ class AlertConfig {
         val volumeOption = makeVolumeOption(settings)
         val soundOption = makeSoundOption(settings, volumeOption, AlertSounds.GLASS)
 
-        return OptionGroup
-            .createBuilder()
+        return OptionGroup.createBuilder()
             .name(Component.translatable("chiselmon.config.alert.group.lure_alerts"))
             .description(
                 OptionDescription.of(
-                    Component.translatable("chiselmon.config.alert.group.lure_alerts.desc"),
-                ),
-            ).option(
+                    Component.translatable("chiselmon.config.alert.group.lure_alerts.desc")
+                )
+            )
+            .option(
                 OptionFactory.toggleOnOff(
                     "chiselmon.config.alert.enabled",
                     AlertSettings.DEFAULT_ENABLED,
                     { settings.enabled },
                     { settings.enabled = it },
-                ),
-            ).option(soundOption)
+                )
+            )
+            .option(soundOption)
             .option(volumeOption)
             .collapsed(true)
             .build()
@@ -276,36 +283,39 @@ class AlertConfig {
         volumeOption: Option<Int>,
         defaultSendChatMessage: Boolean = AlertSettings.DEFAULT_SEND_CHAT_MESSAGE,
     ): OptionGroup.Builder =
-        this
-            .option(
+        this.option(
                 OptionFactory.toggleOnOff(
                     "chiselmon.config.alert.enabled",
                     AlertSettings.DEFAULT_ENABLED,
                     { settings.enabled },
                     { settings.enabled = it },
-                ),
-            ).option(
+                )
+            )
+            .option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.send_chat_message",
                     defaultSendChatMessage,
                     { settings.sendChatMessage },
                     { settings.sendChatMessage = it },
-                ),
-            ).option(
+                )
+            )
+            .option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.send_discord_message",
                     AlertSettings.DEFAULT_SEND_DISCORD_MESSAGE,
                     { settings.sendDiscordMessage },
                     { settings.sendDiscordMessage = it },
-                ),
-            ).option(
+                )
+            )
+            .option(
                 OptionFactory.toggleTick(
                     "chiselmon.config.alert.play_sound",
                     AlertSettings.DEFAULT_PLAY_SOUND,
                     { settings.playSound },
                     { settings.playSound = it },
-                ),
-            ).option(soundOption)
+                )
+            )
+            .option(soundOption)
             .option(volumeOption)
 
     private fun makeVolumeOption(settings: AlertSettings): Option<Int> =
@@ -333,35 +343,32 @@ class AlertConfig {
                 AlertSounds::class.java,
             )
         soundOption.addEventListener { opt, event ->
-            if (event == OptionEventListener.Event.STATE_CHANGE && !ChiselmonConfig.general.modDisabled) {
+            if (
+                event == OptionEventListener.Event.STATE_CHANGE &&
+                    !ChiselmonConfig.general.modDisabled
+            ) {
                 val sound = opt.pendingValue().sound
                 val volume = (volumeOption.pendingValue() / 100f) * (masterVolume / 100f)
-                Minecraft.getInstance().soundManager.play(
-                    SimpleSoundInstance.forUI(sound, 1.0f, volume),
-                )
+                Minecraft.getInstance()
+                    .soundManager
+                    .play(SimpleSoundInstance.forUI(sound, 1.0f, volume))
             }
         }
         return soundOption
     }
 
     open class AlertSettings {
-        @SerialEntry
-        var enabled: Boolean = DEFAULT_ENABLED
+        @SerialEntry var enabled: Boolean = DEFAULT_ENABLED
 
-        @SerialEntry
-        var sendChatMessage: Boolean = DEFAULT_SEND_CHAT_MESSAGE
+        @SerialEntry var sendChatMessage: Boolean = DEFAULT_SEND_CHAT_MESSAGE
 
-        @SerialEntry
-        var sendDiscordMessage: Boolean = DEFAULT_SEND_DISCORD_MESSAGE
+        @SerialEntry var sendDiscordMessage: Boolean = DEFAULT_SEND_DISCORD_MESSAGE
 
-        @SerialEntry
-        var playSound: Boolean = DEFAULT_PLAY_SOUND
+        @SerialEntry var playSound: Boolean = DEFAULT_PLAY_SOUND
 
-        @SerialEntry
-        var alertSound: AlertSounds = DEFAULT_ALERT_SOUND
+        @SerialEntry var alertSound: AlertSounds = DEFAULT_ALERT_SOUND
 
-        @SerialEntry
-        var volume: Int = DEFAULT_VOLUME
+        @SerialEntry var volume: Int = DEFAULT_VOLUME
 
         companion object {
             const val DEFAULT_ENABLED = true
@@ -374,11 +381,9 @@ class AlertConfig {
     }
 
     class FilterAlertSettings : AlertSettings() {
-        @SerialEntry
-        var repeatSound: Boolean = DEFAULT_REPEAT_SOUND
+        @SerialEntry var repeatSound: Boolean = DEFAULT_REPEAT_SOUND
 
-        @SerialEntry
-        var highlightEntity: Boolean = DEFAULT_HIGHLIGHT_ENTITY
+        @SerialEntry var highlightEntity: Boolean = DEFAULT_HIGHLIGHT_ENTITY
 
         init {
             // Pokemon alerts send a chat message by default but others (like lure expiry) do not

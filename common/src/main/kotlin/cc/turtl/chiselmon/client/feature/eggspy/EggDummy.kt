@@ -17,12 +17,10 @@ import net.minecraft.world.item.ItemStack
 /**
  * Represents the pokemon a NeoDaycare egg will hatch into.
  *
- * To most methods, this looks like a regular Pokemon, with a forced
- * "EggDummy" aspect for recognition by Chiselmon methods.
+ * To most methods, this looks like a regular Pokemon, with a forced "EggDummy" aspect for
+ * recognition by Chiselmon methods.
  */
-class EggDummy private constructor(
-    private val cachedRenderableEgg: RenderablePokemon,
-) : Pokemon() {
+class EggDummy private constructor(private val cachedRenderableEgg: RenderablePokemon) : Pokemon() {
     var totalSteps: Int = 0
         internal set
 
@@ -38,13 +36,15 @@ class EggDummy private constructor(
     private var cachedHatchlingRenderable: RenderablePokemon? = null
 
     /**
-     * Cached [RenderablePokemon] for the hatchling. EggDummy fields are immutable
-     * for its lifetime (EggCache rebuilds the dummy when hatchling data changes),
-     * so the renderable can be reused every frame without wasting performance.
+     * Cached [RenderablePokemon] for the hatchling. EggDummy fields are immutable for its lifetime
+     * (EggCache rebuilds the dummy when hatchling data changes), so the renderable can be reused
+     * every frame without wasting performance.
      */
     fun hatchlingRenderable(): RenderablePokemon =
-        cachedHatchlingRenderable ?: RenderablePokemon(species, aspects, ItemStack.EMPTY)
-            .also { cachedHatchlingRenderable = it }
+        cachedHatchlingRenderable
+            ?: RenderablePokemon(species, aspects, ItemStack.EMPTY).also {
+                cachedHatchlingRenderable = it
+            }
 
     override fun attemptAbilityUpdate() {
         // Ability comes from hatchling data and should never be recalculated
@@ -54,7 +54,8 @@ class EggDummy private constructor(
         const val DUMMY_ASPECT = "EggDummy"
 
         @JvmField
-        val EGG_SPECIES_ID: ResourceLocation = ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species")
+        val EGG_SPECIES_ID: ResourceLocation =
+            ResourceLocation.fromNamespaceAndPath("neodaycare", "egg_species")
         const val HATCH_PERCENTAGE_FEATURE = "hatch_percentage"
 
         fun from(egg: Pokemon): EggDummy? {
@@ -65,33 +66,32 @@ class EggDummy private constructor(
                 val hatchlingNbt = TagParser.parseTag(eggData)
                 val registries = Minecraft.getInstance().level?.registryAccess() ?: return null
                 val ops = registries.createSerializationContext(NbtOps.INSTANCE)
-                val renderableEgg = (egg as DuckPreviewPokemon).`chiselmon$getRawRenderablePokemon`()
+                val renderableEgg =
+                    (egg as DuckPreviewPokemon).`chiselmon$getRawRenderablePokemon`()
 
                 val decoded =
-                    CODEC
-                        .decode(ops, hatchlingNbt)
-                        .result()
-                        .orElse(null)
-                        ?.getFirst() ?: return null
+                    CODEC.decode(ops, hatchlingNbt).result().orElse(null)?.getFirst() ?: return null
 
                 val formId = hatchlingNbt.getString(DataKeys.POKEMON_FORM_ID)
 
                 EggDummy(renderableEgg).also { dummy ->
                     dummy.copyFrom(decoded)
 
-                    // Explicitly restore the actual form. My original solution lost form data like typing
+                    // Explicitly restore the actual form. My original solution lost form data like
+                    // typing
                     // and only preserved visual form aspects
                     val resolvedForm =
-                        dummy.species.forms
-                            .firstOrNull { it.formOnlyShowdownId() == formId }
+                        dummy.species.forms.firstOrNull { it.formOnlyShowdownId() == formId }
 
                     if (resolvedForm != null) {
                         dummy.form = resolvedForm
                     }
 
                     // The codec decode chain corrupts the ability so it needs to be reapplied.
-                    Ability.CODEC
-                        .decode(NbtOps.INSTANCE, hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY))
+                    Ability.CODEC.decode(
+                            NbtOps.INSTANCE,
+                            hatchlingNbt.getCompound(DataKeys.POKEMON_ABILITY),
+                        )
                         .result()
                         .orElse(null)
                         ?.getFirst()
@@ -100,12 +100,12 @@ class EggDummy private constructor(
                             (dummy as AccessorPokemon).`chiselmon$setAbility`(it)
                         }
 
-                    // Lock client mode so updateAspects just uses forcedAspects (preserves the form aspects set above)
+                    // Lock client mode so updateAspects just uses forcedAspects (preserves the form
+                    // aspects set above)
                     @Suppress("CAST_NEVER_SUCCEEDS")
                     (dummy as AccessorPokemon).`chiselmon$setIsClient`(true)
 
-                    val capturedAspects =
-                        decoded.aspects + (resolvedForm?.aspects ?: emptySet())
+                    val capturedAspects = decoded.aspects + (resolvedForm?.aspects ?: emptySet())
 
                     dummy.forcedAspects = capturedAspects + DUMMY_ASPECT
                     dummy.uuid = egg.uuid
@@ -116,7 +116,11 @@ class EggDummy private constructor(
                     dummy.nickname = Component.literal("(EGG) ").append(baseName)
                 }
             } catch (e: Exception) {
-                ChiselmonConstants.LOGGER.error("Failed to parse hatchling for egg: {}", egg.uuid, e)
+                ChiselmonConstants.LOGGER.error(
+                    "Failed to parse hatchling for egg: {}",
+                    egg.uuid,
+                    e,
+                )
                 null
             }
         }

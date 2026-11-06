@@ -1,5 +1,8 @@
 package cc.turtl.chiselmon.core.api.storage
 
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
 import org.h2.jdbcx.JdbcDataSource
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -10,15 +13,12 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Path
 
 class ScopeTest {
-    @TempDir
-    lateinit var root: Path
+    @TempDir lateinit var root: Path
 
-    private val config: Path get() = root.resolve("config")
+    private val config: Path
+        get() = root.resolve("config")
 
     @Test
     fun `singleplayer settings stay isolated for names that previously collided`() {
@@ -42,7 +42,8 @@ class ScopeTest {
     @Test
     fun `same folder name in different save locations has separate settings`() {
         val first = Scope.singleplayer(root.resolve("first-instance/saves/World"), config, "World")
-        val second = Scope.singleplayer(root.resolve("second-instance/saves/World"), config, "World")
+        val second =
+            Scope.singleplayer(root.resolve("second-instance/saves/World"), config, "World")
         val store = fileStore()
 
         store[first].append("first instance")
@@ -96,8 +97,14 @@ class ScopeTest {
 
         assertTrue(first.dataDir().startsWith(config.resolve("worlds")))
         assertTrue(second.dataDir().startsWith(config.resolve("worlds")))
-        assertEquals("first server", store[Scope.multiplayer(config, "server.example:25565")].toString())
-        assertEquals("second server", store[Scope.multiplayer(config, "server.example_25565")].toString())
+        assertEquals(
+            "first server",
+            store[Scope.multiplayer(config, "server.example:25565")].toString(),
+        )
+        assertEquals(
+            "second server",
+            store[Scope.multiplayer(config, "server.example_25565")].toString(),
+        )
     }
 
     @Test
@@ -106,7 +113,8 @@ class ScopeTest {
         val bookmarks = """{"bookmarks":{"data":[3]}}"""
         Files.writeString(legacy.resolve("pc.json"), bookmarks)
         Files.writeString(legacy.resolve("pc.json.bak"), "previous bookmarks")
-        val legacySource = JdbcDataSource().apply { setURL("jdbc:h2:${legacy.resolve("encounters")}") }
+        val legacySource =
+            JdbcDataSource().apply { setURL("jdbc:h2:${legacy.resolve("encounters")}") }
         legacySource.connection.use { connection ->
             connection.createStatement().use { statement ->
                 statement.execute("CREATE TABLE history (species VARCHAR)")
@@ -120,7 +128,8 @@ class ScopeTest {
 
         assertEquals(bookmarks, Files.readString(scope.dataFile("pc.json")))
         assertEquals("previous bookmarks", Files.readString(scope.dataFile("pc.json.bak")))
-        val migratedSource = JdbcDataSource().apply { setURL("jdbc:h2:${scope.dataFile("encounters")}") }
+        val migratedSource =
+            JdbcDataSource().apply { setURL("jdbc:h2:${scope.dataFile("encounters")}") }
         migratedSource.connection.use { connection ->
             connection.createStatement().use { statement ->
                 statement.executeQuery("SELECT species FROM history").use { rows ->

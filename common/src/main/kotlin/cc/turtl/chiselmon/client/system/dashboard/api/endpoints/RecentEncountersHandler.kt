@@ -4,9 +4,7 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class RecentEncountersHandler(
-    db: EncounterDatabase,
-) : ApiHandler(db) {
+class RecentEncountersHandler(db: EncounterDatabase) : ApiHandler(db) {
     private data class EncounterEntry(
         val species: String,
         val form: String,
@@ -22,9 +20,7 @@ class RecentEncountersHandler(
         val ms: Long,
     )
 
-    private data class EncounterResponse(
-        val encounters: List<EncounterEntry>,
-    )
+    private data class EncounterResponse(val encounters: List<EncounterEntry>)
 
     override fun handle(exchange: HttpExchange) {
         handleRequest(exchange) { timeRange, params ->
@@ -35,8 +31,9 @@ class RecentEncountersHandler(
                     .timeRange(timeRange)
                     .select(
                         "species, form, level, gender, scale_modifier, is_shiny, is_legendary," +
-                            " from_snack, block_name, dimension, biome, encountered_ms",
-                    ).orderBy("encountered_ms DESC")
+                            " from_snack, block_name, dimension, biome, encountered_ms"
+                    )
+                    .orderBy("encountered_ms DESC")
                     .limit(limit)
                     .fetchList { rs ->
                         EncounterEntry(

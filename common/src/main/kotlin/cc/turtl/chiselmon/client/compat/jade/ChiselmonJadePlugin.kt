@@ -38,9 +38,7 @@ class ChiselmonJadePlugin : IWailaPlugin {
         configureOption(registration, PokeSnackProvider.EFFECTS, true)
     }
 
-    /**
-     * Helper to register a config option with default value and mark as client feature.
-     */
+    /** Helper to register a config option with default value and mark as client feature. */
     private fun configureOption(
         registration: IWailaClientRegistration,
         id: ResourceLocation?,

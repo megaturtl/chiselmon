@@ -27,7 +27,8 @@ fun Project.cobblemonNeoForgeVersionRange(): String {
 }
 
 fun Project.writeVersion(type: VersionType = VersionType.FULL): String {
-    val releaseVersion = "${rootProject.property("chiselmon_version")}+cobblemon-${cobblemonVersion()}"
+    val releaseVersion =
+        "${rootProject.property("chiselmon_version")}+cobblemon-${cobblemonVersion()}"
     val buildMetadata =
         rootProject
             .findProperty("build_metadata")
@@ -43,4 +44,7 @@ fun Project.writeVersion(type: VersionType = VersionType.FULL): String {
     }
 }
 
-enum class VersionType { PUBLISHING, FULL }
+enum class VersionType {
+    PUBLISHING,
+    FULL,
+}

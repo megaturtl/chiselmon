@@ -27,7 +27,8 @@ internal object BookmarkConstants {
     val HOME_SPRITE = modResource("textures/gui/pc/pc_button_home.png")
     const val HOME_TEXTURE_WIDTH = 15
     const val HOME_TEXTURE_HEIGHT = 30
-    val HOME_TOOLTIP: Tooltip = Tooltip.create(Component.translatable("chiselmon.pc.home_button.tooltip"))
+    val HOME_TOOLTIP: Tooltip =
+        Tooltip.create(Component.translatable("chiselmon.pc.home_button.tooltip"))
 
     // Tab button
     val TAB_SPRITE = modResource("textures/gui/pc/pc_button_tab.png")

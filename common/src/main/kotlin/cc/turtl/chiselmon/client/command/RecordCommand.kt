@@ -21,14 +21,10 @@ class RecordCommand : TurtlShellClientCommand {
     override val description: MutableComponent = Component.literal("Record pokemon spawn data")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder
-            .literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes { ctx ->
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                val root =
-                    ctx.nodes
-                        .first()
-                        .node.name
+                val root = ctx.nodes.first().node.name
 
                 sendEmptyLine(player)
                 sendSuccess(player, "Spawn Recorder - Commands")
@@ -38,97 +34,94 @@ class RecordCommand : TurtlShellClientCommand {
                 sendPrefixed(player, "  /$root record stop")
                 sendPrefixed(player, "  /$root record summary")
                 Command.SINGLE_SUCCESS
-            }.then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("start")
-                    .executes {
-                        val player = Minecraft.getInstance().player ?: return@executes 0
-                        try {
-                            val started = SpawnRecorderManager.startSession()
-                            if (!started) {
-                                val reason =
-                                    when {
-                                        ChiselmonConfig.general.modDisabled -> "Enable Chiselmon before starting the Spawn Recorder."
-                                        SpawnRecorderManager.session != null -> "A Spawn Recorder session is already running!"
-                                        else -> "No active tracker session."
-                                    }
-                                sendWarning(player, reason)
-                                return@executes 0
-                            } else {
-                                sendSuccess(player, "Spawn Recorder session started!")
-                            }
-                        } catch (e: Exception) {
-                            sendError(player, e)
+            }
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("start").executes {
+                    val player = Minecraft.getInstance().player ?: return@executes 0
+                    try {
+                        val started = SpawnRecorderManager.startSession()
+                        if (!started) {
+                            val reason =
+                                when {
+                                    ChiselmonConfig.general.modDisabled ->
+                                        "Enable Chiselmon before starting the Spawn Recorder."
+                                    SpawnRecorderManager.session != null ->
+                                        "A Spawn Recorder session is already running!"
+                                    else -> "No active tracker session."
+                                }
+                            sendWarning(player, reason)
                             return@executes 0
+                        } else {
+                            sendSuccess(player, "Spawn Recorder session started!")
                         }
-                        Command.SINGLE_SUCCESS
-                    },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("pause")
-                    .executes {
-                        val player = Minecraft.getInstance().player ?: return@executes 0
-                        val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
+                    } catch (e: Exception) {
+                        sendError(player, e)
+                        return@executes 0
+                    }
+                    Command.SINGLE_SUCCESS
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("pause").executes {
+                    val player = Minecraft.getInstance().player ?: return@executes 0
+                    val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
 
-                        if (session.isPaused) {
-                            sendWarning(player, "Session is already paused.")
-                            return@executes Command.SINGLE_SUCCESS
-                        }
-                        session.pause()
-                        sendSuccess(player, "Spawn Recorder paused.")
-                        Command.SINGLE_SUCCESS
-                    },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("resume")
-                    .executes {
-                        val player = Minecraft.getInstance().player ?: return@executes 0
-                        val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
-                        if (ChiselmonConfig.general.modDisabled) {
-                            sendWarning(player, "Enable Chiselmon before resuming the Spawn Recorder.")
-                            return@executes 0
-                        }
+                    if (session.isPaused) {
+                        sendWarning(player, "Session is already paused.")
+                        return@executes Command.SINGLE_SUCCESS
+                    }
+                    session.pause()
+                    sendSuccess(player, "Spawn Recorder paused.")
+                    Command.SINGLE_SUCCESS
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("resume").executes {
+                    val player = Minecraft.getInstance().player ?: return@executes 0
+                    val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
+                    if (ChiselmonConfig.general.modDisabled) {
+                        sendWarning(player, "Enable Chiselmon before resuming the Spawn Recorder.")
+                        return@executes 0
+                    }
 
-                        if (!session.isPaused) {
-                            sendWarning(player, "Session is already running.")
-                            return@executes Command.SINGLE_SUCCESS
-                        }
-                        session.resume()
-                        sendSuccess(player, "Spawn Recorder resumed.")
-                        Command.SINGLE_SUCCESS
-                    },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("stop")
-                    .executes {
-                        val player = Minecraft.getInstance().player ?: return@executes 0
-                        val finished = SpawnRecorderManager.stopSession()
+                    if (!session.isPaused) {
+                        sendWarning(player, "Session is already running.")
+                        return@executes Command.SINGLE_SUCCESS
+                    }
+                    session.resume()
+                    sendSuccess(player, "Spawn Recorder resumed.")
+                    Command.SINGLE_SUCCESS
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("stop").executes {
+                    val player = Minecraft.getInstance().player ?: return@executes 0
+                    val finished = SpawnRecorderManager.stopSession()
 
-                        if (finished == null) {
-                            sendWarning(player, "No active session to stop.")
-                            return@executes Command.SINGLE_SUCCESS
-                        }
+                    if (finished == null) {
+                        sendWarning(player, "No active session to stop.")
+                        return@executes Command.SINGLE_SUCCESS
+                    }
 
-                        sendEmptyLine(player)
-                        sendSessionSummary(player, "Session Ended", finished, 3)
-                        Command.SINGLE_SUCCESS
-                    },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("summary")
-                    .executes {
-                        val player = Minecraft.getInstance().player ?: return@executes 0
-                        val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
+                    sendEmptyLine(player)
+                    sendSessionSummary(player, "Session Ended", finished, 3)
+                    Command.SINGLE_SUCCESS
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("summary").executes {
+                    val player = Minecraft.getInstance().player ?: return@executes 0
+                    val session = requireSession(player) ?: return@executes Command.SINGLE_SUCCESS
 
-                        if (session.getTopSpecies(1).isEmpty()) {
-                            sendWarning(player, "No spawns recorded yet.")
-                            return@executes Command.SINGLE_SUCCESS
-                        }
+                    if (session.getTopSpecies(1).isEmpty()) {
+                        sendWarning(player, "No spawns recorded yet.")
+                        return@executes Command.SINGLE_SUCCESS
+                    }
 
-                        sendEmptyLine(player)
-                        sendSessionSummary(player, "Session Summary", session, 10)
-                        Command.SINGLE_SUCCESS
-                    },
+                    sendEmptyLine(player)
+                    sendSessionSummary(player, "Session Summary", session, 10)
+                    Command.SINGLE_SUCCESS
+                }
             )
 
     private fun sendSessionSummary(
@@ -144,7 +137,7 @@ class RecordCommand : TurtlShellClientCommand {
             "  Spawns",
             "${session.totalRecordedCount} (${
                 formatDecimal(
-                    session.spawnsPerMinute.toDouble(),
+                    session.spawnsPerMinute.toDouble()
                 )
             }/min)",
         )
@@ -157,20 +150,19 @@ class RecordCommand : TurtlShellClientCommand {
     ) {
         top.forEachIndexed { index, entry ->
             val line =
-                Component
-                    .empty()
+                Component.empty()
                     .append(Component.literal("    #${index + 1}").withColor(ColorLib.AQUA.rgb))
                     .append(Component.literal(" » ").withColor(ColorLib.DARK_GRAY.rgb))
                     .append(Component.literal(entry.key).withColor(ColorLib.PINK.rgb))
                     .append(Component.literal(" - ").withColor(ColorLib.DARK_GRAY.rgb))
-                    .append(Component.literal("${entry.value} spawns").withColor(ColorLib.WHITE.rgb))
+                    .append(
+                        Component.literal("${entry.value} spawns").withColor(ColorLib.WHITE.rgb)
+                    )
             sendPrefixed(player, line)
         }
     }
 
-    /**
-     * Validates a session exists, sending a warning if not. Returns null if invalid.
-     */
+    /** Validates a session exists, sending a warning if not. Returns null if invalid. */
     private fun requireSession(player: LocalPlayer): SpawnRecorderSession? =
         SpawnRecorderManager.session
             ?: run {

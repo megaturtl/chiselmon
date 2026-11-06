@@ -6,9 +6,9 @@ import com.sun.net.httpserver.HttpHandler
 /**
  * Serves static files from `/assets/chiselmon/dashboard/`.
  *
- * Resolves paths dynamically so that new JS/CSS modules can be added without touching this
- * class. Only files under the resource root with known extensions are served. Path traversal
- * (`..`) is rejected.
+ * Resolves paths dynamically so that new JS/CSS modules can be added without touching this class.
+ * Only files under the resource root with known extensions are served. Path traversal (`..`) is
+ * rejected.
  */
 class StaticFileHandler : HttpHandler {
     override fun handle(exchange: HttpExchange) {

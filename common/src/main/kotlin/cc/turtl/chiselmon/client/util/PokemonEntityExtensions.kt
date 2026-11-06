@@ -22,7 +22,7 @@ fun PokemonEntity.highlightNickname(rgb: Int) {
     if (ChiselmonConfig.general.modDisabled) return
     val mcColor = getClosestLegacy(rgb).char
     (pokemon as? DuckHighlightedPokemon)?.`chiselmon$setNicknameHighlight`(
-        Component.literal("§${mcColor}${pokemon.species.name}"),
+        Component.literal("§${mcColor}${pokemon.species.name}")
     )
 }
 

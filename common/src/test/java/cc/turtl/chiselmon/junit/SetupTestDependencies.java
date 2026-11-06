@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Bootstraps vanilla Minecraft and sets up the Mockito extension before any tests in the
- * annotated class run. Required for any test class that directly or indirectly touches
- * Minecraft or Cobblemon types whose static initializers depend on MC being initialized
- * (e.g. {@code Pokemon}, {@code PokeBall}, {@code ItemStack}).
+ * Bootstraps vanilla Minecraft and sets up the Mockito extension before any tests in the annotated
+ * class run. Required for any test class that directly or indirectly touches Minecraft or Cobblemon
+ * types whose static initializers depend on MC being initialized (e.g. {@code Pokemon}, {@code
+ * PokeBall}, {@code ItemStack}).
  *
  * <pre>{@code
  * @SetupTestDependencies
@@ -27,5 +27,4 @@ import java.lang.annotation.Target;
 @ExtendWith(BootstrapMinecraftExtension.class)
 // @ExtendWith(BootstrapCobblemonExtension.class)
 @ExtendWith(MockitoExtension.class)
-public @interface SetupTestDependencies {
-}
+public @interface SetupTestDependencies {}

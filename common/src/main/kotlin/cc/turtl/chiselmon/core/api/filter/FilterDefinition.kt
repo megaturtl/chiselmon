@@ -6,10 +6,9 @@ import cc.turtl.turtlshell.api.core.format.ColorLib
 /**
  * Serializable filter definition suitable for the config format.
  *
- * The condition is stored as a plain string using word-operator syntax
- * (e.g. "shiny AND type=fire"), parsed into a [FilterCondition] tree at
- * runtime by [FilterConditionParser]. No custom Gson adapter is needed --
- * the field serializes as a simple JSON string.
+ * The condition is stored as a plain string using word-operator syntax (e.g. "shiny AND
+ * type=fire"), parsed into a [FilterCondition] tree at runtime by [FilterConditionParser]. No
+ * custom Gson adapter is needed -- the field serializes as a simple JSON string.
  */
 class FilterDefinition(
     // @JvmField: ensures Gson serializes these as plain fields matching the property names
@@ -21,12 +20,10 @@ class FilterDefinition(
     @JvmField var conditionString: String,
 ) {
     /**
-     * Legacy field kept for migration only.
-     * Gson populates this if the JSON still has a "tags" array.
+     * Legacy field kept for migration only. Gson populates this if the JSON still has a "tags"
+     * array.
      */
-    @Deprecated("Use conditionString instead")
-    @JvmField
-    var tags: List<String>? = null
+    @Deprecated("Use conditionString instead") @JvmField var tags: List<String>? = null
 
     // -------------------------------------------------------------------------
     // Default filters

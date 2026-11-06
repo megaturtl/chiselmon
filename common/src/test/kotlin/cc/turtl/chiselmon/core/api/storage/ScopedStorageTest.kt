@@ -1,5 +1,8 @@
 package cc.turtl.chiselmon.core.api.storage
 
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -8,13 +11,9 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Path
 
 class ScopedStorageTest {
-    @TempDir
-    lateinit var root: Path
+    @TempDir lateinit var root: Path
 
     data class Settings(var bookmark: Int = 0, var scale: Double = 1.0)
 
@@ -79,8 +78,14 @@ class ScopedStorageTest {
         val second = Scope.singleplayer(root.resolve("Second"), config, "Second")
         val healthy = Scope.singleplayer(root.resolve("Healthy"), config, "Healthy")
         val store = newStore()
-        store[first].apply { bookmark = 11; scale = Double.NaN }
-        store[second].apply { bookmark = 22; scale = Double.NaN }
+        store[first].apply {
+            bookmark = 11
+            scale = Double.NaN
+        }
+        store[second].apply {
+            bookmark = 22
+            scale = Double.NaN
+        }
         store[healthy].bookmark = 33
 
         val failure = assertThrows(IOException::class.java) { store.saveAll() }
@@ -109,14 +114,15 @@ class ScopedStorageTest {
         val saved = mutableMapOf<Scope, Int>()
         val closed = mutableSetOf<Scope>()
         var fail = true
-        val store = ScopedStorage(
-            load = { Settings() },
-            save = { scope, settings ->
-                if (fail && scope in failedScopes) throw sharedFailure
-                saved[scope] = settings.bookmark
-            },
-            close = { scope, _ -> closed.add(scope) },
-        )
+        val store =
+            ScopedStorage(
+                load = { Settings() },
+                save = { scope, settings ->
+                    if (fail && scope in failedScopes) throw sharedFailure
+                    saved[scope] = settings.bookmark
+                },
+                close = { scope, _ -> closed.add(scope) },
+            )
         store[first].bookmark = 11
         store[second].bookmark = 22
         store[healthy].bookmark = 33
@@ -139,7 +145,8 @@ class ScopedStorageTest {
         val scope = Scope.singleplayer(root.resolve("World"), root.resolve("config"), "World")
         Files.createDirectories(scope.dataDir())
         val file = Files.writeString(scope.dataFile("settings.json"), "{\"bookmark\":")
-        val backup = Files.writeString(scope.dataFile("settings.json.bak"), "earlier recovered data")
+        val backup =
+            Files.writeString(scope.dataFile("settings.json.bak"), "earlier recovered data")
         val store = newStore()
 
         assertThrows(IOException::class.java) { store[scope] }

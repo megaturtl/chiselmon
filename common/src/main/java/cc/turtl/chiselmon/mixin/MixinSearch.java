@@ -1,8 +1,10 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.client.feature.eggspy.EggPreview;
+
 import com.cobblemon.mod.common.api.storage.pc.search.Search;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

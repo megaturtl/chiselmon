@@ -37,8 +37,7 @@ publishing {
             artifact(tasks.remapJar)
             artifact(tasks.remapSourcesJar)
 
-            @Suppress("UnstableApiUsage")
-            loom.disableDeprecatedPomGeneration(this)
+            @Suppress("UnstableApiUsage") loom.disableDeprecatedPomGeneration(this)
 
             groupId = "cc.turtl.chiselmon"
             artifactId = project.findProperty("maven.artifactId")?.toString() ?: project.name
@@ -46,11 +45,13 @@ publishing {
             version = project.writeVersion(VersionType.PUBLISHING)
 
             pom {
-                properties.set(mapOf(
-                    "gitBranch" to versioning.info.branch,
-                    "gitCommit" to versioning.info.commit,
-                    "buildNumber" to versioning.info.build.toString()
-                ))
+                properties.set(
+                    mapOf(
+                        "gitBranch" to versioning.info.branch,
+                        "gitCommit" to versioning.info.commit,
+                        "buildNumber" to versioning.info.build.toString(),
+                    )
+                )
             }
         }
     }

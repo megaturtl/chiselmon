@@ -18,7 +18,9 @@ object TooltipBuilder {
         if (shiftDown) {
             TooltipRegistry.entries
                 .filter { it.shouldDisplay(config, pokemon) }
-                .forEach { content.append(Component.literal("\n")).append(it.getComponent(pokemon)) }
+                .forEach {
+                    content.append(Component.literal("\n")).append(it.getComponent(pokemon))
+                }
         }
 
         return Tooltip.create(content)

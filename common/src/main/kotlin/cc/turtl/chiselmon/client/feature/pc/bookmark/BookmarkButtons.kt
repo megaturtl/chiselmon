@@ -15,36 +15,40 @@ internal object BookmarkButtons {
         isBookmarked: Boolean,
         onPress: () -> Unit,
     ): PCButton =
-        PCButton
-            .Builder(
+        PCButton.Builder(
                 x,
                 y,
                 BookmarkConstants.BOOKMARK_SPRITE,
                 BookmarkConstants.BOOKMARK_TEXTURE_WIDTH,
                 BookmarkConstants.BOOKMARK_TEXTURE_HEIGHT,
-            ) { onPress() }
+            ) {
+                onPress()
+            }
             .apply {
                 activeTooltip = BookmarkConstants.BOOKMARK_ACTIVE_TOOLTIP
                 inactiveTooltip = BookmarkConstants.BOOKMARK_INACTIVE_TOOLTIP
                 initialActive = isBookmarked
-            }.build()
+            }
+            .build()
 
     fun createHomeButton(
         x: Int,
         y: Int,
         onPress: () -> Unit,
     ): PCButton =
-        PCButton
-            .Builder(
+        PCButton.Builder(
                 x,
                 y,
                 BookmarkConstants.HOME_SPRITE,
                 BookmarkConstants.HOME_TEXTURE_WIDTH,
                 BookmarkConstants.HOME_TEXTURE_HEIGHT,
-            ) { onPress() }
+            ) {
+                onPress()
+            }
             .apply {
                 inactiveTooltip = BookmarkConstants.HOME_TOOLTIP
-            }.build()
+            }
+            .build()
 
     fun createTabButton(
         x: Int,
@@ -53,20 +57,29 @@ internal object BookmarkButtons {
         boxName: Component,
         onPress: () -> Unit,
     ): PCButton =
-        PCButton
-            .Builder(
+        PCButton.Builder(
                 x,
                 y,
                 BookmarkConstants.TAB_SPRITE,
                 BookmarkConstants.TAB_TEXTURE_WIDTH,
                 BookmarkConstants.TAB_TEXTURE_HEIGHT,
-            ) { onPress() }
+            ) {
+                onPress()
+            }
             .apply {
                 text = boxName
                 textColor = ColorLib.WHITE.rgb
                 textMargin = BookmarkConstants.TAB_TEXT_MARGIN
-                inactiveTooltip = Tooltip.create(Component.translatable("chiselmon.pc.tab_button.tooltip", boxName, boxNumber + 1))
-            }.build()
+                inactiveTooltip =
+                    Tooltip.create(
+                        Component.translatable(
+                            "chiselmon.pc.tab_button.tooltip",
+                            boxName,
+                            boxNumber + 1,
+                        )
+                    )
+            }
+            .build()
 
     fun createTabButtons(
         bookmarkedBoxes: Collection<Int>,
@@ -83,7 +96,11 @@ internal object BookmarkButtons {
 
             val boxName = formatBoxName(clientBoxes, boxNumber)
             createTabButton(currentX, startY, boxNumber, boxName) { onTabClick(boxNumber) }
-                .also { currentX += BookmarkConstants.TAB_TEXTURE_WIDTH + BookmarkConstants.TAB_HORIZONTAL_SPACING }
+                .also {
+                    currentX +=
+                        BookmarkConstants.TAB_TEXTURE_WIDTH +
+                            BookmarkConstants.TAB_HORIZONTAL_SPACING
+                }
         }
     }
 
@@ -94,8 +111,7 @@ internal object BookmarkButtons {
         val name =
             clientBoxes[boxNumber].name
                 ?: Component.translatable("cobblemon.ui.pc.box.title", boxNumber + 1)
-        return Component
-            .empty()
+        return Component.empty()
             .append(name)
             .setStyle(name.style.withFont(CobblemonResources.DEFAULT_LARGE))
             .withStyle(ChatFormatting.BOLD)

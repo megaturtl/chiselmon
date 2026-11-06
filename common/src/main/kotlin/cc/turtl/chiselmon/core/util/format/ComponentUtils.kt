@@ -7,9 +7,7 @@ import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-/**
- * Placeholder component for missing or null data.
- */
+/** Placeholder component for missing or null data. */
 val UNKNOWN: Component = createComponent("???", ColorLib.DARK_GRAY.rgb)
 val NONE: Component = createComponent("None", ColorLib.DARK_GRAY.rgb)
 val SPACE: Component = Component.literal(" ")
@@ -35,9 +33,7 @@ fun createComponent(
     }
 }
 
-/**
- * Creates a clickable URL component that opens the link in the browser when clicked.
- */
+/** Creates a clickable URL component that opens the link in the browser when clicked. */
 fun clickableUrl(url: String): Component =
     Component.literal(url).withStyle { style ->
         style
@@ -56,10 +52,9 @@ fun labelled(
     value: Any?,
 ): MutableComponent {
     val labelComp = (label as? Component)?.copy() ?: Component.literal(label.toString())
-    val styledLabelComp =
-        labelComp.withStyle { style ->
-            style.withColor(ColorLib.LIGHT_GRAY.rgb).withBold(false)
-        }
+    val styledLabelComp = labelComp.withStyle { style ->
+        style.withColor(ColorLib.LIGHT_GRAY.rgb).withBold(false)
+    }
 
     val valueComp =
         value?.let {

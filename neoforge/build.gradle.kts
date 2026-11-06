@@ -14,9 +14,7 @@ architectury {
 }
 
 loom {
-    neoForge {
-
-    }
+    neoForge {}
 }
 
 repositories {
@@ -42,9 +40,12 @@ dependencies {
     include(libs.h2db)
     include(libs.turtlshell.neoforge)
 
-    runtimeOnly(libs.bundles.neoforge.integrations.runtimeOnly) // this has to be runtimeOnly instead of modRuntimeOnly or loom can't remap the quilt parsers correctly
+    runtimeOnly(
+        libs.bundles.neoforge.integrations.runtimeOnly
+    ) // this has to be runtimeOnly instead of modRuntimeOnly or loom can't remap the quilt parsers
+    // correctly
 
-    modRuntimeOnly(libs.turtlshell.neoforge) {isChanging = true} // gets the latest snapshot
+    modRuntimeOnly(libs.turtlshell.neoforge) { isChanging = true } // gets the latest snapshot
 
     runtimeOnly(cobblemonDependency("neoforge"))
 
@@ -55,14 +56,12 @@ dependencies {
         isTransitive = false
     }
     testImplementation(project(":common", configuration = "namedElements"))
-
 }
 
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
         exclude("architectury.common.json")
-
     }
 
     processResources {
@@ -84,7 +83,7 @@ tasks {
                 "version" to rootProject.version.toString(),
                 "minecraft_version" to rootProject.property("mc_version").toString(),
                 "java_version" to rootProject.property("java_version").toString(),
-                "cobblemon_version_range" to cobblemonVersionRange
+                "cobblemon_version_range" to cobblemonVersionRange,
             )
         }
     }

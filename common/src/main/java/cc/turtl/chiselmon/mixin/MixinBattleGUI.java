@@ -1,11 +1,14 @@
 package cc.turtl.chiselmon.mixin;
 
 import cc.turtl.chiselmon.client.feature.battle.MoveTooltipRenderer;
+
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI;
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection;
+
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.client.gui.GuiGraphics;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +25,8 @@ public abstract class MixinBattleGUI extends Screen {
     public abstract BattleActionSelection getCurrentActionSelection();
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void chiselmon$renderMoveTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void chiselmon$renderMoveTooltip(
+            GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         MoveTooltipRenderer.schedule(this, getCurrentActionSelection(), mouseX, mouseY);
     }
 }

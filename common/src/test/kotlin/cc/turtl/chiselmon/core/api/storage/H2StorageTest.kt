@@ -1,5 +1,11 @@
 package cc.turtl.chiselmon.core.api.storage
 
+import java.nio.channels.FileChannel
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
+import java.sql.Connection
+import java.sql.SQLException
 import org.h2.jdbcx.JdbcDataSource
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -8,22 +14,17 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import java.nio.channels.FileChannel
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.StandardOpenOption
-import java.sql.Connection
-import java.sql.SQLException
 
 class H2StorageTest {
-    @TempDir
-    lateinit var root: Path
+    @TempDir lateinit var root: Path
 
     private fun newStore(onSave: (Connection) -> Unit = Connection::commit) =
         h2Data(
             "encounters",
             { connection, _ ->
-                connection.createStatement().use { it.execute("CREATE TABLE IF NOT EXISTS history (entry_value INT)") }
+                connection.createStatement().use {
+                    it.execute("CREATE TABLE IF NOT EXISTS history (entry_value INT)")
+                }
                 connection.autoCommit = false
                 connection
             },
@@ -49,7 +50,8 @@ class H2StorageTest {
         }
 
     private fun assertFileReleased(scope: Scope) {
-        FileChannel.open(scope.dataFile("encounters.mv.db"), StandardOpenOption.WRITE).use { channel ->
+        FileChannel.open(scope.dataFile("encounters.mv.db"), StandardOpenOption.WRITE).use { channel
+            ->
             channel.tryLock().use { lock ->
                 assertNotNull(lock, "Disposed database still holds the file lock")
                 assertTrue(lock!!.isValid)
@@ -59,9 +61,10 @@ class H2StorageTest {
 
     private fun shutdown(scope: Scope) {
         if (!Files.exists(scope.dataFile("encounters.mv.db"))) return
-        val source = JdbcDataSource().apply {
-            setURL("jdbc:h2:${scope.dataFile("encounters")};IFEXISTS=TRUE;DB_CLOSE_DELAY=0")
-        }
+        val source =
+            JdbcDataSource().apply {
+                setURL("jdbc:h2:${scope.dataFile("encounters")};IFEXISTS=TRUE;DB_CLOSE_DELAY=0")
+            }
         source.connection.use { connection ->
             connection.createStatement().use { it.execute("SHUTDOWN") }
         }
@@ -71,7 +74,12 @@ class H2StorageTest {
     fun `disposing distinct scopes commits pending rows releases locks and reopens persisted history`() {
         val store = newStore()
         repeat(3) { index ->
-            val scope = Scope.singleplayer(root.resolve("World-$index"), root.resolve("config"), "World-$index")
+            val scope =
+                Scope.singleplayer(
+                    root.resolve("World-$index"),
+                    root.resolve("config"),
+                    "World-$index",
+                )
             try {
                 val connection = store[scope]
                 insert(connection, index)
@@ -119,20 +127,21 @@ class H2StorageTest {
         val scope = Scope.singleplayer(root.resolve("Retry"), root.resolve("config"), "Retry")
         var opened: Connection? = null
         var failInitialization = true
-        val store = h2Data(
-            "encounters",
-            { connection, _ ->
-                opened = connection
-                connection.createStatement().use {
-                    it.execute("CREATE TABLE IF NOT EXISTS history (entry_value INT)")
-                    if (failInitialization) it.execute("SELECT 1 / 0")
-                }
-                connection.autoCommit = false
-                connection
-            },
-            Connection::commit,
-            Connection::close,
-        )
+        val store =
+            h2Data(
+                "encounters",
+                { connection, _ ->
+                    opened = connection
+                    connection.createStatement().use {
+                        it.execute("CREATE TABLE IF NOT EXISTS history (entry_value INT)")
+                        if (failInitialization) it.execute("SELECT 1 / 0")
+                    }
+                    connection.autoCommit = false
+                    connection
+                },
+                Connection::commit,
+                Connection::close,
+            )
         try {
             assertThrows(RuntimeException::class.java) { store[scope] }
 

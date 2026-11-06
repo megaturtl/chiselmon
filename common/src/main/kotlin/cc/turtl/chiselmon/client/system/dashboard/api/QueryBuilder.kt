@@ -22,7 +22,8 @@ import java.sql.ResultSet
  *     .fetchList { rs -> SpeciesEntry(rs.getString("species"), rs.getLong("cnt")) }
  * ```
  */
-class QueryBuilder internal constructor(
+class QueryBuilder
+internal constructor(
     private val conn: Connection,
     private val table: String,
 ) {
@@ -33,15 +34,13 @@ class QueryBuilder internal constructor(
     private var limit: Int? = null
 
     /**
-     * Applies a [TimeRange] filter to this query.
-     * Adds `encountered_ms >= from` and/or `encountered_ms <= to` conditions as appropriate.
-     * Has no effect if the range is unbounded.
+     * Applies a [TimeRange] filter to this query. Adds `encountered_ms >= from` and/or
+     * `encountered_ms <= to` conditions as appropriate. Has no effect if the range is unbounded.
      */
-    fun timeRange(timeRange: TimeRange): QueryBuilder =
-        apply {
-            if (timeRange.hasFrom) where("encountered_ms >= ${timeRange.from}")
-            if (timeRange.hasTo) where("encountered_ms <= ${timeRange.to}")
-        }
+    fun timeRange(timeRange: TimeRange): QueryBuilder = apply {
+        if (timeRange.hasFrom) where("encountered_ms >= ${timeRange.from}")
+        if (timeRange.hasTo) where("encountered_ms <= ${timeRange.to}")
+    }
 
     /** Columns or expressions to SELECT. Defaults to `*`. */
     fun select(columns: String): QueryBuilder = apply { this.select = columns }
@@ -67,8 +66,8 @@ class QueryBuilder internal constructor(
     }
 
     /**
-     * Builds and executes the query, returning the first row mapped by [mapper],
-     * or null if no rows were returned.
+     * Builds and executes the query, returning the first row mapped by [mapper], or null if no rows
+     * were returned.
      */
     fun <T> fetchOne(mapper: (ResultSet) -> T): T? {
         conn.prepareStatement(buildSql()).use { ps ->
@@ -79,15 +78,14 @@ class QueryBuilder internal constructor(
     }
 
     /**
-     * Builds and executes a `SELECT COUNT(*)` query using the current conditions,
-     * ignoring any select/groupBy/orderBy/limit set on this builder.
+     * Builds and executes a `SELECT COUNT(*)` query using the current conditions, ignoring any
+     * select/groupBy/orderBy/limit set on this builder.
      */
     fun fetchCount(): Long {
-        val sql =
-            buildString {
-                append("SELECT COUNT(*) FROM ").append(table)
-                appendWhere(this)
-            }
+        val sql = buildString {
+            append("SELECT COUNT(*) FROM ").append(table)
+            appendWhere(this)
+        }
         conn.prepareStatement(sql).use { ps ->
             ps.executeQuery().use { rs ->
                 return if (rs.next()) rs.getLong(1) else 0L
@@ -96,11 +94,11 @@ class QueryBuilder internal constructor(
     }
 
     /**
-     * Builds and executes the query, returning a flat interleaved int array:
-     * `[colA_row0, colB_row0, colA_row1, colB_row1, ...]`.
+     * Builds and executes the query, returning a flat interleaved int array: `[colA_row0,
+     * colB_row0, colA_row1, colB_row1, ...]`.
      *
-     * More compact than a list of objects for coordinate data — eliminates repeated field
-     * names in the JSON serialization.
+     * More compact than a list of objects for coordinate data — eliminates repeated field names in
+     * the JSON serialization.
      */
     fun fetchInterleavedPairs(
         colA: String,
@@ -118,14 +116,13 @@ class QueryBuilder internal constructor(
         return buf.toIntArray()
     }
 
-    private fun buildSql(): String =
-        buildString {
-            append("SELECT ").append(select).append(" FROM ").append(table)
-            appendWhere(this)
-            groupBy?.let { append(" GROUP BY ").append(it) }
-            orderBy?.let { append(" ORDER BY ").append(it) }
-            limit?.let { append(" LIMIT ").append(it) }
-        }
+    private fun buildSql(): String = buildString {
+        append("SELECT ").append(select).append(" FROM ").append(table)
+        appendWhere(this)
+        groupBy?.let { append(" GROUP BY ").append(it) }
+        orderBy?.let { append(" ORDER BY ").append(it) }
+        limit?.let { append(" LIMIT ").append(it) }
+    }
 
     private fun appendWhere(sb: StringBuilder) {
         if (conditions.isNotEmpty()) sb.append(" WHERE ").append(conditions.joinToString(" AND "))

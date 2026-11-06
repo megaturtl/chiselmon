@@ -16,14 +16,16 @@ pluginManagement {
 rootProject.name = "chiselmon"
 
 listOf(
-    "common",
-    "fabric",
-    "neoforge"
-).forEach { setupProject(it, file(it)) }
+        "common",
+        "fabric",
+        "neoforge",
+    )
+    .forEach { setupProject(it, file(it)) }
 
-fun setupProject(name: String, projectDirectory: File) = setupProject(name) {
-    projectDir = projectDirectory
-}
+fun setupProject(name: String, projectDirectory: File) =
+    setupProject(name) {
+        projectDir = projectDirectory
+    }
 
 inline fun setupProject(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)

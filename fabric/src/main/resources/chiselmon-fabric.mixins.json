@@ -3,9 +3,7 @@
   "package": "cc.turtl.chiselmon.fabric.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "client": [
-    "MixinPackRepository"
-  ],
+  "client": ["MixinPackRepository"],
   "injectors": {
     "defaultRequire": 1
   }

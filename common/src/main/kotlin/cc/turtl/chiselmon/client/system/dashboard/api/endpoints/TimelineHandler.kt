@@ -4,9 +4,7 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class TimelineHandler(
-    db: EncounterDatabase,
-) : ApiHandler(db) {
+class TimelineHandler(db: EncounterDatabase) : ApiHandler(db) {
     private data class TimelineBucket(
         val bucket: Long,
         val count: Long,
@@ -28,7 +26,9 @@ class TimelineHandler(
             val buckets =
                 query("encounters")
                     .timeRange(timeRange)
-                    .select("FLOOR(encountered_ms / $bucketMs) * $bucketMs AS bucket, COUNT(*) AS cnt")
+                    .select(
+                        "FLOOR(encountered_ms / $bucketMs) * $bucketMs AS bucket, COUNT(*) AS cnt"
+                    )
                     .groupBy("bucket")
                     .orderBy("bucket ASC")
                     .fetchList { rs -> TimelineBucket(rs.getLong("bucket"), rs.getLong("cnt")) }

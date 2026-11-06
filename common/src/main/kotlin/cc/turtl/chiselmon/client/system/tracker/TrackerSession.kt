@@ -13,21 +13,17 @@ import cc.turtl.chiselmon.core.api.storage.Scope
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import java.util.*
 
-/**
- * Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database.
- */
+/** Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database. */
 class TrackerSession private constructor() {
     private val startTimeMs: Long = System.currentTimeMillis()
     private val seenUuids: MutableSet<UUID> = HashSet()
 
     val currentlyLoaded: MutableMap<UUID, PokemonEntity> = HashMap()
-    val db: EncounterDatabase =
-        run {
-            val worldScope =
-                Scope.currentWorld()
-                    ?: error("TrackerSession must be created while in a world")
-            ChiselmonStorage.ENCOUNTERS[worldScope]
-        }
+    val db: EncounterDatabase = run {
+        val worldScope =
+            Scope.currentWorld() ?: error("TrackerSession must be created while in a world")
+        ChiselmonStorage.ENCOUNTERS[worldScope]
+    }
 
     private var dashboardServer: DashboardServer? = null
     private var dashboardResumePending = false
@@ -112,7 +108,8 @@ class TrackerSession private constructor() {
 
     fun dashboardUptime(): Long = dashboardServer?.uptime() ?: 0L
 
-    val dashboardPort: Int get() = DASHBOARD_PORT
+    val dashboardPort: Int
+        get() = DASHBOARD_PORT
 
     val msElapsed: Long
         get() = System.currentTimeMillis() - startTimeMs
@@ -132,8 +129,7 @@ class TrackerSession private constructor() {
          */
         val current: TrackerSession
             get() =
-                activeSession
-                    ?: error("Attempted to access TrackerSession with no active world.")
+                activeSession ?: error("Attempted to access TrackerSession with no active world.")
 
         fun init() {
             ChiselmonClientEvents.POKEMON_LOADED.subscribe { activeSession?.onPokemonLoad(it) }

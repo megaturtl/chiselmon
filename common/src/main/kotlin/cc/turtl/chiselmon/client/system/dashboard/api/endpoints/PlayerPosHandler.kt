@@ -4,9 +4,7 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class PlayerPosHandler(
-    db: EncounterDatabase,
-) : ApiHandler(db) {
+class PlayerPosHandler(db: EncounterDatabase) : ApiHandler(db) {
     private data class PlayerPositionResponse(
         val lastX: Int,
         val lastZ: Int,

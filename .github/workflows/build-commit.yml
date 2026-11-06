@@ -23,7 +23,7 @@ on:
   push:
     branches:
       - main
-      - 'support/cobblemon-*'
+      - "support/cobblemon-*"
 
 jobs:
   build:

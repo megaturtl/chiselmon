@@ -17,14 +17,12 @@ class InfoCommand : TurtlShellClientCommand {
     override val description: MutableComponent = Component.literal("Display mod info")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder
-            .literal<CommandSourceStack>(name)
-            .executes {
-                val player = Minecraft.getInstance().player ?: return@executes 0
-                sendEmptyLine(player)
-                sendSuccess(player, "${BuildDetails.MOD_DISPLAY_NAME} Info")
-                sendLabeled(player, "  Version", BuildDetails.MOD_VERSION)
-                sendLabeled(player, "  Author", BuildDetails.MOD_AUTHOR)
-                Command.SINGLE_SUCCESS
-            }
+        LiteralArgumentBuilder.literal<CommandSourceStack>(name).executes {
+            val player = Minecraft.getInstance().player ?: return@executes 0
+            sendEmptyLine(player)
+            sendSuccess(player, "${BuildDetails.MOD_DISPLAY_NAME} Info")
+            sendLabeled(player, "  Version", BuildDetails.MOD_VERSION)
+            sendLabeled(player, "  Author", BuildDetails.MOD_AUTHOR)
+            Command.SINGLE_SUCCESS
+        }
 }

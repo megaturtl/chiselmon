@@ -7,13 +7,11 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Species
+import java.util.*
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
-import java.util.*
 
-/**
- * Immutable snapshot of a single pokemon's state when first encountered.
- */
+/** Immutable snapshot of a single pokemon's state when first encountered. */
 data class PokemonEncounter(
     val encounteredMs: Long,
     // Identity
@@ -44,9 +42,7 @@ data class PokemonEncounter(
     val playerZ: Int,
 ) {
     companion object {
-        /**
-         * Creates a PokemonEncounter snapshot from a live PokemonEntity.
-         */
+        /** Creates a PokemonEncounter snapshot from a live PokemonEntity. */
         @JvmStatic
         fun from(pe: PokemonEntity): PokemonEncounter {
             val pokemon = pe.pokemon
@@ -71,19 +67,8 @@ data class PokemonEncounter(
                 isShiny = IS_SHINY.test(pokemon),
                 isLegendary = IS_LEGENDARY.test(pokemon),
                 // World context
-                dimension =
-                    pe
-                        .level()
-                        .dimension()
-                        .location()
-                        .toString()
-                        .intern(),
-                biome =
-                    pe
-                        .level()
-                        .getBiome(pe.blockPosition())
-                        .registeredName
-                        .intern(),
+                dimension = pe.level().dimension().location().toString().intern(),
+                biome = pe.level().getBiome(pe.blockPosition()).registeredName.intern(),
                 dayTime = pe.level().dayTime % 24000,
                 isRaining = pe.level().isRaining,
                 blockName = BuiltInRegistries.BLOCK.getKey(blockState.block).toString(),

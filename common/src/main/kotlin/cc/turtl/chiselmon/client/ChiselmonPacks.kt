@@ -14,8 +14,16 @@ object ChiselmonPacks {
         companion object {
             val ALL =
                 listOf(
-                    BuiltInPack("wallpapers_pride", "Chiselmon Pride Wallpapers", setOf("cobblemon")),
-                    BuiltInPack("wallpapers_default", "Chiselmon Default Wallpapers", setOf("cobblemon")),
+                    BuiltInPack(
+                        "wallpapers_pride",
+                        "Chiselmon Pride Wallpapers",
+                        setOf("cobblemon"),
+                    ),
+                    BuiltInPack(
+                        "wallpapers_default",
+                        "Chiselmon Default Wallpapers",
+                        setOf("cobblemon"),
+                    ),
                 )
         }
     }
@@ -29,7 +37,10 @@ object ChiselmonPacks {
             userPackDir.resolve("pack.mcmeta").writeIfAbsent(MCMETA_CONTENT)
             wallpaperDir.resolve("instructions.txt").writeIfAbsent(INSTRUCTIONS_CONTENT)
         } catch (e: IOException) {
-            ChiselmonConstants.LOGGER.error("Unable to create custom wallpaper files: {}", e.message)
+            ChiselmonConstants.LOGGER.error(
+                "Unable to create custom wallpaper files: {}",
+                e.message,
+            )
         }
 
         return wallpaperDir
@@ -48,12 +59,13 @@ object ChiselmonPacks {
             "description": "Added by Chiselmon"
           }
         }
-        """.trimIndent()
+        """
+            .trimIndent()
 
     private val INSTRUCTIONS_CONTENT =
         """
         --- Chiselmon Custom Wallpapers ---
-        
+
         To add your own wallpapers:
         1. Drop .png images into this folder.
         2. Make sure the file names do not have any capital letters or spaces.
@@ -63,9 +75,10 @@ object ChiselmonPacks {
             - Reload textures using F3+T and then relog to your current world/server.
             - Enable and disable the 'Custom_PC_Wallpapers' resource pack and then relog to your current world/server.
         5. They should now show up in your PC options!
-        
+
         Tip: Wallpapers show up in cobblemon in alphabetical order. You can name yours "aa_my_wallpaper.png" to make it appear first!
-        
+
         Note: Native Cobblemon wallpapers are 174x155 pixels. If your wallpapers aren't showing up in-game try to use the same size, or at least the same aspect ratio.
-        """.trimIndent()
+        """
+            .trimIndent()
 }

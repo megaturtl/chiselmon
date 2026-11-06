@@ -31,12 +31,22 @@ object TooltipRegistry {
     val entries =
         listOf(
             entry("ivs", { it.ivs }, { true }, PokemonFormats::ivsSummary),
-            entry("original_trainer", { it.originalTrainer }, { true }, { it.originalTrainerName ?: "???" }),
+            entry(
+                "original_trainer",
+                { it.originalTrainer },
+                { true },
+                { it.originalTrainerName ?: "???" },
+            ),
             entry("form", { it.form }, { true }, { it.form.name }),
             entry("friendship", { it.friendship }, { true }, { it.friendship }),
             entry("ride_styles", { it.rideStyles }, IS_RIDEABLE::test, PokemonFormats::rideStyles),
             entry("marks", { it.marks }, IS_MARKED::test, PokemonFormats::marks),
-            entry("hatch_progress", { it.hatchProgress }, IS_EGG_DUMMY::test, PokemonFormats::hatchProgress),
+            entry(
+                "hatch_progress",
+                { it.hatchProgress },
+                IS_EGG_DUMMY::test,
+                PokemonFormats::hatchProgress,
+            ),
         )
 
     private fun entry(

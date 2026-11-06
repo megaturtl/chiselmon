@@ -4,17 +4,13 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class BiomesHandler(
-    db: EncounterDatabase,
-) : ApiHandler(db) {
+class BiomesHandler(db: EncounterDatabase) : ApiHandler(db) {
     private data class BiomeEntry(
         val biome: String,
         val count: Long,
     )
 
-    private data class BiomesResponse(
-        val biomes: List<BiomeEntry>,
-    )
+    private data class BiomesResponse(val biomes: List<BiomeEntry>)
 
     override fun handle(exchange: HttpExchange) {
         handleRequest(exchange) { timeRange, params ->

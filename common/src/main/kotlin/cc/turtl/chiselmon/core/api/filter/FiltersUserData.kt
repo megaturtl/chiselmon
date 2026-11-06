@@ -3,8 +3,8 @@ package cc.turtl.chiselmon.core.api.filter
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
 
 /**
- * Persistent storage for user-defined filter definitions.
- * Registered globally as the single source of truth for filters.
+ * Persistent storage for user-defined filter definitions. Registered globally as the single source
+ * of truth for filters.
  */
 class FiltersUserData {
     private val filters: LinkedHashMap<String, FilterDefinition> = LinkedHashMap()
@@ -32,7 +32,6 @@ class FiltersUserData {
     }
 
     companion object {
-        @JvmStatic
-        fun withDefaults(): FiltersUserData = FiltersUserData().also { it.migrateAll() }
+        @JvmStatic fun withDefaults(): FiltersUserData = FiltersUserData().also { it.migrateAll() }
     }
 }

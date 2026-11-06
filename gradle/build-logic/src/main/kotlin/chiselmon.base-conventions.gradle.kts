@@ -12,7 +12,9 @@ plugins {
 }
 
 group = rootProject.group
+
 version = rootProject.version
+
 description = rootProject.description
 
 java {
@@ -39,10 +41,14 @@ loom {
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.21:${rootProject.property("parchment_version")}")
-    })
+    mappings(
+        loom.layered {
+            officialMojangMappings()
+            parchment(
+                "org.parchmentmc.data:parchment-1.21:${rootProject.property("parchment_version")}"
+            )
+        }
+    )
 }
 
 tasks {

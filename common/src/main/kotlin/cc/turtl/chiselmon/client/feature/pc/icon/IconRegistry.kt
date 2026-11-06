@@ -18,16 +18,15 @@ data class IconEntry(
 }
 
 object IconRegistry {
-    val entries: List<IconEntry> =
-        buildList {
-            add("hidden_ability", IconConfig::hiddenAbility, HAS_HIDDEN_ABILITY::test)
-            add("ivs", IconConfig::ivs, HAS_HIGH_IVS::test)
-            add("shiny", IconConfig::shiny, IS_SHINY::test)
-            add("size", IconConfig::size, IS_EXTREME_SIZE::test)
-            add("mark", IconConfig::mark, IS_MARKED::test)
-            add("rideable", IconConfig::rideable, IS_RIDEABLE::test)
-            add("shoulderable", IconConfig::shoulderable, IS_SHOULDERABLE::test)
-        }
+    val entries: List<IconEntry> = buildList {
+        add("hidden_ability", IconConfig::hiddenAbility, HAS_HIDDEN_ABILITY::test)
+        add("ivs", IconConfig::ivs, HAS_HIGH_IVS::test)
+        add("shiny", IconConfig::shiny, IS_SHINY::test)
+        add("size", IconConfig::size, IS_EXTREME_SIZE::test)
+        add("mark", IconConfig::mark, IS_MARKED::test)
+        add("rideable", IconConfig::rideable, IS_RIDEABLE::test)
+        add("shoulderable", IconConfig::shoulderable, IS_SHOULDERABLE::test)
+    }
 
     private fun MutableList<IconEntry>.add(
         path: String,

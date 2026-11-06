@@ -9,12 +9,12 @@ import cc.turtl.chiselmon.core.util.normalizeSpeciesName
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.minecraft.client.Minecraft
 import java.net.HttpURLConnection
 import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.time.Instant
 import java.util.*
+import net.minecraft.client.Minecraft
 
 class DiscordAction {
     /** Timestamps of recently-sent alerts, used for simple in-window rate limiting. */
@@ -35,7 +35,10 @@ class DiscordAction {
         val body =
             JsonObject().apply {
                 if (ctx.discordUserId.isNotBlank()) {
-                    add("content", JsonPrimitive("<@${ctx.discordUserId}>")) // Ping outside the embed
+                    add(
+                        "content",
+                        JsonPrimitive("<@${ctx.discordUserId}>"),
+                    ) // Ping outside the embed
                 }
                 add("embeds", JsonArray().apply { add(buildDiscordEmbed(ctx, encounter)) })
             }
@@ -43,7 +46,8 @@ class DiscordAction {
         Thread.ofVirtual().start {
             if (ChiselmonConfig.general.modDisabled) return@start
             try {
-                val conn = URI.create(ctx.discordWebhookUrl).toURL().openConnection() as HttpURLConnection
+                val conn =
+                    URI.create(ctx.discordWebhookUrl).toURL().openConnection() as HttpURLConnection
                 conn.requestMethod = "POST"
                 conn.setRequestProperty("Content-Type", "application/json")
                 conn.setRequestProperty("User-Agent", "Chiselmon/1.0")
@@ -58,11 +62,12 @@ class DiscordAction {
                     ChiselmonConstants.LOGGER.debug("Discord webhook response: {}", status)
                 } else {
                     val errorBody =
-                        conn.errorStream
-                            ?.readAllBytes()
-                            ?.toString(StandardCharsets.UTF_8)
-                            .orEmpty()
-                    ChiselmonConstants.LOGGER.warn("Discord webhook returned {}: {}", status, errorBody)
+                        conn.errorStream?.readAllBytes()?.toString(StandardCharsets.UTF_8).orEmpty()
+                    ChiselmonConstants.LOGGER.warn(
+                        "Discord webhook returned {}: {}",
+                        status,
+                        errorBody,
+                    )
                 }
                 conn.disconnect()
             } catch (e: Exception) {
@@ -72,8 +77,8 @@ class DiscordAction {
     }
 
     /**
-     * Returns true and records the current timestamp if the alert is within
-     * the allowed rate, false if it should be suppressed to stop spam.
+     * Returns true and records the current timestamp if the alert is within the allowed rate, false
+     * if it should be suppressed to stop spam.
      */
     @Synchronized
     private fun allowAlert(): Boolean {
@@ -120,7 +125,7 @@ class DiscordAction {
                             "📍 Location",
                             "${encounter.pokemonX}, ${encounter.pokemonY}, ${encounter.pokemonZ}",
                             true,
-                        ),
+                        )
                     )
                     add(embedField("🏞️ Biome", encounter.biome, true))
                     add(embedField("🕐 Time", "<t:${Instant.now().epochSecond}:R>", false))
@@ -131,7 +136,10 @@ class DiscordAction {
             add(
                 "footer",
                 JsonObject().apply {
-                    addProperty("text", "Sent using ${BuildDetails.MOD_DISPLAY_NAME} by ${BuildDetails.MOD_AUTHOR}")
+                    addProperty(
+                        "text",
+                        "Sent using ${BuildDetails.MOD_DISPLAY_NAME} by ${BuildDetails.MOD_AUTHOR}",
+                    )
                 },
             )
         }
@@ -149,7 +157,8 @@ class DiscordAction {
         }
 
     companion object {
-        // Max 2 alerts every 5 seconds to prevent spam but still allow double spawns to both register
+        // Max 2 alerts every 5 seconds to prevent spam but still allow double spawns to both
+        // register
         private const val MAX_ALERTS = 2
         private const val WINDOW_MS = 5_000L
     }

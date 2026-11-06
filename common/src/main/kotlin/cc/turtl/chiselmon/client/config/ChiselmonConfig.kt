@@ -9,11 +9,20 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 
 object ChiselmonConfig {
-    val general get() = ChiselmonConfigHandler.general
-    val pc get() = ChiselmonConfigHandler.pc
-    val alert get() = ChiselmonConfigHandler.alert
-    val recorder get() = ChiselmonConfigHandler.recorder
-    val filter get() = ChiselmonConfigHandler.filter
+    val general
+        get() = ChiselmonConfigHandler.general
+
+    val pc
+        get() = ChiselmonConfigHandler.pc
+
+    val alert
+        get() = ChiselmonConfigHandler.alert
+
+    val recorder
+        get() = ChiselmonConfigHandler.recorder
+
+    val filter
+        get() = ChiselmonConfigHandler.filter
 
     fun init() {
         ChiselmonConfigHandler.load()
@@ -29,8 +38,7 @@ object ChiselmonConfig {
     fun save() = ChiselmonConfigHandler.save()
 
     fun createScreen(parent: Screen?): Screen =
-        YetAnotherConfigLib
-            .createBuilder()
+        YetAnotherConfigLib.createBuilder()
             .title(Component.translatable("chiselmon.config.title"))
             .category(general.buildCategory())
             .category(pc.buildCategory())
@@ -42,9 +50,8 @@ object ChiselmonConfig {
             .generateScreen(parent)
 
     /**
-     * Saves config and recreates the screen to reflect changes.
-     * Takes a tab index to switch back to that tab after reload.
-     * This is a workaround since YACL doesn't support in-place refresh.
+     * Saves config and recreates the screen to reflect changes. Takes a tab index to switch back to
+     * that tab after reload. This is a workaround since YACL doesn't support in-place refresh.
      */
     fun saveAndReloadScreen(
         parent: Screen?,

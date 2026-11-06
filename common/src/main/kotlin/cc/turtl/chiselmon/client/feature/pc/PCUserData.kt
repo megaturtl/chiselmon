@@ -1,8 +1,6 @@
 package cc.turtl.chiselmon.client.feature.pc
 
-/**
- * Per world PC User Data.
- */
+/** Per world PC User Data. */
 class PCUserData {
     val bookmarks = Bookmarks()
 
@@ -13,7 +11,8 @@ class PCUserData {
 
         private val data = LinkedHashSet<Int>()
 
-        fun toggle(boxNo: Int): Boolean = data.remove(boxNo) || (data.size < MAX_BOOKMARKS && data.add(boxNo))
+        fun toggle(boxNo: Int): Boolean =
+            data.remove(boxNo) || (data.size < MAX_BOOKMARKS && data.add(boxNo))
 
         fun remove(boxNo: Int) {
             data.remove(boxNo)

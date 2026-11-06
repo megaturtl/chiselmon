@@ -8,16 +8,19 @@ import cc.turtl.chiselmon.client.feature.eggspy.EggPreview;
 import cc.turtl.chiselmon.client.feature.eggspy.EggRenderer;
 import cc.turtl.chiselmon.client.feature.pc.icon.IconRenderer;
 import cc.turtl.chiselmon.client.feature.pc.tooltip.TooltipBuilder;
+
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,14 +39,18 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Shadow(remap = false)
     public abstract Pokemon getPokemon();
 
-    // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent stale tooltips.
+    // `renderSlot` is only called if there is a pokemon. So we clear the tooltip here to prevent
+    // stale tooltips.
     @Inject(method = "renderWidget", at = @At("TAIL"))
-    private void chiselmon$clearTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (getPokemon() == null || ChiselmonConfig.INSTANCE.getGeneral().getModDisabled()) setTooltip(null);
+    private void chiselmon$clearTooltip(
+            GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (getPokemon() == null || ChiselmonConfig.INSTANCE.getGeneral().getModDisabled())
+            setTooltip(null);
     }
 
     @Inject(method = "renderSlot", at = @At("TAIL"), remap = false)
-    private void chiselmon$renderTooltip(GuiGraphics context, int posX, int posY, float partialTicks, CallbackInfo ci) {
+    private void chiselmon$renderTooltip(
+            GuiGraphics context, int posX, int posY, float partialTicks, CallbackInfo ci) {
         ChiselmonConfig config = ChiselmonConfig.INSTANCE;
         if (config.getGeneral().getModDisabled()) {
             setTooltip(null);
@@ -70,8 +77,8 @@ public abstract class MixinStorageSlot extends AbstractWidget {
     @Unique
     private void chiselmon$updateTooltip(Pokemon pokemon, PCConfig.TooltipConfig config) {
         boolean isShiftDown = Screen.hasShiftDown();
-        boolean shouldShowTooltip = config.getShowOnHover() ||
-                (config.getExtendOnShift() && isShiftDown);
+        boolean shouldShowTooltip =
+                config.getShowOnHover() || (config.getExtendOnShift() && isShiftDown);
 
         if (shouldShowTooltip && pokemon != null) {
             setTooltip(TooltipBuilder.build(pokemon, config, isShiftDown));
@@ -82,9 +89,13 @@ public abstract class MixinStorageSlot extends AbstractWidget {
 
     @ModifyExpressionValue(
             method = "renderSlot",
-            at = @At(value = "INVOKE", target = "Lcom/cobblemon/mod/common/pokemon/Pokemon;asRenderablePokemon()Lcom/cobblemon/mod/common/pokemon/RenderablePokemon;", remap = false),
-            remap = false
-    )
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lcom/cobblemon/mod/common/pokemon/Pokemon;asRenderablePokemon()Lcom/cobblemon/mod/common/pokemon/RenderablePokemon;",
+                            remap = false),
+            remap = false)
     private RenderablePokemon chiselmon$swapRenderableForDisplay(RenderablePokemon original) {
         Pokemon pokemon = getPokemon();
         return pokemon == null ? original : EggPreview.renderableFor(pokemon);
@@ -92,9 +103,14 @@ public abstract class MixinStorageSlot extends AbstractWidget {
 
     @ModifyExpressionValue(
             method = "renderSlot",
-            at = @At(value = "INVOKE", target = "Lcom/cobblemon/mod/common/pokemon/Pokemon;getGender()Lcom/cobblemon/mod/common/pokemon/Gender;", remap = false)
-    )
-    private Gender chiselmon$swapGenderForDisplay(Gender original, @Local(name = "pokemon") Pokemon pokemon) {
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lcom/cobblemon/mod/common/pokemon/Pokemon;getGender()Lcom/cobblemon/mod/common/pokemon/Gender;",
+                            remap = false))
+    private Gender chiselmon$swapGenderForDisplay(
+            Gender original, @Local(name = "pokemon") Pokemon pokemon) {
         Pokemon preview = EggPreview.forDisplay(pokemon);
         return preview == pokemon ? original : preview.getGender();
     }

@@ -22,16 +22,20 @@ sourceSets.main {
 loom {
     val clientConfig = runConfigs.getByName("client")
     clientConfig.runDir = "runClient"
-//    clientConfig.vmArg("-Dmixin.debug=true")
+    //    clientConfig.vmArg("-Dmixin.debug=true")
     val serverConfig = runConfigs.getByName("server")
     serverConfig.runDir = "runServer"
 
-    // Forge established the "main" name convention we're using here. Since NeoForged already defines it we must use
+    // Forge established the "main" name convention we're using here. Since NeoForged already
+    // defines it we must use
     // `maybeCreate`
     mods.maybeCreate("main")
-    // This configurations ensures that the code and resources in :common are available to the platform-specific builds
-    // in specifically the development mode. This code does nothing for the final packed jar since that one uses shadow
-    // bundling / jar-in-jar magic to make sure the platform-specific jar has all relevant files available.
+    // This configurations ensures that the code and resources in :common are available to the
+    // platform-specific builds
+    // in specifically the development mode. This code does nothing for the final packed jar since
+    // that one uses shadow
+    // bundling / jar-in-jar magic to make sure the platform-specific jar has all relevant files
+    // available.
     mods.named("main") {
         sourceSet(project.sourceSets.main.get())
         sourceSet(project(":common").sourceSets.main.get())
@@ -39,7 +43,6 @@ loom {
 }
 
 tasks {
-
     jar {
         archiveBaseName.set("Chiselmon-${project.name}")
         archiveClassifier.set("dev-slim")
@@ -59,16 +62,16 @@ tasks {
         archiveVersion.set("${rootProject.version}")
     }
 
-    val copyJar by registering(CopyFile::class) {
-        val productionJar = tasks.remapJar.flatMap { it.archiveFile }
-        fileToCopy = productionJar
-        destination = productionJar.flatMap {
-            rootProject.layout.buildDirectory.file("libs/${it.asFile.name}")
+    val copyJar by
+        registering(CopyFile::class) {
+            val productionJar = tasks.remapJar.flatMap { it.archiveFile }
+            fileToCopy = productionJar
+            destination = productionJar.flatMap {
+                rootProject.layout.buildDirectory.file("libs/${it.asFile.name}")
+            }
         }
-    }
 
     assemble {
         dependsOn(copyJar)
     }
-
 }

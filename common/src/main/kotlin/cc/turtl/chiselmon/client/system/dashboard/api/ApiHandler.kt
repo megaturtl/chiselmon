@@ -12,22 +12,20 @@ import java.sql.SQLException
 /**
  * Base class for all API endpoint handlers.
  *
- * Subclasses implement [handle] by delegating to [handleRequest], which manages the full
- * request lifecycle: method validation, parameter parsing, serialization, and error handling.
+ * Subclasses implement [handle] by delegating to [handleRequest], which manages the full request
+ * lifecycle: method validation, parameter parsing, serialization, and error handling.
  *
- * The [query] factory method is the primary entry point for building database queries.
- * Handlers add their own conditions, ordering, and limits via the fluent API.
+ * The [query] factory method is the primary entry point for building database queries. Handlers add
+ * their own conditions, ordering, and limits via the fluent API.
  */
-abstract class ApiHandler protected constructor(
-    protected val db: EncounterDatabase,
-) : HttpHandler {
+abstract class ApiHandler protected constructor(protected val db: EncounterDatabase) : HttpHandler {
     /**
      * Inner request logic for each endpoint. Receives a [TimeRange] and all decoded query
      * parameters, and returns any object to be serialized as the JSON response body.
      *
      * May throw:
-     *   - [SQLException] for database errors → 500
-     *   - [IllegalArgumentException] for invalid request parameters → 400
+     * - [SQLException] for database errors → 500
+     * - [IllegalArgumentException] for invalid request parameters → 400
      */
     protected fun interface RequestHandler {
         @Throws(SQLException::class)
@@ -38,8 +36,8 @@ abstract class ApiHandler protected constructor(
     }
 
     /**
-     * Executes a [RequestHandler] and writes the JSON response. Handles GET validation,
-     * parameter parsing, serialization, and error responses.
+     * Executes a [RequestHandler] and writes the JSON response. Handles GET validation, parameter
+     * parsing, serialization, and error responses.
      */
     protected fun handleRequest(
         exchange: HttpExchange,
@@ -62,8 +60,8 @@ abstract class ApiHandler protected constructor(
     }
 
     /**
-     * Creates a [QueryBuilder] for the given [table]. Handlers chain [QueryBuilder.timeRange]
-     * along with any other conditions, ordering, and limits specific to their endpoint.
+     * Creates a [QueryBuilder] for the given [table]. Handlers chain [QueryBuilder.timeRange] along
+     * with any other conditions, ordering, and limits specific to their endpoint.
      */
     protected fun query(table: String): QueryBuilder = QueryBuilder(db.connection, table)
 
@@ -74,9 +72,7 @@ abstract class ApiHandler protected constructor(
         defaultValue: Int,
     ): Int = params[key]?.toIntOrNull() ?: defaultValue
 
-    /**
-     * Parse an int param, throwing [IllegalArgumentException] if present but not a valid int.
-     */
+    /** Parse an int param, throwing [IllegalArgumentException] if present but not a valid int. */
     protected fun requireIntParam(
         params: Map<String, String>,
         key: String,
@@ -100,9 +96,9 @@ abstract class ApiHandler protected constructor(
     }
 
     /**
-     * Parse all query parameters into a map, URL-decoding both keys and values.
-     * Required for dimension strings like `minecraft:the_nether` which arrive
-     * percent-encoded as `minecraft%3Athe_nether`.
+     * Parse all query parameters into a map, URL-decoding both keys and values. Required for
+     * dimension strings like `minecraft:the_nether` which arrive percent-encoded as
+     * `minecraft%3Athe_nether`.
      */
     private fun parseQuery(uri: URI): Map<String, String> {
         val query = uri.query ?: return emptyMap()

@@ -8,14 +8,12 @@ import cc.turtl.chiselmon.client.util.highlightNickname
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import cc.turtl.turtlshell.api.core.format.formatDuration
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import java.util.*
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import java.util.*
 
-class SpawnRecorderSession(
-    private val tracker: TrackerSession,
-) {
+class SpawnRecorderSession(private val tracker: TrackerSession) {
     /** Species counts for spawns that occurred while this session was active and unpaused. */
     private val speciesCounts = HashMap<String, Int>()
 
@@ -56,7 +54,8 @@ class SpawnRecorderSession(
     private fun removeOldTickData() {
         // Remove UUIDs that haven't been seen lately and are no longer loaded
         tickAges.entries.removeAll { (uuid, data) ->
-            uuid !in tracker.currentlyLoaded && sessionTicks - data.sessionTicksAtLastSeen >= EXPIRY_TICKS
+            uuid !in tracker.currentlyLoaded &&
+                sessionTicks - data.sessionTicksAtLastSeen >= EXPIRY_TICKS
         }
     }
 
@@ -103,9 +102,7 @@ class SpawnRecorderSession(
         get() = speciesCounts.values.sum()
 
     fun getTopSpecies(limit: Int): List<Map.Entry<String, Int>> =
-        speciesCounts.entries
-            .sortedByDescending { it.value }
-            .take(limit)
+        speciesCounts.entries.sortedByDescending { it.value }.take(limit)
 
     fun clearActionBar() {
         val message = lastActionBarMessage ?: return
@@ -119,23 +116,29 @@ class SpawnRecorderSession(
         val safeCount = loadedCount - despawnCount
 
         val message: MutableComponent =
-            Component
-                .empty()
+            Component.empty()
                 .append(
-                    Component.translatable("chiselmon.spawnrecorder.action_bar.loaded").withColor(ColorLib.LIGHT_GRAY.rgb),
-                ).append(Component.literal(despawnCount.toString()).withColor(ColorLib.RED.rgb))
+                    Component.translatable("chiselmon.spawnrecorder.action_bar.loaded")
+                        .withColor(ColorLib.LIGHT_GRAY.rgb)
+                )
+                .append(Component.literal(despawnCount.toString()).withColor(ColorLib.RED.rgb))
                 .append(Component.literal("/").withColor(ColorLib.DARK_GRAY.rgb))
                 .append(Component.literal(safeCount.toString()).withColor(ColorLib.GREEN.rgb))
                 .append(Component.literal(" | ").withColor(ColorLib.DARK_GRAY.rgb))
                 .append(
-                    Component.translatable("chiselmon.spawnrecorder.action_bar.spawns").withColor(ColorLib.LIGHT_GRAY.rgb),
-                ).append(Component.literal(totalRecordedCount.toString()).withColor(ColorLib.AQUA.rgb))
+                    Component.translatable("chiselmon.spawnrecorder.action_bar.spawns")
+                        .withColor(ColorLib.LIGHT_GRAY.rgb)
+                )
+                .append(
+                    Component.literal(totalRecordedCount.toString()).withColor(ColorLib.AQUA.rgb)
+                )
                 .append(Component.literal(" | ").withColor(ColorLib.DARK_GRAY.rgb))
                 .append(Component.literal(formatDuration(elapsedMs)).withColor(ColorLib.YELLOW.rgb))
 
         if (isPaused) {
             message.append(
-                Component.translatable("chiselmon.spawnrecorder.action_bar.paused").withColor(ColorLib.ORANGE.rgb),
+                Component.translatable("chiselmon.spawnrecorder.action_bar.paused")
+                    .withColor(ColorLib.ORANGE.rgb)
             )
         }
 

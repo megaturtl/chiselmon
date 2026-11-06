@@ -4,7 +4,6 @@ about: Suggest an idea for Chiselmon
 title: "[FEATURE]"
 labels: enhancement
 assignees: megaturtl
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

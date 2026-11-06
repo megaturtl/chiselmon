@@ -21,8 +21,8 @@ import snownee.jade.api.config.IPluginConfig
 import snownee.jade.api.ui.IElementHelper
 
 /**
- * Jade tooltip provider for PokeSnack blocks.
- * Displays bites remaining, ingredients, and effects based on config.
+ * Jade tooltip provider for PokeSnack blocks. Displays bites remaining, ingredients, and effects
+ * based on config.
  */
 object PokeSnackProvider : IBlockComponentProvider {
     val BITES: ResourceLocation = modResource("pokesnack_block.bites")
@@ -51,7 +51,7 @@ object PokeSnackProvider : IBlockComponentProvider {
                 labelled(
                     Component.translatable("chiselmon.ui.label.pokesnack_block.bites_remaining"),
                     remaining,
-                ),
+                )
             )
         }
 
@@ -59,9 +59,8 @@ object PokeSnackProvider : IBlockComponentProvider {
             val ingredients = entity.ingredientComponent
             if (ingredients == null) {
                 tooltip.add(
-                    Component
-                        .translatable("chiselmon.ui.label.pokesnack_block.no_ingredients")
-                        .withColor(ColorLib.RED.rgb),
+                    Component.translatable("chiselmon.ui.label.pokesnack_block.no_ingredients")
+                        .withColor(ColorLib.RED.rgb)
                 )
             } else {
                 addIngredientIcons(tooltip, ingredients)
@@ -73,8 +72,7 @@ object PokeSnackProvider : IBlockComponentProvider {
                 ItemStack(CobblemonItems.POKE_SNACK).also {
                     it.set(CobblemonItemComponents.BAIT_EFFECTS, entity.baitEffectsComponent)
                 }
-            generateAdditionalBaitEffectTooltip(dummySnack)
-                .forEach(tooltip::add)
+            generateAdditionalBaitEffectTooltip(dummySnack).forEach(tooltip::add)
         }
     }
 

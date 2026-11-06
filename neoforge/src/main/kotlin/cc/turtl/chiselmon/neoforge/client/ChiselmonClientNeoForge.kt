@@ -8,6 +8,7 @@ import cc.turtl.chiselmon.client.feature.PokeRodOverlay
 import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.ChiselmonCoreCommon
 import cc.turtl.chiselmon.core.util.modResource
+import java.nio.file.Path
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
@@ -17,18 +18,17 @@ import net.minecraft.server.packs.repository.Pack
 import net.minecraft.server.packs.repository.PackSource
 import net.minecraft.world.level.validation.DirectoryValidator
 import net.neoforged.api.distmarker.Dist
-import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.bus.api.EventPriority
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.AddPackFindersEvent
-import java.nio.file.Path
 
 // Make sure there's just one @Mod entrypoint per modId on NeoForge
 // KFF's KotlinModContainer.constructMod() runs AutoKotlinEventBusSubscriber.inject()
@@ -40,7 +40,11 @@ object ChiselmonClientNeoForge {
         ChiselmonCoreCommon.init()
         ChiselmonClientCommon.init()
         registerConfigScreen()
-        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, RenderGuiLayerEvent.Pre::class.java, ::onRenderGuiLayer)
+        NeoForge.EVENT_BUS.addListener(
+            EventPriority.LOWEST,
+            RenderGuiLayerEvent.Pre::class.java,
+            ::onRenderGuiLayer,
+        )
     }
 
     private fun registerConfigScreen() {
@@ -89,7 +93,7 @@ object ChiselmonClientNeoForge {
                 PackType.CLIENT_RESOURCES,
                 PackSource.BUILT_IN,
                 DirectoryValidator { _: Path? -> true },
-            ),
+            )
         )
     }
 }

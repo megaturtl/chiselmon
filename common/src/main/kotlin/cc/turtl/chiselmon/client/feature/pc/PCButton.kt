@@ -13,9 +13,8 @@ import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
-class PCButton private constructor(
-    builder: Builder,
-) : Button(
+class PCButton private constructor(builder: Builder) :
+    Button(
         builder.x,
         builder.y,
         builder.width,
@@ -56,10 +55,27 @@ class PCButton private constructor(
                 if (isHovered) buttonHeight else 0
             }
 
-        context.blit(sprite, x, y, 0F, textureYOffset.toFloat(), width, height, textureWidth, textureHeight)
+        context.blit(
+            sprite,
+            x,
+            y,
+            0F,
+            textureYOffset.toFloat(),
+            width,
+            height,
+            textureWidth,
+            textureHeight,
+        )
 
         if (renderText) {
-            renderCenteredText(context, message, textColor, x + width / 2, y + height / 2, width - textMargin)
+            renderCenteredText(
+                context,
+                message,
+                textColor,
+                x + width / 2,
+                y + height / 2,
+                width - textMargin,
+            )
         }
     }
 
@@ -77,7 +93,8 @@ class PCButton private constructor(
         keyCode: Int,
         scanCode: Int,
         modifiers: Int,
-    ): Boolean = !ChiselmonConfig.general.modDisabled && super.keyPressed(keyCode, scanCode, modifiers)
+    ): Boolean =
+        !ChiselmonConfig.general.modDisabled && super.keyPressed(keyCode, scanCode, modifiers)
 
     override fun playDownSound(soundManager: SoundManager) {
         if (!ChiselmonConfig.general.modDisabled) {

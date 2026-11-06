@@ -63,17 +63,18 @@ dependencies {
     modRuntimeOnly(libs.bundles.fabric.integrations.runtimeOnly)
     modRuntimeOnly(cobblemonDependency("fabric"))
 
-    modRuntimeOnly(libs.turtlshell.fabric) {isChanging = true} // gets the latest snapshot
+    modRuntimeOnly(libs.turtlshell.fabric) { isChanging = true } // gets the latest snapshot
 
     modImplementation(libs.bundles.fabric.integrations.implementation)
 }
 
 tasks {
     // The AW file is needed in :fabric project resources when the game is run.
-    val copyAccessWidener by registering(Copy::class) {
-        from(loom.accessWidenerPath)
-        into(generatedResources)
-    }
+    val copyAccessWidener by
+        registering(Copy::class) {
+            from(loom.accessWidenerPath)
+            into(generatedResources)
+        }
 
     processResources {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -104,7 +105,7 @@ tasks {
                 "fabric_kotlin_version" to libs.fabric.kotlin.get().version,
                 "minecraft_version" to rootProject.property("mc_version").toString(),
                 "java_version" to rootProject.property("java_version").toString(),
-                "cobblemon_version_range" to cobblemonVersionRange
+                "cobblemon_version_range" to cobblemonVersionRange,
             )
         }
     }

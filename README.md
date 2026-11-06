@@ -1,4 +1,5 @@
 # Chiselmon
+
 ![Environment](https://img.shields.io/badge/Environment-Client-purple)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/chiselmon?style=flat&logo=modrinth&label=Downloads&color=%2358a95a)](https://modrinth.com/mod/chiselmon)
 [![CurseForge Downloads](https://img.shields.io/curseforge/dt/1475518?style=flat&logo=curseforge&label=Downloads&color=%23d66d36)](https://www.curseforge.com/minecraft/mc-mods/chiselmon)
@@ -9,21 +10,26 @@
 Sculpt your perfect Cobblemon experience with deeply customisable QOL tweaks!
 
 ## Installation
+
 Chiselmon is a fully client side Cobblemon sidemod for Fabric and NeoForge.
 
 To use Chiselmon, make sure you have Cobblemon 1.7.0+ and [Yet Another Config Lib](https://modrinth.com/mod/yacl) installed. To get the most out of the mod, consider also installing [Jade](https://modrinth.com/mod/jade).
 
 ## Customising Your Tweaks
+
 If you haven't used Chiselmon before, I recommend exploring the config options beforehand so you can see what features are available.
 
 ![Alert config screen](media/alert_config_screen.png)
 You can open the Chiselmon config in 3 ways:
+
 1. Click the Chiselmon icon in your mod menu.
 2. Use the `/ch config` command in-game.
 3. Press the hotkey. The default is `;`, but this can be changed in the config.
 
 ## Features
+
 ### PC Overhaul:
+
 ![PC screen](common/src/main/resources/assets/chiselmon/screenshots/pc_screen.png)
 
 - **Bookmark up to 5 boxes** and jump to them at any time.
@@ -33,48 +39,65 @@ You can open the Chiselmon config in 3 ways:
 - **Detailed tooltips** showing IVs, original trainer, form, friendship, ride styles, marks, and egg hatch progress.
 - **2 new box sorting modes**. Sort by Pokemon size and total IVs.
 
-
 ### Egg Spy:
+
 ![Eggs in PC](media/egg_pc.gif)
 ![Eggs in PC](media/egg_party.png)
+
 - Use Chiselmon's cutting edge ultrasound technology to preview what's inside pokemon eggs (NeoDaycare only).
 - Optionally replaces the HP and XP bar of eggs in your party overlay with their hatch progress so you can easily keep track while hatching.
+
 ### Spawn Alerts:
+
 ![Discord alert](common/src/main/resources/assets/chiselmon/screenshots/discord_alert.png)
+
 - Alert system for legendaries, shinies, alphas, uncaught pokemon, size variations, or any other custom chosen pokemon that spawn around you.
 - Create unlimited custom filters to receive alerts for with Chiselmon's logic building system.
 - 4 Fully configurable alert types per filter - chat messages, Discord webhook messages, sounds, colored highlights.
 - Mute all active alert sounds with the 'M' keybind (configurable in Minecraft controls and Chiselmon config).
 - Create server/world specific exclusion zones to suppress alerts (e.g. at spawn, hubs, or pasture areas).
+
 ### Spawn Recorder:
+
 - Records total pokemon spawns and the number of each species in the current session.
-- Use the `/ch recorder start, stop, pause, and resume` commands to manage your session.
+- Use the `/ch record start, stop, pause, and resume` commands to manage your session.
 - Optional action bar display: shows the total spawns and time passed since starting, and the number of currently loaded pokemon + how many are old enough to start despawning.
 - Optional despawn glow: highlights loaded pokemon in green, turning red when they're ready to despawn.
+
 ### Misc:
+
 #### Move Tooltips
+
 ![Move tooltip](common/src/main/resources/assets/chiselmon/screenshots/move_tooltip.png)
 
 #### /checkspawn Improvemennts
+
 ![/checkspawn command output](common/src/main/resources/assets/chiselmon/screenshots/checkspawn.png)
 `/checkspawn` results now have hoverable tooltips showing egg group and EV yield info to make cake hunting easier.
+
 ### Jade Addons:
+
 #### Pokemon Extra Info
+
 ![Jade Pokemon](media/jade_pokemon.png)
-  - Types
-  - Weaknesses
-  - Form
-  - Pokedex status
-  - Egg groups
-  - EV yield
-  - Catch rate
-  - Catch chance % (when holding a Pokeball - considers level, status, etc!)
-  - Warnings for self-damaging moves - never lose a shiny to explosion again! </3
+
+- Types
+- Weaknesses
+- Form
+- Pokedex status
+- Egg groups
+- EV yield
+- Catch rate
+- Catch chance % (when holding a Pokeball - considers level, status, etc!)
+- Warnings for self-damaging moves - never lose a shiny to explosion again! </3
+
 #### Poke Snack Extra Info:
+
 ![Jade Pokesnack](media/jade_pokesnack.png)
-  - Bites remaining
-  - Ingredients
-  - Seasoning effects
+
+- Bites remaining
+- Ingredients
+- Seasoning effects
 
 ---
 
@@ -91,13 +114,29 @@ nix develop
 ./gradlew :neoforge:runClient
 ```
 
-The shell provides Java 21, Git, and Node.js for `node dev-server.mjs`. Use the Gradle wrapper rather than a separately installed Gradle.
+The shell provides Java 21, Git, Node.js for `node dev-server.mjs`, and the configured `treefmt` wrapper. Use the Gradle wrapper rather than a separately installed Gradle.
 
 On NixOS, the shell makes the GL, PulseAudio, ALSA, and narrator libraries available to Minecraft's bundled natives and exposes `/run/opengl-driver/lib` for the host GPU. The graphics driver and audio server are not pinned by the flake. Other Linux hosts may need their own graphics integration.
 
 For IntelliJ IDEA, import the Gradle project using its wrapper and set the Gradle JVM to the Java 21 path printed by `echo "$JAVA_HOME"` inside `nix develop`, or start the IDE from that shell.
 
 The flake locks dev tools but not Gradle's downloaded Minecraft, plugins, or mod dependencies. Gradle keeps its writable cache in the usual user directory and needs network access for missing artifacts.
+
+After changing a flake input, run `nix flake lock` and commit `flake.nix` and `flake.lock` together. CI uses `--no-update-lock-file` and rejects inputs that do not match the committed lockfile.
+
+## Formatting
+
+Run `nix fmt`, or `treefmt` inside `nix develop`, to format source files. Use `nix fmt -- --ci` to fail when a formatting pass changes files, or `nix flake check --no-update-lock-file` to run the formatting check in a sandbox.
+
+`treefmt.nix` enables Alejandra for Nix; ktfmt for Kotlin and Gradle Kotlin DSL; google-java-format for Java; Prettier for JavaScript, HTML, CSS, JSON (including Minecraft `.mcmeta` files), YAML, and Markdown; and Taplo for TOML. Kotlin and Java use four-space indentation and remove unused imports automatically.
+
+Generated Gradle wrappers, lockfiles, build/runtime outputs, and Pebble Kotlin templates are excluded. Plain `.properties` files, access wideners, and binary assets have no configured formatter and remain unchanged.
+
+## Client feature ownership
+
+`ChiselmonClientCommon` owns the shared client tick pipeline: world teardown, species indexing, storage autosave, tracking, alerts, then the spawn recorder. Keep these feature ticks in that pipeline rather than registering separate tick listeners, so teardown always runs first. The configuration hotkey has an independent UI listener.
+
+`PCScreenFeatures` owns bookmark/sort widgets, disable/reenable cleanup, and PC settings persistence. `MixinPCGUI` owns the Cobblemon field access, injection points, and egg-preview rendering adapters. Screen initialization and resizing create a fresh feature owner; screen removal also saves PC settings.
 
 ## Versioning
 
@@ -111,7 +150,7 @@ cobblemon_version = 1.8.0
 These properties would produce `1.4.1+cobblemon-1.8.0`. Local and tagged builds use this clean string, but extra build metadata is added for development jars.
 
 | Context         | Example version                        |
-|-----------------|----------------------------------------|
+| --------------- | -------------------------------------- |
 | Local build     | `1.4.1+cobblemon-1.8.0`                |
 | Merge to `main` | `1.4.1+cobblemon-1.8.0.commit.a3f92c1` |
 | Pull request    | `1.4.1+cobblemon-1.8.0.pr42.a3f92c1`   |

@@ -12,10 +12,12 @@ object SpawnRecorderManager {
 
     fun init() {
         ClientEvents.LEVEL_CONNECTED.subscribe {
-            session?.takeIf { it.isPaused }?.let {
-                it.resume()
-                ChiselmonConstants.LOGGER.info("SpawnRecorder auto-resumed on reconnect")
-            }
+            session
+                ?.takeIf { it.isPaused }
+                ?.let {
+                    it.resume()
+                    ChiselmonConstants.LOGGER.info("SpawnRecorder auto-resumed on reconnect")
+                }
         }
 
         ClientEvents.GAME_STOPPING.subscribe { session?.clearActionBar() }
@@ -33,15 +35,17 @@ object SpawnRecorderManager {
 
     internal fun onWorldLeave() {
         session?.clearActionBar()
-        session?.takeUnless { it.isPaused }?.let {
-            it.pause()
-            ChiselmonConstants.LOGGER.info("SpawnRecorder auto-paused on disconnect")
-        }
+        session
+            ?.takeUnless { it.isPaused }
+            ?.let {
+                it.pause()
+                ChiselmonConstants.LOGGER.info("SpawnRecorder auto-paused on disconnect")
+            }
     }
 
     /**
-     * Starts a new session against the current TrackerSession.
-     * Returns false if globally disabled, a session is already active, or no world is loaded.
+     * Starts a new session against the current TrackerSession. Returns false if globally disabled,
+     * a session is already active, or no world is loaded.
      */
     fun startSession(): Boolean {
         if (ChiselmonConfig.general.modDisabled || session != null) return false

@@ -14,8 +14,8 @@ import cc.turtl.chiselmon.core.ChiselmonConstants
 import cc.turtl.chiselmon.core.api.filter.match.FilterMatcher
 import cc.turtl.chiselmon.core.api.storage.Scope
 import cc.turtl.turtlshell.api.client.ClientEvents
-import net.minecraft.client.Minecraft
 import java.util.*
+import net.minecraft.client.Minecraft
 
 object AlertManager {
     private const val SOUND_DELAY_TICKS = 20
@@ -46,7 +46,9 @@ object AlertManager {
 
     private fun onWorldJoin() {
         if (active) {
-            ChiselmonConstants.LOGGER.warn("New world joined before AlertSystem was disposed - resetting")
+            ChiselmonConstants.LOGGER.warn(
+                "New world joined before AlertSystem was disposed - resetting"
+            )
         }
         reset()
         active = true
@@ -119,11 +121,15 @@ object AlertManager {
                 discordAction.execute(ctx)
             }
 
-            // Promote ctx to the best sound candidate if its filter out-prioritises the current best
+            // Promote ctx to the best sound candidate if its filter out-prioritises the current
+            // best
             if (ctx.shouldRepeatingSound) {
                 val currentBestPriority = bestSoundContext?.soundFilter?.priority
                 val ctxPriority = ctx.soundFilter?.priority
-                if (currentBestPriority == null || (ctxPriority != null && ctxPriority.isHigherThan(currentBestPriority))) {
+                if (
+                    currentBestPriority == null ||
+                        (ctxPriority != null && ctxPriority.isHigherThan(currentBestPriority))
+                ) {
                     bestSoundContext = ctx
                 }
             }

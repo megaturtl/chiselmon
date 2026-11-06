@@ -43,7 +43,7 @@ kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", versio
 loom = { group = "dev.architectury", name = "architectury-loom", version.ref = "loom" }
 architectury = { group = "architectury-plugin", name = "architectury-plugin.gradle.plugin", version.ref = "architectury-plugin" }
 shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
-ideaExt = { group = "org.jetbrains.gradle.plugin.idea-ext", name = "org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "idea-ext"}
+ideaExt = { group = "org.jetbrains.gradle.plugin.idea-ext", name = "org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "idea-ext" }
 blossom = { group = "net.kyori", name = "blossom", version.ref = "blossom" }
 versioning = { group = "net.nemerosa.versioning", name = "net.nemerosa.versioning.gradle.plugin", version.ref = "versioning" }
 
@@ -83,9 +83,24 @@ mockito-extension = { group = "org.mockito", name = "mockito-junit-jupiter", ver
 mock-kotlin = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [bundles]
-kotlin = [ "kotlin-stdlib", "kotlin-reflect" ]
-common-integrations-compileOnly = [ "yet-another-config-lib-common", "jade-common" ]
-fabric-integrations-implementation = [ "fabric-kotlin", "mod-menu" ]
-fabric-integrations-runtimeOnly = [ "yet-another-config-lib-fabric", "devauth-fabric" ]
-neoforge-integrations-runtimeOnly = [ "yet-another-config-lib-neoforge", "devauth-neoforge" ]
-unitTesting = [ "junit-fabric", "junit-params", "mockito-core", "mockito-extension", "mock-kotlin" ]
+kotlin = ["kotlin-stdlib", "kotlin-reflect"]
+common-integrations-compileOnly = [
+  "yet-another-config-lib-common",
+  "jade-common",
+]
+fabric-integrations-implementation = ["fabric-kotlin", "mod-menu"]
+fabric-integrations-runtimeOnly = [
+  "yet-another-config-lib-fabric",
+  "devauth-fabric",
+]
+neoforge-integrations-runtimeOnly = [
+  "yet-another-config-lib-neoforge",
+  "devauth-neoforge",
+]
+unitTesting = [
+  "junit-fabric",
+  "junit-params",
+  "mockito-core",
+  "mockito-extension",
+  "mock-kotlin",
+]

@@ -51,7 +51,9 @@ class DashboardServer(
     fun stop() {
         val server = httpServer ?: return
         server.stop(0)
-        check(!Thread.currentThread().isInterrupted) { "Dashboard shutdown interrupted; database must remain open" }
+        check(!Thread.currentThread().isInterrupted) {
+            "Dashboard shutdown interrupted; database must remain open"
+        }
         httpServer = null
         ChiselmonConstants.LOGGER.info("Chiselmon Dashboard server stopped.")
     }

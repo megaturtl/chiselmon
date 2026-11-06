@@ -3,8 +3,7 @@
   "package": "cc.turtl.chiselmon.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "client": [
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

@@ -4,9 +4,7 @@ import cc.turtl.chiselmon.client.system.dashboard.api.ApiHandler
 import cc.turtl.chiselmon.client.system.tracker.EncounterDatabase
 import com.sun.net.httpserver.HttpExchange
 
-class HeatmapHandler(
-    db: EncounterDatabase,
-) : ApiHandler(db) {
+class HeatmapHandler(db: EncounterDatabase) : ApiHandler(db) {
     private data class FetchBounds(
         val minX: Int,
         val maxX: Int,

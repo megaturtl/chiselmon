@@ -29,5 +29,6 @@ data class CaptureParams(
     val ballBonus: Float = 1f,
     val pokedexMultiplier: Float = 1f,
 ) {
-    val clampedHp: Float get() = currentHp.coerceIn(0f, maxHp)
+    val clampedHp: Float
+        get() = currentHp.coerceIn(0f, maxHp)
 }

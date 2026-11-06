@@ -48,69 +48,93 @@ object MoveTooltipRenderer {
 
     private fun createHeader(tile: BattleMoveSelection.MoveTile): MutableComponent {
         val moveTemplate = tile.moveTemplate
-        val power =
-            moveTemplate.power
-                .takeUnless { it == 0.0 }
-                ?.toInt()
-                ?.toString() ?: "—"
+        val power = moveTemplate.power.takeUnless { it == 0.0 }?.toInt()?.toString() ?: "—"
         val accuracy =
-            moveTemplate.accuracy
-                .takeUnless { it == -1.0 }
-                ?.toInt()
-                ?.let { "$it%" } ?: "—"
+            moveTemplate.accuracy.takeUnless { it == -1.0 }?.toInt()?.let { "$it%" } ?: "—"
 
-        return Component
-            .empty()
+        return Component.empty()
             .append(moveTemplate.displayName.copy().withColor(tile.elementalType.hue))
             .append(Component.literal(" » ").withColor(ColorLib.LIGHT_GRAY.rgb))
-            .append(Component.literal("⚡").withStyle { it.withBold(true).withColor(ColorLib.RED.rgb) })
+            .append(
+                Component.literal("⚡").withStyle { it.withBold(true).withColor(ColorLib.RED.rgb) }
+            )
             .append(Component.literal(" $power").withStyle { it.withBold(false) })
             .append(Component.literal(" • ").withColor(ColorLib.DARK_GRAY.rgb))
-            .append(Component.literal("🎯").withStyle { it.withBold(true).withColor(ColorLib.GREEN.rgb) })
+            .append(
+                Component.literal("🎯").withStyle {
+                    it.withBold(true).withColor(ColorLib.GREEN.rgb)
+                }
+            )
             .append(Component.literal(" $accuracy").withStyle { it.withBold(false) })
             .also { header ->
                 moveTemplate.effectChances.firstOrNull()?.let { chance ->
                     header.append(Component.literal(" • ").withColor(ColorLib.DARK_GRAY.rgb))
-                    header.append(Component.literal("⚗").withStyle { it.withBold(false).withColor(ColorLib.YELLOW.rgb) })
-                    header.append(Component.literal(" ${chance.toInt()}%").withStyle { it.withBold(false) })
+                    header.append(
+                        Component.literal("⚗").withStyle {
+                            it.withBold(false).withColor(ColorLib.YELLOW.rgb)
+                        }
+                    )
+                    header.append(
+                        Component.literal(" ${chance.toInt()}%").withStyle { it.withBold(false) }
+                    )
                 }
                 if (moveTemplate.priority != 0) {
                     header.append(Component.literal(" • ").withColor(ColorLib.DARK_GRAY.rgb))
-                    header.append(Component.literal("⌛").withStyle { it.withBold(false).withColor(ColorLib.AQUA.rgb) })
                     header.append(
-                        Component
-                            .literal(
-                                " ${if (moveTemplate.priority > 0) "+" else ""}${moveTemplate.priority}",
-                            ).withStyle { it.withBold(false) },
+                        Component.literal("⌛").withStyle {
+                            it.withBold(false).withColor(ColorLib.AQUA.rgb)
+                        }
+                    )
+                    header.append(
+                        Component.literal(
+                                " ${if (moveTemplate.priority > 0) "+" else ""}${moveTemplate.priority}"
+                            )
+                            .withStyle { it.withBold(false) }
                     )
                 }
                 if (moveTemplate.critRatio != 1.0) {
                     header.append(Component.literal(" • ").withColor(ColorLib.DARK_GRAY.rgb))
-                    header.append(Component.literal("💥").withStyle { it.withBold(true).withColor(ColorLib.PURPLE.rgb) })
-                    header.append(Component.literal(" ${moveTemplate.critRatio}x").withStyle { it.withBold(false) })
+                    header.append(
+                        Component.literal("💥").withStyle {
+                            it.withBold(true).withColor(ColorLib.PURPLE.rgb)
+                        }
+                    )
+                    header.append(
+                        Component.literal(" ${moveTemplate.critRatio}x").withStyle {
+                            it.withBold(false)
+                        }
+                    )
                 }
             }
     }
 
     private fun createDescription(description: Component): List<MutableComponent> =
-        Minecraft
-            .getInstance()
-            .font.splitter
+        Minecraft.getInstance()
+            .font
+            .splitter
             .splitLines(description, TOOLTIP_MAX_WIDTH, Style.EMPTY)
             .map { Component.literal(it.string).withColor(ColorLib.LIGHT_GRAY.rgb) }
 
-    private fun createEffectivenessLines(tile: BattleMoveSelection.MoveTile): List<MutableComponent> {
+    private fun createEffectivenessLines(
+        tile: BattleMoveSelection.MoveTile
+    ): List<MutableComponent> {
         // Ignore non-damaging moves
         if (tile.moveTemplate.power == 0.0) return emptyList()
 
         val lines =
             resolveTargets(tile).mapNotNull { target ->
-                val battlePokemon = (target as? ActiveClientBattlePokemon)?.battlePokemon ?: return@mapNotNull null
+                val battlePokemon =
+                    (target as? ActiveClientBattlePokemon)?.battlePokemon ?: return@mapNotNull null
                 val properties = battlePokemon.properties
                 val species = resolveSpecies(properties) ?: return@mapNotNull null
-                val form = species.forms.firstOrNull { it.formOnlyShowdownId().equals(properties.form, true) } ?: species.standardForm
+                val form =
+                    species.forms.firstOrNull {
+                        it.formOnlyShowdownId().equals(properties.form, true)
+                    } ?: species.standardForm
                 val multiplier = computeMatchups(form.types).multiplierMap[tile.elementalType] ?: 1f
-                multiplier.takeUnless { it == 1f }?.let { createEffectivenessLine(species.name, it) }
+                multiplier
+                    .takeUnless { it == 1f }
+                    ?.let { createEffectivenessLine(species.name, it) }
             }
 
         return if (lines.isEmpty()) emptyList() else listOf(Component.empty()) + lines
@@ -131,8 +155,7 @@ object MoveTooltipRenderer {
             }
         val formattedMultiplier = if (multiplier % 1f == 0f) multiplier.toInt() else multiplier
 
-        return Component
-            .empty()
+        return Component.empty()
             .append(Component.literal("» ").withColor(ColorLib.DARK_GRAY.rgb))
             .append(Component.literal("Deals ${formattedMultiplier}x to ").withColor(color))
             .append(Component.literal(speciesName).withColor(color))
@@ -141,8 +164,10 @@ object MoveTooltipRenderer {
     private fun resolveTargets(tile: BattleMoveSelection.MoveTile): List<Targetable> {
         val activePokemon = tile.moveSelection.request.activePokemon
         return when (tile.move.target) {
-            MoveTarget.randomNormal, MoveTarget.scripted -> activePokemon.getAdjacentOpponents()
-            else -> tile.targetList ?: activePokemon.getMultiTargetList(tile.move.target) ?: emptyList()
+            MoveTarget.randomNormal,
+            MoveTarget.scripted -> activePokemon.getAdjacentOpponents()
+            else ->
+                tile.targetList ?: activePokemon.getMultiTargetList(tile.move.target) ?: emptyList()
         }
     }
 

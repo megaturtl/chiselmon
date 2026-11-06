@@ -13,8 +13,8 @@ package cc.turtl.chiselmon.core.api.filter
  * tag      := any non-whitespace, non-paren token (e.g. "shiny", "type=fire")
  * ```
  *
- * Operator precedence (highest to lowest): NOT > AND > OR.
- * Keywords are case-insensitive. Parentheses can be used freely for grouping.
+ * Operator precedence (highest to lowest): NOT > AND > OR. Keywords are case-insensitive.
+ * Parentheses can be used freely for grouping.
  *
  * Examples:
  * ```
@@ -65,7 +65,8 @@ object FilterConditionParser {
     }
 
     private fun parseAtom(lexer: Lexer): FilterCondition {
-        if (!lexer.hasMore()) throw ParseException("Unexpected end of input -- expected a condition or '('")
+        if (!lexer.hasMore())
+            throw ParseException("Unexpected end of input -- expected a condition or '('")
 
         if (lexer.peek("(")) {
             lexer.consume()
@@ -76,10 +77,11 @@ object FilterConditionParser {
         }
 
         val token = lexer.next()
-        if (token.equals("AND", ignoreCase = true) ||
-            token.equals("OR", ignoreCase = true) ||
-            token.equals("NOT", ignoreCase = true) ||
-            token == ")"
+        if (
+            token.equals("AND", ignoreCase = true) ||
+                token.equals("OR", ignoreCase = true) ||
+                token.equals("NOT", ignoreCase = true) ||
+                token == ")"
         ) {
             throw ParseException("Expected a condition but got keyword: '$token'")
         }
@@ -90,9 +92,7 @@ object FilterConditionParser {
     // Lexer: splits input into tokens (words, '(', ')')
     // -------------------------------------------------------------------------
 
-    private class Lexer(
-        input: String,
-    ) {
+    private class Lexer(input: String) {
         private val tokens: Array<String> =
             input
                 .replace("(", " ( ")
@@ -104,7 +104,8 @@ object FilterConditionParser {
 
         fun hasMore(): Boolean = pos < tokens.size && tokens[pos].isNotEmpty()
 
-        fun peek(expected: String): Boolean = hasMore() && tokens[pos].equals(expected, ignoreCase = true)
+        fun peek(expected: String): Boolean =
+            hasMore() && tokens[pos].equals(expected, ignoreCase = true)
 
         fun peek(): String = if (hasMore()) tokens[pos] else ""
 
@@ -115,7 +116,5 @@ object FilterConditionParser {
         }
     }
 
-    class ParseException(
-        message: String,
-    ) : RuntimeException(message)
+    class ParseException(message: String) : RuntimeException(message)
 }

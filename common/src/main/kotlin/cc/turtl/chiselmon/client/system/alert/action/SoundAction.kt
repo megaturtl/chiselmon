@@ -15,8 +15,8 @@ class SoundAction {
 
     private fun playSound(ctx: AlertContext) {
         val sound = ctx.soundSettings.alertSound.sound
-        Minecraft.getInstance().soundManager.play(
-            SimpleSoundInstance.forUI(sound, 1.0f, ctx.effectiveVolume),
-        )
+        Minecraft.getInstance()
+            .soundManager
+            .play(SimpleSoundInstance.forUI(sound, 1.0f, ctx.effectiveVolume))
     }
 }

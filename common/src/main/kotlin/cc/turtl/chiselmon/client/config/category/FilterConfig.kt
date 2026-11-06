@@ -13,10 +13,10 @@ import cc.turtl.turtlshell.api.core.Priority
 import cc.turtl.turtlshell.api.core.format.ColorLib
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.api.controller.StringControllerBuilder
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.Component
 import java.awt.Color
 import java.util.*
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.Component
 
 // Using the config for this just to provide an easy way for users to edit their own filters.
 // Filter definitions are serialized and managed by the UserDataRegistry.
@@ -25,22 +25,21 @@ class FilterConfig {
         val filtersUserData = ChiselmonStorage.FILTERS[Scope.global()]
 
         val builder =
-            ConfigCategory
-                .createBuilder()
+            ConfigCategory.createBuilder()
                 .name(Component.translatable("chiselmon.config.category.filters"))
 
         builder.option(
-            ButtonOption
-                .createBuilder()
+            ButtonOption.createBuilder()
                 .name(
-                    Component
-                        .translatable("chiselmon.config.filters.create")
-                        .withColor(ColorLib.GREEN.rgb),
-                ).description(
+                    Component.translatable("chiselmon.config.filters.create")
+                        .withColor(ColorLib.GREEN.rgb)
+                )
+                .description(
                     OptionDescription.of(
-                        Component.translatable("chiselmon.config.filters.create.desc"),
-                    ),
-                ).text(Component.translatable("chiselmon.config.filters.create.button"))
+                        Component.translatable("chiselmon.config.filters.create.desc")
+                    )
+                )
+                .text(Component.translatable("chiselmon.config.filters.create.button"))
                 .action { _, _ ->
                     val newId = "custom_" + UUID.randomUUID().toString().substring(0, 8)
                     filtersUserData.put(
@@ -54,7 +53,8 @@ class FilterConfig {
                         ),
                     )
                     saveAndReload(parent)
-                }.build(),
+                }
+                .build()
         )
 
         for (filter in filtersUserData.all.values) {
@@ -73,13 +73,12 @@ class FilterConfig {
         val filterName = createComponent(filter.displayName, filter.rgb)
 
         val groupBuilder =
-            OptionGroup
-                .createBuilder()
+            OptionGroup.createBuilder()
                 .name(filterName)
                 .description(
                     OptionDescription.of(
-                        Component.translatable("chiselmon.config.filters.group.desc"),
-                    ),
+                        Component.translatable("chiselmon.config.filters.group.desc")
+                    )
                 )
 
         if (!isDefault) {
@@ -92,7 +91,7 @@ class FilterConfig {
                         filter.displayName = it
                         saveAndReload(parent)
                     },
-                ),
+                )
             )
         }
 
@@ -105,7 +104,7 @@ class FilterConfig {
                     filter.rgb = it.rgb
                     saveAndReload(parent)
                 },
-            ),
+            )
         )
 
         groupBuilder.option(
@@ -119,69 +118,118 @@ class FilterConfig {
                     FilterMatcher.invalidateCache()
                 },
                 Priority::class.java,
-            ),
+            )
         )
 
         if (!isDefault) {
             groupBuilder.option(
-                Option
-                    .createBuilder<String>()
+                Option.createBuilder<String>()
                     .name(Component.translatable("chiselmon.config.filters.condition"))
                     .description(
-                        OptionDescription
-                            .createBuilder()
+                        OptionDescription.createBuilder()
                             .text(Component.translatable("chiselmon.config.filters.condition.desc"))
                             .text(Component.empty())
                             .text(
-                                Component
-                                    .translatable("chiselmon.config.filters.condition.syntax.header")
-                                    .withStyle { it.withUnderlined(true) },
-                            ).text(Component.literal("◆ shiny AND type=fire"))
+                                Component.translatable(
+                                        "chiselmon.config.filters.condition.syntax.header"
+                                    )
+                                    .withStyle { it.withUnderlined(true) }
+                            )
+                            .text(Component.literal("◆ shiny AND type=fire"))
                             .text(Component.literal("◆ legendary OR shiny"))
                             .text(Component.literal("◆ NOT species=skitty AND min_size=1.5"))
-                            .text(Component.literal("◆ (shiny OR legendary) AND NOT species=magikarp"))
+                            .text(
+                                Component.literal("◆ (shiny OR legendary) AND NOT species=magikarp")
+                            )
                             .text(Component.empty())
                             .text(
-                                Component
-                                    .translatable("chiselmon.config.filters.condition.tags.header")
-                                    .withStyle { it.withUnderlined(true) },
-                            ).text(Component.translatable("chiselmon.config.filters.condition.tags.examples.shiny"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.alpha"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.legendary"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.uncaught"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.species"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.type"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.gender"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.level"))
-                            .text(Component.translatable("chiselmon.config.filters.condition.tags.examples.size"))
-                            .build(),
-                    ).binding(DEFAULT_CONDITION_STRING, { filter.conditionString }, {
-                        filter.conditionString = it.trim()
-                        ChiselmonStorage.FILTERS.save(Scope.global())
-                        FilterMatcher.invalidateCache()
-                    })
+                                Component.translatable(
+                                        "chiselmon.config.filters.condition.tags.header"
+                                    )
+                                    .withStyle { it.withUnderlined(true) }
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.shiny"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.alpha"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.legendary"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.uncaught"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.species"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.type"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.gender"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.level"
+                                )
+                            )
+                            .text(
+                                Component.translatable(
+                                    "chiselmon.config.filters.condition.tags.examples.size"
+                                )
+                            )
+                            .build()
+                    )
+                    .binding(
+                        DEFAULT_CONDITION_STRING,
+                        { filter.conditionString },
+                        {
+                            filter.conditionString = it.trim()
+                            ChiselmonStorage.FILTERS.save(Scope.global())
+                            FilterMatcher.invalidateCache()
+                        },
+                    )
                     .controller(StringControllerBuilder::create)
-                    .build(),
+                    .build()
             )
 
             groupBuilder.option(
-                HoldToConfirmButton
-                    .builder()
+                HoldToConfirmButton.builder()
                     .name(
-                        Component
-                            .translatable("chiselmon.config.filters.delete", filter.displayName)
-                            .withColor(ColorLib.RED.rgb),
-                    ).description(
+                        Component.translatable(
+                                "chiselmon.config.filters.delete",
+                                filter.displayName,
+                            )
+                            .withColor(ColorLib.RED.rgb)
+                    )
+                    .description(
                         OptionDescription.of(
-                            Component.translatable("chiselmon.config.filters.delete.desc"),
-                        ),
-                    ).buttonText(Component.translatable("chiselmon.config.filters.delete.button"))
+                            Component.translatable("chiselmon.config.filters.delete.desc")
+                        )
+                    )
+                    .buttonText(Component.translatable("chiselmon.config.filters.delete.button"))
                     .holdingText(Component.translatable("chiselmon.config.filters.delete.held"))
                     .holdTimeTicks(30)
                     .action { _, _ ->
                         filtersUserData.remove(filter.id)
                         saveAndReload(parent)
-                    }.build(),
+                    }
+                    .build()
             )
         }
 

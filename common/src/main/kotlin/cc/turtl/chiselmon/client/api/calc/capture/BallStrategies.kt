@@ -30,7 +30,9 @@ fun calculateBallBonus(
     ctx: CaptureContext,
 ): Float {
     if (ball == null) return 1f
-    customStrategies[ball]?.let { return it.calculate(ctx) }
+    customStrategies[ball]?.let {
+        return it.calculate(ctx)
+    }
     return builtInStrategy(ball, ctx)
 }
 
@@ -78,8 +80,7 @@ private fun builtInStrategy(
         PokeBalls.LUXURY_BALL,
         PokeBalls.PREMIER_BALL,
         PokeBalls.HEAL_BALL,
-        PokeBalls.CHERISH_BALL,
-        -> {
+        PokeBalls.CHERISH_BALL -> {
             1f
         }
 
@@ -93,7 +94,9 @@ private fun builtInStrategy(
         }
 
         PokeBalls.FAST_BALL -> {
-            val speed = ClientSpeciesRegistry.getSpecies(ctx.pokemon.species.name)?.baseStats?.get("speed") ?: 0
+            val speed =
+                ClientSpeciesRegistry.getSpecies(ctx.pokemon.species.name)?.baseStats?.get("speed")
+                    ?: 0
             if (speed >= 100) 4f else 1f
         }
 
@@ -123,7 +126,8 @@ private fun builtInStrategy(
         }
 
         PokeBalls.NET_BALL -> {
-            if (ctx.pokemon.types.any { it == ElementalTypes.BUG || it == ElementalTypes.WATER }) 3f else 1f
+            if (ctx.pokemon.types.any { it == ElementalTypes.BUG || it == ElementalTypes.WATER }) 3f
+            else 1f
         }
 
         PokeBalls.DIVE_BALL -> {
@@ -136,8 +140,9 @@ private fun builtInStrategy(
 
         PokeBalls.REPEAT_BALL -> {
             val caught =
-                CobblemonClient.clientPokedexData
-                    .getKnowledgeForSpecies(ctx.pokemon.species.resourceIdentifier) == PokedexEntryProgress.OWNED
+                CobblemonClient.clientPokedexData.getKnowledgeForSpecies(
+                    ctx.pokemon.species.resourceIdentifier
+                ) == PokedexEntryProgress.OWNED
             if (caught) 3.5f else 1f
         }
 
@@ -185,8 +190,9 @@ private fun levelBallBonus(ctx: CaptureContext): Float {
 private fun loveBallBonus(ctx: CaptureContext): Float {
     if (ctx.pokemon.gender == Gender.GENDERLESS) return 1f
     val opposite =
-        ctx.playerActiveBattlePokemon
-            .filter { it.gender != Gender.GENDERLESS && it.gender != ctx.pokemon.gender }
+        ctx.playerActiveBattlePokemon.filter {
+            it.gender != Gender.GENDERLESS && it.gender != ctx.pokemon.gender
+        }
     return when {
         opposite.any { it.species == ctx.pokemon.species } -> 8f
         opposite.isNotEmpty() -> 2.5f
@@ -198,8 +204,10 @@ private fun moonBallBonus(ctx: CaptureContext): Float {
     if (ctx.level.dayTime % 24000 < 12000) return 1f
     return when (ctx.level.moonPhase) {
         0 -> 4f
-        1, 7 -> 2.5f
-        2, 6 -> 1.5f
+        1,
+        7 -> 2.5f
+        2,
+        6 -> 1.5f
         else -> 1f
     }
 }

@@ -41,7 +41,6 @@ private val SELF_DAMAGE_MOVES =
     )
 
 @JvmField
-val IS_SELF_DAMAGING: Predicate<MoveTemplate> =
-    Predicate {
-        SELF_DAMAGE_MOVES.contains(it.name.lowercase())
-    }
+val IS_SELF_DAMAGING: Predicate<MoveTemplate> = Predicate {
+    SELF_DAMAGE_MOVES.contains(it.name.lowercase())
+}

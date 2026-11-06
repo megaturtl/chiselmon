@@ -28,7 +28,11 @@ data class ClientSpecies(
 )
 
 object ClientSpeciesRegistry {
-    private enum class LoadState { IDLE, LOADING, LOADED }
+    private enum class LoadState {
+        IDLE,
+        LOADING,
+        LOADED,
+    }
 
     private val GSON = Gson()
     private var speciesMap: Map<String, ClientSpecies> = emptyMap()
@@ -50,11 +54,14 @@ object ClientSpeciesRegistry {
             val tempMap = ConcurrentHashMap<String, ClientSpecies>(1024)
 
             val root: Path =
-                Platform.findPath("cobblemon", "data/cobblemon/species") ?: run {
-                    ChiselmonConstants.LOGGER.warn("Cobblemon species path not found, will retry...")
-                    state = LoadState.IDLE
-                    return@runAsync
-                }
+                Platform.findPath("cobblemon", "data/cobblemon/species")
+                    ?: run {
+                        ChiselmonConstants.LOGGER.warn(
+                            "Cobblemon species path not found, will retry..."
+                        )
+                        state = LoadState.IDLE
+                        return@runAsync
+                    }
 
             try {
                 Files.walk(root).use { walk ->
@@ -87,8 +94,7 @@ object ClientSpeciesRegistry {
                 val cleanKey = normalizeSpeciesName(path.fileName.toString().removeSuffix(".json"))
                 map[cleanKey] = species
             }
-        } catch (_: Exception) {
-        }
+        } catch (_: Exception) {}
     }
 
     fun getSpecies(name: String): ClientSpecies? = speciesMap[normalizeSpeciesName(name)]

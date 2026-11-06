@@ -26,43 +26,40 @@ class MessageAction {
         val filter = ctx.messageFilter ?: return Component.empty()
 
         val message: MutableComponent =
-            Component
-                .literal("⚠ ")
-                .withStyle { style ->
-                    style
-                        .withColor(ColorLib.PINK.rgb)
-                        .withClickEvent(
-                            ClickEvent(
-                                ClickEvent.Action.RUN_COMMAND,
-                                "/${BuildDetails.MOD_ID} alert mute ${ctx.entity.uuid}",
-                            ),
-                        ).withHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
-                                Component.translatable("chiselmon.spawnalert.mute.tooltip"),
-                            ),
+            Component.literal("⚠ ").withStyle { style ->
+                style
+                    .withColor(ColorLib.PINK.rgb)
+                    .withClickEvent(
+                        ClickEvent(
+                            ClickEvent.Action.RUN_COMMAND,
+                            "/${BuildDetails.MOD_ID} alert mute ${ctx.entity.uuid}",
                         )
-                }
+                    )
+                    .withHoverEvent(
+                        HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("chiselmon.spawnalert.mute.tooltip"),
+                        )
+                    )
+            }
 
         // Filter name
         message.append(
-            Component
-                .empty()
-                .append(filter.displayName)
-                .withStyle { style ->
-                    style
-                        .withClickEvent(
-                            ClickEvent(
-                                ClickEvent.Action.RUN_COMMAND,
-                                "/${BuildDetails.MOD_ID} config alert",
-                            ),
-                        ).withHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
-                                Component.translatable("chiselmon.spawnalert.filter.tooltip"),
-                            ),
+            Component.empty().append(filter.displayName).withStyle { style ->
+                style
+                    .withClickEvent(
+                        ClickEvent(
+                            ClickEvent.Action.RUN_COMMAND,
+                            "/${BuildDetails.MOD_ID} config alert",
                         )
-                },
+                    )
+                    .withHoverEvent(
+                        HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("chiselmon.spawnalert.filter.tooltip"),
+                        )
+                    )
+            }
         )
 
         message.append(createComponent(" • ", ColorLib.DARK_GRAY.rgb))
@@ -76,7 +73,9 @@ class MessageAction {
             message.append(createComponent(" ★", ColorLib.GOLD.rgb))
         }
         if (pokemon.scaleModifier != 1.0f) {
-            message.append(createComponent(" (${"%.2f".format(pokemon.scaleModifier)})", ColorLib.TEAL.rgb))
+            message.append(
+                createComponent(" (${"%.2f".format(pokemon.scaleModifier)})", ColorLib.TEAL.rgb)
+            )
         }
 
         // Alert suffix
@@ -84,19 +83,15 @@ class MessageAction {
 
         // Coords
         val pos = ctx.entity.onPos
-        val coords: MutableComponent = createComponent(" (${pos.toShortString()})", ColorLib.AQUA.rgb)
+        val coords: MutableComponent =
+            createComponent(" (${pos.toShortString()})", ColorLib.AQUA.rgb)
 
-        // only if xaeros is installed and loaded -- the command is intercepted by the mod to bring up the waypoint screen
+        // only if xaeros is installed and loaded -- the command is intercepted by the mod to bring
+        // up the waypoint screen
         if (Platform.isModLoaded("xaerominimap")) {
             val mcColor = getClosestLegacy(filter.rgb).char
             val colorIndex = Character.digit(mcColor, 16)
-            val dimension =
-                ctx.entity
-                    .level()
-                    .dimension()
-                    .location()
-                    .toString()
-                    .replace(":", "$")
+            val dimension = ctx.entity.level().dimension().location().toString().replace(":", "$")
             val waypointCommand =
                 "/xaero_waypoint_add:${pokemon.species.name}:!:" +
                     "${pos.x}:${pos.y}:${pos.z}:$colorIndex:false:0:Internal-dim%$dimension-waypoints"
@@ -108,7 +103,7 @@ class MessageAction {
                         HoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
                             Component.translatable("chiselmon.spawnalert.waypoint.tooltip"),
-                        ),
+                        )
                     )
             }
         }

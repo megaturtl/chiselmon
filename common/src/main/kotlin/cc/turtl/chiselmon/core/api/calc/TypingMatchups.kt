@@ -68,9 +68,7 @@ private val TYPE_ORDER =
 
 private fun typeIndex(type: ElementalType) = TYPE_ORDER.indexOf(type)
 
-/**
- * Computes the effectiveness of all attacking types against the given typing.
- */
+/** Computes the effectiveness of all attacking types against the given typing. */
 fun computeMatchups(defendingTypes: Iterable<ElementalType>): TypingMatchups {
     val results =
         ElementalTypes.all().associateWith { attackingType ->
@@ -89,12 +87,8 @@ fun computeMatchups(defendingTypes: Iterable<ElementalType>): TypingMatchups {
     return TypingMatchups(results)
 }
 
-/**
- * Maps every attacking type to its damage multiplier against a typing.
- */
-data class TypingMatchups(
-    val multiplierMap: Map<ElementalType, Float>,
-) {
+/** Maps every attacking type to its damage multiplier against a typing. */
+data class TypingMatchups(val multiplierMap: Map<ElementalType, Float>) {
     fun getSuperWeak() = filterByMultiplier(4f)
 
     fun getWeak() = filterByMultiplier(2f)
@@ -114,14 +108,8 @@ data class TypingMatchups(
 
     /** Gets all types that deal less than 1.0x damage, sorted (0x, then 0.25x, then 0.5x). */
     fun getAllResist() =
-        multiplierMap.entries
-            .filter { it.value < 1f }
-            .sortedBy { it.value }
-            .map { it.key }
+        multiplierMap.entries.filter { it.value < 1f }.sortedBy { it.value }.map { it.key }
 
     private fun filterByMultiplier(target: Float) =
-        multiplierMap
-            .filterValues { it == target }
-            .keys
-            .toList()
+        multiplierMap.filterValues { it == target }.keys.toList()
 }

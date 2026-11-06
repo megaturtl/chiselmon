@@ -17,17 +17,14 @@ import net.minecraft.network.chat.MutableComponent
 
 class DashCommand : TurtlShellClientCommand {
     override val name = "dash"
-    override val description: MutableComponent = Component.literal("View detailed spawning stats in the Chiselmon Dash")
+    override val description: MutableComponent =
+        Component.literal("View detailed spawning stats in the Chiselmon Dash")
 
     override fun build(): LiteralArgumentBuilder<CommandSourceStack> =
-        LiteralArgumentBuilder
-            .literal<CommandSourceStack>(name)
+        LiteralArgumentBuilder.literal<CommandSourceStack>(name)
             .executes { ctx ->
                 val player = Minecraft.getInstance().player ?: return@executes 0
-                val root =
-                    ctx.nodes
-                        .first()
-                        .node.name
+                val root = ctx.nodes.first().node.name
 
                 sendEmptyLine(player)
                 sendSuccess(player, "Chiselmon Dash - Commands")
@@ -35,18 +32,21 @@ class DashCommand : TurtlShellClientCommand {
                 sendPrefixed(player, "  /$root dash open")
                 sendPrefixed(player, "  /$root dash close")
                 Command.SINGLE_SUCCESS
-            }.then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("status")
-                    .executes { executeStatus() },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("open")
-                    .executes { executeOpen() },
-            ).then(
-                LiteralArgumentBuilder
-                    .literal<CommandSourceStack>("close")
-                    .executes { executeClose() },
+            }
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("status").executes {
+                    executeStatus()
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("open").executes {
+                    executeOpen()
+                }
+            )
+            .then(
+                LiteralArgumentBuilder.literal<CommandSourceStack>("close").executes {
+                    executeClose()
+                }
             )
 
     private fun executeStatus(): Int {
@@ -68,8 +68,7 @@ class DashCommand : TurtlShellClientCommand {
 
         sendPrefixed(
             player,
-            Component
-                .literal("Dashboard server is running at ")
+            Component.literal("Dashboard server is running at ")
                 .withColor(ColorLib.GREEN.rgb)
                 .append(clickableUrl(url))
                 .append(Component.literal(" (Uptime: $uptime)")),
@@ -90,8 +89,7 @@ class DashCommand : TurtlShellClientCommand {
         if (session.isDashboardRunning) {
             sendPrefixed(
                 player,
-                Component
-                    .literal("Dashboard is already running at ")
+                Component.literal("Dashboard is already running at ")
                     .withColor(ColorLib.YELLOW.rgb)
                     .append(clickableUrl(url)),
             )
@@ -105,8 +103,7 @@ class DashCommand : TurtlShellClientCommand {
             }
             sendPrefixed(
                 player,
-                Component
-                    .literal("Dashboard server opened at ")
+                Component.literal("Dashboard server opened at ")
                     .withColor(ColorLib.GREEN.rgb)
                     .append(clickableUrl(url)),
             )
@@ -132,9 +129,7 @@ class DashCommand : TurtlShellClientCommand {
         return Command.SINGLE_SUCCESS
     }
 
-    /**
-     * Validates a session exists, sending a warning if not. Returns null if invalid.
-     */
+    /** Validates a session exists, sending a warning if not. Returns null if invalid. */
     private fun requireSession(player: LocalPlayer): TrackerSession? =
         try {
             TrackerSession.current

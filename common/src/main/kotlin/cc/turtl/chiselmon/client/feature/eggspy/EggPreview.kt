@@ -8,8 +8,8 @@ import com.cobblemon.mod.common.pokemon.RenderablePokemon
 /** Shared helpers used by render-site mixins to redirect reads on the cached [EggDummy]. */
 object EggPreview {
     /**
-     * Returns the hatchling preview if [pokemon] is an egg and EggSpy is enabled.
-     * Otherwise returns [pokemon] unchanged.
+     * Returns the hatchling preview if [pokemon] is an egg and EggSpy is enabled. Otherwise returns
+     * [pokemon] unchanged.
      */
     @JvmStatic
     fun forDisplay(pokemon: Pokemon): Pokemon {
@@ -19,8 +19,8 @@ object EggPreview {
     }
 
     /**
-     * Returns the cached hatchling [RenderablePokemon] if [pokemon] is an egg.
-     * Otherwise the pokemon's own renderable.
+     * Returns the cached hatchling [RenderablePokemon] if [pokemon] is an egg. Otherwise the
+     * pokemon's own renderable.
      */
     @JvmStatic
     fun renderableFor(pokemon: Pokemon): RenderablePokemon {

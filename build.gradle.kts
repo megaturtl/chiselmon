@@ -16,7 +16,8 @@ tasks.register("printVersion") {
 subprojects {
     configurations.all {
         resolutionStrategy {
-            // This forces every sub-module (common, fabric, neoforge) to check for fresh snapshots on every build.
+            // This forces every sub-module (common, fabric, neoforge) to check for fresh snapshots
+            // on every build.
             cacheChangingModulesFor(0, "seconds")
         }
     }

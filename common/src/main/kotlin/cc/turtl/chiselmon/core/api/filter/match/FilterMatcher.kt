@@ -24,7 +24,8 @@ object FilterMatcher {
         cache = null
     }
 
-    private fun getFilters(): List<RuntimeFilter> = cache ?: createRuntimeFilters().also { cache = it }
+    private fun getFilters(): List<RuntimeFilter> =
+        cache ?: createRuntimeFilters().also { cache = it }
 
     private fun createRuntimeFilters(): List<RuntimeFilter> {
         val data = ChiselmonStorage.FILTERS[Scope.global()]
@@ -45,6 +46,7 @@ object FilterMatcher {
                         Predicate { false }
                     }
                 RuntimeFilter(def.id, def.displayName, def.rgb, def.priority, condition)
-            }.sortedByDescending { it.priority }
+            }
+            .sortedByDescending { it.priority }
     }
 }

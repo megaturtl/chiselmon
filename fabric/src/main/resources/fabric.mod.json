@@ -4,9 +4,7 @@
   "version": "${version}",
   "name": "${mod_display_name}",
   "description": "${mod_description}",
-  "authors": [
-    "${mod_author}"
-  ],
+  "authors": ["${mod_author}"],
   "contact": {
     "sources": "https://github.com/megaturtl/chiselmon",
     "issues": "https://github.com/megaturtl/chiselmon/issues"
@@ -40,10 +38,7 @@
       }
     ]
   },
-  "mixins": [
-    "chiselmon-common.mixins.json",
-    "chiselmon-fabric.mixins.json"
-  ],
+  "mixins": ["chiselmon-common.mixins.json", "chiselmon-fabric.mixins.json"],
   "accessWidener": "chiselmon-common.accesswidener",
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",

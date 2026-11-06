@@ -82,8 +82,7 @@ object PokemonFormats {
         form: Boolean,
     ): Component {
         val name =
-            Component
-                .empty()
+            Component.empty()
                 .append(genderIcon(pokemon.gender))
                 .append(" ")
                 .append(createComponent(pokemon.species.name, ColorLib.WHITE.rgb))
@@ -113,7 +112,8 @@ object PokemonFormats {
 
     // --- Combat & Stats ---
 
-    fun types(pokemon: Pokemon): Component = join(pokemon.types, " / ") { type -> type.displayName.withColor(type.hue) }
+    fun types(pokemon: Pokemon): Component =
+        join(pokemon.types, " / ") { type -> type.displayName.withColor(type.hue) }
 
     fun typingWeaknesses(pokemon: Pokemon): Component {
         val matchups = computeMatchups(pokemon.types)
@@ -143,8 +143,7 @@ object PokemonFormats {
         val totalRatio = ivs.getEffectiveBattleTotal().toFloat() / IVs.MAX_TOTAL
         val totalColor = getRatioColor(totalRatio, *POSITIVE_GRADIENT)
 
-        return Component
-            .empty()
+        return Component.empty()
             .append(stats)
             .append(" ")
             .append(createComponent("(", ColorLib.DARK_GRAY.rgb))
@@ -153,9 +152,7 @@ object PokemonFormats {
     }
 
     fun selfDamagingMoves(pokemon: Pokemon): Component {
-        val moves =
-            getPossibleMoves(pokemon, true)
-                .filter(IS_SELF_DAMAGING::test)
+        val moves = getPossibleMoves(pokemon, true).filter(IS_SELF_DAMAGING::test)
 
         if (moves.isEmpty()) return UNKNOWN
 
@@ -179,8 +176,7 @@ object PokemonFormats {
         if (yields.isEmpty()) return UNKNOWN
 
         return join(yields, ", ") { (stat, value) ->
-            Component
-                .empty()
+            Component.empty()
                 .append(createComponent(value, statColor(stat)))
                 .append(" ")
                 .append(createComponent(statName(stat), statColor(stat)))
@@ -189,7 +185,8 @@ object PokemonFormats {
 
     // --- Capture ---
 
-    fun catchRate(species: ClientSpecies): Component = createComponent(species.catchRate, ColorLib.WHITE.rgb)
+    fun catchRate(species: ClientSpecies): Component =
+        createComponent(species.catchRate, ColorLib.WHITE.rgb)
 
     fun catchChance(
         entity: PokemonEntity,
@@ -198,8 +195,7 @@ object PokemonFormats {
         val chance = estimateCaptureProbability(entity, ball)
         val color = getRatioColor(chance, *POSITIVE_GRADIENT)
 
-        return Component
-            .empty()
+        return Component.empty()
             .append(createComponent("(", ColorLib.LIGHT_GRAY.rgb))
             .append(createComponent(formatPercentage(chance.toDouble()), color))
             .append(createComponent(")", ColorLib.LIGHT_GRAY.rgb))
@@ -238,7 +234,12 @@ object PokemonFormats {
 
             name
                 .withColor(color)
-                .append(createComponent(" (${formatPercentage(mark.chance.toDouble())})", ColorLib.DARK_GRAY.rgb))
+                .append(
+                    createComponent(
+                        " (${formatPercentage(mark.chance.toDouble())})",
+                        ColorLib.DARK_GRAY.rgb,
+                    )
+                )
         }
     }
 
@@ -264,7 +265,9 @@ object PokemonFormats {
 
     // --- Helpers ---
 
-    private fun statName(key: String): String = STAT_INFO[key.lowercase()]?.first ?: key.capitalizeFirst()
+    private fun statName(key: String): String =
+        STAT_INFO[key.lowercase()]?.first ?: key.capitalizeFirst()
 
-    private fun statColor(key: String): Int = STAT_INFO[key.lowercase()]?.second ?: ColorLib.WHITE.rgb
+    private fun statColor(key: String): Int =
+        STAT_INFO[key.lowercase()]?.second ?: ColorLib.WHITE.rgb
 }

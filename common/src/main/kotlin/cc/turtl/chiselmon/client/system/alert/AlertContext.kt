@@ -9,10 +9,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 /**
  * Snapshot of a Pokemon's alert state for a single tick.
  *
- * @param entity  The live entity that triggered the alert.
+ * @param entity The live entity that triggered the alert.
  * @param filters The filters that matched this pokemon, sorted by priority.
  * @param isMuted Whether the user has muted this specific pokemon.
- * @param config  The current alert config.
+ * @param config The current alert config.
  */
 data class AlertContext(
     val entity: PokemonEntity,
@@ -20,29 +20,36 @@ data class AlertContext(
     val isMuted: Boolean,
     val config: AlertConfig,
 ) {
-    val pokemon: Pokemon get() = entity.pokemon
+    val pokemon: Pokemon
+        get() = entity.pokemon
 
     private fun settingsFor(filter: RuntimeFilter): AlertConfig.FilterAlertSettings =
         config.filterAlerts.getOrPut(filter.id) { AlertConfig.FilterAlertSettings() }
 
     /** Returns the first filter (in priority order) whose settings satisfy [predicate], or null. */
-    private inline fun firstMatching(predicate: (AlertConfig.FilterAlertSettings) -> Boolean): RuntimeFilter? =
-        filters.firstOrNull { predicate(settingsFor(it)) }
+    private inline fun firstMatching(
+        predicate: (AlertConfig.FilterAlertSettings) -> Boolean
+    ): RuntimeFilter? = filters.firstOrNull { predicate(settingsFor(it)) }
 
     /** The first enabled filter, used for general priority comparisons. */
-    val alertFilter: RuntimeFilter? get() = firstMatching { it.enabled }
+    val alertFilter: RuntimeFilter?
+        get() = firstMatching { it.enabled }
 
     /** The filter that drives entity highlighting. */
-    val highlightFilter: RuntimeFilter? get() = firstMatching { it.enabled && it.highlightEntity }
+    val highlightFilter: RuntimeFilter?
+        get() = firstMatching { it.enabled && it.highlightEntity }
 
     /** The filter that drives chat messages. */
-    val messageFilter: RuntimeFilter? get() = firstMatching { it.enabled && it.sendChatMessage }
+    val messageFilter: RuntimeFilter?
+        get() = firstMatching { it.enabled && it.sendChatMessage }
 
     /** The filter that drives Discord messages. */
-    val discordFilter: RuntimeFilter? get() = firstMatching { it.enabled && it.sendDiscordMessage }
+    val discordFilter: RuntimeFilter?
+        get() = firstMatching { it.enabled && it.sendDiscordMessage }
 
     /** The filter that drives sound (single or repeating). */
-    val soundFilter: RuntimeFilter? get() = firstMatching { it.enabled && it.playSound }
+    val soundFilter: RuntimeFilter?
+        get() = firstMatching { it.enabled && it.playSound }
 
     // -------------------------------------------------------------------------
     // Should-X guards
@@ -53,12 +60,14 @@ data class AlertContext(
 
     val shouldRepeatingSound: Boolean
         get() =
-            shouldAlert && !isMuted &&
+            shouldAlert &&
+                !isMuted &&
                 firstMatching { it.enabled && it.playSound && it.repeatSound } != null
 
     val shouldSingleSound: Boolean
         get() =
-            shouldAlert && !isMuted &&
+            shouldAlert &&
+                !isMuted &&
                 firstMatching { it.enabled && it.playSound && !it.repeatSound } != null
 
     val shouldMessage: Boolean
@@ -66,20 +75,23 @@ data class AlertContext(
 
     val shouldDiscord: Boolean
         get() =
-            shouldAlert && !isMuted &&
+            shouldAlert &&
+                !isMuted &&
                 ChiselmonConfig.general.discordWebhookURL.isNotBlank() &&
                 discordFilter != null
 
     val shouldHighlight: Boolean
         get() = shouldAlert && highlightFilter != null
 
-    val discordWebhookUrl: String get() = ChiselmonConfig.general.discordWebhookURL
+    val discordWebhookUrl: String
+        get() = ChiselmonConfig.general.discordWebhookURL
 
-    val discordUserId: String get() = ChiselmonConfig.general.discordUserId
+    val discordUserId: String
+        get() = ChiselmonConfig.general.discordUserId
 
     /**
-     * Settings for the winning sound filter. Returns a default instance if none matched
-     * (callers should guard with [shouldSingleSound] / [shouldRepeatingSound] first).
+     * Settings for the winning sound filter. Returns a default instance if none matched (callers
+     * should guard with [shouldSingleSound] / [shouldRepeatingSound] first).
      */
     val soundSettings: AlertConfig.FilterAlertSettings
         get() = soundFilter?.let { settingsFor(it) } ?: AlertConfig.FilterAlertSettings()

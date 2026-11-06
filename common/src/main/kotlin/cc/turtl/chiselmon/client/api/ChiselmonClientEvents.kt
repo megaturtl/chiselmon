@@ -19,13 +19,9 @@ data class PokemonUnloadedEvent(
     val isWild: Boolean,
 )
 
-data class BattleStartedEvent(
-    val battle: ClientBattle,
-)
+data class BattleStartedEvent(val battle: ClientBattle)
 
-data class BattleEndedEvent(
-    val battle: ClientBattle,
-)
+data class BattleEndedEvent(val battle: ClientBattle)
 
 object ChiselmonClientEvents {
     val POKEMON_LOADED = ObservableEvent<PokemonLoadedEvent>()
@@ -37,7 +33,10 @@ object ChiselmonClientEvents {
         ClientEvents.ENTITY_LOAD.subscribe { entity ->
             if (entity is PokemonEntity) {
                 val isWild = IS_WILD.test(entity)
-                val encounter = if (isWild && !ChiselmonConfig.general.modDisabled) PokemonEncounter.from(entity) else null
+                val encounter =
+                    if (isWild && !ChiselmonConfig.general.modDisabled)
+                        PokemonEncounter.from(entity)
+                    else null
                 POKEMON_LOADED(PokemonLoadedEvent(entity, encounter, isWild))
             }
         }

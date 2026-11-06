@@ -5,8 +5,8 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 
 /**
- * Renders text centered horizontally within a width constraint, using
- * Minecraft's built-in text trimming if needed. Vertical centering is also handled.
+ * Renders text centered horizontally within a width constraint, using Minecraft's built-in text
+ * trimming if needed. Vertical centering is also handled.
  */
 fun renderCenteredText(
     graphics: GuiGraphics,
@@ -24,8 +24,7 @@ fun renderCenteredText(
 
     if (textWidth > maxWidth) {
         displayText =
-            Component
-                .literal(font.plainSubstrByWidth(text.string, maxWidth).trim { it <= ' ' })
+            Component.literal(font.plainSubstrByWidth(text.string, maxWidth).trim { it <= ' ' })
                 .withStyle(text.style)
         textWidth = font.width(displayText)
     }

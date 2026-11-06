@@ -8,14 +8,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 
 /** Counts how many unique ability templates exist in a Pokemon's potential pool. */
 fun countUniqueAbilities(pokemon: Pokemon): Int =
-    pokemon.form.abilities.mapping.values
-        .flatten()
-        .map { it.template }
-        .distinct()
-        .count()
+    pokemon.form.abilities.mapping.values.flatten().map { it.template }.distinct().count()
 
 /** Counts how many IVs are at the maximum value (31). */
-fun countPerfectIVs(pokemon: Pokemon): Int = Stats.PERMANENT.count { pokemon.ivs.getEffectiveBattleIV(it) == IVs.MAX_VALUE }
+fun countPerfectIVs(pokemon: Pokemon): Int =
+    Stats.PERMANENT.count { pokemon.ivs.getEffectiveBattleIV(it) == IVs.MAX_VALUE }
 
 /**
  * Calculates the probable moveset of a wild Pokemon.

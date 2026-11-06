@@ -15,7 +15,8 @@ object PokeRodOverlay {
 
     @JvmStatic
     fun render(guiGraphics: GuiGraphics, occupiedHudHeight: Int): Boolean {
-        if (ChiselmonConfig.general.modDisabled || !ChiselmonConfig.general.pokerodOverlay) return false
+        if (ChiselmonConfig.general.modDisabled || !ChiselmonConfig.general.pokerodOverlay)
+            return false
 
         val minecraft = Minecraft.getInstance()
         if (minecraft.options.hideGui) return false
