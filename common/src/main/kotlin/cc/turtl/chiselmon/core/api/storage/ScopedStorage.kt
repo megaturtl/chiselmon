@@ -50,7 +50,11 @@ class ScopedStorage<T>(
                 }
             } catch (error: Exception) {
                 val previous = failure
-                if (previous == null) failure = error
+                if (previous == null) {
+                    failure = error
+                } else if (previous !== error) {
+                    previous.addSuppressed(error)
+                }
             }
         }
         failure?.let { throw it }

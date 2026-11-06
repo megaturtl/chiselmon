@@ -3,6 +3,7 @@ package cc.turtl.chiselmon.core.api.storage
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -95,6 +96,42 @@ class ScopedStorageTest {
 
         assertEquals(11, newStore()[first].bookmark)
         assertEquals(22, newStore()[second].bookmark)
+    }
+
+    @Test
+    fun `reused persistence failure does not interrupt healthy cleanup or failed scope retry`() {
+        val config = root.resolve("config")
+        val first = Scope.singleplayer(root.resolve("First"), config, "First")
+        val second = Scope.singleplayer(root.resolve("Second"), config, "Second")
+        val healthy = Scope.singleplayer(root.resolve("Healthy"), config, "Healthy")
+        val failedScopes = setOf(first, second)
+        val sharedFailure = IOException("Persistence unavailable")
+        val saved = mutableMapOf<Scope, Int>()
+        val closed = mutableSetOf<Scope>()
+        var fail = true
+        val store = ScopedStorage(
+            load = { Settings() },
+            save = { scope, settings ->
+                if (fail && scope in failedScopes) throw sharedFailure
+                saved[scope] = settings.bookmark
+            },
+            close = { scope, _ -> closed.add(scope) },
+        )
+        store[first].bookmark = 11
+        store[second].bookmark = 22
+        store[healthy].bookmark = 33
+
+        assertSame(sharedFailure, assertThrows(IOException::class.java) { store.saveAndClearAll() })
+        assertEquals(mapOf(healthy to 33), saved)
+        assertEquals(setOf(healthy), closed)
+        assertEquals(11, store[first].bookmark)
+        assertEquals(22, store[second].bookmark)
+
+        fail = false
+        store.saveAndClearAll()
+
+        assertEquals(mapOf(first to 11, second to 22, healthy to 33), saved)
+        assertEquals(setOf(first, second, healthy), closed)
     }
 
     @Test
