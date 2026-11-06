@@ -1,7 +1,7 @@
 {
   description = "Chiselmon development environment";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
   outputs = { nixpkgs, ... }:
     let
