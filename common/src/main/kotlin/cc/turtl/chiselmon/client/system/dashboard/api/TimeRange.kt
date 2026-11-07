@@ -17,9 +17,6 @@ data class TimeRange(
     val hasTo: Boolean
         get() = to > 0
 
-    val isUnbounded: Boolean
-        get() = !hasFrom && !hasTo
-
     companion object {
         /**
          * Parse a [TimeRange] from an HTTP query-parameter map. Missing or malformed values become

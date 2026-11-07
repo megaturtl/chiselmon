@@ -14,7 +14,7 @@ class BiomesHandler(db: EncounterDatabase) : ApiHandler(db) {
 
     override fun handle(exchange: HttpExchange) {
         handleRequest(exchange) { timeRange, params ->
-            val limit = parseIntParam(params, "limit", DEFAULT_LIMIT)
+            val limit = parseLimit(params, DEFAULT_LIMIT)
 
             val biomes =
                 query("encounters")

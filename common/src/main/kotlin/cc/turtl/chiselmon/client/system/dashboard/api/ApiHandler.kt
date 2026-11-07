@@ -65,12 +65,11 @@ abstract class ApiHandler protected constructor(protected val db: EncounterDatab
      */
     protected fun query(table: String): QueryBuilder = QueryBuilder(db.connection, table)
 
-    /** Parse an int param, returning [defaultValue] if absent or malformed. */
-    protected fun parseIntParam(
+    /** Parse the limit, returning [defaultValue] if absent or malformed. */
+    protected fun parseLimit(
         params: Map<String, String>,
-        key: String,
         defaultValue: Int,
-    ): Int = params[key]?.toIntOrNull() ?: defaultValue
+    ): Int = params["limit"]?.toIntOrNull() ?: defaultValue
 
     /** Parse an int param, throwing [IllegalArgumentException] if present but not a valid int. */
     protected fun requireIntParam(

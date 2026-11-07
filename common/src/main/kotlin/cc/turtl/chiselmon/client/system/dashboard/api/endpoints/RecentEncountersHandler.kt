@@ -24,7 +24,7 @@ class RecentEncountersHandler(db: EncounterDatabase) : ApiHandler(db) {
 
     override fun handle(exchange: HttpExchange) {
         handleRequest(exchange) { timeRange, params ->
-            val limit = parseIntParam(params, "limit", DEFAULT_LIMIT).coerceAtMost(MAX_LIMIT)
+            val limit = parseLimit(params, DEFAULT_LIMIT).coerceAtMost(MAX_LIMIT)
 
             val encounters =
                 query("encounters")
