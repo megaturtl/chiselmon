@@ -38,11 +38,6 @@ val IS_SHOULDERABLE: Predicate<Pokemon> = Predicate {
 @JvmField val IS_ULTRABEAST: Predicate<Pokemon> = hasAnyLabel("ultra_beast")
 
 @JvmField
-val IS_EGG: Predicate<Pokemon> = Predicate {
-    it.species.resourceIdentifier == EggDummy.EGG_SPECIES_ID
-}
-
-@JvmField
 val IS_EGG_DUMMY: Predicate<Pokemon> = Predicate {
     it.forcedAspects.contains(EggDummy.DUMMY_ASPECT)
 }

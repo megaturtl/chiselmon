@@ -133,7 +133,7 @@ class DashCommand : TurtlShellClientCommand {
     private fun requireSession(player: LocalPlayer): TrackerSession? =
         try {
             TrackerSession.current
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             sendWarning(player, "No active tracker session.")
             null
         }

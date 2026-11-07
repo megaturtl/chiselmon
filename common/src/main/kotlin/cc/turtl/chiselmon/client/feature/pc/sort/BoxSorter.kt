@@ -66,22 +66,19 @@ object BoxSorter {
     ): Comparator<Pokemon> = Comparator { a, b ->
         val pa = previews.preview(a)
         val pb = previews.preview(b)
-        val aIsEgg = pa is EggDummy
-        val bIsEgg = pb is EggDummy
 
         when {
-            // One egg: Eggs go last
-            aIsEgg != bIsEgg -> {
-                aIsEgg.compareTo(bIsEgg)
+            pa is EggDummy -> {
+                if (pb is EggDummy) {
+                    pa.hatchPercentage.compareTo(pb.hatchPercentage).takeIf { it != 0 }
+                        ?: mode.comparator(reversed).compare(pa, pb)
+                } else {
+                    1
+                }
             }
 
-            // Both eggs: sort by hatch percentage, then mode
-            aIsEgg && bIsEgg -> {
-                pa.hatchPercentage.compareTo(pb.hatchPercentage).takeIf { it != 0 }
-                    ?: mode.comparator(reversed).compare(pa, pb)
-            }
+            pb is EggDummy -> -1
 
-            // No eggs: sort by mode, then level
             else -> {
                 mode.comparator(reversed).compare(pa, pb).takeIf { it != 0 }
                     ?: pa.level.compareTo(pb.level)

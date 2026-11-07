@@ -22,8 +22,6 @@ class PCUserData {
             data.clear()
         }
 
-        fun isFull(): Boolean = data.size >= MAX_BOOKMARKS
-
         fun has(boxNo: Int): Boolean = boxNo in data
 
         fun get(): List<Int> = data.toList()

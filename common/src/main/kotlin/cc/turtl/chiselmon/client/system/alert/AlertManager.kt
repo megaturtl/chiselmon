@@ -153,6 +153,4 @@ object AlertManager {
     fun unmuteAll() = mutedUuids.clear()
 
     fun isMuted(uuid: UUID): Boolean = uuid in mutedUuids
-
-    fun getMutedUuids(): Set<UUID> = mutedUuids
 }

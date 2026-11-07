@@ -50,7 +50,7 @@ class ScopedStorage<T>(
                 val previous = failure
                 if (previous == null) {
                     failure = error
-                } else if (previous !== error) {
+                } else {
                     previous.addSuppressed(error)
                 }
             }

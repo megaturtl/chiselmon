@@ -1,8 +1,6 @@
 package cc.turtl.chiselmon.core.util.format
 
 import cc.turtl.turtlshell.api.core.format.ColorLib
-import cc.turtl.turtlshell.api.core.util.getRatioColor
-import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -11,7 +9,6 @@ import net.minecraft.network.chat.MutableComponent
 val UNKNOWN: Component = createComponent("???", ColorLib.DARK_GRAY.rgb)
 val NONE: Component = createComponent("None", ColorLib.DARK_GRAY.rgb)
 val SPACE: Component = Component.literal(" ")
-val RESET: Component = Component.literal("").withStyle(ChatFormatting.RESET)
 
 fun createComponent(text: Any?): MutableComponent = createComponent(text, ColorLib.WHITE.rgb)
 
@@ -84,33 +81,5 @@ fun <E> join(
         if (i > 0) result.append(sep)
         result.append(comp)
     }
-    return result
-}
-
-/**
- * Creates a component where the text is colored with a multi-point gradient.
- *
- * @param text The string to color.
- * @param colors The RGB color stops (0xRRGGBB).
- * @return A MutableComponent containing the gradient text.
- */
-fun gradient(
-    text: String?,
-    vararg colors: Int,
-): MutableComponent {
-    if (text.isNullOrEmpty()) return Component.empty()
-    if (colors.isEmpty()) return Component.literal(text)
-    if (colors.size == 1) return createComponent(text, colors[0])
-
-    val result = Component.empty()
-    val length = text.length
-
-    for (i in text.indices) {
-        // Calculate ratio (0.0 to 1.0) based on character index
-        val ratio = if (length > 1) i.toFloat() / (length - 1).toFloat() else 0.0f
-        val color = getRatioColor(ratio, *colors)
-        result.append(Component.literal(text[i].toString()).withStyle { it.withColor(color) })
-    }
-
     return result
 }

@@ -89,27 +89,10 @@ fun computeMatchups(defendingTypes: Iterable<ElementalType>): TypingMatchups {
 
 /** Maps every attacking type to its damage multiplier against a typing. */
 data class TypingMatchups(val multiplierMap: Map<ElementalType, Float>) {
-    fun getSuperWeak() = filterByMultiplier(4f)
-
-    fun getWeak() = filterByMultiplier(2f)
-
-    fun getResistant() = filterByMultiplier(.5f)
-
-    fun getSuperResistant() = filterByMultiplier(.25f)
-
-    fun getImmune() = filterByMultiplier(0f)
-
     /** Gets all types that deal more than 1.0x damage, sorted (4x then 2x). */
     fun getAllWeak() =
         multiplierMap.entries
             .filter { it.value > 1f }
             .sortedByDescending { it.value }
             .map { it.key }
-
-    /** Gets all types that deal less than 1.0x damage, sorted (0x, then 0.25x, then 0.5x). */
-    fun getAllResist() =
-        multiplierMap.entries.filter { it.value < 1f }.sortedBy { it.value }.map { it.key }
-
-    private fun filterByMultiplier(target: Float) =
-        multiplierMap.filterValues { it == target }.keys.toList()
 }

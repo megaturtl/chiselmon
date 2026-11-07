@@ -15,7 +15,6 @@ import java.util.*
 
 /** Keeps track of currently loaded WILD pokemon, and stores all new encounters in a database. */
 class TrackerSession private constructor() {
-    private val startTimeMs: Long = System.currentTimeMillis()
     private val seenUuids: MutableSet<UUID> = HashSet()
 
     val currentlyLoaded: MutableMap<UUID, PokemonEntity> = HashMap()
@@ -110,9 +109,6 @@ class TrackerSession private constructor() {
 
     val dashboardPort: Int
         get() = DASHBOARD_PORT
-
-    val msElapsed: Long
-        get() = System.currentTimeMillis() - startTimeMs
 
     val encounterCount: Int
         get() = seenUuids.size

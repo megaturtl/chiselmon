@@ -133,7 +133,7 @@ object CheckSpawnInterceptor {
             if (value >= 5f) return ColorLib.GREEN.rgb
             if (value >= 0.5f) return ColorLib.YELLOW.rgb
             return ColorLib.RED.rgb
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             return ColorLib.WHITE.rgb
         }
     }

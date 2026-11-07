@@ -52,7 +52,7 @@ class AlertCommand : TurtlShellClientCommand {
                     )
             )
             .then(
-                LiteralArgumentBuilder.literal<CommandSourceStack>("muteall").executes { ctx ->
+                LiteralArgumentBuilder.literal<CommandSourceStack>("muteall").executes {
                     val player = Minecraft.getInstance().player ?: return@executes 0
                     AlertManager.muteAll()
                     sendSuccess(player, "All loaded pokemon muted")
@@ -60,7 +60,7 @@ class AlertCommand : TurtlShellClientCommand {
                 }
             )
             .then(
-                LiteralArgumentBuilder.literal<CommandSourceStack>("unmuteall").executes { ctx ->
+                LiteralArgumentBuilder.literal<CommandSourceStack>("unmuteall").executes {
                     val player = Minecraft.getInstance().player ?: return@executes 0
                     AlertManager.unmuteAll()
                     sendSuccess(player, "All loaded pokemon unmuted")

@@ -151,19 +151,7 @@ class AlertConfig {
                     },
                 )
             )
-            .option(
-                intField(
-                    "chiselmon.config.alert.exclusions.radius",
-                    zone.radius,
-                    { zone.radius },
-                    {
-                        zone.radius = it
-                        saveExclusions()
-                    },
-                    1,
-                    MAX_EXCLUSION_RADIUS,
-                )
-            )
+            .option(radiusOption(zone))
             .option(
                 HoldToConfirmButton.builder()
                     .name(
@@ -192,19 +180,25 @@ class AlertConfig {
             .collapsed(true)
             .build()
 
-    private fun intField(
-        translationKey: String,
-        default: Int,
-        getter: () -> Int,
-        setter: (Int) -> Unit,
-        min: Int,
-        max: Int,
-    ): Option<Int> =
+    private fun radiusOption(zone: AlertExclusionZone): Option<Int> =
         Option.createBuilder<Int>()
-            .name(Component.translatable(translationKey))
-            .description(OptionDescription.of(Component.translatable("$translationKey.desc")))
-            .binding(default, getter, setter)
-            .controller { option -> IntegerFieldControllerBuilder.create(option).range(min, max) }
+            .name(Component.translatable("chiselmon.config.alert.exclusions.radius"))
+            .description(
+                OptionDescription.of(
+                    Component.translatable("chiselmon.config.alert.exclusions.radius.desc")
+                )
+            )
+            .binding(
+                zone.radius,
+                { zone.radius },
+                {
+                    zone.radius = it
+                    saveExclusions()
+                },
+            )
+            .controller { option ->
+                IntegerFieldControllerBuilder.create(option).range(1, MAX_EXCLUSION_RADIUS)
+            }
             .build()
 
     private fun saveAndReload(parent: Screen?) {

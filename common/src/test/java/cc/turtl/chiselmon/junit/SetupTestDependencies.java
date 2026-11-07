@@ -25,6 +25,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @ExtendWith(BootstrapMinecraftExtension.class)
-// @ExtendWith(BootstrapCobblemonExtension.class)
 @ExtendWith(MockitoExtension.class)
 public @interface SetupTestDependencies {}
