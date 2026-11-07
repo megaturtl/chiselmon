@@ -26,6 +26,26 @@ You can open the Chiselmon config in 3 ways:
 2. Use the `/ch config` command in-game.
 3. Press the hotkey. The default is `;`, but this can be changed in the config.
 
+### Disabling Chiselmon
+
+General → **Disable Mod** suspends alerts, new encounter recording, recorder updates, and Chiselmon's visual additions without deleting saved data. Configuration and lifecycle cleanup remain available. Installed resource packs and saved PC customizations are not removed.
+
+An active recorder keeps its totals and manual pause state while its active-session timer is frozen. Reenabling does not retrospectively count Pokémon loaded while disabled.
+
+An open dashboard stops listening while disabled and resumes when Chiselmon is reenabled. Closing it with `/ch dash close` or leaving the world cancels that resume. If reopening fails, the dashboard stays stopped and logs the error; resolve the cause before using `/ch dash open`.
+
+Queued Discord sends check the switch before opening a connection. Requests that have already started can still complete.
+
+The PokeRod replacement follows the loader's HUD layout. With either toggle off, the normal timed item label is left intact, including custom names.
+
+### Saved data safety
+
+Chiselmon saves JSON data through a temporary sibling file and atomic replacement, rather than truncating the existing file. If serialization or replacement fails, the previous file remains intact and unsaved edits remain cached while the client is running. Resolve the reported problem before exiting to avoid losing those unsaved edits. Filesystems without atomic replacement fail the save rather than use an unsafe fallback.
+
+Corrupt or empty JSON is moved to a `.bak` file before defaults are used. If that backup cannot be created, including because a previous `.bak` already exists, loading fails without deleting or overwriting either copy. With Minecraft closed, preserve the existing backup under another name and resolve the reported filesystem problem before retrying.
+
+On world leave and game exit, Chiselmon stops dashboard requests before flushing and closing their encounter database. Successful disposal releases the database files, and saved history remains available on reconnect. If persistence fails, the affected cached data is retained for retry while other stores continue cleanup. Bulk persistence reports the first failure with later distinct failures attached as suppressed exceptions, so errors from other failed scopes are not lost.
+
 ## Features
 
 ### PC Overhaul:
