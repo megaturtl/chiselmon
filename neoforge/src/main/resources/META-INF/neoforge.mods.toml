@@ -43,6 +43,4 @@ type = "optional"
 versionRange = "[15.10.2,)"
 
 [[mixins]]
-config = "chiselmon-neoforge.mixins.json"
-[[mixins]]
 config = "chiselmon-common.mixins.json"
