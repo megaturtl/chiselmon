@@ -1,6 +1,7 @@
 [versions]
 # Kotlin
-kotlin = "2.2.20"
+kotlin = "2.4.20"
+kotlin-runtime = "2.2.20"
 
 # Plugins
 shadow = "8.1.1"
@@ -53,8 +54,8 @@ turtlshell-common = { group = "cc.turtl.turtlshell", name = "common", version.re
 jade-common = { group = "maven.modrinth", name = "jade", version.ref = "jade-common" }
 
 # Kotlin
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
-kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin-runtime" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-runtime" }
 
 # Fabric
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }

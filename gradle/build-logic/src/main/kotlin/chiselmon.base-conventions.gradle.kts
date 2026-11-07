@@ -1,5 +1,7 @@
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import utilities.ACCESS_WIDENER
 
 plugins {
@@ -20,6 +22,25 @@ description = rootProject.description
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+val kotlinRuntimeVersion =
+    extensions
+        .getByType<VersionCatalogsExtension>()
+        .named("libs")
+        .findVersion("kotlin-runtime")
+        .get()
+        .requiredVersion
+
+// Keep metadata and standard-library calls compatible with the Kotlin supplied by both loaders.
+extensions.configure<KotlinJvmProjectExtension> {
+    coreLibrariesVersion = kotlinRuntimeVersion
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+        val baseline = KotlinVersion.fromVersion(kotlinRuntimeVersion.substringBeforeLast('.'))
+        languageVersion.set(baseline)
+        apiVersion.set(baseline)
     }
 }
 
@@ -56,9 +77,5 @@ tasks {
         options.encoding = "UTF-8"
         options.release.set(21)
         options.compilerArgs.add("-Xlint:-processing,-classfile,-serial")
-    }
-
-    withType<KotlinCompile> {
-        compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
     }
 }

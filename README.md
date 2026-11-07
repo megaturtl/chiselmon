@@ -136,6 +136,8 @@ nix develop
 
 The shell provides Java 21, Git, Node.js for `node dev-server.mjs`, and the configured `treefmt` wrapper. Use the Gradle wrapper rather than a separately installed Gradle.
 
+The Kotlin compiler and loader runtime have separate versions in `gradle/libs.versions.toml`. `kotlin-runtime` sets the standard library and language/API baseline, which also controls emitted metadata. Keep that baseline compatible with Fabric Language Kotlin and Kotlin for Forge when upgrading build tooling.
+
 On NixOS, the shell makes the GL, PulseAudio, ALSA, and narrator libraries available to Minecraft's bundled natives and exposes `/run/opengl-driver/lib` for the host GPU. The graphics driver and audio server are not pinned by the flake. Other Linux hosts may need their own graphics integration.
 
 For IntelliJ IDEA, import the Gradle project using its wrapper and set the Gradle JVM to the Java 21 path printed by `echo "$JAVA_HOME"` inside `nix develop`, or start the IDE from that shell.
