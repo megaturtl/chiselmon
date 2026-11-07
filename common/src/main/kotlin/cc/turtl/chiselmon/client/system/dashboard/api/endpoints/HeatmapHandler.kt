@@ -23,7 +23,7 @@ class HeatmapHandler(db: EncounterDatabase) : ApiHandler(db) {
      * for (let i = 0; i < arr.length; i += 2) use(arr[i], arr[i+1])
      * ```
      */
-    private data class HeatmapResponse(
+    private class HeatmapResponse(
         val cx: Int,
         val cz: Int,
         val radius: Int,
@@ -42,27 +42,20 @@ class HeatmapHandler(db: EncounterDatabase) : ApiHandler(db) {
             val dimension = params["dimension"] ?: "minecraft:overworld"
 
             val bounds = FetchBounds(cx - radius, cx + radius, cz - radius, cz + radius)
-            val xRange = "pokemon_x BETWEEN ${bounds.minX} AND ${bounds.maxX}"
-            val zRange = "pokemon_z BETWEEN ${bounds.minZ} AND ${bounds.maxZ}"
-            val dim = "dimension = '$dimension'"
+            val query =
+                query("encounters")
+                    .timeRange(timeRange)
+                    .where("pokemon_x >= ?", bounds.minX)
+                    .where("pokemon_x <= ?", bounds.maxX)
+                    .where("pokemon_z >= ?", bounds.minZ)
+                    .where("pokemon_z <= ?", bounds.maxZ)
+                    .where("dimension = ?", dimension)
 
             val pokemon =
-                query("encounters")
-                    .timeRange(timeRange)
-                    .select("pokemon_x, pokemon_z")
-                    .where(xRange)
-                    .where(zRange)
-                    .where(dim)
-                    .fetchInterleavedPairs("pokemon_x", "pokemon_z")
+                query.select("pokemon_x, pokemon_z").fetchInterleavedPairs("pokemon_x", "pokemon_z")
 
             val player =
-                query("encounters")
-                    .timeRange(timeRange)
-                    .select("player_x, player_z")
-                    .where(xRange)
-                    .where(zRange)
-                    .where(dim)
-                    .fetchInterleavedPairs("player_x", "player_z")
+                query.select("player_x, player_z").fetchInterleavedPairs("player_x", "player_z")
 
             HeatmapResponse(cx, cz, radius, dimension, bounds, pokemon, player)
         }

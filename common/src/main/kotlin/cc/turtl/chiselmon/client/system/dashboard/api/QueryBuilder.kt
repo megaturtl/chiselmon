@@ -1,6 +1,7 @@
 package cc.turtl.chiselmon.client.system.dashboard.api
 
 import java.sql.Connection
+import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 /**
@@ -8,7 +9,8 @@ import java.sql.ResultSet
  *
  * Constructed via [ApiHandler.query]. Handlers chain conditions, ordering, and limits via the
  * fluent API. Time range filtering is applied by chaining [timeRange], which inserts the
- * appropriate `encountered_ms` conditions alongside any other handler-specific clauses.
+ * appropriate `encountered_ms` conditions alongside any other handler-specific clauses. SQL
+ * fragments must be trusted code; bind input values through [where] instead of interpolating them.
  *
  * Example usage in a handler:
  * ```
@@ -29,6 +31,7 @@ internal constructor(
 ) {
     private var select: String = "*"
     private val conditions = mutableListOf<String>()
+    private var parameters: MutableList<Any>? = null
     private var groupBy: String? = null
     private var orderBy: String? = null
     private var limit: Int? = null
@@ -38,15 +41,22 @@ internal constructor(
      * `encountered_ms <= to` conditions as appropriate. Has no effect if the range is unbounded.
      */
     fun timeRange(timeRange: TimeRange): QueryBuilder = apply {
-        if (timeRange.hasFrom) where("encountered_ms >= ${timeRange.from}")
-        if (timeRange.hasTo) where("encountered_ms <= ${timeRange.to}")
+        if (timeRange.hasFrom) where("encountered_ms >= ?", timeRange.from)
+        if (timeRange.hasTo) where("encountered_ms <= ?", timeRange.to)
     }
 
     /** Columns or expressions to SELECT. Defaults to `*`. */
     fun select(columns: String): QueryBuilder = apply { this.select = columns }
 
-    /** Appends a raw WHERE condition (joined with AND). */
+    /** Appends a trusted SQL condition (joined with AND). */
     fun where(condition: String): QueryBuilder = apply { conditions.add(condition) }
+
+    /** Appends a condition with one `?` placeholder and binds its value separately. */
+    fun where(condition: String, value: Any): QueryBuilder = apply {
+        conditions.add(condition)
+        val values = parameters ?: mutableListOf<Any>().also { parameters = it }
+        values.add(value)
+    }
 
     fun groupBy(column: String): QueryBuilder = apply { this.groupBy = column }
 
@@ -58,6 +68,7 @@ internal constructor(
     fun <T> fetchList(mapper: (ResultSet) -> T): List<T> {
         val results = mutableListOf<T>()
         conn.prepareStatement(buildSql()).use { ps ->
+            bindParameters(ps)
             ps.executeQuery().use { rs ->
                 while (rs.next()) results.add(mapper(rs))
             }
@@ -71,6 +82,7 @@ internal constructor(
      */
     fun <T> fetchOne(mapper: (ResultSet) -> T): T? {
         conn.prepareStatement(buildSql()).use { ps ->
+            bindParameters(ps)
             ps.executeQuery().use { rs ->
                 return if (rs.next()) mapper(rs) else null
             }
@@ -87,6 +99,7 @@ internal constructor(
             appendWhere(this)
         }
         conn.prepareStatement(sql).use { ps ->
+            bindParameters(ps)
             ps.executeQuery().use { rs ->
                 return if (rs.next()) rs.getLong(1) else 0L
             }
@@ -106,6 +119,7 @@ internal constructor(
     ): IntArray {
         val buf = mutableListOf<Int>()
         conn.prepareStatement(buildSql()).use { ps ->
+            bindParameters(ps)
             ps.executeQuery().use { rs ->
                 while (rs.next()) {
                     buf.add(rs.getInt(colA))
@@ -114,6 +128,13 @@ internal constructor(
             }
         }
         return buf.toIntArray()
+    }
+
+    private fun bindParameters(statement: PreparedStatement) {
+        val values = parameters ?: return
+        for (index in values.indices) {
+            statement.setObject(index + 1, values[index])
+        }
     }
 
     private fun buildSql(): String = buildString {
